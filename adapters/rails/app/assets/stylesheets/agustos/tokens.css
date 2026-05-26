@@ -1,12 +1,10 @@
 /* ============================================================
-   AĞUSTOS DESIGN SYSTEM v2.1  ·  ASTRO ADAPTER COPY
+   AĞUSTOS DESIGN SYSTEM v2.1  ·  RAILS ADAPTER COPY
    Source of truth: PROJECTS/DESIGN-agustos/DESIGN.md
    Type-first system. 12 variables, 24 tokens, 3 families.
 
-   ⚠ SYNC RULE — this file mirrors the platform-neutral source at:
+   ⚠ SYNC RULE — this file mirrors:
      PROJECTS/DESIGN-agustos/tokens/agustos.css
-   It also has a production mirror copy at:
-     PROJECTS/WEBSITE-agustos/src/styles/tokens.css
    Token bodies must stay byte-identical except for this header.
 
    v2.1 changes:

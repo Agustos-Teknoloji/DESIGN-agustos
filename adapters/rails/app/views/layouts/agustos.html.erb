@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="<%= agustos_theme_config[:lang] %>">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="<%= agustos_meta_description %>">
+    <title><%= agustos_page_title %></title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag "agustos/tokens", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "agustos/components", "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+    <script>
+      (function () {
+        try {
+          var theme = localStorage.getItem("agustos:theme");
+          if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body class="<%= agustos_body_class %>">
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="agustos-layout">
+      <%= render "agustos/shared/sidebar" %>
+      <div class="agustos-layout__body">
+        <main id="main" class="agustos-layout__main">
+          <%= yield %>
+        </main>
+        <footer class="agustos-footer">
+          <%= agustos_wordmark %> · <%= Time.current.year %>
+        </footer>
+      </div>
+    </div>
+  </body>
+</html>
+

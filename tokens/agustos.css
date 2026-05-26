@@ -1,13 +1,14 @@
 /* ============================================================
-   AĞUSTOS DESIGN SYSTEM v2.1  ·  ASTRO ADAPTER COPY
+   AĞUSTOS DESIGN SYSTEM v2.1  ·  PLATFORM-NEUTRAL TOKENS
    Source of truth: PROJECTS/DESIGN-agustos/DESIGN.md
    Type-first system. 12 variables, 24 tokens, 3 families.
 
-   ⚠ SYNC RULE — this file mirrors the platform-neutral source at:
-     PROJECTS/DESIGN-agustos/tokens/agustos.css
-   It also has a production mirror copy at:
+   ⚠ SYNC RULE — adapter copies must stay aligned with this file:
+     astro/src/styles/tokens.css
+     adapters/rails/app/assets/stylesheets/agustos/tokens.css
      PROJECTS/WEBSITE-agustos/src/styles/tokens.css
-   Token bodies must stay byte-identical except for this header.
+   Adapter copies may differ only in header comments and framework-specific
+   import wrappers. Token bodies must stay byte-identical.
 
    v2.1 changes:
    - Recast .type-hero-deck as an upright lead, not an italic quote

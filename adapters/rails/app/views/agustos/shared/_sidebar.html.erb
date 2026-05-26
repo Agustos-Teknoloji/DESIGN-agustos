@@ -1,0 +1,17 @@
+<aside class="agustos-sidebar" aria-label="Primary">
+  <div>
+    <%= render "agustos/shared/brand_lockup", href: root_path, size: 24 %>
+  </div>
+
+  <nav class="agustos-sidebar__nav" aria-label="Site sections">
+    <ul>
+      <% agustos_nav_items.each do |item| %>
+        <% active = current_page?(item[:href]) %>
+        <li>
+          <%= link_to item[:label], item[:href], class: "agustos-sidebar__link", aria: (active ? { current: "page" } : {}) %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+</aside>
+

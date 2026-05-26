@@ -304,7 +304,7 @@
     <div class="page">
       <aside class="toc" aria-label="Table of contents">
         <a class="toc__brand" href="#ağustos-design-system">ağustos</a>
-        <p class="toc__meta">Rendered from DESIGN.md<br />26 May 2026 at 13:29 Istanbul time</p>
+        <p class="toc__meta">Rendered from DESIGN.md<br />26 May 2026 at 14:01 Istanbul time</p>
         <nav class="toc__items">
           <a class="toc__item toc__item--1" href="#ag-ustos-design-system">Ağustos Design System</a>
 <a class="toc__item toc__item--2" href="#what-this-is">What this is</a>
@@ -333,7 +333,7 @@
           <h1 id="ag-ustos-design-system"><a class="heading-anchor" href="#ag-ustos-design-system" aria-label="Link to Ağustos Design System">#</a>Ağustos Design System</h1>
 <p><strong>Version 2.1.1</strong> · Type-first design system for Emre Güneş's brand portfolio
 <strong>Last updated:</strong> May 26, 2026
-<strong>Status:</strong> Patch update · Rule clarifications, implementation notes, accessibility gates, and QA checklist · Token count remains 24</p>
+<strong>Status:</strong> Patch update · Platform-neutral token source, adapter strategy, accessibility gates, and QA checklist · Token count remains 24</p>
 <hr />
 <h2 id="what-this-is"><a class="heading-anchor" href="#what-this-is" aria-label="Link to What this is">#</a>What this is</h2>
 <p>A typographic design system covering web, document, and product UI surfaces for a multi-brand portfolio. Built typography-first because that's the durable layer, colors change, components change, typefaces and rules persist.</p>
@@ -577,7 +577,7 @@
 </tbody>
 </table>
 <p>Actions are links, not generic buttons. In the homepage hero they should not look button-like: the action is part of the typographic composition. In lower sections, boxed links can appear when the surrounding layout needs clearer tap targets.</p>
-<p><strong>Implementation status.</strong> <code>.hero-links</code>, <code>.hero-link</code>, <code>.hero-link--primary</code>, <code>.hero-link--secondary</code>, and boxed <code>.hero-action*</code> utilities exist in the local <code>tokens.css</code>. <code>.hero-trust</code> and <code>.hero-visual</code> are specified here as required hero utilities and should be mirrored into <code>tokens.css</code> before they are used in production hero templates.</p>
+<p><strong>Implementation status.</strong> <code>.hero-links</code>, <code>.hero-link</code>, <code>.hero-link--primary</code>, <code>.hero-link--secondary</code>, and boxed <code>.hero-action*</code> utilities exist in the local token CSS. <code>.hero-trust</code> and <code>.hero-visual</code> are specified here as required hero utilities and should be mirrored into adapter token CSS before they are used in production hero templates.</p>
 <h3 id="headings-4"><a class="heading-anchor" href="#headings-4" aria-label="Link to Headings (4)">#</a>Headings (4)</h3>
 <table>
 <thead>
@@ -1288,8 +1288,19 @@ lang: tr
 </table>
 <hr />
 <h2 id="ımplementation-notes"><a class="heading-anchor" href="#ımplementation-notes" aria-label="Link to Implementation notes">#</a>Implementation notes</h2>
+<h3 id="repository-architecture"><a class="heading-anchor" href="#repository-architecture" aria-label="Link to Repository architecture">#</a>Repository architecture</h3>
+<p>This repository is the canonical design-system source. Framework-specific implementations are adapters.</p>
+<pre><code class="language-txt">DESIGN.md                 Canonical specification
+MEMORY.md                 Decision history
+tokens/agustos.css        Platform-neutral CSS token source
+astro/                    Astro adapter and visual demo
+adapters/rails/           Rails monolith adapter skeleton
+artifacts/                Rendered explorations and previews
+laz-gunesi-amblem/        Symbol source and exports
+</code></pre>
+<p>The system should not depend on Astro. Astro is useful for static sites, documentation, and visual QA. Rails apps should consume the Rails adapter or copy the platform-neutral tokens directly.</p>
 <h3 id="web-utilities"><a class="heading-anchor" href="#web-utilities" aria-label="Link to Web utilities">#</a>Web utilities</h3>
-<p>The canonical web implementation lives in <code>astro/src/styles/tokens.css</code>. Typography tokens are the portable core. Layout and interaction helpers are implementation utilities and may evolve without increasing the typography token count.</p>
+<p>The platform-neutral token source lives in <code>tokens/agustos.css</code>. Typography tokens are the portable core. Layout and interaction helpers are implementation utilities and may evolve without increasing the typography token count.</p>
 <p>Current non-token utilities:</p>
 <table>
 <thead>
@@ -1325,7 +1336,17 @@ lang: tr
 </tr>
 </tbody>
 </table>
-<p>Specified but not yet fully mirrored in the local CSS: <code>.hero-trust</code> and <code>.hero-visual</code>. Add them to both mirrored token files before using those classes in production.</p>
+<p>Specified but not yet fully mirrored in every adapter CSS: <code>.hero-trust</code> and <code>.hero-visual</code>. Add them to the platform-neutral token source and adapter copies before using those classes in production.</p>
+<h3 id="rails-adapter"><a class="heading-anchor" href="#rails-adapter" aria-label="Link to Rails adapter">#</a>Rails adapter</h3>
+<p>Rails monoliths should use <code>adapters/rails/</code> as the starting point. The adapter provides:</p>
+<ul>
+<li><code>app/assets/stylesheets/agustos/tokens.css</code></li>
+<li><code>app/assets/stylesheets/agustos/components.css</code></li>
+<li><code>app/helpers/agustos_theme_helper.rb</code></li>
+<li><code>app/views/layouts/agustos.html.erb</code></li>
+<li>shared ERB partials for lockup and sidebar</li>
+</ul>
+<p>The Rails adapter is plain ERB first. If an app uses ViewComponent, components can wrap the same semantic pieces later without changing the design grammar.</p>
 <h3 id="pandoc-template"><a class="heading-anchor" href="#pandoc-template" aria-label="Link to Pandoc template">#</a>Pandoc template</h3>
 <p>For docx and PDF generation from markdown, the Pandoc template applies the same CSS variables and class names as the web rendering. Same source, two surfaces.</p>
 <p>A reference template should:</p>
@@ -1350,7 +1371,7 @@ lang: tr
 <li>Check all brand colors on cream and dark substrates, including link underline, focus ring, list marker, and negative lockup.</li>
 <li>Test keyboard navigation: skip link, sidebar/header nav, language controls, theme toggle, hero links, and boxed actions.</li>
 <li>Verify mobile and desktop widths; text must not overlap, clip, or force horizontal scrolling except inside code blocks and wide tables.</li>
-<li>If tokens changed, mirror <code>astro/src/styles/tokens.css</code> and <code>PROJECTS/WEBSITE-agustos/src/styles/tokens.css</code> in the same session.</li>
+<li>If tokens changed, mirror <code>tokens/agustos.css</code>, <code>astro/src/styles/tokens.css</code>, <code>adapters/rails/app/assets/stylesheets/agustos/tokens.css</code>, and <code>PROJECTS/WEBSITE-agustos/src/styles/tokens.css</code> in the same session.</li>
 <li>If document export changed, render docx/PDF samples and inspect typography, tables, footnotes, and Turkish locale handling.</li>
 </ol>
 <hr />
@@ -1359,16 +1380,18 @@ lang: tr
 <ul>
 <li><code>DESIGN.md</code> (this file), canonical specification</li>
 <li><code>MEMORY.md</code>: decision history and reasoning</li>
-<li><code>astro/src/styles/tokens.css</code>: <strong>canonical</strong> CSS variables and base rules (this folder)</li>
+<li><code>tokens/agustos.css</code>: <strong>canonical</strong> platform-neutral CSS variables and base rules</li>
+<li><code>astro/src/styles/tokens.css</code>: Astro adapter copy</li>
+<li><code>adapters/rails/</code>: Rails monolith adapter</li>
 <li><code>agustos-template.docx</code>: Pandoc reference template</li>
 <li><code>agustos-template.tex</code>: LaTeX template for PDF (optional)</li>
 <li><code>examples/</code>: rendered samples in HTML, docx, PDF</li>
 <li><code>fonts/</code>: self-hosted font files</li>
 </ul>
 <h3 id="mirrored-implementation"><a class="heading-anchor" href="#mirrored-implementation" aria-label="Link to Mirrored implementation">#</a>Mirrored implementation</h3>
-<p>The canonical <code>tokens.css</code> is <strong>mirrored</strong> to the production website at <code>PROJECTS/WEBSITE-agustos/src/styles/tokens.css</code>. The two files must stay byte-identical except for their headers.</p>
+<p>The canonical token source is <strong>mirrored</strong> to adapter and production copies. The token bodies must stay byte-identical except for their headers.</p>
 <blockquote>
-<p><strong>⚠ Sync rule.</strong> When editing tokens here, propagate the change to <code>PROJECTS/WEBSITE-agustos/src/styles/tokens.css</code> in the same session. When editing tokens there, mirror back here. Both file headers state this rule. The full sync protocol lives in <code>PROJECTS/WEBSITE-agustos/CLAUDE.md</code>. Drift between the two files is a defect, treat it as such.</p>
+<p><strong>⚠ Sync rule.</strong> When editing <code>tokens/agustos.css</code>, propagate the change to <code>astro/src/styles/tokens.css</code>, <code>adapters/rails/app/assets/stylesheets/agustos/tokens.css</code>, and <code>PROJECTS/WEBSITE-agustos/src/styles/tokens.css</code> in the same session. When editing tokens in any adapter, mirror back here. Drift is a defect, treat it as such.</p>
 </blockquote>
 <p>Why mirror instead of symlink or <code>@import</code>: a symlink breaks across git/Cloudflare deploy boundaries and on Windows-native checkouts; an <code>@import</code> couples the website's deploy to the spec project's file layout and fails on static hosts. The mirror is durable across deploy contexts; the cost is the discipline of two-place edits, captured by the sync rule.</p>
 <p>(Files marked TBD will be developed during implementation phase. This document is the specification; actual files come next.)</p>
