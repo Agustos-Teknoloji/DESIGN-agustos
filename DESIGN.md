@@ -599,7 +599,7 @@ This repository is the canonical design-system source. Framework-specific implem
 DESIGN.md                 Canonical specification
 MEMORY.md                 Decision history
 tokens/agustos.css        Platform-neutral CSS token source
-astro/                    Astro adapter and visual demo
+adapters/astro/           Astro adapter and visual demo
 adapters/rails/           Rails monolith adapter skeleton
 artifacts/                Rendered explorations and previews
 laz-gunesi-amblem/        Symbol source and exports
@@ -668,7 +668,7 @@ Run this checklist before calling a system change complete:
 5. Check all brand colors on cream and dark substrates, including link underline, focus ring, list marker, and negative lockup.
 6. Test keyboard navigation: skip link, sidebar/header nav, language controls, theme toggle, hero links, and boxed actions.
 7. Verify mobile and desktop widths; text must not overlap, clip, or force horizontal scrolling except inside code blocks and wide tables.
-8. If tokens changed, mirror `tokens/agustos.css`, `astro/src/styles/tokens.css`, `adapters/rails/app/assets/stylesheets/agustos/tokens.css`, and `PROJECTS/WEBSITE-agustos/src/styles/tokens.css` in the same session.
+8. If tokens changed, mirror `tokens/agustos.css`, `adapters/astro/src/styles/tokens.css`, `adapters/rails/app/assets/stylesheets/agustos/tokens.css`, and `PROJECTS/WEBSITE-agustos/src/styles/tokens.css` in the same session.
 9. If document export changed, render docx/PDF samples and inspect typography, tables, footnotes, and Turkish locale handling.
 
 ---
@@ -680,7 +680,7 @@ When fully implemented, the system consists of:
 - `DESIGN.md` (this file), canonical specification
 - `MEMORY.md`: decision history and reasoning
 - `tokens/agustos.css`: **canonical** platform-neutral CSS variables and base rules
-- `astro/src/styles/tokens.css`: Astro adapter copy
+- `adapters/astro/src/styles/tokens.css`: Astro adapter copy
 - `adapters/rails/`: Rails monolith adapter
 - `agustos-template.docx`: Pandoc reference template
 - `agustos-template.tex`: LaTeX template for PDF (optional)
@@ -691,7 +691,7 @@ When fully implemented, the system consists of:
 
 The canonical token source is **mirrored** to adapter and production copies. The token bodies must stay byte-identical except for their headers.
 
-> **⚠ Sync rule.** When editing `tokens/agustos.css`, propagate the change to `astro/src/styles/tokens.css`, `adapters/rails/app/assets/stylesheets/agustos/tokens.css`, and `PROJECTS/WEBSITE-agustos/src/styles/tokens.css` in the same session. When editing tokens in any adapter, mirror back here. Drift is a defect, treat it as such.
+> **⚠ Sync rule.** When editing `tokens/agustos.css`, propagate the change to `adapters/astro/src/styles/tokens.css`, `adapters/rails/app/assets/stylesheets/agustos/tokens.css`, and `PROJECTS/WEBSITE-agustos/src/styles/tokens.css` in the same session. When editing tokens in any adapter, mirror back here. Drift is a defect, treat it as such.
 
 Why mirror instead of symlink or `@import`: a symlink breaks across git/Cloudflare deploy boundaries and on Windows-native checkouts; an `@import` couples the website's deploy to the spec project's file layout and fails on static hosts. The mirror is durable across deploy contexts; the cost is the discipline of two-place edits, captured by the sync rule.
 

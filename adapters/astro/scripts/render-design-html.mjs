@@ -5,7 +5,7 @@ import { micromark } from 'micromark';
 import { gfm, gfmHtml } from 'micromark-extension-gfm';
 
 const here = dirname(fileURLToPath(import.meta.url));
-const root = resolve(here, '../..');
+const root = resolve(here, '../../..');
 const sourcePath = resolve(root, 'DESIGN.md');
 const outputPath = resolve(root, 'artifacts/agustos-design-system-v2.1.1.html');
 

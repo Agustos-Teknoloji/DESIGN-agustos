@@ -6,9 +6,5 @@ The design system itself is platform-neutral. Adapters translate the same tokens
 
 ## Current Adapters
 
+- `astro/`: Astro reference implementation and typography showcase.
 - `rails/`: Rails monolith skeleton with CSS, helper, layout, and ERB partials.
-
-## Existing Reference Implementation
-
-The Astro reference implementation currently lives at `../astro/`. It remains there for local continuity and because it is already wired as a demo app. A future cleanup can move it to `adapters/astro/` once the path change can be done safely across local tooling and Git history.
-

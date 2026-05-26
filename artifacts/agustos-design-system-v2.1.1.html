@@ -304,7 +304,7 @@
     <div class="page">
       <aside class="toc" aria-label="Table of contents">
         <a class="toc__brand" href="#ağustos-design-system">ağustos</a>
-        <p class="toc__meta">Rendered from DESIGN.md<br />26 May 2026 at 14:01 Istanbul time</p>
+        <p class="toc__meta">Rendered from DESIGN.md<br />26 May 2026 at 14:14 Istanbul time</p>
         <nav class="toc__items">
           <a class="toc__item toc__item--1" href="#ag-ustos-design-system">Ağustos Design System</a>
 <a class="toc__item toc__item--2" href="#what-this-is">What this is</a>
@@ -1293,7 +1293,7 @@ lang: tr
 <pre><code class="language-txt">DESIGN.md                 Canonical specification
 MEMORY.md                 Decision history
 tokens/agustos.css        Platform-neutral CSS token source
-astro/                    Astro adapter and visual demo
+adapters/astro/           Astro adapter and visual demo
 adapters/rails/           Rails monolith adapter skeleton
 artifacts/                Rendered explorations and previews
 laz-gunesi-amblem/        Symbol source and exports
@@ -1371,7 +1371,7 @@ laz-gunesi-amblem/        Symbol source and exports
 <li>Check all brand colors on cream and dark substrates, including link underline, focus ring, list marker, and negative lockup.</li>
 <li>Test keyboard navigation: skip link, sidebar/header nav, language controls, theme toggle, hero links, and boxed actions.</li>
 <li>Verify mobile and desktop widths; text must not overlap, clip, or force horizontal scrolling except inside code blocks and wide tables.</li>
-<li>If tokens changed, mirror <code>tokens/agustos.css</code>, <code>astro/src/styles/tokens.css</code>, <code>adapters/rails/app/assets/stylesheets/agustos/tokens.css</code>, and <code>PROJECTS/WEBSITE-agustos/src/styles/tokens.css</code> in the same session.</li>
+<li>If tokens changed, mirror <code>tokens/agustos.css</code>, <code>adapters/astro/src/styles/tokens.css</code>, <code>adapters/rails/app/assets/stylesheets/agustos/tokens.css</code>, and <code>PROJECTS/WEBSITE-agustos/src/styles/tokens.css</code> in the same session.</li>
 <li>If document export changed, render docx/PDF samples and inspect typography, tables, footnotes, and Turkish locale handling.</li>
 </ol>
 <hr />
@@ -1381,7 +1381,7 @@ laz-gunesi-amblem/        Symbol source and exports
 <li><code>DESIGN.md</code> (this file), canonical specification</li>
 <li><code>MEMORY.md</code>: decision history and reasoning</li>
 <li><code>tokens/agustos.css</code>: <strong>canonical</strong> platform-neutral CSS variables and base rules</li>
-<li><code>astro/src/styles/tokens.css</code>: Astro adapter copy</li>
+<li><code>adapters/astro/src/styles/tokens.css</code>: Astro adapter copy</li>
 <li><code>adapters/rails/</code>: Rails monolith adapter</li>
 <li><code>agustos-template.docx</code>: Pandoc reference template</li>
 <li><code>agustos-template.tex</code>: LaTeX template for PDF (optional)</li>
@@ -1391,7 +1391,7 @@ laz-gunesi-amblem/        Symbol source and exports
 <h3 id="mirrored-implementation"><a class="heading-anchor" href="#mirrored-implementation" aria-label="Link to Mirrored implementation">#</a>Mirrored implementation</h3>
 <p>The canonical token source is <strong>mirrored</strong> to adapter and production copies. The token bodies must stay byte-identical except for their headers.</p>
 <blockquote>
-<p><strong>⚠ Sync rule.</strong> When editing <code>tokens/agustos.css</code>, propagate the change to <code>astro/src/styles/tokens.css</code>, <code>adapters/rails/app/assets/stylesheets/agustos/tokens.css</code>, and <code>PROJECTS/WEBSITE-agustos/src/styles/tokens.css</code> in the same session. When editing tokens in any adapter, mirror back here. Drift is a defect, treat it as such.</p>
+<p><strong>⚠ Sync rule.</strong> When editing <code>tokens/agustos.css</code>, propagate the change to <code>adapters/astro/src/styles/tokens.css</code>, <code>adapters/rails/app/assets/stylesheets/agustos/tokens.css</code>, and <code>PROJECTS/WEBSITE-agustos/src/styles/tokens.css</code> in the same session. When editing tokens in any adapter, mirror back here. Drift is a defect, treat it as such.</p>
 </blockquote>
 <p>Why mirror instead of symlink or <code>@import</code>: a symlink breaks across git/Cloudflare deploy boundaries and on Windows-native checkouts; an <code>@import</code> couples the website's deploy to the spec project's file layout and fails on static hosts. The mirror is durable across deploy contexts; the cost is the discipline of two-place edits, captured by the sync rule.</p>
 <p>(Files marked TBD will be developed during implementation phase. This document is the specification; actual files come next.)</p>

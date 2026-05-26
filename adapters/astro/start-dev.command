@@ -3,7 +3,7 @@
 # Double-click this file to start the Astro dev server.
 # Site will open at  http://localhost:4321
 #
-# Run from the directory this script lives in (the astro/ project root),
+# Run from the directory this script lives in (the Astro adapter root),
 # regardless of where it was launched from.
 #
 

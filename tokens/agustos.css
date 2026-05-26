@@ -4,7 +4,7 @@
    Type-first system. 12 variables, 24 tokens, 3 families.
 
    ⚠ SYNC RULE — adapter copies must stay aligned with this file:
-     astro/src/styles/tokens.css
+     adapters/astro/src/styles/tokens.css
      adapters/rails/app/assets/stylesheets/agustos/tokens.css
      PROJECTS/WEBSITE-agustos/src/styles/tokens.css
    Adapter copies may differ only in header comments and framework-specific

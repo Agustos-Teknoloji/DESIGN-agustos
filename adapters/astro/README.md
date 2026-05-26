@@ -1,13 +1,13 @@
 # Ağustos Astro Adapter
 
-Astro 5 reference implementation for the [Ağustos Design System](../DESIGN.md).
+Astro 5 reference implementation for the [Ağustos Design System](../../DESIGN.md).
 
-This adapter is useful for static sites, documentation, marketing pages, and visual QA. It is not the canonical center of the system; shared design decisions live in `DESIGN.md` and shared token CSS starts in `../tokens/agustos.css`.
+This adapter is useful for static sites, documentation, marketing pages, and visual QA. It is not the canonical center of the system; shared design decisions live in `DESIGN.md` and shared token CSS starts in `../../tokens/agustos.css`.
 
 ## What's Inside
 
 ```txt
-astro/
+adapters/astro/
 ├── astro.config.mjs
 ├── package.json
 ├── public/favicon.svg
@@ -54,7 +54,7 @@ node scripts/render-design-html.mjs
 The Astro token file mirrors the platform-neutral source:
 
 ```txt
-../tokens/agustos.css
+../../tokens/agustos.css
 src/styles/tokens.css
 ```
 
@@ -103,5 +103,4 @@ The design system depends on `lang="tr"` plus `font-feature-settings: "locl"` fo
 
 ## Scope
 
-This adapter demonstrates all 24 typography tokens and the core layout components. Rails monoliths should use `../adapters/rails/` instead of copying Astro components.
-
+This adapter demonstrates all 24 typography tokens and the core layout components. Rails monoliths should use `../rails/` instead of copying Astro components.

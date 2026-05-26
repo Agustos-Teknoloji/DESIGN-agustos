@@ -11,7 +11,7 @@ This repository is intentionally platform-neutral. Astro, Rails, and future impl
 - `DESIGN.md`: canonical design-system specification.
 - `MEMORY.md`: decision history and reasoning.
 - `tokens/agustos.css`: platform-neutral CSS token source.
-- `astro/`: Astro adapter, demo implementation, and typography showcase.
+- `adapters/astro/`: Astro adapter, demo implementation, and typography showcase.
 - `adapters/rails/`: Rails monolith adapter skeleton.
 - `laz-gunesi-amblem/`: Laz Güneşi symbol source and exported assets.
 - `artifacts/`: rendered design explorations and previews.
@@ -21,7 +21,7 @@ This repository is intentionally platform-neutral. Astro, Rails, and future impl
 Use the design system through the adapter that matches the application:
 
 - Rails monoliths should start from `adapters/rails/`.
-- Astro/static sites should start from `astro/`.
+- Astro/static sites should start from `adapters/astro/`.
 - Shared CSS changes should begin in `tokens/agustos.css`, then be mirrored into adapter copies.
 
 Astro is a reference implementation, not the canonical center of the system.
@@ -29,7 +29,7 @@ Astro is a reference implementation, not the canonical center of the system.
 ## Astro Preview
 
 ```bash
-cd astro
+cd adapters/astro
 npm install
 npm run dev
 ```
@@ -37,7 +37,7 @@ npm run dev
 To regenerate the standalone HTML preview from `DESIGN.md`:
 
 ```bash
-cd astro
+cd adapters/astro
 node scripts/render-design-html.mjs
 ```
 
