@@ -1,0 +1,1295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ağustos Type System — Final · 20 Tokens</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================ */
+  /* TOKENS                                                       */
+  /* ============================================================ */
+  :root {
+    --paper: #fefcf2;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-faint: #8a8a8a;
+    --rule: #e8e3d0;
+    --brand: #cf142a;
+    --serif: 'Fraunces', Georgia, serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #d8d4c4;
+    color: var(--ink);
+    font-family: var(--serif);
+    font-feature-settings: "locl" on, "kern" on;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  .doc { max-width: 1320px; margin: 0 auto; padding: 48px 24px 96px; }
+
+  /* ============================================================ */
+  /* MASTHEAD                                                     */
+  /* ============================================================ */
+  .masthead {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 64px 72px;
+    margin-bottom: 56px;
+  }
+  .masthead .marker {
+    font-variation-settings: 'opsz' 9, 'wght' 700;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 20px;
+  }
+  .masthead h1 {
+    font-variation-settings: 'opsz' 144, 'wght' 400, 'SOFT' 30, 'WONK' 0;
+    font-size: clamp(40px, 5vw, 56px);
+    line-height: 1.05;
+    letter-spacing: -0.022em;
+    margin: 0 0 24px;
+    max-width: 22ch;
+  }
+  .masthead .lede {
+    font-variation-settings: 'opsz' 24, 'wght' 400, 'SOFT' 80;
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 64ch;
+    margin: 0;
+    font-style: italic;
+  }
+  .masthead .count {
+    margin-top: 32px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    display: flex;
+    gap: 32px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+  }
+  .masthead .count strong { color: var(--ink); font-weight: 500; }
+
+  /* ============================================================ */
+  /* SECTION                                                      */
+  /* ============================================================ */
+  .section-marker {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    margin: 64px 8px 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-marker .num {
+    font-variation-settings: 'opsz' 9, 'wght' 700;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brand);
+  }
+  .section-marker h2 {
+    font-variation-settings: 'opsz' 60, 'wght' 500, 'SOFT' 20;
+    font-size: 22px;
+    line-height: 1.18;
+    margin: 0;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+  }
+  .section-marker .count {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+  }
+
+  /* ============================================================ */
+  /* SPECIMEN ROW                                                 */
+  /* ============================================================ */
+  .row {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    margin-bottom: 14px;
+  }
+  .row .grid {
+    display: grid;
+    grid-template-columns: 180px 1fr 1fr 260px;
+  }
+  @media (max-width: 1100px) { .row .grid { grid-template-columns: 1fr; } }
+
+  .row .cell {
+    padding: 22px 24px;
+    border-right: 1px solid var(--rule);
+  }
+  .row .cell:last-child { border-right: none; }
+  @media (max-width: 1100px) {
+    .row .cell { border-right: none; border-bottom: 1px solid var(--rule); }
+    .row .cell:last-child { border-bottom: none; }
+  }
+
+  .cell.token { background: rgba(0,0,0,0.015); }
+  .cell.md { background: #1a1a1a; color: #e8e3d0; }
+
+  .token-name {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0 0 8px;
+    word-break: break-all;
+  }
+  .token-spec {
+    font-family: var(--mono);
+    font-size: 10px;
+    line-height: 1.55;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+  .token-spec .lbl { color: var(--ink-faint); font-style: italic; }
+
+  .lang {
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 12px;
+  }
+  .lang::before { content: "● "; color: var(--brand); }
+
+  .md-source {
+    font-family: var(--mono);
+    font-size: 11px;
+    line-height: 1.65;
+    color: #e8e3d0;
+    white-space: pre-wrap;
+    margin: 0;
+    word-break: break-word;
+  }
+  .md-source .key { color: #ff8c5a; }
+  .md-source .url { color: #6ec5ff; }
+  .md-source .com { color: #8a8478; font-style: italic; }
+
+  /* ============================================================ */
+  /* THE 20 TOKENS                                                */
+  /* ============================================================ */
+
+  /* H1 */
+  .type-h1 {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 144, 'wght' 400, 'SOFT' 30, 'WONK' 0;
+    font-size: 36px;
+    line-height: 1.05;
+    letter-spacing: -0.022em;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* H2 */
+  .type-h2 {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 60, 'wght' 500, 'SOFT' 20;
+    font-size: 24px;
+    line-height: 1.18;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* H3 */
+  .type-h3 {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 24, 'wght' 600, 'SOFT' 0;
+    font-size: 18px;
+    line-height: 1.3;
+    letter-spacing: -0.005em;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* H4 — does the eyebrow + meta + label work */
+  .type-h4 {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 9, 'wght' 700;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* BODY */
+  .type-body {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 14, 'wght' 400, 'SOFT' 50;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink);
+    margin: 0;
+  }
+  .type-body em {
+    font-style: italic;
+    font-variation-settings: 'opsz' 14, 'wght' 400, 'SOFT' 80;
+  }
+  .type-body strong {
+    font-weight: 600;
+    font-variation-settings: 'opsz' 14, 'wght' 600, 'SOFT' 30;
+  }
+  .type-body strong em {
+    font-weight: 600;
+    font-style: italic;
+    font-variation-settings: 'opsz' 14, 'wght' 600, 'SOFT' 80;
+  }
+  .type-body a {
+    color: var(--ink);
+    font-weight: 600;
+    font-variation-settings: 'opsz' 14, 'wght' 600, 'SOFT' 30;
+    text-decoration: underline;
+    text-decoration-color: var(--brand);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+  .type-body code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    background: rgba(0,0,0,0.05);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  /* BLOCKQUOTE */
+  .type-blockquote {
+    margin: 0;
+    padding: 4px 0 4px 20px;
+    border-left: 2px solid var(--brand);
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 18, 'wght' 400, 'SOFT' 70;
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .type-blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-style: normal;
+    font-variation-settings: 'opsz' 9, 'wght' 500;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* PULL QUOTE */
+  .type-pullquote {
+    margin: 0;
+    padding: 16px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 60, 'wght' 400, 'SOFT' 40;
+    font-size: 26px;
+    line-height: 1.2;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+  }
+  .type-pullquote::before {
+    content: "“";
+    color: var(--brand);
+    font-variation-settings: 'opsz' 144, 'wght' 400;
+    font-size: 1.2em;
+    line-height: 0;
+    vertical-align: -0.15em;
+    margin-right: 0.05em;
+  }
+
+  /* LISTS */
+  .type-list-ul, .type-list-ol {
+    margin: 0;
+    padding-left: 22px;
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 14, 'wght' 400, 'SOFT' 50;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  .type-list-ul li, .type-list-ol li { margin-bottom: 4px; }
+  .type-list-ul li::marker { color: var(--brand); }
+  .type-list-ol li::marker { color: var(--brand); font-variation-settings: 'opsz' 14, 'wght' 600; }
+
+  /* DEFINITION LIST */
+  .type-dl {
+    font-family: var(--serif);
+    margin: 0;
+  }
+  .type-dl dt {
+    font-variation-settings: 'opsz' 14, 'wght' 600, 'SOFT' 30;
+    font-size: 16px;
+    line-height: 1.4;
+    color: var(--ink);
+    margin: 0 0 2px;
+  }
+  .type-dl dd {
+    font-variation-settings: 'opsz' 14, 'wght' 400, 'SOFT' 50;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0 0 14px;
+  }
+  .type-dl dd:last-child { margin-bottom: 0; }
+
+  /* FIGURE */
+  .type-figure { margin: 0; }
+  .type-figure .placeholder {
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 8%, transparent), color-mix(in srgb, var(--brand) 2%, transparent));
+    border: 1px solid color-mix(in srgb, var(--brand) 20%, var(--rule));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: color-mix(in srgb, var(--brand) 60%, var(--ink-faint));
+    font-variation-settings: 'opsz' 9, 'wght' 500;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .type-figure figcaption {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 9, 'wght' 400, 'SOFT' 50;
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+  .type-figure figcaption strong {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  /* CODE BLOCK */
+  .type-code-block {
+    font-family: var(--mono);
+    font-size: 13.5px;
+    line-height: 1.65;
+    background: #1a1a1a;
+    color: #e8e3d0;
+    padding: 16px 20px;
+    border-radius: 3px;
+    margin: 0;
+    overflow-x: auto;
+    white-space: pre-wrap;
+  }
+
+  /* TABLE */
+  .type-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 14, 'wght' 400, 'SOFT' 50;
+    font-size: 14px;
+    font-variant-numeric: tabular-nums;
+  }
+  .type-table th, .type-table td {
+    text-align: left;
+    padding: 8px 10px 8px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .type-table th {
+    font-variation-settings: 'opsz' 9, 'wght' 600;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .type-table td:last-child { text-align: right; padding-right: 0; }
+
+  /* DIVIDER */
+  .type-divider {
+    height: 1px;
+    background: var(--rule);
+    border: none;
+    margin: 0;
+  }
+
+  /* FOOTNOTE */
+  .type-footnote {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 9, 'wght' 400, 'SOFT' 50;
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+  .type-footnote sup {
+    color: var(--brand);
+    font-weight: 600;
+    margin-right: 4px;
+  }
+
+  /* ============================================================ */
+  /* INTEGRATED PAGE                                              */
+  /* ============================================================ */
+  .integrated {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 64px 80px;
+  }
+  @media (max-width: 700px) { .integrated { padding: 40px 28px; } }
+
+  .integrated > * + * { margin-top: 16px; }
+  .integrated > p.deck { margin-top: 8px; }
+  .integrated > h2.type-h2 { margin-top: 36px; }
+  .integrated > h3.type-h3 { margin-top: 24px; }
+  .integrated > h4.type-h4 { margin-top: 24px; margin-bottom: -6px; }
+  .integrated > .type-pullquote { margin-top: 32px; margin-bottom: 14px; }
+  .integrated > figure.type-figure { margin-top: 28px; }
+  .integrated > hr.type-divider { margin: 32px 0; }
+  .integrated > .type-footnote { margin-top: 32px; padding-top: 14px; border-top: 1px solid var(--rule); }
+
+  /* The deck/byline within integrated — just italic body, no token */
+  .integrated .deck {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 14, 'wght' 400, 'SOFT' 80;
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* ============================================================ */
+  /* SUMMARY                                                      */
+  /* ============================================================ */
+  .summary {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 48px 56px;
+    margin-top: 56px;
+  }
+  .summary h3 {
+    font-variation-settings: 'opsz' 60, 'wght' 500, 'SOFT' 20;
+    font-size: 24px;
+    margin: 0 0 8px;
+    letter-spacing: -0.012em;
+  }
+  .summary > p {
+    font-variation-settings: 'opsz' 14, 'wght' 400, 'SOFT' 50;
+    font-size: 14px;
+    color: var(--ink-soft);
+    margin: 0 0 24px;
+    max-width: 64ch;
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+  }
+  .summary-item {
+    border-top: 1px solid var(--rule);
+    padding-top: 10px;
+  }
+  .summary-item .name {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink);
+    margin: 0 0 2px;
+  }
+  .summary-item .desc {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 9, 'wght' 400, 'SOFT' 50;
+    font-style: italic;
+    font-size: 11px;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+
+  /* CUT LIST */
+  .cuts {
+    background: rgba(207, 20, 42, 0.04);
+    border: 1px solid rgba(207, 20, 42, 0.2);
+    padding: 32px 40px;
+    margin-top: 24px;
+    border-radius: 0;
+  }
+  .cuts h3 {
+    font-variation-settings: 'opsz' 60, 'wght' 500, 'SOFT' 20;
+    font-size: 18px;
+    margin: 0 0 8px;
+    letter-spacing: -0.005em;
+    color: var(--brand);
+  }
+  .cuts > p {
+    font-variation-settings: 'opsz' 14, 'wght' 400, 'SOFT' 50;
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 0 0 18px;
+    max-width: 64ch;
+  }
+  .cut-item {
+    padding: 10px 0;
+    border-top: 1px solid rgba(207, 20, 42, 0.15);
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 16px;
+    align-items: baseline;
+  }
+  .cut-item .name {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--brand);
+    text-decoration: line-through;
+    text-decoration-thickness: 1px;
+  }
+  .cut-item .reason {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 14, 'wght' 400, 'SOFT' 50;
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .cut-item .reason strong { color: var(--ink); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="doc">
+
+  <!-- ============================================================ -->
+  <!-- MASTHEAD                                                     -->
+  <!-- ============================================================ -->
+  <header class="masthead">
+    <p class="marker">Ağustos Design System · v1.0 · Final · Type</p>
+    <h1>The smallest system that does the job.</h1>
+    <p class="lede">Twenty tokens. No decoration. Every typographic decision in your content maps to one of these — and only one.</p>
+    <div class="count">
+      <span><strong>20</strong> tokens</span>
+      <span><strong>4</strong> headings</span>
+      <span><strong>1</strong> brand-color role</span>
+      <span><strong>2</strong> languages tested</span>
+    </div>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1 — HEADINGS                                         -->
+  <!-- ============================================================ -->
+  <div class="section-marker">
+    <span class="num">01</span>
+    <h2>Headings</h2>
+    <span class="count">4 tokens</span>
+  </div>
+
+  <!-- H1 -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">.type-h1</p>
+        <p class="token-spec"><span class="lbl">size:</span> 36px<br><span class="lbl">leading:</span> 1.05<br><span class="lbl">weight:</span> 400<br><span class="lbl">opsz:</span> 144<br><span class="lbl">tracking:</span> -0.022em<br><span class="lbl">use:</span> page title</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang">Türkçe</p>
+        <h1 class="type-h1">Işığın mimariyle buluştuğu yer.</h1>
+      </div>
+      <div class="cell">
+        <p class="lang">English</p>
+        <h1 class="type-h1">Where light meets architecture.</h1>
+      </div>
+      <div class="cell md">
+        <p class="md-source"><span class="key"># </span>Işığın mimariyle
+   buluştuğu yer.
+
+<span class="com">// First # in any document</span>
+<span class="com">// = page title, biggest size</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- H2 -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">.type-h2</p>
+        <p class="token-spec"><span class="lbl">size:</span> 24px<br><span class="lbl">leading:</span> 1.18<br><span class="lbl">weight:</span> 500<br><span class="lbl">opsz:</span> 60<br><span class="lbl">tracking:</span> -0.012em<br><span class="lbl">use:</span> section</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang">Türkçe</p>
+        <h2 class="type-h2">Çalışma Yaklaşımımız</h2>
+      </div>
+      <div class="cell">
+        <p class="lang">English</p>
+        <h2 class="type-h2">How We Work</h2>
+      </div>
+      <div class="cell md">
+        <p class="md-source"><span class="key">## </span>Çalışma Yaklaşımımız
+
+<span class="com">// Section break</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- H3 -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">.type-h3</p>
+        <p class="token-spec"><span class="lbl">size:</span> 18px<br><span class="lbl">leading:</span> 1.3<br><span class="lbl">weight:</span> 600<br><span class="lbl">opsz:</span> 24<br><span class="lbl">tracking:</span> -0.005em<br><span class="lbl">use:</span> subsection</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang">Türkçe</p>
+        <h3 class="type-h3">Spesifikasyon disiplini</h3>
+      </div>
+      <div class="cell">
+        <p class="lang">English</p>
+        <h3 class="type-h3">Specification discipline</h3>
+      </div>
+      <div class="cell md">
+        <p class="md-source"><span class="key">### </span>Spesifikasyon disiplini
+
+<span class="com">// Subsection</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- H4 -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">.type-h4</p>
+        <p class="token-spec"><span class="lbl">size:</span> 12px<br><span class="lbl">weight:</span> 700<br><span class="lbl">opsz:</span> 9<br><span class="lbl">tracking:</span> 0.14em<br><span class="lbl">case:</span> uppercase<br><span class="lbl">use:</span> minor labels,<br><span class="lbl">UI meta, eyebrow,</span><br><span class="lbl">table-area headers</span></p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang">Türkçe</p>
+        <h4 class="type-h4">Bayilik · Aydınlatma</h4>
+      </div>
+      <div class="cell">
+        <p class="lang">English</p>
+        <h4 class="type-h4">Distribution · Lighting</h4>
+      </div>
+      <div class="cell md">
+        <p class="md-source"><span class="key">#### </span>Bayilik · Aydınlatma
+
+<span class="com">// One token does the work</span>
+<span class="com">// of eyebrow + meta + label</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2 — BODY & INLINE                                    -->
+  <!-- ============================================================ -->
+  <div class="section-marker">
+    <span class="num">02</span>
+    <h2>Body & Inline</h2>
+    <span class="count">6 tokens</span>
+  </div>
+
+  <!-- BODY -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">.type-body</p>
+        <p class="token-spec"><span class="lbl">size:</span> 16px<br><span class="lbl">leading:</span> 1.6<br><span class="lbl">weight:</span> 400<br><span class="lbl">opsz:</span> 14<br><span class="lbl">SOFT:</span> 50<br><span class="lbl">measure:</span> 60–75ch</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang">Türkçe</p>
+        <p class="type-body">Ağustos Teknoloji, on iki uluslararası aydınlatma markasının Türkiye temsilcisidir. Mimar, iç mimar ve aydınlatma tasarımcılarıyla çalışıyoruz.</p>
+      </div>
+      <div class="cell">
+        <p class="lang">English</p>
+        <p class="type-body">Ağustos Teknoloji represents twelve international lighting brands in Turkey. We work with architects, interior designers, and lighting designers.</p>
+      </div>
+      <div class="cell md">
+        <p class="md-source">Ağustos Teknoloji, on iki
+uluslararası aydınlatma
+markasının Türkiye
+temsilcisidir.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ITALIC -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">em</p>
+        <p class="token-spec"><span class="lbl">style:</span> italic<br><span class="lbl">opsz:</span> 14<br><span class="lbl">SOFT:</span> 80<br><span class="lbl">use:</span> titles,<br><span class="lbl">foreign words,</span><br><span class="lbl">technical terms,</span><br><span class="lbl">deck/byline by role</span></p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang">Türkçe</p>
+        <p class="type-body">Yaklaşımımız basit: <em>doğru ışık, doğru yerde, doğru zamanda.</em></p>
+      </div>
+      <div class="cell">
+        <p class="lang">English</p>
+        <p class="type-body">Our approach: <em>the right light, in the right place, at the right time.</em></p>
+      </div>
+      <div class="cell md">
+        <p class="md-source">Yaklaşımımız basit:
+<span class="key">_</span>doğru ışık, doğru yerde,
+doğru zamanda.<span class="key">_</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOLD -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">strong</p>
+        <p class="token-spec"><span class="lbl">weight:</span> 600<br><span class="lbl">opsz:</span> 14<br><span class="lbl">SOFT:</span> 30<br><span class="lbl">use:</span> emphasis,<br><span class="lbl">key terms</span></p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang">Türkçe</p>
+        <p class="type-body">Her projede <strong>spesifikasyon disiplini</strong> ve <strong>uzun vadeli teknik destek</strong> birlikte yürür.</p>
+      </div>
+      <div class="cell">
+        <p class="lang">English</p>
+        <p class="type-body">Every project requires <strong>specification discipline</strong> and <strong>long-term technical support</strong>.</p>
+      </div>
+      <div class="cell md">
+        <p class="md-source">Her projede
+<span class="key">**</span>spesifikasyon
+disiplini<span class="key">**</span> ve
+<span class="key">**</span>uzun vadeli teknik
+destek<span class="key">**</span>...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOLD ITALIC -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">strong em</p>
+        <p class="token-spec"><span class="lbl">weight:</span> 600<br><span class="lbl">style:</span> italic<br><span class="lbl">SOFT:</span> 80<br><span class="lbl">use:</span> rare —<br><span class="lbl">strongest emphasis</span></p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang">Türkçe</p>
+        <p class="type-body">Bu yaklaşım <strong><em>her zaman</em></strong> mekânın kendisinden başlar.</p>
+      </div>
+      <div class="cell">
+        <p class="lang">English</p>
+        <p class="type-body">This approach <strong><em>always</em></strong> begins from the space itself.</p>
+      </div>
+      <div class="cell md">
+        <p class="md-source">Bu yaklaşım <span class="key">**_</span>her
+zaman<span class="key">_**</span> mekânın
+kendisinden başlar.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- LINK -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">a</p>
+        <p class="token-spec"><span class="lbl">color:</span> ink<br><span class="lbl">weight:</span> 600<br><span class="lbl">underline:</span> 2px<br><span class="lbl">underline-color:</span> brand<br><span class="lbl">offset:</span> 3px<br><span class="lbl">use:</span> sole brand expression</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang">Türkçe</p>
+        <p class="type-body">Detaylar için <a href="#">katalog talebinde</a> bulunabilirsiniz.</p>
+      </div>
+      <div class="cell">
+        <p class="lang">English</p>
+        <p class="type-body">For details, please <a href="#">request our catalog</a>.</p>
+      </div>
+      <div class="cell md">
+        <p class="md-source">Detaylar için <span class="key">[</span>katalog
+talebinde<span class="key">](</span><span class="url">/catalog</span><span class="key">)</span>
+bulunabilirsiniz.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- INLINE CODE -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">code (inline)</p>
+        <p class="token-spec"><span class="lbl">family:</span> JetBrains Mono<br><span class="lbl">size:</span> 0.86em<br><span class="lbl">background:</span> 5% ink<br><span class="lbl">padding:</span> 1px 5px<br><span class="lbl">use:</span> identifiers, values</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang">Türkçe</p>
+        <p class="type-body">CoeLux modülü <code>CRI &gt; 95</code> değeriyle çalışır.</p>
+      </div>
+      <div class="cell">
+        <p class="lang">English</p>
+        <p class="type-body">The CoeLux module operates at <code>CRI &gt; 95</code>.</p>
+      </div>
+      <div class="cell md">
+        <p class="md-source">CoeLux modülü <span class="key">`</span>CRI &gt; 95<span class="key">`</span>
+değeriyle çalışır.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3 — BLOCKS                                           -->
+  <!-- ============================================================ -->
+  <div class="section-marker">
+    <span class="num">03</span>
+    <h2>Block-level</h2>
+    <span class="count">9 tokens</span>
+  </div>
+
+  <!-- BLOCKQUOTE -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">.type-blockquote</p>
+        <p class="token-spec"><span class="lbl">size:</span> 17px<br><span class="lbl">style:</span> italic<br><span class="lbl">opsz:</span> 18<br><span class="lbl">SOFT:</span> 70<br><span class="lbl">border:</span> 2px brand left</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang">Türkçe</p>
+        <blockquote class="type-blockquote">
+          İyi aydınlatma, fark edilmediği zaman en iyisidir.
+          <cite>— Richard Kelly, 1952</cite>
+        </blockquote>
+      </div>
+      <div class="cell">
+        <p class="lang">English</p>
+        <blockquote class="type-blockquote">
+          The best lighting is the lighting you don't notice.
+          <cite>— Richard Kelly, 1952</cite>
+        </blockquote>
+      </div>
+      <div class="cell md">
+        <p class="md-source"><span class="key">> </span>İyi aydınlatma, fark
+<span class="key">> </span>edilmediği zaman en
+<span class="key">> </span>iyisidir.
+<span class="key">> </span>
+<span class="key">> </span>— Richard Kelly</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PULL QUOTE -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">.type-pullquote</p>
+        <p class="token-spec"><span class="lbl">size:</span> 26px<br><span class="lbl">leading:</span> 1.2<br><span class="lbl">opsz:</span> 60<br><span class="lbl">SOFT:</span> 40<br><span class="lbl">borders:</span> top + bottom</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang">Türkçe</p>
+        <p class="type-pullquote">Aydınlatma, mimarinin sessiz dilidir.</p>
+      </div>
+      <div class="cell">
+        <p class="lang">English</p>
+        <p class="type-pullquote">Lighting is architecture's quiet language.</p>
+      </div>
+      <div class="cell md">
+        <p class="md-source"><span class="com">// Pandoc fenced div:</span>
+<span class="key">::: </span>pullquote
+Aydınlatma, mimarinin
+sessiz dilidir.
+<span class="key">:::</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORDERED LIST -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">.type-list-ol</p>
+        <p class="token-spec"><span class="lbl">size:</span> 16px<br><span class="lbl">leading:</span> 1.6<br><span class="lbl">marker:</span> brand color</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang">Türkçe</p>
+        <ol class="type-list-ol">
+          <li>Aydınlatma briefinin oluşturulması</li>
+          <li>Ürün önerileri ve teknik dosyalar</li>
+          <li>Uygulama desteği</li>
+        </ol>
+      </div>
+      <div class="cell">
+        <p class="lang">English</p>
+        <ol class="type-list-ol">
+          <li>Lighting brief development</li>
+          <li>Product recommendations</li>
+          <li>Implementation support</li>
+        </ol>
+      </div>
+      <div class="cell md">
+        <p class="md-source"><span class="key">1. </span>Aydınlatma briefinin
+   oluşturulması
+<span class="key">2. </span>Ürün önerileri
+<span class="key">3. </span>Uygulama desteği</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- UNORDERED LIST -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">.type-list-ul</p>
+        <p class="token-spec"><span class="lbl">size:</span> 16px<br><span class="lbl">leading:</span> 1.6<br><span class="lbl">marker:</span> brand-color disc</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang">Türkçe</p>
+        <ul class="type-list-ul">
+          <li>Mimar ve iç mimarlar</li>
+          <li>Aydınlatma tasarımcıları</li>
+          <li>Peyzaj mimarları</li>
+        </ul>
+      </div>
+      <div class="cell">
+        <p class="lang">English</p>
+        <ul class="type-list-ul">
+          <li>Architects and interior designers</li>
+          <li>Lighting designers</li>
+          <li>Landscape architects</li>
+        </ul>
+      </div>
+      <div class="cell md">
+        <p class="md-source"><span class="key">- </span>Mimar ve iç mimarlar
+<span class="key">- </span>Aydınlatma tasarımcıları
+<span class="key">- </span>Peyzaj mimarları</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEFINITION LIST -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">.type-dl</p>
+        <p class="token-spec"><span class="lbl">dt:</span> 16px / 600<br><span class="lbl">dd:</span> 16px / 400<br><span class="lbl">use:</span> term + definition</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang">Türkçe</p>
+        <dl class="type-dl">
+          <dt>CRI</dt>
+          <dd>Renksel geriverim indeksi — bir ışık kaynağının renkleri ne kadar doğru gösterdiği.</dd>
+          <dt>CCT</dt>
+          <dd>Bağıntılı renk sıcaklığı, Kelvin cinsinden.</dd>
+        </dl>
+      </div>
+      <div class="cell">
+        <p class="lang">English</p>
+        <dl class="type-dl">
+          <dt>CRI</dt>
+          <dd>Color Rendering Index — measure of how accurately a light source reveals colors.</dd>
+          <dt>CCT</dt>
+          <dd>Correlated Color Temperature, measured in Kelvin.</dd>
+        </dl>
+      </div>
+      <div class="cell md">
+        <p class="md-source">CRI
+<span class="key">: </span>Renksel geriverim
+  indeksi...
+
+CCT
+<span class="key">: </span>Bağıntılı renk
+  sıcaklığı...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIGURE -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">.type-figure</p>
+        <p class="token-spec"><span class="lbl">image:</span> 16/9 default<br><span class="lbl">caption:</span> 13px italic<br><span class="lbl">caption color:</span> faint<br><span class="lbl">strong:</span> roman, soft</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang">Türkçe</p>
+        <figure class="type-figure">
+          <div class="placeholder">Proje Görseli</div>
+          <figcaption><strong>İstanbul Modern, 2024.</strong> Soraa Vivid 3 ile tasarlanan müze aydınlatması.</figcaption>
+        </figure>
+      </div>
+      <div class="cell">
+        <p class="lang">English</p>
+        <figure class="type-figure">
+          <div class="placeholder">Project Image</div>
+          <figcaption><strong>Istanbul Modern, 2024.</strong> Museum lighting designed with Soraa Vivid 3.</figcaption>
+        </figure>
+      </div>
+      <div class="cell md">
+        <p class="md-source"><span class="key">![**</span>İstanbul Modern,
+2024.<span class="key">**</span> Soraa Vivid 3
+ile tasarlanan...<span class="key">](</span><span class="url">img.jpg</span><span class="key">)</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CODE BLOCK -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">.type-code-block</p>
+        <p class="token-spec"><span class="lbl">family:</span> JetBrains Mono<br><span class="lbl">size:</span> 13.5px<br><span class="lbl">background:</span> ink<br><span class="lbl">color:</span> rule</p>
+      </div>
+      <div class="cell">
+        <p class="lang">Universal</p>
+        <pre class="type-code-block">{
+  "lumen": 1200,
+  "cct": 3000,
+  "cri": 95
+}</pre>
+      </div>
+      <div class="cell">
+        <p class="lang">Use case</p>
+        <p class="type-body" style="color: var(--ink-soft); font-size: 14px;">For code, JSON specs, IES headers, configuration values, MCP query syntax — anywhere monospace alignment matters.</p>
+      </div>
+      <div class="cell md">
+        <p class="md-source"><span class="key">```json</span>
+{
+  "lumen": 1200,
+  "cct": 3000
+}
+<span class="key">```</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">.type-table</p>
+        <p class="token-spec"><span class="lbl">cell size:</span> 14px<br><span class="lbl">numerals:</span> tabular<br><span class="lbl">th:</span> uppercase, faint<br><span class="lbl">last col:</span> right-aligned</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang">Türkçe</p>
+        <table class="type-table">
+          <thead><tr><th>Aşama</th><th>Durum</th></tr></thead>
+          <tbody>
+            <tr><td>Brief</td><td>Tamamlandı</td></tr>
+            <tr><td>Spesifikasyon</td><td>Devam ediyor</td></tr>
+            <tr><td>Uygulama</td><td>Q3 2026</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cell">
+        <p class="lang">English</p>
+        <table class="type-table">
+          <thead><tr><th>Stage</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Brief</td><td>Complete</td></tr>
+            <tr><td>Specification</td><td>In progress</td></tr>
+            <tr><td>Implementation</td><td>Q3 2026</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cell md">
+        <p class="md-source"><span class="key">| </span>Aşama<span class="key">    | </span>Durum<span class="key">     |</span>
+<span class="key">|----------|-----------|</span>
+<span class="key">| </span>Brief<span class="key">    | </span>Tamamlandı<span class="key">|</span>
+<span class="key">| </span>Spec<span class="key">     | </span>Devam<span class="key">     |</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">.type-divider</p>
+        <p class="token-spec"><span class="lbl">height:</span> 1px<br><span class="lbl">color:</span> rule<br><span class="lbl">use:</span> section break</p>
+      </div>
+      <div class="cell">
+        <p class="lang">Universal</p>
+        <hr class="type-divider">
+      </div>
+      <div class="cell">
+        <p class="lang">Use case</p>
+        <p class="type-body" style="color: var(--ink-soft); font-size: 14px;">Quiet rule for section breaks. Used between major topic shifts, not between paragraphs.</p>
+      </div>
+      <div class="cell md">
+        <p class="md-source"><span class="key">---</span>
+
+<span class="com">// Three or more hyphens</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4 — SUPPORTING                                       -->
+  <!-- ============================================================ -->
+  <div class="section-marker">
+    <span class="num">04</span>
+    <h2>Supporting</h2>
+    <span class="count">1 token</span>
+  </div>
+
+  <!-- FOOTNOTE -->
+  <div class="row">
+    <div class="grid">
+      <div class="cell token">
+        <p class="token-name">.type-footnote</p>
+        <p class="token-spec"><span class="lbl">size:</span> 12px<br><span class="lbl">color:</span> faint<br><span class="lbl">sup:</span> brand color, 600<br><span class="lbl">use:</span> source notes,<br><span class="lbl">replaces "small"</span></p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang">Türkçe</p>
+        <p class="type-footnote"><sup>1</sup> Ürün spesifikasyonları üreticinin son veri sayfasına göre değişebilir. Güncel bilgi için iletişime geçiniz.</p>
+      </div>
+      <div class="cell">
+        <p class="lang">English</p>
+        <p class="type-footnote"><sup>1</sup> Specifications may vary based on manufacturer's most recent data. Contact us for current information.</p>
+      </div>
+      <div class="cell md">
+        <p class="md-source">Ana metin<span class="key">[^1]</span>.
+
+<span class="key">[^1]: </span>Ürün
+spesifikasyonları...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- INTEGRATED PAGE                                              -->
+  <!-- ============================================================ -->
+  <div class="section-marker">
+    <span class="num">05</span>
+    <h2>The integrated page</h2>
+    <span class="count">proof</span>
+  </div>
+
+  <article class="integrated" lang="tr">
+    <h4 class="type-h4">Bayilik · Aydınlatma · Mayıs 2026</h4>
+    <h1 class="type-h1">Işığın mimariyle buluştuğu yer.</h1>
+    <p class="deck">2009'dan bu yana Türkiye'nin önde gelen tasarım stüdyolarıyla. Yazan: <em>Emre Güneş</em>, Ağustos Teknoloji.</p>
+
+    <p class="type-body">Ağustos Teknoloji, on iki uluslararası aydınlatma markasının Türkiye temsilcisidir. Soraa, CoeLux, Xicato ve diğer markalarımızla birlikte; mimar, iç mimar, peyzaj mimarı ve aydınlatma tasarımcılarına proje bazında <a href="#">danışmanlık</a> sunuyoruz.</p>
+
+    <p class="type-body">Yaklaşımımız basit: <em>doğru ışık, doğru yerde, doğru zamanda.</em> Bu nedenle her projede <strong>spesifikasyon disiplini</strong> ve <strong><em>uzun vadeli teknik destek</em></strong> birlikte yürür.</p>
+
+    <h2 class="type-h2">Çalışma Yaklaşımımız</h2>
+
+    <p class="type-body">Her proje, mekânın ihtiyaçlarına özgü bir okumayla başlar. Spesifikasyon süreci üç ana adımda ilerler:</p>
+
+    <ol class="type-list-ol">
+      <li>Aydınlatma briefinin oluşturulması</li>
+      <li><a href="#">Ürün önerileri</a> ve teknik dosyaların paylaşımı</li>
+      <li>Uygulama desteği ve devreye alma</li>
+    </ol>
+
+    <h3 class="type-h3">CoeLux · Yapay Gökyüzü</h3>
+
+    <p class="type-body">CoeLux, mekâna gerçek gökyüzü algısı taşıyan benzersiz bir teknolojidir. Modüller <code>CRI &gt; 95</code> değeriyle çalışır.</p>
+
+    <blockquote class="type-blockquote">
+      İyi aydınlatma, fark edilmediği zaman en iyisidir.
+      <cite>— Richard Kelly, 1952</cite>
+    </blockquote>
+
+    <p class="type-pullquote">Aydınlatma, mimarinin sessiz dilidir.</p>
+
+    <h4 class="type-h4">Hızlı bilgi</h4>
+
+    <p class="type-body">Bayilik portföyümüz hakkında detaylı bilgi için <a href="#">katalog talebinde</a> bulunabilirsiniz.</p>
+
+    <figure class="type-figure">
+      <div class="placeholder">Proje Görseli</div>
+      <figcaption><strong>İstanbul Modern, 2024.</strong> Soraa Vivid 3 ile tasarlanan müze aydınlatması. Fotoğraf: Cemal Emden.</figcaption>
+    </figure>
+
+    <hr class="type-divider">
+
+    <p class="type-footnote"><sup>1</sup> Ürün spesifikasyonları üreticinin son veri sayfasına göre değişebilir. Güncel bilgi için bizimle iletişime geçiniz.</p>
+  </article>
+
+  <!-- ============================================================ -->
+  <!-- WHAT WAS CUT                                                 -->
+  <!-- ============================================================ -->
+  <div class="cuts">
+    <h3>What was cut, and why.</h3>
+    <p>Each removal made the system smaller and the writing decisions fewer. Nothing essential was lost.</p>
+
+    <div class="cut-item">
+      <span class="name">.type-display-xl</span>
+      <span class="reason">The page title is the biggest thing on the page. <strong>H1 absorbs hero.</strong> Layout (whitespace, image) creates presence above what type alone can.</span>
+    </div>
+    <div class="cut-item">
+      <span class="name">.type-display</span>
+      <span class="reason">Sat between Display-XL and H1 with no clear job. <strong>H1 absorbs chapter and cover too.</strong></span>
+    </div>
+    <div class="cut-item">
+      <span class="name">.type-eyebrow</span>
+      <span class="reason">Small uppercase brand-color label. <strong>H4 absorbs eyebrow.</strong> Brand color now appears in only one place: links.</span>
+    </div>
+    <div class="cut-item">
+      <span class="name">.type-deck</span>
+      <span class="reason">Italic sub-headline after H1. <strong>It's just <em>italic</em> body</strong> — first paragraph after H1 styled with <code>*italic*</code>. No new token needed.</span>
+    </div>
+    <div class="cut-item">
+      <span class="name">.type-byline</span>
+      <span class="reason">Author/source line. <strong>Same as deck</strong> — italic body does the job. Inline within the deck if helpful.</span>
+    </div>
+    <div class="cut-item">
+      <span class="name">.type-sc</span>
+      <span class="reason">Small caps for brand names. <strong>Editorial flourish, not a system primitive.</strong> Brand names render fine in regular case.</span>
+    </div>
+    <div class="cut-item">
+      <span class="name">.type-small</span>
+      <span class="reason">Generic "secondary" text. <strong>If it's secondary, it's a footnote</strong> — which we have. No middle tier.</span>
+    </div>
+    <div class="cut-item">
+      <span class="name">.type-meta</span>
+      <span class="reason">UI labels, table headers. <strong>H4 absorbs meta.</strong> One token, one job — across all label-like contexts.</span>
+    </div>
+    <div class="cut-item">
+      <span class="name">.type-caption</span>
+      <span class="reason">Figure caption. <strong>Lives inside <code>.type-figure</code></strong> as <code>figcaption</code>. Not an addressable token; an inherent part of figure.</span>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- TOKEN SUMMARY                                                -->
+  <!-- ============================================================ -->
+  <div class="summary">
+    <h3>The complete token list.</h3>
+    <p>Twenty addressable tokens. Each one has exactly one job. When writing, ask only: which one of these is this?</p>
+    <div class="summary-grid">
+      <div class="summary-item"><p class="name">.type-h1</p><p class="desc">page title</p></div>
+      <div class="summary-item"><p class="name">.type-h2</p><p class="desc">section</p></div>
+      <div class="summary-item"><p class="name">.type-h3</p><p class="desc">subsection</p></div>
+      <div class="summary-item"><p class="name">.type-h4</p><p class="desc">label / eyebrow / meta</p></div>
+      <div class="summary-item"><p class="name">.type-body</p><p class="desc">paragraph</p></div>
+      <div class="summary-item"><p class="name">em</p><p class="desc">italic — also deck/byline</p></div>
+      <div class="summary-item"><p class="name">strong</p><p class="desc">bold emphasis</p></div>
+      <div class="summary-item"><p class="name">strong em</p><p class="desc">strongest emphasis</p></div>
+      <div class="summary-item"><p class="name">a</p><p class="desc">link, brand expression</p></div>
+      <div class="summary-item"><p class="name">code (inline)</p><p class="desc">technical values</p></div>
+      <div class="summary-item"><p class="name">.type-blockquote</p><p class="desc">attributed quote</p></div>
+      <div class="summary-item"><p class="name">.type-pullquote</p><p class="desc">editorial highlight</p></div>
+      <div class="summary-item"><p class="name">.type-list-ol</p><p class="desc">ordered list</p></div>
+      <div class="summary-item"><p class="name">.type-list-ul</p><p class="desc">unordered list</p></div>
+      <div class="summary-item"><p class="name">.type-dl</p><p class="desc">term + definition</p></div>
+      <div class="summary-item"><p class="name">.type-figure</p><p class="desc">image + caption</p></div>
+      <div class="summary-item"><p class="name">.type-code-block</p><p class="desc">multi-line code</p></div>
+      <div class="summary-item"><p class="name">.type-table</p><p class="desc">tabular data</p></div>
+      <div class="summary-item"><p class="name">.type-divider</p><p class="desc">section break</p></div>
+      <div class="summary-item"><p class="name">.type-footnote</p><p class="desc">notes, sources</p></div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

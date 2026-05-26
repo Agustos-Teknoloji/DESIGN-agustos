@@ -1,0 +1,546 @@
+/* ============================================================
+   AĞUSTOS DESIGN SYSTEM v2.1  ·  CANONICAL SOURCE
+   Source of truth: PROJECTS/DESIGN-agustos/DESIGN.md
+   Type-first system. 12 variables, 24 tokens, 3 families.
+
+   ⚠ SYNC RULE — this file has a mirror copy at:
+     PROJECTS/WEBSITE-agustos/src/styles/tokens.css
+   Any change here MUST be propagated to that file (and vice versa).
+   When editing either file, update both in the same commit.
+   The two files should be byte-identical except for this header.
+   See PROJECTS/WEBSITE-agustos/CLAUDE.md for the sync protocol.
+
+   v2.1 changes:
+   - Recast .type-hero-deck as an upright lead, not an italic quote
+   - Tightened hero title-to-deck spacing
+   - Added hero action utilities for primary/secondary CTAs
+   - Added editorial hero-link utilities for page-opening action rows
+     (editorial pattern: typographic link, not button — per DESIGN.md
+      "CTA philosophy". Boxed .hero-action* stays for lower section CTAs.)
+
+   v2.0 changes:
+   - Retired Newsreader (serif body)
+   - Retired Plus Jakarta Sans (logotype-only face)
+   - Retired Source Sans 3 (UI sans)
+   - Adopted Inter Tight as the unified DISPLAY family
+     (logotype, hero, headings, eyebrows, UI labels, table headers, KPIs, badges)
+   - Adopted Inter as the unified BODY family
+     (paragraphs, em, strong, links, lists, blockquote, footnote, figcaption, table cells)
+   - Added .type-hero (Big Hero) and .type-hero-md (Medium Hero) tokens
+   - Renamed --serif/--sans/--logotype → --display/--body
+     (system fallback chains terminate in native UI fonts)
+   - Token count 22 → 24
+   ============================================================ */
+
+/* -- 1. CSS variables ---------------------------------------- */
+
+:root {
+  /* Substrate */
+  --paper:        #fefcf2;  /* Cream — branded contexts */
+  --paper-white:  #ffffff;  /* White — universal fallback */
+
+  /* Ink */
+  --ink:        #1a1a1a;
+  --ink-soft:   #4a4a4a;
+  --ink-faint:  #8a8a8a;
+
+  /* Rule */
+  --rule:        #e8e3d0;
+  --rule-white:  #e8e8e8;
+
+  /* Brand colors — pick one per page via .brand-* class */
+  --brand-agustos:     #cf142a;
+  --brand-pataraz:     #1a24cc;
+  --brand-pld:         #1a1a1a;
+  --brand-photometric: #1f6b4a;
+
+  /* Default brand fallback (resolves before any .brand-* applies) */
+  --brand: var(--brand-agustos);
+
+  /* Type stacks — v2.0
+     --display: Inter Tight (logo, hero, headings, UI). Falls back through
+                Inter to native UI fonts. Variable wght 100–900 with italics.
+     --body:    Inter (paragraphs, inline elements). Falls back to the
+                canonical system stack ending in Apple Color Emoji.
+     --mono:    JetBrains Mono with native ui-monospace fallback. */
+  --display: 'Inter Tight Variable', 'Inter Tight', 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --body:    'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji";
+  --mono:    'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospace;
+}
+
+/* -- 2. Per-brand application -------------------------------- */
+
+.brand-agustos { --brand: var(--brand-agustos); }
+.brand-pataraz { --brand: var(--brand-pataraz); }
+.brand-pld     { --brand: var(--brand-pld); }
+.brand-photo   { --brand: var(--brand-photometric); }
+
+/* Substrate override — opt into white paper for working/UI contexts */
+.paper-white {
+  --paper: var(--paper-white);
+  --rule:  var(--rule-white);
+}
+
+/* Dark theme — opt-in via html[data-theme="dark"]. Same tokens, inverted ink/paper.
+   Brand colors stay the same; designed to read on both substrates. The dark paper
+   keeps a warm undertone (#16140f, not pure black) so cream-trained colors still
+   integrate. Toggle persisted in localStorage by the Sidebar component. */
+html[data-theme="dark"] {
+  --paper:        #16140f;
+  --paper-white:  #16140f;
+  --ink:        #f0ebd8;
+  --ink-soft:   #a8a39a;
+  --ink-faint:  #6e6960;
+  --rule:        #2a2620;
+  --rule-white:  #2a2620;
+}
+html[data-theme="dark"] code,
+html[data-theme="dark"] .type-code {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+/* -- 3. Reset + global rules --------------------------------- */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  /* locl: Turkish capitalization correctness when lang="tr". Mandatory.
+     ss01: Inter's two-storey "a" stylistic set — taste decision; flip off if a future audit prefers default. */
+  font-feature-settings: "locl" on, "kern" on, "ss01" on;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  min-height: 100vh;
+  line-height: 1.65;
+}
+
+img, svg { max-width: 100%; height: auto; display: block; }
+
+/* -- 4. The 24 tokens ---------------------------------------- */
+
+/* --- Hero (2) — NEW IN v2.0 --- */
+
+.type-hero {
+  font-family: var(--display);
+  font-weight: 300;
+  font-size: clamp(56px, 9vw, 112px);
+  line-height: 0.96;
+  letter-spacing: -0.045em;
+  color: var(--ink);
+  margin: 0 0 0.5em;
+}
+
+.type-hero-md {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: clamp(40px, 6vw, 72px);
+  line-height: 1.02;
+  letter-spacing: -0.032em;
+  color: var(--ink);
+  margin: 0 0 0.5em;
+}
+
+/* Hero deck — upright body utility, paired with either hero token.
+   margin: 0 — relies on the preceding hero token's margin-bottom for spacing. */
+.type-hero-deck {
+  font-family: var(--body);
+  font-weight: 400;
+  font-style: normal;
+  font-size: clamp(18px, 1.5vw, 21px);
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 54ch;
+  margin: 0;
+}
+
+/* --- Headings (4) --- */
+
+/* === Vertical rhythm — three tiers, no exceptions ===
+   (1) BASELINE: every element has margin-bottom 1em (≈16px) → uniform prose flow.
+   (2) SECTION BREAK: H2/H3/mid-article H4 add margin-top so adjacent vertical
+       margins collapse to the LARGER value (CSS spec) → 40px above markers.
+       Single shared value — hierarchy comes from heading size + weight.
+   (3) Visual hierarchy comes from heading size and weight, not graduated spacing.
+   See DESIGN.md §"Vertical rhythm" for the rationale. */
+
+.type-h1 {
+  font-family: var(--display);
+  font-size: 44px;
+  font-weight: 500;
+  line-height: 1.05;
+  letter-spacing: -0.026em;
+  margin: 0 0 1em;
+  color: var(--ink);
+}
+
+.type-h2 {
+  font-family: var(--display);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.18;
+  letter-spacing: -0.014em;
+  /* margin-top 2.5em ≈ 40px (collapses with prior body's 1em → max wins).
+     margin-bottom 1em matches baseline → consistent gap below the heading. */
+  margin: 2.5em 0 1em;
+  color: var(--ink);
+}
+
+.type-h3 {
+  font-family: var(--display);
+  font-size: 18px;
+  font-weight: 500;
+  font-style: italic;
+  line-height: 1.3;
+  letter-spacing: -0.008em;
+  margin: 2.5em 0 1em;
+  color: var(--ink);
+}
+
+.type-h4 {
+  font-family: var(--display);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 2.5em 0 1em;
+  color: var(--ink-soft);
+}
+
+/* --- Body & inline (8) --- */
+
+.type-body {
+  font-family: var(--body);
+  font-size: 16.5px;
+  font-weight: 400;
+  line-height: 1.65;
+  /* Baseline rhythm — 1em (≈16px) below every element. */
+  margin: 0 0 1em;
+  color: var(--ink);
+}
+
+em, .type-em {
+  font-style: italic;
+  font-weight: 400;
+}
+
+strong, .type-strong {
+  font-weight: 700;
+}
+
+/* The single brand expression: bold + 2px brand-color underline. */
+a, .type-link {
+  color: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: var(--brand);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+  transition: text-decoration-color 120ms ease;
+}
+a:hover { text-decoration-color: color-mix(in srgb, var(--brand) 70%, var(--ink) 30%); }
+
+code, .type-code {
+  font-family: var(--mono);
+  font-size: 0.86em;
+  background: rgba(0, 0, 0, 0.05);
+  padding: 1px 5px;
+  border-radius: 3px;
+}
+
+sub, .type-sub {
+  font-size: 0.7em;
+  font-weight: 500;
+  vertical-align: -0.25em;
+  line-height: 0;
+}
+
+sup, .type-sup {
+  font-size: 0.7em;
+  font-weight: 500;
+  vertical-align: 0.5em;
+  line-height: 0;
+}
+
+s, del, .type-strike {
+  text-decoration: line-through;
+  color: var(--ink-faint);
+}
+
+/* --- Block-level (9) --- */
+
+.type-blockquote, blockquote {
+  /* Content block — 1em baseline rhythm. */
+  margin: 0 0 1em;
+  padding: 0.25em 0 0.25em 1.25em;
+  border-left: 2px solid var(--brand);
+  font-family: var(--body);
+  font-size: 18px;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--ink-soft);
+}
+.type-blockquote cite, blockquote cite {
+  display: block;
+  margin-top: 0.6em;
+  font-family: var(--display);
+  font-size: 11px;
+  font-weight: 600;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-faint);
+}
+
+.type-pullquote {
+  /* Section marker — 2.5em above to mark the visual break, 1em below baseline. */
+  margin: 2.5em 0 1em;
+  padding: 1em 0;
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  font-family: var(--display);
+  font-size: 26px;
+  font-weight: 400;
+  line-height: 1.22;
+  letter-spacing: -0.018em;
+  color: var(--ink);
+  text-align: left;
+}
+.type-pullquote::before {
+  content: "\201C"; /* Left double curly quote */
+  color: var(--brand);
+  font-size: 1.1em;
+  margin-right: 0.05em;
+}
+
+.type-list-ol, ol {
+  font-family: var(--body);
+  font-size: 16.5px;
+  line-height: 1.65;
+  padding-left: 1.5em;
+  /* Content block — 1em baseline rhythm. */
+  margin: 0 0 1em;
+}
+.type-list-ol li::marker, ol li::marker { color: var(--brand); font-weight: 600; }
+
+.type-list-ul, ul {
+  font-family: var(--body);
+  font-size: 16.5px;
+  line-height: 1.65;
+  padding-left: 1.5em;
+  /* Content block — 1em baseline rhythm. */
+  margin: 0 0 1em;
+}
+.type-list-ul li::marker, ul li::marker { color: var(--brand); }
+
+.type-dl, dl {
+  font-family: var(--body);
+  font-size: 16px;
+  /* Content block — 1em baseline rhythm. */
+  margin: 0 0 1em;
+}
+/* Internal dl rhythm — each term sits 1em below the previous definition.
+   First-child dt has its margin-top collapsed by the parent's flow. */
+.type-dl dt, dl dt { font-weight: 600; color: var(--ink); margin-top: 1em; }
+.type-dl dt:first-child, dl dt:first-child { margin-top: 0; }
+.type-dl dd, dl dd { margin: 0; color: var(--ink-soft); font-weight: 400; }
+
+.type-figure, figure {
+  /* Content block — 1em baseline rhythm. */
+  margin: 0 0 1em;
+  padding: 0;
+}
+.type-figure figcaption, figure figcaption {
+  margin-top: 0.5em;
+  font-family: var(--body);
+  font-size: 13.5px;
+  font-style: italic;
+  color: var(--ink-faint);
+}
+
+.type-code-block, pre {
+  font-family: var(--mono);
+  font-size: 13.5px;
+  line-height: 1.55;
+  background: var(--ink);
+  color: var(--rule);
+  padding: 1em 1.25em;
+  border-radius: 4px;
+  overflow-x: auto;
+  /* Content block — 1em baseline rhythm. */
+  margin: 0 0 1em;
+}
+.type-code-block code, pre code {
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+.type-table, table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--body);
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+  /* Content block — 1em baseline rhythm. */
+  margin: 0 0 1em;
+}
+.type-table th, table th {
+  font-family: var(--display);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-soft);
+  text-align: left;
+  padding: 0.5em 0.75em;
+  border-bottom: 2px solid var(--rule);
+}
+.type-table td, table td {
+  padding: 0.5em 0.75em;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+.type-table th:last-child, .type-table td:last-child,
+table th:last-child, table td:last-child { text-align: right; }
+
+.type-divider, hr {
+  border: 0;
+  height: 1px;
+  background: var(--rule);
+  /* Section marker — 2.5em above to mark the visual break, 1em below baseline. */
+  margin: 2.5em 0 1em;
+}
+
+/* --- Supporting (1) --- */
+
+.type-footnote {
+  font-family: var(--body);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--ink-faint);
+}
+.type-footnote sup, .type-footnote .ref {
+  color: var(--brand);
+  font-weight: 600;
+}
+
+/* -- 5. Layout helpers (not tokens — utilities) -------------- */
+
+.container {
+  width: min(calc(100% - 3rem), 920px);
+  margin: 0 auto;
+  padding: 4rem 0 6rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.hero-action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  max-width: 100%;
+  min-height: 44px;
+  padding: 0.7rem 1rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  box-shadow: inset 0 -2px 0 var(--brand);
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background 120ms ease,
+    border-color 120ms ease,
+    box-shadow 120ms ease,
+    color 120ms ease;
+}
+
+.hero-action:hover {
+  border-color: var(--ink-soft);
+  box-shadow: inset 0 -3px 0 var(--brand);
+  text-decoration: none;
+}
+
+.hero-action:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 3px;
+}
+
+.hero-action--primary {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.hero-action--primary:hover {
+  border-color: var(--ink);
+  background: color-mix(in srgb, var(--ink) 92%, var(--brand) 8%);
+  color: var(--paper);
+}
+
+.hero-action--secondary {
+  background: transparent;
+}
+
+/* Editorial hero links — page-opening action row.
+   Typographic link pattern (not button) for page-defining hero compositions.
+   Inherits bold + brand-colored underline from the global `a` rule; this
+   utility adds display family + larger size + the action-row layout. */
+.hero-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  row-gap: 1rem;
+  column-gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.hero-link {
+  font-family: var(--display);
+  font-size: clamp(17px, 1.4vw, 21px);
+  line-height: 1.4;
+}
+
+.hero-link--primary {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.hero-link--secondary {
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+/* Skip link for keyboard users */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: 1rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--ink);
+  color: var(--paper);
+  z-index: 999;
+}
+.skip-link:focus { left: 1rem; }

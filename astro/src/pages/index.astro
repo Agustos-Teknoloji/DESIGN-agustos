@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 5);
+
+const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<BaseLayout
+  title="Ağustos Teknoloji — lighting agency and distribution"
+  description="A lighting agency built on typography, cream paper, and one symbol that travels across every brand we publish."
+>
+  <article class="container">
+    <h1 class="type-h1">Ağustos Teknoloji</h1>
+
+    <p class="type-body"><em>A lighting agency and distribution practice — published from Emre Güneş’s house.</em></p>
+
+    <p class="type-body">
+      We work where lighting design, product data, and the architectural specification meet.
+      Tools, archives, and partnerships for studios that take the technical layer seriously.
+      Read more on <a href="/about">what we do</a>, or browse <a href="/blog">recent writing</a>.
+    </p>
+
+    <hr class="type-divider" />
+
+    <h4 class="type-h4">Recent writing</h4>
+    <ul class="post-list">
+      {posts.map((post) => (
+        <li>
+          <a href={`/blog/${post.id}`} lang={post.data.lang}>{post.data.title}</a>
+          <span class="post-list__date type-footnote">{fmt.format(post.data.date)}</span>
+          {post.data.deck && <p class="type-body post-list__deck"><em>{post.data.deck}</em></p>}
+        </li>
+      ))}
+    </ul>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-list { list-style: none; padding-left: 0; }
+  .post-list li { padding: 1rem 0; border-bottom: 1px solid var(--rule); }
+  .post-list li:last-child { border-bottom: 0; }
+  .post-list__date { display: block; margin-top: 0.25em; }
+  .post-list__deck { margin-top: 0.5em; color: var(--ink-soft); }
+</style>

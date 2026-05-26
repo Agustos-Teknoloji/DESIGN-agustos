@@ -1,0 +1,1621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ağustos Type System — Complete Reference</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================ */
+  /* TOKENS — the complete system in one place                    */
+  /* ============================================================ */
+  :root {
+    /* Substrate */
+    --paper: #fefcf2;
+    --paper-white: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-faint: #8a8a8a;
+    --rule: #e8e3d0;
+
+    /* Brand (Ağustos for this specimen) */
+    --brand: #cf142a;
+
+    /* Type families */
+    --serif: 'Fraunces', Georgia, serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    /* Type scale — the named sizes */
+    --size-display-xl: 64px;
+    --size-display:    48px;
+    --size-h1:         36px;
+    --size-h2:         24px;
+    --size-h3:         18px;
+    --size-h4:         12px;     /* uppercase eyebrow-style */
+    --size-deck:       18px;
+    --size-eyebrow:    11px;
+    --size-byline:     14px;
+    --size-body:       16px;
+    --size-small:      14px;
+    --size-caption:    13px;
+    --size-footnote:   12px;
+    --size-meta:       11px;
+    --size-pullquote:  26px;
+    --size-blockquote: 17px;
+    --size-code:       13.5px;
+
+    /* Line heights — tight for display, loose for body */
+    --lh-display:      1.02;
+    --lh-h1:           1.08;
+    --lh-h2:           1.18;
+    --lh-h3:           1.3;
+    --lh-deck:         1.4;
+    --lh-body:         1.6;
+    --lh-tight:        1.4;
+
+    /* Tracking — display tightens, small caps loosens */
+    --tracking-display: -0.025em;
+    --tracking-h1:      -0.02em;
+    --tracking-h2:      -0.012em;
+    --tracking-tight:   -0.005em;
+    --tracking-eyebrow:  0.18em;
+    --tracking-h4:       0.12em;
+    --tracking-meta:     0.14em;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #d8d4c4;
+    color: var(--ink);
+    font-family: var(--serif);
+    font-feature-settings: "locl" on, "kern" on;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  .doc { max-width: 1320px; margin: 0 auto; padding: 48px 24px 96px; }
+
+  /* ============================================================ */
+  /* MASTHEAD                                                     */
+  /* ============================================================ */
+  .masthead {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 64px 72px;
+    margin-bottom: 56px;
+  }
+  .masthead .brand-eyebrow {
+    font-variation-settings: 'opsz' 9, 'wght' 600;
+    font-size: var(--size-eyebrow);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 20px;
+  }
+  .masthead h1 {
+    font-variation-settings: 'opsz' 144, 'wght' 400, 'SOFT' 30, 'WONK' 0;
+    font-size: clamp(40px, 5.5vw, var(--size-display-xl));
+    line-height: var(--lh-display);
+    letter-spacing: var(--tracking-display);
+    margin: 0 0 24px;
+    max-width: 18ch;
+  }
+  .masthead .lede {
+    font-variation-settings: 'opsz' 24, 'wght' 400, 'SOFT' 70;
+    font-size: var(--size-deck);
+    line-height: var(--lh-deck);
+    color: var(--ink-soft);
+    max-width: 64ch;
+    margin: 0;
+    font-style: italic;
+  }
+
+  /* ============================================================ */
+  /* SECTION DIVIDER                                              */
+  /* ============================================================ */
+  .section-marker {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    margin: 72px 8px 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-marker .num {
+    font-variation-settings: 'opsz' 9, 'wght' 600;
+    font-size: var(--size-eyebrow);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--brand);
+  }
+  .section-marker h2 {
+    font-variation-settings: 'opsz' 60, 'wght' 500, 'SOFT' 30;
+    font-size: var(--size-h2);
+    line-height: var(--lh-h2);
+    margin: 0;
+    letter-spacing: var(--tracking-h2);
+    color: var(--ink);
+  }
+  .section-marker .count {
+    margin-left: auto;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+  }
+
+  /* ============================================================ */
+  /* SPECIMEN ROW — token / TR sample / EN sample / markdown      */
+  /* ============================================================ */
+  .specimen-row {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: 0;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .specimen-row .row-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr 1fr 280px;
+    gap: 0;
+  }
+  @media (max-width: 1100px) {
+    .specimen-row .row-grid { grid-template-columns: 1fr; }
+  }
+  .specimen-row .cell {
+    padding: 24px 28px;
+    border-right: 1px solid var(--rule);
+  }
+  .specimen-row .cell:last-child { border-right: none; }
+  @media (max-width: 1100px) {
+    .specimen-row .cell { border-right: none; border-bottom: 1px solid var(--rule); }
+    .specimen-row .cell:last-child { border-bottom: none; }
+  }
+
+  .cell.token { background: rgba(0,0,0,0.015); }
+  .cell.markdown { background: #1a1a1a; color: #e8e3d0; }
+
+  .token-name {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    font-weight: 500;
+    color: var(--ink);
+    margin: 0 0 8px;
+    word-break: break-all;
+  }
+  .token-spec {
+    font-family: var(--mono);
+    font-size: 10px;
+    line-height: 1.55;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+  .token-spec .label {
+    color: var(--ink-faint);
+    font-style: italic;
+  }
+
+  .lang-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 12px;
+  }
+  .lang-label::before { content: "● "; color: var(--brand); }
+
+  .markdown-source {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    line-height: 1.65;
+    color: #e8e3d0;
+    white-space: pre-wrap;
+    margin: 0;
+    word-break: break-word;
+  }
+  .markdown-source .key { color: #ff8c5a; }
+  .markdown-source .url { color: #6ec5ff; }
+  .markdown-source .com { color: #8a8478; font-style: italic; }
+
+  /* ============================================================ */
+  /* THE TYPE TOKENS — exact rendering rules                      */
+  /* ============================================================ */
+
+  /* DISPLAY-XL */
+  .type-display-xl {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 144, 'wght' 400, 'SOFT' 30, 'WONK' 0;
+    font-size: var(--size-display-xl);
+    line-height: var(--lh-display);
+    letter-spacing: var(--tracking-display);
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* DISPLAY */
+  .type-display {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 144, 'wght' 400, 'SOFT' 30, 'WONK' 0;
+    font-size: var(--size-display);
+    line-height: var(--lh-display);
+    letter-spacing: var(--tracking-display);
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* H1 */
+  .type-h1 {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 144, 'wght' 400, 'SOFT' 30, 'WONK' 0;
+    font-size: var(--size-h1);
+    line-height: var(--lh-h1);
+    letter-spacing: var(--tracking-h1);
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* H2 */
+  .type-h2 {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 60, 'wght' 500, 'SOFT' 20;
+    font-size: var(--size-h2);
+    line-height: var(--lh-h2);
+    letter-spacing: var(--tracking-h2);
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* H3 */
+  .type-h3 {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 24, 'wght' 600, 'SOFT' 0;
+    font-size: var(--size-h3);
+    line-height: var(--lh-h3);
+    letter-spacing: var(--tracking-tight);
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* H4 — uppercase eyebrow-style */
+  .type-h4 {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 9, 'wght' 700, 'SOFT' 0;
+    font-size: var(--size-h4);
+    letter-spacing: var(--tracking-h4);
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* EYEBROW */
+  .type-eyebrow {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 9, 'wght' 600;
+    font-size: var(--size-eyebrow);
+    letter-spacing: var(--tracking-eyebrow);
+    text-transform: uppercase;
+    color: var(--brand);
+    margin: 0;
+  }
+
+  /* DECK / LEDE */
+  .type-deck {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 24, 'wght' 400, 'SOFT' 80;
+    font-style: italic;
+    font-size: var(--size-deck);
+    line-height: var(--lh-deck);
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* BYLINE */
+  .type-byline {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 14, 'wght' 400, 'SOFT' 70;
+    font-style: italic;
+    font-size: var(--size-byline);
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin: 0;
+  }
+
+  /* BODY */
+  .type-body {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 14, 'wght' 400, 'SOFT' 50;
+    font-size: var(--size-body);
+    line-height: var(--lh-body);
+    color: var(--ink);
+    margin: 0;
+  }
+  .type-body em {
+    font-style: italic;
+    font-variation-settings: 'opsz' 14, 'wght' 400, 'SOFT' 80;
+  }
+  .type-body strong {
+    font-weight: 600;
+    font-variation-settings: 'opsz' 14, 'wght' 600, 'SOFT' 30;
+  }
+  .type-body strong em {
+    font-weight: 600;
+    font-style: italic;
+    font-variation-settings: 'opsz' 14, 'wght' 600, 'SOFT' 80;
+  }
+  .type-body a {
+    color: var(--ink);
+    font-weight: 600;
+    font-variation-settings: 'opsz' 14, 'wght' 600, 'SOFT' 30;
+    text-decoration: underline;
+    text-decoration-color: var(--brand);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+  .type-body code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    background: rgba(0,0,0,0.05);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+
+  /* SMALL */
+  .type-small {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 14, 'wght' 400, 'SOFT' 50;
+    font-size: var(--size-small);
+    line-height: 1.55;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* CAPTION */
+  .type-caption {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 9, 'wght' 400, 'SOFT' 50;
+    font-style: italic;
+    font-size: var(--size-caption);
+    line-height: 1.5;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+  .type-caption strong {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  /* FOOTNOTE */
+  .type-footnote {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 9, 'wght' 400, 'SOFT' 50;
+    font-size: var(--size-footnote);
+    line-height: 1.55;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+  .type-footnote sup {
+    color: var(--brand);
+    font-weight: 600;
+    margin-right: 4px;
+  }
+
+  /* META — small caps style for labels */
+  .type-meta {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 9, 'wght' 600;
+    font-size: var(--size-meta);
+    letter-spacing: var(--tracking-meta);
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+
+  /* SMALL CAPS for proper nouns */
+  .type-sc {
+    font-variant-caps: all-small-caps;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    font-variation-settings: 'opsz' 14, 'wght' 500, 'SOFT' 20;
+  }
+
+  /* LINK (standalone — same as body link) */
+  .type-link {
+    font-family: var(--serif);
+    color: var(--ink);
+    font-weight: 600;
+    font-variation-settings: 'opsz' 14, 'wght' 600, 'SOFT' 30;
+    text-decoration: underline;
+    text-decoration-color: var(--brand);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+    font-size: var(--size-body);
+  }
+
+  /* CODE INLINE */
+  .type-code-inline {
+    font-family: var(--mono);
+    font-size: var(--size-code);
+    background: rgba(0,0,0,0.05);
+    padding: 1px 5px;
+    border-radius: 2px;
+    color: var(--ink);
+  }
+
+  /* CODE BLOCK */
+  .type-code-block {
+    font-family: var(--mono);
+    font-size: var(--size-code);
+    line-height: 1.65;
+    background: #1a1a1a;
+    color: #e8e3d0;
+    padding: 16px 20px;
+    border-radius: 3px;
+    margin: 0;
+    overflow-x: auto;
+    white-space: pre-wrap;
+  }
+
+  /* BLOCKQUOTE */
+  .type-blockquote {
+    margin: 0;
+    padding: 4px 0 4px 20px;
+    border-left: 2px solid var(--brand);
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 18, 'wght' 400, 'SOFT' 70;
+    font-style: italic;
+    font-size: var(--size-blockquote);
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .type-blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-style: normal;
+    font-variation-settings: 'opsz' 9, 'wght' 500;
+    font-size: var(--size-meta);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+
+  /* PULL QUOTE */
+  .type-pullquote {
+    margin: 0;
+    padding: 16px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 60, 'wght' 400, 'SOFT' 40;
+    font-size: var(--size-pullquote);
+    line-height: 1.2;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+  }
+  .type-pullquote::before {
+    content: "“";
+    color: var(--brand);
+    font-variation-settings: 'opsz' 144, 'wght' 400;
+    font-size: 1.2em;
+    line-height: 0;
+    vertical-align: -0.15em;
+    margin-right: 0.05em;
+  }
+
+  /* LISTS */
+  .type-list-ul, .type-list-ol {
+    margin: 0;
+    padding-left: 22px;
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 14, 'wght' 400, 'SOFT' 50;
+    font-size: var(--size-body);
+    line-height: var(--lh-body);
+    color: var(--ink);
+  }
+  .type-list-ul li, .type-list-ol li { margin-bottom: 4px; }
+  .type-list-ul li::marker { color: var(--brand); }
+  .type-list-ol li::marker {
+    color: var(--brand);
+    font-variation-settings: 'opsz' 14, 'wght' 600;
+  }
+
+  /* DEFINITION LIST */
+  .type-dl {
+    font-family: var(--serif);
+    margin: 0;
+  }
+  .type-dl dt {
+    font-variation-settings: 'opsz' 14, 'wght' 600, 'SOFT' 30;
+    font-size: var(--size-body);
+    line-height: 1.4;
+    color: var(--ink);
+    margin: 0 0 2px;
+  }
+  .type-dl dd {
+    font-variation-settings: 'opsz' 14, 'wght' 400, 'SOFT' 50;
+    font-size: var(--size-body);
+    line-height: var(--lh-body);
+    color: var(--ink-soft);
+    margin: 0 0 14px;
+    padding-left: 0;
+  }
+  .type-dl dd:last-child { margin-bottom: 0; }
+
+  /* FIGURE */
+  .type-figure { margin: 0; }
+  .type-figure .placeholder {
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 8%, transparent), color-mix(in srgb, var(--brand) 2%, transparent));
+    border: 1px solid color-mix(in srgb, var(--brand) 20%, var(--rule));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: color-mix(in srgb, var(--brand) 60%, var(--ink-faint));
+    font-variation-settings: 'opsz' 9, 'wght' 500;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .type-figure figcaption {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 9, 'wght' 400, 'SOFT' 50;
+    font-style: italic;
+    font-size: var(--size-caption);
+    line-height: 1.5;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+  .type-figure figcaption strong {
+    font-style: normal;
+    font-weight: 600;
+    color: var(--ink-soft);
+  }
+
+  /* DIVIDER */
+  .type-divider {
+    height: 1px;
+    background: var(--rule);
+    border: none;
+    margin: 0;
+  }
+  .type-divider-ornament {
+    text-align: center;
+    color: var(--ink-faint);
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 60, 'wght' 400';
+    font-size: 18px;
+    letter-spacing: 0.4em;
+    margin: 0;
+  }
+
+  /* TABLE */
+  .type-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 14, 'wght' 400, 'SOFT' 50;
+    font-size: var(--size-small);
+    font-variant-numeric: tabular-nums;
+  }
+  .type-table th, .type-table td {
+    text-align: left;
+    padding: 8px 10px 8px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .type-table th {
+    font-variation-settings: 'opsz' 9, 'wght' 600;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .type-table td:last-child { text-align: right; padding-right: 0; }
+
+  /* ============================================================ */
+  /* INTEGRATED PAGE — proves it all holds together              */
+  /* ============================================================ */
+  .integrated {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 64px 80px;
+    margin-top: 16px;
+  }
+  @media (max-width: 700px) { .integrated { padding: 40px 28px; } }
+
+  .integrated > * + * { margin-top: 18px; }
+  .integrated > h1.type-h1 { margin-top: 4px; }
+  .integrated > p.type-deck { margin-top: 8px; }
+  .integrated > h2.type-h2 { margin-top: 36px; }
+  .integrated > h3.type-h3 { margin-top: 24px; }
+  .integrated > h4.type-h4 { margin-top: 20px; }
+  .integrated > .type-pullquote { margin-top: 32px; margin-bottom: 14px; }
+  .integrated > figure.type-figure { margin-top: 28px; }
+  .integrated > hr.type-divider { margin: 32px 0; }
+  .integrated > .type-footnote { margin-top: 32px; padding-top: 16px; border-top: 1px solid var(--rule); }
+
+  /* ============================================================ */
+  /* FOOTER — token summary                                       */
+  /* ============================================================ */
+  .summary {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 48px 56px;
+    margin-top: 56px;
+  }
+  .summary h3 {
+    font-variation-settings: 'opsz' 60, 'wght' 500, 'SOFT' 30;
+    font-size: var(--size-h2);
+    margin: 0 0 8px;
+    letter-spacing: var(--tracking-h2);
+  }
+  .summary > p {
+    font-variation-settings: 'opsz' 14, 'wght' 400, 'SOFT' 50;
+    font-size: var(--size-small);
+    color: var(--ink-soft);
+    margin: 0 0 28px;
+    max-width: 64ch;
+  }
+  .summary-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+  }
+  .summary-item {
+    border-top: 1px solid var(--rule);
+    padding-top: 10px;
+  }
+  .summary-item .name {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink);
+    margin: 0 0 2px;
+  }
+  .summary-item .desc {
+    font-family: var(--serif);
+    font-variation-settings: 'opsz' 9, 'wght' 400, 'SOFT' 50;
+    font-style: italic;
+    font-size: 11px;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+
+<div class="doc">
+
+  <!-- ============================================================ -->
+  <!-- MASTHEAD                                                     -->
+  <!-- ============================================================ -->
+  <header class="masthead">
+    <p class="brand-eyebrow">Ağustos Design System · v1.0 · Type · Final</p>
+    <h1>The complete type reference.</h1>
+    <p class="lede">Every element, every treatment, both languages. Each token has a name, a rendering, and a markdown source — so the system addresses cleanly from any tool you reach for.</p>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 1 — DISPLAY & HEADINGS                               -->
+  <!-- ============================================================ -->
+  <div class="section-marker">
+    <span class="num">01</span>
+    <h2>Display & Headings</h2>
+    <span class="count">9 tokens</span>
+  </div>
+
+  <!-- DISPLAY-XL -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-display-xl</p>
+        <p class="token-spec"><span class="label">size:</span> 64px<br><span class="label">leading:</span> 1.02<br><span class="label">weight:</span> 400<br><span class="label">opsz:</span> 144<br><span class="label">tracking:</span> -0.025em<br><span class="label">use:</span> hero only</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <h1 class="type-display-xl">Işığın sessiz dili.</h1>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <h1 class="type-display-xl">A quiet light.</h1>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="com"># Heading level 1</span>
+<span class="key"># </span>Işığın sessiz dili.
+
+<span class="com">// In docx via Pandoc:</span>
+<span class="com">// — applies "Title" style</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DISPLAY -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-display</p>
+        <p class="token-spec"><span class="label">size:</span> 48px<br><span class="label">leading:</span> 1.02<br><span class="label">weight:</span> 400<br><span class="label">opsz:</span> 144<br><span class="label">tracking:</span> -0.025em<br><span class="label">use:</span> chapter, cover</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <h1 class="type-display">İyi aydınlatma fark edilmez.</h1>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <h1 class="type-display">Good lighting is invisible.</h1>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="com"># In Markdown:</span>
+<span class="com"># Display = H1 with</span>
+<span class="com"># "display" attribute</span>
+
+<span class="key">## </span>İyi aydınlatma...
+<span class="key">{.display}</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- H1 -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-h1</p>
+        <p class="token-spec"><span class="label">size:</span> 36px<br><span class="label">leading:</span> 1.08<br><span class="label">weight:</span> 400<br><span class="label">opsz:</span> 144<br><span class="label">tracking:</span> -0.02em<br><span class="label">use:</span> page title</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <h1 class="type-h1">Işığın mimariyle buluştuğu yer.</h1>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <h1 class="type-h1">Where light meets architecture.</h1>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="key"># </span>Işığın mimariyle
+   buluştuğu yer.
+
+<span class="com">// First # in any document</span>
+<span class="com">// Always the page title</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- H2 -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-h2</p>
+        <p class="token-spec"><span class="label">size:</span> 24px<br><span class="label">leading:</span> 1.18<br><span class="label">weight:</span> 500<br><span class="label">opsz:</span> 60<br><span class="label">tracking:</span> -0.012em<br><span class="label">use:</span> section</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <h2 class="type-h2">Çalışma Yaklaşımımız</h2>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <h2 class="type-h2">How We Work</h2>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="key">## </span>Çalışma Yaklaşımımız
+
+<span class="com">// Section break</span>
+<span class="com">// 1.5x body line above</span>
+<span class="com">// 0.5x body line below</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- H3 -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-h3</p>
+        <p class="token-spec"><span class="label">size:</span> 18px<br><span class="label">leading:</span> 1.3<br><span class="label">weight:</span> 600<br><span class="label">opsz:</span> 24<br><span class="label">tracking:</span> -0.005em<br><span class="label">use:</span> subsection</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <h3 class="type-h3">Spesifikasyon disiplini</h3>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <h3 class="type-h3">Specification discipline</h3>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="key">### </span>Spesifikasyon disiplini
+
+<span class="com">// Subsection within a section</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- H4 -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-h4</p>
+        <p class="token-spec"><span class="label">size:</span> 12px<br><span class="label">weight:</span> 700<br><span class="label">opsz:</span> 9<br><span class="label">tracking:</span> 0.12em<br><span class="label">case:</span> uppercase<br><span class="label">use:</span> minor label</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <h4 class="type-h4">Hızlı bilgi · Aydınlatma</h4>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <h4 class="type-h4">Quick reference · Lighting</h4>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="key">#### </span>Hızlı bilgi · Aydınlatma
+
+<span class="com">// Renders as small caps label</span>
+<span class="com">// Note: ı stays dotless,</span>
+<span class="com">// i becomes İ in TRK</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- EYEBROW -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-eyebrow</p>
+        <p class="token-spec"><span class="label">size:</span> 11px<br><span class="label">weight:</span> 600<br><span class="label">opsz:</span> 9<br><span class="label">tracking:</span> 0.18em<br><span class="label">case:</span> uppercase<br><span class="label">color:</span> brand</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <p class="type-eyebrow">Bayilik · Aydınlatma</p>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <p class="type-eyebrow">Distribution · Lighting</p>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="com">// In Markdown via attribute:</span>
+<span class="key">###### </span>Bayilik · Aydınlatma
+<span class="key">{.eyebrow}</span>
+
+<span class="com">// OR using a custom span:</span>
+<span class="key">[</span>Bayilik<span class="key">]{.eyebrow}</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DECK / LEDE -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-deck</p>
+        <p class="token-spec"><span class="label">size:</span> 18px<br><span class="label">leading:</span> 1.4<br><span class="label">weight:</span> 400<br><span class="label">opsz:</span> 24<br><span class="label">style:</span> italic<br><span class="label">SOFT:</span> 80<br><span class="label">use:</span> sub-headline</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <p class="type-deck">2009'dan bu yana Türkiye'nin önde gelen tasarım stüdyolarıyla.</p>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <p class="type-deck">A studio working with Turkey's leading designers since 2009.</p>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="com">// Deck follows H1 directly</span>
+<span class="com">// Single italic paragraph</span>
+
+<span class="key"># </span>Page title
+
+<span class="key">_</span>2009'dan bu yana...<span class="key">_</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BYLINE -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-byline</p>
+        <p class="token-spec"><span class="label">size:</span> 14px<br><span class="label">weight:</span> 400<br><span class="label">opsz:</span> 14<br><span class="label">style:</span> italic<br><span class="label">SOFT:</span> 70<br><span class="label">use:</span> author, source</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <p class="type-byline">Emre Güneş — <em>Ağustos Teknoloji</em>, Mayıs 2026</p>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <p class="type-byline">Emre Güneş — <em>Ağustos Teknoloji</em>, May 2026</p>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="key">_</span>Emre Güneş — Ağustos
+Teknoloji, Mayıs 2026<span class="key">_</span>
+
+<span class="com">// Italic paragraph after deck</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 2 — BODY & INLINE                                    -->
+  <!-- ============================================================ -->
+  <div class="section-marker">
+    <span class="num">02</span>
+    <h2>Body & Inline</h2>
+    <span class="count">9 tokens</span>
+  </div>
+
+  <!-- BODY -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-body</p>
+        <p class="token-spec"><span class="label">size:</span> 16px<br><span class="label">leading:</span> 1.6<br><span class="label">weight:</span> 400<br><span class="label">opsz:</span> 14<br><span class="label">SOFT:</span> 50<br><span class="label">measure:</span> 60–75ch</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <p class="type-body">Ağustos Teknoloji, on iki uluslararası aydınlatma markasının Türkiye temsilcisidir. Mimar, iç mimar ve aydınlatma tasarımcılarıyla birlikte çalışıyoruz.</p>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <p class="type-body">Ağustos Teknoloji represents twelve international lighting brands in Turkey. We work with architects, interior designers, and lighting designers on specification projects.</p>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="com">// Plain paragraph</span>
+Ağustos Teknoloji, on iki
+uluslararası aydınlatma
+markasının Türkiye
+temsilcisidir.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY · ITALIC -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-body em</p>
+        <p class="token-spec"><span class="label">style:</span> italic<br><span class="label">opsz:</span> 14<br><span class="label">SOFT:</span> 80<br><span class="label">use:</span> titles, foreign<br><span class="label">words, technical</span><br><span class="label">terms on first use</span></p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <p class="type-body">Yaklaşımımız basit: <em>doğru ışık, doğru yerde, doğru zamanda.</em></p>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <p class="type-body">Our approach is simple: <em>the right light, in the right place, at the right time.</em></p>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source">Yaklaşımımız basit:
+<span class="key">_</span>doğru ışık, doğru yerde,
+doğru zamanda.<span class="key">_</span>
+
+<span class="com">// Underscores or asterisks</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY · BOLD -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-body strong</p>
+        <p class="token-spec"><span class="label">weight:</span> 600<br><span class="label">opsz:</span> 14<br><span class="label">SOFT:</span> 30<br><span class="label">use:</span> emphasis,<br><span class="label">key terms</span></p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <p class="type-body">Her projede <strong>spesifikasyon disiplini</strong> ve <strong>uzun vadeli teknik destek</strong> birlikte yürür.</p>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <p class="type-body">Every project requires <strong>specification discipline</strong> and <strong>long-term technical support</strong>.</p>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source">Her projede
+<span class="key">**</span>spesifikasyon
+disiplini<span class="key">**</span> ve
+<span class="key">**</span>uzun vadeli teknik
+destek<span class="key">**</span> birlikte yürür.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- BODY · BOLD ITALIC -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-body strong em</p>
+        <p class="token-spec"><span class="label">weight:</span> 600<br><span class="label">style:</span> italic<br><span class="label">SOFT:</span> 80<br><span class="label">use:</span> rare —<br><span class="label">strongest emphasis,</span><br><span class="label">use sparingly</span></p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <p class="type-body">Bu yaklaşım <strong><em>her zaman</em></strong> mekânın kendisinden başlar.</p>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <p class="type-body">This approach <strong><em>always</em></strong> begins from the space itself.</p>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source">Bu yaklaşım <span class="key">**_</span>her
+zaman<span class="key">_**</span> mekânın
+kendisinden başlar.
+
+<span class="com">// Triple underscore</span>
+<span class="com">// or ***triple asterisk***</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- LINK -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-body a</p>
+        <p class="token-spec"><span class="label">color:</span> ink<br><span class="label">weight:</span> 600<br><span class="label">underline:</span> 2px<br><span class="label">underline-color:</span> brand<br><span class="label">offset:</span> 3px<br><span class="label">use:</span> sole brand expression</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <p class="type-body">Detaylar için <a href="#">katalog talebinde</a> bulunabilirsiniz.</p>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <p class="type-body">For details, please <a href="#">request our catalog</a>.</p>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source">Detaylar için <span class="key">[</span>katalog
+talebinde<span class="key">](</span><span class="url">/catalog</span><span class="key">)</span>
+bulunabilirsiniz.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- INLINE CODE -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">code (inline)</p>
+        <p class="token-spec"><span class="label">family:</span> JetBrains Mono<br><span class="label">size:</span> 0.86em<br><span class="label">background:</span> 5% ink<br><span class="label">padding:</span> 1px 5px<br><span class="label">use:</span> identifiers, values</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <p class="type-body">CoeLux modülü <code>CRI &gt; 95</code> değeriyle çalışır.</p>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <p class="type-body">The CoeLux module operates at <code>CRI &gt; 95</code>.</p>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source">CoeLux modülü <span class="key">`</span>CRI &gt; 95<span class="key">`</span>
+değeriyle çalışır.
+
+<span class="com">// Backtick-wrapped</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SMALL CAPS -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-sc</p>
+        <p class="token-spec"><span class="label">caps:</span> all-small-caps<br><span class="label">tracking:</span> 0.05em<br><span class="label">weight:</span> 500<br><span class="label">use:</span> brand names,<br><span class="label">acronyms</span></p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <p class="type-body">Markalarımız: <span class="type-sc">Soraa</span>, <span class="type-sc">CoeLux</span>, <span class="type-sc">Xicato</span>.</p>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <p class="type-body">Our brands include <span class="type-sc">Soraa</span>, <span class="type-sc">CoeLux</span>, and <span class="type-sc">Xicato</span>.</p>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="com">// In Pandoc Markdown:</span>
+Markalarımız:
+<span class="key">[</span>Soraa<span class="key">]{.sc}</span>,
+<span class="key">[</span>CoeLux<span class="key">]{.sc}</span>,
+<span class="key">[</span>Xicato<span class="key">]{.sc}</span>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SMALL -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-small</p>
+        <p class="token-spec"><span class="label">size:</span> 14px<br><span class="label">leading:</span> 1.55<br><span class="label">use:</span> secondary text,<br><span class="label">sidebars, asides</span></p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <p class="type-small">Ürün spesifikasyonları üreticinin son veri sayfasına göre değişebilir.</p>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <p class="type-small">Specifications may vary based on the manufacturer's most recent data sheet.</p>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="com">// Plain paragraph</span>
+<span class="com">// in a "small" container</span>
+
+<span class="key">::: </span>small
+Ürün spesifikasyonları...
+<span class="key">:::</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- META -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-meta</p>
+        <p class="token-spec"><span class="label">size:</span> 11px<br><span class="label">weight:</span> 600<br><span class="label">tracking:</span> 0.14em<br><span class="label">case:</span> uppercase<br><span class="label">use:</span> table headers,<br><span class="label">UI labels</span></p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <p class="type-meta">Aktif Proje · İstanbul</p>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <p class="type-meta">Active Project · Istanbul</p>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="com">// Pandoc attribute:</span>
+<span class="key">[</span>Aktif Proje · İstanbul<span class="key">]{.meta}</span>
+
+<span class="com">// HTML rendering applies</span>
+<span class="com">// uppercase + tracking</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 3 — BLOCKS                                           -->
+  <!-- ============================================================ -->
+  <div class="section-marker">
+    <span class="num">03</span>
+    <h2>Block-level Elements</h2>
+    <span class="count">9 tokens</span>
+  </div>
+
+  <!-- BLOCKQUOTE -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-blockquote</p>
+        <p class="token-spec"><span class="label">size:</span> 17px<br><span class="label">style:</span> italic<br><span class="label">opsz:</span> 18<br><span class="label">SOFT:</span> 70<br><span class="label">border:</span> 2px brand left<br><span class="label">use:</span> attributed quote</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <blockquote class="type-blockquote">
+          İyi aydınlatma, fark edilmediği zaman en iyisidir.
+          <cite>— Richard Kelly, 1952</cite>
+        </blockquote>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <blockquote class="type-blockquote">
+          The best lighting is the lighting you don't notice.
+          <cite>— Richard Kelly, 1952</cite>
+        </blockquote>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="key">> </span>İyi aydınlatma, fark
+<span class="key">> </span>edilmediği zaman en iyisidir.
+<span class="key">> </span>
+<span class="key">> </span>— Richard Kelly, 1952</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- PULL QUOTE -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-pullquote</p>
+        <p class="token-spec"><span class="label">size:</span> 26px<br><span class="label">leading:</span> 1.2<br><span class="label">opsz:</span> 60<br><span class="label">SOFT:</span> 40<br><span class="label">borders:</span> top + bottom<br><span class="label">use:</span> editorial highlight</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <p class="type-pullquote">Aydınlatma, mimarinin sessiz dilidir.</p>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <p class="type-pullquote">Lighting is architecture's quiet language.</p>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="com">// Pandoc fenced div:</span>
+<span class="key">::: </span>pullquote
+Aydınlatma, mimarinin
+sessiz dilidir.
+<span class="key">:::</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ORDERED LIST -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-list-ol</p>
+        <p class="token-spec"><span class="label">size:</span> 16px<br><span class="label">leading:</span> 1.6<br><span class="label">marker:</span> brand color<br><span class="label">use:</span> sequential steps</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <ol class="type-list-ol">
+          <li>Aydınlatma briefinin oluşturulması</li>
+          <li>Ürün önerileri ve teknik dosyalar</li>
+          <li>Uygulama desteği ve devreye alma</li>
+        </ol>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <ol class="type-list-ol">
+          <li>Lighting brief development</li>
+          <li>Product recommendations and technical files</li>
+          <li>Implementation support and commissioning</li>
+        </ol>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="key">1. </span>Aydınlatma briefinin
+   oluşturulması
+<span class="key">2. </span>Ürün önerileri ve
+   teknik dosyalar
+<span class="key">3. </span>Uygulama desteği</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- UNORDERED LIST -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-list-ul</p>
+        <p class="token-spec"><span class="label">size:</span> 16px<br><span class="label">leading:</span> 1.6<br><span class="label">marker:</span> brand-color disc<br><span class="label">use:</span> grouped items</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <ul class="type-list-ul">
+          <li>Mimar ve iç mimarlar</li>
+          <li>Aydınlatma tasarımcıları</li>
+          <li>Peyzaj mimarları</li>
+        </ul>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <ul class="type-list-ul">
+          <li>Architects and interior designers</li>
+          <li>Lighting designers</li>
+          <li>Landscape architects</li>
+        </ul>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="key">- </span>Mimar ve iç mimarlar
+<span class="key">- </span>Aydınlatma tasarımcıları
+<span class="key">- </span>Peyzaj mimarları
+
+<span class="com">// Or use * or +</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEFINITION LIST -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-dl</p>
+        <p class="token-spec"><span class="label">dt:</span> 16px / 600 weight<br><span class="label">dd:</span> 16px / 400 weight<br><span class="label">use:</span> term + definition,<br><span class="label">glossary, meta-data</span></p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <dl class="type-dl">
+          <dt>CRI</dt>
+          <dd>Renksel geriverim indeksi — bir ışık kaynağının nesnelerin renklerini ne kadar doğru gösterdiğini belirten ölçü.</dd>
+          <dt>CCT</dt>
+          <dd>Bağıntılı renk sıcaklığı, Kelvin cinsinden ölçülür.</dd>
+        </dl>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <dl class="type-dl">
+          <dt>CRI</dt>
+          <dd>Color Rendering Index — measure of how accurately a light source reveals the colors of objects.</dd>
+          <dt>CCT</dt>
+          <dd>Correlated Color Temperature, measured in Kelvin.</dd>
+        </dl>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source">CRI
+<span class="key">: </span>Renksel geriverim
+  indeksi — bir ışık
+  kaynağının...
+
+CCT
+<span class="key">: </span>Bağıntılı renk
+  sıcaklığı...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIGURE -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-figure</p>
+        <p class="token-spec"><span class="label">image:</span> 16/9 default<br><span class="label">caption size:</span> 13px<br><span class="label">caption style:</span> italic<br><span class="label">caption color:</span> faint<br><span class="label">strong:</span> roman, soft</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <figure class="type-figure">
+          <div class="placeholder">Proje Görseli</div>
+          <figcaption><strong>İstanbul Modern, 2024.</strong> Soraa Vivid 3 ile tasarlanan müze aydınlatması.</figcaption>
+        </figure>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <figure class="type-figure">
+          <div class="placeholder">Project Image</div>
+          <figcaption><strong>Istanbul Modern, 2024.</strong> Museum lighting designed with Soraa Vivid 3.</figcaption>
+        </figure>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="key">![</span>Caption text<span class="key">](</span><span class="url">image.jpg</span><span class="key">)</span>
+
+<span class="com">// Pandoc auto-creates</span>
+<span class="com">// figure + figcaption</span>
+<span class="com">// from image alt text</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CODE BLOCK -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-code-block</p>
+        <p class="token-spec"><span class="label">family:</span> JetBrains Mono<br><span class="label">size:</span> 13.5px<br><span class="label">background:</span> ink<br><span class="label">color:</span> rule<br><span class="label">use:</span> technical specs</p>
+      </div>
+      <div class="cell">
+        <p class="lang-label">Universal</p>
+        <pre class="type-code-block">{
+  "lumen": 1200,
+  "cct": 3000,
+  "cri": 95,
+  "ip": "IP65"
+}</pre>
+      </div>
+      <div class="cell">
+        <p class="lang-label">Use case</p>
+        <p class="type-small" style="color: var(--ink-soft);">Used for code, JSON specs, IES file headers, configuration values, MCP query syntax — anywhere monospace alignment matters.</p>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="key">```json</span>
+{
+  "lumen": 1200,
+  "cct": 3000
+}
+<span class="key">```</span>
+
+<span class="com">// Triple-backtick fenced</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABLE -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-table</p>
+        <p class="token-spec"><span class="label">cell size:</span> 14px<br><span class="label">numerals:</span> tabular<br><span class="label">th:</span> uppercase, faint<br><span class="label">last col:</span> right-aligned</p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <table class="type-table">
+          <thead><tr><th>Aşama</th><th>Durum</th></tr></thead>
+          <tbody>
+            <tr><td>Brief</td><td>Tamamlandı</td></tr>
+            <tr><td>Spesifikasyon</td><td>Devam ediyor</td></tr>
+            <tr><td>Uygulama</td><td>Q3 2026</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <table class="type-table">
+          <thead><tr><th>Stage</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>Brief</td><td>Complete</td></tr>
+            <tr><td>Specification</td><td>In progress</td></tr>
+            <tr><td>Implementation</td><td>Q3 2026</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="key">| </span>Aşama<span class="key">          | </span>Durum<span class="key">       |</span>
+<span class="key">|----------------|-------------|</span>
+<span class="key">| </span>Brief<span class="key">          | </span>Tamamlandı<span class="key">  |</span>
+<span class="key">| </span>Spesifikasyon<span class="key">  | </span>Devam<span class="key">       |</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DIVIDER -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-divider</p>
+        <p class="token-spec"><span class="label">height:</span> 1px<br><span class="label">color:</span> rule<br><span class="label">use:</span> section break,<br><span class="label">topic shift</span></p>
+      </div>
+      <div class="cell">
+        <p class="lang-label">Universal</p>
+        <hr class="type-divider">
+      </div>
+      <div class="cell">
+        <p class="lang-label">Use case</p>
+        <p class="type-small" style="color: var(--ink-soft);">A 1px rule in the system's neutral rule color. Plain. Quiet. Used between sections rather than between paragraphs.</p>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="key">---</span>
+
+<span class="com">// Three or more hyphens</span>
+<span class="com">// Renders as &lt;hr&gt;</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 4 — SUPPORTING                                       -->
+  <!-- ============================================================ -->
+  <div class="section-marker">
+    <span class="num">04</span>
+    <h2>Supporting Tokens</h2>
+    <span class="count">3 tokens</span>
+  </div>
+
+  <!-- CAPTION -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-caption</p>
+        <p class="token-spec"><span class="label">size:</span> 13px<br><span class="label">style:</span> italic<br><span class="label">color:</span> faint<br><span class="label">use:</span> figure caption,<br><span class="label">image credit</span></p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <p class="type-caption"><strong>Şekil 1.</strong> Aydınlatma planı, Etiler projesi. Fotoğraf: Cemal Emden.</p>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <p class="type-caption"><strong>Figure 1.</strong> Lighting plan, Etiler project. Photo: Cemal Emden.</p>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source"><span class="com">// Pandoc figcaption from</span>
+<span class="com">// image alt text auto-applies</span>
+<span class="com">// .type-caption style</span>
+
+<span class="key">![**</span>Şekil 1.<span class="key">**</span> Aydınlatma
+planı...<span class="key">](</span><span class="url">img.jpg</span><span class="key">)</span></p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTNOTE -->
+  <div class="specimen-row">
+    <div class="row-grid">
+      <div class="cell token">
+        <p class="token-name">.type-footnote</p>
+        <p class="token-spec"><span class="label">size:</span> 12px<br><span class="label">color:</span> faint<br><span class="label">sup:</span> brand color, 600<br><span class="label">use:</span> source notes,<br><span class="label">aside material</span></p>
+      </div>
+      <div class="cell" lang="tr">
+        <p class="lang-label">Türkçe</p>
+        <p class="type-footnote"><sup>1</sup> Ürün spesifikasyonları üreticinin son veri sayfasına göre değişebilir. Güncel bilgi için iletişime geçiniz.</p>
+      </div>
+      <div class="cell">
+        <p class="lang-label">English</p>
+        <p class="type-footnote"><sup>1</sup> Specifications may vary based on the manufacturer's most recent data sheet. Contact us for current information.</p>
+      </div>
+      <div class="cell markdown">
+        <p class="markdown-source">Ana metin<span class="key">[^1]</span>.
+
+<span class="key">[^1]: </span>Ürün spesifikasyonları
+üreticinin son veri sayfasına
+göre değişebilir.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- SECTION 5 — INTEGRATED PAGE                                  -->
+  <!-- ============================================================ -->
+  <div class="section-marker">
+    <span class="num">05</span>
+    <h2>Everything in one page</h2>
+    <span class="count">proof of system</span>
+  </div>
+
+  <article class="integrated" lang="tr">
+    <p class="type-eyebrow">Bayilik · Aydınlatma · 2026</p>
+    <h1 class="type-h1">Işığın mimariyle buluştuğu yer.</h1>
+    <p class="type-deck">2009'dan bu yana Türkiye'nin önde gelen tasarım stüdyolarıyla birlikte çalışıyoruz.</p>
+    <p class="type-byline">Emre Güneş — <em>Ağustos Teknoloji</em>, Mayıs 2026</p>
+
+    <p class="type-body">Ağustos Teknoloji, on iki uluslararası aydınlatma markasının Türkiye temsilcisidir. <span class="type-sc">Soraa</span>, <span class="type-sc">CoeLux</span>, <span class="type-sc">Xicato</span> ve diğer markalarımızla birlikte; mimar, iç mimar, peyzaj mimarı ve aydınlatma tasarımcılarına proje bazında <a href="#">danışmanlık</a> sunuyoruz.</p>
+
+    <p class="type-body">Yaklaşımımız basit: <em>doğru ışık, doğru yerde, doğru zamanda.</em> Bu nedenle her projede <strong>spesifikasyon disiplini</strong> ve <strong><em>uzun vadeli teknik destek</em></strong> birlikte yürür.</p>
+
+    <h2 class="type-h2">Çalışma Yaklaşımımız</h2>
+
+    <p class="type-body">Her proje, mekânın ihtiyaçlarına özgü bir okumayla başlar. Spesifikasyon süreci üç ana adımda ilerler:</p>
+
+    <ol class="type-list-ol">
+      <li>Aydınlatma briefinin oluşturulması</li>
+      <li><a href="#">Ürün önerileri</a> ve teknik dosyaların paylaşımı</li>
+      <li>Uygulama desteği ve devreye alma</li>
+    </ol>
+
+    <h3 class="type-h3">CoeLux · Yapay Gökyüzü</h3>
+
+    <p class="type-body">CoeLux, mekâna gerçek gökyüzü algısı taşıyan benzersiz bir teknolojidir. Modüller <code>CRI &gt; 95</code> değeriyle çalışır.</p>
+
+    <blockquote class="type-blockquote">
+      İyi aydınlatma, fark edilmediği zaman en iyisidir.
+      <cite>— Richard Kelly, 1952</cite>
+    </blockquote>
+
+    <p class="type-pullquote">Aydınlatma, mimarinin sessiz dilidir.</p>
+
+    <h4 class="type-h4">Hızlı bilgi</h4>
+
+    <p class="type-body">Bayilik portföyümüz hakkında detaylı bilgi için <a href="#">katalog talebinde</a> bulunabilirsiniz.</p>
+
+    <figure class="type-figure">
+      <div class="placeholder">Proje Görseli</div>
+      <figcaption><strong>İstanbul Modern, 2024.</strong> Soraa Vivid 3 ile tasarlanan müze aydınlatması. Fotoğraf: Cemal Emden.</figcaption>
+    </figure>
+
+    <hr class="type-divider">
+
+    <p class="type-footnote"><sup>1</sup> Ürün spesifikasyonları üreticinin son veri sayfasına göre değişebilir. Güncel bilgi için bizimle iletişime geçiniz.</p>
+  </article>
+
+  <!-- ============================================================ -->
+  <!-- TOKEN SUMMARY                                                -->
+  <!-- ============================================================ -->
+  <div class="summary">
+    <h3>Thirty tokens, one system.</h3>
+    <p>Every typographic decision in the system maps to one of these named tokens. Adding new content means picking a token; never inventing one.</p>
+    <div class="summary-grid">
+      <div class="summary-item"><p class="name">.type-display-xl</p><p class="desc">hero</p></div>
+      <div class="summary-item"><p class="name">.type-display</p><p class="desc">cover, chapter</p></div>
+      <div class="summary-item"><p class="name">.type-h1</p><p class="desc">page title</p></div>
+      <div class="summary-item"><p class="name">.type-h2</p><p class="desc">section</p></div>
+      <div class="summary-item"><p class="name">.type-h3</p><p class="desc">subsection</p></div>
+      <div class="summary-item"><p class="name">.type-h4</p><p class="desc">minor label</p></div>
+      <div class="summary-item"><p class="name">.type-eyebrow</p><p class="desc">brand-color label</p></div>
+      <div class="summary-item"><p class="name">.type-deck</p><p class="desc">italic sub-headline</p></div>
+      <div class="summary-item"><p class="name">.type-byline</p><p class="desc">author / source</p></div>
+      <div class="summary-item"><p class="name">.type-body</p><p class="desc">paragraph</p></div>
+      <div class="summary-item"><p class="name">em / strong / s+e</p><p class="desc">inline emphasis</p></div>
+      <div class="summary-item"><p class="name">a (link)</p><p class="desc">brand expression</p></div>
+      <div class="summary-item"><p class="name">code (inline)</p><p class="desc">technical values</p></div>
+      <div class="summary-item"><p class="name">.type-sc</p><p class="desc">small caps for nouns</p></div>
+      <div class="summary-item"><p class="name">.type-small</p><p class="desc">secondary text</p></div>
+      <div class="summary-item"><p class="name">.type-meta</p><p class="desc">UI labels, headers</p></div>
+      <div class="summary-item"><p class="name">.type-blockquote</p><p class="desc">attributed quote</p></div>
+      <div class="summary-item"><p class="name">.type-pullquote</p><p class="desc">editorial highlight</p></div>
+      <div class="summary-item"><p class="name">.type-list-ol</p><p class="desc">ordered list</p></div>
+      <div class="summary-item"><p class="name">.type-list-ul</p><p class="desc">unordered list</p></div>
+      <div class="summary-item"><p class="name">.type-dl</p><p class="desc">term + definition</p></div>
+      <div class="summary-item"><p class="name">.type-figure</p><p class="desc">image + caption</p></div>
+      <div class="summary-item"><p class="name">.type-code-block</p><p class="desc">multi-line code</p></div>
+      <div class="summary-item"><p class="name">.type-table</p><p class="desc">tabular data</p></div>
+      <div class="summary-item"><p class="name">.type-divider</p><p class="desc">section break</p></div>
+      <div class="summary-item"><p class="name">.type-caption</p><p class="desc">figure caption</p></div>
+      <div class="summary-item"><p class="name">.type-footnote</p><p class="desc">notes, sources</p></div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

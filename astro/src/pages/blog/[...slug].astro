@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from 'astro:content';
+import type { GetStaticPaths } from 'astro';
+
+export const getStaticPaths = (async () => {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.id }, props: { post } }));
+}) satisfies GetStaticPaths;
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+const fmt = new Intl.DateTimeFormat(post.data.lang === 'tr' ? 'tr-TR' : 'en-GB', {
+  day: 'numeric', month: 'long', year: 'numeric',
+});
+---
+<BaseLayout
+  title={`${post.data.title} — Ağustos Teknoloji`}
+  description={post.data.deck}
+  brand={post.data.brand}
+  lang={post.data.lang}
+>
+  <article class="container" lang={post.data.lang}>
+    <header class="post-header">
+      <p class="type-h4">{fmt.format(post.data.date)}</p>
+      <h1 class="type-h1">{post.data.title}</h1>
+      {post.data.deck && <p class="type-body post-deck"><em>{post.data.deck}</em></p>}
+    </header>
+
+    <hr class="type-divider" />
+
+    <div class="post-body">
+      <Content />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  /* Post header — eyebrow → H1 → deck. Same baseline rhythm as the article body. */
+  .post-header { margin-bottom: 2.5rem; }
+  .post-deck { font-size: 18px; color: var(--ink-soft); margin-top: 1.4em; }
+
+  /* Markdown-rendered content inherits the three-tier rhythm from tokens.css:
+     baseline 1em (≈16px) below every element, section breaks 2.5em above
+     markers. Hierarchy comes from heading size + weight. */
+  .post-body :global(h1),
+  .post-body :global(h2),
+  .post-body :global(h3) { color: var(--ink); }
+  .post-body :global(h2) { font-family: var(--display); font-size: 24px; font-weight: 500; line-height: 1.18; letter-spacing: -0.014em; margin: 2.5em 0 1em; }
+  .post-body :global(h3) { font-family: var(--display); font-size: 18px; font-weight: 500; font-style: italic; line-height: 1.3; letter-spacing: -0.008em; margin: 2.5em 0 1em; }
+  .post-body :global(h4) { font-family: var(--display); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--ink-soft); margin: 2.5em 0 1em; }
+  .post-body :global(p)  { font-family: var(--body); font-size: 16.5px; line-height: 1.65; margin: 0 0 1em; }
+</style>

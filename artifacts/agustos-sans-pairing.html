@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sans + Newsreader — Four Pairings</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300..800;1,6..72,300..800&family=Manrope:wght@300..800&family=Inter:wght@300..800&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Source+Sans+3:wght@300..900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #fefcf2;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-faint: #8a8a8a;
+    --rule: #e8e3d0;
+    --brand: #cf142a;
+    --serif: 'Newsreader', Charter, Cambria, Georgia, ui-serif, serif;
+    --mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #d8d4c4;
+    color: var(--ink);
+    font-feature-settings: "locl" on, "kern" on;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  .doc { max-width: 1320px; margin: 0 auto; padding: 48px 24px 96px; }
+
+  /* ============================================================ */
+  /* MASTHEAD                                                     */
+  /* ============================================================ */
+  .masthead {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 56px 64px;
+    margin-bottom: 40px;
+    font-family: var(--serif);
+  }
+  .masthead .marker {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 20px;
+    font-weight: 500;
+  }
+  .masthead h1 {
+    font-variation-settings: 'opsz' 72, 'wght' 500;
+    font-size: clamp(36px, 4.5vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.022em;
+    margin: 0 0 20px;
+    max-width: 22ch;
+  }
+  .masthead .lede {
+    font-variation-settings: 'opsz' 24, 'wght' 400;
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 64ch;
+    margin: 0 0 28px;
+  }
+  .masthead .principle {
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-variation-settings: 'opsz' 16, 'wght' 400;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 64ch;
+  }
+  .masthead .principle strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* ============================================================ */
+  /* PAIRING CARD                                                 */
+  /* ============================================================ */
+  .pairing {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    margin-bottom: 24px;
+  }
+
+  .pairing-header {
+    padding: 32px 48px 24px;
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--serif);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: end;
+  }
+  .pairing-header .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin: 0 0 8px;
+    font-weight: 500;
+  }
+  .pairing-header .title {
+    font-variation-settings: 'opsz' 48, 'wght' 500;
+    font-size: 26px;
+    line-height: 1.15;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+    margin: 0 0 6px;
+  }
+  .pairing-header .title .plus {
+    color: var(--ink-faint);
+    font-weight: 300;
+    margin: 0 0.3em;
+  }
+  .pairing-header .desc {
+    font-variation-settings: 'opsz' 16, 'wght' 400;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin: 0 0 8px;
+    max-width: 60ch;
+  }
+  .pairing-header .verdict {
+    font-variation-settings: 'opsz' 16, 'wght' 400;
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-faint);
+    margin: 0;
+    max-width: 60ch;
+  }
+  .pairing-header .stack {
+    text-align: right;
+    font-family: var(--mono);
+    font-size: 10px;
+    line-height: 1.7;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .pairing-header .stack strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  @media (max-width: 800px) {
+    .pairing-header { grid-template-columns: 1fr; }
+    .pairing-header .stack { text-align: left; white-space: normal; }
+  }
+
+  .pairing-content {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+  }
+  @media (max-width: 1000px) { .pairing-content { grid-template-columns: 1fr; } }
+
+  .pair-cell {
+    padding: 36px 44px 44px;
+    border-right: 1px solid var(--rule);
+  }
+  .pair-cell:last-child { border-right: none; }
+  @media (max-width: 1000px) {
+    .pair-cell { border-right: none; border-bottom: 1px solid var(--rule); }
+    .pair-cell:last-child { border-bottom: none; }
+  }
+
+  .pair-cell .surface-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 24px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .pair-cell .surface-label::before { content: "● "; color: var(--brand); }
+
+  /* ============================================================ */
+  /* EDITORIAL SIDE — Newsreader content                          */
+  /* ============================================================ */
+  .editorial {
+    font-family: var(--serif);
+  }
+  .editorial .h-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 12px;
+    font-weight: 600;
+    /* This will be overridden per-pair to use the SANS */
+  }
+  .editorial .h-1 {
+    font-variation-settings: 'opsz' 72, 'wght' 500;
+    font-size: 32px;
+    line-height: 1.05;
+    letter-spacing: -0.022em;
+    margin: 0 0 8px;
+  }
+  .editorial .deck {
+    font-variation-settings: 'opsz' 24, 'wght' 400;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin: 0 0 22px;
+  }
+  .editorial .body {
+    font-variation-settings: 'opsz' 16, 'wght' 400;
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink);
+    margin: 0 0 14px;
+  }
+  .editorial .body em {
+    font-style: italic;
+  }
+  .editorial .body strong {
+    font-weight: 700;
+  }
+  .editorial .body a {
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--brand);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+  .editorial .h-2 {
+    font-variation-settings: 'opsz' 48, 'wght' 500;
+    font-size: 22px;
+    line-height: 1.18;
+    margin: 28px 0 10px;
+  }
+  .editorial .h-3 {
+    font-variation-settings: 'opsz' 24, 'wght' 500;
+    font-size: 17px;
+    line-height: 1.3;
+    font-style: italic;
+    margin: 22px 0 8px;
+  }
+  .editorial .body code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    background: rgba(0,0,0,0.05);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+  .editorial blockquote.bq {
+    margin: 22px 0;
+    padding: 4px 0 4px 18px;
+    border-left: 2px solid var(--brand);
+    font-variation-settings: 'opsz' 24, 'wght' 400;
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .editorial blockquote.bq cite {
+    display: block;
+    margin-top: 8px;
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    /* Will use the SANS */
+  }
+
+  /* ============================================================ */
+  /* PRODUCT UI SIDE — sans-driven                                */
+  /* ============================================================ */
+  .product-ui .ui-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 14px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .product-ui .ui-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+    letter-spacing: -0.005em;
+  }
+  .product-ui .ui-status {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand);
+  }
+  .product-ui .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .product-ui .stat {
+    background: white;
+    border: 1px solid var(--rule);
+    padding: 12px 14px;
+  }
+  .product-ui .stat-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 6px;
+  }
+  .product-ui .stat-value {
+    font-size: 22px;
+    font-weight: 500;
+    line-height: 1;
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .product-ui .stat-meta {
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin: 4px 0 0;
+  }
+  .product-ui .ui-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 18px;
+  }
+  .product-ui .ui-table th, .product-ui .ui-table td {
+    text-align: left;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .product-ui .ui-table th {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .product-ui .ui-table td:last-child { text-align: right; }
+  .product-ui .ui-button-row {
+    display: flex;
+    gap: 8px;
+  }
+  .product-ui .ui-button {
+    display: inline-block;
+    padding: 7px 14px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    border: 1px solid var(--rule);
+    background: white;
+    color: var(--ink);
+  }
+  .product-ui .ui-button.primary {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .product-ui .form-row {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+  .product-ui .form-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .product-ui .form-input {
+    background: white;
+    border: 1px solid var(--rule);
+    padding: 7px 10px;
+    font-size: 13px;
+    color: var(--ink);
+  }
+
+  /* ============================================================ */
+  /* PER-PAIRING SANS APPLICATION                                 */
+  /* ============================================================ */
+
+  /* MANROPE */
+  .pair-manrope .editorial .h-eyebrow,
+  .pair-manrope .editorial blockquote.bq cite,
+  .pair-manrope .product-ui {
+    font-family: 'Manrope', system-ui, -apple-system, sans-serif;
+  }
+  .pair-manrope .product-ui .stat-value {
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+
+  /* INTER */
+  .pair-inter .editorial .h-eyebrow,
+  .pair-inter .editorial blockquote.bq cite,
+  .pair-inter .product-ui {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+  .pair-inter .product-ui {
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* IBM PLEX SANS */
+  .pair-plex .editorial .h-eyebrow,
+  .pair-plex .editorial blockquote.bq cite,
+  .pair-plex .product-ui {
+    font-family: 'IBM Plex Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  /* SOURCE SANS 3 */
+  .pair-source .editorial .h-eyebrow,
+  .pair-source .editorial blockquote.bq cite,
+  .pair-source .product-ui {
+    font-family: 'Source Sans 3', system-ui, -apple-system, sans-serif;
+  }
+
+  /* ============================================================ */
+  /* DECISION GUIDE                                               */
+  /* ============================================================ */
+  .guide {
+    background: #1a1a1a;
+    color: #e8e3d0;
+    padding: 40px 48px;
+    margin-top: 8px;
+    font-family: var(--serif);
+  }
+  .guide h3 {
+    font-variation-settings: 'opsz' 48, 'wght' 500;
+    color: #fefcf2;
+    font-size: 22px;
+    margin: 0 0 12px;
+    letter-spacing: -0.012em;
+  }
+  .guide > p {
+    font-variation-settings: 'opsz' 16, 'wght' 400;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #c8c3b0;
+    margin: 0 0 28px;
+    max-width: 64ch;
+  }
+  .guide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  .guide-item {
+    border-top: 1px solid #333;
+    padding-top: 14px;
+  }
+  .guide-item .lbl {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ff8c5a;
+    margin: 0 0 8px;
+    font-weight: 500;
+  }
+  .guide-item p {
+    font-variation-settings: 'opsz' 16, 'wght' 400;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #c8c3b0;
+    margin: 0;
+  }
+  .guide-item p strong {
+    font-weight: 600;
+    color: #fefcf2;
+  }
+</style>
+</head>
+<body>
+
+<div class="doc">
+
+  <header class="masthead">
+    <p class="marker">Sans + Newsreader · Pairing Comparison</p>
+    <h1>Two faces, one system. Four candidates.</h1>
+    <p class="lede">Each pairing renders editorial content (Newsreader, the serif baseline) alongside product UI (the candidate sans). The two halves should read as siblings, not strangers.</p>
+    <p class="principle">All four sans candidates are paired with the <strong>same Newsreader serif</strong> for the editorial side. The only thing changing is the sans. Watch how each pair feels — do they share a temperament? Does the sans feel like part of the same family, or like it crashed the party?</p>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- PAIRING 01 — MANROPE                                         -->
+  <!-- ============================================================ -->
+  <div class="pairing pair-manrope">
+    <div class="pairing-header">
+      <div>
+        <p class="num">Pair 01 · Your existing pick</p>
+        <p class="title">Manrope <span class="plus">+</span> Newsreader</p>
+        <p class="desc">Manrope is geometric, slightly condensed, modern. You picked it earlier as the Satoshi alternative for SaaS UI. Pairs with Newsreader as a "modern editorial + clean product" system.</p>
+        <p class="verdict">Risk: Manrope's geometric character may feel disconnected from Newsreader's organic warmth. Test it and see.</p>
+      </div>
+      <div class="stack">
+        Editorial: <strong>Newsreader</strong><br>
+        Product UI: <strong>Manrope</strong><br>
+        Mono: <strong>JetBrains Mono</strong>
+      </div>
+    </div>
+    <div class="pairing-content">
+      <!-- EDITORIAL SIDE -->
+      <div class="pair-cell editorial" lang="tr">
+        <p class="surface-label">Editorial · Marketing · Long-form</p>
+        <p class="h-eyebrow">Bayilik · Aydınlatma</p>
+        <h1 class="h-1">Işığın mimariyle buluştuğu yer.</h1>
+        <p class="deck">2009'dan bu yana Türkiye'nin önde gelen tasarım stüdyolarıyla.</p>
+        <p class="body">Ağustos Teknoloji, on iki uluslararası aydınlatma markasının Türkiye temsilcisidir. Mimar, iç mimar ve aydınlatma tasarımcılarına proje bazında <a href="#">danışmanlık</a> sunuyoruz.</p>
+        <p class="body">Yaklaşımımız basit: <em>doğru ışık, doğru yerde, doğru zamanda.</em> Her projede <strong>spesifikasyon disiplini</strong> ve uzun vadeli teknik destek birlikte yürür.</p>
+        <h2 class="h-2">Çalışma Yaklaşımımız</h2>
+        <h3 class="h-3">Spesifikasyon disiplini</h3>
+        <p class="body">CoeLux modülü <code>CRI &gt; 95</code> değeriyle çalışır.</p>
+        <blockquote class="bq">İyi aydınlatma, fark edilmediği zaman en iyisidir.<cite>— Richard Kelly, 1952</cite></blockquote>
+      </div>
+      <!-- PRODUCT UI SIDE -->
+      <div class="pair-cell product-ui">
+        <p class="surface-label">Product UI · Photometric Batch</p>
+        <div class="ui-header">
+          <p class="ui-title">IES File Pipeline</p>
+          <span class="ui-status">● Running</span>
+        </div>
+        <div class="stat-grid">
+          <div class="stat">
+            <p class="stat-label">Files Processed</p>
+            <p class="stat-value">2,847</p>
+            <p class="stat-meta">+412 today</p>
+          </div>
+          <div class="stat">
+            <p class="stat-label">Avg Lumen</p>
+            <p class="stat-value">1,240</p>
+            <p class="stat-meta">CRI 92.4</p>
+          </div>
+        </div>
+        <table class="ui-table">
+          <thead><tr><th>Manufacturer</th><th>Status</th><th>Files</th></tr></thead>
+          <tbody>
+            <tr><td>LIGMAN</td><td>Validated</td><td>847</td></tr>
+            <tr><td>HEPER</td><td>Processing</td><td>312</td></tr>
+            <tr><td>B-K Lighting</td><td>Queued</td><td>156</td></tr>
+          </tbody>
+        </table>
+        <div class="form-row">
+          <label class="form-label">Output Format</label>
+          <input class="form-input" value="LDT 2.0 + IES LM-63-19" readonly>
+        </div>
+        <div class="ui-button-row">
+          <button class="ui-button primary">Run Pipeline</button>
+          <button class="ui-button">Configure</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PAIRING 02 — INTER                                           -->
+  <!-- ============================================================ -->
+  <div class="pairing pair-inter">
+    <div class="pairing-header">
+      <div>
+        <p class="num">Pair 02 · The SaaS standard</p>
+        <p class="title">Inter <span class="plus">+</span> Newsreader</p>
+        <p class="desc">Inter is the most-used SaaS sans in 2026. Designed by Rasmus Andersson specifically for screens. Tabular numerals, true italics, deep OpenType features. The Stripe / Vercel / GitHub default.</p>
+        <p class="verdict">Risk: Inter is everywhere — your product UI may look like every other SaaS. Reward: nothing reads more cleanly at small sizes in dense layouts.</p>
+      </div>
+      <div class="stack">
+        Editorial: <strong>Newsreader</strong><br>
+        Product UI: <strong>Inter</strong><br>
+        Mono: <strong>JetBrains Mono</strong>
+      </div>
+    </div>
+    <div class="pairing-content">
+      <div class="pair-cell editorial" lang="tr">
+        <p class="surface-label">Editorial · Marketing · Long-form</p>
+        <p class="h-eyebrow">Bayilik · Aydınlatma</p>
+        <h1 class="h-1">Işığın mimariyle buluştuğu yer.</h1>
+        <p class="deck">2009'dan bu yana Türkiye'nin önde gelen tasarım stüdyolarıyla.</p>
+        <p class="body">Ağustos Teknoloji, on iki uluslararası aydınlatma markasının Türkiye temsilcisidir. Mimar, iç mimar ve aydınlatma tasarımcılarına proje bazında <a href="#">danışmanlık</a> sunuyoruz.</p>
+        <p class="body">Yaklaşımımız basit: <em>doğru ışık, doğru yerde, doğru zamanda.</em> Her projede <strong>spesifikasyon disiplini</strong> ve uzun vadeli teknik destek birlikte yürür.</p>
+        <h2 class="h-2">Çalışma Yaklaşımımız</h2>
+        <h3 class="h-3">Spesifikasyon disiplini</h3>
+        <p class="body">CoeLux modülü <code>CRI &gt; 95</code> değeriyle çalışır.</p>
+        <blockquote class="bq">İyi aydınlatma, fark edilmediği zaman en iyisidir.<cite>— Richard Kelly, 1952</cite></blockquote>
+      </div>
+      <div class="pair-cell product-ui">
+        <p class="surface-label">Product UI · Photometric Batch</p>
+        <div class="ui-header">
+          <p class="ui-title">IES File Pipeline</p>
+          <span class="ui-status">● Running</span>
+        </div>
+        <div class="stat-grid">
+          <div class="stat">
+            <p class="stat-label">Files Processed</p>
+            <p class="stat-value">2,847</p>
+            <p class="stat-meta">+412 today</p>
+          </div>
+          <div class="stat">
+            <p class="stat-label">Avg Lumen</p>
+            <p class="stat-value">1,240</p>
+            <p class="stat-meta">CRI 92.4</p>
+          </div>
+        </div>
+        <table class="ui-table">
+          <thead><tr><th>Manufacturer</th><th>Status</th><th>Files</th></tr></thead>
+          <tbody>
+            <tr><td>LIGMAN</td><td>Validated</td><td>847</td></tr>
+            <tr><td>HEPER</td><td>Processing</td><td>312</td></tr>
+            <tr><td>B-K Lighting</td><td>Queued</td><td>156</td></tr>
+          </tbody>
+        </table>
+        <div class="form-row">
+          <label class="form-label">Output Format</label>
+          <input class="form-input" value="LDT 2.0 + IES LM-63-19" readonly>
+        </div>
+        <div class="ui-button-row">
+          <button class="ui-button primary">Run Pipeline</button>
+          <button class="ui-button">Configure</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PAIRING 03 — IBM PLEX SANS                                   -->
+  <!-- ============================================================ -->
+  <div class="pairing pair-plex">
+    <div class="pairing-header">
+      <div>
+        <p class="num">Pair 03 · The premium-tech choice</p>
+        <p class="title">IBM Plex Sans <span class="plus">+</span> Newsreader</p>
+        <p class="desc">IBM's open-source corporate face. Slightly humanist, slightly mechanical, designed to balance technical precision with warmth. Used widely in design-conscious tech (Mozilla, Anthropic-adjacent).</p>
+        <p class="verdict">Risk: Plex has a strong personality that may overpower Newsreader. Reward: the most "considered" of the four — feels designed, not defaulted.</p>
+      </div>
+      <div class="stack">
+        Editorial: <strong>Newsreader</strong><br>
+        Product UI: <strong>IBM Plex Sans</strong><br>
+        Mono: <strong>JetBrains Mono</strong>
+      </div>
+    </div>
+    <div class="pairing-content">
+      <div class="pair-cell editorial" lang="tr">
+        <p class="surface-label">Editorial · Marketing · Long-form</p>
+        <p class="h-eyebrow">Bayilik · Aydınlatma</p>
+        <h1 class="h-1">Işığın mimariyle buluştuğu yer.</h1>
+        <p class="deck">2009'dan bu yana Türkiye'nin önde gelen tasarım stüdyolarıyla.</p>
+        <p class="body">Ağustos Teknoloji, on iki uluslararası aydınlatma markasının Türkiye temsilcisidir. Mimar, iç mimar ve aydınlatma tasarımcılarına proje bazında <a href="#">danışmanlık</a> sunuyoruz.</p>
+        <p class="body">Yaklaşımımız basit: <em>doğru ışık, doğru yerde, doğru zamanda.</em> Her projede <strong>spesifikasyon disiplini</strong> ve uzun vadeli teknik destek birlikte yürür.</p>
+        <h2 class="h-2">Çalışma Yaklaşımımız</h2>
+        <h3 class="h-3">Spesifikasyon disiplini</h3>
+        <p class="body">CoeLux modülü <code>CRI &gt; 95</code> değeriyle çalışır.</p>
+        <blockquote class="bq">İyi aydınlatma, fark edilmediği zaman en iyisidir.<cite>— Richard Kelly, 1952</cite></blockquote>
+      </div>
+      <div class="pair-cell product-ui">
+        <p class="surface-label">Product UI · Photometric Batch</p>
+        <div class="ui-header">
+          <p class="ui-title">IES File Pipeline</p>
+          <span class="ui-status">● Running</span>
+        </div>
+        <div class="stat-grid">
+          <div class="stat">
+            <p class="stat-label">Files Processed</p>
+            <p class="stat-value">2,847</p>
+            <p class="stat-meta">+412 today</p>
+          </div>
+          <div class="stat">
+            <p class="stat-label">Avg Lumen</p>
+            <p class="stat-value">1,240</p>
+            <p class="stat-meta">CRI 92.4</p>
+          </div>
+        </div>
+        <table class="ui-table">
+          <thead><tr><th>Manufacturer</th><th>Status</th><th>Files</th></tr></thead>
+          <tbody>
+            <tr><td>LIGMAN</td><td>Validated</td><td>847</td></tr>
+            <tr><td>HEPER</td><td>Processing</td><td>312</td></tr>
+            <tr><td>B-K Lighting</td><td>Queued</td><td>156</td></tr>
+          </tbody>
+        </table>
+        <div class="form-row">
+          <label class="form-label">Output Format</label>
+          <input class="form-input" value="LDT 2.0 + IES LM-63-19" readonly>
+        </div>
+        <div class="ui-button-row">
+          <button class="ui-button primary">Run Pipeline</button>
+          <button class="ui-button">Configure</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- PAIRING 04 — SOURCE SANS 3                                   -->
+  <!-- ============================================================ -->
+  <div class="pairing pair-source">
+    <div class="pairing-header">
+      <div>
+        <p class="num">Pair 04 · The matched-sibling choice</p>
+        <p class="title">Source Sans 3 <span class="plus">+</span> Newsreader</p>
+        <p class="desc">Adobe's open-source workhorse sans. Designed as the matched sibling to Source Serif. Quiet, neutral, "default-editorial" — the same philosophy as Newsreader itself.</p>
+        <p class="verdict">Risk: Source Sans 3 is so neutral it's almost invisible — may feel like nothing. Reward: nothing fights anything; the system disappears into its own restraint.</p>
+      </div>
+      <div class="stack">
+        Editorial: <strong>Newsreader</strong><br>
+        Product UI: <strong>Source Sans 3</strong><br>
+        Mono: <strong>JetBrains Mono</strong>
+      </div>
+    </div>
+    <div class="pairing-content">
+      <div class="pair-cell editorial" lang="tr">
+        <p class="surface-label">Editorial · Marketing · Long-form</p>
+        <p class="h-eyebrow">Bayilik · Aydınlatma</p>
+        <h1 class="h-1">Işığın mimariyle buluştuğu yer.</h1>
+        <p class="deck">2009'dan bu yana Türkiye'nin önde gelen tasarım stüdyolarıyla.</p>
+        <p class="body">Ağustos Teknoloji, on iki uluslararası aydınlatma markasının Türkiye temsilcisidir. Mimar, iç mimar ve aydınlatma tasarımcılarına proje bazında <a href="#">danışmanlık</a> sunuyoruz.</p>
+        <p class="body">Yaklaşımımız basit: <em>doğru ışık, doğru yerde, doğru zamanda.</em> Her projede <strong>spesifikasyon disiplini</strong> ve uzun vadeli teknik destek birlikte yürür.</p>
+        <h2 class="h-2">Çalışma Yaklaşımımız</h2>
+        <h3 class="h-3">Spesifikasyon disiplini</h3>
+        <p class="body">CoeLux modülü <code>CRI &gt; 95</code> değeriyle çalışır.</p>
+        <blockquote class="bq">İyi aydınlatma, fark edilmediği zaman en iyisidir.<cite>— Richard Kelly, 1952</cite></blockquote>
+      </div>
+      <div class="pair-cell product-ui">
+        <p class="surface-label">Product UI · Photometric Batch</p>
+        <div class="ui-header">
+          <p class="ui-title">IES File Pipeline</p>
+          <span class="ui-status">● Running</span>
+        </div>
+        <div class="stat-grid">
+          <div class="stat">
+            <p class="stat-label">Files Processed</p>
+            <p class="stat-value">2,847</p>
+            <p class="stat-meta">+412 today</p>
+          </div>
+          <div class="stat">
+            <p class="stat-label">Avg Lumen</p>
+            <p class="stat-value">1,240</p>
+            <p class="stat-meta">CRI 92.4</p>
+          </div>
+        </div>
+        <table class="ui-table">
+          <thead><tr><th>Manufacturer</th><th>Status</th><th>Files</th></tr></thead>
+          <tbody>
+            <tr><td>LIGMAN</td><td>Validated</td><td>847</td></tr>
+            <tr><td>HEPER</td><td>Processing</td><td>312</td></tr>
+            <tr><td>B-K Lighting</td><td>Queued</td><td>156</td></tr>
+          </tbody>
+        </table>
+        <div class="form-row">
+          <label class="form-label">Output Format</label>
+          <input class="form-input" value="LDT 2.0 + IES LM-63-19" readonly>
+        </div>
+        <div class="ui-button-row">
+          <button class="ui-button primary">Run Pipeline</button>
+          <button class="ui-button">Configure</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DECISION GUIDE                                               -->
+  <!-- ============================================================ -->
+  <div class="guide">
+    <h3>How to evaluate a pairing</h3>
+    <p>Pairs aren't just about each face individually — they're about whether the two halves feel like siblings or strangers. Six checks, in order.</p>
+    <div class="guide-grid">
+      <div class="guide-item">
+        <p class="lbl">1. Sibling test</p>
+        <p>Look at the editorial and the product UI together. Do they feel like <strong>two voices in the same publication</strong>? Or like two unrelated apps in different tabs?</p>
+      </div>
+      <div class="guide-item">
+        <p class="lbl">2. Eyebrow handoff</p>
+        <p>The eyebrow ("BAYILIK · AYDINLATMA") is in the sans. Does it transition smoothly into the serif H1 below it? Or does it feel grafted on?</p>
+      </div>
+      <div class="guide-item">
+        <p class="lbl">3. UI density</p>
+        <p>The product UI panel — table, stats, buttons — needs to read at small sizes in dense layouts. Which sans feels most <strong>"made for this"</strong>?</p>
+      </div>
+      <div class="guide-item">
+        <p class="lbl">4. Numerals</p>
+        <p>The "2,847" and "1,240" stats use tabular numerals. Which sans's numbers feel most considered? Sharp without aggression?</p>
+      </div>
+      <div class="guide-item">
+        <p class="lbl">5. Citation handoff</p>
+        <p>The Richard Kelly quote attribution is in the sans. Does it feel like a coda to the serif quote, or a different writer's signature?</p>
+      </div>
+      <div class="guide-item">
+        <p class="lbl">6. Long-term feel</p>
+        <p>If you saw this pairing on every Photometric Batch screen, every Ağustos page, every Pataraz catalog — would it <strong>still feel right in two years</strong>? Or would it look "of 2026"?</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

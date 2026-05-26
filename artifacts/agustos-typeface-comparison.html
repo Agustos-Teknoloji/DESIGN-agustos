@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Typeface Comparison — Same System, Four Faces</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..900,0..100,0..1;1,9..144,300..900,0..100,0..1&family=Source+Serif+4:ital,opsz,wght@0,8..60,300..900;1,8..60,300..900&family=Newsreader:ital,opsz,wght@0,6..72,300..800;1,6..72,300..800&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #fefcf2;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-faint: #8a8a8a;
+    --rule: #e8e3d0;
+    --brand: #cf142a;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #d8d4c4;
+    color: var(--ink);
+    font-feature-settings: "locl" on, "kern" on;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  .doc { max-width: 1320px; margin: 0 auto; padding: 48px 24px 96px; }
+
+  /* ============================================================ */
+  /* MASTHEAD                                                     */
+  /* ============================================================ */
+  .masthead {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 56px 64px;
+    margin-bottom: 40px;
+    font-family: 'Fraunces', Georgia, serif;
+  }
+  .masthead .marker {
+    font-variation-settings: 'opsz' 9, 'wght' 700;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 20px;
+  }
+  .masthead h1 {
+    font-variation-settings: 'opsz' 144, 'wght' 400, 'SOFT' 30;
+    font-size: clamp(36px, 4.5vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.022em;
+    margin: 0 0 20px;
+    max-width: 22ch;
+  }
+  .masthead .lede {
+    font-variation-settings: 'opsz' 18, 'wght' 380, 'SOFT' 70;
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 64ch;
+    margin: 0;
+  }
+  .masthead .principle {
+    margin-top: 28px;
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-variation-settings: 'opsz' 14, 'wght' 380, 'SOFT' 50;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 64ch;
+  }
+  .masthead .principle strong {
+    font-variation-settings: 'opsz' 14, 'wght' 600, 'SOFT' 30;
+  }
+
+  /* ============================================================ */
+  /* TYPEFACE CARD                                                */
+  /* ============================================================ */
+  .face {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    margin-bottom: 24px;
+  }
+
+  .face-header {
+    padding: 32px 48px 24px;
+    border-bottom: 1px solid var(--rule);
+    font-family: 'Fraunces', Georgia, serif;
+  }
+  .face-header .num {
+    font-variation-settings: 'opsz' 9, 'wght' 700;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin: 0 0 8px;
+  }
+  .face-header .name {
+    font-variation-settings: 'opsz' 60, 'wght' 500, 'SOFT' 20;
+    font-size: 26px;
+    line-height: 1.15;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+    margin: 0 0 8px;
+  }
+  .face-header .desc {
+    font-variation-settings: 'opsz' 14, 'wght' 380, 'SOFT' 50;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin: 0 0 12px;
+    max-width: 72ch;
+  }
+  .face-header .verdict {
+    font-variation-settings: 'opsz' 14, 'wght' 380, 'SOFT' 80;
+    font-style: italic;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-faint);
+    margin: 0;
+    max-width: 72ch;
+  }
+
+  .face-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+  }
+  @media (max-width: 1000px) { .face-content { grid-template-columns: 1fr; } }
+
+  .face-cell {
+    padding: 40px 48px 48px;
+    border-right: 1px solid var(--rule);
+  }
+  .face-cell:last-child { border-right: none; }
+  @media (max-width: 1000px) {
+    .face-cell { border-right: none; border-bottom: 1px solid var(--rule); }
+    .face-cell:last-child { border-bottom: none; }
+  }
+
+  .lang-marker {
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 24px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .lang-marker::before { content: "● "; color: var(--brand); }
+
+  /* ============================================================ */
+  /* GENERIC TYPE STYLES — overridden per-face                    */
+  /* ============================================================ */
+  .face-cell h1.t-h1 {
+    font-size: 38px;
+    line-height: 1.05;
+    letter-spacing: -0.022em;
+    margin: 0 0 8px;
+    color: var(--ink);
+  }
+  .face-cell .t-h4 {
+    font-size: 11px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 14px;
+  }
+  .face-cell p.t-deck {
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin: 0 0 22px;
+  }
+  .face-cell h2.t-h2 {
+    font-size: 24px;
+    line-height: 1.18;
+    letter-spacing: -0.012em;
+    margin: 28px 0 10px;
+    color: var(--ink);
+  }
+  .face-cell h3.t-h3 {
+    font-size: 18px;
+    line-height: 1.3;
+    font-style: italic;
+    margin: 22px 0 8px;
+    color: var(--ink);
+  }
+  .face-cell p.t-body {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--ink);
+    margin: 0 0 14px;
+  }
+  .face-cell .t-body a {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--brand);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+  .face-cell .t-body code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    background: rgba(0,0,0,0.05);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+  .face-cell blockquote.t-bq {
+    margin: 22px 0;
+    padding: 4px 0 4px 18px;
+    border-left: 2px solid var(--brand);
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .face-cell blockquote.t-bq cite {
+    display: block;
+    margin-top: 8px;
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .face-cell .t-pq {
+    margin: 28px 0 14px;
+    padding: 14px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    font-size: 24px;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .face-cell .t-pq::before {
+    content: "“";
+    color: var(--brand);
+    font-size: 1.2em;
+    line-height: 0;
+    vertical-align: -0.15em;
+    margin-right: 0.05em;
+  }
+
+  /* ============================================================ */
+  /* FACE 01 — FRAUNCES                                           */
+  /* ============================================================ */
+  .face-fraunces .face-cell {
+    font-family: 'Fraunces', Georgia, serif;
+  }
+  .face-fraunces .t-h1 {
+    font-variation-settings: 'opsz' 144, 'wght' 400, 'SOFT' 30, 'WONK' 0;
+  }
+  .face-fraunces .t-h4 {
+    font-variation-settings: 'opsz' 9, 'wght' 700;
+  }
+  .face-fraunces .t-deck {
+    font-variation-settings: 'opsz' 18, 'wght' 380, 'SOFT' 80;
+  }
+  .face-fraunces .t-h2 {
+    font-variation-settings: 'opsz' 60, 'wght' 500, 'SOFT' 20;
+  }
+  .face-fraunces .t-h3 {
+    font-variation-settings: 'opsz' 24, 'wght' 500, 'SOFT' 80;
+  }
+  .face-fraunces .t-body {
+    font-variation-settings: 'opsz' 14, 'wght' 380, 'SOFT' 50;
+  }
+  .face-fraunces .t-body em {
+    font-style: italic;
+    font-variation-settings: 'opsz' 14, 'wght' 380, 'SOFT' 80;
+  }
+  .face-fraunces .t-body strong, .face-fraunces .t-body a {
+    font-variation-settings: 'opsz' 14, 'wght' 600, 'SOFT' 30;
+  }
+  .face-fraunces .t-bq {
+    font-variation-settings: 'opsz' 18, 'wght' 380, 'SOFT' 70;
+  }
+  .face-fraunces .t-pq {
+    font-variation-settings: 'opsz' 60, 'wght' 400, 'SOFT' 40;
+  }
+
+  /* ============================================================ */
+  /* FACE 02 — SOURCE SERIF 4                                     */
+  /* ============================================================ */
+  .face-source .face-cell {
+    font-family: 'Source Serif 4', Georgia, serif;
+  }
+  .face-source .t-h1 {
+    font-variation-settings: 'opsz' 60, 'wght' 500;
+  }
+  .face-source .t-h4 {
+    font-variation-settings: 'opsz' 8, 'wght' 700;
+  }
+  .face-source .t-deck {
+    font-variation-settings: 'opsz' 18, 'wght' 380;
+  }
+  .face-source .t-h2 {
+    font-variation-settings: 'opsz' 36, 'wght' 600;
+  }
+  .face-source .t-h3 {
+    font-variation-settings: 'opsz' 20, 'wght' 500;
+  }
+  .face-source .t-body {
+    font-variation-settings: 'opsz' 14, 'wght' 380;
+  }
+  .face-source .t-body em {
+    font-style: italic;
+    font-variation-settings: 'opsz' 14, 'wght' 380;
+  }
+  .face-source .t-body strong, .face-source .t-body a {
+    font-variation-settings: 'opsz' 14, 'wght' 700;
+  }
+  .face-source .t-bq {
+    font-variation-settings: 'opsz' 18, 'wght' 380;
+  }
+  .face-source .t-pq {
+    font-variation-settings: 'opsz' 36, 'wght' 500;
+  }
+
+  /* ============================================================ */
+  /* FACE 03 — NEWSREADER                                         */
+  /* ============================================================ */
+  .face-newsreader .face-cell {
+    font-family: 'Newsreader', Georgia, serif;
+  }
+  .face-newsreader .t-h1 {
+    font-variation-settings: 'opsz' 72, 'wght' 500;
+  }
+  .face-newsreader .t-h4 {
+    font-variation-settings: 'opsz' 6, 'wght' 700;
+  }
+  .face-newsreader .t-deck {
+    font-variation-settings: 'opsz' 24, 'wght' 400;
+  }
+  .face-newsreader .t-h2 {
+    font-variation-settings: 'opsz' 48, 'wght' 500;
+  }
+  .face-newsreader .t-h3 {
+    font-variation-settings: 'opsz' 24, 'wght' 500;
+  }
+  .face-newsreader .t-body {
+    font-variation-settings: 'opsz' 16, 'wght' 400;
+  }
+  .face-newsreader .t-body em {
+    font-style: italic;
+    font-variation-settings: 'opsz' 16, 'wght' 400;
+  }
+  .face-newsreader .t-body strong, .face-newsreader .t-body a {
+    font-variation-settings: 'opsz' 16, 'wght' 700;
+  }
+  .face-newsreader .t-bq {
+    font-variation-settings: 'opsz' 24, 'wght' 400;
+  }
+  .face-newsreader .t-pq {
+    font-variation-settings: 'opsz' 48, 'wght' 400;
+  }
+
+  /* ============================================================ */
+  /* FACE 04 — EB GARAMOND                                        */
+  /* ============================================================ */
+  .face-garamond .face-cell {
+    font-family: 'EB Garamond', Garamond, Georgia, serif;
+  }
+  /* EB Garamond runs visually small — bump sizes ~12% */
+  .face-garamond .t-h1 {
+    font-weight: 500;
+    font-size: 44px;
+  }
+  .face-garamond .t-h4 {
+    font-weight: 600;
+  }
+  .face-garamond .t-deck {
+    font-weight: 400;
+    font-size: 18px;
+  }
+  .face-garamond .t-h2 {
+    font-weight: 500;
+    font-size: 27px;
+  }
+  .face-garamond .t-h3 {
+    font-weight: 500;
+    font-size: 20px;
+  }
+  .face-garamond .t-body {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.55;
+  }
+  .face-garamond .t-body em {
+    font-style: italic;
+  }
+  .face-garamond .t-body strong, .face-garamond .t-body a {
+    font-weight: 700;
+  }
+  .face-garamond .t-bq {
+    font-weight: 400;
+    font-size: 19px;
+  }
+  .face-garamond .t-pq {
+    font-weight: 500;
+    font-size: 27px;
+  }
+
+  /* ============================================================ */
+  /* DECISION GUIDE                                               */
+  /* ============================================================ */
+  .guide {
+    background: #1a1a1a;
+    color: #e8e3d0;
+    padding: 40px 48px;
+    margin-top: 8px;
+    font-family: 'Fraunces', Georgia, serif;
+  }
+  .guide h3 {
+    font-variation-settings: 'opsz' 60, 'wght' 500, 'SOFT' 20;
+    color: #fefcf2;
+    font-size: 22px;
+    margin: 0 0 12px;
+    letter-spacing: -0.012em;
+  }
+  .guide > p {
+    font-variation-settings: 'opsz' 14, 'wght' 380, 'SOFT' 70;
+    font-size: 14px;
+    line-height: 1.55;
+    color: #c8c3b0;
+    margin: 0 0 28px;
+    max-width: 64ch;
+  }
+  .guide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  .guide-item {
+    border-top: 1px solid #333;
+    padding-top: 14px;
+  }
+  .guide-item .lbl {
+    font-variation-settings: 'opsz' 9, 'wght' 700;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ff8c5a;
+    margin: 0 0 8px;
+  }
+  .guide-item p {
+    font-variation-settings: 'opsz' 14, 'wght' 380, 'SOFT' 70;
+    font-size: 13px;
+    line-height: 1.55;
+    color: #c8c3b0;
+    margin: 0;
+  }
+  .guide-item p strong {
+    font-variation-settings: 'opsz' 14, 'wght' 600, 'SOFT' 30;
+    color: #fefcf2;
+  }
+</style>
+</head>
+<body>
+
+<div class="doc">
+
+  <header class="masthead">
+    <p class="marker">Typeface Comparison · Same System · Four Faces</p>
+    <h1>Same rules. Different temperaments.</h1>
+    <p class="lede">Every other variable is locked. Same hierarchy, same weights (Option A applied), same Turkish content, same English content, same brand color, same paper. The typeface itself is the only thing changing.</p>
+    <p class="principle">Each face has been tuned to its own conventions where they differ from Fraunces — for example, EB Garamond runs visually small so its sizes are bumped slightly. <strong>This is what each face actually looks like in real use, not at default sizes.</strong></p>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- FACE 01 — FRAUNCES                                           -->
+  <!-- ============================================================ -->
+  <div class="face face-fraunces">
+    <div class="face-header">
+      <p class="num">Face 01 · Current</p>
+      <p class="name">Fraunces</p>
+      <p class="desc">Variable font with three axes (weight, optical size, SOFT). Modern revival of mid-century commercial serifs. Lots of character — slightly Western, slightly playful.</p>
+      <p class="verdict">What you have now. Distinctive but assertive — the source of the "boldish" feeling even with body weight 380.</p>
+    </div>
+    <div class="face-content">
+      <div class="face-cell" lang="tr">
+        <p class="lang-marker">Türkçe</p>
+        <p class="t-h4">Bayilik · Aydınlatma</p>
+        <h1 class="t-h1">Işığın mimariyle buluştuğu yer.</h1>
+        <p class="t-deck">2009'dan bu yana Türkiye'nin önde gelen tasarım stüdyolarıyla.</p>
+        <p class="t-body">Ağustos Teknoloji, on iki uluslararası aydınlatma markasının Türkiye temsilcisidir. Soraa, CoeLux, Xicato ve diğer markalarımızla birlikte; mimar, iç mimar ve aydınlatma tasarımcılarına proje bazında <a href="#">danışmanlık</a> sunuyoruz.</p>
+        <p class="t-body">Yaklaşımımız basit: <em>doğru ışık, doğru yerde, doğru zamanda.</em> Her projede <strong>spesifikasyon disiplini</strong> ve uzun vadeli teknik destek birlikte yürür.</p>
+        <h2 class="t-h2">Çalışma Yaklaşımımız</h2>
+        <h3 class="t-h3">Spesifikasyon disiplini</h3>
+        <p class="t-body">CoeLux modülü <code>CRI &gt; 95</code> değeriyle çalışır.</p>
+        <blockquote class="t-bq">İyi aydınlatma, fark edilmediği zaman en iyisidir.<cite>— Richard Kelly, 1952</cite></blockquote>
+      </div>
+      <div class="face-cell">
+        <p class="lang-marker">English</p>
+        <p class="t-h4">Distribution · Lighting</p>
+        <h1 class="t-h1">Where light meets architecture.</h1>
+        <p class="t-deck">Working with Turkey's leading studios since 2009.</p>
+        <p class="t-body">Ağustos Teknoloji represents twelve international lighting brands in Turkey. Soraa, CoeLux, Xicato, and others — we work with architects, interior designers, and lighting designers on <a href="#">project-based consultancy</a>.</p>
+        <p class="t-body">Our approach is simple: <em>the right light, in the right place, at the right time.</em> Every project requires <strong>specification discipline</strong> and long-term technical support.</p>
+        <h2 class="t-h2">How We Work</h2>
+        <h3 class="t-h3">Specification discipline</h3>
+        <p class="t-body">The CoeLux module operates at <code>CRI &gt; 95</code>.</p>
+        <blockquote class="t-bq">The best lighting is the lighting you don't notice.<cite>— Richard Kelly, 1952</cite></blockquote>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- FACE 02 — SOURCE SERIF 4                                     -->
+  <!-- ============================================================ -->
+  <div class="face face-source">
+    <div class="face-header">
+      <p class="num">Face 02</p>
+      <p class="name">Source Serif 4</p>
+      <p class="desc">Adobe's open-source workhorse, designed for screens. Variable with weight and optical size axes. Less character than Fraunces — more "book-default."</p>
+      <p class="verdict">The conventional editorial choice. Used by NYT, Stripe Press, The Verge. Body reads quietly; bold contrasts cleanly. Less distinctive personality.</p>
+    </div>
+    <div class="face-content">
+      <div class="face-cell" lang="tr">
+        <p class="lang-marker">Türkçe</p>
+        <p class="t-h4">Bayilik · Aydınlatma</p>
+        <h1 class="t-h1">Işığın mimariyle buluştuğu yer.</h1>
+        <p class="t-deck">2009'dan bu yana Türkiye'nin önde gelen tasarım stüdyolarıyla.</p>
+        <p class="t-body">Ağustos Teknoloji, on iki uluslararası aydınlatma markasının Türkiye temsilcisidir. Soraa, CoeLux, Xicato ve diğer markalarımızla birlikte; mimar, iç mimar ve aydınlatma tasarımcılarına proje bazında <a href="#">danışmanlık</a> sunuyoruz.</p>
+        <p class="t-body">Yaklaşımımız basit: <em>doğru ışık, doğru yerde, doğru zamanda.</em> Her projede <strong>spesifikasyon disiplini</strong> ve uzun vadeli teknik destek birlikte yürür.</p>
+        <h2 class="t-h2">Çalışma Yaklaşımımız</h2>
+        <h3 class="t-h3">Spesifikasyon disiplini</h3>
+        <p class="t-body">CoeLux modülü <code>CRI &gt; 95</code> değeriyle çalışır.</p>
+        <blockquote class="t-bq">İyi aydınlatma, fark edilmediği zaman en iyisidir.<cite>— Richard Kelly, 1952</cite></blockquote>
+      </div>
+      <div class="face-cell">
+        <p class="lang-marker">English</p>
+        <p class="t-h4">Distribution · Lighting</p>
+        <h1 class="t-h1">Where light meets architecture.</h1>
+        <p class="t-deck">Working with Turkey's leading studios since 2009.</p>
+        <p class="t-body">Ağustos Teknoloji represents twelve international lighting brands in Turkey. Soraa, CoeLux, Xicato, and others — we work with architects, interior designers, and lighting designers on <a href="#">project-based consultancy</a>.</p>
+        <p class="t-body">Our approach is simple: <em>the right light, in the right place, at the right time.</em> Every project requires <strong>specification discipline</strong> and long-term technical support.</p>
+        <h2 class="t-h2">How We Work</h2>
+        <h3 class="t-h3">Specification discipline</h3>
+        <p class="t-body">The CoeLux module operates at <code>CRI &gt; 95</code>.</p>
+        <blockquote class="t-bq">The best lighting is the lighting you don't notice.<cite>— Richard Kelly, 1952</cite></blockquote>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- FACE 03 — NEWSREADER                                         -->
+  <!-- ============================================================ -->
+  <div class="face face-newsreader">
+    <div class="face-header">
+      <p class="num">Face 03</p>
+      <p class="name">Newsreader</p>
+      <p class="desc">Production Type's screen-optimized serif, designed specifically for long reading on devices. Variable with optical size axis (6–72) — letterforms genuinely change shape at different sizes.</p>
+      <p class="verdict">The most "comfortable" of the four for long-form. Body recedes naturally, lets bold and italic do their work. Built for newsrooms.</p>
+    </div>
+    <div class="face-content">
+      <div class="face-cell" lang="tr">
+        <p class="lang-marker">Türkçe</p>
+        <p class="t-h4">Bayilik · Aydınlatma</p>
+        <h1 class="t-h1">Işığın mimariyle buluştuğu yer.</h1>
+        <p class="t-deck">2009'dan bu yana Türkiye'nin önde gelen tasarım stüdyolarıyla.</p>
+        <p class="t-body">Ağustos Teknoloji, on iki uluslararası aydınlatma markasının Türkiye temsilcisidir. Soraa, CoeLux, Xicato ve diğer markalarımızla birlikte; mimar, iç mimar ve aydınlatma tasarımcılarına proje bazında <a href="#">danışmanlık</a> sunuyoruz.</p>
+        <p class="t-body">Yaklaşımımız basit: <em>doğru ışık, doğru yerde, doğru zamanda.</em> Her projede <strong>spesifikasyon disiplini</strong> ve uzun vadeli teknik destek birlikte yürür.</p>
+        <h2 class="t-h2">Çalışma Yaklaşımımız</h2>
+        <h3 class="t-h3">Spesifikasyon disiplini</h3>
+        <p class="t-body">CoeLux modülü <code>CRI &gt; 95</code> değeriyle çalışır.</p>
+        <blockquote class="t-bq">İyi aydınlatma, fark edilmediği zaman en iyisidir.<cite>— Richard Kelly, 1952</cite></blockquote>
+      </div>
+      <div class="face-cell">
+        <p class="lang-marker">English</p>
+        <p class="t-h4">Distribution · Lighting</p>
+        <h1 class="t-h1">Where light meets architecture.</h1>
+        <p class="t-deck">Working with Turkey's leading studios since 2009.</p>
+        <p class="t-body">Ağustos Teknoloji represents twelve international lighting brands in Turkey. Soraa, CoeLux, Xicato, and others — we work with architects, interior designers, and lighting designers on <a href="#">project-based consultancy</a>.</p>
+        <p class="t-body">Our approach is simple: <em>the right light, in the right place, at the right time.</em> Every project requires <strong>specification discipline</strong> and long-term technical support.</p>
+        <h2 class="t-h2">How We Work</h2>
+        <h3 class="t-h3">Specification discipline</h3>
+        <p class="t-body">The CoeLux module operates at <code>CRI &gt; 95</code>.</p>
+        <blockquote class="t-bq">The best lighting is the lighting you don't notice.<cite>— Richard Kelly, 1952</cite></blockquote>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- FACE 04 — EB GARAMOND                                        -->
+  <!-- ============================================================ -->
+  <div class="face face-garamond">
+    <div class="face-header">
+      <p class="num">Face 04</p>
+      <p class="name">EB Garamond</p>
+      <p class="desc">Open-source revival of Claude Garamont's 16th-century type. The most-used serif in book history. Smaller x-height than the others — runs visually smaller, so sizes are bumped here.</p>
+      <p class="verdict">Maximum "book." Quiet, traditional, gentle. Less modern than the others — more old-world editorial. Strong contrast between regular and bold built into the design.</p>
+    </div>
+    <div class="face-content">
+      <div class="face-cell" lang="tr">
+        <p class="lang-marker">Türkçe</p>
+        <p class="t-h4">Bayilik · Aydınlatma</p>
+        <h1 class="t-h1">Işığın mimariyle buluştuğu yer.</h1>
+        <p class="t-deck">2009'dan bu yana Türkiye'nin önde gelen tasarım stüdyolarıyla.</p>
+        <p class="t-body">Ağustos Teknoloji, on iki uluslararası aydınlatma markasının Türkiye temsilcisidir. Soraa, CoeLux, Xicato ve diğer markalarımızla birlikte; mimar, iç mimar ve aydınlatma tasarımcılarına proje bazında <a href="#">danışmanlık</a> sunuyoruz.</p>
+        <p class="t-body">Yaklaşımımız basit: <em>doğru ışık, doğru yerde, doğru zamanda.</em> Her projede <strong>spesifikasyon disiplini</strong> ve uzun vadeli teknik destek birlikte yürür.</p>
+        <h2 class="t-h2">Çalışma Yaklaşımımız</h2>
+        <h3 class="t-h3">Spesifikasyon disiplini</h3>
+        <p class="t-body">CoeLux modülü <code>CRI &gt; 95</code> değeriyle çalışır.</p>
+        <blockquote class="t-bq">İyi aydınlatma, fark edilmediği zaman en iyisidir.<cite>— Richard Kelly, 1952</cite></blockquote>
+      </div>
+      <div class="face-cell">
+        <p class="lang-marker">English</p>
+        <p class="t-h4">Distribution · Lighting</p>
+        <h1 class="t-h1">Where light meets architecture.</h1>
+        <p class="t-deck">Working with Turkey's leading studios since 2009.</p>
+        <p class="t-body">Ağustos Teknoloji represents twelve international lighting brands in Turkey. Soraa, CoeLux, Xicato, and others — we work with architects, interior designers, and lighting designers on <a href="#">project-based consultancy</a>.</p>
+        <p class="t-body">Our approach is simple: <em>the right light, in the right place, at the right time.</em> Every project requires <strong>specification discipline</strong> and long-term technical support.</p>
+        <h2 class="t-h2">How We Work</h2>
+        <h3 class="t-h3">Specification discipline</h3>
+        <p class="t-body">The CoeLux module operates at <code>CRI &gt; 95</code>.</p>
+        <blockquote class="t-bq">The best lighting is the lighting you don't notice.<cite>— Richard Kelly, 1952</cite></blockquote>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- DECISION GUIDE                                               -->
+  <!-- ============================================================ -->
+  <div class="guide">
+    <h3>How to evaluate</h3>
+    <p>Don't read the words. Read the <em>texture</em>. Then read the words. Then read the bold. Then check the Turkish diacritics. Each check answers a different question.</p>
+    <div class="guide-grid">
+      <div class="guide-item">
+        <p class="lbl">1. Body texture</p>
+        <p>Squint at each body paragraph. Which gray feels most like <strong>"comfortable book reading"</strong> — neither aggressive nor timid? That's your body.</p>
+      </div>
+      <div class="guide-item">
+        <p class="lbl">2. Bold contrast</p>
+        <p>Find <strong>"spesifikasyon disiplini"</strong> in each face. Which makes bold pop without shouting? Bold should announce, not yell.</p>
+      </div>
+      <div class="guide-item">
+        <p class="lbl">3. Italic character</p>
+        <p>Read <em>"doğru ışık, doğru yerde."</em> Which italic feels like a different voice rather than just slanted body? Italic should sing.</p>
+      </div>
+      <div class="guide-item">
+        <p class="lbl">4. Turkish diacritics</p>
+        <p>Check ş, ğ, ı, İ in body and italic. Do they feel proportional and considered, or grafted-on?</p>
+      </div>
+      <div class="guide-item">
+        <p class="lbl">5. The H1</p>
+        <p>"Işığın mimariyle buluştuğu yer." Each H1 has a personality. Which voice do you want associated with Ağustos at the top of every page?</p>
+      </div>
+      <div class="guide-item">
+        <p class="lbl">6. Long-read fatigue</p>
+        <p>Read all the body text in one face from start to finish. Does your eye want to keep going or rest? The face that doesn't tire you wins.</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

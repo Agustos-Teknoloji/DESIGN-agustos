@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ağustos Design System · v2.0 · Inter Tight + Inter</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,100..900;1,100..900&family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet">
+
+<style>
+  /* ============================================================
+     AĞUSTOS DESIGN SYSTEM v2.0
+     Type stack: Inter Tight (display) + Inter (body/UI) + JetBrains Mono (code)
+     ============================================================ */
+
+  :root {
+    /* Substrate */
+    --paper:        #fefcf2;
+    --paper-white:  #ffffff;
+
+    /* Ink */
+    --ink:        #1a1a1a;
+    --ink-soft:   #4a4a4a;
+    --ink-faint:  #8a8a8a;
+
+    /* Rule */
+    --rule:        #e8e3d0;
+    --rule-white:  #e8e8e8;
+
+    /* Brand */
+    --brand-agustos:     #cf142a;
+    --brand-pataraz:     #1a24cc;
+    --brand-pld:         #1a1a1a;
+    --brand-photometric: #1f6b4a;
+    --brand: var(--brand-agustos);
+
+    /* Type stacks — v2.0
+       Display: Inter Tight, with system fallback through Inter to native UI fonts.
+       Body:    Inter, with the canonical system stack ending in Apple Color Emoji.
+       Mono:    JetBrains Mono, with native ui-monospace fallback. */
+    --display: 'Inter Tight', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --body:    'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji";
+    --mono:    'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospace;
+  }
+
+  .brand-agustos     { --brand: var(--brand-agustos); }
+  .brand-pataraz     { --brand: var(--brand-pataraz); }
+  .brand-pld         { --brand: var(--brand-pld); }
+  .brand-photometric { --brand: var(--brand-photometric); }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #d8d4c4;
+    color: var(--ink);
+    font-family: var(--body);
+    font-feature-settings: "locl" on, "kern" on, "ss01" on;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  .doc { max-width: 1320px; margin: 0 auto; padding: 48px 24px 96px; }
+
+  /* ============================================================ */
+  /* MASTHEAD                                                     */
+  /* ============================================================ */
+  .masthead {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 64px 72px;
+    margin-bottom: 40px;
+  }
+  .masthead .marker {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 24px;
+    font-weight: 500;
+  }
+  .masthead h1 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: clamp(40px, 5vw, 60px);
+    line-height: 1.04;
+    letter-spacing: -0.028em;
+    margin: 0 0 24px;
+    max-width: 22ch;
+    color: var(--ink);
+  }
+  .masthead .lede {
+    font-family: var(--body);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 64ch;
+    margin: 0 0 32px;
+  }
+  .masthead .stack-summary {
+    padding-top: 28px;
+    border-top: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  @media (max-width: 800px) { .masthead .stack-summary { grid-template-columns: 1fr; gap: 18px; } }
+  .stack-item {
+    border-left: 2px solid var(--brand);
+    padding-left: 16px;
+  }
+  .stack-item .lbl {
+    font-family: var(--display);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 4px;
+  }
+  .stack-item .name {
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 4px;
+    letter-spacing: -0.01em;
+  }
+  .stack-item .role {
+    font-family: var(--body);
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin: 0;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  /* ============================================================ */
+  /* SECTION HEADERS                                              */
+  /* ============================================================ */
+  .section-marker {
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
+    margin: 56px 8px 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .section-marker .num {
+    font-family: var(--mono);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brand-agustos);
+  }
+  .section-marker h2 {
+    font-family: var(--display);
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 1.18;
+    margin: 0;
+    letter-spacing: -0.018em;
+    color: var(--ink);
+  }
+  .section-marker .sub {
+    margin-left: auto;
+    font-family: var(--body);
+    font-size: 12px;
+    color: var(--ink-faint);
+    font-weight: 400;
+    font-style: italic;
+  }
+
+  /* ============================================================ */
+  /* HERO TOKENS                                                  */
+  /* ============================================================ */
+
+  /* .type-hero — Big Hero: landing pages, launches, brand pages */
+  .type-hero {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: clamp(56px, 9vw, 112px);
+    line-height: 0.96;
+    letter-spacing: -0.045em;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* .type-hero-md — Medium Hero: section openers, inner pages */
+  .type-hero-md {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: clamp(40px, 6vw, 72px);
+    line-height: 1.02;
+    letter-spacing: -0.032em;
+    color: var(--ink);
+    margin: 0;
+  }
+
+  /* Hero deck pattern — italic body, paired with either hero token */
+  .type-hero-deck {
+    font-family: var(--body);
+    font-weight: 400;
+    font-style: italic;
+    font-size: clamp(18px, 1.6vw, 22px);
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 56ch;
+    margin: 24px 0 0;
+  }
+
+  .hero-block {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 88px 80px 96px;
+    margin-bottom: 24px;
+  }
+  .hero-block.medium { padding: 64px 64px 72px; }
+  @media (max-width: 700px) {
+    .hero-block { padding: 56px 32px 64px; }
+    .hero-block.medium { padding: 48px 28px 56px; }
+  }
+  .hero-block .eyebrow {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin: 0 0 24px;
+  }
+
+  /* ============================================================ */
+  /* LOCKUP                                                       */
+  /* ============================================================ */
+  .lockup {
+    display: inline-flex;
+    align-items: center;
+    color: var(--brand);
+    line-height: 1;
+  }
+  .lockup__symbol {
+    width: 0.98em;
+    height: 0.98em;
+    flex-shrink: 0;
+    margin-right: 0.4em;
+    /* Optical centering correction. align-items: center on the flex parent
+       centers the symbol on the line-box midpoint (~0.5em above baseline).
+       But lowercase text concentrates its visual mass between baseline and
+       x-height (~0.26em above baseline) — the area above x-height is mostly
+       empty (only ascenders and breves reach it). Shifting the symbol down
+       0.08em moves its center toward the cap-height/x-height midpoint, which
+       reads as "centered on the wordmark" for both ascender-light words
+       (pataraz) and ascender-heavy ones (ağustos with the ğ breve). */
+    transform: translateY(0.08em);
+  }
+  .lockup__symbol svg { display: block; width: 100%; height: 100%; }
+  .lockup__symbol svg path { fill: currentColor; }
+  .lockup__name {
+    font-family: var(--display);
+    font-weight: 300;
+    font-size: 1em;
+    text-transform: lowercase;
+    letter-spacing: -0.005em;
+    color: currentColor;
+  }
+
+  /* ============================================================ */
+  /* TYPE SCALE PANEL                                             */
+  /* ============================================================ */
+  .type-scale {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 48px 56px;
+  }
+  .scale-row {
+    display: grid;
+    grid-template-columns: 140px 80px 1fr;
+    gap: 32px;
+    align-items: baseline;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+  .scale-row:last-child { border-bottom: none; }
+  @media (max-width: 800px) {
+    .scale-row { grid-template-columns: 1fr; gap: 6px; }
+  }
+  .scale-row .token {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-soft);
+    letter-spacing: 0.04em;
+  }
+  .scale-row .meta {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-faint);
+  }
+  .scale-row .sample {
+    color: var(--ink);
+  }
+
+  /* Token-styled samples for the scale panel */
+  .s-hero       { font-family: var(--display); font-weight: 300; font-size: 64px; line-height: 0.96; letter-spacing: -0.045em; }
+  .s-hero-md    { font-family: var(--display); font-weight: 400; font-size: 48px; line-height: 1.02; letter-spacing: -0.032em; }
+  .s-h1         { font-family: var(--display); font-weight: 500; font-size: 44px; line-height: 1.05; letter-spacing: -0.024em; }
+  .s-h2         { font-family: var(--display); font-weight: 500; font-size: 24px; line-height: 1.18; letter-spacing: -0.014em; }
+  .s-h3         { font-family: var(--display); font-weight: 500; font-style: italic; font-size: 18px; line-height: 1.3; letter-spacing: -0.008em; }
+  .s-h4         { font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); }
+  .s-body       { font-family: var(--body); font-weight: 400; font-size: 16.5px; line-height: 1.65; }
+  .s-body em    { font-style: italic; font-weight: 400; }
+  .s-body strong { font-weight: 700; }
+  .s-pull       { font-family: var(--display); font-weight: 400; font-size: 26px; line-height: 1.2; letter-spacing: -0.018em; }
+  .s-foot       { font-family: var(--body); font-weight: 400; font-size: 12.5px; color: var(--ink-faint); line-height: 1.55; }
+  .s-mono       { font-family: var(--mono); font-weight: 400; font-size: 13.5px; line-height: 1.55; }
+
+  /* ============================================================ */
+  /* EDITORIAL PAGE                                               */
+  /* ============================================================ */
+  .editorial {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 64px 80px;
+  }
+  @media (max-width: 700px) { .editorial { padding: 40px 28px; } }
+
+  /* === Editorial vertical rhythm — three tiers, no exceptions ===
+     1. BASELINE (16px) — every element flows 16px (1em) below the previous one.
+        Paragraphs, deck, lists, blockquotes, figures: all the same.
+     2. SECTION BREAK (40px) — anything that visually marks a chapter,
+        sub-section, or closing block: H2, H3, mid-article H4, pullquote,
+        divider, footnote. Single shared value — visual hierarchy comes from
+        heading size + weight, not graduated spacing.
+     3. EYEBROW EXCEPTION (8px) — H4 used as label above H1. Not a section
+        marker; it's a caption for the title. The only special case.
+
+     ⚠ SPECIFICITY NOTE: these selectors use `article.editorial >` (not just
+     `.editorial >`) to beat the `.t-*` token rules' `margin: 0` declarations,
+     which have specificity (0,1,0). Token rules define visual properties and
+     reset margins; flow rules in the editorial scope define spacing. They
+     must out-specificity-override the token resets. Don't drop the `article`
+     prefix without raising specificity another way.
+  */
+
+  /* (1) Baseline rhythm */
+  article.editorial > * + * { margin-top: 16px; }
+
+  /* (2) Section breaks — one shared value */
+  article.editorial > h2.t-h2                 { margin-top: 40px; margin-bottom: 0; }
+  article.editorial > h3.t-h3                 { margin-top: 40px; margin-bottom: 0; }
+  article.editorial > .t-h4:not(:first-child) { margin-top: 40px; margin-bottom: 0; }
+  article.editorial > .t-pullquote            { margin-top: 40px; margin-bottom: 16px; }
+  article.editorial > hr.t-divider            { margin-top: 40px; margin-bottom: 16px; }
+  article.editorial > .t-footnote             { margin-top: 40px; padding-top: 14px; border-top: 1px solid var(--rule); }
+
+  /* (3) Eyebrow exception — H4 first-child is a label, not a marker */
+  article.editorial > .t-h4:first-child                  { margin-top: 0; }
+  article.editorial > .t-h4:first-child + .t-h1          { margin-top: 8px; }
+
+  .t-h4         { font-family: var(--display); font-weight: 700; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-soft); margin: 0; }
+  .t-h1         { font-family: var(--display); font-weight: 500; font-size: 44px; line-height: 1.04; letter-spacing: -0.026em; margin: 0; color: var(--ink); }
+  .t-deck       { font-family: var(--body); font-weight: 400; font-style: italic; font-size: 18px; line-height: 1.55; color: var(--ink-soft); margin: 0; }
+  .t-h2         { font-family: var(--display); font-weight: 500; font-size: 24px; line-height: 1.18; letter-spacing: -0.014em; color: var(--ink); margin: 0; }
+  .t-h3         { font-family: var(--display); font-weight: 500; font-style: italic; font-size: 18px; line-height: 1.3; color: var(--ink); margin: 0; }
+  .t-body       { font-family: var(--body); font-weight: 400; font-size: 16.5px; line-height: 1.65; color: var(--ink); margin: 0; }
+  .t-body em    { font-style: italic; }
+  .t-body strong { font-weight: 700; }
+  .t-body a {
+    color: var(--ink);
+    font-weight: 600;
+    text-decoration: underline;
+    text-decoration-color: var(--brand);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+  .t-body code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    background: rgba(0,0,0,0.05);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+  .t-body sub { font-size: 0.7em; line-height: 0; vertical-align: -0.25em; font-weight: 500; }
+  .t-body sup { font-size: 0.7em; line-height: 0; vertical-align: 0.5em; font-weight: 500; }
+  .t-body s   { text-decoration: line-through; color: var(--ink-faint); text-decoration-color: var(--ink-faint); }
+
+  .t-blockquote {
+    margin: 0;
+    padding: 4px 0 4px 20px;
+    border-left: 2px solid var(--brand);
+    font-family: var(--body);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+  }
+  .t-blockquote cite {
+    display: block;
+    margin-top: 8px;
+    font-style: normal;
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .t-pullquote {
+    margin: 0;
+    padding: 18px 0;
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 1.22;
+    letter-spacing: -0.018em;
+    color: var(--ink);
+  }
+  .t-pullquote::before {
+    content: "“";
+    color: var(--brand);
+    font-size: 1.2em;
+    line-height: 0;
+    vertical-align: -0.15em;
+    margin-right: 0.05em;
+  }
+  .t-list-ol, .t-list-ul {
+    margin: 0;
+    padding-left: 22px;
+    font-family: var(--body);
+    font-weight: 400;
+    font-size: 16.5px;
+    line-height: 1.65;
+    color: var(--ink);
+  }
+  .t-list-ol li, .t-list-ul li { margin-bottom: 4px; }
+  .t-list-ul li::marker { color: var(--brand); }
+  .t-list-ol li::marker { color: var(--brand); font-weight: 600; }
+  .t-figure { margin: 0; }
+  .t-figure .placeholder {
+    aspect-ratio: 16/9;
+    background: linear-gradient(135deg, color-mix(in srgb, var(--brand) 8%, transparent), color-mix(in srgb, var(--brand) 2%, transparent));
+    border: 1px solid color-mix(in srgb, var(--brand) 20%, var(--rule));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: color-mix(in srgb, var(--brand) 60%, var(--ink-faint));
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: 10px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .t-figure figcaption {
+    font-family: var(--body);
+    font-style: italic;
+    font-weight: 400;
+    font-size: 13.5px;
+    line-height: 1.5;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+  .t-figure figcaption strong { font-style: normal; font-weight: 600; color: var(--ink-soft); }
+  .t-divider { height: 1px; background: var(--rule); border: none; margin: 0; }
+  .t-footnote {
+    font-family: var(--body);
+    font-weight: 400;
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--ink-faint);
+    margin: 0;
+  }
+  .t-footnote sup { color: var(--brand); font-weight: 600; margin-right: 4px; font-size: 0.8em; vertical-align: 0.5em; }
+
+  /* ============================================================ */
+  /* LOCKUP MATRIX                                                */
+  /* ============================================================ */
+  .lockup-matrix {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 48px 56px;
+  }
+  .lockup-grid {
+    display: grid;
+    grid-template-columns: 100px 1fr 1fr 1fr;
+    column-gap: 32px;
+    row-gap: 32px;
+    align-items: center;
+  }
+  @media (max-width: 800px) { .lockup-grid { grid-template-columns: 80px 1fr 1fr; } .lockup-grid .col-large { display: none; } }
+  .lockup-grid .row-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+  .lockup-grid .col-head {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.16em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    padding-bottom: 4px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .l-small  { font-size: 16px; }
+  .l-medium { font-size: 32px; }
+  .l-large  { font-size: 64px; }
+
+  /* ============================================================ */
+  /* PRODUCT UI                                                   */
+  /* ============================================================ */
+  .product-ui {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 48px 56px;
+    font-family: var(--body);
+  }
+  .product-ui .ui-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 16px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .product-ui .ui-title {
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+    letter-spacing: -0.012em;
+  }
+  .product-ui .ui-subtitle {
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin: 4px 0 0;
+  }
+  .product-ui .ui-status {
+    font-family: var(--display);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand);
+  }
+  .product-ui .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+  @media (max-width: 800px) { .product-ui .stat-grid { grid-template-columns: repeat(2, 1fr); } }
+  .product-ui .stat {
+    background: white;
+    border: 1px solid var(--rule);
+    padding: 14px 16px;
+  }
+  .product-ui .stat-label {
+    font-family: var(--display);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 6px;
+  }
+  .product-ui .stat-value {
+    font-family: var(--display);
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1;
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.018em;
+    color: var(--ink);
+  }
+  .product-ui .stat-meta {
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin: 6px 0 0;
+    font-weight: 400;
+  }
+  .product-ui .ui-section-label {
+    font-family: var(--display);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .product-ui .ui-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13.5px;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 24px;
+  }
+  .product-ui .ui-table th, .product-ui .ui-table td {
+    text-align: left;
+    padding: 9px 12px 9px 0;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 400;
+  }
+  .product-ui .ui-table th {
+    font-family: var(--display);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .product-ui .ui-table td:nth-last-child(-n+2) { text-align: right; padding-right: 12px; }
+  .product-ui .ui-table td:last-child { padding-right: 0; }
+  .product-ui .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 2px;
+    font-family: var(--display);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+  }
+  .product-ui .badge.ok { background: rgba(31, 107, 74, 0.1); color: #1f6b4a; }
+  .product-ui .badge.run { background: rgba(207, 20, 42, 0.1); color: var(--brand); }
+  .product-ui .badge.queued { background: rgba(0,0,0,0.05); color: var(--ink-soft); }
+
+  /* ============================================================ */
+  /* TOKEN MAP (DARK)                                             */
+  /* ============================================================ */
+  .map {
+    background: #1a1a1a;
+    color: #e8e3d0;
+    padding: 48px 56px;
+    margin-top: 24px;
+  }
+  .map h3 {
+    font-family: var(--display);
+    font-weight: 500;
+    color: #fefcf2;
+    font-size: 24px;
+    margin: 0 0 8px;
+    letter-spacing: -0.018em;
+  }
+  .map > p {
+    font-family: var(--body);
+    font-size: 14px;
+    line-height: 1.55;
+    color: #c8c3b0;
+    margin: 0 0 28px;
+    max-width: 64ch;
+  }
+  .map-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 28px;
+  }
+  @media (max-width: 900px) { .map-grid { grid-template-columns: 1fr; } }
+  .map-col h4 {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: #ff8c5a;
+    margin: 0 0 14px;
+    font-weight: 500;
+  }
+  .map-col ul { list-style: none; padding: 0; margin: 0; }
+  .map-col li {
+    font-family: var(--body);
+    font-size: 13px;
+    line-height: 1.7;
+    color: #e8e3d0;
+    padding: 6px 0;
+    border-top: 1px solid #333;
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  .map-col li .token { font-family: var(--mono); color: #c8c3b0; font-size: 12px; }
+  .map-col li .face  { color: #8a8478; font-size: 11px; text-align: right; }
+</style>
+</head>
+<body>
+
+<div class="doc">
+
+  <!-- ============================================================ -->
+  <!-- MASTHEAD                                                     -->
+  <!-- ============================================================ -->
+  <header class="masthead">
+    <p class="marker">Ağustos Design System · v2.0 · Inter Tight + Inter</p>
+    <h1>One paired family. Two scales of presence. Built to last.</h1>
+    <p class="lede">Inter Tight handles every display surface — logotype, hero, headings, eyebrows, UI labels, dashboard numbers. Inter handles every paragraph and inline element. JetBrains Mono carries code. The system fallback resolves to the user's native UI font in any context where the web fonts don't load. Twenty-four tokens, three families, one register from favicon to footnote.</p>
+
+    <div class="stack-summary">
+      <div class="stack-item">
+        <p class="lbl">Display</p>
+        <p class="name">Inter Tight</p>
+        <p class="role">Logotype, hero, h1–h4, eyebrows, UI labels, table headers, badges, dashboard numerals. Variable wght 100–900.</p>
+      </div>
+      <div class="stack-item">
+        <p class="lbl">Body</p>
+        <p class="name">Inter</p>
+        <p class="role">Paragraphs, em, strong, links, lists, blockquote, dl, footnote, figure caption. Variable wght 100–900 with italics.</p>
+      </div>
+      <div class="stack-item">
+        <p class="lbl">Mono</p>
+        <p class="name">JetBrains Mono</p>
+        <p class="role">Inline code, code blocks, file paths, hex codes, technical identifiers. Tabular figures, ligatures off in tabular contexts.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============================================================ -->
+  <!-- 01 · HERO TOKENS                                             -->
+  <!-- ============================================================ -->
+  <div class="section-marker">
+    <span class="num">01</span>
+    <h2>Hero — two scales of presence</h2>
+    <span class="sub">New in v2.0 · big for landings, medium for inner pages</span>
+  </div>
+
+  <!-- BIG HERO -->
+  <section class="hero-block brand-agustos">
+    <p class="eyebrow">.type-hero · Inter Tight 300 · clamp(56px, 9vw, 112px)</p>
+    <h1 class="type-hero">Where light meets architecture.</h1>
+    <p class="type-hero-deck">A studio working with Turkey's leading architects, interior designers, and lighting practitioners since 2009. Twelve international brands, one specification discipline.</p>
+  </section>
+
+  <!-- MEDIUM HERO -->
+  <section class="hero-block medium brand-pataraz">
+    <p class="eyebrow">.type-hero-md · Inter Tight 400 · clamp(40px, 6vw, 72px)</p>
+    <h1 class="type-hero-md">Premium luminaires, mid-tier pricing.</h1>
+    <p class="type-hero-deck">Pataraz delivers project-grade fixtures without the project-grade markup. Designed for professionals; specified to last.</p>
+  </section>
+
+  <!-- HERO USAGE GUIDANCE -->
+  <div style="background: var(--paper); border: 1px solid var(--rule); padding: 36px 40px;">
+    <p style="font-family: var(--display); font-size: 11px; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brand-agustos); margin: 0 0 18px;">When to use which</p>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 36px;">
+      <div>
+        <p style="font-family: var(--display); font-weight: 600; font-size: 14px; margin: 0 0 6px; letter-spacing: -0.005em;">.type-hero — Big Hero</p>
+        <p style="font-family: var(--body); font-size: 14px; line-height: 1.6; color: var(--ink-soft); margin: 0;">Landing pages, brand portfolio pages, launches, press announcements. The page-defining headline. Inter Tight at <em>weight 300</em> with tight tracking gives a couture feel without going fragile. Pair with optional eyebrow + italic deck. <strong>One per page, maximum.</strong></p>
+      </div>
+      <div>
+        <p style="font-family: var(--display); font-weight: 600; font-size: 14px; margin: 0 0 6px; letter-spacing: -0.005em;">.type-hero-md — Medium Hero</p>
+        <p style="font-family: var(--body); font-size: 14px; line-height: 1.6; color: var(--ink-soft); margin: 0;">Inner-page headers, section openers, feature blocks. A confident statement that yields the page-defining role to <em>.type-hero</em>. Weight 400 (Regular) gives slightly more presence at smaller scale; tracking eased to -0.032em for legibility.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 02 · TYPE SCALE                                              -->
+  <!-- ============================================================ -->
+  <div class="section-marker">
+    <span class="num">02</span>
+    <h2>Type scale — every token, in order</h2>
+    <span class="sub">24 tokens · 3 families · 1 system</span>
+  </div>
+
+  <div class="type-scale">
+    <div class="scale-row">
+      <span class="token">.type-hero</span>
+      <span class="meta">112 / 0.96 / 300</span>
+      <span class="sample s-hero">Big hero.</span>
+    </div>
+    <div class="scale-row">
+      <span class="token">.type-hero-md</span>
+      <span class="meta">72 / 1.02 / 400</span>
+      <span class="sample s-hero-md">Medium hero.</span>
+    </div>
+    <div class="scale-row">
+      <span class="token">.type-h1</span>
+      <span class="meta">44 / 1.05 / 500</span>
+      <span class="sample s-h1">Page title — H1.</span>
+    </div>
+    <div class="scale-row">
+      <span class="token">.type-h2</span>
+      <span class="meta">24 / 1.18 / 500</span>
+      <span class="sample s-h2">Section break — H2.</span>
+    </div>
+    <div class="scale-row">
+      <span class="token">.type-h3</span>
+      <span class="meta">18 / 1.30 / 500i</span>
+      <span class="sample s-h3">Subsection — H3, italic.</span>
+    </div>
+    <div class="scale-row">
+      <span class="token">.type-h4</span>
+      <span class="meta">12 / 1.4 / 700</span>
+      <span class="sample s-h4">Eyebrow / label — H4</span>
+    </div>
+    <div class="scale-row">
+      <span class="token">.type-body</span>
+      <span class="meta">16.5 / 1.65 / 400</span>
+      <span class="sample s-body">Body text reads at length without fatigue. Inter is the most rigorously screen-engineered open-source sans, with hinted glyphs, optical sizing, and gold-standard Latin Extended including Turkish. <em>Italic</em> and <strong>bold</strong> are inline modifiers; the <a href="#" style="color: inherit; font-weight: 600; text-decoration: underline; text-decoration-color: var(--brand-agustos); text-decoration-thickness: 2px; text-underline-offset: 3px;">link</a> is the sole brand expression.</span>
+    </div>
+    <div class="scale-row">
+      <span class="token">.type-pullquote</span>
+      <span class="meta">26 / 1.22 / 400</span>
+      <span class="sample s-pull">A pull quote sits in display family at body weight.</span>
+    </div>
+    <div class="scale-row">
+      <span class="token">.type-footnote</span>
+      <span class="meta">12.5 / 1.55 / 400</span>
+      <span class="sample s-foot">Footnotes use body family, ink-faint, with brand-color references.</span>
+    </div>
+    <div class="scale-row">
+      <span class="token">code / .type-mono</span>
+      <span class="meta">13.5 / 1.55 / 400</span>
+      <span class="sample s-mono">font-family: var(--display);</span>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 03 · LOCKUP MATRIX                                           -->
+  <!-- ============================================================ -->
+  <div class="section-marker">
+    <span class="num">03</span>
+    <h2>Logotype — Inter Tight Light, all four brands</h2>
+    <span class="sub">16 / 32 / 64px · symbol = 0.98em · gap = 0.4em</span>
+  </div>
+
+  <div class="lockup-matrix">
+    <div class="lockup-grid">
+      <span></span>
+      <span class="col-head">16px · favicon / nav</span>
+      <span class="col-head">32px · header standard</span>
+      <span class="col-head col-large">64px · hero</span>
+
+      <span class="row-label">ağustos</span>
+      <div class="brand-agustos"><span class="lockup l-small"><span class="lockup__symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-label="Laz Güneşi"><g fill="currentColor" fill-rule="evenodd"><path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/><path d="M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z"/><path d="M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z"/><path d="M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z"/><path d="M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z"/><path d="M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z"/><path d="M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z"/><path d="M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z"/><path d="M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z"/><path d="M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z"/><path d="M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z"/><path d="M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z"/><path d="M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z"/><path d="M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z"/><path d="M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z"/><path d="M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z"/><path d="M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z"/><path d="M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z"/></g></svg></span><span class="lockup__name" lang="tr">ağustos</span></span></div>
+      <div class="brand-agustos"><span class="lockup l-medium"><span class="lockup__symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-label="Laz Güneşi"><g fill="currentColor" fill-rule="evenodd"><path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/><path d="M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z"/><path d="M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z"/><path d="M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z"/><path d="M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z"/><path d="M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z"/><path d="M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z"/><path d="M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z"/><path d="M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z"/><path d="M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z"/><path d="M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z"/><path d="M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z"/><path d="M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z"/><path d="M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z"/><path d="M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z"/><path d="M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z"/><path d="M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z"/><path d="M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z"/></g></svg></span><span class="lockup__name" lang="tr">ağustos</span></span></div>
+      <div class="brand-agustos col-large"><span class="lockup l-large"><span class="lockup__symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-label="Laz Güneşi"><g fill="currentColor" fill-rule="evenodd"><path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/><path d="M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z"/><path d="M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z"/><path d="M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z"/><path d="M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z"/><path d="M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z"/><path d="M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z"/><path d="M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z"/><path d="M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z"/><path d="M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z"/><path d="M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z"/><path d="M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z"/><path d="M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z"/><path d="M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z"/><path d="M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z"/><path d="M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z"/><path d="M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z"/><path d="M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z"/></g></svg></span><span class="lockup__name" lang="tr">ağustos</span></span></div>
+
+      <span class="row-label">pataraz</span>
+      <div class="brand-pataraz"><span class="lockup l-small"><span class="lockup__symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-label="Laz Güneşi"><g fill="currentColor" fill-rule="evenodd"><path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/><path d="M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z"/><path d="M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z"/><path d="M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z"/><path d="M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z"/><path d="M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z"/><path d="M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z"/><path d="M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z"/><path d="M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z"/><path d="M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z"/><path d="M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z"/><path d="M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z"/><path d="M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z"/><path d="M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z"/><path d="M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z"/><path d="M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z"/><path d="M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z"/><path d="M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z"/></g></svg></span><span class="lockup__name">pataraz</span></span></div>
+      <div class="brand-pataraz"><span class="lockup l-medium"><span class="lockup__symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-label="Laz Güneşi"><g fill="currentColor" fill-rule="evenodd"><path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/><path d="M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z"/><path d="M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z"/><path d="M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z"/><path d="M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z"/><path d="M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z"/><path d="M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z"/><path d="M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z"/><path d="M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z"/><path d="M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z"/><path d="M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z"/><path d="M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z"/><path d="M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z"/><path d="M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z"/><path d="M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z"/><path d="M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z"/><path d="M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z"/><path d="M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z"/></g></svg></span><span class="lockup__name">pataraz</span></span></div>
+      <div class="brand-pataraz col-large"><span class="lockup l-large"><span class="lockup__symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-label="Laz Güneşi"><g fill="currentColor" fill-rule="evenodd"><path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/><path d="M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z"/><path d="M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z"/><path d="M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z"/><path d="M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z"/><path d="M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z"/><path d="M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z"/><path d="M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z"/><path d="M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z"/><path d="M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z"/><path d="M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z"/><path d="M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z"/><path d="M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z"/><path d="M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z"/><path d="M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z"/><path d="M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z"/><path d="M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z"/><path d="M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z"/></g></svg></span><span class="lockup__name">pataraz</span></span></div>
+
+      <span class="row-label">pld tr</span>
+      <div class="brand-pld"><span class="lockup l-small"><span class="lockup__symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-label="Laz Güneşi"><g fill="currentColor" fill-rule="evenodd"><path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/><path d="M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z"/><path d="M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z"/><path d="M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z"/><path d="M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z"/><path d="M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z"/><path d="M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z"/><path d="M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z"/><path d="M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z"/><path d="M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z"/><path d="M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z"/><path d="M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z"/><path d="M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z"/><path d="M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z"/><path d="M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z"/><path d="M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z"/><path d="M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z"/><path d="M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z"/></g></svg></span><span class="lockup__name" lang="tr">pld türkiye</span></span></div>
+      <div class="brand-pld"><span class="lockup l-medium"><span class="lockup__symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-label="Laz Güneşi"><g fill="currentColor" fill-rule="evenodd"><path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/><path d="M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z"/><path d="M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z"/><path d="M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z"/><path d="M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z"/><path d="M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z"/><path d="M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z"/><path d="M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z"/><path d="M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z"/><path d="M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z"/><path d="M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z"/><path d="M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z"/><path d="M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z"/><path d="M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z"/><path d="M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z"/><path d="M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z"/><path d="M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z"/><path d="M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z"/></g></svg></span><span class="lockup__name" lang="tr">pld türkiye</span></span></div>
+      <div class="brand-pld col-large"><span class="lockup l-large"><span class="lockup__symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-label="Laz Güneşi"><g fill="currentColor" fill-rule="evenodd"><path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/><path d="M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z"/><path d="M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z"/><path d="M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z"/><path d="M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z"/><path d="M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z"/><path d="M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z"/><path d="M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z"/><path d="M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z"/><path d="M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z"/><path d="M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z"/><path d="M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z"/><path d="M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z"/><path d="M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z"/><path d="M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z"/><path d="M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z"/><path d="M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z"/><path d="M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z"/></g></svg></span><span class="lockup__name" lang="tr">pld türkiye</span></span></div>
+
+      <span class="row-label">photo</span>
+      <div class="brand-photometric"><span class="lockup l-small"><span class="lockup__symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-label="Laz Güneşi"><g fill="currentColor" fill-rule="evenodd"><path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/><path d="M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z"/><path d="M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z"/><path d="M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z"/><path d="M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z"/><path d="M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z"/><path d="M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z"/><path d="M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z"/><path d="M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z"/><path d="M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z"/><path d="M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z"/><path d="M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z"/><path d="M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z"/><path d="M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z"/><path d="M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z"/><path d="M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z"/><path d="M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z"/><path d="M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z"/></g></svg></span><span class="lockup__name">photometric</span></span></div>
+      <div class="brand-photometric"><span class="lockup l-medium"><span class="lockup__symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-label="Laz Güneşi"><g fill="currentColor" fill-rule="evenodd"><path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/><path d="M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z"/><path d="M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z"/><path d="M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z"/><path d="M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z"/><path d="M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z"/><path d="M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z"/><path d="M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z"/><path d="M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z"/><path d="M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z"/><path d="M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z"/><path d="M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z"/><path d="M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z"/><path d="M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z"/><path d="M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z"/><path d="M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z"/><path d="M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z"/><path d="M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z"/></g></svg></span><span class="lockup__name">photometric</span></span></div>
+      <div class="brand-photometric col-large"><span class="lockup l-large"><span class="lockup__symbol"><svg xmlns="http://www.w3.org/2000/svg" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-label="Laz Güneşi"><g fill="currentColor" fill-rule="evenodd"><path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/><path d="M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z"/><path d="M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z"/><path d="M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z"/><path d="M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z"/><path d="M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z"/><path d="M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z"/><path d="M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z"/><path d="M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z"/><path d="M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z"/><path d="M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z"/><path d="M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z"/><path d="M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z"/><path d="M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z"/><path d="M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z"/><path d="M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z"/><path d="M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z"/><path d="M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z"/></g></svg></span><span class="lockup__name">photometric</span></span></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 04 · EDITORIAL · TURKISH                                     -->
+  <!-- ============================================================ -->
+  <div class="section-marker">
+    <span class="num">04</span>
+    <h2>Editorial · Long-form Turkish</h2>
+    <span class="sub">Inter Tight headlines, Inter body, full token coverage</span>
+  </div>
+
+  <article class="editorial brand-agustos" lang="tr">
+    <h4 class="t-h4">Bayilik · Aydınlatma · Mayıs 2026</h4>
+    <h1 class="t-h1">Işığın mimariyle buluştuğu yer.</h1>
+    <p class="t-deck">2009'dan bu yana Türkiye'nin önde gelen tasarım stüdyolarıyla. Yazan: <em>Emre Güneş</em>, Ağustos Teknoloji.</p>
+
+    <p class="t-body">Ağustos Teknoloji, on iki uluslararası aydınlatma markasının Türkiye temsilcisidir. Soraa, CoeLux, Xicato ve diğer markalarımızla birlikte; mimar, iç mimar, peyzaj mimarı ve aydınlatma tasarımcılarına proje bazında <a href="#">danışmanlık</a> sunuyoruz.</p>
+
+    <p class="t-body">Yaklaşımımız basit: <em>doğru ışık, doğru yerde, doğru zamanda.</em> Bu nedenle her projede <strong>spesifikasyon disiplini</strong> ve uzun vadeli teknik destek birlikte yürür.</p>
+
+    <h2 class="t-h2">Çalışma Yaklaşımımız</h2>
+    <p class="t-body">Her proje, mekânın ihtiyaçlarına özgü bir okumayla başlar. Spesifikasyon süreci üç adımda ilerler:</p>
+
+    <ol class="t-list-ol">
+      <li>Aydınlatma briefinin oluşturulması</li>
+      <li><a href="#">Ürün önerileri</a> ve teknik dosyaların paylaşımı</li>
+      <li>Uygulama desteği ve devreye alma</li>
+    </ol>
+
+    <h3 class="t-h3">CoeLux · Yapay Gökyüzü</h3>
+    <p class="t-body">CoeLux, mekâna gerçek gökyüzü algısı taşıyan benzersiz bir teknolojidir. Modüller <code>CRI &gt; 95</code> değeriyle, 240 m<sup>2</sup>'lik salonlarda 850 lümen/m<sup>2</sup> seviyesinde çalışır. CO<sub>2</sub> emisyonu konvansiyonel sistemlere göre belirgin biçimde düşüktür.</p>
+
+    <blockquote class="t-blockquote">
+      İyi aydınlatma, fark edilmediği zaman en iyisidir.
+      <cite>— Richard Kelly, 1952</cite>
+    </blockquote>
+
+    <p class="t-pullquote">Aydınlatma, mimarinin sessiz dilidir.</p>
+
+    <h4 class="t-h4">Bayilik fiyatları</h4>
+    <p class="t-body">CoeLux LS modülü: <s>3.500 ₺</s> 2.800 ₺ (Mayıs kampanyası, %20 indirimli). Detaylar için <a href="#">katalog talebinde</a> bulunabilirsiniz.</p>
+
+    <figure class="t-figure">
+      <div class="placeholder">Proje Görseli</div>
+      <figcaption><strong>İstanbul Modern, 2024.</strong> Soraa Vivid 3 ile tasarlanan müze aydınlatması. Fotoğraf: Cemal Emden.</figcaption>
+    </figure>
+
+    <hr class="t-divider">
+
+    <p class="t-footnote"><sup>1</sup> Ürün spesifikasyonları üreticinin son veri sayfasına göre değişebilir. Güncel bilgi için bizimle iletişime geçiniz.</p>
+  </article>
+
+  <!-- ============================================================ -->
+  <!-- 05 · PRODUCT UI                                              -->
+  <!-- ============================================================ -->
+  <div class="section-marker">
+    <span class="num">05</span>
+    <h2>Product UI — Photometric Batch dashboard</h2>
+    <span class="sub">Inter for data, Inter Tight for labels and KPIs</span>
+  </div>
+
+  <div class="product-ui brand-photometric">
+    <div class="ui-header">
+      <div>
+        <p class="ui-title">IES File Pipeline</p>
+        <p class="ui-subtitle">Active engagements · Q2 2026</p>
+      </div>
+      <span class="ui-status">● Running</span>
+    </div>
+
+    <div class="stat-grid">
+      <div class="stat">
+        <p class="stat-label">Files Processed</p>
+        <p class="stat-value">2,847</p>
+        <p class="stat-meta">+412 today</p>
+      </div>
+      <div class="stat">
+        <p class="stat-label">Avg Lumen Output</p>
+        <p class="stat-value">1,240</p>
+        <p class="stat-meta">CRI 92.4</p>
+      </div>
+      <div class="stat">
+        <p class="stat-label">Active Manufacturers</p>
+        <p class="stat-value">14</p>
+        <p class="stat-meta">3 onboarding</p>
+      </div>
+      <div class="stat">
+        <p class="stat-label">Failed Validations</p>
+        <p class="stat-value">23</p>
+        <p class="stat-meta">0.8% error rate</p>
+      </div>
+    </div>
+
+    <p class="ui-section-label">Manufacturer Pipeline · Last 24 hours</p>
+    <table class="ui-table">
+      <thead>
+        <tr><th>Manufacturer</th><th>Status</th><th>Files</th><th>Avg Lumen</th><th>Last Run</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>LIGMAN</td><td><span class="badge ok">Validated</span></td><td>847</td><td>1,420</td><td>14:32</td></tr>
+        <tr><td>HEPER</td><td><span class="badge run">Processing</span></td><td>312</td><td>980</td><td>14:18</td></tr>
+        <tr><td>B-K Lighting</td><td><span class="badge queued">Queued</span></td><td>156</td><td>—</td><td>13:45</td></tr>
+        <tr><td>ELS Lighting</td><td><span class="badge ok">Validated</span></td><td>238</td><td>1,156</td><td>13:02</td></tr>
+        <tr><td>Soraa</td><td><span class="badge ok">Validated</span></td><td>1,294</td><td>1,310</td><td>12:48</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- 06 · TOKEN MAP                                               -->
+  <!-- ============================================================ -->
+  <div class="section-marker">
+    <span class="num">06</span>
+    <h2>Token-to-face map</h2>
+    <span class="sub">Which family does which job</span>
+  </div>
+
+  <div class="map">
+    <h3>The 24 tokens, mapped to faces.</h3>
+    <p>Display drives every "designed" surface — logotype, hero, headings, eyebrows, UI labels, KPI numerals, badges. Body drives every paragraph and inline element. Mono drives code. No token uses more than one family. The system fallback resolves to native UI fonts when web fonts don't load — designed degradation, not breakage.</p>
+
+    <div class="map-grid">
+
+      <div class="map-col">
+        <h4>Inter Tight (Display)</h4>
+        <ul>
+          <li><span class="token">.type-hero</span><span class="face">big hero · 112px / 300</span></li>
+          <li><span class="token">.type-hero-md</span><span class="face">medium hero · 72px / 400</span></li>
+          <li><span class="token">.type-h1</span><span class="face">page title</span></li>
+          <li><span class="token">.type-h2</span><span class="face">section</span></li>
+          <li><span class="token">.type-h3</span><span class="face">subsection (italic)</span></li>
+          <li><span class="token">.type-h4</span><span class="face">eyebrow / label</span></li>
+          <li><span class="token">.type-pullquote</span><span class="face">editorial highlight</span></li>
+          <li><span class="token">.lockup__name</span><span class="face">wordmark · 300</span></li>
+          <li><span class="token">UI labels</span><span class="face">forms, buttons, tabs</span></li>
+          <li><span class="token">UI numerals</span><span class="face">stats, KPIs, dashboards</span></li>
+          <li><span class="token">UI badges</span><span class="face">status, tags, pills</span></li>
+          <li><span class="token">table th</span><span class="face">column headers</span></li>
+        </ul>
+      </div>
+
+      <div class="map-col">
+        <h4>Inter (Body)</h4>
+        <ul>
+          <li><span class="token">.type-body</span><span class="face">paragraph</span></li>
+          <li><span class="token">.type-hero-deck</span><span class="face">italic deck</span></li>
+          <li><span class="token">em</span><span class="face">italic / deck / byline</span></li>
+          <li><span class="token">strong</span><span class="face">bold emphasis</span></li>
+          <li><span class="token">a</span><span class="face">link</span></li>
+          <li><span class="token">sub / sup / s</span><span class="face">inline modifiers</span></li>
+          <li><span class="token">.type-blockquote</span><span class="face">attributed quote · italic</span></li>
+          <li><span class="token">.type-list-ol</span><span class="face">ordered list</span></li>
+          <li><span class="token">.type-list-ul</span><span class="face">unordered list</span></li>
+          <li><span class="token">.type-dl</span><span class="face">definition list</span></li>
+          <li><span class="token">.type-figure figcaption</span><span class="face">image caption</span></li>
+          <li><span class="token">.type-footnote</span><span class="face">notes / sources</span></li>
+          <li><span class="token">table td</span><span class="face">data cells</span></li>
+        </ul>
+      </div>
+
+      <div class="map-col">
+        <h4>JetBrains Mono</h4>
+        <ul>
+          <li><span class="token">code (inline)</span><span class="face">technical values</span></li>
+          <li><span class="token">.type-code-block</span><span class="face">multi-line code</span></li>
+          <li><span class="token">file inputs</span><span class="face">paths, hex, IDs</span></li>
+          <li><span class="token">section .num</span><span class="face">section markers</span></li>
+        </ul>
+        <h4 style="margin-top: 32px;">Fallback strategy</h4>
+        <ul>
+          <li><span class="token" style="color:#e8e3d0;">--display</span><span class="face">Inter Tight → Inter → system</span></li>
+          <li><span class="token" style="color:#e8e3d0;">--body</span><span class="face">Inter → -apple-system → Segoe UI → Roboto → Helvetica → Arial</span></li>
+          <li><span class="token" style="color:#e8e3d0;">--mono</span><span class="face">JetBrains Mono → SF Mono → Menlo → Consolas</span></li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>

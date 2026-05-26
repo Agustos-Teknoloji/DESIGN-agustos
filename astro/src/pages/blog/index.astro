@@ -1,0 +1,39 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<BaseLayout title="Writing — Ağustos Teknoloji" description="Notes from the publisher's house.">
+  <article class="container">
+    <h1 class="type-h1">Writing</h1>
+    <p class="type-body"><em>Notes on lighting, typography, and the technical layer that holds them together.</em></p>
+
+    <hr class="type-divider" />
+
+    <ul class="post-list">
+      {posts.map((post) => (
+        <li>
+          <h2 class="type-h2 post-list__title">
+            <a href={`/blog/${post.id}`} lang={post.data.lang}>{post.data.title}</a>
+          </h2>
+          {post.data.deck && <p class="type-body" lang={post.data.lang}><em>{post.data.deck}</em></p>}
+          <p class="type-footnote">
+            {fmt.format(post.data.date)} · <span class="post-list__brand">{post.data.brand}</span>
+          </p>
+        </li>
+      ))}
+    </ul>
+  </article>
+</BaseLayout>
+
+<style>
+  .post-list { list-style: none; padding-left: 0; }
+  .post-list li { padding: 1.5rem 0; border-bottom: 1px solid var(--rule); }
+  .post-list li:last-child { border-bottom: 0; }
+  .post-list__title { margin: 0 0 0.4em; }
+  .post-list__brand { text-transform: uppercase; letter-spacing: 0.14em; font-family: var(--display); font-size: 11px; font-weight: 700; }
+</style>

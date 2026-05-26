@@ -1,0 +1,92 @@
+---
+import LazGunesi from './LazGunesi.astro';
+
+/**
+ * The brand lockup — a logotype, not navigation.
+ *
+ * Grammar (from DESIGN.md §"Logotype"):
+ *   [ Symbol ]  Brandname
+ *
+ * - Symbol height = 1.4× wordmark cap height (visual; tuned via the 0.7 factor below)
+ * - Symbol-to-wordmark gap = 0.4× wordmark size
+ * - Wordmark uses --display (Inter Tight Light, v2.0) in --brand color
+ * - No subtitle, no hover underline. The lockup is identity, not a link affordance.
+ *
+ * The `expression="mono"` variant uses --ink instead of --brand for single-color contexts.
+ */
+interface Props {
+  brandname: string;
+  size?: number;       // px — wordmark size (default 22)
+  expression?: 'positive' | 'mono';
+  href?: string;
+}
+const {
+  brandname,
+  size = 22,
+  expression = 'positive',
+  href,
+} = Astro.props;
+
+const symbolSize = Math.round(size * 1.4 * 0.7); // 1.4× cap height ≈ 0.7× wordmark size
+const gap = Math.round(size * 0.4);
+
+// Color is wired through a CSS custom property so the *parent* can override it
+// (e.g. for the negative expression — cream lockup on a brand-color tile in dark mode).
+// Default value falls through the cascade: --lockup-color → expression default.
+const defaultColor = expression === 'mono' ? 'var(--ink)' : 'var(--brand)';
+---
+{href ? (
+  <a class="lockup" href={href} style={`gap: ${gap}px; color: var(--lockup-color, ${defaultColor});`} aria-label={brandname}>
+    <span class="lockup__symbol"><LazGunesi size={symbolSize} /></span>
+    <span class="lockup__name" style={`font-size: ${size}px;`}>{brandname}</span>
+  </a>
+) : (
+  <span class="lockup" style={`gap: ${gap}px; color: var(--lockup-color, ${defaultColor});`}>
+    <span class="lockup__symbol"><LazGunesi size={symbolSize} /></span>
+    <span class="lockup__name" style={`font-size: ${size}px;`}>{brandname}</span>
+  </span>
+)}
+
+<style>
+  .lockup {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    /* Both symbol (currentColor inheritance) and wordmark inherit color from here. */
+  }
+  /* Lockup is an identity element — never an underline, even on hover. */
+  a.lockup,
+  a.lockup:hover,
+  a.lockup:focus,
+  a.lockup:active { text-decoration: none; }
+
+  .lockup__symbol {
+    display: inline-flex;
+    align-items: center;
+    /* Optical centering correction. align-items: center on the parent .lockup
+       centers the symbol on the line-box midpoint (~0.5em above baseline).
+       But lowercase text concentrates its visual mass between baseline and
+       x-height (~0.26em above baseline) — the upper portion of the line-box
+       is mostly empty (only ascenders/breves reach it). Translate the symbol
+       down 0.08em so its center aligns with the wordmark's optical center.
+       Reads as "centered" for both ascender-light words (pataraz) and
+       ascender-heavy ones (ağustos with the ğ breve). */
+    transform: translateY(0.08em);
+  }
+
+  .lockup__name {
+    font-family: var(--display);
+    font-weight: 300;
+    line-height: 1;
+    letter-spacing: -0.005em;
+    /* Wordmark is always rendered lowercase — the brandname prop can be passed in any case
+       (e.g. "Ağustos Teknoloji" for SEO/aria) but the visible mark is always "ağustos teknoloji". */
+    text-transform: lowercase;
+    /* Inter Tight (v2.0): variable wght axis 100–900 with italics. Light (300) is the working weight.
+       Tighter, more compressed sibling of Inter (same designer, shared skeleton) — the lockup integrates
+       with the surrounding chrome which also runs on Inter Tight. The Turkish ğ's breve sits humanistically
+       on the g; Inter has gold-standard Latin Extended coverage. Letter-spacing slightly negative (-0.005em)
+       to lock the wordmark at all sizes from 16px to 200px. */
+    color: inherit;
+  }
+</style>

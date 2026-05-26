@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ağustos HERO Example</title>
+    <link rel="stylesheet" href="https://website-agustos.pages.dev/_astro/_slug_.CySdSaxZ.css">
+    <style>
+      body {
+        margin: 0;
+      }
+
+      .hero-page {
+        width: min(calc(100% - 3rem), 1320px);
+        padding: 0;
+      }
+
+      .hero--example {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 1.5rem 0 clamp(3rem, 7vw, 6rem);
+        text-align: left;
+      }
+
+      .hero__content {
+        max-width: none;
+      }
+
+      .hero__eyebrow {
+        margin: 0 0 clamp(1.5rem, 3vw, 2.5rem);
+        color: var(--brand);
+      }
+
+      .hero--example .type-hero-md {
+        max-width: 100%;
+        margin-bottom: 0.42em;
+      }
+
+      .hero--example .type-hero-deck {
+        max-width: 64ch;
+        font-size: clamp(19px, 1.7vw, 24px);
+      }
+
+      .hero-links {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        gap: 1rem 1.5rem;
+        margin-top: 2rem;
+      }
+
+      .hero-link {
+        display: inline-flex;
+        align-items: baseline;
+        gap: 0.35em;
+        border-bottom: 2px solid var(--brand);
+        color: var(--ink);
+        font-family: var(--display);
+        font-size: clamp(17px, 1.3vw, 21px);
+        font-weight: 600;
+        line-height: 1.15;
+        letter-spacing: 0;
+        text-decoration: none;
+      }
+
+      .hero-link::after {
+        content: "\2192";
+        color: var(--brand);
+      }
+
+      .hero-link--secondary {
+        color: var(--ink-soft);
+        font-weight: 500;
+      }
+
+      .hero-trust {
+        margin: clamp(2rem, 5vw, 3.5rem) 0 0;
+        font-family: var(--body);
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--ink-faint);
+      }
+
+      @media (max-width: 900px) {
+        .hero--example {
+          padding-top: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body class="brand-agustos">
+    <main id="main">
+      <article class="container hero-page">
+        <section class="hero hero--example" aria-labelledby="home-hero-title">
+          <div class="hero__content">
+            <p class="type-h4 hero__eyebrow">Ağustos Teknoloji</p>
+
+            <h1 id="home-hero-title" class="type-hero-md">
+              İnovatif Aydınlatma Çözümleri &amp; Dijital Dönüşüm
+            </h1>
+
+            <p class="type-hero-deck">
+              2005 yılından beri aydınlatma tasarımının değerini anlatıyor;
+              üreticileri, tasarımcıları ve işletmeleri nitelikli ürünler ve
+              dijital süreçlerle buluşturuyoruz.
+            </p>
+
+            <nav class="hero-links" aria-label="Ana bağlantılar">
+              <a class="hero-link hero-link--primary" href="https://website-agustos.pages.dev/aydinlatma">
+                Markaları incele
+              </a>
+              <a class="hero-link hero-link--primary" href="https://website-agustos.pages.dev/danismanlik">
+                Yazılımları incele
+              </a>
+              <a class="hero-link hero-link--secondary" href="https://website-agustos.pages.dev/bize-ulasin">
+                Görüşelim
+              </a>
+            </nav>
+
+            <p class="hero-trust">
+              2005'ten beri · 12 uluslararası marka · Aydınlatma + dijital dönüşüm
+            </p>
+          </div>
+        </section>
+      </article>
+    </main>
+  </body>
+</html>

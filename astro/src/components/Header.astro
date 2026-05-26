@@ -1,0 +1,47 @@
+---
+import BrandLockup from './BrandLockup.astro';
+
+interface Props {
+  brandname: string;
+}
+const { brandname } = Astro.props;
+---
+<header class="site-header">
+  <div class="site-header__inner">
+    <BrandLockup brandname={brandname} href="/" size={20} />
+    <nav aria-label="Primary">
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/blog">Writing</a>
+      <a href="/typography">Typography</a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--rule);
+    padding: 1.25rem 1.5rem;
+  }
+  .site-header__inner {
+    max-width: 920px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+  nav {
+    display: flex;
+    gap: 1.5rem;
+    font-family: var(--display);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+  }
+  /* Nav links use the standard link treatment — bold + brand underline. */
+  nav a { color: var(--ink-soft); }
+  nav a:hover { color: var(--ink); }
+</style>

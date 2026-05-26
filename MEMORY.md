@@ -1,0 +1,466 @@
+# Design System Memory
+
+**Companion to DESIGN.md** · How the system arrived at its current form
+**Conversation date:** May 8, 2026
+**Purpose:** Prevent re-litigation of decisions already made. When future-Emre wonders "why did we decide X," the answer lives here.
+
+---
+
+## How to read this document
+
+This is a chronological record of turning points, moments where the system's direction changed, an option was rejected, or a principle was named. It's not a diary of every decision; only the ones worth remembering.
+
+For each turning point: what was on the table, what was chosen, and *why*. The "why" matters more than the "what", the why is what prevents future-you from rebuilding something already torn down.
+
+---
+
+## Conventions (where things live)
+
+A few structural rules that outlive any single decision. They're documented here once so we don't relitigate them.
+
+### `artifacts/`: exploratory & frozen-in-time
+
+Everything that informed a decision but isn't a production deliverable lives in `artifacts/`. That includes: typeface comparisons, logotype specimens, color exploration sheets, mockups, and any HTML page built to evaluate options. These are dated or versioned, never edited after the decision they informed has been made, they're the "what we considered" half of the historical record (DESIGN.md captures "what we chose," MEMORY.md captures "why").
+
+Naming convention: `agustos-{topic}-{variant}.html` (and matching `.pdf` archives where the visual fidelity matters long-term. Google Fonts URLs and CDN dependencies can rot, so PDF snapshots preserve the visual evidence).
+
+### `laz-gunesi-amblem/`: production asset kit
+
+The shipped, canonical brand assets. SVG masters, PDFs, PNGs at standard sizes, the live `laz-sun.css` that consumers can `<link>` to. Everything in here is referenced from production code (the Astro site, future docs, partner sites). Files here are versioned with the system and updated as the symbol or asset kit evolves.
+
+### Astro project: the implementation
+
+`astro/src/` is the live reference implementation. Components, layouts, tokens, content. Editing here changes what users see on the running site.
+
+### The split, in one sentence
+
+> If a file informs a decision, it goes in `artifacts/`. If a file *is* a brand asset, it goes in `laz-gunesi-amblem/`. If a file renders a page, it goes in `astro/src/`.
+
+---
+
+## Turning point 1: Starting reference: the Hamming page
+
+The conversation began with a screenshot of a Richard Hamming book page (Cormorant-style serif, single-family typography, yellow highlights, generous whitespace, justified body text with hyphenation). This became the anchor for "editorial restraint" as a design direction.
+
+**Why it mattered:** The reference established the *register* for the entire system before any specific decisions were made. Editorial-school typography (NYT, Stripe Press, Tufte) rather than SaaS-school (Inter + cards + UI chrome). Every subsequent decision was filtered through "does this fit the editorial register?"
+
+---
+
+## Turning point 2: Two hats acknowledged
+
+Initial framing: Emre operates two distinct businesses. Ağustos Teknoloji (agency, Turkish, specifiers) and PIM-STEPS consultancy (English, manufacturers). The decision was made to build a **unified system, two voices**, one set of primitives, two expressions, sibling-brand recognition.
+
+Later expanded to four brands: Ağustos, Pataraz, PLD Türkiye, Photometric Batch.
+
+**Why it mattered:** This locked in the "multi-brand from a shared system" architecture. If we'd built for just Ağustos, we'd have to redo it for Pataraz. Building for the portfolio from the start forced systemic thinking.
+
+---
+
+## Turning point 3: Typography exploration over commitment
+
+When asked to pick a typeface, Emre said *"I'm not sure between sans-serif or serif. But I want it to be readable in every device. Yet distinctive. I want to explore options."*
+
+This was the right instinct. We rendered four candidates (Inter Tight + Source Serif 4, Instrument Serif + Geist, Fraunces alone, Manrope + Newsreader) against actual Turkish + English content before deciding.
+
+**Why it mattered:** Picking from a list is a different decision than picking from rendered evidence. Every typography choice that followed was anchored in actual visual judgment, not abstract description.
+
+---
+
+## Turning point 4: Fraunces selected, then later rejected
+
+Initial choice: Fraunces (single variable family). Reasoning: most disciplined option, most distinctive, single-family Hamming approach.
+
+Later rejected after the "boldish body" feedback revealed Fraunces' character was wrong for body reading at length.
+
+**Why it mattered:** Demonstrates the value of testing a typeface in *every* context (display, body, italic, bold, links) before committing. Fraunces' display sizes are excellent; its body is too assertive. We discovered this only by rendering full hierarchy in real content.
+
+---
+
+## Turning point 5: Color philosophy: brand color on link only
+
+Two philosophies were considered:
+
+- **Philosophy A:** Brand color is the link. Yellow is the universal highlight. Brands feel like sections of a magazine.
+- **Philosophy B:** Brand color is link AND highlight. Each brand has its own atmosphere. Brands feel like separate publications.
+
+Emre chose A, with the further refinement: *"I want this system to work anywhere anytime."*
+
+This led to the deeper realization: highlight as a concept is non-portable in standard markdown. **Highlight was eliminated from the system entirely.** Only bold, italic, and link survived as inline emphasis primitives.
+
+**Why it mattered:** This was the moment the system became *sustainable*. Removing highlight from the vocabulary meant every emphasis decision now maps to standard markdown that survives the round-trip across Obsidian, GitHub, Pandoc, plain text. The most disciplined version of the system.
+
+---
+
+## Turning point 6: Substrate-agnostic principle
+
+Emre asked: *"I want to make sure system works even with white background."*
+
+This led to defining cream `#fefcf2` as the *primary* substrate but ensuring every token works against white `#ffffff` too. Cream became a flavor, not a requirement.
+
+**Why it mattered:** Email rendering, docx defaults, generic web, and printer paper all use white. A system that needs cream is fragile; a system that works on white *and* cream is portable. This decision protected the system from email rendering failures and dash boards in white-default environments.
+
+---
+
+## Turning point 7: Logo system: same symbol, forever
+
+Considered three options:
+
+- Same symbol for all brands (most disciplined)
+- Each brand has its own symbol (more conventional)
+- Hybrid with future-brand escape hatch (compromise)
+
+Emre chose: **same symbol forever, no escape hatch.** *"The discipline matters more than the symbolism."*
+
+The Laz Güneşi (Laz sun) becomes the publisher's mark across all brands. New brands plug in by choosing only a name and a color.
+
+**Why it mattered:** This was a contrarian move, most brand consultants would tell you per-brand symbols are correct. Emre chose systemic discipline over per-brand expressiveness. This prevents the "logo redesign" problem: every new brand requires zero design work, just two decisions.
+
+---
+
+## Turning point 8: Turkish locale handling
+
+Discovered during the logo work: CSS `text-transform: uppercase` in Turkish content silently produces wrong capitalization without `lang="tr"` declared. The lowercase `i` becomes `I` (dotless) instead of `İ` (dotted).
+
+This was elevated to a system rule: every Turkish content block must declare `lang="tr"`, and CSS must enable `font-feature-settings: "locl"` globally.
+
+**Why it mattered:** Without this rule, Turkish capitalization is silently wrong everywhere uppercase styling is applied, eyebrows, brand names, table headers, H4 labels. Catching it during system design rather than in production saved real reputational damage. This is exactly the kind of detail that distinguishes a designed system from a copy-pasted one.
+
+---
+
+## Turning point 9: Token simplification rounds
+
+The system started at ~30 tokens (full editorial vocabulary including display-xl, display, eyebrow, deck, byline, small, meta, small-caps).
+
+Emre pushed back: *"This feels too much. Anything to be simplified?"*
+
+Multiple cut rounds followed:
+
+- **Cut Display-XL and Display**. H1 is the biggest thing on the page
+- **Cut Eyebrow, Deck, Byline.** Absorbed into H4 and italic body
+- **Cut Small, Meta, Caption.** Absorbed into existing tokens or removed as unnecessary tier
+- **Cut Small Caps.** Editorial flourish, not a primitive
+- **Cut Strong-em.** Bold or italic alone covers needed emphasis levels
+
+Final count: **22 tokens.** Down from ~30.
+
+**Why it mattered:** Smaller systems are more sustainable. Every token is a decision the writer must make; fewer tokens = fewer decisions = faster writing = easier handoff to anyone else. Emre's instinct ("everything seems unnecessary") was correct, the original system had decoration disguised as structure.
+
+---
+
+## Turning point 10: Heading distinctness fix
+
+Emre flagged: *"Are H2 and H3 distinctive enough?"*
+
+After audit, two changes:
+
+- **H1 increased from 36px to 44px.** Page title now genuinely announces
+- **H3 made italic.** Categorically different from H2, not just different size
+
+The italic H3 is a Tufte move. It gives subsections a softer, more editorial register that's structurally distinct from H2's role as section break.
+
+**Why it mattered:** Hierarchy that requires squinting to distinguish levels is broken hierarchy. The fix made the system more legible without adding tokens, same vocabulary, better rhythm.
+
+---
+
+## Turning point 11: Standard markdown coverage audit
+
+Emre asked: *"A standard markdown token list, is it all covered? Anything missing?"*
+
+Audit revealed three gaps:
+
+- **Subscript** (CO₂, H₂O), added
+- **Superscript** (m², m³), added
+- **Strikethrough** (revision marks), added
+
+These are all standard in Pandoc / Obsidian / GFM. Important for technical lighting writing where formulas and units appear constantly.
+
+**Why it mattered:** Going from "feels complete" to "actually covers all standard markdown" closes the door on future "we need to add this" requests. The system isn't almost-complete; it's complete.
+
+---
+
+## Turning point 12: Body weight problem (Fraunces specifically)
+
+Emre flagged: *"Body feels a bit boldish, I was thinking of thinner approach where I can fell the bold ones. Now everything seems boldish."*
+
+This was a Fraunces character problem, its weight 400 sits visually heavier than book conventions expect.
+
+Tried four solutions:
+
+- **Option A:** Body 380 / Bold 600 (lighter body)
+- **Option B:** Body 400 / Bold 700 (heavier bold)
+- **Option C:** Body 380 / Bold 650 (both)
+- **Option D:** SOFT axis tweak
+
+Emre chose Option A but flagged uncertainty.
+
+**Why it mattered:** This was the diagnostic signal that revealed Fraunces wasn't quite right for body. The "Option A feels OK but not 100% sure" feedback led directly to questioning the typeface itself, not just its weight tuning.
+
+---
+
+## Turning point 13: Typeface family pivot to Newsreader
+
+After the weight tuning didn't fully resolve the body comfort issue, we tested four typefaces side-by-side: Fraunces (current), Source Serif 4, Newsreader, EB Garamond. Same locked-down system, same content.
+
+Emre's response: *"I feel close to Newsreader."*
+
+Newsreader was designed by Production Type *specifically* for screen body reading at length. Its optical-size axis means letterforms genuinely change shape between body (16px) and display (44px) sizes. This was the typeface whose mission matched what Emre was trying to do.
+
+**Why it mattered:** The "boldish body" problem was never about weight tuning, it was about typeface character. The right answer was changing the typeface, not the weights. This is the kind of root-cause shift that separates a system that works from one that doesn't.
+
+---
+
+## Turning point 14: Sans-only consideration and resolution
+
+After fatigue with serif options, Emre said: *"Should we try sans-serif fonts as well? I'm leaning to sans-serif only."*
+
+We tested five sans candidates (Inter, IBM Plex Sans, Geist, Manrope, Inter Tight) at full system fidelity.
+
+Critical realization during evaluation: **Sans-only optimizes for Photometric Batch (1 brand) at the cost of Pataraz, PLD Türkiye, and Ağustos editorial (3 brands).** The premium positioning of Pataraz specifically relies on editorial register to feel premium without spending.
+
+Emre's question shifted: *"What about fall back strategy?"* and then *"Something that can stay relevant over the time in 10 years or so?"*
+
+The longevity question reframed the entire decision. **Newsreader, in the book-serif tradition (250 years old), ages better than any sans candidate.** Sans typefaces ride trends; book serifs survive them.
+
+**Why it mattered:** Without the longevity question, we might have committed to a sans for short-term feel reasons. Asking "10 years from now" exposed which decisions were fashion and which were infrastructure. Newsreader is infrastructure.
+
+---
+
+## Turning point 15: Source Sans 3 chosen as Newsreader companion
+
+With Newsreader locked as the editorial face, the question became which sans pairs with it for product UI.
+
+Considered: Inter (workmanlike), IBM Plex Sans (humanist warmth, good companion), Geist (too "of-2024"), Manrope (too geometric), Source Sans 3 (matched-sibling philosophy).
+
+**Source Sans 3 won** because it shares Newsreader's design philosophy (humanist, screen-optimized, designed-as-infrastructure). It's the closest thing to an "official sibling" Newsreader has.
+
+**Why it mattered:** Pairing decisions are different from standalone decisions. The right companion isn't "the best sans", it's "the sans that makes the serif stronger." Source Sans 3 disappears next to Newsreader the way good infrastructure disappears.
+
+---
+
+## Turning point 16: Character coverage verification
+
+Before locking the system, Emre asked: *"Currency symbols etc, any compatibility issues that we should think of? I really want this to be done once and move further."*
+
+Built explicit verification specimen testing:
+
+- Currencies (₺ € $ £ ¥ ¢)
+- Technical (° ² ³ ₂ × − ± µ → ← ≈ ≠ ≤ ≥)
+- Editorial (" " ' ' – — … § ¶ © ® ™ † ‡ • ·)
+- Turkish alphabet (full)
+- Numerals (proportional and tabular)
+
+All three faces (Newsreader, Source Sans 3, JetBrains Mono) ship the **Google Fonts Latin Plus** glyph set. All characters verified present and correctly rendered.
+
+**Why it mattered:** This is the kind of detail that's invisible until it breaks in production. Verifying character coverage *before* locking the system means future-Emre never has to debug a missing ₺ in a Pataraz pricing PDF or an incorrect Turkish capital İ in a brand name.
+
+---
+
+## Turning point 17: Final lock
+
+System locked at version 1.0:
+
+- **Type:** Newsreader (serif) + Source Sans 3 (sans) + JetBrains Mono
+- **22 tokens** mapped cleanly to standard markdown
+- **Color:** Brand on links only, cream + white substrates
+- **Logo:** One symbol forever, name + color flex
+- **Locale:** `lang="tr"` mandatory for Turkish content
+- **Coverage:** Verified across currencies, technical, editorial, Turkish
+
+**Why it mattered:** This was the moment when "design exploration" became "design specification." Every decision was tested against real content, real languages, real character sets, real surfaces. The system is the product of judgment, not enthusiasm.
+
+---
+
+## Turning point 18: Implementation phase: spec to running site
+
+The system left specification mode in May 2026. An Astro reference site was built implementing every token, brand class, lockup, and substrate behavior. Around the same time, the original Adobe Illustrator file for the Laz Güneşi (`laz-gunesi-amblem.ai`, 2019) surfaced and was parametrically rebuilt as a clean 18-blade SVG (centered, deduplicated, ~250× smaller than the source PDF for the same visual).
+
+The `LazGunesi.astro` placeholder (12 simple rays + a disc, labeled "Swap with the final mark when ready; the API stays stable") was replaced with the real geometry. The component API stayed identical: `size`, `title`, `class`, `currentColor` inheritance, so `BrandLockup` and any other call sites kept working untouched.
+
+A full asset kit (SVG masters in red/black/white/lockups, PDFs, PNGs at 256/512/1024/2048/4096, plus a self-contained `laz-sun.css` with mask + background variants) was packaged at `laz-gunesi-amblem/` next to DESIGN.md and MEMORY.md.
+
+**Why it mattered:** The placeholder-to-real swap proved the system's portability claim, the symbol changed, every consumer kept working, no design decisions were re-opened. This is what "stable API" buys you, and it's the first real test the system passed.
+
+---
+
+## Turning point 19: Logotype decision: Fraunces, scoped to wordmark only
+
+In v1.0 the wordmark used Newsreader Display at opsz 60. After implementation, Emre flagged that the lockup felt quiet. *"I want to find a proper Font for the Logo type. So that we can use it as brand asset from now on."*, plus three constraints: brand color, no underline on hover, no subtitle.
+
+A specimen sheet was rendered at three sizes (20px / 44px / 120px) for five candidates: Fraunces, Instrument Serif, Bricolage Grotesque, DM Serif Display, and the Newsreader baseline. Emre picked Fraunces.
+
+**This is not a reversal of TP12 / TP13.** Those rejected Fraunces as **body type** at small sizes, the "boldish body" character problem at 16px reading length. The logotype use is fundamentally different: ~20–200px, one word, set ~once per page. At display sizes Fraunces' character is a feature, not a defect. TP4 had already noted: "Fraunces' display sizes are excellent."
+
+So the system now uses **two serifs**: Newsreader for body and headings (the reading layer), Fraunces for the wordmark only (the identity layer). They are siblings, both modern revivals of mid-20th-century display traditions, both have optical sizing, both were designed for screen. The pairing is intentional, and bounded: Fraunces appears nowhere except inside `BrandLockup`.
+
+The decision was load-bearing on three things:
+
+1. **The `ğ` reads at every size.** Fraunces' breve has presence at 18px and personality at 200px. None of the other candidates nailed this, and `ğ` is the only character that matters in "Ağustos."
+2. **opsz handles the lockup math automatically.** The component renders the wordmark at anywhere from 18px (header) to 200px (hero); Fraunces' opsz axis tunes terminals and contrast continuously across that range. No manual size variants.
+3. **Family kinship over family identity.** Fraunces ≠ Newsreader, but they belong to the same design tradition. The wordmark feels related to the body, not foreign to it.
+
+A new `--logotype` token was added to `tokens.css` (separate stack from `--serif`), `BrandLockup` was updated to use it, the secondary-line prop was removed (no subtitle on the publisher mark), wordmark color shifted from `--ink` to `--brand`, and the hover underline was explicitly suppressed.
+
+**Why it mattered:** Confirmed that prior rejections aren't permanent bans, they're scoped rejections. Fraunces was wrong for one job and right for another. The system is durable enough to re-examine a typeface with new evidence and reach the opposite conclusion without contradicting itself. The discipline isn't "never reconsider", it's "reconsider only with new information and a clear scope."
+
+---
+
+## Turning point 20: Logotype re-tune: slim, lowercase, four brands, WONK on
+
+After v1.1 shipped with Fraunces at semi-bold (weight 600, opsz 96, WONK 0), Emre flagged that the existing physical logo (rounded chunky sans, "agustos teknoloji" with no `ğ`) wasn't what he wanted, and showed me the source, making it clear the brief was: **slim, distinctive, eye-catching, lowercase, ağustos / pataraz / pld türkiye / photometric batch**.
+
+A second specimen was rendered with five slim candidates: Fraunces Light + WONK (system retune), Cormorant Garamond Light, Instrument Serif Italic, Bricolage Grotesque Light, Bodoni Moda Light. Each shown with all four brand wordmarks, their own brand colors, at hero and small sizes.
+
+Emre picked **Fraunces Light + WONK**, the system retune.
+
+Three changes shipped:
+
+1. **Variation settings flipped from semi-bold to slim-with-character.** `font-weight: 600 → 300`, `opsz: 96 → 144`, `WONK: 0 → 1`, `letter-spacing: -0.020em → -0.030em`. The WONK axis swaps in alternate letterforms (single-story g, characterful ear on a, distinctive y descender). This is what makes "slim" not feel "thin and forgettable."
+
+2. **`text-transform: lowercase` enforced in CSS.** The `brandname` prop can be passed in any case (Title Case is fine for SEO/aria/screen readers); the visible wordmark always renders lowercase. Visual rule lives in CSS, not in data.
+
+3. **Per-brand wordmark map in `BaseLayout.astro`.** `agustos → ağustos`, `pataraz → pataraz`, `pld → pld türkiye`, `photo → photometric batch`. The `<title>` tag stays Title Case (separate concern). Adding a new brand = adding one map entry.
+
+**Why it mattered:** Confirmed two principles already named:
+
+- **Variable axes are the unit of taste-tuning, not font swaps** (TP19 introduced Fraunces; TP20 just dialed it differently). The font hasn't changed in two months; the look has changed twice. This is what variable fonts buy you, and what mid-2010s static-font systems couldn't.
+- **Pick the unit of normalization carefully.** Lowercase enforcement could have been a content rule ("write all brandnames lowercase"), a build rule (transform at build time), or a CSS rule. CSS won because it preserves the structured data (Title Case in the prop, which screen readers and search engines can use) while controlling presentation. The right place to normalize visual style is the visual layer.
+
+Side benefit: the previous logo's qualifier ("teknoloji") is now gone, the wordmark is the brand, not the brand-and-its-category. Cleaner, more confident, more like a publisher's mark.
+
+---
+
+## Turning point 21: Logotype pivot: Fraunces → Space Grotesk
+
+After v1.2 shipped with slim Fraunces + WONK, Emre showed the existing physical logo and said he liked **Bricolage Grotesque Light** and **Bodoni Moda Light** from the v2 specimen, and asked for "more options in this direction." A v3 specimen rendered five new candidates: Space Grotesk Light, Manrope ExtraLight, Familjen Grotesk Light, Playfair Display Light, Italiana.
+
+Emre picked **Space Grotesk Light**. The Fraunces installation was removed and replaced with `@fontsource-variable/space-grotesk`. The lockup variation settings simplified. Space Grotesk has a single `wght` axis, no opsz/SOFT/WONK to tune.
+
+**The deeper lesson, what the Fraunces detour taught us.** Two versions of Fraunces shipped (semi-bold in v1.1, slim+WONK in v1.2) before the brand felt right. Looking back, even slim Fraunces with the WONK axis on read as **serif personality**, warm, editorial, a little academic. That fit Newsreader (the body type) but fought the brand's intended direction, which was magazine-modern, structural, design-forward.
+
+The signal that something was off came when Emre showed the existing chunky-rounded logo and described what he didn't like: too warm, too friendly, too "established corporate." Even though the existing logo was a sans, the *direction* he was rejecting was warmth and roundness, and slim Fraunces, despite being a different category, still carried warmth. The v3 candidates explicitly explored "structural confidence without warmth," and the answer landed on a grotesque sans.
+
+**What this validates.**
+
+- **Two specimens beat one.** v2 surfaced what Emre actually responded to (Bricolage + Bodoni) which differed from what he initially said yes to in v1 (Fraunces semi-bold). The picks people make on round one are often picks-by-elimination; the picks they make on round two are picks-by-affinity. We should default to multiple specimens for any high-signal aesthetic decision.
+- **Listening for what's being rejected, not just what's being chosen.** "I'm not fond of the existing one" pointed at warmth/chunkiness. That same direction was hiding in slim Fraunces. The v3 brief came from reading that rejection precisely.
+- **Fraunces wasn't wasted.** The two Fraunces rounds taught the system that "slim editorial serif" wasn't the answer, without that evidence, we'd have endlessly tweaked Fraunces axes thinking the next setting would land it. Negative results clear the search space.
+
+**What the system gains structurally.** Space Grotesk simplifies the lockup: no opsz axis to tune per size, no WONK toggle to remember, just `font-weight: 300`. The whole `font-variation-settings` line is gone from `BrandLockup.astro`. Fewer knobs = fewer things to get wrong = a more durable spec.
+
+---
+
+## Turning point 22: Logotype lands on Manrope ExtraLight; wordmarks finalized
+
+After v1.3 shipped Space Grotesk Light, Emre returned with two locked decisions:
+
+1. **Font: Manrope ExtraLight** (weight 200), not Space Grotesk.
+2. **Wordmark for `photo` brand: `photometric`**, dropping "batch."
+
+Both came from the same place. *more refined, less distinctive*. Space Grotesk had character (double-story g, tall ascenders, design-forward energy); Manrope has geometry without flourish. The choice means: let the symbol be the distinctive element; the wordmark is the steady supporting voice. Same logic for shortening the wordmark, strip the qualifier, keep the noun.
+
+**Final per-brand wordmarks:**
+
+| Brand class | Wordmark | Notes |
+|---|---|---|
+| `agustos` | `ağustos` | Drop "teknoloji", describes work, not identity |
+| `pataraz` | `pataraz` | Drop "luminaires", same reason |
+| `pld` | `pld türkiye` | Keep "türkiye", country qualifier is integral to the publication |
+| `photo` | `photometric` | Drop "batch", describes the product, not the brand |
+
+Three of the four wordmarks are now single nouns. The principle: **a wordmark is a name, not a description.** "Apple" doesn't say "apple computers" in its mark. "Stripe" doesn't say "stripe payments." If a brand needs to communicate what it does, that's the job of the page (the H1, the description, the product copy), not the lockup.
+
+**The four-font journey, end to end:**
+
+| Version | Font | Weight | Why it shipped | What it taught |
+|---|---|---|---|---|
+| v1.1 | Fraunces | 600 (SemiBold) | First implementation; matched body type | Too quiet as a wordmark; no claim of ownership |
+| v1.2 | Fraunces | 300 + WONK 1 | "I want a NEW fresh look" → axis-tune the existing font | Even slim Fraunces still read as serif personality, warm, editorial |
+| v1.3 | Space Grotesk | 300 (Light) | "I like Bricolage and Bodoni Moda" → grotesque sans direction | Distinctive geometric energy, but more personality than the brand needed |
+| v1.4 | Manrope | 200 (ExtraLight) | "Let's go with Manrope" | Refined product-design register; symbol leads, wordmark supports |
+
+**What this validates.**
+
+- **Specimen-driven decisions converge faster than discussion-driven ones.** Three rounds of specimens (v1, v2, v3) and four shipped versions. Each picked-by-elimination round narrowed the search space. By the time Manrope was picked, it was a confident "this" rather than a tentative "maybe this."
+- **The right answer is often the third or fourth answer, not the first.** Initial picks tend to favor "interesting"; later picks tend to favor "right." Fraunces was interesting. Manrope is right.
+- **Variable fonts let you A/B test taste in CSS, not in npm.** Two of the four versions were pure axis tunes, same font, different weight/axes. That's the cheapest possible iteration loop for typography decisions, and we should default to it before adding a font to the stack.
+- **Wordmarks are nouns, not descriptions.** Strip qualifiers. If a wordmark needs explanation, the page does the explaining.
+
+**Structural simplification.** Manrope, like Space Grotesk before it, has a single `wght` axis. The lockup `font-variation-settings` line is gone (already removed in v1.3). What's left: `font-family`, `font-weight: 200`, `letter-spacing: -0.030em`, `text-transform: lowercase`. Five properties. That's the durable spec.
+
+---
+
+## Principles named during the conversation
+
+These weren't all stated upfront. They emerged as turning points required them:
+
+1. **Portability over preference.** Every decision must survive markdown round-trip
+2. **The publisher precedes the brand.** House identity comes before individual brand
+3. **One symbol, forever.** Discipline over per-brand symbolism
+4. **Color must sit with cream.** Designed colors integrate, raw colors fight
+5. **Brand color in exactly one role.** Links, nothing else
+6. **Turkish content declares its language**, `lang="tr"` is correctness, not preference
+
+Each principle was articulated when a decision required it. They're now permanent rules of the system.
+
+---
+
+## What was considered and rejected
+
+For future reference, these alternatives were on the table at various points:
+
+- **Single-family Fraunces.** Distinctive but body too assertive
+- **Inter as primary.** Too ubiquitous, too SaaS-default
+- **Geist.** Beautiful but too "of-2024," poor longevity
+- **Manrope.** Your existing pick before this work; geometric character doesn't pair with editorial register
+- **EB Garamond.** Too old-world, doesn't match the modern brand portfolio
+- **Pure blue Pataraz** `#0000FF`: too aggressive against cream substrate
+- **Universal yellow highlight.** Non-portable in markdown
+- **Per-brand symbol design.** Sacrifices systemic discipline
+- **Display-xl size at 64px.** Unnecessary; H1 absorbs hero
+- **Editorial decoration tokens** (eyebrow, deck, byline, small, meta), absorbed into existing tokens
+
+Each was rejected for documented reasons. None should be reconsidered without strong new evidence.
+
+---
+
+## Open questions parked for later
+
+These weren't resolved during the design phase but are noted for the implementation phase:
+
+- **Logo SVG geometry.** Needs designer-quality SVG path data from canonical source. The placeholder approximation in earlier specimens is not the final mark.
+- **Pandoc template development.** The template fragment for docx/PDF generation is specified but not yet built.
+- **Self-hosted font deployment.** Fonts can be served via Google Fonts CDN initially; self-hosting from each project's GitHub releases is the long-term move.
+- **Dark mode.** Not addressed in v1.0. Could be added in v1.1 by inverting `--paper` and `--ink` variables.
+- **Email-specific stylesheet.** Emails strip `@font-face`; a fallback-only stylesheet for email templates may be useful.
+
+---
+
+## Lessons captured for future-Emre
+
+A few patterns from this conversation worth remembering:
+
+1. **Test before committing.** Every typeface decision became correct only after rendering it against real content. Description ≠ evidence.
+
+2. **Audit at every simplification opportunity.** "Anything to simplify?" was asked multiple times and produced cuts every time. The system got better with each round.
+
+3. **Ask the longevity question.** "10 years from now" reframed several decisions. It separated infrastructure choices from fashion choices.
+
+4. **Verify before locking.** Character coverage verification, Turkish locale handling, fallback testing, all caught real issues before production.
+
+5. **Trust your push-back instincts.** "This feels too much," "I feel like body is boldish," "Should we try sans?", every push-back was correct and led to a better system. The instinct that something is off is usually right.
+
+6. **Document the why.** This file exists because future-you may not remember why H4 absorbed eyebrow, why Pataraz shifted from `#0000FF` to `#1a24cc`, why we cut strong-em. The reasoning matters more than the conclusion.
+
+---
+
+## Status
+
+System is at **v1.4**. DESIGN.md captures the specification. This file captures the reasoning.
+
+**v1.0.** Specification complete (all tokens, brand classes, lockup grammar, substrate behavior).
+**v1.1.** Implementation phase: Astro reference site live, real Laz Güneşi shipped (replacing the placeholder), logotype locked to Fraunces with new `--logotype` token, lockup simplified (brand color, no subtitle, no hover underline).
+**v1.2.** Logotype re-tuned (slim Fraunces with WONK axis on), wordmarks always lowercase across all four brands, per-brand wordmark map in BaseLayout, page `<title>` kept Title Case as a separate concern.
+**v1.3.** Logotype pivot to Space Grotesk Light (geometric grotesque sans). Two Fraunces versions had taught the team that "slim editorial serif" wasn't the brand's true direction.
+**v1.4.** Logotype lands on Manrope ExtraLight; wordmarks finalized to single nouns where possible (`ağustos`, `pataraz`, `photometric`, plus `pld türkiye`). Symbol leads, wordmark supports.
+
+The system is in production use. Future v1.x updates: additional brands, dark mode, Pandoc/docx template parity. Documented in DESIGN.md as they ship.

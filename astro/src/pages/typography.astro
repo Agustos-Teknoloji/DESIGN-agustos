@@ -1,0 +1,317 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import BrandLockup from '../components/BrandLockup.astro';
+
+// Brand-switcher demo data
+const brands = [
+  { id: 'agustos', name: 'Ağustos',     hex: '#cf142a' },
+  { id: 'pataraz', name: 'Pataraz',     hex: '#1a24cc' },
+  { id: 'pld',     name: 'PLD Türkiye', hex: '#1a1a1a' },
+  { id: 'photo',   name: 'Photometric', hex: '#1f6b4a' },
+] as const;
+
+// Per-brand wordmark mapping (matches BaseLayout's BRAND_WORDMARKS).
+const portfolio = [
+  { brand: 'agustos', wordmark: 'ağustos',     swatch: '#cf142a' },
+  { brand: 'pataraz', wordmark: 'pataraz',     swatch: '#1a24cc' },
+  { brand: 'pld',     wordmark: 'pld türkiye', swatch: '#1a1a1a' },
+  { brand: 'photo',   wordmark: 'photometric', swatch: '#1f6b4a' },
+] as const;
+---
+<BaseLayout
+  title="Typography showcase — Ağustos Design System v2.0"
+  description="Every one of the 24 tokens, exercised on one page."
+>
+  <article class="container">
+    {/* ---- Hero showcase — NEW IN v2.0 ---- */}
+    <section style="margin-bottom: 4rem;">
+      <p class="type-h4" style="color: var(--brand); margin-bottom: 1.5rem;">v2.0 · Hero · type-hero</p>
+      <h1 class="type-hero">Where light meets architecture.</h1>
+      <p class="type-hero-deck">A studio working with Turkey's leading designers since 2009. Twelve international brands, one specification discipline.</p>
+    </section>
+
+    <section style="margin-bottom: 4rem;">
+      <p class="type-h4" style="color: var(--brand); margin-bottom: 1.5rem;">Hero (medium) · type-hero-md</p>
+      <h2 class="type-hero-md">Premium luminaires, mid-tier pricing.</h2>
+      <p class="type-hero-deck">Pataraz delivers project-grade fixtures without the project-grade markup.</p>
+    </section>
+
+    <hr class="type-divider" />
+
+    <h1 class="type-h1">The 24 tokens</h1>
+    <p class="type-body"><em>One page. One of every token. Same source survives markdown, web, PDF, and docx. v2.0: Inter Tight (display) + Inter (body) + JetBrains Mono.</em></p>
+
+    {/* ---- Brand switcher ---- */}
+    <h4 class="type-h4">Brand</h4>
+    <div class="switcher" role="tablist" aria-label="Brand">
+      {brands.map((b) => (
+        <button data-brand={b.id} type="button" class="switcher__btn">
+          <span class="switcher__swatch" style={`background:${b.hex}`}></span>
+          <span>{b.name}</span>
+        </button>
+      ))}
+    </div>
+
+    <hr class="type-divider" />
+
+    {/* ---- Brand portfolio: all four lockups in Inter Tight Light (v2.0) ---- */}
+    <h4 class="type-h4">Brand portfolio</h4>
+    <p class="type-body">
+      Four wordmarks in Inter Tight Light, each in its own brand colour. Same lockup grammar
+      across the portfolio: symbol height = 1.4× wordmark cap height, gap = 0.4× wordmark size,
+      always lowercase. The Turkish <em>ı</em> in <em>pataraz</em> and <em>pld türkiye</em> and
+      the <em>ğ</em> in <em>ağustos</em> show how Inter Tight handles the Turkish alphabet at every size.
+    </p>
+
+    <div class="portfolio">
+      {portfolio.map((p) => (
+        <div class={`portfolio__item brand-${p.brand}`}>
+          <div class="portfolio__swatch" style={`background:${p.swatch}`}></div>
+          <div class="portfolio__lockups">
+            <div class="portfolio__lockup portfolio__lockup--lg">
+              <BrandLockup brandname={p.wordmark} size={36} />
+            </div>
+            <div class="portfolio__lockup portfolio__lockup--md">
+              <BrandLockup brandname={p.wordmark} size={22} />
+            </div>
+            <div class="portfolio__lockup portfolio__lockup--sm">
+              <BrandLockup brandname={p.wordmark} size={14} />
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    {/* ---- Negative expression ---- */}
+    <h4 class="type-h4">Negative expression</h4>
+    <p class="type-body">
+      Cream symbol and wordmark on a brand-colour tile (DESIGN.md §"Three expressions"). For favicons,
+      monograms, brand-color tiles, hero stamps, and the dark-theme sidebar lockup. The cream text is
+      a fixed value (#fefcf2) so the tile reads correctly in both light and dark themes.
+    </p>
+
+    <div class="portfolio-negative">
+      {portfolio.map((p) => (
+        <div class={`portfolio-negative__tile brand-${p.brand}`}>
+          <BrandLockup brandname={p.wordmark} size={28} />
+        </div>
+      ))}
+    </div>
+
+    <hr class="type-divider" />
+
+    {/* ---- Headings (4) ---- */}
+    <h4 class="type-h4">Headings (4)</h4>
+    <h1 class="type-h1">H1 — The biggest thing on the page</h1>
+    <h2 class="type-h2">H2 — Section break</h2>
+    <h3 class="type-h3">H3 — Subsection in italic, by token rule</h3>
+    <h4 class="type-h4">H4 — eyebrow / meta / label</h4>
+
+    <hr class="type-divider" />
+
+    {/* ---- Body & inline (8) ---- */}
+    <h4 class="type-h4">Body &amp; inline (8)</h4>
+
+    <p class="type-body">
+      The <em>body token</em> is Inter at 16.5 / 1.65 — the most rigorously screen-engineered open-source sans.
+      Inline <strong>strong</strong> is 700, inline <em>em</em> is italic, and a <a href="#">link</a> renders bold with a 2px brand-color underline at 3px offset — the sole brand expression.
+      Code uses <code>font-family: var(--mono)</code> at 0.86em with a soft tint background.
+      Chemistry survives: H<sub>2</sub>O, CO<sub>2</sub>. Units survive: 240&nbsp;m<sup>2</sup>, 2<sup>16</sup>.
+      Revisions render with <s>strikethrough</s> in <code>--ink-faint</code>.
+    </p>
+
+    <hr class="type-divider" />
+
+    {/* ---- Block-level (9) ---- */}
+    <h4 class="type-h4">Block-level (9) — blockquote</h4>
+    <blockquote class="type-blockquote">
+      Portability over preference. Every design decision must survive translation across markdown → web → PDF → docx → plain text.
+      <cite>Ağustos Design System v2.0 · Rule 1</cite>
+    </blockquote>
+
+    <h4 class="type-h4">Pullquote</h4>
+    <p class="type-pullquote">The publisher precedes the brand. The shared symbol identifies the house; brand colour identifies the publication.</p>
+
+    <h4 class="type-h4">Ordered list</h4>
+    <ol>
+      <li>Pick a name (lowercase wordmark, 1–3 words, balanced next to the symbol).</li>
+      <li>Pick a colour, refined for the cream substrate.</li>
+      <li>Apply existing lockup grammar — Inter Tight Light, -0.005em tracking.</li>
+    </ol>
+
+    <h4 class="type-h4">Unordered list</h4>
+    <ul>
+      <li>Inter Tight — display family for logo, hero, headings, UI labels.</li>
+      <li>Inter — body family for paragraphs, lists, blockquote, footnotes.</li>
+      <li>JetBrains Mono — code legibility, ligatures, tabular figures.</li>
+    </ul>
+
+    <h4 class="type-h4">Definition list</h4>
+    <dl>
+      <dt>Substrate</dt>
+      <dd>Cream <code>#fefcf2</code> for branded contexts, white <code>#ffffff</code> for working contexts.</dd>
+      <dt>Rule</dt>
+      <dd>Separator colour. <code>#e8e3d0</code> on cream, <code>#e8e8e8</code> on white.</dd>
+      <dt>Locale</dt>
+      <dd>Turkish content declares <code>lang="tr"</code> and the global <code>font-feature-settings: "locl"</code> handles correct capitalization (i → İ).</dd>
+    </dl>
+
+    <h4 class="type-h4">Figure</h4>
+    <figure class="type-figure">
+      <div style="background: var(--rule); aspect-ratio: 16 / 9; display: grid; place-items: center; color: var(--ink-faint); font-family: var(--display); text-transform: uppercase; letter-spacing: 0.14em; font-size: 11px; font-weight: 700;">
+        Image placeholder
+      </div>
+      <figcaption>Figure 1 — A reference render slot, sized for editorial use. Caption is 13.5px italic in <code>--ink-faint</code>.</figcaption>
+    </figure>
+
+    <h4 class="type-h4">Code block</h4>
+    <pre><code>{`/* tokens.css */
+:root {
+  --paper: #fefcf2;
+  --ink:   #1a1a1a;
+  --brand: var(--brand-agustos);
+}`}</code></pre>
+
+    <h4 class="type-h4">Table</h4>
+    <table class="type-table">
+      <thead>
+        <tr>
+          <th>Brand</th>
+          <th>Colour</th>
+          <th>Hex</th>
+          <th>Refined</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Ağustos</td><td>Red</td><td><code>#cf142a</code></td><td>—</td></tr>
+        <tr><td>Pataraz</td><td>Blue</td><td><code>#1a24cc</code></td><td>from #0000FF</td></tr>
+        <tr><td>PLD Türkiye</td><td>Black</td><td><code>#1a1a1a</code></td><td>—</td></tr>
+        <tr><td>Photometric</td><td>Green</td><td><code>#1f6b4a</code></td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <hr class="type-divider" />
+
+    {/* ---- Supporting (1) ---- */}
+    <h4 class="type-h4">Supporting (1) — footnote</h4>
+    <p class="type-footnote">
+      <sup>1</sup> Footnotes use the footnote token: 12.5px body (Inter) in <code>--ink-faint</code>, with the <code>sup</code> reference marker carrying brand colour at weight 600.
+    </p>
+
+    <hr class="type-divider" />
+
+    {/* ---- Turkish locale demo ---- */}
+    <h4 class="type-h4">Turkish locale (lang="tr")</h4>
+    <p class="type-body" lang="tr">
+      Işığın mimariyle buluştuğu yer. <strong>Türkçe içerik</strong> her zaman <code>lang="tr"</code> taşır;
+      bu, <em>locl</em> OpenType özelliklerinin doğru çalışması için zorunludur.
+    </p>
+    <p class="type-h4" lang="tr">başlık denemesi — i → İ</p>
+  </article>
+</BaseLayout>
+
+<script>
+  // Brand switcher — toggles the body class.
+  const buttons = document.querySelectorAll<HTMLButtonElement>('.switcher__btn');
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const brand = btn.dataset.brand;
+      if (!brand) return;
+      const body = document.body;
+      ['brand-agustos', 'brand-pataraz', 'brand-pld', 'brand-photo'].forEach((c) => body.classList.remove(c));
+      body.classList.add(`brand-${brand}`);
+    });
+  });
+</script>
+
+<style>
+  .switcher { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+  .switcher__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.4rem 0.75rem;
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    font-family: var(--display);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+    cursor: pointer;
+    transition: border-color 120ms ease;
+  }
+  .switcher__btn:hover { border-color: var(--ink-faint); }
+  .switcher__swatch {
+    width: 12px; height: 12px; border-radius: 50%;
+    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+  }
+
+  /* ---- Brand portfolio ---- */
+  .portfolio {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0;
+    margin: 1.5rem 0 2rem;
+    border-top: 1px solid var(--rule);
+  }
+  .portfolio__item {
+    display: grid;
+    grid-template-columns: 8px 1fr;
+    gap: 1.5rem;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--rule);
+    align-items: center;
+  }
+  .portfolio__swatch {
+    align-self: stretch;
+    border-radius: 2px;
+  }
+  .portfolio__lockups {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .portfolio__lockup {
+    display: flex;
+    align-items: baseline;
+  }
+  /* Reduce the visual repetition: small + medium share a row on wider screens */
+  @media (min-width: 720px) {
+    .portfolio__lockups {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 2rem;
+    }
+    .portfolio__lockup--lg { grid-column: 1; }
+    .portfolio__lockup--md { grid-column: 2; }
+    .portfolio__lockup--sm { grid-column: 3; }
+  }
+
+  /* ---- Negative expression: brand-color tiles with cream lockup ---- */
+  .portfolio-negative {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.75rem;
+    margin: 1.5rem 0 2rem;
+  }
+  @media (min-width: 720px) {
+    .portfolio-negative {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+  .portfolio-negative__tile {
+    /* Brand-color tile. The --lockup-color override forces the symbol+wordmark to
+       a fixed cream value so the negative reads correctly in light AND dark themes
+       (var(--paper) would invert in dark mode and break the contrast). */
+    --lockup-color: #fefcf2;
+    background: var(--brand);
+    border-radius: 8px;
+    padding: 1.25rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 96px;
+  }
+</style>

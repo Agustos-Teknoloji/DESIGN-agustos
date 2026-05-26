@@ -1,0 +1,22 @@
+---
+interface Props {
+  brandname?: string;
+}
+const { brandname = 'Ağustos Teknoloji' } = Astro.props;
+const year = new Date().getFullYear();
+---
+<footer class="site-footer">
+  <p class="type-footnote">{brandname} · &copy; {year}</p>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: 6rem;
+    border-top: 1px solid var(--rule);
+    padding: 1.5rem 1.5rem 2rem;
+  }
+  .site-footer p {
+    max-width: 920px;
+    margin: 0 auto;
+  }
+</style>

@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sans-only Comparison — Five Candidates</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..800&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Geist:wght@300..800&family=Manrope:wght@300..800&family=Inter+Tight:wght@300..800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #fefcf2;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-faint: #8a8a8a;
+    --rule: #e8e3d0;
+    --brand: #cf142a;
+    --mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospace;
+  }
+
+  * { box-sizing: border-box; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: #d8d4c4;
+    color: var(--ink);
+    font-feature-settings: "kern" on;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  .doc { max-width: 1320px; margin: 0 auto; padding: 48px 24px 96px; }
+
+  /* ============================================================ */
+  /* MASTHEAD                                                     */
+  /* ============================================================ */
+  .masthead {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    padding: 56px 64px;
+    margin-bottom: 40px;
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  }
+  .masthead .marker {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 20px;
+    font-weight: 500;
+  }
+  .masthead h1 {
+    font-weight: 600;
+    font-size: clamp(36px, 4.5vw, 48px);
+    line-height: 1.05;
+    letter-spacing: -0.025em;
+    margin: 0 0 20px;
+    max-width: 22ch;
+  }
+  .masthead .lede {
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    max-width: 64ch;
+    margin: 0 0 28px;
+  }
+  .masthead .principle {
+    padding-top: 24px;
+    border-top: 1px solid var(--rule);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    max-width: 64ch;
+  }
+  .masthead .principle strong {
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  /* ============================================================ */
+  /* CARD STRUCTURE                                               */
+  /* ============================================================ */
+  .face {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    margin-bottom: 24px;
+  }
+
+  .face-header {
+    padding: 32px 48px 24px;
+    border-bottom: 1px solid var(--rule);
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+    align-items: end;
+  }
+  .face-header .left {
+    font-family: 'Inter', sans-serif;
+  }
+  .face-header .num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin: 0 0 8px;
+    font-weight: 500;
+  }
+  .face-header .name {
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 1.15;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+    margin: 0 0 6px;
+  }
+  .face-header .desc {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    margin: 0 0 8px;
+    max-width: 60ch;
+  }
+  .face-header .verdict {
+    font-style: italic;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--ink-faint);
+    margin: 0;
+    max-width: 60ch;
+  }
+  .face-header .stack {
+    text-align: right;
+    font-family: var(--mono);
+    font-size: 10px;
+    line-height: 1.7;
+    color: var(--ink-faint);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+  }
+  .face-header .stack strong {
+    color: var(--ink);
+    font-weight: 500;
+  }
+  @media (max-width: 800px) {
+    .face-header { grid-template-columns: 1fr; }
+    .face-header .stack { text-align: left; white-space: normal; }
+  }
+
+  .face-content {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+  }
+  @media (max-width: 1000px) { .face-content { grid-template-columns: 1fr; } }
+
+  .face-cell {
+    padding: 36px 44px 44px;
+    border-right: 1px solid var(--rule);
+  }
+  .face-cell:last-child { border-right: none; }
+  @media (max-width: 1000px) {
+    .face-cell { border-right: none; border-bottom: 1px solid var(--rule); }
+    .face-cell:last-child { border-bottom: none; }
+  }
+
+  .surface-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 24px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .surface-label::before { content: "● "; color: var(--brand); }
+
+  /* ============================================================ */
+  /* GENERIC TYPE STYLES                                          */
+  /* ============================================================ */
+  .editorial .h-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin: 0 0 14px;
+    font-weight: 600;
+  }
+  .editorial .h-1 {
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    margin: 0 0 10px;
+    color: var(--ink);
+  }
+  .editorial .deck {
+    font-style: italic;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--ink-soft);
+    margin: 0 0 22px;
+  }
+  .editorial .body {
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--ink);
+    margin: 0 0 14px;
+  }
+  .editorial .body em {
+    font-style: italic;
+  }
+  .editorial .body strong {
+    font-weight: 700;
+  }
+  .editorial .body a {
+    color: var(--ink);
+    font-weight: 700;
+    text-decoration: underline;
+    text-decoration-color: var(--brand);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+  }
+  .editorial .h-2 {
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 1.2;
+    margin: 28px 0 10px;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .editorial .h-3 {
+    font-weight: 500;
+    font-style: italic;
+    font-size: 17px;
+    line-height: 1.3;
+    margin: 22px 0 8px;
+    color: var(--ink);
+  }
+  .editorial .body code {
+    font-family: var(--mono);
+    font-size: 0.86em;
+    background: rgba(0,0,0,0.05);
+    padding: 1px 5px;
+    border-radius: 2px;
+  }
+  .editorial blockquote.bq {
+    margin: 22px 0;
+    padding: 4px 0 4px 18px;
+    border-left: 2px solid var(--brand);
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.55;
+    color: var(--ink-soft);
+    font-weight: 400;
+  }
+  .editorial blockquote.bq cite {
+    display: block;
+    margin-top: 8px;
+    font-style: normal;
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    font-weight: 600;
+  }
+
+  /* PRODUCT UI */
+  .product-ui .ui-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 14px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--rule);
+  }
+  .product-ui .ui-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0;
+    letter-spacing: -0.005em;
+  }
+  .product-ui .ui-status {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand);
+  }
+  .product-ui .stat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+  .product-ui .stat {
+    background: white;
+    border: 1px solid var(--rule);
+    padding: 12px 14px;
+  }
+  .product-ui .stat-label {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin: 0 0 6px;
+  }
+  .product-ui .stat-value {
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 1;
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.015em;
+    color: var(--ink);
+  }
+  .product-ui .stat-meta {
+    font-size: 11px;
+    color: var(--ink-soft);
+    margin: 4px 0 0;
+    font-weight: 400;
+  }
+  .product-ui .ui-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 18px;
+  }
+  .product-ui .ui-table th, .product-ui .ui-table td {
+    text-align: left;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--rule);
+    font-weight: 400;
+  }
+  .product-ui .ui-table th {
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+  }
+  .product-ui .ui-table td:last-child { text-align: right; }
+  .product-ui .ui-button-row {
+    display: flex;
+    gap: 8px;
+  }
+  .product-ui .ui-button {
+    display: inline-block;
+    padding: 7px 14px;
+    border-radius: 3px;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    border: 1px solid var(--rule);
+    background: white;
+    color: var(--ink);
+  }
+  .product-ui .ui-button.primary {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+
+  /* ============================================================ */
+  /* PER-FACE FAMILY APPLICATION                                  */
+  /* ============================================================ */
+
+  .face-inter .face-cell, .face-inter .face-header .left {
+    font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  }
+  .face-inter .face-cell {
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  .face-plex .face-cell, .face-plex .face-header .left {
+    font-family: 'IBM Plex Sans', -apple-system, system-ui, sans-serif;
+  }
+
+  .face-geist .face-cell, .face-geist .face-header .left {
+    font-family: 'Geist', -apple-system, system-ui, sans-serif;
+  }
+
+  .face-manrope .face-cell, .face-manrope .face-header .left {
+    font-family: 'Manrope', -apple-system, system-ui, sans-serif;
+  }
+
+  .face-itight .face-cell, .face-itight .face-header .left {
+    font-family: 'Inter Tight', -apple-system, system-ui, sans-serif;
+  }
+  .face-itight .face-cell .h-1 {
+    letter-spacing: -0.03em;
+  }
+
+  /* ============================================================ */
+  /* DECISION GUIDE                                               */
+  /* ============================================================ */
+  .guide {
+    background: #1a1a1a;
+    color: #e8e3d0;
+    padding: 40px 48px;
+    margin-top: 8px;
+    font-family: 'Inter', sans-serif;
+  }
+  .guide h3 {
+    font-weight: 600;
+    color: #fefcf2;
+    font-size: 22px;
+    margin: 0 0 12px;
+    letter-spacing: -0.015em;
+  }
+  .guide > p {
+    font-size: 14px;
+    line-height: 1.55;
+    color: #c8c3b0;
+    margin: 0 0 28px;
+    max-width: 64ch;
+  }
+  .guide-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  .guide-item {
+    border-top: 1px solid #333;
+    padding-top: 14px;
+  }
+  .guide-item .lbl {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #ff8c5a;
+    margin: 0 0 8px;
+    font-weight: 500;
+  }
+  .guide-item p {
+    font-size: 13px;
+    line-height: 1.55;
+    color: #c8c3b0;
+    margin: 0;
+  }
+  .guide-item p strong {
+    font-weight: 600;
+    color: #fefcf2;
+  }
+
+  /* ============================================================ */
+  /* HONEST WARNING                                               */
+  /* ============================================================ */
+  .warning {
+    background: rgba(207, 20, 42, 0.04);
+    border: 1px solid rgba(207, 20, 42, 0.2);
+    padding: 28px 36px;
+    margin-bottom: 40px;
+    font-family: 'Inter', sans-serif;
+  }
+  .warning .lbl {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brand);
+    font-weight: 500;
+    margin: 0 0 12px;
+  }
+  .warning h2 {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.25;
+    margin: 0 0 12px;
+    letter-spacing: -0.012em;
+    color: var(--ink);
+  }
+  .warning p {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    margin: 0 0 8px;
+    max-width: 70ch;
+  }
+  .warning p:last-child { margin-bottom: 0; }
+  .warning strong { color: var(--ink); font-weight: 600; }
+</style>
+</head>
+<body>
+
+<div class="doc">
+
+  <header class="masthead">
+    <p class="marker">Sans-only · Five Candidates</p>
+    <h1>One family doing every job — five candidates in the running.</h1>
+    <p class="lede">Same locked-down system, rendered fully in sans. Editorial content on the left, product UI on the right. The same family does both jobs in each pairing.</p>
+    <p class="principle">Each candidate uses italic for deck and blockquote — sans italics generally read as "slanted body" rather than a different voice. <strong>This is the biggest single trade-off in going sans-only.</strong> Pay attention to whether the italic in each face has its own character or feels like a compromise.</p>
+  </header>
+
+  <!-- HONEST WARNING -->
+  <div class="warning">
+    <p class="lbl">Trade-off worth flagging</p>
+    <h2>Sans-only optimizes for Photometric Batch at the cost of Pataraz and PLD Türkiye.</h2>
+    <p>Three of your four brands lean editorial. The premium positioning of <strong>Pataraz</strong> ("high-end visual at mid pricing") leans on editorial register to feel premium without spending. <strong>PLD Türkiye</strong> is a publication archive — sans makes a publication look like a tech blog.</p>
+    <p>If you go sans-only, you're betting that <strong>simplicity</strong> beats per-brand fit. That's a defensible bet — but it's a bet, not a free upgrade. The system you're seeing below is real and works. It just optimizes differently than what we built before.</p>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- FACE 01 — INTER                                              -->
+  <!-- ============================================================ -->
+  <div class="face face-inter">
+    <div class="face-header">
+      <div class="left">
+        <p class="num">Face 01 · The SaaS standard</p>
+        <p class="name">Inter</p>
+        <p class="desc">Designed by Rasmus Andersson specifically for screen UI. The most-used SaaS sans of the past five years. Tabular numerals, deep OpenType features, true italics. Free, open source.</p>
+        <p class="verdict">Reads cleanly at every size. Looks like every premium tech product in 2026 — Stripe, Linear, GitHub, most of YC. Cost: invisibility.</p>
+      </div>
+      <div class="stack">
+        Family: <strong>Inter</strong><br>
+        Weights: <strong>300–800</strong><br>
+        Mono: <strong>JetBrains Mono</strong>
+      </div>
+    </div>
+    <div class="face-content">
+      <div class="face-cell editorial" lang="tr">
+        <p class="surface-label">Editorial · Long-form</p>
+        <p class="h-eyebrow">Bayilik · Aydınlatma</p>
+        <h1 class="h-1">Işığın mimariyle buluştuğu yer.</h1>
+        <p class="deck">2009'dan bu yana Türkiye'nin önde gelen tasarım stüdyolarıyla.</p>
+        <p class="body">Ağustos Teknoloji, on iki uluslararası aydınlatma markasının Türkiye temsilcisidir. Mimar, iç mimar ve aydınlatma tasarımcılarına proje bazında <a href="#">danışmanlık</a> sunuyoruz.</p>
+        <p class="body">Yaklaşımımız basit: <em>doğru ışık, doğru yerde, doğru zamanda.</em> Her projede <strong>spesifikasyon disiplini</strong> ve uzun vadeli teknik destek birlikte yürür.</p>
+        <h2 class="h-2">Çalışma Yaklaşımımız</h2>
+        <h3 class="h-3">Spesifikasyon disiplini</h3>
+        <p class="body">CoeLux modülü <code>CRI &gt; 95</code> değeriyle çalışır.</p>
+        <blockquote class="bq">İyi aydınlatma, fark edilmediği zaman en iyisidir.<cite>— Richard Kelly, 1952</cite></blockquote>
+      </div>
+      <div class="face-cell product-ui">
+        <p class="surface-label">Product UI</p>
+        <div class="ui-header"><p class="ui-title">IES File Pipeline</p><span class="ui-status">● Running</span></div>
+        <div class="stat-grid">
+          <div class="stat"><p class="stat-label">Files Processed</p><p class="stat-value">2,847</p><p class="stat-meta">+412 today</p></div>
+          <div class="stat"><p class="stat-label">Avg Lumen</p><p class="stat-value">1,240</p><p class="stat-meta">CRI 92.4</p></div>
+        </div>
+        <table class="ui-table">
+          <thead><tr><th>Manufacturer</th><th>Status</th><th>Files</th></tr></thead>
+          <tbody><tr><td>LIGMAN</td><td>Validated</td><td>847</td></tr><tr><td>HEPER</td><td>Processing</td><td>312</td></tr><tr><td>B-K Lighting</td><td>Queued</td><td>156</td></tr></tbody>
+        </table>
+        <div class="ui-button-row"><button class="ui-button primary">Run Pipeline</button><button class="ui-button">Configure</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- FACE 02 — IBM PLEX SANS                                      -->
+  <!-- ============================================================ -->
+  <div class="face face-plex">
+    <div class="face-header">
+      <div class="left">
+        <p class="num">Face 02 · Premium tech, humanist</p>
+        <p class="name">IBM Plex Sans</p>
+        <p class="desc">IBM's open-source corporate face. Slightly humanist, slightly mechanical — designed to balance technical precision with warmth. The "considered" sans choice.</p>
+        <p class="verdict">Has a stronger personality than Inter. The italic actually has character (rare for sans). May feel "designed" or "of-the-2010s" depending on taste.</p>
+      </div>
+      <div class="stack">
+        Family: <strong>IBM Plex Sans</strong><br>
+        Weights: <strong>300, 400, 500, 600, 700</strong><br>
+        Mono: <strong>JetBrains Mono</strong>
+      </div>
+    </div>
+    <div class="face-content">
+      <div class="face-cell editorial" lang="tr">
+        <p class="surface-label">Editorial · Long-form</p>
+        <p class="h-eyebrow">Bayilik · Aydınlatma</p>
+        <h1 class="h-1">Işığın mimariyle buluştuğu yer.</h1>
+        <p class="deck">2009'dan bu yana Türkiye'nin önde gelen tasarım stüdyolarıyla.</p>
+        <p class="body">Ağustos Teknoloji, on iki uluslararası aydınlatma markasının Türkiye temsilcisidir. Mimar, iç mimar ve aydınlatma tasarımcılarına proje bazında <a href="#">danışmanlık</a> sunuyoruz.</p>
+        <p class="body">Yaklaşımımız basit: <em>doğru ışık, doğru yerde, doğru zamanda.</em> Her projede <strong>spesifikasyon disiplini</strong> ve uzun vadeli teknik destek birlikte yürür.</p>
+        <h2 class="h-2">Çalışma Yaklaşımımız</h2>
+        <h3 class="h-3">Spesifikasyon disiplini</h3>
+        <p class="body">CoeLux modülü <code>CRI &gt; 95</code> değeriyle çalışır.</p>
+        <blockquote class="bq">İyi aydınlatma, fark edilmediği zaman en iyisidir.<cite>— Richard Kelly, 1952</cite></blockquote>
+      </div>
+      <div class="face-cell product-ui">
+        <p class="surface-label">Product UI</p>
+        <div class="ui-header"><p class="ui-title">IES File Pipeline</p><span class="ui-status">● Running</span></div>
+        <div class="stat-grid">
+          <div class="stat"><p class="stat-label">Files Processed</p><p class="stat-value">2,847</p><p class="stat-meta">+412 today</p></div>
+          <div class="stat"><p class="stat-label">Avg Lumen</p><p class="stat-value">1,240</p><p class="stat-meta">CRI 92.4</p></div>
+        </div>
+        <table class="ui-table">
+          <thead><tr><th>Manufacturer</th><th>Status</th><th>Files</th></tr></thead>
+          <tbody><tr><td>LIGMAN</td><td>Validated</td><td>847</td></tr><tr><td>HEPER</td><td>Processing</td><td>312</td></tr><tr><td>B-K Lighting</td><td>Queued</td><td>156</td></tr></tbody>
+        </table>
+        <div class="ui-button-row"><button class="ui-button primary">Run Pipeline</button><button class="ui-button">Configure</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- FACE 03 — GEIST                                              -->
+  <!-- ============================================================ -->
+  <div class="face face-geist">
+    <div class="face-header">
+      <div class="left">
+        <p class="num">Face 03 · The 2026 design-conscious choice</p>
+        <p class="name">Geist</p>
+        <p class="desc">Vercel's open-source sans, released 2024. Designed to feel "premium European editorial" — what Söhne and GT America offer commercially, but free. Tighter and more confident than Inter.</p>
+        <p class="verdict">The most "of-the-moment" choice. Strong identity, especially on display sizes. Risk: it's becoming the new ubiquity for design-conscious tech (Vercel, Linear post-rebrand, several YC companies).</p>
+      </div>
+      <div class="stack">
+        Family: <strong>Geist</strong><br>
+        Weights: <strong>300–800</strong><br>
+        Mono: <strong>JetBrains Mono</strong>
+      </div>
+    </div>
+    <div class="face-content">
+      <div class="face-cell editorial" lang="tr">
+        <p class="surface-label">Editorial · Long-form</p>
+        <p class="h-eyebrow">Bayilik · Aydınlatma</p>
+        <h1 class="h-1">Işığın mimariyle buluştuğu yer.</h1>
+        <p class="deck">2009'dan bu yana Türkiye'nin önde gelen tasarım stüdyolarıyla.</p>
+        <p class="body">Ağustos Teknoloji, on iki uluslararası aydınlatma markasının Türkiye temsilcisidir. Mimar, iç mimar ve aydınlatma tasarımcılarına proje bazında <a href="#">danışmanlık</a> sunuyoruz.</p>
+        <p class="body">Yaklaşımımız basit: <em>doğru ışık, doğru yerde, doğru zamanda.</em> Her projede <strong>spesifikasyon disiplini</strong> ve uzun vadeli teknik destek birlikte yürür.</p>
+        <h2 class="h-2">Çalışma Yaklaşımımız</h2>
+        <h3 class="h-3">Spesifikasyon disiplini</h3>
+        <p class="body">CoeLux modülü <code>CRI &gt; 95</code> değeriyle çalışır.</p>
+        <blockquote class="bq">İyi aydınlatma, fark edilmediği zaman en iyisidir.<cite>— Richard Kelly, 1952</cite></blockquote>
+      </div>
+      <div class="face-cell product-ui">
+        <p class="surface-label">Product UI</p>
+        <div class="ui-header"><p class="ui-title">IES File Pipeline</p><span class="ui-status">● Running</span></div>
+        <div class="stat-grid">
+          <div class="stat"><p class="stat-label">Files Processed</p><p class="stat-value">2,847</p><p class="stat-meta">+412 today</p></div>
+          <div class="stat"><p class="stat-label">Avg Lumen</p><p class="stat-value">1,240</p><p class="stat-meta">CRI 92.4</p></div>
+        </div>
+        <table class="ui-table">
+          <thead><tr><th>Manufacturer</th><th>Status</th><th>Files</th></tr></thead>
+          <tbody><tr><td>LIGMAN</td><td>Validated</td><td>847</td></tr><tr><td>HEPER</td><td>Processing</td><td>312</td></tr><tr><td>B-K Lighting</td><td>Queued</td><td>156</td></tr></tbody>
+        </table>
+        <div class="ui-button-row"><button class="ui-button primary">Run Pipeline</button><button class="ui-button">Configure</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- FACE 04 — MANROPE                                            -->
+  <!-- ============================================================ -->
+  <div class="face face-manrope">
+    <div class="face-header">
+      <div class="left">
+        <p class="num">Face 04 · Your existing pick</p>
+        <p class="name">Manrope</p>
+        <p class="desc">Geometric sans, slightly condensed. The closest free alternative to Satoshi. You picked it earlier specifically as a SaaS UI choice.</p>
+        <p class="verdict">Reads "modern startup" more than "publication." Strong at display sizes; body reading is okay but not exceptional. The italic is weak — slanted regular, not its own voice.</p>
+      </div>
+      <div class="stack">
+        Family: <strong>Manrope</strong><br>
+        Weights: <strong>300–800</strong><br>
+        Mono: <strong>JetBrains Mono</strong>
+      </div>
+    </div>
+    <div class="face-content">
+      <div class="face-cell editorial" lang="tr">
+        <p class="surface-label">Editorial · Long-form</p>
+        <p class="h-eyebrow">Bayilik · Aydınlatma</p>
+        <h1 class="h-1">Işığın mimariyle buluştuğu yer.</h1>
+        <p class="deck">2009'dan bu yana Türkiye'nin önde gelen tasarım stüdyolarıyla.</p>
+        <p class="body">Ağustos Teknoloji, on iki uluslararası aydınlatma markasının Türkiye temsilcisidir. Mimar, iç mimar ve aydınlatma tasarımcılarına proje bazında <a href="#">danışmanlık</a> sunuyoruz.</p>
+        <p class="body">Yaklaşımımız basit: <em>doğru ışık, doğru yerde, doğru zamanda.</em> Her projede <strong>spesifikasyon disiplini</strong> ve uzun vadeli teknik destek birlikte yürür.</p>
+        <h2 class="h-2">Çalışma Yaklaşımımız</h2>
+        <h3 class="h-3">Spesifikasyon disiplini</h3>
+        <p class="body">CoeLux modülü <code>CRI &gt; 95</code> değeriyle çalışır.</p>
+        <blockquote class="bq">İyi aydınlatma, fark edilmediği zaman en iyisidir.<cite>— Richard Kelly, 1952</cite></blockquote>
+      </div>
+      <div class="face-cell product-ui">
+        <p class="surface-label">Product UI</p>
+        <div class="ui-header"><p class="ui-title">IES File Pipeline</p><span class="ui-status">● Running</span></div>
+        <div class="stat-grid">
+          <div class="stat"><p class="stat-label">Files Processed</p><p class="stat-value">2,847</p><p class="stat-meta">+412 today</p></div>
+          <div class="stat"><p class="stat-label">Avg Lumen</p><p class="stat-value">1,240</p><p class="stat-meta">CRI 92.4</p></div>
+        </div>
+        <table class="ui-table">
+          <thead><tr><th>Manufacturer</th><th>Status</th><th>Files</th></tr></thead>
+          <tbody><tr><td>LIGMAN</td><td>Validated</td><td>847</td></tr><tr><td>HEPER</td><td>Processing</td><td>312</td></tr><tr><td>B-K Lighting</td><td>Queued</td><td>156</td></tr></tbody>
+        </table>
+        <div class="ui-button-row"><button class="ui-button primary">Run Pipeline</button><button class="ui-button">Configure</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- FACE 05 — INTER TIGHT                                        -->
+  <!-- ============================================================ -->
+  <div class="face face-itight">
+    <div class="face-header">
+      <div class="left">
+        <p class="num">Face 05 · The editorial-sans option</p>
+        <p class="name">Inter Tight</p>
+        <p class="desc">A tightened sibling of Inter, designed for display and editorial use. Same skeletal forms but with reduced spacing and tighter letterforms. The closest sans to Söhne or GT America that's free.</p>
+        <p class="verdict">If you want sans but with editorial register, this is the one. Headlines feel confident; body still readable. Shares Inter's UI virtues at small sizes. Best of both worlds.</p>
+      </div>
+      <div class="stack">
+        Family: <strong>Inter Tight</strong><br>
+        Weights: <strong>300–800</strong><br>
+        Mono: <strong>JetBrains Mono</strong>
+      </div>
+    </div>
+    <div class="face-content">
+      <div class="face-cell editorial" lang="tr">
+        <p class="surface-label">Editorial · Long-form</p>
+        <p class="h-eyebrow">Bayilik · Aydınlatma</p>
+        <h1 class="h-1">Işığın mimariyle buluştuğu yer.</h1>
+        <p class="deck">2009'dan bu yana Türkiye'nin önde gelen tasarım stüdyolarıyla.</p>
+        <p class="body">Ağustos Teknoloji, on iki uluslararası aydınlatma markasının Türkiye temsilcisidir. Mimar, iç mimar ve aydınlatma tasarımcılarına proje bazında <a href="#">danışmanlık</a> sunuyoruz.</p>
+        <p class="body">Yaklaşımımız basit: <em>doğru ışık, doğru yerde, doğru zamanda.</em> Her projede <strong>spesifikasyon disiplini</strong> ve uzun vadeli teknik destek birlikte yürür.</p>
+        <h2 class="h-2">Çalışma Yaklaşımımız</h2>
+        <h3 class="h-3">Spesifikasyon disiplini</h3>
+        <p class="body">CoeLux modülü <code>CRI &gt; 95</code> değeriyle çalışır.</p>
+        <blockquote class="bq">İyi aydınlatma, fark edilmediği zaman en iyisidir.<cite>— Richard Kelly, 1952</cite></blockquote>
+      </div>
+      <div class="face-cell product-ui">
+        <p class="surface-label">Product UI</p>
+        <div class="ui-header"><p class="ui-title">IES File Pipeline</p><span class="ui-status">● Running</span></div>
+        <div class="stat-grid">
+          <div class="stat"><p class="stat-label">Files Processed</p><p class="stat-value">2,847</p><p class="stat-meta">+412 today</p></div>
+          <div class="stat"><p class="stat-label">Avg Lumen</p><p class="stat-value">1,240</p><p class="stat-meta">CRI 92.4</p></div>
+        </div>
+        <table class="ui-table">
+          <thead><tr><th>Manufacturer</th><th>Status</th><th>Files</th></tr></thead>
+          <tbody><tr><td>LIGMAN</td><td>Validated</td><td>847</td></tr><tr><td>HEPER</td><td>Processing</td><td>312</td></tr><tr><td>B-K Lighting</td><td>Queued</td><td>156</td></tr></tbody>
+        </table>
+        <div class="ui-button-row"><button class="ui-button primary">Run Pipeline</button><button class="ui-button">Configure</button></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DECISION GUIDE -->
+  <div class="guide">
+    <h3>Six checks specific to sans</h3>
+    <p>Sans typefaces are easier to confuse with each other than serifs. Run these checks to find the real differences.</p>
+    <div class="guide-grid">
+      <div class="guide-item">
+        <p class="lbl">1. The italic test</p>
+        <p>Read the deck and the blockquote. Does the italic feel like a <strong>different voice</strong> or just slanted body? In sans, this is the hardest thing to get right. Most fail it.</p>
+      </div>
+      <div class="guide-item">
+        <p class="lbl">2. The body comfort test</p>
+        <p>Read the full Turkish body paragraph. Does your eye glide through, or does it tire? Sans body at 16px should feel as comfortable as a serif — most don't.</p>
+      </div>
+      <div class="guide-item">
+        <p class="lbl">3. Bold contrast</p>
+        <p>Find <strong>"spesifikasyon disiplini"</strong>. Does bold pop confidently, or aggressively? Sans bold tends to shout where serif bold announces.</p>
+      </div>
+      <div class="guide-item">
+        <p class="lbl">4. The H1 voice</p>
+        <p>"Işığın mimariyle buluştuğu yer." Read the H1 in each face. Which voice would you want representing Ağustos? Pataraz? PLD?</p>
+      </div>
+      <div class="guide-item">
+        <p class="lbl">5. The numerals</p>
+        <p>"2,847" and "1,240" in the product UI. Tabular, designed for data. Which feels most considered without feeling decorative?</p>
+      </div>
+      <div class="guide-item">
+        <p class="lbl">6. The "everywhere" test</p>
+        <p>If this face appeared on every page of every brand for the next five years — would it feel like <strong>your house</strong>? Or just like everyone else's?</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+</body>
+</html>
