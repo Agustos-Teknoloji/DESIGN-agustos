@@ -1,8 +1,8 @@
 # Ağustos Design System
 
-**Version 2.1.1** · Type-first design system for Emre Güneş's brand portfolio
-**Last updated:** May 26, 2026
-**Status:** Patch update · Platform-neutral token source, adapter strategy, accessibility gates, and QA checklist · Token count remains 24
+**Version 2.1.2** · Type-first design system for Emre Güneş's brand portfolio
+**Last updated:** May 30, 2026
+**Status:** Patch update · Logotype finalized at Inter Tight 650 with neutral tracking · Token count remains 24
 
 ---
 
@@ -172,7 +172,7 @@ html, body {
 
 ## The 24 tokens
 
-Each token has exactly one job. When writing content, ask only: which one of these is this? Token count went from 22 → 24 in v2.0 with the addition of `.type-hero` and `.type-hero-md`; v2.1.1 keeps the count at 24 and clarifies named component styles around the tokens.
+Each token has exactly one job. When writing content, ask only: which one of these is this? Token count went from 22 → 24 in v2.0 with the addition of `.type-hero` and `.type-hero-md`; v2.1.2 keeps the count at 24 and finalizes the logotype weight.
 
 ### Hero (2) · NEW IN v2.0
 
@@ -397,8 +397,8 @@ Source of truth: `laz-gunesi-amblem/svg/master.svg` (parametric rebuild from the
 
 - Symbol height = 1.4× wordmark cap height (≈ `Math.round(size * 1.4 * 0.7)` in pixels)
 - Symbol-to-wordmark gap = 0.4× wordmark size
-- Wordmark in `--display` (Inter Tight), `font-weight: 300` (Light), `letter-spacing: -0.005em`
-- Variable `wght` axis 100–900. Light (300) is the working weight; the tighter proportions of Inter Tight (vs. Inter) lock the wordmark cleanly without negative tracking acrobatics.
+- Wordmark in `--display` (Inter Tight), `font-weight: 650`, `letter-spacing: 0`
+- Variable `wght` axis 100–900. Weight 650 is the working wordmark weight: bold enough to hold at 16–20px, still refined beside the Laz Güneşi. The tighter proportions of Inter Tight (vs. Inter) keep the lockup compact without negative tracking.
 - **Always lowercase.** `text-transform: lowercase` is enforced on `.lockup__name` so the wordmark renders lowercase regardless of how the brandname prop is passed. The prop can stay Title Case for SEO/aria; CSS does the visual normalization.
 - Wordmark color = `--brand` (matches the symbol, the lockup reads as one mark, not two)
 - **No subtitle.** The publisher mark is one word and one symbol. Sublabels and taglines belong elsewhere (page metadata, page subtitle, footer copy), not on the lockup.
@@ -430,13 +430,23 @@ The page `<title>` is independent and stays Title Case (e.g. "Ağustos Teknoloji
 
 No fourth expression exists.
 
-### Logotype: Inter Tight Light (v2.0)
+### Favicon & app icons
 
-The wordmark uses **Inter Tight** (Rasmus Andersson. SIL OFL 1.1). Tighter, more compressed sibling of Inter, designed by the same hand and sharing the same skeleton. Variable `wght` axis 100–900 with italics. Used at **Light (300)** for the lockup.
+The favicon uses the **Negative** expression — white Laz Güneşi on a brand-color tile. A solid tile holds its brand color and a recognizable silhouette at 16px, where the bare symbol's thin blades wash out to a faint ring. The bare symbol (Positive) is for in-page use, never the browser tab.
+
+Canonical kit: `laz-gunesi-amblem/favicon/` — `favicon.svg` (rounded tile, modern browsers), `favicon.ico` (legacy, square/opaque), `apple-touch-icon.png` (180px, full-bleed for iOS masking), `icon-192.png` / `icon-512.png` + `site.webmanifest` (PWA), and `favicon-mono.svg` (bare symbol, in-page only). Copy-paste `<head>` tags and regeneration steps live in that folder's `README.md`.
+
+Adapter `public/favicon.svg` files are **mirrors** of the canonical; update them in the same change. The full asset map and sync rules are in the repo-root `ASSETS.md`.
+
+### Logotype: Inter Tight 650 (v2.1.2)
+
+The wordmark uses **Inter Tight** (Rasmus Andersson. SIL OFL 1.1). Tighter, more compressed sibling of Inter, designed by the same hand and sharing the same skeleton. Variable `wght` axis 100–900 with italics. Used at **650** for the lockup.
 
 Inter Tight is the wordmark face. It is also the system display face, the same family powers heroes, headings, eyebrows, UI labels, and table headers. This consolidation is intentional: in v2.0 the wordmark and the surrounding chrome are drawn from the same family, so the lockup integrates with its context rather than asserting itself as a separate face.
 
 Why Inter Tight: after seven prior iterations (Fraunces semi-bold, Fraunces slim+WONK, Space Grotesk Light, Manrope ExtraLight, IBM Plex Sans Light, Tenor Sans Regular, Plus Jakarta Sans Light), a final round comparison evaluated Plus Jakarta 300/200, Hanken Grotesk 300, Geist 300, and Inter Tight 300 alongside a system-pairing decision (retire Newsreader for Inter as body). Inter Tight won on three axes: best-in-class Turkish `ğ` rendering, paired-skeleton harmony with Inter for body, and a "tight" axis that earns the *slick* descriptor without going couture-thin. The system-level question, retire Newsreader, was decided in favor of consolidation: one paired family, simpler to maintain, more rigorous register from logo to caption.
+
+Why 650: a May 2026 bold-weight reconsideration compared the current Inter Tight 300 lockup against Inter Tight 650/730, Hanken Grotesk 700, Plus Jakarta Sans 700, and Bricolage Grotesque 700 in desktop header, mobile header, document, dark, and brand-family contexts. Inter Tight 650 solved the small-size quietness of the Light lockup while preserving the current system, neutral tracking, and portfolio-wide calm. Inter Tight 730 was legible but close to too assertive; Bricolage 700 was more memorable but less system-neutral.
 
 The Turkish `ğ` in Inter Tight is humanist; the breve integrates with the letter body. Inter has gold-standard Latin Extended coverage. `ğ`, `İ`, `ı`, `ş`, `ç`, `ö`, `ü` all draw correctly without locale tricks.
 
@@ -701,7 +711,7 @@ Why mirror instead of symlink or `@import`: a symlink breaks across git/Cloudfla
 
 ## Versioning
 
-This is **v2.1.1**. Subsequent changes follow semantic versioning:
+This is **v2.1.2**. Subsequent changes follow semantic versioning:
 
 - **Major.** Breaking changes to token names, structural removal, philosophy shifts
 - **Minor.** New tokens, new brand additions, additive-only changes

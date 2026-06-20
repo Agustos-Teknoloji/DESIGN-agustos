@@ -1,7 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" role="img" aria-label="Ağustos">
   <title>Ağustos</title>
-  <!-- MIRROR of laz-gunesi-amblem/favicon/favicon.svg (canonical). Do not edit here directly;
-       change the canonical and re-copy. See ASSETS.md §"Sync rules". -->
+  <!-- Negative expression (DESIGN.md §"Three expressions"): white Laz Güneşi on a brand-color tile.
+       This is the documented favicon treatment — a solid silhouette that holds its brand color at 16px,
+       where the bare symbol's thin blades wash out. Tile color: brand-agustos token #cf142a. -->
   <rect width="100" height="100" rx="20" fill="#cf142a"/>
   <g transform="translate(50,50) scale(0.68)" fill="#ffffff" fill-rule="evenodd">
     <path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/>

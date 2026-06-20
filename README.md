@@ -2,18 +2,20 @@
 
 Typography-first design system for Emre Güneş's multi-brand portfolio.
 
-The canonical specification is [DESIGN.md](DESIGN.md). A rendered HTML preview lives at [artifacts/agustos-design-system-v2.1.1.html](artifacts/agustos-design-system-v2.1.1.html).
+The canonical specification is [DESIGN.md](DESIGN.md). A rendered HTML preview lives at [artifacts/agustos-design-system-v2.1.2.html](artifacts/agustos-design-system-v2.1.2.html). Every brand asset — logo, symbol, favicon, colors, fonts — is indexed in [ASSETS.md](ASSETS.md); agents should start at [AGENTS.md](AGENTS.md).
 
 This repository is intentionally platform-neutral. Astro, Rails, and future implementations are adapters of the same system, not separate design systems.
 
 ## What is included
 
+- `ASSETS.md`: **canonical index of every brand asset** (logo, symbol, favicon, colors, fonts). Start here to find a file.
+- `AGENTS.md`: entry point for automated agents working in this repo.
 - `DESIGN.md`: canonical design-system specification.
 - `MEMORY.md`: decision history and reasoning.
 - `tokens/agustos.css`: platform-neutral CSS token source.
 - `adapters/astro/`: Astro adapter, demo implementation, and typography showcase.
 - `adapters/rails/`: Rails monolith adapter skeleton.
-- `laz-gunesi-amblem/`: Laz Güneşi symbol source and exported assets.
+- `laz-gunesi-amblem/`: Laz Güneşi symbol source, exported assets, and the favicon/app-icon kit (`favicon/`).
 - `artifacts/`: rendered design explorations and previews.
 
 ## Adapter Strategy

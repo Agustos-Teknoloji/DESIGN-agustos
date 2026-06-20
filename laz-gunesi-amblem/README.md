@@ -16,7 +16,7 @@ docs/ ; Geometry data and rebuild verification
 ## The mark
 
 - **18 blades**, rotated 20° apart around a common center
-- **Brand red:** `#D11D2B` (RGB 209, 29, 43)
+- **Brand red:** `#cf142a` (RGB 207, 20, 42)
 - Square viewBox, mark perfectly centered on (0, 0) with ~10% safe padding
 - Even-odd fill rule, no strokes, scales cleanly to any size
 
