@@ -1,9 +1,9 @@
 {
   "name": "agustos-astro",
-  "version": "2.0.0",
+  "version": "2.1.2",
   "private": true,
   "type": "module",
-  "description": "Astro starter implementing the Ağustos Design System v2.0 (Inter Tight + Inter)",
+  "description": "Astro starter implementing the Ağustos Design System v2.1.2 (Inter Tight + Inter)",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
