@@ -493,3 +493,41 @@ System is at **v2.1.2**. DESIGN.md captures the specification. This file capture
 **v2.1.2.** Logotype weight finalized at Inter Tight 650 with neutral tracking after bold-context comparison. Same family, stronger mark.
 
 The system is in production use. Future v2.x updates: additional brands, dark mode, Pandoc/docx template parity. Documented in DESIGN.md as they ship.
+
+## Brand asset kit (2026-06-20)
+
+The spec/tokens layer was complete, but no *exported, hand-off-ready* assets existed
+(no lockup files, favicons, social images, font hand-off). Added `brand/` as the
+asset-manager home with a **generate-don't-maintain** architecture:
+
+- **`brand/brands.json`** is the new keystone registry — one source for each brand's
+  slug, wordmark, color, title, domain, tagline. Resolves the identity-data duplication
+  previously split between `tokens.css` and `BaseLayout.astro` (registry is additive;
+  the running adapters were not changed in this pass).
+- **`brand/build.py`** is the engine. It bakes wordmarks to vector **outlines**
+  (`fontTools`, Inter Tight) so assets are font-independent, composes lockups per
+  the DESIGN.md geometry, and emits SVG + PDF (`reportlab`) + PNG (`resvg` via node).
+- **Wordmark weight = 650, letter-spacing normal** — matched to the LIVE site agustos.com
+  (verified via browser computed styles, 2026-06-20). The spec/component originally said
+  Light (300) / -0.005em; this was a real drift between the docs and the production brand.
+  **Reconciled 2026-06-20:** `DESIGN.md`, `adapters/astro/.../BrandLockup.astro`, the Rails
+  `components.css`, and the typography showcase were all updated to 650 / normal. NOTE:
+  `tokens.css` `font-weight: 300` is `.type-hero` (big hero text), NOT the lockup — left as-is.
+  Stored in `brands.json` → `type.wordmark_weight`.
+- Per brand `build.py` generates lockups (positive/negative/mono), favicons + app icons,
+  and social avatar + OG image under `exports/<brand>/` (committed, like `laz-gunesi-amblem/`).
+- **`brand/build_templates.py`** (sibling) generates the working documents from the same
+  registry: `.ase`/`.clr` colour swatches, an email-safe HTML signature, a PowerPoint `.pptx`
+  + Word `.docx` letterhead, and a 4-page brand-guidelines PDF (branded HTML rendered via the
+  gstack `browse` tool, embedding the bundled fonts). Keynote/Slides/Pages are covered by
+  importing the .pptx/.docx — no separate generation. Deps: python-pptx, python-docx,
+  pyobjc (for .clr); pinned in `brand/requirements.txt`. See `brand/templates/README.md`.
+- **Maintenance contract:** edit `brands.json` or the master symbol, then run `build.py`.
+  Never hand-edit `exports/`. This is how the kit stays drift-free across all brands.
+
+Status (2026-06-22): full kits (logos + documents) for **`agustos`**, **`pataraz`** (pataraz.com),
+and **`pld türkiye`** (pldturkiye.com). **`photometric`** has logos only (documents deferred).
+Taglines are now defined-but-unshown (per-brand `tagline_en`/`tagline_tr`); agustos = "curated
+solutions" / "seçkin çözümler", others none. The lockup is always tagline-free. Novara is a brand
+Ağustos *represents* (distributes), not a house sub-brand. Weight 650 was reached independently
+here and on `chore/brand-assets-home` (v2.1.2) and converged in this merge.
