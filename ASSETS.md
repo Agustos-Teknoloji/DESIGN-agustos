@@ -86,12 +86,33 @@ Grammar and rules: DESIGN.md §"Logo system".
 
 ---
 
+## Brand kit — generated per-brand assets
+
+`brand/` is the generate-don't-maintain asset kit (the static-export complement to the
+render-time lockup above). Edit the registry or master symbol, then run the two build
+scripts; never hand-edit `exports/`.
+
+| Asset | Path |
+|---|---|
+| Registry (keystone, source of truth) | [`brand/brands.json`](brand/brands.json) |
+| Engine — logos / favicons / social | [`brand/build.py`](brand/build.py) |
+| Engine — office / swatches / email / guidelines | [`brand/build_templates.py`](brand/build_templates.py) |
+| Fonts (Inter Tight, Inter, JetBrains Mono) + OFL | `brand/fonts/` |
+| Per-brand exports | `brand/exports/<brand>/` |
+
+Each `exports/<brand>/` holds: `lockup/` (positive/negative/mono × svg·pdf·png), `favicon/`,
+`social/`, `swatches/` (.ase/.clr), `email/` (signature), `office/` (.pptx/.docx),
+`guidelines/` (4-page PDF). Full kits: `agustos`, `pataraz`, `pld`; `photometric` has logos
+only. Docs: `brand/README.md`, `brand/templates/README.md`.
+
+---
+
 ## Known gaps / follow-ups
 
-- **Print PDFs still at `#D11D2B`.** `laz-gunesi-amblem/pdf/laz-gunesi__red*.pdf` were not
-  regenerated to `#cf142a` — there is no vector SVG→PDF rasterizer available locally
-  (rsvg/inkscape/cairosvg). The difference is visually negligible. Regenerate from the updated
-  `svg/` when one of those tools is installed.
+- **Print PDFs still at `#D11D2B`.** `laz-gunesi-amblem/pdf/laz-gunesi__red*.pdf` predate the
+  single-red change. A vector SVG→PDF/PNG pipeline now exists in `brand/` (reportlab + resvg,
+  see `brand/requirements.txt`); regenerate these from the updated `svg/` with it. The visual
+  difference is negligible.
 
 ## Sync rules (don't let assets drift)
 
