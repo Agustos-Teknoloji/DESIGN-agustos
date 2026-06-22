@@ -51,9 +51,9 @@
 .agustos-lockup__name {
   font-family: var(--display);
   font-size: var(--agustos-lockup-size, 24px);
-  font-weight: 300;
+  font-weight: 650;
   line-height: 1;
-  letter-spacing: -0.005em;
+  letter-spacing: normal;
   text-transform: lowercase;
   color: inherit;
 }

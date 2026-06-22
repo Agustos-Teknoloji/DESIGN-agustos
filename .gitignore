@@ -5,6 +5,10 @@
 node_modules/
 **/node_modules/
 
+# Python virtualenv (brand kit build tooling)
+.venv/
+**/__pycache__/
+
 # Astro / Vite output
 dist/
 .astro/
@@ -26,3 +30,4 @@ pnpm-debug.log*
 .vscode/
 .idea/
 
+.gstack/

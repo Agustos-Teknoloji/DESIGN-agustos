@@ -1,0 +1,46 @@
+{
+  "$comment": "KEYSTONE REGISTRY. Single source of truth for brand identity. Edit this, then run build.py. Never hand-edit files under exports/.",
+  "system": "Ağustos Design System",
+  "symbol": "laz-gunesi-amblem/svg/master.svg",
+  "type": {
+    "display_family": "Inter Tight",
+    "wordmark_weight": 650,
+    "wordmark_tracking_em": 0,
+    "$source": "Matched to the LIVE site agustos.com (verified 2026-06-20): weight 650, letter-spacing normal. DESIGN.md, BrandLockup.astro, and the Rails adapter were reconciled to 650 on 2026-06-20 (they previously said Light 300). tokens.css weight 300 is .type-hero, NOT the lockup — left unchanged."
+  },
+  "substrate": {
+    "paper": "#fefcf2",
+    "paper_white": "#ffffff",
+    "ink": "#1a1a1a"
+  },
+  "brands": {
+    "agustos": {
+      "wordmark": "ağustos",
+      "color": "#cf142a",
+      "title": "Ağustos Teknoloji",
+      "domain": "agustos.com",
+      "tagline": "TODO — confirm (DESIGN.md example: \"lighting agency and distribution\")"
+    },
+    "pataraz": {
+      "wordmark": "pataraz",
+      "color": "#1a24cc",
+      "title": "Pataraz",
+      "domain": "TODO",
+      "tagline": "TODO"
+    },
+    "pld": {
+      "wordmark": "pld türkiye",
+      "color": "#1a1a1a",
+      "title": "PLD Türkiye",
+      "domain": "TODO",
+      "tagline": "TODO"
+    },
+    "photometric": {
+      "wordmark": "photometric",
+      "color": "#1f6b4a",
+      "title": "Photometric",
+      "domain": "TODO",
+      "tagline": "TODO"
+    }
+  }
+}

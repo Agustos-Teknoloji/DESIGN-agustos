@@ -397,8 +397,8 @@ Source of truth: `laz-gunesi-amblem/svg/master.svg` (parametric rebuild from the
 
 - Symbol height = 1.4× wordmark cap height (≈ `Math.round(size * 1.4 * 0.7)` in pixels)
 - Symbol-to-wordmark gap = 0.4× wordmark size
-- Wordmark in `--display` (Inter Tight), `font-weight: 300` (Light), `letter-spacing: -0.005em`
-- Variable `wght` axis 100–900. Light (300) is the working weight; the tighter proportions of Inter Tight (vs. Inter) lock the wordmark cleanly without negative tracking acrobatics.
+- Wordmark in `--display` (Inter Tight), `font-weight: 650` (Semibold), `letter-spacing: normal`
+- Variable `wght` axis 100–900. Semibold (650) is the working weight, normal tracking — matched to the production site (agustos.com, verified 2026-06-20). The tighter proportions of Inter Tight (vs. Inter) lock the wordmark cleanly at this weight.
 - **Always lowercase.** `text-transform: lowercase` is enforced on `.lockup__name` so the wordmark renders lowercase regardless of how the brandname prop is passed. The prop can stay Title Case for SEO/aria; CSS does the visual normalization.
 - Wordmark color = `--brand` (matches the symbol, the lockup reads as one mark, not two)
 - **No subtitle.** The publisher mark is one word and one symbol. Sublabels and taglines belong elsewhere (page metadata, page subtitle, footer copy), not on the lockup.
@@ -430,9 +430,9 @@ The page `<title>` is independent and stays Title Case (e.g. "Ağustos Teknoloji
 
 No fourth expression exists.
 
-### Logotype: Inter Tight Light (v2.0)
+### Logotype: Inter Tight Semibold (v2.0)
 
-The wordmark uses **Inter Tight** (Rasmus Andersson. SIL OFL 1.1). Tighter, more compressed sibling of Inter, designed by the same hand and sharing the same skeleton. Variable `wght` axis 100–900 with italics. Used at **Light (300)** for the lockup.
+The wordmark uses **Inter Tight** (Rasmus Andersson. SIL OFL 1.1). Tighter, more compressed sibling of Inter, designed by the same hand and sharing the same skeleton. Variable `wght` axis 100–900 with italics. Used at **Semibold (650)** for the lockup (matched to production; an earlier spec said Light 300 — reconciled 2026-06-20).
 
 Inter Tight is the wordmark face. It is also the system display face, the same family powers heroes, headings, eyebrows, UI labels, and table headers. This consolidation is intentional: in v2.0 the wordmark and the surrounding chrome are drawn from the same family, so the lockup integrates with its context rather than asserting itself as a separate face.
 

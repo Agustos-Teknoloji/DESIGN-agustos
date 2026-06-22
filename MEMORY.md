@@ -464,3 +464,32 @@ System is at **v1.4**. DESIGN.md captures the specification. This file captures 
 **v1.4.** Logotype lands on Manrope ExtraLight; wordmarks finalized to single nouns where possible (`ağustos`, `pataraz`, `photometric`, plus `pld türkiye`). Symbol leads, wordmark supports.
 
 The system is in production use. Future v1.x updates: additional brands, dark mode, Pandoc/docx template parity. Documented in DESIGN.md as they ship.
+
+## Brand asset kit (2026-06-20)
+
+The spec/tokens layer was complete, but no *exported, hand-off-ready* assets existed
+(no lockup files, favicons, social images, font hand-off). Added `brand/` as the
+asset-manager home with a **generate-don't-maintain** architecture:
+
+- **`brand/brands.json`** is the new keystone registry — one source for each brand's
+  slug, wordmark, color, title, domain, tagline. Resolves the identity-data duplication
+  previously split between `tokens.css` and `BaseLayout.astro` (registry is additive;
+  the running adapters were not changed in this pass).
+- **`brand/build.py`** is the engine. It bakes wordmarks to vector **outlines**
+  (`fontTools`, Inter Tight) so assets are font-independent, composes lockups per
+  the DESIGN.md geometry, and emits SVG + PDF (`reportlab`) + PNG (`resvg` via node).
+- **Wordmark weight = 650, letter-spacing normal** — matched to the LIVE site agustos.com
+  (verified via browser computed styles, 2026-06-20). The spec/component originally said
+  Light (300) / -0.005em; this was a real drift between the docs and the production brand.
+  **Reconciled 2026-06-20:** `DESIGN.md`, `adapters/astro/.../BrandLockup.astro`, the Rails
+  `components.css`, and the typography showcase were all updated to 650 / normal. NOTE:
+  `tokens.css` `font-weight: 300` is `.type-hero` (big hero text), NOT the lockup — left as-is.
+  Stored in `brands.json` → `type.wordmark_weight`.
+- Per brand it generates lockups (positive/negative/mono), favicons + app icons, and
+  social avatar + OG image under `exports/<brand>/` (committed, like `laz-gunesi-amblem/`).
+- **Maintenance contract:** edit `brands.json` or the master symbol, then run `build.py`.
+  Never hand-edit `exports/`. This is how the kit stays drift-free across all brands.
+
+Pilot generated and reviewed for **`agustos`**. `pataraz` / `pld` / `photometric` are
+registered and build with one command when ready. Office templates (PPT/Keynote/Slides/
+letterhead) and a shareable guidelines PDF are the next phases — see `tasks/todo.md`.

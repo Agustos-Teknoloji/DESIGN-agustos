@@ -9,7 +9,7 @@ import LazGunesi from './LazGunesi.astro';
  *
  * - Symbol height = 1.4× wordmark cap height (visual; tuned via the 0.7 factor below)
  * - Symbol-to-wordmark gap = 0.4× wordmark size
- * - Wordmark uses --display (Inter Tight Light, v2.0) in --brand color
+ * - Wordmark uses --display (Inter Tight Semibold 650, v2.0) in --brand color
  * - No subtitle, no hover underline. The lockup is identity, not a link affordance.
  *
  * The `expression="mono"` variant uses --ink instead of --brand for single-color contexts.
@@ -76,17 +76,17 @@ const defaultColor = expression === 'mono' ? 'var(--ink)' : 'var(--brand)';
 
   .lockup__name {
     font-family: var(--display);
-    font-weight: 300;
+    font-weight: 650;
     line-height: 1;
-    letter-spacing: -0.005em;
+    letter-spacing: normal;
     /* Wordmark is always rendered lowercase — the brandname prop can be passed in any case
        (e.g. "Ağustos Teknoloji" for SEO/aria) but the visible mark is always "ağustos teknoloji". */
     text-transform: lowercase;
-    /* Inter Tight (v2.0): variable wght axis 100–900 with italics. Light (300) is the working weight.
-       Tighter, more compressed sibling of Inter (same designer, shared skeleton) — the lockup integrates
-       with the surrounding chrome which also runs on Inter Tight. The Turkish ğ's breve sits humanistically
-       on the g; Inter has gold-standard Latin Extended coverage. Letter-spacing slightly negative (-0.005em)
-       to lock the wordmark at all sizes from 16px to 200px. */
+    /* Inter Tight (v2.0): variable wght axis 100–900 with italics. Semibold (650) is the working
+       weight — matched to the production site (agustos.com). Tighter, more compressed sibling of
+       Inter (same designer, shared skeleton) — the lockup integrates with the surrounding chrome
+       which also runs on Inter Tight. The Turkish ğ's breve sits humanistically on the g; Inter has
+       gold-standard Latin Extended coverage. Letter-spacing normal at this weight. */
     color: inherit;
   }
 </style>
