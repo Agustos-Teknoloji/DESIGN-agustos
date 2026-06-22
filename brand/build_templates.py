@@ -96,8 +96,9 @@ def gen_email_signature(slug, brand, reg, out: Path, lockup_png: Path):
     logo = b64_png(lockup_png, 320)
     color = brand["color"]
     title = brand["title"]
-    tagline = brand.get("tagline", "")
     domain = brand.get("domain", "")
+    # Tagline intentionally omitted — defined in the registry but used sparingly,
+    # never on everyday artifacts (see brands.json $tagline_policy).
     html = f"""<!-- {title} email signature. Paste into your mail client's signature editor.
      Self-contained (logo embedded). Replace {{{{NAME}}}}, {{{{ROLE}}}}, {{{{PHONE}}}}. -->
 <table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;">
@@ -107,8 +108,7 @@ def gen_email_signature(slug, brand, reg, out: Path, lockup_png: Path):
     </td>
     <td style="border-left:2px solid {color};padding-left:18px;vertical-align:middle;line-height:1.5;">
       <div style="font-size:15px;font-weight:bold;color:#1a1a1a;">{{{{NAME}}}}</div>
-      <div style="font-size:13px;color:#4a4a4a;">{{{{ROLE}}}} &middot; {title}</div>
-      <div style="font-size:12px;color:{color};padding:2px 0 6px;">{tagline}</div>
+      <div style="font-size:13px;color:#4a4a4a;padding-bottom:6px;">{{{{ROLE}}}} &middot; {title}</div>
       <div style="font-size:12px;color:#4a4a4a;">
         {{{{PHONE}}}} &nbsp;|&nbsp;
         <a href="mailto:hello@{domain}" style="color:#4a4a4a;text-decoration:none;">hello@{domain}</a> &nbsp;|&nbsp;
@@ -144,7 +144,7 @@ def gen_letterhead_docx(slug, brand, reg, out: Path, lockup_png: Path):
 
     color = RGBColor(*hexrgb(brand["color"]))
     ink_soft = RGBColor(0x4a, 0x4a, 0x4a)
-    title, domain, tagline = brand["title"], brand.get("domain", ""), brand.get("tagline", "")
+    title, domain = brand["title"], brand.get("domain", "")
 
     doc = docx.Document()
     doc.styles["Normal"].font.name = "Inter"
@@ -164,7 +164,7 @@ def gen_letterhead_docx(slug, brand, reg, out: Path, lockup_png: Path):
     # Footer: contact line
     fp = sec.footer.paragraphs[0]
     fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    r = fp.add_run(f"{title}  ·  {tagline}  ·  {domain}")
+    r = fp.add_run(f"{title}  ·  {domain}")
     r.font.size = Pt(8.5)
     r.font.color.rgb = ink_soft
 
@@ -196,7 +196,7 @@ def gen_pptx(slug, brand, reg, out: Path, pos_png: Path, neg_png: Path):
     brand_c = RGBColor(*hexrgb(brand["color"]))
     ink = RGBColor(0x1a, 0x1a, 0x1a)
     ink_soft = RGBColor(0x4a, 0x4a, 0x4a)
-    title, tagline, domain = brand["title"], brand.get("tagline", ""), brand.get("domain", "")
+    title, domain = brand["title"], brand.get("domain", "")
 
     prs = Presentation()
     prs.slide_width, prs.slide_height = Inches(13.333), Inches(7.5)
@@ -232,7 +232,7 @@ def gen_pptx(slug, brand, reg, out: Path, pos_png: Path, neg_png: Path):
     textbox(s, Inches(0.9), Inches(3.0), Inches(11.5), Inches(2.0),
             "Presentation title", 54, "Inter Tight", ink, bold=True)
     textbox(s, Inches(0.92), Inches(4.4), Inches(10), Inches(1),
-            tagline, 20, "Inter", ink_soft)
+            "Subtitle", 20, "Inter", ink_soft)
 
     # 2 — Section divider (brand color, reversed lockup)
     s = prs.slides.add_slide(blank); bg(s, brand_c)
@@ -269,7 +269,7 @@ def gen_pptx(slug, brand, reg, out: Path, pos_png: Path, neg_png: Path):
 
 def gen_guidelines_html(slug, brand, reg, out: Path, lk_dir: Path, fav_dir: Path):
     color = brand["color"]
-    title, tagline, domain = brand["title"], brand.get("tagline", ""), brand.get("domain", "")
+    title, domain = brand["title"], brand.get("domain", "")
     fonts = BRAND_DIR / "fonts"
     pal = palette(brand, reg)
     sw = "".join(
@@ -321,7 +321,6 @@ ul.rules {{ font-size:12.5px; line-height:1.7; color:#4a4a4a; padding-left:18px;
   <div class="eyebrow">Brand Guidelines</div>
   <img class="cover-mark" src="{pos}">
   <h1>{title}</h1>
-  <p style="font-size:16px;color:#1a1a1a;">{tagline}</p>
   <div class="foot"><span>{domain}</span><span>v1 · generated from the Ağustos Design System</span></div>
 </section>
 

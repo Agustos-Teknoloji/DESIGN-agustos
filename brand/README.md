@@ -68,8 +68,11 @@ no font installed.
 
 ## Adding a brand
 
-1. Add an entry to `brands.json` (`wordmark`, `color`, `title`, `domain`, `tagline`).
-2. Run `../.venv/bin/python build.py --brand <slug>`.
+1. Add an entry to `brands.json`: `wordmark`, `color`, `title`, `domain`, and optionally
+   `tagline_en` / `tagline_tr` (either, both, or neither — taglines are defined as reference
+   but not printed on artifacts; see the `$tagline_policy` note in `brands.json`).
+2. Run `../.venv/bin/python build.py --brand <slug>` (logos/favicons/social), then
+   `../.venv/bin/python build_templates.py --brand <slug>` (documents).
 
 No new design work — the brand inherits the symbol, type, geometry, and all three
 expressions automatically. ~10 minutes.

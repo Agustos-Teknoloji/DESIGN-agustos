@@ -1,5 +1,6 @@
 {
   "$comment": "KEYSTONE REGISTRY. Single source of truth for brand identity. Edit this, then run build.py. Never hand-edit files under exports/.",
+  "$tagline_policy": "Taglines are DEFINED here as reference, used sparingly and NEVER on the lockup. Generated artifacts (email signature, letterhead, guidelines cover, deck) do not print them by default. Per brand: tagline_en and/or tagline_tr (either, both, or neither).",
   "system": "Ağustos Design System",
   "symbol": "laz-gunesi-amblem/svg/master.svg",
   "type": {
@@ -19,28 +20,32 @@
       "color": "#cf142a",
       "title": "Ağustos Teknoloji",
       "domain": "agustos.com",
-      "tagline": "lighting agency and distribution"
+      "tagline_en": "curated solutions",
+      "tagline_tr": "seçkin çözümler"
     },
     "pataraz": {
       "wordmark": "pataraz",
       "color": "#1a24cc",
       "title": "Pataraz",
-      "domain": "TODO",
-      "tagline": "TODO"
+      "domain": "pataraz.com",
+      "tagline_en": "",
+      "tagline_tr": ""
     },
     "pld": {
       "wordmark": "pld türkiye",
       "color": "#1a1a1a",
       "title": "PLD Türkiye",
-      "domain": "TODO",
-      "tagline": "TODO"
+      "domain": "pldturkiye.com",
+      "tagline_en": "",
+      "tagline_tr": ""
     },
     "photometric": {
       "wordmark": "photometric",
       "color": "#1f6b4a",
       "title": "Photometric",
       "domain": "TODO",
-      "tagline": "TODO"
+      "tagline_en": "",
+      "tagline_tr": ""
     }
   }
 }

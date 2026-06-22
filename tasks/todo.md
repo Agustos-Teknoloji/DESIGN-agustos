@@ -53,8 +53,10 @@ documents the per-app conversion.
 - [x] Colour swatches: `.ase` (Adobe, hand-written binary) + `.clr` (Apple, via PyObjC NSColorList)
 - [x] Verified all outputs visually (guidelines 4 pages, email sig) + structurally (pptx 4 slides, docx A4)
 
-## Phase 4 — Scale to sub-brands (after Ağustos approved)
-- [ ] Run `build.py` + `build_templates.py` for pataraz, pld türkiye, photometric (no new design work)
+## Phase 4 — Scale to sub-brands  ✅ (this pass)
+- [x] `pataraz` (pataraz.com) + `pld türkiye` (pldturkiye.com): full kits — logos + documents, no taglines.
+- [x] `photometric`: logos/favicons/social generated; documents deferred ("not needed for now").
+- [n/a] Novara: a brand Ağustos *represents* (distributes), not a house sub-brand — no work.
 
 ## Maintenance contract (the "keep up to date" answer)
 - [x] `brand/README.md` + `templates/README.md`: edit `brands.json` (or `master.svg`) → re-run the
