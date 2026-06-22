@@ -1,0 +1,12 @@
+# Python deps for the Ağustos brand kit generators (build.py + build_templates.py).
+# Install into a venv at the repo root:  python3 -m venv .venv && ./.venv/bin/pip install -r brand/requirements.txt
+fonttools        # instance variable fonts, extract wordmark outlines
+brotli           # woff2 support for fonttools
+svglib           # SVG -> reportlab drawing
+reportlab        # SVG -> PDF (no system Cairo needed)
+pillow           # raster compositing, favicon .ico, image resize
+python-pptx      # PowerPoint template generation
+python-docx      # Word letterhead generation
+pyobjc-framework-Cocoa  # Apple .clr color list (macOS only; .ase still works without it)
+
+# Node (in brand/, via `npm install`): @resvg/resvg-js for SVG -> PNG.

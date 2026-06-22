@@ -485,8 +485,14 @@ asset-manager home with a **generate-don't-maintain** architecture:
   `components.css`, and the typography showcase were all updated to 650 / normal. NOTE:
   `tokens.css` `font-weight: 300` is `.type-hero` (big hero text), NOT the lockup — left as-is.
   Stored in `brands.json` → `type.wordmark_weight`.
-- Per brand it generates lockups (positive/negative/mono), favicons + app icons, and
-  social avatar + OG image under `exports/<brand>/` (committed, like `laz-gunesi-amblem/`).
+- Per brand `build.py` generates lockups (positive/negative/mono), favicons + app icons,
+  and social avatar + OG image under `exports/<brand>/` (committed, like `laz-gunesi-amblem/`).
+- **`brand/build_templates.py`** (sibling) generates the working documents from the same
+  registry: `.ase`/`.clr` colour swatches, an email-safe HTML signature, a PowerPoint `.pptx`
+  + Word `.docx` letterhead, and a 4-page brand-guidelines PDF (branded HTML rendered via the
+  gstack `browse` tool, embedding the bundled fonts). Keynote/Slides/Pages are covered by
+  importing the .pptx/.docx — no separate generation. Deps: python-pptx, python-docx,
+  pyobjc (for .clr); pinned in `brand/requirements.txt`. See `brand/templates/README.md`.
 - **Maintenance contract:** edit `brands.json` or the master symbol, then run `build.py`.
   Never hand-edit `exports/`. This is how the kit stays drift-free across all brands.
 

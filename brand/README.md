@@ -21,12 +21,15 @@ re-run the build:
 
 ```bash
 # one-time setup (from the repo root)
-python3 -m venv .venv && ./.venv/bin/pip install fonttools brotli svglib reportlab pillow
+python3 -m venv .venv && ./.venv/bin/pip install -r brand/requirements.txt
 cd brand && npm install
 
-# generate everything
-../.venv/bin/python build.py                  # all brands
-../.venv/bin/python build.py --brand agustos  # one brand
+# 1. visual assets — logos, favicons, social
+../.venv/bin/python build.py --brand agustos          # omit --brand for all
+
+# 2. working documents — office, swatches, email, guidelines source
+../.venv/bin/python build_templates.py --brand agustos
+# then render the guidelines PDF (one browse command — see templates/README.md)
 ```
 
 ## What gets generated
@@ -34,10 +37,18 @@ cd brand && npm install
 Per brand, under `exports/<brand>/`:
 
 ```
-lockup/   symbol + wordmark — positive / negative / mono, each as svg + pdf + png (2400 & 800px)
-favicon/  favicon.ico, favicon.svg, apple-touch-icon.png, manifest pngs, site.webmanifest
-social/   square avatar (400 & 1000px) + 1200x630 og image (svg + png)
+lockup/      symbol + wordmark — positive / negative / mono, each as svg + pdf + png (2400 & 800px)
+favicon/     favicon.ico, favicon.svg, apple-touch-icon.png, manifest pngs, site.webmanifest
+social/      square avatar (400 & 1000px) + 1200x630 og image (svg + png)
+swatches/    <brand>.ase (Adobe) + <brand>.clr (Apple)
+email/       <brand>-signature.html (email-safe, self-contained)
+office/      <brand>-letterhead.docx + <brand>-template.pptx
+guidelines/  <brand>-brand-guidelines.html + .pdf (4-page shareable)
 ```
+
+`build.py` makes the first three (visual assets); `build_templates.py` makes the rest
+(working documents). See `templates/README.md` for using the Office files in
+PowerPoint / Keynote / Google Slides / Word / Pages.
 
 - **positive** — brand color on transparent. Primary, ~90% of uses.
 - **negative** — cream marks on a brand-color field. Banners, brand tiles.
@@ -50,7 +61,7 @@ no font installed.
 
 `brands.json` + the shared symbol → `build.py` → `exports/`. The engine:
 
-1. Instances Inter Tight at weight 300 and converts each wordmark to outline paths (`fontTools`).
+1. Instances Inter Tight at the wordmark weight (650, from `brands.json`) and converts each wordmark to outline paths (`fontTools`).
 2. Composes the lockup with the symbol per `DESIGN.md` geometry (symbol = 1.4× cap height, gap = 0.4× size, optical centering for lowercase).
 3. Writes SVG masters, renders PDF (`reportlab`, pure Python) and PNG (`scripts/render_png.mjs`, the `resvg` binary — no system Cairo needed).
 4. Builds `.ico`, app icons, and the web manifest with Pillow.
@@ -65,6 +76,7 @@ expressions automatically. ~10 minutes.
 
 ## Status
 
-- ✅ `agustos` — generated and reviewed.
-- ⏳ `pataraz`, `pld`, `photometric` — registered, not yet generated (run the build when ready).
-- 📁 `templates/` — office decks & letterhead (Phase 2, see `../tasks/todo.md`).
+- ✅ `agustos` — full kit generated and reviewed: logos, favicons, social, swatches,
+  email signature, Office templates (PPTX/DOCX), and 4-page guidelines PDF.
+- ⏳ `pataraz`, `pld`, `photometric` — registered, not yet generated. Run both scripts
+  (`build.py` then `build_templates.py`) per brand when ready.
