@@ -6,7 +6,7 @@ import BrandLockup from './BrandLockup.astro';
  * right-slide drawer on tablet/mobile. The visual pattern matches agustos.com:
  *
  *   ┌──────────────────────┐
- *   │  ☼ ağustos           │  ← BrandLockup (symbol + wordmark in IBM Plex Light)
+ *   │  ☼ ağustos           │  ← BrandLockup (symbol + wordmark in Inter Tight 650)
  *   │                      │
  *   │  🌐 EN  ☀️           │  ← language selector + theme toggle (functional)
  *   │  🔍 Search           │
@@ -60,7 +60,7 @@ function isActive(href: string): boolean {
 }
 ---
 <aside class="sidebar" aria-label="Primary">
-  {/* Top: full BrandLockup — symbol + wordmark in IBM Plex Sans Light. */}
+  {/* Top: full BrandLockup — symbol + wordmark in Inter Tight 650. */}
   <div class="sidebar__mark">
     <BrandLockup brandname={brandname} href="/" size={24} />
   </div>

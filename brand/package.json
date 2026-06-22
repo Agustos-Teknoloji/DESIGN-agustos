@@ -1,0 +1,12 @@
+{
+  "name": "agustos-brand-kit",
+  "private": true,
+  "type": "module",
+  "description": "Asset generation helpers for the Ağustos brand kit. The engine is build.py; this provides the SVG->PNG renderer.",
+  "scripts": {
+    "build": "python3 ../.venv/bin/python build.py"
+  },
+  "dependencies": {
+    "@resvg/resvg-js": "^2.6.2"
+  }
+}

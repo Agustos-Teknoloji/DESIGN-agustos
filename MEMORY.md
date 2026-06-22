@@ -389,6 +389,33 @@ Three of the four wordmarks are now single nouns. The principle: **a wordmark is
 
 ---
 
+## Turning point 23: Bold logotype finalization: Inter Tight 650
+
+After the v2 consolidation onto Inter Tight + Inter, Emre questioned whether the logotype should stay light. The hunch was correct: Inter Tight 300 was elegant, but too quiet beside the dense Laz Güneşi mark at real header sizes.
+
+A context board compared the previous/current Light lockups against bolder candidates: Inter Tight 650, Inter Tight 730, Hanken Grotesk 700, Plus Jakarta Sans 700, and Bricolage Grotesque 700. Each was tested in desktop header, mobile header, document, dark footer, and brand-family contexts.
+
+Emre chose **Inter Tight 650 with neutral tracking**.
+
+**Why it mattered:** This was not a font pivot, it was a weight finalization. The underlying v2 decision still holds: one paired family from logo to body. Weight 650 gives the wordmark enough presence at 16–20px without making it shout, and keeps the portfolio lockup calm across `ağustos`, `pataraz`, `pld türkiye`, and `photometric`. Inter Tight 730 was the upper edge; Bricolage 700 had more character but would have made the logo a separate personality again. The final choice is the conservative bold move: same system, better authority.
+
+---
+
+## Turning point 24: Brand-asset home, favicon kit, red reconciliation (June 2026)
+
+A request for "a favicon for agustos.com" surfaced three latent problems: scattered favicon copies with no canonical source, no real favicon *kit* (only a lone SVG), and — most importantly — **two different brand reds in active use**. The symbol kit (`master.svg`, its README, geometry JSON, CSS) declared `#D11D2B`; the design system (`tokens/agustos.css`, DESIGN.md, every favicon) used `#cf142a`. Perceptually near-identical, but a source-of-truth conflict: an agent copying "brand red" had a 50/50 chance of being wrong.
+
+Resolutions:
+
+1. **One red: `#cf142a`.** The design-system token wins (DESIGN.md is the stated authority). All symbol SVGs, CSS, geometry JSON, and READMEs reconciled. The five transparent red PNGs were recolored losslessly (preserve alpha, swap RGB); the two two-tone variants rebuilt by compositing onto white/black. Print PDFs left at `#D11D2B` and flagged in ASSETS.md — no vector SVG→PDF rasterizer available locally, and the difference is invisible.
+2. **Favicon = the Negative expression.** White Laz Güneşi on a red rounded tile, per DESIGN.md §"Three expressions". Verified by rendering at 16px: the bare symbol's thin blades wash out to a faint ring; the tile holds its color and silhouette. The bare symbol stays available as `favicon-mono.svg` for in-page use.
+3. **A real kit** at `laz-gunesi-amblem/favicon/`: `favicon.svg`, multi-resolution `favicon.ico` (16/32/48), `apple-touch-icon.png` (full-bleed for iOS masking), PWA icons + `site.webmanifest`, and a `<head>` snippet. Legacy raster fallbacks use a full-bleed square (opaque) to avoid white-corner leakage on dark browser chrome.
+4. **A discoverable home.** Root `ASSETS.md` indexes every brand asset (canonical path, color, use); `AGENTS.md` + a thin `CLAUDE.md` point any agent to it. Canonical-vs-mirror rule added for favicons (the adapter `public/` copy is a mirror), echoing the existing tokens mirror discipline.
+
+**Why it mattered:** the favicon was the easy part. The real work was making the brand's assets findable and internally consistent so the *next* agent doesn't recreate, mis-color, or hunt. Drift is a defect; this pass closed the favicon/red drift and built the index to prevent the next one.
+
+---
+
 ## Principles named during the conversation
 
 These weren't all stated upfront. They emerged as turning points required them:
@@ -455,12 +482,52 @@ A few patterns from this conversation worth remembering:
 
 ## Status
 
-System is at **v1.4**. DESIGN.md captures the specification. This file captures the reasoning.
+System is at **v2.1.2**. DESIGN.md captures the specification. This file captures the reasoning.
 
 **v1.0.** Specification complete (all tokens, brand classes, lockup grammar, substrate behavior).
 **v1.1.** Implementation phase: Astro reference site live, real Laz Güneşi shipped (replacing the placeholder), logotype locked to Fraunces with new `--logotype` token, lockup simplified (brand color, no subtitle, no hover underline).
 **v1.2.** Logotype re-tuned (slim Fraunces with WONK axis on), wordmarks always lowercase across all four brands, per-brand wordmark map in BaseLayout, page `<title>` kept Title Case as a separate concern.
 **v1.3.** Logotype pivot to Space Grotesk Light (geometric grotesque sans). Two Fraunces versions had taught the team that "slim editorial serif" wasn't the brand's true direction.
 **v1.4.** Logotype lands on Manrope ExtraLight; wordmarks finalized to single nouns where possible (`ağustos`, `pataraz`, `photometric`, plus `pld türkiye`). Symbol leads, wordmark supports.
+**v2.0.** System consolidated onto Inter Tight + Inter + JetBrains Mono; Inter Tight became both display family and wordmark face.
+**v2.1.2.** Logotype weight finalized at Inter Tight 650 with neutral tracking after bold-context comparison. Same family, stronger mark.
 
-The system is in production use. Future v1.x updates: additional brands, dark mode, Pandoc/docx template parity. Documented in DESIGN.md as they ship.
+The system is in production use. Future v2.x updates: additional brands, dark mode, Pandoc/docx template parity. Documented in DESIGN.md as they ship.
+
+## Brand asset kit (2026-06-20)
+
+The spec/tokens layer was complete, but no *exported, hand-off-ready* assets existed
+(no lockup files, favicons, social images, font hand-off). Added `brand/` as the
+asset-manager home with a **generate-don't-maintain** architecture:
+
+- **`brand/brands.json`** is the new keystone registry — one source for each brand's
+  slug, wordmark, color, title, domain, tagline. Resolves the identity-data duplication
+  previously split between `tokens.css` and `BaseLayout.astro` (registry is additive;
+  the running adapters were not changed in this pass).
+- **`brand/build.py`** is the engine. It bakes wordmarks to vector **outlines**
+  (`fontTools`, Inter Tight) so assets are font-independent, composes lockups per
+  the DESIGN.md geometry, and emits SVG + PDF (`reportlab`) + PNG (`resvg` via node).
+- **Wordmark weight = 650, letter-spacing normal** — matched to the LIVE site agustos.com
+  (verified via browser computed styles, 2026-06-20). The spec/component originally said
+  Light (300) / -0.005em; this was a real drift between the docs and the production brand.
+  **Reconciled 2026-06-20:** `DESIGN.md`, `adapters/astro/.../BrandLockup.astro`, the Rails
+  `components.css`, and the typography showcase were all updated to 650 / normal. NOTE:
+  `tokens.css` `font-weight: 300` is `.type-hero` (big hero text), NOT the lockup — left as-is.
+  Stored in `brands.json` → `type.wordmark_weight`.
+- Per brand `build.py` generates lockups (positive/negative/mono), favicons + app icons,
+  and social avatar + OG image under `exports/<brand>/` (committed, like `laz-gunesi-amblem/`).
+- **`brand/build_templates.py`** (sibling) generates the working documents from the same
+  registry: `.ase`/`.clr` colour swatches, an email-safe HTML signature, a PowerPoint `.pptx`
+  + Word `.docx` letterhead, and a 4-page brand-guidelines PDF (branded HTML rendered via the
+  gstack `browse` tool, embedding the bundled fonts). Keynote/Slides/Pages are covered by
+  importing the .pptx/.docx — no separate generation. Deps: python-pptx, python-docx,
+  pyobjc (for .clr); pinned in `brand/requirements.txt`. See `brand/templates/README.md`.
+- **Maintenance contract:** edit `brands.json` or the master symbol, then run `build.py`.
+  Never hand-edit `exports/`. This is how the kit stays drift-free across all brands.
+
+Status (2026-06-22): full kits (logos + documents) for **`agustos`**, **`pataraz`** (pataraz.com),
+and **`pld türkiye`** (pldturkiye.com). **`photometric`** has logos only (documents deferred).
+Taglines are now defined-but-unshown (per-brand `tagline_en`/`tagline_tr`); agustos = "curated
+solutions" / "seçkin çözümler", others none. The lockup is always tagline-free. Novara is a brand
+Ağustos *represents* (distributes), not a house sub-brand. Weight 650 was reached independently
+here and on `chore/brand-assets-home` (v2.1.2) and converged in this merge.

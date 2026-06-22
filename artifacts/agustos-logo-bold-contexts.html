@@ -1,0 +1,1058 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ağustos Logo Approach - Bold Context Board</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&amp;family=Geist:wght@300..800&amp;family=Hanken+Grotesk:wght@300..900&amp;family=Inter:wght@300..800&amp;family=Inter+Tight:wght@300..800&amp;family=JetBrains+Mono:wght@400;500&amp;family=Plus+Jakarta+Sans:wght@300..800&amp;display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #fefcf2;
+    --paper-white: #ffffff;
+    --ink: #1a1a1a;
+    --ink-soft: #4a4a4a;
+    --ink-faint: #8a8a8a;
+    --rule: #e8e3d0;
+    --rule-strong: #d4ccb4;
+    --brand-agustos: #cf142a;
+    --brand-pataraz: #1a24cc;
+    --brand-pld: #1a1a1a;
+    --brand-photometric: #1f6b4a;
+    --brand: var(--brand-agustos);
+    --display: "Inter Tight", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  html,
+  body {
+    margin: 0;
+    background: #d8d4c4;
+    color: var(--ink);
+    font-family: var(--body);
+    font-feature-settings: "locl" on, "kern" on, "ss01" on;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+  }
+
+  body {
+    min-height: 100vh;
+    line-height: 1.55;
+  }
+
+  svg { display: block; }
+
+  .sprite {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+  .board {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 40px 24px 72px;
+  }
+
+  .intro,
+  .section {
+    background: var(--paper);
+    border: 1px solid var(--rule);
+  }
+
+  .intro {
+    padding: 44px 48px;
+  }
+
+  .eyebrow {
+    margin: 0 0 14px;
+    color: var(--brand);
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  h1,
+  h2,
+  h3,
+  p {
+    margin-top: 0;
+  }
+
+  h1 {
+    max-width: 900px;
+    margin-bottom: 18px;
+    font-family: var(--display);
+    font-size: 48px;
+    font-weight: 500;
+    line-height: 1.04;
+    letter-spacing: 0;
+  }
+
+  .lede {
+    max-width: 850px;
+    margin-bottom: 0;
+    color: var(--ink-soft);
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 32px;
+    padding-top: 26px;
+    border-top: 1px solid var(--rule);
+  }
+
+  .meta-item {
+    min-height: 98px;
+    padding-left: 14px;
+    border-left: 2px solid var(--brand);
+  }
+
+  .meta-item b {
+    display: block;
+    margin-bottom: 4px;
+    font-family: var(--display);
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .meta-item span {
+    display: block;
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+
+  .section {
+    margin-top: 24px;
+  }
+
+  .section-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    padding: 28px 32px 24px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .section-head h2 {
+    margin-bottom: 0;
+    font-family: var(--display);
+    font-size: 26px;
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: 0;
+  }
+
+  .section-head p {
+    max-width: 560px;
+    margin-bottom: 0;
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+
+  .specimen-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(260px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+  }
+
+  .candidate {
+    min-height: 300px;
+    background: var(--paper);
+    padding: 24px;
+  }
+
+  .candidate--proposed {
+    background: #fffdf6;
+  }
+
+  .candidate-kicker {
+    display: inline-flex;
+    align-items: center;
+    min-height: 22px;
+    margin-bottom: 18px;
+    padding: 3px 8px;
+    border: 1px solid var(--rule-strong);
+    border-radius: 5px;
+    color: var(--ink-soft);
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .candidate--proposed .candidate-kicker {
+    border-color: rgba(207, 20, 42, 0.35);
+    color: var(--brand);
+  }
+
+  .candidate-title {
+    margin-bottom: 18px;
+    font-family: var(--display);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 0;
+  }
+
+  .logo-stack {
+    display: grid;
+    gap: 18px;
+    margin: 24px 0 22px;
+  }
+
+  .sample-note {
+    margin-bottom: 0;
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+
+  .lockup {
+    --logo-size: 24px;
+    --logo-font: var(--display);
+    --logo-weight: 300;
+    --logo-width: 100;
+    --logo-color: var(--brand);
+    display: inline-flex;
+    align-items: center;
+    gap: calc(var(--logo-size) * 0.38);
+    color: var(--logo-color);
+    font-family: var(--logo-font);
+    font-size: var(--logo-size);
+    font-weight: var(--logo-weight);
+    font-stretch: var(--logo-width);
+    line-height: 1;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+
+  .lockup__mark {
+    width: calc(var(--logo-size) * 0.98);
+    height: calc(var(--logo-size) * 0.98);
+    flex: 0 0 auto;
+    transform: translateY(0.07em);
+  }
+
+  .lockup__mark svg {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+
+  .lockup__name {
+    color: currentColor;
+    text-transform: lowercase;
+  }
+
+  .size-xs { --logo-size: 16px; }
+  .size-sm { --logo-size: 19px; }
+  .size-md { --logo-size: 28px; }
+  .size-lg { --logo-size: 48px; }
+
+  .logo-current {
+    --logo-font: "Inter Tight", "Inter", system-ui, sans-serif;
+    --logo-weight: 300;
+  }
+
+  .logo-plus-300 {
+    --logo-font: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+    --logo-weight: 300;
+  }
+
+  .logo-bricolage-300 {
+    --logo-font: "Bricolage Grotesque", "Inter", system-ui, sans-serif;
+    --logo-weight: 300;
+  }
+
+  .logo-inter-650 {
+    --logo-font: "Inter Tight", "Inter", system-ui, sans-serif;
+    --logo-weight: 650;
+  }
+
+  .logo-inter-730 {
+    --logo-font: "Inter Tight", "Inter", system-ui, sans-serif;
+    --logo-weight: 730;
+  }
+
+  .logo-hanken-700 {
+    --logo-font: "Hanken Grotesk", "Inter", system-ui, sans-serif;
+    --logo-weight: 700;
+  }
+
+  .logo-jakarta-700 {
+    --logo-font: "Plus Jakarta Sans", "Inter", system-ui, sans-serif;
+    --logo-weight: 700;
+  }
+
+  .logo-bricolage-700 {
+    --logo-font: "Bricolage Grotesque", "Inter", system-ui, sans-serif;
+    --logo-weight: 700;
+  }
+
+  .logo-geist-700 {
+    --logo-font: "Geist", "Inter", system-ui, sans-serif;
+    --logo-weight: 700;
+  }
+
+  .context-list {
+    display: grid;
+    gap: 1px;
+    background: var(--rule);
+  }
+
+  .context-row {
+    display: grid;
+    grid-template-columns: 230px minmax(320px, 1.2fr) minmax(210px, 0.7fr) minmax(260px, 0.9fr) minmax(260px, 0.9fr);
+    gap: 1px;
+    background: var(--rule);
+  }
+
+  .context-label,
+  .surface {
+    background: var(--paper);
+  }
+
+  .context-label {
+    padding: 22px;
+  }
+
+  .context-label b {
+    display: block;
+    margin-bottom: 8px;
+    font-family: var(--display);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .context-label span {
+    display: block;
+    color: var(--ink-soft);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .surface {
+    min-height: 168px;
+    padding: 18px;
+  }
+
+  .desktop-shell {
+    min-height: 132px;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+  }
+
+  .desktop-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .mini-nav {
+    display: flex;
+    gap: 16px;
+    color: var(--ink-soft);
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .desktop-copy {
+    padding: 18px 20px;
+    color: var(--ink-soft);
+    font-size: 13px;
+  }
+
+  .mobile-shell {
+    width: 210px;
+    min-height: 132px;
+    margin: 0 auto;
+    border: 1px solid var(--rule);
+    background: var(--paper);
+  }
+
+  .mobile-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .menu-icon {
+    display: grid;
+    gap: 4px;
+    width: 18px;
+  }
+
+  .menu-icon i {
+    display: block;
+    height: 2px;
+    background: var(--ink);
+  }
+
+  .mobile-copy {
+    padding: 16px;
+    color: var(--ink-soft);
+    font-size: 12px;
+  }
+
+  .doc-shell {
+    min-height: 132px;
+    border: 1px solid var(--rule);
+    background: var(--paper-white);
+    padding: 18px;
+  }
+
+  .doc-rule {
+    height: 1px;
+    margin: 16px 0;
+    background: var(--rule);
+  }
+
+  .doc-title {
+    margin-bottom: 6px;
+    font-family: var(--display);
+    font-size: 20px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .doc-small {
+    margin-bottom: 0;
+    color: var(--ink-soft);
+    font-size: 12px;
+  }
+
+  .dark-shell {
+    min-height: 132px;
+    border: 1px solid #2a2620;
+    background: #16140f;
+    color: #f0ebd8;
+    padding: 18px;
+  }
+
+  .dark-shell .lockup {
+    --logo-color: #f0ebd8;
+  }
+
+  .dark-rule {
+    height: 1px;
+    margin: 16px 0;
+    background: #2a2620;
+  }
+
+  .dark-small {
+    margin-bottom: 0;
+    color: #a8a39a;
+    font-size: 12px;
+  }
+
+  .brand-matrix {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(220px, 1fr));
+    gap: 1px;
+    background: var(--rule);
+  }
+
+  .brand-cell {
+    min-height: 126px;
+    background: var(--paper);
+    padding: 22px;
+  }
+
+  .brand-cell small {
+    display: block;
+    margin-top: 18px;
+    color: var(--ink-faint);
+    font-family: var(--mono);
+    font-size: 10px;
+    text-transform: uppercase;
+  }
+
+  .brand-agustos { --brand: var(--brand-agustos); }
+  .brand-pataraz { --brand: var(--brand-pataraz); }
+  .brand-pld { --brand: var(--brand-pld); }
+  .brand-photometric { --brand: var(--brand-photometric); }
+
+  .decision-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--rule);
+  }
+
+  .decision {
+    min-height: 190px;
+    background: var(--paper);
+    padding: 26px;
+  }
+
+  .decision h3 {
+    margin-bottom: 12px;
+    font-family: var(--display);
+    font-size: 22px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .decision p {
+    margin-bottom: 0;
+    color: var(--ink-soft);
+    font-size: 14px;
+  }
+
+  @media (max-width: 1180px) {
+    .specimen-grid {
+      grid-template-columns: repeat(2, minmax(260px, 1fr));
+    }
+
+    .context-row {
+      grid-template-columns: 220px 1fr 1fr;
+    }
+
+    .context-row .surface:nth-child(5) {
+      grid-column: 2 / span 2;
+    }
+
+    .brand-matrix,
+    .decision-grid {
+      grid-template-columns: repeat(2, minmax(220px, 1fr));
+    }
+  }
+
+  @media (max-width: 760px) {
+    .board {
+      padding: 20px 12px 48px;
+    }
+
+    .intro,
+    .section-head,
+    .candidate,
+    .decision {
+      padding: 22px;
+    }
+
+    h1 {
+      font-size: 34px;
+    }
+
+    .lede {
+      font-size: 16px;
+    }
+
+    .meta-grid,
+    .specimen-grid,
+    .brand-matrix,
+    .decision-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .section-head {
+      display: block;
+    }
+
+    .section-head p {
+      margin-top: 12px;
+    }
+
+    .context-row {
+      grid-template-columns: 1fr;
+    }
+
+    .context-row .surface:nth-child(5) {
+      grid-column: auto;
+    }
+
+    .desktop-top,
+    .mini-nav {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .size-lg {
+      --logo-size: 38px;
+    }
+  }
+</style>
+</head>
+
+<body>
+<svg class="sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <symbol id="laz-sun" viewBox="-57.9197 -57.9197 115.8395 115.8395">
+    <path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/>
+    <path d="M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z"/>
+    <path d="M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z"/>
+    <path d="M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z"/>
+    <path d="M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z"/>
+    <path d="M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z"/>
+    <path d="M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z"/>
+    <path d="M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z"/>
+    <path d="M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z"/>
+    <path d="M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z"/>
+    <path d="M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z"/>
+    <path d="M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z"/>
+    <path d="M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z"/>
+    <path d="M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z"/>
+    <path d="M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z"/>
+    <path d="M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z"/>
+    <path d="M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z"/>
+    <path d="M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z"/>
+  </symbol>
+</svg>
+
+<main class="board">
+  <section class="intro">
+    <p class="eyebrow">Logo approach board / May 2026</p>
+    <h1>Existing logotypes and bolder proposals, tested in the places the mark has to survive.</h1>
+    <p class="lede">The finalized system uses Inter Tight 650. This board keeps the Laz Güneşi, lowercase wordmark, brand color, and symbol spacing constant, then compares the older light control against the bold candidates in real usage sizes.</p>
+
+    <div class="meta-grid" aria-label="What this board tests">
+      <div class="meta-item">
+        <b>Previous control</b>
+        <span>Inter Tight 300, the lighter lockup before this finalization.</span>
+      </div>
+      <div class="meta-item">
+        <b>Existing directions</b>
+        <span>Plus Jakarta 300 and Bricolage 300, included as familiar references.</span>
+      </div>
+      <div class="meta-item">
+        <b>Bold tests</b>
+        <span>Mostly 650-730 weights, not black, so the logo stays compact and refined.</span>
+      </div>
+      <div class="meta-item">
+        <b>Context first</b>
+        <span>Desktop header, mobile header, document, dark footer, and brand-family checks.</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="specimen-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">01 / Specimen</p>
+        <h2 id="specimen-title">Same mark, same word, different type weight.</h2>
+      </div>
+      <p>Look at the 48px sample first for character, then the 19px sample for whether it still behaves like a working website header.</p>
+    </div>
+
+    <div class="specimen-grid">
+      <article class="candidate">
+        <span class="candidate-kicker">Previous control</span>
+        <h3 class="candidate-title">Inter Tight 300</h3>
+        <div class="logo-stack">
+          <span class="lockup logo-current size-lg"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+          <span class="lockup logo-current size-md"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+          <span class="lockup logo-current size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+        </div>
+        <p class="sample-note">Elegant and integrated. The risk is that it can feel a little too quiet beside the dense sun mark.</p>
+      </article>
+
+      <article class="candidate">
+        <span class="candidate-kicker">Existing - previous</span>
+        <h3 class="candidate-title">Plus Jakarta Sans 300</h3>
+        <div class="logo-stack">
+          <span class="lockup logo-plus-300 size-lg"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+          <span class="lockup logo-plus-300 size-md"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+          <span class="lockup logo-plus-300 size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+        </div>
+        <p class="sample-note">Smooth and modern, but the light weight does not add much authority at small sizes.</p>
+      </article>
+
+      <article class="candidate">
+        <span class="candidate-kicker">Existing - liked</span>
+        <h3 class="candidate-title">Bricolage Grotesque 300</h3>
+        <div class="logo-stack">
+          <span class="lockup logo-bricolage-300 size-lg"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+          <span class="lockup logo-bricolage-300 size-md"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+          <span class="lockup logo-bricolage-300 size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+        </div>
+        <p class="sample-note">Characterful and warm. It has more voice, which is good, but also more brand-specific flavor.</p>
+      </article>
+
+      <article class="candidate candidate--proposed">
+        <span class="candidate-kicker">Final choice</span>
+        <h3 class="candidate-title">Inter Tight 650</h3>
+        <div class="logo-stack">
+          <span class="lockup logo-inter-650 size-lg"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+          <span class="lockup logo-inter-650 size-md"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+          <span class="lockup logo-inter-650 size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+        </div>
+        <p class="sample-note">The cleanest conservative bold move. It keeps the current system and simply gives the wordmark more grip.</p>
+      </article>
+
+      <article class="candidate candidate--proposed">
+        <span class="candidate-kicker">Proposed B</span>
+        <h3 class="candidate-title">Inter Tight 730</h3>
+        <div class="logo-stack">
+          <span class="lockup logo-inter-730 size-lg"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+          <span class="lockup logo-inter-730 size-md"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+          <span class="lockup logo-inter-730 size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+        </div>
+        <p class="sample-note">Confident and very legible. This is close to the upper limit before the mark starts to feel too loud.</p>
+      </article>
+
+      <article class="candidate candidate--proposed">
+        <span class="candidate-kicker">Proposed C</span>
+        <h3 class="candidate-title">Hanken Grotesk 700</h3>
+        <div class="logo-stack">
+          <span class="lockup logo-hanken-700 size-lg"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+          <span class="lockup logo-hanken-700 size-md"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+          <span class="lockup logo-hanken-700 size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+        </div>
+        <p class="sample-note">More Swiss and quieter than it sounds on paper. It reads sturdy without becoming mechanical.</p>
+      </article>
+
+      <article class="candidate candidate--proposed">
+        <span class="candidate-kicker">Proposed D</span>
+        <h3 class="candidate-title">Plus Jakarta Sans 700</h3>
+        <div class="logo-stack">
+          <span class="lockup logo-jakarta-700 size-lg"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+          <span class="lockup logo-jakarta-700 size-md"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+          <span class="lockup logo-jakarta-700 size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+        </div>
+        <p class="sample-note">Friendly and product-like. Strong at header size, but less related to the current Inter system.</p>
+      </article>
+
+      <article class="candidate candidate--proposed">
+        <span class="candidate-kicker">Proposed E</span>
+        <h3 class="candidate-title">Bricolage Grotesque 700</h3>
+        <div class="logo-stack">
+          <span class="lockup logo-bricolage-700 size-lg"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+          <span class="lockup logo-bricolage-700 size-md"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+          <span class="lockup logo-bricolage-700 size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+        </div>
+        <p class="sample-note">Distinctive and memorable. The best if we want the wordmark to have an authored, less corporate feeling.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="context-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">02 / Context</p>
+        <h2 id="context-title">Shortlist tested in real surfaces.</h2>
+      </div>
+      <p>The same candidate is repeated across desktop, mobile, document, and dark footer contexts. This is where the font-size question becomes easier to judge.</p>
+    </div>
+
+    <div class="context-list">
+      <div class="context-row">
+        <div class="context-label">
+          <b>Previous<br>Inter Tight 300</b>
+          <span>Soft, integrated, but light beside navigation and the sun.</span>
+        </div>
+        <div class="surface">
+          <div class="desktop-shell">
+            <div class="desktop-top">
+              <span class="lockup logo-current size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+              <nav class="mini-nav">Markalar Blog İletişim</nav>
+            </div>
+            <p class="desktop-copy">A calm header, but the brand name recedes quickly.</p>
+          </div>
+        </div>
+        <div class="surface">
+          <div class="mobile-shell">
+            <div class="mobile-top">
+              <span class="lockup logo-current size-xs"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+              <span class="menu-icon"><i></i><i></i><i></i></span>
+            </div>
+            <p class="mobile-copy">At 16px, this needs careful rendering.</p>
+          </div>
+        </div>
+        <div class="surface">
+          <div class="doc-shell">
+            <span class="lockup logo-current size-md"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+            <div class="doc-rule"></div>
+            <p class="doc-title">Proje teklif dosyası</p>
+            <p class="doc-small">Aydınlatma danışmanlığı / 2026</p>
+          </div>
+        </div>
+        <div class="surface">
+          <div class="dark-shell">
+            <span class="lockup logo-current size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+            <div class="dark-rule"></div>
+            <p class="dark-small">Footer context. Elegant, but very discreet.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="context-row">
+        <div class="context-label">
+          <b>Final<br>Inter Tight 650</b>
+          <span>Best low-risk path. Same family, better presence.</span>
+        </div>
+        <div class="surface">
+          <div class="desktop-shell">
+            <div class="desktop-top">
+              <span class="lockup logo-inter-650 size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+              <nav class="mini-nav">Markalar Blog İletişim</nav>
+            </div>
+            <p class="desktop-copy">The wordmark holds its place without shouting.</p>
+          </div>
+        </div>
+        <div class="surface">
+          <div class="mobile-shell">
+            <div class="mobile-top">
+              <span class="lockup logo-inter-650 size-xs"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+              <span class="menu-icon"><i></i><i></i><i></i></span>
+            </div>
+            <p class="mobile-copy">Clean at small size. This solves the quietness.</p>
+          </div>
+        </div>
+        <div class="surface">
+          <div class="doc-shell">
+            <span class="lockup logo-inter-650 size-md"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+            <div class="doc-rule"></div>
+            <p class="doc-title">Proje teklif dosyası</p>
+            <p class="doc-small">Aydınlatma danışmanlığı / 2026</p>
+          </div>
+        </div>
+        <div class="surface">
+          <div class="dark-shell">
+            <span class="lockup logo-inter-650 size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+            <div class="dark-rule"></div>
+            <p class="dark-small">Still refined in cream-on-dark.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="context-row">
+        <div class="context-label">
+          <b>Proposed B<br>Inter Tight 730</b>
+          <span>More assertive. Useful if the header should feel anchored.</span>
+        </div>
+        <div class="surface">
+          <div class="desktop-shell">
+            <div class="desktop-top">
+              <span class="lockup logo-inter-730 size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+              <nav class="mini-nav">Markalar Blog İletişim</nav>
+            </div>
+            <p class="desktop-copy">Strong and crisp. Close to the edge, but usable.</p>
+          </div>
+        </div>
+        <div class="surface">
+          <div class="mobile-shell">
+            <div class="mobile-top">
+              <span class="lockup logo-inter-730 size-xs"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+              <span class="menu-icon"><i></i><i></i><i></i></span>
+            </div>
+            <p class="mobile-copy">Most legible in mobile, slightly punchy.</p>
+          </div>
+        </div>
+        <div class="surface">
+          <div class="doc-shell">
+            <span class="lockup logo-inter-730 size-md"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+            <div class="doc-rule"></div>
+            <p class="doc-title">Proje teklif dosyası</p>
+            <p class="doc-small">Aydınlatma danışmanlığı / 2026</p>
+          </div>
+        </div>
+        <div class="surface">
+          <div class="dark-shell">
+            <span class="lockup logo-inter-730 size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+            <div class="dark-rule"></div>
+            <p class="dark-small">Strongest dark-mode read.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="context-row">
+        <div class="context-label">
+          <b>Proposed C<br>Hanken Grotesk 700</b>
+          <span>Quiet confidence. Feels less custom, more institutional.</span>
+        </div>
+        <div class="surface">
+          <div class="desktop-shell">
+            <div class="desktop-top">
+              <span class="lockup logo-hanken-700 size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+              <nav class="mini-nav">Markalar Blog İletişim</nav>
+            </div>
+            <p class="desktop-copy">Balanced. Strong without much personality noise.</p>
+          </div>
+        </div>
+        <div class="surface">
+          <div class="mobile-shell">
+            <div class="mobile-top">
+              <span class="lockup logo-hanken-700 size-xs"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+              <span class="menu-icon"><i></i><i></i><i></i></span>
+            </div>
+            <p class="mobile-copy">Very readable, slightly wider than Inter Tight.</p>
+          </div>
+        </div>
+        <div class="surface">
+          <div class="doc-shell">
+            <span class="lockup logo-hanken-700 size-md"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+            <div class="doc-rule"></div>
+            <p class="doc-title">Proje teklif dosyası</p>
+            <p class="doc-small">Aydınlatma danışmanlığı / 2026</p>
+          </div>
+        </div>
+        <div class="surface">
+          <div class="dark-shell">
+            <span class="lockup logo-hanken-700 size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+            <div class="dark-rule"></div>
+            <p class="dark-small">Neutral and controlled on dark.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="context-row">
+        <div class="context-label">
+          <b>Proposed D<br>Plus Jakarta 700</b>
+          <span>Friendly and modern. More product-brand than publisher-brand.</span>
+        </div>
+        <div class="surface">
+          <div class="desktop-shell">
+            <div class="desktop-top">
+              <span class="lockup logo-jakarta-700 size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+              <nav class="mini-nav">Markalar Blog İletişim</nav>
+            </div>
+            <p class="desktop-copy">Strong and approachable, with a softer geometry.</p>
+          </div>
+        </div>
+        <div class="surface">
+          <div class="mobile-shell">
+            <div class="mobile-top">
+              <span class="lockup logo-jakarta-700 size-xs"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+              <span class="menu-icon"><i></i><i></i><i></i></span>
+            </div>
+            <p class="mobile-copy">Clear at small size, slightly rounder in tone.</p>
+          </div>
+        </div>
+        <div class="surface">
+          <div class="doc-shell">
+            <span class="lockup logo-jakarta-700 size-md"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+            <div class="doc-rule"></div>
+            <p class="doc-title">Proje teklif dosyası</p>
+            <p class="doc-small">Aydınlatma danışmanlığı / 2026</p>
+          </div>
+        </div>
+        <div class="surface">
+          <div class="dark-shell">
+            <span class="lockup logo-jakarta-700 size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+            <div class="dark-rule"></div>
+            <p class="dark-small">Polished, but less tied to the Inter system.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="context-row">
+        <div class="context-label">
+          <b>Proposed E<br>Bricolage 700</b>
+          <span>More memorable, warmer, and more authored.</span>
+        </div>
+        <div class="surface">
+          <div class="desktop-shell">
+            <div class="desktop-top">
+              <span class="lockup logo-bricolage-700 size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+              <nav class="mini-nav">Markalar Blog İletişim</nav>
+            </div>
+            <p class="desktop-copy">Good presence, but the personality is noticeable.</p>
+          </div>
+        </div>
+        <div class="surface">
+          <div class="mobile-shell">
+            <div class="mobile-top">
+              <span class="lockup logo-bricolage-700 size-xs"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+              <span class="menu-icon"><i></i><i></i><i></i></span>
+            </div>
+            <p class="mobile-copy">Reads well, feels more designed than system-like.</p>
+          </div>
+        </div>
+        <div class="surface">
+          <div class="doc-shell">
+            <span class="lockup logo-bricolage-700 size-md"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+            <div class="doc-rule"></div>
+            <p class="doc-title">Proje teklif dosyası</p>
+            <p class="doc-small">Aydınlatma danışmanlığı / 2026</p>
+          </div>
+        </div>
+        <div class="surface">
+          <div class="dark-shell">
+            <span class="lockup logo-bricolage-700 size-sm"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+            <div class="dark-rule"></div>
+            <p class="dark-small">Warmest version in dark context.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="brands-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">03 / Brand family</p>
+        <h2 id="brands-title">Final lockup across the portfolio.</h2>
+      </div>
+      <p>This uses Inter Tight 650, the strongest conservative candidate. The question: does one bolder shared lockup still work across the other brands?</p>
+    </div>
+
+    <div class="brand-matrix">
+      <div class="brand-cell brand-agustos">
+        <span class="lockup logo-inter-650 size-md"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">ağustos</span></span>
+        <small>Ağustos Teknoloji</small>
+      </div>
+      <div class="brand-cell brand-pataraz">
+        <span class="lockup logo-inter-650 size-md"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">pataraz</span></span>
+        <small>Pataraz Luminaires</small>
+      </div>
+      <div class="brand-cell brand-pld">
+        <span class="lockup logo-inter-650 size-md"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">pld türkiye</span></span>
+        <small>PLD Türkiye</small>
+      </div>
+      <div class="brand-cell brand-photometric">
+        <span class="lockup logo-inter-650 size-md"><span class="lockup__mark"><svg><use href="#laz-sun"></use></svg></span><span class="lockup__name">photometric</span></span>
+        <small>Photometric Batch</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="decision-title">
+    <div class="section-head">
+      <div>
+        <p class="eyebrow">04 / Read</p>
+        <h2 id="decision-title">My read after seeing them in context.</h2>
+      </div>
+      <p>The bold direction works, but the useful range is narrower than a normal font-weight menu suggests.</p>
+    </div>
+
+    <div class="decision-grid">
+      <article class="decision">
+        <h3>Best default: Inter Tight 650</h3>
+        <p>It keeps the current system intact and fixes the main weakness: the wordmark now has enough presence at 16-20px.</p>
+      </article>
+      <article class="decision">
+        <h3>Most assertive: Inter Tight 730</h3>
+        <p>Good if the brand should feel more anchored and commercial. I would avoid going heavier than this.</p>
+      </article>
+      <article class="decision">
+        <h3>Most character: Bricolage 700</h3>
+        <p>Worth keeping as the expressive alternative. It is more memorable, but less system-neutral across the portfolio.</p>
+      </article>
+    </div>
+  </section>
+</main>
+</body>
+</html>

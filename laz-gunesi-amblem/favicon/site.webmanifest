@@ -1,0 +1,11 @@
+{
+  "name": "Ağustos",
+  "short_name": "Ağustos",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ],
+  "theme_color": "#cf142a",
+  "background_color": "#fefcf2",
+  "display": "standalone"
+}
