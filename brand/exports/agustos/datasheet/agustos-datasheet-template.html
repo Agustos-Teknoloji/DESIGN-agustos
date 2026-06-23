@@ -1,0 +1,119 @@
+<!doctype html><html lang="tr"><head><meta charset="utf-8">
+<title>Ağustos Teknoloji — Pro Spot 28 · Teknik Föy</title><style>
+@font-face { font-family:'IT'; src:url('file:///Users/emregunes/vaults/business/PROJECTS/DESIGN-agustos/.claude/worktrees/gifted-goldwasser-975f9e/brand/fonts/inter-tight/InterTight%5Bwght%5D.ttf'); }
+@font-face { font-family:'IN'; src:url('file:///Users/emregunes/vaults/business/PROJECTS/DESIGN-agustos/.claude/worktrees/gifted-goldwasser-975f9e/brand/fonts/inter/Inter%5Bopsz%2Cwght%5D.ttf'); }
+@font-face { font-family:'JB'; src:url('file:///Users/emregunes/vaults/business/PROJECTS/DESIGN-agustos/.claude/worktrees/gifted-goldwasser-975f9e/brand/fonts/jetbrains-mono/JetBrainsMono%5Bwght%5D.ttf'); }
+@page { size:A4; margin:0; }
+* { box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+:root { --brand:#cf142a; --ink:#1a1a1a; --soft:#4a4a4a; --faint:#8a8a8a;
+         --paper:#fefcf2; --rule:#e8e3d0; }
+body { margin:0; font-family:'IN',sans-serif; color:var(--ink); background:var(--paper);
+        font-feature-settings:"locl" on,"kern" on; }
+.page { width:210mm; height:297mm; overflow:hidden; padding:12mm 13mm 12mm; position:relative; }
+
+/* Header */
+.head { display:flex; justify-content:space-between; align-items:flex-end;
+         padding-bottom:8px; border-bottom:2px solid var(--brand); }
+.head img { height:30px; display:block; }
+.head .doc { text-align:right; }
+.doc-type { font-family:'IT'; font-weight:650; font-size:11px; text-transform:uppercase;
+             letter-spacing:0.16em; color:var(--brand); }
+.doc-code { font-family:'JB'; font-size:11px; color:var(--soft); margin-top:3px;
+             font-variant-numeric:tabular-nums; }
+
+/* Title block */
+.title { margin-top:12px; }
+h1 { font-family:'IT'; font-weight:650; font-size:30px; letter-spacing:-0.02em; margin:0; }
+.series { font-size:13px; color:var(--soft); margin-top:2px; }
+
+/* Visual slots */
+.visuals { display:grid; grid-template-columns:1fr 1fr; gap:8mm; margin-top:11px; }
+.slot { position:relative; }
+.slot-cap { font-family:'IT'; font-weight:650; font-size:9.5px; text-transform:uppercase;
+             letter-spacing:0.12em; color:var(--faint); margin-bottom:5px; }
+.slot .ph, .slot.has-img img { width:100%; aspect-ratio:3/2; border-radius:5px; }
+.slot .ph { border:1.5px dashed var(--rule); display:flex; flex-direction:column;
+             align-items:center; justify-content:center; background:#fff; }
+.slot.has-img img { object-fit:contain; border:1px solid var(--rule); background:#fff; }
+.ph-mark { font-family:'IT'; font-weight:300; font-size:30px; color:var(--brand);
+            line-height:1; opacity:0.55; }
+.ph-lbl { font-family:'IT'; font-weight:650; font-size:12px; color:var(--soft); margin-top:6px; }
+.ph-sub { font-size:10px; color:var(--faint); margin-top:2px; }
+
+/* Description */
+.desc { font-size:12px; line-height:1.6; color:var(--soft); max-width:64ch; margin:13px 0 2px; }
+
+/* Spec grid — groups packed into 3 columns */
+.section-label { font-family:'IT'; font-weight:650; font-size:10px; text-transform:uppercase;
+                  letter-spacing:0.14em; color:var(--ink); margin:16px 0 9px;
+                  padding-bottom:5px; border-bottom:1px solid var(--rule); }
+.specs { columns:2; column-gap:12mm; }
+.group { break-inside:avoid; -webkit-column-break-inside:avoid; display:inline-block;
+          width:100%; margin-bottom:11px; }
+.glabel { font-family:'IT'; font-weight:650; font-size:9.5px; text-transform:uppercase;
+           letter-spacing:0.1em; color:var(--brand); margin-bottom:5px;
+           padding-left:8px; border-left:2px solid var(--brand); }
+.srow { display:flex; justify-content:space-between; gap:8px; align-items:baseline;
+         padding:2.5px 0; border-bottom:1px solid rgba(0,0,0,0.045); }
+.sk { font-size:10px; color:var(--soft); flex:1 1 auto; }
+.sv { font-family:'JB'; font-size:10px; color:var(--ink); text-align:right;
+       white-space:nowrap; font-variant-numeric:tabular-nums; }
+
+/* Ordering matrix */
+.order { width:100%; border-collapse:collapse; margin-top:6px; border-top:2px solid var(--brand); }
+.order th { font-family:'IT'; font-weight:650; font-size:9px; text-transform:uppercase;
+            letter-spacing:0.08em; color:var(--ink); text-align:left;
+            padding:6px 8px; border-bottom:1px solid var(--rule); }
+.order td { font-family:'JB'; font-size:10px; color:var(--ink); padding:5px 8px;
+            border-bottom:1px solid var(--rule); font-variant-numeric:tabular-nums; }
+.order tbody tr:nth-child(even) { background:rgba(0,0,0,0.02); }
+.order td:first-child { color:var(--brand); }
+
+/* Certifications */
+.certs { margin-top:11px; font-size:10px; color:var(--soft); }
+.certs b { font-family:'IT'; font-weight:650; font-size:9px; text-transform:uppercase;
+            letter-spacing:0.12em; color:var(--faint); margin-right:8px; }
+
+/* Footer */
+.foot { position:absolute; left:13mm; right:13mm; bottom:9mm; display:flex;
+         justify-content:space-between; align-items:flex-end; gap:12px;
+         border-top:1px solid var(--rule); padding-top:6px;
+         font-size:9px; color:var(--faint); }
+.foot .brand { font-family:'IT'; font-weight:650; color:var(--soft); }
+.foot .disc { flex:1; text-align:center; }
+.foot .rev { font-family:'JB'; font-variant-numeric:tabular-nums; }
+</style></head><body>
+<section class="page">
+
+  <div class="head">
+    <img src="file:///Users/emregunes/vaults/business/PROJECTS/DESIGN-agustos/.claude/worktrees/gifted-goldwasser-975f9e/brand/exports/agustos/lockup/agustos-lockup__positive.svg" alt="Ağustos Teknoloji">
+    <div class="doc">
+      <div class="doc-type">Teknik Föy</div>
+      <div class="doc-code">AGT-PRS28</div>
+    </div>
+  </div>
+
+  <div class="title">
+    <h1>Pro Spot 28</h1>
+    <div class="series">Pro seri · 3-fazlı ray spotu</div>
+  </div>
+
+  <div class="visuals"><div class="slot"><div class="slot-cap">Ürün görseli</div><div class="ph"><div class="ph-mark">+</div><div class="ph-lbl">Ürün görseli</div><div class="ph-sub">ürün fotoğrafını buraya ekleyin</div></div></div><div class="slot"><div class="slot-cap">Teknik çizim</div><div class="ph"><div class="ph-mark">+</div><div class="ph-lbl">Teknik çizim</div><div class="ph-sub">Ø × Y: 75 × 180 mm (ray adaptörü dahil)</div></div></div></div>
+
+  <p class="desc">Yüksek renksel geriverimli, dar ışın açılı ray spotu. Döküm alüminyum gövde ve hassas reflektör optiği ile mağaza, galeri ve sergi alanlarında vurgu aydınlatması için tasarlanmıştır. 3-fazlı ray adaptörü ile konumlandırması esnek, değiştirilebilir optikleri ile sahaya uyarlanabilir.</p>
+
+  <div class="section-label">Teknik özellikler</div>
+  <div class="specs"><div class="group"><div class="glabel">Elektriksel</div><div class="srow"><span class="sk">Güç</span><span class="sv">28 W</span></div><div class="srow"><span class="sk">Besleme gerilimi</span><span class="sv">220–240 V AC · 50/60 Hz</span></div><div class="srow"><span class="sk">Sürücü</span><span class="sv">Dahili, TRIAC dimlenebilir</span></div><div class="srow"><span class="sk">Güç faktörü</span><span class="sv">> 0,90</span></div><div class="srow"><span class="sk">Giriş akımı</span><span class="sv">130 mA</span></div></div><div class="group"><div class="glabel">Fotometrik</div><div class="srow"><span class="sk">Işık akısı (armatür)</span><span class="sv">2.600 lm</span></div><div class="srow"><span class="sk">Etkinlik</span><span class="sv">93 lm/W</span></div><div class="srow"><span class="sk">Renk sıcaklığı</span><span class="sv">3000 K</span></div><div class="srow"><span class="sk">Renksel geriverim</span><span class="sv">Ra ≥ 95</span></div><div class="srow"><span class="sk">Renk toleransı</span><span class="sv">≤ 2 SDCM</span></div><div class="srow"><span class="sk">Işın açısı</span><span class="sv">24° (15°/24°/36° seçenekli)</span></div><div class="srow"><span class="sk">Optik</span><span class="sv">Değiştirilebilir reflektör</span></div></div><div class="group"><div class="glabel">Fiziksel</div><div class="srow"><span class="sk">Boyutlar</span><span class="sv">Ø 75 × 180 mm</span></div><div class="srow"><span class="sk">Ağırlık</span><span class="sv">0,8 kg</span></div><div class="srow"><span class="sk">Gövde</span><span class="sv">Döküm alüminyum</span></div><div class="srow"><span class="sk">Yüzey / Renk</span><span class="sv">RAL 9005 mat siyah</span></div><div class="srow"><span class="sk">Dönüş / Eğim</span><span class="sv">355° / 90°</span></div><div class="srow"><span class="sk">Montaj</span><span class="sv">3-fazlı ray adaptörü</span></div></div><div class="group"><div class="glabel">Koruma & Ortam</div><div class="srow"><span class="sk">Koruma sınıfı</span><span class="sv">IP20</span></div><div class="srow"><span class="sk">Darbe dayanımı</span><span class="sv">IK05</span></div><div class="srow"><span class="sk">Ortam sıcaklığı (ta)</span><span class="sv">−10 … +35 °C</span></div><div class="srow"><span class="sk">İzolasyon sınıfı</span><span class="sv">Class I</span></div><div class="srow"><span class="sk">Fotobiyolojik güvenlik</span><span class="sv">RG0</span></div></div><div class="group"><div class="glabel">Ömür & Garanti</div><div class="srow"><span class="sk">Ömür</span><span class="sv">L90B10 @ 50.000 saat</span></div><div class="srow"><span class="sk">Garanti</span><span class="sv">5 yıl</span></div></div></div>
+
+  <div class="section-label">Sipariş matrisi</div><table class="order"><thead><tr><th>Sipariş kodu</th><th>Renk sıcaklığı</th><th>Işın açısı</th><th>Işık akısı</th><th>Güç</th><th>Yüzey</th></tr></thead><tbody><tr><td>AGT-PRS28-3015</td><td>3000 K</td><td>15°</td><td>2.450 lm</td><td>28 W</td><td>Siyah</td></tr><tr><td>AGT-PRS28-3024</td><td>3000 K</td><td>24°</td><td>2.600 lm</td><td>28 W</td><td>Siyah</td></tr><tr><td>AGT-PRS28-3036</td><td>3000 K</td><td>36°</td><td>2.700 lm</td><td>28 W</td><td>Siyah</td></tr><tr><td>AGT-PRS28-3024-W</td><td>3000 K</td><td>24°</td><td>2.600 lm</td><td>28 W</td><td>Beyaz</td></tr></tbody></table>
+
+  <div class="certs"><b>Sertifikalar</b>CE  ·  RoHS</div>
+
+  <div class="foot">
+    <span class="brand">Ağustos Teknoloji</span>
+    <span class="disc">Teknik özellikler haber verilmeksizin değiştirilebilir.</span>
+    <span class="rev">agustos.com · Rev. 01 · 2026-06</span>
+  </div>
+
+</section>
+</body></html>
