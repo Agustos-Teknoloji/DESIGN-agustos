@@ -531,3 +531,53 @@ Taglines are now defined-but-unshown (per-brand `tagline_en`/`tagline_tr`); agus
 solutions" / "seçkin çözümler", others none. The lockup is always tagline-free. Novara is a brand
 Ağustos *represents* (distributes), not a house sub-brand. Weight 650 was reached independently
 here and on `chore/brand-assets-home` (v2.1.2) and converged in this merge.
+
+## Product datasheet template (2026-06-22)
+
+The kit generated brand chrome (logos, office docs, guidelines) but no **product**
+artifact. Lighting is the business; a luminaire spec sheet ("teknik föy") is the
+single most-used customer-facing document Ağustos and Pataraz produce. Added
+`brand/build_datasheet.py` — a third engine alongside `build.py` (logos) and
+`build_templates.py` (office docs).
+
+Decisions made:
+
+- **Half template, half data.** Unlike the other engines (brand chrome only), a
+  datasheet carries per-product data. The brand half (lockup, colour, footer) resolves
+  from `brands.json`; the product half is a `PRODUCTS` dict in the script, so each sheet
+  is self-documenting rather than a blank form. `agustos` ships a sample (*Pro Spot 28*
+  track spot) exercising the full template; **`pataraz` is a real product — PL22**, an
+  ultra-thin tunable-white "tavan penceresi" (artificial-skylight) panel, with data and
+  product photo transcribed from pataraz.com/pl-serisi/pl22 (2026-06-23), plus a dimensioned
+  technical drawing (1236 × 636 × 70 mm) supplied by the product owner.
+- **Turkish, full professional spec.** Labels in Turkish (`lang="tr"` for İ/ı). Field
+  groups: Elektriksel · Fotometrik · Fiziksel · Koruma & Ortam · Ömür & Garanti, plus a
+  sipariş (ordering) matrix and certifications — ERCO/Zumtobel-grade depth.
+- **The design system maps onto a data-dense sheet without new rules.** Inter Tight for
+  the header and section labels, Inter for prose, **JetBrains Mono + tabular numerals for
+  every spec value and order code**, brand colour as a signal only (header rule, section
+  ticks, table top-border, order codes) — never as fill.
+- **2-column spec grid, not 3.** A first pass packed groups into three columns; it looked
+  dense but forced long values (`24° (15°/24°/36° seçenekli)`) to wrap the label and risked
+  clipping into the gutter on real user content. Two columns give each row room to stay on
+  one line — the standard luminaire-datasheet layout — and the sheet still fits one A4.
+- **Self-contained, std-lib only.** Embeds the bundled fonts and the lockup SVG via
+  `file://` URIs (same pattern as the guidelines), so it needs no PIL/reportlab and runs on
+  system `python3`; `--pdf` renders A4 via the gstack `browse` tool. Verified one page per
+  sheet (page clamped to `height:297mm; overflow:hidden` with a measured ~5mm gap above the
+  footer, after trimming the photo/drawing slots from 4:3 to 3:2).
+
+- **Honest placeholders over fabricated specs.** Building PL22 from the public product page
+  (which lists only 9 fields), unpublished values (IP, ta, lifetime, warranty) were rendered
+  as `—`, never invented — the sheet doubled as a precise to-do of what the manufacturer's
+  full spec sheet must supply. The product owner then supplied them (IP20, −20…+40 °C, Class II,
+  L70B50 @ 30.000 h, 2 yıl warranty), completing the sheet. Ordering matrix + certifications
+  became optional keys (a
+  single tunable SKU has no variants), and raster product photos are base64-embedded so the
+  HTML stays self-contained. Photos live in `brand/datasheet-assets/<slug>/` (inputs, kept
+  out of the generated `exports/`).
+
+**Why it mattered:** the kit can now produce the document the business actually sells with,
+on-brand and regenerable, without hand-built InDesign files drifting from the system.
+Generated for `agustos` (sample) and `pataraz` (real PL22); other brands produce a generic
+placeholder sheet on demand.

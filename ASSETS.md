@@ -97,13 +97,17 @@ scripts; never hand-edit `exports/`.
 | Registry (keystone, source of truth) | [`brand/brands.json`](brand/brands.json) |
 | Engine — logos / favicons / social | [`brand/build.py`](brand/build.py) |
 | Engine — office / swatches / email / guidelines | [`brand/build_templates.py`](brand/build_templates.py) |
+| Engine — product datasheet (lighting "teknik föy") | [`brand/build_datasheet.py`](brand/build_datasheet.py) |
 | Fonts (Inter Tight, Inter, JetBrains Mono) + OFL | `brand/fonts/` |
 | Per-brand exports | `brand/exports/<brand>/` |
 
 Each `exports/<brand>/` holds: `lockup/` (positive/negative/mono × svg·pdf·png), `favicon/`,
 `social/`, `swatches/` (.ase/.clr), `email/` (signature), `office/` (.pptx/.docx),
-`guidelines/` (4-page PDF). Full kits: `agustos`, `pataraz`, `pld`; `photometric` has logos
-only. Docs: `brand/README.md`, `brand/templates/README.md`.
+`guidelines/` (4-page PDF), and `datasheet/` (A4 lighting product sheet, html + pdf). Full
+kits: `agustos`, `pataraz`, `pld`; `photometric` has logos only. The datasheet template is
+generated for `agustos` and `pataraz` (each with a sample luminaire; edit the `PRODUCTS`
+dict in `build_datasheet.py` to document a real product). Docs: `brand/README.md`,
+`brand/templates/README.md`.
 
 ---
 
