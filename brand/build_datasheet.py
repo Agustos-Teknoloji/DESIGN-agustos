@@ -29,6 +29,7 @@ import argparse
 import base64
 import json
 import mimetypes
+import re
 import subprocess
 from pathlib import Path
 
@@ -369,7 +370,7 @@ h1 {{ font-family:'IT'; font-weight:650; font-size:30px; letter-spacing:-0.02em;
 /* Description */
 .desc {{ font-size:12px; line-height:1.6; color:var(--soft); max-width:64ch; margin:13px 0 2px; }}
 
-/* Spec grid — groups packed into 3 columns */
+/* Spec grid — groups packed into 2 columns */
 .section-label {{ font-family:'IT'; font-weight:650; font-size:10px; text-transform:uppercase;
                   letter-spacing:0.14em; color:var(--ink); margin:16px 0 9px;
                   padding-bottom:5px; border-bottom:1px solid var(--rule); }}
@@ -487,6 +488,33 @@ def build_generic(slug, brand, reg, want_pdf):
     _build(f"{slug}-datasheet-template", slug, brand, reg, GENERIC, want_pdf)
 
 
+# Fields gen_datasheet_html / build_product read by hard subscript. Optional keys
+# (photo, drawing, dim_note, ordering, certifications) use .get() and are not listed.
+REQUIRED_FIELDS = ("brand", "name", "series", "code", "doc_type", "rev",
+                   "description", "specs")
+_KEY_RE = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*\Z")
+
+
+def _validate_products(reg):
+    """Fail loudly and early on a malformed PRODUCTS entry, rather than a bare
+    KeyError mid-build or a key that escapes the datasheet/ dir as a filename.
+    The registry is meant to grow, so a new entry's mistakes surface here."""
+    brands = reg["brands"]
+    for key, product in PRODUCTS.items():
+        if not _KEY_RE.match(key):
+            raise SystemExit(f"product key '{key}' is not slug-safe "
+                             f"(lowercase letters, digits, single hyphens)")
+        missing = [f for f in REQUIRED_FIELDS if f not in product]
+        if missing:
+            raise SystemExit(f"product '{key}' missing field(s): {', '.join(missing)}")
+        slug = product["brand"]
+        if slug not in brands:
+            raise SystemExit(f"product '{key}' names unknown brand '{slug}'")
+        if not key.startswith(f"{slug}-"):
+            raise SystemExit(f"product key '{key}' must start with its brand "
+                             f"'{slug}-' (keeps the output filename brand-scoped)")
+
+
 def main():
     reg = json.loads(REGISTRY.read_text(encoding="utf-8"))
     ap = argparse.ArgumentParser()
@@ -495,6 +523,11 @@ def main():
     ap.add_argument("--pdf", action="store_true", help="also render PDF via browse")
     args = ap.parse_args()
     brands = reg["brands"]
+
+    if args.brand and args.product:
+        raise SystemExit("--brand and --product are mutually exclusive — "
+                         "pass one or neither (no flag builds all products)")
+    _validate_products(reg)
 
     if args.product:
         if args.product not in PRODUCTS:
