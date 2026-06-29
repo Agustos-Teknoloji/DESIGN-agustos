@@ -156,23 +156,93 @@ points into Series.
 
 ---
 
-## 4. Product naming & datasheet conventions — *deferred*
+## 4. Product datasheet conventions
 
-**Intentionally left open.** Pataraz will grow well beyond today's products, and codifying a
-naming system or datasheet field-grammar around the current two would bake in guesses we'd have
-to unwind. We settle this once the real product range is known.
+The datasheet ("teknik föy") is Pataraz's **hero asset** (Section 1). Like everything else in the
+kit it is *generated, not hand-made*: the data lives in one place and the brand chrome (lockup,
+blue, footer) resolves from `brands.json`. **Never hand-edit files under `brand/exports/`.**
 
-What exists today as the working model (not yet a locked convention):
+This section documents the conventions the engine already encodes, so every future datasheet
+matches the two real ones (PL22, PX22) without re-deriving the rules.
 
-- The **PL series** — ultra-thin artificial-skylight ("tavan penceresi") tunable-white ceiling
-  panels. **PL22** is the first fully documented product.
-- The datasheet engine and field structure live in `brand/build_datasheet.py` (the `PRODUCTS`
-  dict), rendered to `brand/exports/pataraz/datasheet/`. That file is the place to add a product;
-  see `ASSETS.md` and `brand/templates/README.md`.
+### Where it lives & how to build
 
-When we formalize this, it becomes Section 3's permanent home: series/product naming pattern,
-the canonical Turkish spec field grammar, units & number formatting, and the placeholder rule
-for unpublished fields.
+| | |
+|---|---|
+| Engine + product data | `brand/build_datasheet.py` — the `PRODUCTS` dict is the one place to edit |
+| Product photo + dimensioned drawing | `brand/datasheet-assets/pataraz/<code>-urun.jpg` · `<code>-drawing.png` |
+| Output (generated) | `brand/exports/pataraz/datasheet/<product-key>.html` · `.pdf` (e.g. `pataraz-px22.*`) |
+
+```bash
+# one product, with PDF:
+python3 brand/build_datasheet.py --product pataraz-px22 --pdf
+# every product for the brand:
+python3 brand/build_datasheet.py --brand pataraz --pdf
+```
+
+`--pdf` renders via the `browse` headless engine. The datasheet reuses the generated lockup, so
+run `python3 brand/build.py --brand pataraz` first if `exports/pataraz/lockup/` is empty. See
+`brand/templates/README.md`.
+
+### Product key & fields
+
+- **Key:** `<brand>-<code>`, lowercase kebab-case (e.g. `pataraz-px22`). Validated at build time.
+- **Required** (build fails loudly if missing): `brand`, `name`, `series`, `code`, `doc_type`,
+  `rev`, `description`, `specs`.
+- **Optional:** `photo`, `drawing`, `dim_note`, `certifications`, `ordering`.
+- `series` format: `"<SERİ> serisi · <kısa tanım>"` — e.g. `"PX serisi · ultra ince duvar penceresi"`.
+
+### Naming — descriptive, not yet a formal scheme
+
+There is **no generative naming rule yet**; names are assigned per product as the range grows.
+Document what a product *is*, don't force it into a system that isn't settled. As-built today:
+
+- **PL serisi** — *tavan penceresi* (ceiling) artificial-skylight panels.
+- **PX serisi** — *duvar penceresi* (wall) sibling. PL22 and PX22 share one optical-electrical
+  core (160 W · 4200 lm · 2100–7500 K · Ra 93), differing only in size, weight, and mounting.
+
+When the catalog matures into a real scheme, formalize it here — until then, keep it descriptive.
+
+### Spec-field grammar — the five groups
+
+Specs render as grouped tables. Use these **Turkish group labels in this order**; add rows within
+a group as the product needs, but don't invent new top-level groups without reason:
+
+1. **Elektriksel** — güç, besleme, sürücü, kontrol…
+2. **Fotometrik** — ışık çıkışı, renk sıcaklığı, Ra, ışın açısı…
+3. **Fiziksel** — boyutlar, ağırlık, gövde, montaj…
+4. **Koruma & Ortam** — IP, ta, izolasyon sınıfı, IK…
+5. **Ömür & Garanti** — ömür (L-değeri), garanti.
+
+`lang="tr"` is set so İ/ı capitalize correctly — keep labels Turkish.
+
+### Number & unit formatting (Turkish typography)
+
+| Rule | Example |
+|---|---|
+| Decimal **comma** | `29,8 kg` · `> 0,90` |
+| Thousands **dot** | `2.600 lm` · `30.000 saat` |
+| Range with **en-dash** | `2100–7500 K` · `220–240 V` |
+| Signed range: **true minus** `−` (U+2212) + spaced ellipsis | `−20 … +40 °C` |
+| **Space** before unit (but not for codes) | `160 W` · `4200 lm` · but `IP20`, `Class II` |
+| **Middle dot** `·` to join values | `Bluetooth · DALI` · `Sıva altı · sıva üstü` |
+| Lifetime form | `L70B50 @ 30.000 saat` |
+
+### Optional sections
+
+- **`certifications`** — a list (`["CE", "RoHS"]`) rendered as badges. Omit when none is published.
+- **`ordering`** — a `{columns, rows}` SKU/variant matrix. Omit for single-SKU tunable products
+  (PL/PX have no published variants, so they carry no ordering matrix).
+
+### Data honesty
+
+- Transcribe from the manufacturer's spec and **cite the source in a comment** (e.g.
+  `pataraz.com/px-serisi/px22`, with the date).
+- Fields the public page omits: leave as `—`, **or** carry a value from a same-platform sibling
+  *with a comment flagging the assumption* (PX22 carries IP / ta / izolasyon / ömür / garanti from
+  PL22). Confirm against the full spec sheet before treating a carried value as final.
+- Fix transcription errors at the **source asset**, not just the text (the PX22 drawing's
+  `718 → 781` width transposition was corrected in the PNG).
 
 ---
 

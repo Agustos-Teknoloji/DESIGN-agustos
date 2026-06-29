@@ -69,8 +69,8 @@ Novara (outdoor kitchen furniture) is a brand Ağustos **represents/distributes*
 **not** a house brand — it has no assets here and needs none.
 
 > **Pataraz** has a dedicated brand spec: **[PATARAZ.md](PATARAZ.md)** — positioning (B2B spec
-> market), identity rules, and website direction. Read it before building the Pataraz site or
-> datasheet. For all *shared* rules, `DESIGN.md` remains the master.
+> market), identity rules, datasheet conventions, and website direction. Read it before building
+> the Pataraz site or a datasheet. For all *shared* rules, `DESIGN.md` remains the master.
 
 ## Hard rules — do not break
 
