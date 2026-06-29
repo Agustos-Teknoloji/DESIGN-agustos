@@ -8,17 +8,19 @@ luminaire so the field structure is self-documenting. Same generate-don't-mainta
 contract as the rest of the kit: the brand chrome (lockup, colour, footer) resolves
 from brands.json; you fill in the product data.
 
-  exports/<brand>/datasheet/<brand>-datasheet-template.html   source (embeds fonts + lockup)
-  exports/<brand>/datasheet/<brand>-datasheet-template.pdf     rendered by browse (with --pdf)
+  exports/<brand>/datasheet/<product-key>.html   source (embeds fonts + lockup)
+  exports/<brand>/datasheet/<product-key>.pdf     rendered by browse (with --pdf)
 
 A datasheet is half template, half data. The brand half comes from brands.json; the
-product half is the PRODUCTS dict below — that is the one place to edit field labels,
-add spec rows, or change the sample luminaire. Labels are Turkish; lang="tr" is set so
-İ/ı capitalisation renders correctly.
+product half is the PRODUCTS dict below — a flat registry keyed by product (e.g.
+"pataraz-px22"), each entry naming its brand. That is the one place to edit field
+labels, add spec rows, or document a new luminaire. A brand can hold any number of
+products; each emits its own sheet named after its key. Labels are Turkish; lang="tr"
+is set so İ/ı capitalisation renders correctly.
 
 Run after build.py (it reuses the generated lockup SVGs).
 
-  ../.venv/bin/python build_datasheet.py [--brand <slug>] [--pdf]
+  python3 build_datasheet.py [--brand <slug>] [--product <key>] [--pdf]
 """
 
 from __future__ import annotations
@@ -27,6 +29,7 @@ import argparse
 import base64
 import json
 import mimetypes
+import re
 import subprocess
 from pathlib import Path
 
@@ -43,12 +46,14 @@ def hexrgb(h):
 
 
 # ----------------------------------------------------------------------------
-# Product data — THE place to edit. Each brand ships one sample luminaire.
+# Product data — THE place to edit. A flat registry keyed by product; each entry
+# names its `brand` (the slug in brands.json). A brand may hold many products —
+# every entry emits its own A4 sheet named after its key (e.g. pataraz-px22.pdf).
 #
-# Field labels are Turkish. To document a different product, copy the block and
-# replace the values; to change which specs appear, edit the `specs` groups (the
-# group title becomes the brand-coloured section label). Order matters — rows
-# render top-to-bottom, groups flow into 3 packed columns.
+# Field labels are Turkish. To document a new product, copy a block, give it a new
+# key, set `brand`, and replace the values; to change which specs appear, edit the
+# `specs` groups (the group title becomes the brand-coloured section label). Order
+# matters — rows render top-to-bottom, groups flow into 2 columns.
 # ----------------------------------------------------------------------------
 
 PRODUCTS = {
@@ -57,7 +62,8 @@ PRODUCTS = {
     # fill them from the manufacturer's full spec sheet. The PL series is Pataraz's
     # ultra-thin artificial-skylight ("tavan penceresi") panel — a tunable-white
     # daylight-effect ceiling product, so it has no beam angle / ordering variants.
-    "pataraz": {
+    "pataraz-pl22": {
+        "brand": "pataraz",
         "name": "PL22",
         "series": "PL serisi · ultra ince tavan penceresi",
         "code": "PL22",
@@ -100,7 +106,62 @@ PRODUCTS = {
         },
         # No ordering matrix / certifications published for PL22 — sections omitted.
     },
-    "agustos": {
+    # Real product — data transcribed from pataraz.com/px-serisi/px22 (2026-06-23),
+    # the wall-mounted ("duvar penceresi") sibling of PL22. Shares PL22's electrical /
+    # photometric / control core identically (160 W, BT+DALI, 2100–7500 K, Ra 93,
+    # 4200 lm), differing only in size, weight and mounting. The 5 fields the public
+    # page omits (IP, ta, izolasyon, ömür, garanti) are carried over from PL22 as a
+    # same-platform assumption — confirm against the manufacturer's full spec sheet.
+    "pataraz-px22": {
+        "brand": "pataraz",
+        "name": "PX22",
+        "series": "PX serisi · ultra ince duvar penceresi",
+        "code": "PX22",
+        "doc_type": "Teknik Föy",
+        "rev": "Rev. 01 · 2026-06",
+        "photo": str(BRAND_DIR / "datasheet-assets" / "pataraz" / "px22-urun.jpg"),
+        "drawing": str(BRAND_DIR / "datasheet-assets" / "pataraz" / "px22-drawing.png"),
+        "description": (
+            "Duvar penceresi etkisi yaratan ultra ince ışık paneli. 2100–7500 K "
+            "ayarlanabilir beyaz ışığıyla gün ışığının ritmini penceresiz iç mekânlara "
+            "taşır; yüksek renksel geriverim (Ra 93) ile renkleri doğal gösterir. Sıva "
+            "altı veya sıva üstü montaj, Bluetooth ve DALI ile kontrol."
+        ),
+        # Width is 781 mm (confirmed by the product owner). The supplied technical
+        # drawing mislabels it as 718 (a 781↔718 transposition); the drawing PNG was
+        # corrected to 781 to match. Height 1332 and depth 66 agree across sources.
+        "dim_note": "G × Y × D: 781 × 1332 × 66 mm",
+        "specs": {
+            "Elektriksel": [
+                ("Güç", "160 W"),
+                ("Kontrol sistemi", "Bluetooth · DALI"),
+            ],
+            "Fotometrik": [
+                ("Işık çıkışı", "4200 lm"),
+                ("Renk sıcaklığı", "2100–7500 K (ayarlanabilir)"),
+                ("Renksel geriverim", "Ra 93"),
+            ],
+            "Fiziksel": [
+                ("Boyutlar", "781 × 1332 × 66 mm"),
+                ("Ağırlık", "29,4 kg"),
+                ("Montaj şekli", "Sıva altı · sıva üstü"),
+                ("Montaj yeri", "Duvar"),
+            ],
+            "Koruma & Ortam": [
+                ("Koruma sınıfı (IP)", "IP20"),
+                ("Ortam sıcaklığı (ta)", "−20 … +40 °C"),
+                ("İzolasyon sınıfı", "Class II"),
+            ],
+            "Ömür & Garanti": [
+                ("Ömür", "L70B50 @ 30.000 saat"),
+                ("Garanti", "2 yıl"),
+            ],
+        },
+        # IP / ta / izolasyon / ömür / garanti carried over from PL22 (same platform);
+        # no ordering matrix — a single tunable SKU with no published variants.
+    },
+    "agustos-pro-spot-28": {
+        "brand": "agustos",
         "name": "Pro Spot 28",
         "series": "Pro seri · 3-fazlı ray spotu",
         "code": "AGT-PRS28",
@@ -309,7 +370,7 @@ h1 {{ font-family:'IT'; font-weight:650; font-size:30px; letter-spacing:-0.02em;
 /* Description */
 .desc {{ font-size:12px; line-height:1.6; color:var(--soft); max-width:64ch; margin:13px 0 2px; }}
 
-/* Spec grid — groups packed into 3 columns */
+/* Spec grid — groups packed into 2 columns */
 .section-label {{ font-family:'IT'; font-weight:650; font-size:10px; text-transform:uppercase;
                   letter-spacing:0.14em; color:var(--ink); margin:16px 0 9px;
                   padding-bottom:5px; border-bottom:1px solid var(--rule); }}
@@ -399,7 +460,7 @@ def render_pdf(html: Path, pdf: Path):
 
 # ----------------------------------------------------------------------------
 
-def build_brand(slug, brand, reg, want_pdf):
+def _build(key, slug, brand, reg, product, want_pdf):
     base = BRAND_DIR / "exports" / slug
     lk = base / "lockup"
     pos = lk / f"{slug}-lockup__positive.svg"
@@ -408,28 +469,86 @@ def build_brand(slug, brand, reg, want_pdf):
 
     ds_dir = base / "datasheet"
     ds_dir.mkdir(parents=True, exist_ok=True)
-    product = PRODUCTS.get(slug, GENERIC)
-
-    html = ds_dir / f"{slug}-datasheet-template.html"
+    html = ds_dir / f"{key}.html"
     gen_datasheet_html(slug, brand, reg, product, html, lk)
-    print(f"  ✓ {slug}: datasheet template ({product['name']}) → {html.relative_to(ROOT)}")
+    print(f"  ✓ {slug}: {product['name']} → {html.relative_to(ROOT)}")
     if want_pdf:
-        render_pdf(html, ds_dir / f"{slug}-datasheet-template.pdf")
+        render_pdf(html, ds_dir / f"{key}.pdf")
+
+
+def build_product(key, product, reg, want_pdf):
+    slug = product["brand"]
+    if slug not in reg["brands"]:
+        raise SystemExit(f"product '{key}' names unknown brand '{slug}'")
+    _build(key, slug, reg["brands"][slug], reg, product, want_pdf)
+
+
+def build_generic(slug, brand, reg, want_pdf):
+    """A brand with no product entry still gets a sheet — a generic blank form."""
+    _build(f"{slug}-datasheet-template", slug, brand, reg, GENERIC, want_pdf)
+
+
+# Fields gen_datasheet_html / build_product read by hard subscript. Optional keys
+# (photo, drawing, dim_note, ordering, certifications) use .get() and are not listed.
+REQUIRED_FIELDS = ("brand", "name", "series", "code", "doc_type", "rev",
+                   "description", "specs")
+_KEY_RE = re.compile(r"[a-z0-9]+(?:-[a-z0-9]+)*\Z")
+
+
+def _validate_products(reg):
+    """Fail loudly and early on a malformed PRODUCTS entry, rather than a bare
+    KeyError mid-build or a key that escapes the datasheet/ dir as a filename.
+    The registry is meant to grow, so a new entry's mistakes surface here."""
+    brands = reg["brands"]
+    for key, product in PRODUCTS.items():
+        if not _KEY_RE.match(key):
+            raise SystemExit(f"product key '{key}' is not slug-safe "
+                             f"(lowercase letters, digits, single hyphens)")
+        missing = [f for f in REQUIRED_FIELDS if f not in product]
+        if missing:
+            raise SystemExit(f"product '{key}' missing field(s): {', '.join(missing)}")
+        slug = product["brand"]
+        if slug not in brands:
+            raise SystemExit(f"product '{key}' names unknown brand '{slug}'")
+        if not key.startswith(f"{slug}-"):
+            raise SystemExit(f"product key '{key}' must start with its brand "
+                             f"'{slug}-' (keeps the output filename brand-scoped)")
 
 
 def main():
     reg = json.loads(REGISTRY.read_text(encoding="utf-8"))
     ap = argparse.ArgumentParser()
-    ap.add_argument("--brand", help="single brand slug (default: all)")
+    ap.add_argument("--brand", help="all products for one brand slug")
+    ap.add_argument("--product", help="single product key, e.g. pataraz-px22")
     ap.add_argument("--pdf", action="store_true", help="also render PDF via browse")
     args = ap.parse_args()
     brands = reg["brands"]
-    if args.brand and args.brand not in brands:
-        raise SystemExit(f"unknown brand '{args.brand}'")
-    targets = {args.brand: brands[args.brand]} if args.brand else brands
-    print(f"Building datasheet template for {len(targets)} brand(s)...")
-    for slug, brand in targets.items():
-        build_brand(slug, brand, reg, args.pdf)
+
+    if args.brand and args.product:
+        raise SystemExit("--brand and --product are mutually exclusive — "
+                         "pass one or neither (no flag builds all products)")
+    _validate_products(reg)
+
+    if args.product:
+        if args.product not in PRODUCTS:
+            raise SystemExit(f"unknown product '{args.product}' — "
+                             f"choices: {', '.join(PRODUCTS)}")
+        print("Building 1 datasheet...")
+        build_product(args.product, PRODUCTS[args.product], reg, args.pdf)
+    elif args.brand:
+        if args.brand not in brands:
+            raise SystemExit(f"unknown brand '{args.brand}'")
+        prods = {k: v for k, v in PRODUCTS.items() if v["brand"] == args.brand}
+        print(f"Building datasheet(s) for {args.brand}...")
+        if prods:
+            for k, v in prods.items():
+                build_product(k, v, reg, args.pdf)
+        else:
+            build_generic(args.brand, brands[args.brand], reg, args.pdf)
+    else:
+        print(f"Building {len(PRODUCTS)} datasheet(s)...")
+        for k, v in PRODUCTS.items():
+            build_product(k, v, reg, args.pdf)
     print("Done." + ("" if args.pdf else "  (add --pdf to render PDFs)"))
 
 

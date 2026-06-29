@@ -581,3 +581,43 @@ Decisions made:
 on-brand and regenerable, without hand-built InDesign files drifting from the system.
 Generated for `agustos` (sample) and `pataraz` (real PL22); other brands produce a generic
 placeholder sheet on demand.
+
+## Datasheet engine: many products per brand + PX22 (2026-06-23)
+
+A request for the **PX22** sheet (pataraz.com/px-serisi/px22) exposed the datasheet engine's
+one structural shortcut: `PRODUCTS` was keyed by **brand slug**, so a brand could hold exactly
+one luminaire. Dropping PX22 in would have overwritten the committed PL22 sheet — a regression.
+The business has whole series (T · L · PY · PL · PX), each with multiple SKUs, so one-per-brand
+was always a template-demo limitation, not a real constraint. PX22 was the first signal to fix it.
+
+Decisions:
+
+- **`PRODUCTS` is now a flat registry keyed by product** (`pataraz-pl22`, `pataraz-px22`,
+  `agustos-pro-spot-28`), each entry naming its `brand`. Output is per-product:
+  `exports/<brand>/datasheet/<product-key>.{html,pdf}`. CLI gained `--product <key>`; `--brand`
+  now builds *all* of a brand's products. The old `<brand>-datasheet-template.*` files were
+  renamed to their product keys and removed (PL22 was never a "template" once it became a real
+  product — the name was already a misnomer the MEMORY had flagged).
+- **PX22 is PL22's wall-mounted sibling** ("duvar penceresi" vs PL22's ceiling "tavan penceresi").
+  The public page publishes the same 9 fields as PL22 and confirms an **identical electrical /
+  photometric / control core** (160 W, Bluetooth+DALI, 2100–7500 K, Ra 93, 4200 lm); only size
+  (781 × 1332 × 66 mm), weight (29,4 kg) and mounting (sıva altı/üstü, duvar) differ.
+- **Carried over PL22's 5 unpublished values** (IP20, −20…+40 °C, Class II, L70B50 @ 30.000 h,
+  2 yıl warranty) at the product owner's explicit direction — a deliberate, scoped exception to
+  the "honest placeholders over fabricated specs" rule (TP: 2026-06-22), justified because PX22
+  shares PL22's exact platform. Logged as a same-platform **assumption** in the `PRODUCTS` comment;
+  confirm against the manufacturer's full PX22 spec sheet before treating as fact.
+- **Technical drawing supplied by the owner** (front + side elevation), saved to
+  `datasheet-assets/pataraz/px22-drawing.png` and wired into the second visual slot — full parity
+  with PL22's layout, no placeholder.
+- **Width is 781 mm (owner-confirmed); the drawing mislabeled it 718** (height 1332 and depth 66
+  agreed across sources — a textbook 781↔718 transposition, this time in the drawing, not the page).
+  Rather than re-render the label and risk a font mismatch on a CAD drawing, the PNG was corrected
+  **by reordering its own glyphs** — "781" reuses the exact 7/8/1 of "718", so the three digit
+  bitmaps were cut and recomposed 7‑8‑1 (white-boxed the original, the dimension line was already
+  broken around the text). Pixel-identical font/weight/colour, zero re-typesetting. Sheet + drawing
+  now both read **781 × 1332 × 66 mm**.
+
+**Why it mattered:** the kit went from "one demo product per brand" to "a real product catalogue,"
+without changing the template, the design system, or any brand chrome. Adding the next luminaire is
+now one `PRODUCTS` block + a photo, and PL22 survived untouched.
