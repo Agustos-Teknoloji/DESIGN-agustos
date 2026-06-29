@@ -103,10 +103,11 @@ scripts; never hand-edit `exports/`.
 
 Each `exports/<brand>/` holds: `lockup/` (positive/negative/mono × svg·pdf·png), `favicon/`,
 `social/`, `swatches/` (.ase/.clr), `email/` (signature), `office/` (.pptx/.docx),
-`guidelines/` (4-page PDF), and `datasheet/` (A4 lighting product sheet, html + pdf). Full
-kits: `agustos`, `pataraz`, `pld`; `photometric` has logos only. The datasheet template is
-generated for `agustos` and `pataraz` (each with a sample luminaire; edit the `PRODUCTS`
-dict in `build_datasheet.py` to document a real product). Docs: `brand/README.md`,
+`guidelines/` (4-page PDF), and `datasheet/` (A4 lighting product sheets, html + pdf). Full
+kits: `agustos`, `pataraz`, `pld`; `photometric` has logos only. The `datasheet/` folder holds
+one sheet per product — real Pataraz luminaires (`pataraz-pl22`, `pataraz-px22`) and an
+`agustos` sample (`agustos-pro-spot-28`); add a product by editing the `PRODUCTS` dict in
+`build_datasheet.py` (keyed by product, each naming its brand). Docs: `brand/README.md`,
 `brand/templates/README.md`.
 
 ---

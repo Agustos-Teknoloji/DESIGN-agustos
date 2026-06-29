@@ -38,12 +38,13 @@ brand slug into `<brand>` in the path (e.g. `agustos`, `pld`).
 | A **PowerPoint / Word** template | `brand/exports/<brand>/office/<brand>-template.pptx` · `-letterhead.docx` |
 | An **email signature** | `brand/exports/<brand>/email/<brand>-signature.html` |
 | **Brand guidelines** to share | `brand/exports/<brand>/guidelines/<brand>-brand-guidelines.pdf` |
-| A **product datasheet** (lighting "teknik föy", A4) | `brand/exports/<brand>/datasheet/<brand>-datasheet-template.pdf` (edit `PRODUCTS` in `brand/build_datasheet.py`, re-run) |
+| A **product datasheet** (lighting "teknik föy", A4) | `brand/exports/<brand>/datasheet/<product-key>.pdf` (e.g. `pataraz-px22.pdf`; edit `PRODUCTS` in `brand/build_datasheet.py`, re-run) |
 | The **fonts** (to install) | `brand/fonts/` (Inter Tight, Inter, JetBrains Mono + licenses) |
 
 > Coverage: `agustos`, `pataraz`, `pld` have the **full** set above. `photometric` has **logos,
 > favicons, and social only** (no office / swatches / email / guidelines yet). The **datasheet**
-> template is generated for `agustos` and `pataraz`; other brands produce a generic sheet on demand.
+> kit holds many products per brand: real Pataraz sheets (`pataraz-pl22`, `pataraz-px22`) and an
+> `agustos` sample (`agustos-pro-spot-28`); other brands produce a generic sheet on demand.
 
 ## The three logo expressions — pick by background
 

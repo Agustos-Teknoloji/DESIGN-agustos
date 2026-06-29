@@ -47,7 +47,7 @@ swatches/    <brand>.ase (Adobe) + <brand>.clr (Apple)
 email/       <brand>-signature.html (email-safe, self-contained)
 office/      <brand>-letterhead.docx + <brand>-template.pptx
 guidelines/  <brand>-brand-guidelines.html + .pdf (4-page shareable)
-datasheet/   <brand>-datasheet-template.html + .pdf (A4 lighting product "teknik föy")
+datasheet/   <product-key>.html + .pdf  (one A4 "teknik föy" per product, e.g. pataraz-px22)
 ```
 
 `build.py` makes the first three (visual assets); `build_templates.py` makes the
@@ -60,14 +60,17 @@ Google Slides / Word / Pages.
 `build_datasheet.py` is a third engine, for lighting product spec sheets. Unlike the
 others (brand chrome only), a datasheet is **half template, half data**: the brand half
 (lockup, colour, footer) resolves from `brands.json`; the product half lives in the
-`PRODUCTS` dict at the top of the script. Each brand ships one sample luminaire so the
-field structure is self-documenting.
+`PRODUCTS` dict at the top of the script. `PRODUCTS` is a flat registry keyed by product
+(e.g. `pataraz-px22`), each entry naming its `brand` — so **a brand can hold any number of
+products**, and each emits its own A4 sheet at `exports/<brand>/datasheet/<product-key>.{html,pdf}`.
+Build one with `--product <key>`, a whole brand with `--brand <slug>`, or all with no flag.
 
-- **To document a new product:** copy a `PRODUCTS` block, swap the values, point
-  `photo` / `drawing` at image files under `datasheet-assets/<slug>/` (omit them to keep
-  the dashed placeholders). Raster images are base64-embedded, so the HTML/PDF stay
-  self-contained. `pataraz` (PL22) is a worked example built from real data; values the
-  source did not publish are left as `—` placeholders to fill in.
+- **To document a new product:** copy a `PRODUCTS` block, give it a new key, set `brand`,
+  swap the values, point `photo` / `drawing` at image files under `datasheet-assets/<slug>/`
+  (omit them to keep the dashed placeholders). Raster images are base64-embedded, so the
+  HTML/PDF stay self-contained. `pataraz-pl22` and `pataraz-px22` are worked examples built
+  from real data; values the source does not publish are either left as `—` placeholders or
+  carried over from a same-platform sibling (noted in the block as an assumption).
 - **To change which specs appear:** edit the `specs` groups — the group name becomes the
   brand-coloured section label; rows render in order, flowing into two columns.
 - **Ordering matrix + certifications are optional** — omit those keys and the section
@@ -110,6 +113,7 @@ expressions automatically. ~10 minutes.
   email signature, Office templates (PPTX/DOCX), and 4-page guidelines PDF.
 - ⏳ `pataraz`, `pld`, `photometric` — registered, not yet generated. Run both scripts
   (`build.py` then `build_templates.py`) per brand when ready.
-- 📄 Datasheet template (`build_datasheet.py`) — `pataraz` is a real product (**PL22**,
-  data + photo from pataraz.com); `agustos` is a sample (**Pro Spot 28**) showing the full
-  template (ordering matrix + certs). Other brands generate a generic sheet on demand.
+- 📄 Datasheets (`build_datasheet.py`) — `pataraz` ships two real products (**PL22** ceiling
+  + **PX22** wall, data + photos from pataraz.com); `agustos` is a sample (**Pro Spot 28**)
+  showing the full template (ordering matrix + certs). Other brands generate a generic sheet
+  on demand.
