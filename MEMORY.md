@@ -621,3 +621,37 @@ Decisions:
 **Why it mattered:** the kit went from "one demo product per brand" to "a real product catalogue,"
 without changing the template, the design system, or any brand chrome. Adding the next luminaire is
 now one `PRODUCTS` block + a photo, and PL22 survived untouched.
+
+## pataraz.com website: stack, registry spine, design feed (2026-06-30)
+
+Kicked off **pataraz.com** — a Turkish, B2B specification catalog (the datasheet is the hero asset;
+the site is its catalog). Captured first as a brand spec ([PATARAZ.md](PATARAZ.md), a faithful-sibling
+identity doc), then a website design spec
+([docs/superpowers/specs/2026-06-30-pataraz-website-design.md](docs/superpowers/specs/2026-06-30-pataraz-website-design.md)).
+
+Decisions:
+
+- **Stack: Rails 8 + SQLite + Tailwind + Hotwire monolith** (product owner's call), in **its own
+  repo**, deployed via **Kamal → VPS** (SQLite needs a persistent disk, so single-server, not
+  Cloudflare Pages — the repo's Astro→CF-Pages rule does not apply to a stateful Rails app). An
+  earlier Astro draft was discarded when the owner named the Rails stack; the pivot cost nothing
+  because the load-bearing decision below was framework-independent.
+- **One shared product registry is the spine.** Product data moves out of `build_datasheet.py`'s
+  inline `PRODUCTS` dict into `brand/products/*.json`; **both** the Python PDF builder and the Rails
+  site read it. This is the structural answer to PATARAZ.md §3's "the on-page spec and the PDF must
+  agree" — "keep two things in sync" (a discipline that eventually fails) becomes "there is only one
+  thing." It survived the Astro→Rails pivot unchanged, which is how we knew it was right.
+- **Design-first via a single feed file.** [pataraz-ui-brief.md](pataraz-ui-brief.md) is the
+  self-contained brief to hand any Claude design session (brand tokens, page templates, component
+  inventory, real PL22/PX22 content, asset paths). A built reference page,
+  [mockups/pataraz-px22.html](mockups/pataraz-px22.html), is the visual anchor it points to —
+  editorial-technical, cream + one blue accent, JetBrains Mono numerics, the real lockup inlined.
+- **Mocking the UI found two missing data fields.** The product page needs a **`images[]`** gallery
+  and a **`documents[]`** list (datasheet, IES, montaj kılavuzu, CE) — not the single `photo` /
+  `datasheet_pdf` the spec's data model first had. Designing before building surfaced a registry-schema
+  gap; folded back into the spec and the brief.
+
+**Why it mattered:** the website got a settled stack and a no-drift data architecture *before* a line
+of app code, and the brand visual language was proven on the hardest page (the product spec sheet)
+before committing to the build. The Rails app, when it starts, is scaffolding against a known design
+and a single source of truth — not discovery.
