@@ -1,8 +1,8 @@
 # Ağustos Design System
 
-**Version 2.1.2** · Type-first design system for Emre Güneş's brand portfolio
-**Last updated:** May 30, 2026
-**Status:** Patch update · Logotype finalized at Inter Tight 650 with neutral tracking · Token count remains 24
+**Version 2.2.0** · Type-first design system for Emre Güneş's brand portfolio
+**Last updated:** July 10, 2026
+**Status:** Minor update · Added radius (3) and motion (2) tokens for the WEBSITE-agustos topbar/homepage redesign · Token count 24 → 29
 
 ---
 
@@ -93,7 +93,7 @@ font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospa
 
 ## CSS variables
 
-Drop into any project. Twelve base variables define the system, plus one runtime alias (`--brand`) that resolves to the active brand color.
+Drop into any project. Seventeen variables define the system, including one runtime alias (`--brand`) that resolves to the active brand color.
 
 ```css
 :root {
@@ -110,6 +110,15 @@ Drop into any project. Twelve base variables define the system, plus one runtime
   --rule: #e8e3d0;         /* For cream substrate */
   --rule-white: #e8e8e8;   /* For white substrate */
 
+  /* Radii */
+  --radius-sm: 4px;   /* small controls */
+  --radius-md: 6px;   /* buttons */
+  --radius-lg: 10px;  /* cards */
+
+  /* Motion */
+  --dur: 120ms;
+  --ease: ease;
+
   /* Brand colors, pick one per page */
   --brand-agustos: #cf142a;
   --brand-pataraz: #1a24cc;
@@ -123,6 +132,12 @@ Drop into any project. Twelve base variables define the system, plus one runtime
   --mono:    'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospace;
 }
 ```
+
+**Note on the v2.2 additions.** `--radius-*` and `--dur`/`--ease` formalize values
+that were already in use ad hoc (WEBSITE-agustos's Sidebar, MobileHeader, and
+BrandLockup components all hand-wrote `120ms ease` transitions and one-off border
+radii before this addition). Three radii, not a full scale, matching the system's
+"three tiers per dimension" restraint principle.
 
 **Note on naming.** v1.x used `--serif`, `--sans`, `--logotype` to name the three faces by category. v2.0 names them by role. `--display` (anything designed) and `--body` (anything read at length), because the system no longer has a serif/sans split. Mono is unchanged.
 
@@ -170,9 +185,9 @@ html, body {
 
 ---
 
-## The 24 tokens
+## The 29 tokens
 
-Each token has exactly one job. When writing content, ask only: which one of these is this? Token count went from 22 → 24 in v2.0 with the addition of `.type-hero` and `.type-hero-md`; v2.1.2 keeps the count at 24 and finalizes the logotype weight.
+Each token has exactly one job. When writing content, ask only: which one of these is this? Token count went from 22 → 24 in v2.0 with the addition of `.type-hero` and `.type-hero-md`; v2.2 adds five CSS variable tokens for radii and motion, bringing the system to 29 while keeping the typography/content token set stable.
 
 ### Hero (2) · NEW IN v2.0
 
@@ -654,7 +669,7 @@ A reference template should:
 
 - Set `lang: tr` in frontmatter for Turkish documents
 - Apply Inter Tight / Inter / JetBrains Mono via system font installations
-- Map markdown elements to the 24 tokens and named utilities via class names
+- Map markdown elements to the 24 typography/content tokens and named utilities via class names
 - Preserve `tnum` for tabular numerals in tables
 
 (Template file: TBD; to be developed during implementation phase.)
@@ -671,7 +686,7 @@ The system uses CSS custom properties, `font-variation-settings`, `color-mix()`,
 
 Run this checklist before calling a system change complete:
 
-1. Render the typography showcase and confirm all 24 tokens appear.
+1. Render the typography showcase and confirm all 24 typography/content tokens appear; verify the 5 radius/motion tokens are present in CSS.
 2. Inspect computed margins for H2/H3/H4, body, lists, tables, code blocks, and dividers; verify the 1em baseline and 2.5em section break actually render.
 3. Test Turkish uppercase with `lang="tr"` on H4/table-header-style text: `başlık`, `i`, and `ışık` must uppercase correctly.
 4. Check cream, white, and dark substrates.

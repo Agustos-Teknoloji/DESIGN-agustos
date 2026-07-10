@@ -1,11 +1,16 @@
 /* ============================================================
-   AĞUSTOS DESIGN SYSTEM v2.1  ·  RAILS ADAPTER COPY
+   AĞUSTOS DESIGN SYSTEM v2.2  ·  RAILS ADAPTER COPY
    Source of truth: PROJECTS/DESIGN-agustos/DESIGN.md
-   Type-first system. 12 variables, 24 tokens, 3 families.
+   Type-first system. 17 variables, 29 tokens, 3 families.
 
    ⚠ SYNC RULE — this file mirrors:
      PROJECTS/DESIGN-agustos/tokens/agustos.css
    Token bodies must stay byte-identical except for this header.
+
+   v2.2 changes:
+   - Added --radius-sm/--radius-md/--radius-lg (4/6/10px) and --dur/--ease
+     motion tokens, for the topbar + homepage redesign
+     (PROJECTS/WEBSITE-agustos/docs/superpowers/specs/2026-07-10-topbar-homepage-redesign-design.md)
 
    v2.1 changes:
    - Recast .type-hero-deck as an upright lead, not an italic quote
@@ -45,6 +50,16 @@
   --rule:        #e8e3d0;
   --rule-white:  #e8e8e8;
 
+  /* Radii — new in v2.2, added for the topbar/homepage redesign */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+
+  /* Motion — codifies the 120ms hover transitions already used ad hoc across
+     the codebase (Sidebar, MobileHeader, BrandLockup) */
+  --dur: 120ms;
+  --ease: ease;
+
   /* Brand colors — pick one per page via .brand-* class */
   --brand-agustos:     #cf142a;
   --brand-pataraz:     #1a24cc;
@@ -81,7 +96,7 @@
 /* Dark theme — opt-in via html[data-theme="dark"]. Same tokens, inverted ink/paper.
    Brand colors stay the same; designed to read on both substrates. The dark paper
    keeps a warm undertone (#16140f, not pure black) so cream-trained colors still
-   integrate. Toggle persisted in localStorage by the Sidebar component. */
+   integrate. Toggle persistence belongs to the consuming site's chrome. */
 html[data-theme="dark"] {
   --paper:        #16140f;
   --paper-white:  #16140f;
@@ -121,7 +136,7 @@ body {
 
 img, svg { max-width: 100%; height: auto; display: block; }
 
-/* -- 4. The 24 tokens ---------------------------------------- */
+/* -- 4. The 29 tokens ---------------------------------------- */
 
 /* --- Hero (2) — NEW IN v2.0 --- */
 

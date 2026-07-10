@@ -655,3 +655,31 @@ Decisions:
 of app code, and the brand visual language was proven on the hardest page (the product spec sheet)
 before committing to the build. The Rails app, when it starts, is scaffolding against a known design
 and a single source of truth — not discovery.
+
+## v2.2 — radius and motion tokens, header CTA height overrides a mock (2026-07-10)
+
+**On the table:** WEBSITE-agustos's topbar/homepage redesign (sourced from a
+Claude-generated design handoff) needed `border-radius` and transition-duration
+values the system hadn't formalized yet — every consuming component had been
+hand-writing `120ms ease` and one-off radii.
+
+**Chosen:** Added exactly three radii (`--radius-sm` 4px, `--radius-md` 6px,
+`--radius-lg` 10px — small controls / buttons / cards) and two motion tokens
+(`--dur` 120ms, `--ease` ease). Three radii, not a full numeric scale, to hold the
+line on the system's "three tiers per dimension" restraint principle rather than
+open the door to a fourth or fifth radius the first time someone wants a
+slightly-different card corner.
+
+**Also decided, same session:** the redesign's source mock specified the header's
+"Bize Ulaşın" CTA button at 36px min-height ("small button size"). This system's
+own accessibility section already requires a 44px minimum for button-like
+controls. Rather than carve out an exception for compact chrome buttons, the
+44px rule was kept as-is and the button was sized to comply — the mock was treated
+as high-fidelity-but-not-infallible, and an existing, deliberately-written
+accessibility rule outranks a visual reference file.
+
+**Why this matters for future work:** the next brand site to reuse this system's
+chrome patterns (Pataraz, PLD Türkiye, Photometric Batch — see DESIGN.md's "Adding
+a new brand") inherits both the new tokens and this precedent: mock fidelity is
+high, but it isn't a substitute for the system's own written accessibility rules
+when the two conflict.
