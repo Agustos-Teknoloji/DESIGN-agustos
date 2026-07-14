@@ -1,5 +1,5 @@
 /* ============================================================
-   AĞUSTOS DESIGN SYSTEM v2.2  ·  ASTRO ADAPTER COPY
+   AĞUSTOS DESIGN SYSTEM v2.3  ·  ASTRO ADAPTER COPY
    Source of truth: PROJECTS/DESIGN-agustos/DESIGN.md
    Type-first system. 17 variables, 29 tokens, 3 families.
 
@@ -8,6 +8,10 @@
    It also has a production mirror copy at:
      PROJECTS/WEBSITE-agustos/src/styles/tokens.css
    Token bodies must stay byte-identical except for this header.
+
+   v2.3 changes:
+   - Added .site-frame and rebuilt .container on the same 920px content
+     measure with 1.5rem gutters, so site chrome and page content align
 
    v2.2 changes:
    - Added --radius-sm/--radius-md/--radius-lg (4/6/10px) and --dur/--ease
@@ -451,10 +455,16 @@ table th:last-child, table td:last-child { text-align: right; }
 
 /* -- 5. Layout helpers (not tokens — utilities) -------------- */
 
+.site-frame,
 .container {
-  width: min(calc(100% - 3rem), 920px);
+  width: 100%;
+  max-width: calc(920px + 3rem);
   margin: 0 auto;
-  padding: 4rem 0 6rem;
+  padding-inline: 1.5rem;
+}
+
+.container {
+  padding-block: 4rem 6rem;
 }
 
 .hero-actions {

@@ -1,8 +1,8 @@
 # Ağustos Design System
 
-**Version 2.2.0** · Type-first design system for Emre Güneş's brand portfolio
-**Last updated:** July 10, 2026
-**Status:** Minor update · Added radius (3) and motion (2) tokens for the WEBSITE-agustos topbar/homepage redesign · Token count 24 → 29
+**Version 2.3.0** · Type-first design system for Emre Güneş's brand portfolio
+**Last updated:** July 14, 2026
+**Status:** Minor update · Unified web chrome and page content on one 920px content measure · Token count remains 29
 
 ---
 
@@ -642,12 +642,20 @@ Current non-token utilities:
 |---|---|
 | `.paper-white` | Switches `--paper` and `--rule` to white-context values. |
 | `html[data-theme="dark"]` | Optional dark theme; inverts paper/ink/rule while keeping brand colors stable. |
-| `.container` | Default readable page measure and vertical page padding. |
+| `.site-frame` | Shared site-chrome frame: 920px content measure plus 1.5rem gutters. |
+| `.container` | The same frame geometry plus default vertical page padding. |
 | `.hero-links`, `.hero-link*` | Editorial homepage hero action row. |
 | `.hero-action*` | Boxed lower-section CTA links where tap target and scannability matter. |
 | `.skip-link` | Keyboard accessibility utility for persistent navigation layouts. |
 
 Specified but not yet fully mirrored in every adapter CSS: `.hero-trust` and `.hero-visual`. Add them to the platform-neutral token source and adapter copies before using those classes in production.
+
+The 920px value is the content measure, not the padded outer width. `.site-frame`
+and `.container` therefore cap their border box at `calc(920px + 3rem)`: 920px
+of content plus a 1.5rem gutter on each side. This keeps header, homepage,
+breadcrumbs, page content, and footer aligned without narrowing the readable
+measure. Component-specific utilities may set vertical padding, but should not
+redefine this horizontal geometry.
 
 ### Rails adapter
 

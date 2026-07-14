@@ -683,3 +683,21 @@ chrome patterns (Pataraz, PLD Türkiye, Photometric Batch — see DESIGN.md's "A
 a new brand") inherits both the new tokens and this precedent: mock fidelity is
 high, but it isn't a substitute for the system's own written accessibility rules
 when the two conflict.
+
+## v2.3 — one content measure across site chrome and pages (2026-07-14)
+
+**Found:** WEBSITE-agustos's July topbar redesign used `max-width: 920px` on
+elements that also carried 1.5rem horizontal padding. With the global border-box
+reset, the header, homepage, and footer therefore had an 872px content area while
+the established `.container` utility still provided 920px. At desktop widths the
+two content edges differed by 24px on each side.
+
+**Chosen:** 920px remains the content measure. Added `.site-frame` and rebuilt
+`.container` on one 968px padded outer frame (`920px + 3rem`), with 1.5rem gutters.
+`.site-frame` owns horizontal geometry for chrome and bespoke page sections;
+`.container` adds the existing 4rem/6rem vertical page padding.
+
+**Why it matters:** new chrome and old pages now share one rule instead of matching
+by repeated numbers. Responsive behavior is unchanged, inner pages keep their
+existing content density, and future components can opt into the frame without
+recreating the box-model calculation.
