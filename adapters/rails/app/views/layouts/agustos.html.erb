@@ -19,19 +19,16 @@
       })();
     </script>
   </head>
-  <body class="<%= agustos_body_class %>">
+  <body
+    class="<%= agustos_body_class %>"
+    data-controller="agustos-nav agustos-theme"
+    data-action="keydown.esc@window->agustos-nav#close"
+  >
     <a class="skip-link" href="#main">Skip to content</a>
-    <div class="agustos-layout">
-      <%= render "agustos/shared/sidebar" %>
-      <div class="agustos-layout__body">
-        <main id="main" class="agustos-layout__main">
-          <%= yield %>
-        </main>
-        <footer class="agustos-footer">
-          <%= agustos_wordmark %> · <%= Time.current.year %>
-        </footer>
-      </div>
-    </div>
+    <%= render "agustos/shared/header" %>
+    <main id="main" class="agustos-layout__main" tabindex="-1">
+      <%= yield %>
+    </main>
+    <%= render "agustos/shared/footer" %>
   </body>
 </html>
-

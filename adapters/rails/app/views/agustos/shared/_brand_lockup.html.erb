@@ -1,11 +1,12 @@
-<% href = local_assigns.fetch(:href, root_path) %>
+<% href = local_assigns.fetch(:href, agustos_theme_config[:home_href]) %>
 <% size = local_assigns.fetch(:size, 24) %>
-<a class="agustos-lockup" href="<%= href %>" aria-label="<%= agustos_wordmark %>" style="--agustos-lockup-size: <%= size %>px">
+<% expression = local_assigns.fetch(:expression, :positive) %>
+<% tag_name = href.present? ? :a : :span %>
+<%= content_tag tag_name, class: ["agustos-lockup", "agustos-lockup--#{expression}"], href: href.presence, aria: (href.present? ? { label: agustos_wordmark } : nil), style: "--agustos-lockup-size: #{size}px" do %>
   <svg class="agustos-lockup__symbol" viewBox="0 0 100 100" aria-hidden="true" focusable="false">
     <g fill="currentColor">
       <path d="M50 0l6.6 31.6L80.9 9.1 68.4 38.9 100 50l-31.6 11.1 12.5 29.8-24.3-22.5L50 100l-6.6-31.6-24.3 22.5 12.5-29.8L0 50l31.6-11.1L19.1 9.1l24.3 22.5L50 0z"/>
     </g>
   </svg>
   <span class="agustos-lockup__name"><%= agustos_wordmark %></span>
-</a>
-
+<% end %>
