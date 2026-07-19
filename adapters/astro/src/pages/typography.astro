@@ -5,33 +5,33 @@ import BrandLockup from '../components/BrandLockup.astro';
 // Brand-switcher demo data
 const brands = [
   { id: 'agustos', name: 'Ağustos',     hex: '#cf142a' },
-  { id: 'pataraz', name: 'Pataraz',     hex: '#1a24cc' },
+  { id: 'pataraz', name: 'Pataraz',     hex: '#1a1a1a' },
   { id: 'pld',     name: 'PLD Türkiye', hex: '#1a1a1a' },
-  { id: 'photo',   name: 'Photometric', hex: '#1f6b4a' },
+  { id: 'photo',   name: 'Photometric', hex: '#1a1a1a' },
 ] as const;
 
 // Per-brand wordmark mapping (matches BaseLayout's BRAND_WORDMARKS).
 const portfolio = [
   { brand: 'agustos', wordmark: 'ağustos',     swatch: '#cf142a' },
-  { brand: 'pataraz', wordmark: 'pataraz',     swatch: '#1a24cc' },
+  { brand: 'pataraz', wordmark: 'pataraz',     swatch: '#1a1a1a' },
   { brand: 'pld',     wordmark: 'pld türkiye', swatch: '#1a1a1a' },
-  { brand: 'photo',   wordmark: 'photometric', swatch: '#1f6b4a' },
+  { brand: 'photo',   wordmark: 'photometric', swatch: '#1a1a1a' },
 ] as const;
 ---
 <BaseLayout
-  title="Typography showcase — Ağustos Design System v2.1.2"
+  title="Typography showcase — Ağustos Design System v3"
   description="Every one of the 24 tokens, exercised on one page."
 >
   <article class="container">
     {/* ---- Hero showcase ---- */}
     <section style="margin-bottom: 4rem;">
-      <p class="type-h4" style="color: var(--brand); margin-bottom: 1.5rem;">v2.1.2 · Hero · type-hero</p>
+      <p class="type-h4" style="color: var(--signal); margin-bottom: 1.5rem;">v3 · Hero · type-hero</p>
       <h1 class="type-hero">Where light meets architecture.</h1>
       <p class="type-hero-deck">A studio working with Turkey's leading designers since 2009. Twelve international brands, one specification discipline.</p>
     </section>
 
     <section style="margin-bottom: 4rem;">
-      <p class="type-h4" style="color: var(--brand); margin-bottom: 1.5rem;">Hero (medium) · type-hero-md</p>
+      <p class="type-h4" style="color: var(--signal); margin-bottom: 1.5rem;">Hero (medium) · type-hero-md</p>
       <h2 class="type-hero-md">Premium luminaires, mid-tier pricing.</h2>
       <p class="type-hero-deck">Pataraz delivers project-grade fixtures without the project-grade markup.</p>
     </section>
@@ -39,7 +39,7 @@ const portfolio = [
     <hr class="type-divider" />
 
     <h1 class="type-h1">The 24 tokens</h1>
-    <p class="type-body"><em>One page. One of every token. Same source survives markdown, web, PDF, and docx. v2.1.2: Inter Tight (display) + Inter (body) + JetBrains Mono.</em></p>
+    <p class="type-body"><em>One page. One of every type token. The same registry translates into web, PowerPoint, Word, and Google-compatible imports. Inter Tight (display) + Inter (body) + JetBrains Mono.</em></p>
 
     {/* ---- Brand switcher ---- */}
     <h4 class="type-h4">Brand</h4>
@@ -54,10 +54,10 @@ const portfolio = [
 
     <hr class="type-divider" />
 
-    {/* ---- Brand portfolio: all four lockups in Inter Tight 650 (v2.1.2) ---- */}
+    {/* ---- Brand portfolio: all four lockups in Inter Tight 650 ---- */}
     <h4 class="type-h4">Brand portfolio</h4>
     <p class="type-body">
-      Four wordmarks in Inter Tight 650, each in its own brand colour. Same lockup grammar
+      Four wordmarks in Inter Tight 650. Ağustos alone is red; the other house brands are black and white. Same lockup grammar
       across the portfolio: symbol height = 1.4× wordmark cap height, gap = 0.4× wordmark size,
       always lowercase. The Turkish <em>ı</em> in <em>pataraz</em> and <em>pld türkiye</em> and
       the <em>ğ</em> in <em>ağustos</em> show how Inter Tight handles the Turkish alphabet at every size.
@@ -85,8 +85,8 @@ const portfolio = [
     {/* ---- Negative expression ---- */}
     <h4 class="type-h4">Negative expression</h4>
     <p class="type-body">
-      Cream symbol and wordmark on a brand-colour tile (DESIGN.md §"Three expressions"). For favicons,
-      monograms, brand-color tiles, hero stamps, and the dark-theme sidebar lockup. The cream text is
+      Cream symbol and wordmark on the registered identity tile (DESIGN.md §"Three expressions"). For favicons,
+      monograms, identity tiles, and hero stamps. The cream text is
       a fixed value (#fefcf2) so the tile reads correctly in both light and dark themes.
     </p>
 
@@ -114,7 +114,7 @@ const portfolio = [
 
     <p class="type-body">
       The <em>body token</em> is Inter at 16.5 / 1.65 — the most rigorously screen-engineered open-source sans.
-      Inline <strong>strong</strong> is 700, inline <em>em</em> is italic, and a <a href="#">link</a> renders bold with a 2px brand-color underline at 3px offset — the sole brand expression.
+      Inline <strong>strong</strong> is 700, inline <em>em</em> is italic, and a <a href="#">link</a> renders bold with a 2px shared-red underline at 3px offset — one family signal across every brand.
       Code uses <code>font-family: var(--mono)</code> at 0.86em with a soft tint background.
       Chemistry survives: H<sub>2</sub>O, CO<sub>2</sub>. Units survive: 240&nbsp;m<sup>2</sup>, 2<sup>16</sup>.
       Revisions render with <s>strikethrough</s> in <code>--ink-faint</code>.
@@ -126,16 +126,16 @@ const portfolio = [
     <h4 class="type-h4">Block-level (9) — blockquote</h4>
     <blockquote class="type-blockquote">
       Portability over preference. Every design decision must survive translation across markdown → web → PDF → docx → plain text.
-      <cite>Ağustos Design System v2.1.2 · Rule 1</cite>
+      <cite>Ağustos Design System v3 · Rule 1</cite>
     </blockquote>
 
     <h4 class="type-h4">Pullquote</h4>
-    <p class="type-pullquote">The publisher precedes the brand. The shared symbol identifies the house; brand colour identifies the publication.</p>
+    <p class="type-pullquote">The publisher precedes the brand. The shared symbol and neutral identity system identify the house; the wordmark names the publication.</p>
 
     <h4 class="type-h4">Ordered list</h4>
     <ol>
       <li>Pick a name (lowercase wordmark, 1–3 words, balanced next to the symbol).</li>
-      <li>Pick a colour, refined for the cream substrate.</li>
+      <li>Use neutral black and white identity ink unless the brand is Ağustos.</li>
       <li>Apply existing lockup grammar — Inter Tight 650, neutral tracking.</li>
     </ol>
 
@@ -184,9 +184,9 @@ const portfolio = [
       </thead>
       <tbody>
         <tr><td>Ağustos</td><td>Red</td><td><code>#cf142a</code></td><td>—</td></tr>
-        <tr><td>Pataraz</td><td>Blue</td><td><code>#1a24cc</code></td><td>from #0000FF</td></tr>
+        <tr><td>Pataraz</td><td>Black</td><td><code>#1a1a1a</code></td><td>house neutral</td></tr>
         <tr><td>PLD Türkiye</td><td>Black</td><td><code>#1a1a1a</code></td><td>—</td></tr>
-        <tr><td>Photometric</td><td>Green</td><td><code>#1f6b4a</code></td><td>—</td></tr>
+        <tr><td>Photometric</td><td>Black</td><td><code>#1a1a1a</code></td><td>house neutral</td></tr>
       </tbody>
     </table>
 
@@ -195,7 +195,7 @@ const portfolio = [
     {/* ---- Supporting (1) ---- */}
     <h4 class="type-h4">Supporting (1) — footnote</h4>
     <p class="type-footnote">
-      <sup>1</sup> Footnotes use the footnote token: 12.5px body (Inter) in <code>--ink-faint</code>, with the <code>sup</code> reference marker carrying brand colour at weight 600.
+      <sup>1</sup> Footnotes use the footnote token: 12.5px body (Inter) in <code>--ink-faint</code>, with the <code>sup</code> reference marker carrying shared signal red at weight 600.
     </p>
 
     <hr class="type-divider" />
@@ -289,7 +289,7 @@ const portfolio = [
     .portfolio__lockup--sm { grid-column: 3; }
   }
 
-  /* ---- Negative expression: brand-color tiles with cream lockup ---- */
+  /* ---- Negative expression: registered identity tiles with cream lockup ---- */
   .portfolio-negative {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -302,7 +302,7 @@ const portfolio = [
     }
   }
   .portfolio-negative__tile {
-    /* Brand-color tile. The --lockup-color override forces the symbol+wordmark to
+    /* Identity tile. The --lockup-color override forces the symbol+wordmark to
        a fixed cream value so the negative reads correctly in light AND dark themes
        (var(--paper) would invert in dark mode and break the contrast). */
     --lockup-color: #fefcf2;

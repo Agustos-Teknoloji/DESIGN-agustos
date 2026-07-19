@@ -2,7 +2,7 @@
 
 Astro 5 reference implementation for the [Ağustos Design System](../../DESIGN.md).
 
-This adapter is useful for static sites, documentation, marketing pages, and visual QA. It is not the canonical center of the system; shared design decisions live in `DESIGN.md` and shared token CSS starts in `../../tokens/agustos.css`.
+This adapter is useful for static sites, documentation, marketing pages, and visual QA. It is not the canonical center of the system; shared decisions live in `../../tokens/design-tokens.json` and `DESIGN.md`.
 
 ## What's Inside
 
@@ -17,8 +17,7 @@ adapters/astro/
     │   ├── BrandLockup.astro
     │   ├── Footer.astro
     │   ├── LazGunesi.astro
-    │   ├── MobileHeader.astro
-    │   └── Sidebar.astro
+    │   └── Header.astro
     ├── content/blog/
     ├── layouts/BaseLayout.astro
     ├── pages/
@@ -49,16 +48,16 @@ Regenerate the standalone HTML preview from `DESIGN.md`:
 node scripts/render-design-html.mjs
 ```
 
-## Token Sync
+## Token Generation
 
-The Astro token file mirrors the platform-neutral source:
+The Astro token file is generated alongside every other web adapter:
 
 ```txt
-../../tokens/agustos.css
+../../tokens/design-tokens.json
 src/styles/tokens.css
 ```
 
-Token bodies should stay byte-identical except for header comments and framework-specific wrappers.
+Run `python3 scripts/build_design_system.py` from the repository root. CI uses `--check` to reject drift.
 
 ## Brands
 
@@ -79,10 +78,10 @@ Available brand ids:
 
 ## Substrates
 
-Cream is the default branded substrate. White is available for working contexts:
+White is the reference-site default. Cream remains available for explicitly branded editorial contexts:
 
 ```astro
-<BaseLayout substrate="white" title="Working Page">
+<BaseLayout substrate="cream" title="Branded Editorial Page">
   ...
 </BaseLayout>
 ```
@@ -103,4 +102,4 @@ The design system depends on `lang="tr"` plus `font-feature-settings: "locl"` fo
 
 ## Scope
 
-This adapter demonstrates all 24 typography tokens and the core layout components. Rails monoliths should use `../rails/` instead of copying Astro components.
+This adapter demonstrates the v3 type tokens, one-row chrome, shared frame, editorial opening, restrained card groups, and section rhythm. Rails monoliths should use `../rails/` instead of copying Astro components.

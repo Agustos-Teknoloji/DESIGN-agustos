@@ -10,18 +10,17 @@ canonical *asset map* (the files). [MEMORY.md](MEMORY.md) holds the decision his
 
 ---
 
-## Brand colors
+## Identity ink and shared signal
 
 | Token | Value | Use |
 |---|---|---|
-| **Ağustos red** | `#cf142a` | The brand color. **This is the single source of truth** — see note below. |
-| Pataraz blue | `#1a24cc` | Sibling brand. |
-| PLD black | `#1a1a1a` | Sibling brand. |
-| Photometric green | `#1f6b4a` | Sibling brand. |
+| **Ağustos red identity** | `#cf142a` | Ağustos symbol and wordmark; also the shared interaction signal. |
+| House-brand identity ink | `#1a1a1a` | Pataraz, PLD Türkiye, Photometric, and future house-brand positive marks. |
+| Shared interaction signal | `#cf142a` | Links, focus, markers, rules, and small emphasis across every brand. Never recolors a non-Ağustos logo. |
 | Cream (paper) | `#fefcf2` | Primary branded substrate. |
 | Ink | `#1a1a1a` | Primary text. |
 
-Canonical color source: [`tokens/agustos.css`](tokens/agustos.css) (mirrored — see DESIGN.md §"Mirrored implementation").
+Canonical color source: [`tokens/design-tokens.json`](tokens/design-tokens.json) plus the per-brand values in [`brand/brands.json`](brand/brands.json). `tokens/agustos.css` is generated.
 
 > **One red.** Ağustos red is `#cf142a` everywhere — tokens, symbol SVGs, favicons, exports.
 > An earlier `#D11D2B` in the symbol kit was reconciled to `#cf142a` (they are perceptually
@@ -31,7 +30,7 @@ Canonical color source: [`tokens/agustos.css`](tokens/agustos.css) (mirrored —
 ## The symbol — Laz Güneşi
 
 18-blade rotational sun, the publisher's permanent mark ("one symbol, forever"). Carried by every
-brand, in that brand's color.
+brand, in its registered identity ink.
 
 | Asset | Path | Use |
 |---|---|---|
@@ -74,7 +73,7 @@ Token definitions: [`tokens/agustos.css`](tokens/agustos.css) (`--display`, `--b
 
 ## The lockup (logo)
 
-`[ symbol ]  wordmark` — symbol + lowercase brandname in brand color. This is a *typographic*
+`[ symbol ]  wordmark` — symbol + lowercase brandname in registered identity ink. This is a *typographic*
 lockup, not a static image: it is composed at render time from the symbol + Inter Tight.
 
 | Implementation | Path |
@@ -97,18 +96,22 @@ scripts; never hand-edit `exports/`.
 | Registry (keystone, source of truth) | [`brand/brands.json`](brand/brands.json) |
 | Engine — logos / favicons / social | [`brand/build.py`](brand/build.py) |
 | Engine — office / swatches / email / guidelines | [`brand/build_templates.py`](brand/build_templates.py) |
+| Engine — editable PowerPoint / Google Slides import | [`brand/build_presentation.mjs`](brand/build_presentation.mjs) |
+| Office artifact drift manifest (9 files, generated) | [`brand/exports/office-manifest.json`](brand/exports/office-manifest.json) |
 | Engine — product datasheet (lighting "teknik föy") | [`brand/build_datasheet.py`](brand/build_datasheet.py) |
 | Fonts (Inter Tight, Inter, JetBrains Mono) + OFL | `brand/fonts/` |
 | Per-brand exports | `brand/exports/<brand>/` |
 
 Each `exports/<brand>/` holds: `lockup/` (positive/negative/mono × svg·pdf·png), `favicon/`,
-`social/`, `swatches/` (.ase/.clr), `email/` (signature), `office/` (.pptx/.docx),
+`social/`, `swatches/` (.ase/.clr), `email/` (signature), `office/` (editable PPTX, letterhead DOCX, styled document DOCX),
 `guidelines/` (4-page PDF), and `datasheet/` (A4 lighting product sheets, html + pdf). Full
 kits: `agustos`, `pataraz`, `pld`; `photometric` has logos only. The `datasheet/` folder holds
 one sheet per product — real Pataraz luminaires (`pataraz-pl22`, `pataraz-px22`) and an
 `agustos` sample (`agustos-pro-spot-28`); add a product by editing the `PRODUCTS` dict in
 `build_datasheet.py` (keyed by product, each naming its brand). Docs: `brand/README.md`,
 `brand/templates/README.md`.
+
+The portable single-file coding-system contract is [`tokens/design-system-handoff.json`](tokens/design-system-handoff.json). It contains resolved tokens, brand values, recipes, family-resemblance rules, forbidden patterns, and acceptance checks; supply the exact logo asset separately when implementing a branded interface.
 
 ---
 
@@ -121,6 +124,6 @@ one sheet per product — real Pataraz luminaires (`pataraz-pl22`, `pataraz-px22
 
 ## Sync rules (don't let assets drift)
 
-1. **Tokens** mirror to adapter + website copies — see DESIGN.md §"Mirrored implementation".
+1. **Tokens** are generated into adapter copies — run `python3 scripts/build_design_system.py`; `--check` rejects drift.
 2. **Favicon** canonical lives in `laz-gunesi-amblem/favicon/`; adapter `public/` copies are mirrors.
 3. **This index** must be updated whenever a brand asset is added, moved, or recolored.

@@ -1,0 +1,361 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "assets": {
+    "lockupPattern": "brand/exports/<brand>/lockup/<brand>-lockup__positive.svg",
+    "negativeLockupPattern": "brand/exports/<brand>/lockup/<brand>-lockup__negative.svg",
+    "symbol": {
+      "embeddedColor": "#cf142a",
+      "path": "laz-gunesi-amblem/svg/master.svg",
+      "sha256": "96127343456f6a9d53421f0297429c6831841cbfcb81e351e1b1e2a94ad1f2bd",
+      "svg": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<svg xmlns=\"http://www.w3.org/2000/svg\"\n     viewBox=\"-57.9197 -57.9197 115.8395 115.8395\"\n     width=\"1024\" height=\"1024\"\n     role=\"img\" aria-label=\"Laz Güneşi amblemi (Laz Sun emblem)\">\n  <title>Laz Güneşi Amblemi</title>\n  <desc>18-blade rotational sun emblem. Brand red #cf142a.</desc>\n  <g fill=\"#cf142a\" fill-rule=\"evenodd\" stroke=\"none\">\n  <path d=\"M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z\"/>\n  <path d=\"M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z\"/>\n  <path d=\"M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z\"/>\n  <path d=\"M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z\"/>\n  <path d=\"M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z\"/>\n  <path d=\"M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z\"/>\n  <path d=\"M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z\"/>\n  <path d=\"M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z\"/>\n  <path d=\"M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z\"/>\n  <path d=\"M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z\"/>\n  <path d=\"M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z\"/>\n  <path d=\"M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z\"/>\n  <path d=\"M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z\"/>\n  <path d=\"M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z\"/>\n  <path d=\"M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z\"/>\n  <path d=\"M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z\"/>\n  <path d=\"M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z\"/>\n  <path d=\"M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z\"/>\n  </g>\n</svg>\n",
+      "usageRule": "Preserve the embedded path geometry exactly. For Ağustos, use the SVG unchanged. For another house brand, replace only the fill color with that brand's registered identity ink; never substitute signal red or redraw the paths."
+    }
+  },
+  "colorModel": {
+    "identity": "Ağustos uses red; every other house brand uses neutral black/white.",
+    "interactionSignal": "#cf142a",
+    "rule": "Identity ink names the brand. Signal red communicates action and emphasis across the family."
+  },
+  "compatibility": {
+    "cssClasses": [
+      "type-hero",
+      "type-hero-md",
+      "type-hero-deck",
+      "type-h1",
+      "type-h2",
+      "type-h3",
+      "type-h4",
+      "type-body",
+      "type-link",
+      "type-code",
+      "type-blockquote",
+      "type-pullquote",
+      "type-list-ol",
+      "type-list-ul",
+      "type-dl",
+      "type-figure",
+      "type-code-block",
+      "type-table",
+      "type-divider",
+      "type-footnote",
+      "site-frame",
+      "container",
+      "hero-links",
+      "hero-link",
+      "hero-action",
+      "hero-trust",
+      "hero-visual",
+      "agustos-section",
+      "agustos-section__head",
+      "agustos-card-grid",
+      "agustos-card",
+      "agustos-card--marked",
+      "agustos-chrome-link"
+    ]
+  },
+  "contract": {
+    "acceptance": [
+      "The selected brand's identity ink, wordmark, and lockup expression match the brand registry.",
+      "Links, focus, markers, and small emphasis use shared signal red regardless of selected brand.",
+      "Display, body, and mono type roles use the declared families and hierarchy.",
+      "Content aligns to one dominant frame or margin system.",
+      "Interactive elements have visible focus states and motion respects reduced-motion preferences.",
+      "No generated value or adapter has drifted from this contract.",
+      "If the referenced logo asset is unavailable, request it instead of recreating it."
+    ],
+    "authority": "This generated handoff is authoritative; agustos.com is a reference implementation.",
+    "forbidden": [
+      "Inventing a new logo expression or approximate sun symbol",
+      "Two-row or sidebar-first website chrome unless the product requirement makes it necessary",
+      "Purple gradients, decorative blobs, large uniform radii, or centered generic SaaS feature grids",
+      "Giving a non-Ağustos house brand its own chromatic identity color without an explicit governance change",
+      "Using signal red as an unrestricted background or decoration",
+      "Hard-coding values that already exist in foundations, semantic roles, or recipes"
+    ],
+    "implementationOrder": [
+      "Select a brand and medium.",
+      "Apply foundations through semantic roles rather than raw values.",
+      "Choose the closest recipe for each composition.",
+      "Translate that recipe into native platform structure.",
+      "Run the medium adapter's tests plus the acceptance checks in this file."
+    ],
+    "invariants": [
+      "Use the exact Laz Güneşi asset. Never redraw or approximate the symbol.",
+      "Keep every wordmark lowercase, Inter Tight weight 650, and free of taglines.",
+      "Ağustos alone owns red as identity ink; Pataraz, PLD Türkiye, Photometric, and future house brands use neutral black/white identity ink by default.",
+      "Use shared signal red for links, focus, markers, and small emphasis across every brand; never use it to recolor a non-Ağustos logo.",
+      "Default working interfaces to white paper, dark ink, restrained rules, and small radii.",
+      "Align primary content to one 920px frame on the web; preserve the same alignment logic in other media.",
+      "Prefer large typographic openings, quiet chrome, bordered groups, and generous section rhythm."
+    ],
+    "mediums": {
+      "document": "Native named styles, generous opening space, exact lockup header, thin signal rule, editable tables.",
+      "presentation": "Editable 16:9 layouts; red or neutral identity section fields; shared red signals; quiet cream or white content slides.",
+      "web": "One-row header, shared frame, editorial hero, restrained bordered groups, short motion."
+    },
+    "recognitionGoal": "Create clear family resemblance across brands and media through shared hierarchy, alignment, surface, spacing, and signal logic. Pixel-identical output is neither required nor preferred."
+  },
+  "distribution": {
+    "consumerRule": "Vendor or attach this file as context. Consumer builds read it; they do not run this repository's generators.",
+    "primaryArtifact": "tokens/design-system-handoff.json",
+    "regenerationRule": "Regenerate checked-in CSS, Office, and brand assets only when canonical token, brand, template, or symbol sources change."
+  },
+  "instruction": "Use this file as the authority for Ağustos-family visual decisions. Select a brand, apply semantic roles and recipes, then translate them into native platform structures. Do not generate repository artifacts during a consumer deployment and do not copy web components literally into documents or slides.",
+  "name": "Ağustos Design System",
+  "system": {
+    "brands": {
+      "agustos": {
+        "color": "#cf142a",
+        "domain": "agustos.com",
+        "office": true,
+        "tagline_en": "curated solutions",
+        "tagline_tr": "seçkin çözümler",
+        "title": "Ağustos Teknoloji",
+        "wordmark": "ağustos"
+      },
+      "pataraz": {
+        "color": "#1a1a1a",
+        "domain": "pataraz.com",
+        "office": true,
+        "tagline_en": "",
+        "tagline_tr": "",
+        "title": "Pataraz",
+        "wordmark": "pataraz"
+      },
+      "photometric": {
+        "color": "#1a1a1a",
+        "domain": "",
+        "office": false,
+        "tagline_en": "",
+        "tagline_tr": "",
+        "title": "Photometric",
+        "wordmark": "photometric"
+      },
+      "pld": {
+        "color": "#1a1a1a",
+        "domain": "pldturkiye.com",
+        "office": true,
+        "tagline_en": "",
+        "tagline_tr": "",
+        "title": "PLD Türkiye",
+        "wordmark": "pld türkiye"
+      }
+    },
+    "foundations": {
+      "border": {
+        "hairline": "1px",
+        "signal": "2px"
+      },
+      "color": {
+        "ink": "#1a1a1a",
+        "inkDark": "#f0ebd8",
+        "inkFaint": "#8a8a8a",
+        "inkFaintDark": "#6e6960",
+        "inkSoft": "#4a4a4a",
+        "inkSoftDark": "#a8a39a",
+        "paperCream": "#fefcf2",
+        "paperDark": "#16140f",
+        "paperWhite": "#ffffff",
+        "ruleCream": "#e8e3d0",
+        "ruleDark": "#2a2620",
+        "ruleWhite": "#e8e8e8",
+        "signalRed": "#cf142a",
+        "stateDanger": "#b42318",
+        "stateInfo": "#1a4d8f",
+        "stateSuccess": "#1f6b4a",
+        "stateWarning": "#8a5a00"
+      },
+      "duration": {
+        "drawer": "220ms",
+        "micro": "120ms",
+        "short": "180ms"
+      },
+      "easing": {
+        "move": [
+          0.4,
+          0,
+          0.2,
+          1
+        ],
+        "standard": [
+          0.25,
+          0.1,
+          0.25,
+          1
+        ]
+      },
+      "fontFamily": {
+        "body": "Inter",
+        "display": "Inter Tight",
+        "mono": "JetBrains Mono"
+      },
+      "fontSize": {
+        "body": "16.5px",
+        "bodyCompact": "14px",
+        "footnote": "12.5px",
+        "h1": "44px",
+        "h2": "24px",
+        "h3": "18px",
+        "h4": "12px",
+        "hero": "clamp(56px, 9vw, 112px)",
+        "heroDeck": "clamp(18px, 1.5vw, 21px)",
+        "heroMedium": "clamp(40px, 6vw, 72px)"
+      },
+      "fontWeight": {
+        "bold": 700,
+        "light": 300,
+        "medium": 500,
+        "regular": 400,
+        "semibold": 600,
+        "wordmark": 650
+      },
+      "measure": {
+        "content": "920px",
+        "controlMinimum": "44px",
+        "gutter": "24px",
+        "text": "54ch",
+        "wide": "1200px"
+      },
+      "radius": {
+        "large": "10px",
+        "medium": "6px",
+        "small": "4px"
+      },
+      "spacing": {
+        "2xl": "32px",
+        "2xs": "4px",
+        "3xl": "40px",
+        "4xl": "48px",
+        "5xl": "64px",
+        "6xl": "80px",
+        "hero": "112px",
+        "lg": "20px",
+        "md": "16px",
+        "sm": "12px",
+        "xl": "24px",
+        "xs": "8px"
+      }
+    },
+    "name": "Ağustos Design System",
+    "recipes": {
+      "card": {
+        "border": "1px",
+        "gap": "14px",
+        "gridGap": "20px",
+        "markedBorder": "2px",
+        "padding": "24px",
+        "radius": "10px",
+        "surface": "#ffffff"
+      },
+      "chrome": {
+        "contentMeasure": "920px",
+        "controlMinimum": "44px",
+        "gap": "32px",
+        "gutter": "24px",
+        "paddingBlock": "14px",
+        "rule": "1px"
+      },
+      "dataTable": {
+        "cellPaddingBlock": "8px",
+        "cellPaddingInline": "12px",
+        "labelFamily": "Inter Tight",
+        "rule": "1px",
+        "valueFamily": "JetBrains Mono"
+      },
+      "document": {
+        "bodyAfter": "8pt",
+        "bodyLineSpacing": 1.35,
+        "bodySize": "11pt",
+        "footnoteSize": "8.5pt",
+        "heading1Size": "20pt",
+        "heading2Size": "15pt",
+        "heading3Size": "12pt",
+        "margin": "22mm",
+        "page": "A4",
+        "titleSize": "28pt",
+        "topMargin": "35mm"
+      },
+      "hero": {
+        "actionGap": "24px",
+        "deckMeasure": "54ch",
+        "headline": "heroMedium",
+        "paddingBlockEnd": "clamp(48px, 6vw, 80px)",
+        "paddingBlockStart": "clamp(56px, 9vw, 112px)"
+      },
+      "presentation": {
+        "bodySize": "20pt",
+        "captionSize": "12pt",
+        "height": "7.5in",
+        "margin": "0.9in",
+        "sectionTitleSize": "44pt",
+        "slideTitleSize": "36pt",
+        "titleSize": "54pt",
+        "width": "13.333in"
+      },
+      "section": {
+        "headingGap": "12px",
+        "paddingBlock": "clamp(48px, 6vw, 80px)",
+        "rule": "1px"
+      }
+    },
+    "semantic": {
+      "color": {
+        "brandMark": "{brand.color}",
+        "focus": "#cf142a",
+        "paper": "#fefcf2",
+        "rule": "#e8e3d0",
+        "signal": "#cf142a",
+        "surface": "#ffffff",
+        "text": "#1a1a1a",
+        "textFaint": "#8a8a8a",
+        "textMuted": "#4a4a4a"
+      },
+      "layout": {
+        "contentGutter": "24px",
+        "contentMeasure": "920px",
+        "readingMeasure": "54ch"
+      },
+      "motion": {
+        "interactionDuration": "120ms",
+        "interactionEasing": [
+          0.25,
+          0.1,
+          0.25,
+          1
+        ]
+      },
+      "shape": {
+        "buttonRadius": "6px",
+        "cardRadius": "10px",
+        "controlRadius": "4px"
+      },
+      "typography": {
+        "body": "Inter",
+        "data": "JetBrains Mono",
+        "display": "Inter Tight",
+        "wordmarkWeight": 650
+      }
+    },
+    "signal": {
+      "$source": "Ağustos red is the shared interaction signal across every house brand. It does not recolor non-Ağustos identity marks.",
+      "color": "#cf142a"
+    },
+    "themes": {
+      "dark": {
+        "paper": "#16140f",
+        "rule": "#2a2620",
+        "surface": "#16140f",
+        "text": "#f0ebd8",
+        "textFaint": "#6e6960",
+        "textMuted": "#a8a39a"
+      },
+      "white": {
+        "paper": "#ffffff",
+        "rule": "#e8e8e8",
+        "surface": "#ffffff"
+      }
+    },
+    "version": "3.0.0"
+  },
+  "version": "3.0.0"
+}

@@ -13,28 +13,52 @@ const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', ye
   description="A lighting agency built on typography, cream paper, and one symbol that travels across every brand we publish."
 >
   <article class="container">
-    <h1 class="type-h1">Ağustos Teknoloji</h1>
+    <section class="agustos-section hero-opening" aria-labelledby="hero-title">
+      <p class="type-h4 hero-kicker">Ağustos Teknoloji</p>
+      <h1 id="hero-title" class="type-hero-md">Lighting knowledge, product systems, and specification support.</h1>
+      <p class="type-hero-deck">A lighting agency and distribution practice — published from Emre Güneş’s house.</p>
+      <p class="hero-links">
+        <a class="hero-link hero-link--primary" href="/about">What we do</a>
+        <a class="hero-link hero-link--secondary" href="/blog">Read our writing</a>
+      </p>
+    </section>
 
-    <p class="type-body"><em>A lighting agency and distribution practice — published from Emre Güneş’s house.</em></p>
+    <section class="agustos-section" aria-labelledby="practice-title">
+      <div class="agustos-section__head">
+        <p class="type-label">Practice</p>
+        <h2 id="practice-title" class="type-h2">One aligned frame. Several ways into the work.</h2>
+      </div>
+      <div class="agustos-card-grid">
+        <article class="agustos-card agustos-card--marked">
+          <h3 class="type-h3">Specification</h3>
+          <p class="type-body">Technical product knowledge for architectural lighting decisions.</p>
+        </article>
+        <article class="agustos-card">
+          <h3 class="type-h3">Distribution</h3>
+          <p class="type-body">Focused partnerships supported with useful, legible product information.</p>
+        </article>
+        <article class="agustos-card">
+          <h3 class="type-h3">Publishing</h3>
+          <p class="type-body">Archives, tools, and writing for people who take the technical layer seriously.</p>
+        </article>
+      </div>
+    </section>
 
-    <p class="type-body">
-      We work where lighting design, product data, and the architectural specification meet.
-      Tools, archives, and partnerships for studios that take the technical layer seriously.
-      Read more on <a href="/about">what we do</a>, or browse <a href="/blog">recent writing</a>.
-    </p>
-
-    <hr class="type-divider" />
-
-    <h4 class="type-h4">Recent writing</h4>
-    <ul class="post-list">
-      {posts.map((post) => (
-        <li>
-          <a href={`/blog/${post.id}`} lang={post.data.lang}>{post.data.title}</a>
-          <span class="post-list__date type-footnote">{fmt.format(post.data.date)}</span>
-          {post.data.deck && <p class="type-body post-list__deck"><em>{post.data.deck}</em></p>}
-        </li>
-      ))}
-    </ul>
+    <section class="agustos-section" aria-labelledby="writing-title">
+      <div class="agustos-section__head">
+        <p class="type-label">Journal</p>
+        <h2 id="writing-title" class="type-h2">Recent writing</h2>
+      </div>
+      <ul class="post-list">
+        {posts.map((post) => (
+          <li>
+            <a class="agustos-chrome-link" href={`/blog/${post.id}`} lang={post.data.lang}>{post.data.title}</a>
+            <span class="post-list__date type-footnote">{fmt.format(post.data.date)}</span>
+            {post.data.deck && <p class="type-body post-list__deck"><em>{post.data.deck}</em></p>}
+          </li>
+        ))}
+      </ul>
+    </section>
   </article>
 </BaseLayout>
 
@@ -44,4 +68,6 @@ const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', ye
   .post-list li:last-child { border-bottom: 0; }
   .post-list__date { display: block; margin-top: 0.25em; }
   .post-list__deck { margin-top: 0.5em; color: var(--ink-soft); }
+  .hero-opening { padding-top: var(--space-5xl); }
+  .hero-kicker { color: var(--signal); }
 </style>

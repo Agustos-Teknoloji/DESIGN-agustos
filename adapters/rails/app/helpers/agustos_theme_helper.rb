@@ -13,7 +13,7 @@ module AgustosThemeHelper
     photo: "photometric"
   }.freeze
 
-  def agustos_theme(brand: :agustos, lang: :tr, substrate: :cream, title: nil, description: nil, nav: nil)
+  def agustos_theme(brand: :agustos, lang: :tr, substrate: :white, title: nil, description: nil, nav: nil)
     @agustos_theme = {
       brand: brand.to_sym,
       lang: lang.to_s,
@@ -28,7 +28,7 @@ module AgustosThemeHelper
     {
       brand: :agustos,
       lang: "tr",
-      substrate: :cream,
+      substrate: :white,
       title: "Ağustos",
       description: "Typography-first design system.",
       nav: [
@@ -62,4 +62,3 @@ module AgustosThemeHelper
     agustos_theme_config[:nav]
   end
 end
-

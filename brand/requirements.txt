@@ -5,8 +5,10 @@ brotli           # woff2 support for fonttools
 svglib           # SVG -> reportlab drawing
 reportlab        # SVG -> PDF (no system Cairo needed)
 pillow           # raster compositing, favicon .ico, image resize
-python-pptx      # PowerPoint template generation
 python-docx      # Word letterhead generation
-pyobjc-framework-Cocoa  # Apple .clr color list (macOS only; .ase still works without it)
+# Apple .clr output. Version 12 no longer supports this repository's Python 3.9
+# build environment; 11.1 provides a universal macOS wheel and keeps generation
+# deterministic instead of silently leaving an older palette on disk.
+pyobjc-framework-Cocoa<12; sys_platform == "darwin"
 
 # Node (in brand/, via `npm install`): @resvg/resvg-js for SVG -> PNG.
