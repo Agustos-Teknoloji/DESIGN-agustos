@@ -107,3 +107,6 @@ The Rails adapter should not invent a separate visual system. Framework files
 handle layout, configuration, partial rendering, Turbo, and Stimulus. Shared
 visual primitives are generated from `tokens/design-tokens.json`; verify drift
 from the repository root with `python3 scripts/build_design_system.py --check`.
+
+Applications using ViewComponent can follow the semantic component boundaries in
+[`docs/view_component.md`](docs/view_component.md) without changing the ERB search contract.
