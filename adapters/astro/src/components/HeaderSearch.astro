@@ -1,0 +1,130 @@
+---
+import type { SearchLabels } from '../types/chrome';
+
+interface Props {
+  variant: 'desktop-dropdown' | 'responsive-row';
+  labels: SearchLabels;
+  panelId: string;
+  resultsId: string;
+}
+
+const { variant, labels, panelId, resultsId } = Astro.props;
+const responsive = variant === 'responsive-row';
+---
+{responsive ? (
+  <div class="site-header__search-row">
+    <div class="site-header__search-shell site-frame">
+      <div class="site-header__search site-header__search--responsive" data-search-root data-search-variant="responsive" data-search-labels={JSON.stringify(labels)}>
+        <label class="site-header__search-field">
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input type="search" placeholder={labels.placeholder} aria-label={labels.aria} aria-controls={panelId} aria-expanded="false" autocomplete="off" data-search-input />
+        </label>
+        <div id={panelId} class="site-header__search-panel" data-search-panel hidden>
+          <div class="site-header__search-output">
+            <p class="site-header__search-status" data-search-status role="status" aria-live="polite"></p>
+            <div id={resultsId} class="site-header__search-results" data-search-results></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+) : (
+  <div class="site-header__search site-header__search--desktop" data-search-root data-search-variant="desktop" data-search-labels={JSON.stringify(labels)}>
+    <button type="button" class="site-header__search-toggle" aria-label={labels.aria} aria-expanded="false" aria-controls={panelId} data-search-toggle>
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+    </button>
+    <div id={panelId} class="site-header__search-panel" data-search-panel hidden>
+      <label class="site-header__search-field">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input type="search" placeholder={labels.placeholder} aria-label={labels.aria} aria-controls={resultsId} autocomplete="off" data-search-input />
+      </label>
+      <div class="site-header__search-output">
+        <p class="site-header__search-status" data-search-status role="status" aria-live="polite"></p>
+        <div id={resultsId} class="site-header__search-results" data-search-results></div>
+      </div>
+    </div>
+  </div>
+)}
+
+<style>
+  .site-header__search { position: relative; }
+  .site-header__search-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    color: var(--ink-soft);
+    cursor: pointer;
+    transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .site-header__search-toggle:hover,
+  .site-header__search-toggle[aria-expanded="true"] { background: var(--rule); color: var(--ink); }
+  .site-header__search-toggle:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+
+  .site-header__search-panel {
+    z-index: 30;
+    display: flex;
+    flex-direction: column;
+    max-height: min(60dvh, 32rem);
+    padding: 0.75rem;
+    overflow: hidden;
+    background: var(--paper);
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-md);
+    box-shadow: 0 14px 32px rgba(26, 26, 26, 0.08);
+  }
+  .site-header__search-panel[hidden] { display: none; }
+  .site-header__search--desktop { position: static; }
+  .site-header__search--desktop .site-header__search-panel {
+    position: absolute;
+    top: calc(100% + 1px);
+    right: 1.5rem;
+    left: 1.5rem;
+  }
+
+  .site-header__search-field {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 44px;
+    padding: 0.5rem 0.75rem;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    color: var(--ink-faint);
+    transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+  }
+  .site-header__search-field:focus-within { border-color: var(--ink-faint); color: var(--ink-soft); }
+  .site-header__search-field svg { flex: 0 0 auto; }
+  .site-header__search-field input {
+    flex: 1;
+    min-width: 0;
+    padding: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--ink);
+    font-family: var(--display);
+    font-size: 14px;
+  }
+  .site-header__search-field input::placeholder { color: var(--ink-faint); }
+  .site-header__search-output { min-height: 0; overflow-y: auto; }
+  .site-header__search-status { margin: 0.5rem 0 0; color: var(--ink-faint); font-family: var(--body); font-size: 12.5px; line-height: 1.45; }
+  .site-header__search-status:empty { display: none; }
+  .site-header__search-results { margin: 0.25rem 0 0; }
+
+  .site-header__search-row { display: none; border-top: 1px solid var(--rule); }
+  .site-header__search-shell { padding-block: 0.5rem; }
+  .site-header__search--responsive .site-header__search-panel { position: absolute; top: calc(100% + 0.5rem); right: 0; left: 0; }
+  .site-header__search--responsive .site-header__search-field input { font-size: 16px; }
+
+  @media (max-width: 1023px), (max-width: 1366px) and (hover: none) and (pointer: coarse) {
+    .site-header__search--desktop { display: none; }
+    .site-header__search-row { display: block; }
+  }
+  @media (max-width: 480px) { .site-header__search-shell { padding-inline: 0.75rem; } }
+</style>

@@ -1,15 +1,18 @@
 {
   "name": "agustos-astro",
-  "version": "2.1.2",
+  "version": "3.0.0",
   "private": true,
   "type": "module",
-  "description": "Astro starter implementing the Ağustos Design System v2.1.2 (Inter Tight + Inter)",
+  "description": "Astro reference adapter for the Ağustos Design System v3.0.0",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "build": "astro build",
+    "build": "astro build && pagefind --site dist && npm run test:pagefind",
     "preview": "astro preview",
     "check": "astro check",
+    "test": "npm run test:chrome",
+    "test:chrome": "node --test tests/chrome.test.mjs",
+    "test:pagefind": "node --test tests/pagefind.test.mjs",
     "astro": "astro"
   },
   "dependencies": {
@@ -21,5 +24,8 @@
     "@fontsource/jetbrains-mono": "^5.1.1",
     "astro": "^5.1.1",
     "typescript": "^5.7.2"
+  },
+  "devDependencies": {
+    "pagefind": "^1.5.2"
   }
 }
