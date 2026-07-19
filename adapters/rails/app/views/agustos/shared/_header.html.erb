@@ -1,0 +1,15 @@
+<header class="agustos-header">
+  <div class="agustos-header__inner">
+    <%= render "agustos/shared/brand_lockup", href: root_path, size: 20 %>
+    <nav class="agustos-header__nav" aria-label="Primary">
+      <ul>
+        <% agustos_nav_items.each do |item| %>
+          <% active = current_page?(item[:href]) %>
+          <li>
+            <%= link_to item[:label], item[:href], class: "agustos-header__link", aria: (active ? { current: "page" } : {}) %>
+          </li>
+        <% end %>
+      </ul>
+    </nav>
+  </div>
+</header>

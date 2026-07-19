@@ -1,0 +1,254 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "name": "Ağustos Design System",
+  "version": "3.0.0",
+  "description": "Canonical cross-medium design values. CSS, framework adapters, and Office templates are generated consumers.",
+  "meta": {
+    "referenceImplementation": "https://agustos.com",
+    "authority": "DESIGN-agustos",
+    "principle": "The website proves the grammar; this registry publishes it.",
+    "locale": "tr"
+  },
+  "foundations": {
+    "color": {
+      "$type": "color",
+      "paperCream": { "$value": "#fefcf2", "$description": "Warm branded substrate." },
+      "paperWhite": { "$value": "#ffffff", "$description": "Universal working substrate." },
+      "ink": { "$value": "#1a1a1a", "$description": "Primary text and strong chrome." },
+      "inkSoft": { "$value": "#4a4a4a", "$description": "Secondary text." },
+      "inkFaint": { "$value": "#8a8a8a", "$description": "Captions, metadata, and quiet proof." },
+      "ruleCream": { "$value": "#e8e3d0", "$description": "Separator on cream." },
+      "ruleWhite": { "$value": "#e8e8e8", "$description": "Separator on white." },
+      "paperDark": { "$value": "#16140f", "$description": "Warm dark UI substrate." },
+      "inkDark": { "$value": "#f0ebd8", "$description": "Primary text on dark." },
+      "inkSoftDark": { "$value": "#a8a39a", "$description": "Secondary text on dark." },
+      "inkFaintDark": { "$value": "#6e6960", "$description": "Quiet text on dark." },
+      "ruleDark": { "$value": "#2a2620", "$description": "Separator on dark." },
+      "signalRed": { "$value": "#cf142a", "$description": "Shared Ağustos-family interaction signal for links, focus, markers, and small emphasis across every brand." },
+      "stateSuccess": { "$value": "#1f6b4a", "$description": "Positive system feedback." },
+      "stateWarning": { "$value": "#8a5a00", "$description": "Caution system feedback." },
+      "stateDanger": { "$value": "#b42318", "$description": "Destructive or failed system feedback." },
+      "stateInfo": { "$value": "#1a4d8f", "$description": "Informational system feedback." }
+    },
+    "fontFamily": {
+      "$type": "fontFamily",
+      "display": { "$value": "Inter Tight", "$description": "Wordmarks, heroes, headings, labels, and designed UI." },
+      "body": { "$value": "Inter", "$description": "Reading text and inline content." },
+      "mono": { "$value": "JetBrains Mono", "$description": "Code, identifiers, units, and technical values." }
+    },
+    "fontWeight": {
+      "$type": "fontWeight",
+      "light": { "$value": 300 },
+      "regular": { "$value": 400 },
+      "medium": { "$value": 500 },
+      "semibold": { "$value": 600 },
+      "wordmark": { "$value": 650 },
+      "bold": { "$value": 700 }
+    },
+    "fontSize": {
+      "$type": "dimension",
+      "hero": { "$value": "clamp(56px, 9vw, 112px)" },
+      "heroMedium": { "$value": "clamp(40px, 6vw, 72px)" },
+      "heroDeck": { "$value": "clamp(18px, 1.5vw, 21px)" },
+      "h1": { "$value": "44px" },
+      "h2": { "$value": "24px" },
+      "h3": { "$value": "18px" },
+      "h4": { "$value": "12px" },
+      "body": { "$value": "16.5px" },
+      "bodyCompact": { "$value": "14px" },
+      "footnote": { "$value": "12.5px" }
+    },
+    "spacing": {
+      "$type": "dimension",
+      "2xs": { "$value": "4px" },
+      "xs": { "$value": "8px" },
+      "sm": { "$value": "12px" },
+      "md": { "$value": "16px" },
+      "lg": { "$value": "20px" },
+      "xl": { "$value": "24px" },
+      "2xl": { "$value": "32px" },
+      "3xl": { "$value": "40px" },
+      "4xl": { "$value": "48px" },
+      "5xl": { "$value": "64px" },
+      "6xl": { "$value": "80px" },
+      "hero": { "$value": "112px" }
+    },
+    "radius": {
+      "$type": "dimension",
+      "small": { "$value": "4px" },
+      "medium": { "$value": "6px" },
+      "large": { "$value": "10px" }
+    },
+    "duration": {
+      "$type": "duration",
+      "micro": { "$value": "120ms" },
+      "short": { "$value": "180ms" },
+      "drawer": { "$value": "220ms" }
+    },
+    "easing": {
+      "$type": "cubicBezier",
+      "standard": { "$value": [0.25, 0.1, 0.25, 1] },
+      "move": { "$value": [0.4, 0, 0.2, 1] }
+    },
+    "measure": {
+      "$type": "dimension",
+      "content": { "$value": "920px", "$description": "Shared content measure for page and chrome." },
+      "gutter": { "$value": "24px", "$description": "Horizontal frame gutter." },
+      "text": { "$value": "54ch", "$description": "Readable long-form measure." },
+      "wide": { "$value": "1200px", "$description": "Optional media and data width." },
+      "controlMinimum": { "$value": "44px", "$description": "Minimum button-like target on the shorter axis." }
+    },
+    "border": {
+      "$type": "dimension",
+      "hairline": { "$value": "1px" },
+      "signal": { "$value": "2px" }
+    }
+  },
+  "semantic": {
+    "color": {
+      "$type": "color",
+      "paper": { "$value": "{foundations.color.paperCream}" },
+      "surface": { "$value": "{foundations.color.paperWhite}" },
+      "text": { "$value": "{foundations.color.ink}" },
+      "textMuted": { "$value": "{foundations.color.inkSoft}" },
+      "textFaint": { "$value": "{foundations.color.inkFaint}" },
+      "rule": { "$value": "{foundations.color.ruleCream}" },
+      "brandMark": { "$value": "{brand.color}" },
+      "signal": { "$value": "{foundations.color.signalRed}" },
+      "focus": { "$value": "{semantic.color.signal}" }
+    },
+    "typography": {
+      "display": { "$value": "{foundations.fontFamily.display}" },
+      "body": { "$value": "{foundations.fontFamily.body}" },
+      "data": { "$value": "{foundations.fontFamily.mono}" },
+      "wordmarkWeight": { "$value": "{foundations.fontWeight.wordmark}" }
+    },
+    "layout": {
+      "contentMeasure": { "$value": "{foundations.measure.content}" },
+      "contentGutter": { "$value": "{foundations.measure.gutter}" },
+      "readingMeasure": { "$value": "{foundations.measure.text}" }
+    },
+    "shape": {
+      "controlRadius": { "$value": "{foundations.radius.small}" },
+      "buttonRadius": { "$value": "{foundations.radius.medium}" },
+      "cardRadius": { "$value": "{foundations.radius.large}" }
+    },
+    "motion": {
+      "interactionDuration": { "$value": "{foundations.duration.micro}" },
+      "interactionEasing": { "$value": "{foundations.easing.standard}" }
+    }
+  },
+  "themes": {
+    "white": {
+      "paper": { "$value": "{foundations.color.paperWhite}" },
+      "surface": { "$value": "{foundations.color.paperWhite}" },
+      "rule": { "$value": "{foundations.color.ruleWhite}" }
+    },
+    "dark": {
+      "paper": { "$value": "{foundations.color.paperDark}" },
+      "surface": { "$value": "{foundations.color.paperDark}" },
+      "text": { "$value": "{foundations.color.inkDark}" },
+      "textMuted": { "$value": "{foundations.color.inkSoftDark}" },
+      "textFaint": { "$value": "{foundations.color.inkFaintDark}" },
+      "rule": { "$value": "{foundations.color.ruleDark}" }
+    }
+  },
+  "recipes": {
+    "chrome": {
+      "contentMeasure": { "$value": "{semantic.layout.contentMeasure}" },
+      "gutter": { "$value": "{semantic.layout.contentGutter}" },
+      "controlMinimum": { "$value": "{foundations.measure.controlMinimum}" },
+      "paddingBlock": { "$value": "14px" },
+      "gap": { "$value": "{foundations.spacing.2xl}" },
+      "rule": { "$value": "{foundations.border.hairline}" }
+    },
+    "hero": {
+      "paddingBlockStart": { "$value": "clamp(56px, 9vw, 112px)" },
+      "paddingBlockEnd": { "$value": "clamp(48px, 6vw, 80px)" },
+      "headline": { "$value": "heroMedium" },
+      "deckMeasure": { "$value": "{semantic.layout.readingMeasure}" },
+      "actionGap": { "$value": "{foundations.spacing.xl}" }
+    },
+    "section": {
+      "paddingBlock": { "$value": "clamp(48px, 6vw, 80px)" },
+      "headingGap": { "$value": "{foundations.spacing.sm}" },
+      "rule": { "$value": "{foundations.border.hairline}" }
+    },
+    "card": {
+      "surface": { "$value": "{semantic.color.surface}" },
+      "padding": { "$value": "{foundations.spacing.xl}" },
+      "gap": { "$value": "14px" },
+      "gridGap": { "$value": "{foundations.spacing.lg}" },
+      "radius": { "$value": "{semantic.shape.cardRadius}" },
+      "border": { "$value": "{foundations.border.hairline}" },
+      "markedBorder": { "$value": "{foundations.border.signal}" }
+    },
+    "dataTable": {
+      "labelFamily": { "$value": "{semantic.typography.display}" },
+      "valueFamily": { "$value": "{semantic.typography.data}" },
+      "cellPaddingBlock": { "$value": "{foundations.spacing.xs}" },
+      "cellPaddingInline": { "$value": "{foundations.spacing.sm}" },
+      "rule": { "$value": "{foundations.border.hairline}" }
+    },
+    "document": {
+      "page": { "$value": "A4" },
+      "margin": { "$value": "22mm" },
+      "topMargin": { "$value": "35mm" },
+      "bodySize": { "$value": "11pt" },
+      "titleSize": { "$value": "28pt" },
+      "heading1Size": { "$value": "20pt" },
+      "heading2Size": { "$value": "15pt" },
+      "heading3Size": { "$value": "12pt" },
+      "footnoteSize": { "$value": "8.5pt" },
+      "bodyAfter": { "$value": "8pt" },
+      "bodyLineSpacing": { "$value": 1.35 }
+    },
+    "presentation": {
+      "width": { "$value": "13.333in" },
+      "height": { "$value": "7.5in" },
+      "margin": { "$value": "0.9in" },
+      "titleSize": { "$value": "54pt" },
+      "sectionTitleSize": { "$value": "44pt" },
+      "slideTitleSize": { "$value": "36pt" },
+      "bodySize": { "$value": "20pt" },
+      "captionSize": { "$value": "12pt" }
+    }
+  },
+  "compatibility": {
+    "cssClasses": [
+      "type-hero",
+      "type-hero-md",
+      "type-hero-deck",
+      "type-h1",
+      "type-h2",
+      "type-h3",
+      "type-h4",
+      "type-body",
+      "type-link",
+      "type-code",
+      "type-blockquote",
+      "type-pullquote",
+      "type-list-ol",
+      "type-list-ul",
+      "type-dl",
+      "type-figure",
+      "type-code-block",
+      "type-table",
+      "type-divider",
+      "type-footnote",
+      "site-frame",
+      "container",
+      "hero-links",
+      "hero-link",
+      "hero-action",
+      "hero-trust",
+      "hero-visual",
+      "agustos-section",
+      "agustos-section__head",
+      "agustos-card-grid",
+      "agustos-card",
+      "agustos-card--marked",
+      "agustos-chrome-link"
+    ]
+  }
+}

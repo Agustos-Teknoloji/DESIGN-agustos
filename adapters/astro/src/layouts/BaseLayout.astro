@@ -1,6 +1,6 @@
 ---
 // Self-hosted fonts via @fontsource. Imported here so every page gets them.
-// v2.x stack: Inter Tight (display) + Inter (body) + JetBrains Mono (code).
+// v3 stack: Inter Tight (display) + Inter (body) + JetBrains Mono (code).
 // Variable axes (wght 100–900, italics) cover every weight in the system.
 // Run `npm i @fontsource-variable/inter @fontsource-variable/inter-tight` if not yet installed.
 import '@fontsource-variable/inter-tight/index.css';
@@ -11,8 +11,7 @@ import '@fontsource/jetbrains-mono/400.css';
 import '@fontsource/jetbrains-mono/500.css';
 
 import '../styles/tokens.css';
-import Sidebar from '../components/Sidebar.astro';
-import MobileHeader from '../components/MobileHeader.astro';
+import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 
 type Brand = 'agustos' | 'pataraz' | 'pld' | 'photo';
@@ -46,7 +45,7 @@ const {
   title,
   description = 'Published from Emre Güneş’s house — typography-first design.',
   brand = 'agustos',
-  substrate = 'cream',
+  substrate = 'white',
   lang = 'en',
   brandname = BRAND_WORDMARKS[brand as Brand] ?? 'ağustos',
 } = Astro.props;
@@ -70,7 +69,7 @@ const bodyClass = [brandClass, substrateClass].filter(Boolean).join(' ');
     {/*
       FOUC-prevention: apply saved theme + lang from localStorage BEFORE the page paints.
       Without this, a user with dark theme saved would see a brief flash of cream/light
-      before the Sidebar's script runs. Inline = synchronous, runs before <body>.
+      before page content paints. Inline = synchronous, runs before <body>.
     */}
     <script is:inline>
       (function () {
@@ -85,9 +84,8 @@ const bodyClass = [brandClass, substrateClass].filter(Boolean).join(' ');
   </head>
   <body class={bodyClass}>
     <a class="skip-link" href="#main">Skip to content</a>
-    <MobileHeader brandname={brandname} />
-    <Sidebar brandname={brandname} pathname={Astro.url.pathname} />
-    <div class="layout-with-sidebar">
+    <Header brandname={brandname} pathname={Astro.url.pathname} />
+    <div class="site-shell">
       <main id="main">
         <slot />
       </main>
@@ -97,18 +95,10 @@ const bodyClass = [brandClass, substrateClass].filter(Boolean).join(' ');
 </html>
 
 <style is:global>
-  /* Offset content so it sits to the right of the fixed sidebar (≥1024px).
-     On smaller screens the sidebar is a drawer overlaying the content, so no
-     offset — main + footer flow full-width below the mobile header. */
-  .layout-with-sidebar {
-    margin-left: 280px;
+  .site-shell {
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
   }
-  .layout-with-sidebar > main { flex: 1; }
-
-  @media (max-width: 1023px) {
-    .layout-with-sidebar { margin-left: 0; }
-  }
+  .site-shell > main { flex: 1; }
 </style>

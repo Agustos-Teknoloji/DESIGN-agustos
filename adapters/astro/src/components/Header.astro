@@ -3,17 +3,24 @@ import BrandLockup from './BrandLockup.astro';
 
 interface Props {
   brandname: string;
+  pathname?: string;
 }
-const { brandname } = Astro.props;
+const { brandname, pathname = Astro.url.pathname } = Astro.props;
+const items = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/blog', label: 'Writing' },
+  { href: '/typography', label: 'Typography' },
+];
+const isCurrent = (href: string) => href === '/' ? pathname === '/' : pathname.startsWith(href);
 ---
 <header class="site-header">
   <div class="site-header__inner">
     <BrandLockup brandname={brandname} href="/" size={20} />
     <nav aria-label="Primary">
-      <a href="/">Home</a>
-      <a href="/about">About</a>
-      <a href="/blog">Writing</a>
-      <a href="/typography">Typography</a>
+      {items.map((item) => (
+        <a href={item.href} aria-current={isCurrent(item.href) ? 'page' : undefined}>{item.label}</a>
+      ))}
     </nav>
   </div>
 </header>
@@ -21,22 +28,22 @@ const { brandname } = Astro.props;
 <style>
   .site-header {
     border-bottom: 1px solid var(--rule);
-    padding: 1.25rem 1.5rem;
+    padding: var(--space-lg) var(--measure-gutter);
   }
   .site-header__inner {
-    max-width: 920px;
+    max-width: var(--measure-content);
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 2rem;
+    gap: var(--space-xl);
     flex-wrap: wrap;
   }
   nav {
     display: flex;
-    gap: 1.5rem;
+    gap: var(--space-lg);
     font-family: var(--display);
-    font-size: 12px;
+    font-size: var(--size-footnote);
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.14em;
@@ -44,4 +51,10 @@ const { brandname } = Astro.props;
   /* Nav links use the standard link treatment — bold + brand underline. */
   nav a { color: var(--ink-soft); }
   nav a:hover { color: var(--ink); }
+  nav a[aria-current='page'] { color: var(--ink); }
+
+  @media (max-width: 640px) {
+    .site-header__inner { align-items: flex-start; }
+    nav { width: 100%; gap: var(--space-md) var(--space-lg); flex-wrap: wrap; }
+  }
 </style>

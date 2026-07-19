@@ -7,7 +7,7 @@ import { gfm, gfmHtml } from 'micromark-extension-gfm';
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '../../..');
 const sourcePath = resolve(root, 'DESIGN.md');
-const outputPath = resolve(root, 'artifacts/agustos-design-system-v2.1.2.html');
+const outputPath = resolve(root, 'artifacts/agustos-design-system-v3.html');
 
 const source = await readFile(sourcePath, 'utf8');
 
@@ -31,7 +31,7 @@ let htmlBody = micromark(source, {
 const usedSlugs = new Map();
 const toc = [];
 
-htmlBody = htmlBody.replace(/<h([1-3])>([\s\S]*?)<\/h\1>/g, (match, level, inner) => {
+htmlBody = htmlBody.replace(/<h([1-3])>([\s\S]*?)<\/h\1>/g, (_match, level, inner) => {
   const base = slugify(inner);
   const count = usedSlugs.get(base) || 0;
   usedSlugs.set(base, count + 1);
@@ -61,7 +61,7 @@ const html = `<!doctype html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Ağustos Design System v2.1.2</title>
+    <title>Ağustos Design System v3</title>
     <style>
       :root {
         --paper: #fefcf2;
@@ -70,6 +70,7 @@ const html = `<!doctype html>
         --ink-faint: #8a8a8a;
         --rule: #e8e3d0;
         --brand: #cf142a;
+        --signal: #cf142a;
         --display: 'Inter Tight Variable', 'Inter Tight', 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         --body: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         --mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospace;
@@ -96,13 +97,13 @@ const html = `<!doctype html>
         color: inherit;
         font-weight: 600;
         text-decoration: underline;
-        text-decoration-color: var(--brand);
+        text-decoration-color: var(--signal);
         text-decoration-thickness: 2px;
         text-underline-offset: 3px;
       }
 
       a:focus-visible {
-        outline: 2px solid var(--brand);
+        outline: 2px solid var(--signal);
         outline-offset: 4px;
       }
 
@@ -152,7 +153,7 @@ const html = `<!doctype html>
       .toc__item:hover {
         color: var(--ink);
         text-decoration: underline;
-        text-decoration-color: var(--brand);
+        text-decoration-color: var(--signal);
       }
 
       .toc__item--1 {
@@ -214,7 +215,7 @@ const html = `<!doctype html>
         float: left;
         width: 1em;
         margin-left: -1.2em;
-        color: var(--brand);
+        color: var(--signal);
         font-weight: 600;
         text-decoration: none;
         opacity: 0;
@@ -237,7 +238,7 @@ const html = `<!doctype html>
       }
 
       ul, ol { padding-left: 1.5em; }
-      li::marker { color: var(--brand); }
+      li::marker { color: var(--signal); }
 
       dt {
         margin-top: 1em;
@@ -251,7 +252,7 @@ const html = `<!doctype html>
 
       blockquote {
         padding: 0.25em 0 0.25em 1.25em;
-        border-left: 2px solid var(--brand);
+        border-left: 2px solid var(--signal);
         color: var(--ink-soft);
         font-style: italic;
       }

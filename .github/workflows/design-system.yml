@@ -1,0 +1,21 @@
+name: Design system drift
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  generated-assets:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate generated adapters
+        run: python3 scripts/build_design_system.py --check
+      - name: Validate generated Office artifacts
+        run: python3 scripts/check_office_artifacts.py --check
+      - name: Run design-system tests
+        run: python3 -m unittest discover -s tests

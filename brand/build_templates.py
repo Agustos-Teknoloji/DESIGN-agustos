@@ -7,7 +7,7 @@ Sibling to build.py (which makes the visual logo assets). This generates the
 
   exports/<brand>/swatches/    <brand>.ase (Adobe) + <brand>.clr (Apple)
   exports/<brand>/email/       <brand>-signature.html (email-safe, self-contained)
-  exports/<brand>/office/      <brand>-letterhead.docx + <brand>-template.pptx
+  exports/<brand>/office/      <brand>-letterhead.docx + <brand>-document-template.docx + <brand>-template.pptx
   exports/<brand>/guidelines/  <brand>-brand-guidelines.html (rendered to PDF by browse)
 
 Run after build.py (it reuses the generated lockup PNGs).
@@ -21,7 +21,9 @@ import argparse
 import base64
 import io
 import json
+import subprocess
 import struct
+import sys
 from pathlib import Path
 
 from PIL import Image
@@ -29,6 +31,7 @@ from PIL import Image
 BRAND_DIR = Path(__file__).resolve().parent
 ROOT = BRAND_DIR.parent
 REGISTRY = BRAND_DIR / "brands.json"
+TOKENS = ROOT / "tokens" / "resolved.json"
 
 
 def hexrgb(h):
@@ -50,17 +53,18 @@ def b64_png(path: Path, width: int) -> str:
 # Color swatches
 # ----------------------------------------------------------------------------
 
-def palette(brand, reg):
-    """The brand's working palette: brand color + neutrals from the system."""
-    sub = reg["substrate"]
+def palette(brand, reg, design):
+    """Identity ink, shared interaction signal, and system neutrals."""
+    colors = design["foundations"]["color"]
     return [
-        (brand["title"], brand["color"]),
-        ("Ink", "#1a1a1a"),
-        ("Ink Soft", "#4a4a4a"),
-        ("Ink Faint", "#8a8a8a"),
-        ("Paper (Cream)", sub["paper"]),
-        ("Paper White", sub["paper_white"]),
-        ("Rule", "#e8e3d0"),
+        (f'{brand["title"]} Identity', brand["color"]),
+        ("Shared Signal Red", design["semantic"]["color"]["signal"]),
+        ("Ink", colors["ink"]),
+        ("Ink Soft", colors["inkSoft"]),
+        ("Ink Faint", colors["inkFaint"]),
+        ("Paper (Cream)", colors["paperCream"]),
+        ("Paper White", colors["paperWhite"]),
+        ("Rule", colors["ruleCream"]),
     ]
 
 
@@ -92,9 +96,9 @@ def write_clr(colors, list_name, out: Path):
 # Email signature (email-safe HTML: table layout, inline styles, web-safe font)
 # ----------------------------------------------------------------------------
 
-def gen_email_signature(slug, brand, reg, out: Path, lockup_png: Path):
+def gen_email_signature(slug, brand, reg, design, out: Path, lockup_png: Path):
     logo = b64_png(lockup_png, 320)
-    color = brand["color"]
+    signal = design["semantic"]["color"]["signal"]
     title = brand["title"]
     domain = brand.get("domain", "")
     # Tagline intentionally omitted — defined in the registry but used sparingly,
@@ -106,13 +110,13 @@ def gen_email_signature(slug, brand, reg, out: Path, lockup_png: Path):
     <td style="padding-right:18px;vertical-align:middle;">
       <img src="{logo}" width="150" alt="{title}" style="display:block;border:0;">
     </td>
-    <td style="border-left:2px solid {color};padding-left:18px;vertical-align:middle;line-height:1.5;">
+    <td style="border-left:2px solid {signal};padding-left:18px;vertical-align:middle;line-height:1.5;">
       <div style="font-size:15px;font-weight:bold;color:#1a1a1a;">{{{{NAME}}}}</div>
       <div style="font-size:13px;color:#4a4a4a;padding-bottom:6px;">{{{{ROLE}}}} &middot; {title}</div>
       <div style="font-size:12px;color:#4a4a4a;">
         {{{{PHONE}}}} &nbsp;|&nbsp;
         <a href="mailto:hello@{domain}" style="color:#4a4a4a;text-decoration:none;">hello@{domain}</a> &nbsp;|&nbsp;
-        <a href="https://{domain}" style="color:{color};text-decoration:none;font-weight:bold;">{domain}</a>
+        <a href="https://{domain}" style="color:{signal};text-decoration:none;font-weight:bold;">{domain}</a>
       </div>
     </td>
   </tr>
@@ -125,153 +129,193 @@ def gen_email_signature(slug, brand, reg, out: Path, lockup_png: Path):
 # Word letterhead (.docx)
 # ----------------------------------------------------------------------------
 
-def _bottom_border(paragraph, color, size="18"):
+def _remove_paragraph_border(element):
+    """Keep Word/Google Docs title imports free of built-in rule residue."""
     from docx.oxml.ns import qn
+    p_pr = element.find(qn("w:pPr"))
+    if p_pr is None:
+        return
+    for border in list(p_pr.findall(qn("w:pBdr"))):
+        p_pr.remove(border)
+
+
+def _measure(value: str, unit: str) -> float:
+    if not value.endswith(unit):
+        raise ValueError(f"expected {unit} value, got {value!r}")
+    return float(value[:-len(unit)])
+
+
+def _set_cell_shading(cell, color: str):
     from docx.oxml import OxmlElement
-    pPr = paragraph._p.get_or_add_pPr()
-    pBdr = OxmlElement("w:pBdr")
+    from docx.oxml.ns import qn
+    tc_pr = cell._tc.get_or_add_tcPr()
+    shading = OxmlElement("w:shd")
+    shading.set(qn("w:fill"), color.lstrip("#"))
+    tc_pr.append(shading)
+
+
+def _set_cell_bottom_border(cell, color: str, size="12"):
+    from docx.oxml import OxmlElement
+    from docx.oxml.ns import qn
+    tc_pr = cell._tc.get_or_add_tcPr()
+    borders = OxmlElement("w:tcBorders")
     bottom = OxmlElement("w:bottom")
-    for k, v in (("w:val", "single"), ("w:sz", size), ("w:space", "6"), ("w:color", color)):
-        bottom.set(qn(k), v)
-    pBdr.append(bottom)
-    pPr.append(pBdr)
+    for key, value in (("w:val", "single"), ("w:sz", size), ("w:color", color.lstrip("#"))):
+        bottom.set(qn(key), value)
+    borders.append(bottom)
+    tc_pr.append(borders)
 
 
-def gen_letterhead_docx(slug, brand, reg, out: Path, lockup_png: Path):
+def gen_document_docx(slug, brand, design, out: Path, lockup_png: Path, *, letterhead=False):
     import docx
     from docx.shared import Cm, Pt, RGBColor
     from docx.enum.text import WD_ALIGN_PARAGRAPH
+    from docx.enum.style import WD_STYLE_TYPE
+    from docx.enum.table import WD_CELL_VERTICAL_ALIGNMENT
 
-    color = RGBColor(*hexrgb(brand["color"]))
-    ink_soft = RGBColor(0x4a, 0x4a, 0x4a)
+    foundations = design["foundations"]
+    recipe = design["recipes"]["document"]
+    colors = foundations["color"]
+    display = foundations["fontFamily"]["display"]
+    body = foundations["fontFamily"]["body"]
+    ink = RGBColor(*hexrgb(colors["ink"]))
+    ink_soft = RGBColor(*hexrgb(colors["inkSoft"]))
+    signal_hex = design["semantic"]["color"]["signal"]
+    signal_color = RGBColor(*hexrgb(signal_hex))
     title, domain = brand["title"], brand.get("domain", "")
 
     doc = docx.Document()
-    doc.styles["Normal"].font.name = "Inter"
-    doc.styles["Normal"].font.size = Pt(11)
     sec = doc.sections[0]
-    sec.page_height, sec.page_width = Cm(29.7), Cm(21.0)  # A4
-    for m in ("top_margin", "bottom_margin", "left_margin", "right_margin"):
-        setattr(sec, m, Cm(2.2))
+    sec.page_height, sec.page_width = Cm(29.7), Cm(21.0)
+    margin_cm = _measure(recipe["margin"], "mm") / 10
+    for m in ("bottom_margin", "left_margin", "right_margin"):
+        setattr(sec, m, Cm(margin_cm))
+    sec.top_margin = Cm(_measure(recipe["topMargin"], "mm") / 10)
 
-    # Header: lockup + brand-red rule
+    normal = doc.styles["Normal"]
+    normal.font.name = body
+    normal.font.size = Pt(_measure(recipe["bodySize"], "pt"))
+    normal.font.color.rgb = ink
+    normal.paragraph_format.space_after = Pt(_measure(recipe["bodyAfter"], "pt"))
+    normal.paragraph_format.line_spacing = recipe["bodyLineSpacing"]
+
+    style_specs = {
+        "Title": (recipe["titleSize"], 600, ink, 12),
+        "Heading 1": (recipe["heading1Size"], 600, ink, 9),
+        "Heading 2": (recipe["heading2Size"], 600, ink, 7),
+        "Heading 3": (recipe["heading3Size"], 650, signal_color, 5),
+    }
+    for name, (size, weight, rgb, after) in style_specs.items():
+        style = doc.styles[name]
+        if name == "Title":
+            _remove_paragraph_border(style.element)
+        style.font.name = display
+        style.font.size = Pt(_measure(size, "pt"))
+        style.font.bold = weight >= 600
+        style.font.color.rgb = rgb
+        style.paragraph_format.space_before = Pt(12 if name != "Title" else 0)
+        style.paragraph_format.space_after = Pt(after)
+        style.paragraph_format.keep_with_next = True
+
+    if "Ağustos Label" not in doc.styles:
+        label = doc.styles.add_style("Ağustos Label", WD_STYLE_TYPE.PARAGRAPH)
+    else:
+        label = doc.styles["Ağustos Label"]
+    label.font.name = display
+    label.font.size = Pt(_measure(recipe["footnoteSize"], "pt"))
+    label.font.bold = True
+    label.font.color.rgb = signal_color
+    label.paragraph_format.space_after = Pt(5)
+
     hdr = sec.header
     hp = hdr.paragraphs[0]
     hp.add_run().add_picture(str(lockup_png), width=Cm(4.6))
-    rule = hdr.add_paragraph()
-    _bottom_border(rule, brand["color"].lstrip("#"))
+    rule = hdr.add_table(rows=1, cols=1, width=Cm(16.6))
+    rule_cell = rule.cell(0, 0)
+    _set_cell_bottom_border(rule_cell, signal_hex)
+    rule_p = rule_cell.paragraphs[0]
+    rule_p.paragraph_format.space_before = Pt(0)
+    rule_p.paragraph_format.space_after = Pt(0)
+    rule_p.add_run(" ").font.size = Pt(1)
 
-    # Footer: contact line
     fp = sec.footer.paragraphs[0]
     fp.alignment = WD_ALIGN_PARAGRAPH.CENTER
     r = fp.add_run(f"{title}  ·  {domain}")
     r.font.size = Pt(8.5)
     r.font.color.rgb = ink_soft
 
-    # Body sample
-    h = doc.add_paragraph()
-    hr = h.add_run("Letter title")
-    hr.font.name = "Inter Tight"
-    hr.font.size = Pt(20)
-    hr.font.color.rgb = RGBColor(0x1a, 0x1a, 0x1a)
-    doc.add_paragraph(
-        "Replace this with your letter body. The header logo, the brand rule, and the "
-        "footer contact line are part of the letterhead — type your content here. Body "
-        "text is set in Inter; install the bundled fonts so it renders correctly."
-    )
+    if letterhead:
+        doc.add_paragraph("Letter title", style="Title")
+        doc.add_paragraph(
+            "Replace this with your letter body. The header, signal rule, and footer are part "
+            "of the letterhead. Use the built-in styles so the document keeps the shared rhythm."
+        )
+    else:
+        doc.add_paragraph("DOCUMENT TEMPLATE", style="Ağustos Label")
+        doc.add_paragraph("A clear opening for substantial work.", style="Title")
+        deck = doc.add_paragraph("Subtitle, author, or date")
+        deck.style = doc.styles["Subtitle"]
+        deck.runs[0].font.name = body
+        deck.runs[0].font.color.rgb = ink_soft
+        doc.add_paragraph(
+            "This file carries the same alignment, hierarchy, signal color, and spacing logic as "
+            "the website without copying a web page into a document. It imports cleanly into Google Docs."
+        )
+        doc.add_paragraph("Section opening", style="Heading 1")
+        doc.add_paragraph(
+            "Use Heading 1 to begin a major section. Body copy stays calm and readable; shared red "
+            "is reserved for links, labels, rules, and decisive signals."
+        )
+        doc.add_paragraph("A smaller hierarchy", style="Heading 2")
+        doc.add_paragraph("Use Heading 2 and Heading 3 to create structure without adding decoration.")
+        doc.add_paragraph("Structured information", style="Heading 3")
+        table = doc.add_table(rows=3, cols=3)
+        table.style = "Table Grid"
+        headers = ("Role", "System value", "Use")
+        for i, text in enumerate(headers):
+            cell = table.rows[0].cells[i]
+            cell.text = text
+            cell.vertical_alignment = WD_CELL_VERTICAL_ALIGNMENT.CENTER
+            _set_cell_shading(cell, brand["color"])
+            for run in cell.paragraphs[0].runs:
+                run.font.name = display
+                run.font.bold = True
+                run.font.color.rgb = RGBColor(0xFE, 0xFC, 0xF2)
+        rows = (
+            ("Identity ink", brand["color"], "Logo and decisive brand fields"),
+            ("Shared signal", signal_hex, "Links, focus, markers, and emphasis"),
+        )
+        for row_index, values in enumerate(rows, start=1):
+            for col_index, text in enumerate(values):
+                table.rows[row_index].cells[col_index].text = text
     doc.save(str(out))
 
 
 # ----------------------------------------------------------------------------
-# PowerPoint template (.pptx)  — also the basis for a Google Slides import
+# PowerPoint template (.pptx) — native editable objects also import to Google Slides
 # ----------------------------------------------------------------------------
 
-def gen_pptx(slug, brand, reg, out: Path, pos_png: Path, neg_png: Path):
-    from pptx import Presentation
-    from pptx.util import Inches, Pt, Emu
-    from pptx.dml.color import RGBColor
-    from pptx.enum.text import PP_ALIGN
-
-    cream = RGBColor(*hexrgb(reg["substrate"]["paper"]))
-    brand_c = RGBColor(*hexrgb(brand["color"]))
-    ink = RGBColor(0x1a, 0x1a, 0x1a)
-    ink_soft = RGBColor(0x4a, 0x4a, 0x4a)
-    title, domain = brand["title"], brand.get("domain", "")
-
-    prs = Presentation()
-    prs.slide_width, prs.slide_height = Inches(13.333), Inches(7.5)
-    W, H = prs.slide_width, prs.slide_height
-    blank = prs.slide_layouts[6]
-
-    def bg(slide, rgb):
-        f = slide.background.fill
-        f.solid()
-        f.fore_color.rgb = rgb
-
-    def textbox(slide, x, y, w, h, text, size, font, rgb, bold=False, align=PP_ALIGN.LEFT):
-        tb = slide.shapes.add_textbox(x, y, w, h)
-        tf = tb.text_frame
-        tf.word_wrap = True
-        p = tf.paragraphs[0]
-        p.alignment = align
-        run = p.add_run()
-        run.text = text
-        run.font.size = Pt(size)
-        run.font.name = font
-        run.font.bold = bold
-        run.font.color.rgb = rgb
-        return tb
-
-    def add_logo(slide, png, width_in, x, y):
-        pic = slide.shapes.add_picture(str(png), x, y, width=Inches(width_in))
-        return pic
-
-    # 1 — Title (cream)
-    s = prs.slides.add_slide(blank); bg(s, cream)
-    add_logo(s, pos_png, 3.2, Inches(0.9), Inches(0.8))
-    textbox(s, Inches(0.9), Inches(3.0), Inches(11.5), Inches(2.0),
-            "Presentation title", 54, "Inter Tight", ink, bold=True)
-    textbox(s, Inches(0.92), Inches(4.4), Inches(10), Inches(1),
-            "Subtitle", 20, "Inter", ink_soft)
-
-    # 2 — Section divider (brand color, reversed lockup)
-    s = prs.slides.add_slide(blank); bg(s, brand_c)
-    add_logo(s, neg_png, 3.0, Inches(0.9), Inches(0.7))
-    textbox(s, Inches(0.9), Inches(3.1), Inches(11.5), Inches(1.6),
-            "Section title", 44, "Inter Tight", cream, bold=True)
-
-    # 3 — Content (cream)
-    s = prs.slides.add_slide(blank); bg(s, cream)
-    textbox(s, Inches(0.9), Inches(0.7), Inches(11), Inches(1),
-            "Content slide", 32, "Inter Tight", ink, bold=True)
-    body = s.shapes.add_textbox(Inches(0.9), Inches(1.9), Inches(11.2), Inches(4.6)).text_frame
-    body.word_wrap = True
-    for i, line in enumerate(["First point in Inter body type.",
-                              "Second point — keep it tight.",
-                              "Third point, with a brand-red accent on links."]):
-        p = body.paragraphs[0] if i == 0 else body.add_paragraph()
-        run = p.add_run(); run.text = "•  " + line
-        run.font.size = Pt(20); run.font.name = "Inter"; run.font.color.rgb = ink
-        p.space_after = Pt(10)
-
-    # 4 — Closing (cream)
-    s = prs.slides.add_slide(blank); bg(s, cream)
-    add_logo(s, pos_png, 3.0, Inches(0.9), Inches(2.6))
-    textbox(s, Inches(0.92), Inches(4.1), Inches(10), Inches(1),
-            f"{domain}", 18, "Inter Tight", brand_c, bold=True)
-
-    prs.save(str(out))
+def gen_pptx(slug, out: Path):
+    command = ["node", str(BRAND_DIR / "build_presentation.mjs"), "--brand", slug, "--output", str(out)]
+    try:
+        subprocess.run(command, check=True)
+    except subprocess.CalledProcessError as error:
+        raise SystemExit(
+            "PowerPoint generation requires the declared brand Node dependencies. "
+            "Run npm install in brand/ and retry."
+        ) from error
 
 
 # ----------------------------------------------------------------------------
 # Brand guidelines (HTML — rendered to PDF by browse)
 # ----------------------------------------------------------------------------
 
-def gen_guidelines_html(slug, brand, reg, out: Path, lk_dir: Path, fav_dir: Path):
+def gen_guidelines_html(slug, brand, reg, design, out: Path, lk_dir: Path, fav_dir: Path):
     color = brand["color"]
+    signal = design["semantic"]["color"]["signal"]
     title, domain = brand["title"], brand.get("domain", "")
     fonts = BRAND_DIR / "fonts"
-    pal = palette(brand, reg)
+    pal = palette(brand, reg, design)
     sw = "".join(
         f'<div class="sw"><div class="chip" style="background:{hx};'
         f'{"border:1px solid #e8e3d0;" if hx.lower() in ("#fefcf2","#ffffff") else ""}"></div>'
@@ -298,7 +342,7 @@ h1 {{ font-family:'IT'; font-weight:650; font-size:46px; letter-spacing:-0.03em;
 h2 {{ font-family:'IT'; font-weight:650; font-size:13px; text-transform:uppercase; letter-spacing:0.14em; color:#8a8a8a; margin:34px 0 14px; }}
 p {{ font-size:13.5px; line-height:1.65; max-width:62ch; color:#4a4a4a; }}
 .cover-mark {{ width:230px; margin:48mm 0 10mm; }}
-.eyebrow {{ font-family:'IT'; font-weight:650; font-size:12px; text-transform:uppercase; letter-spacing:0.16em; color:{color}; }}
+.eyebrow {{ font-family:'IT'; font-weight:650; font-size:12px; text-transform:uppercase; letter-spacing:0.16em; color:{signal}; }}
 .foot {{ position:absolute; bottom:14mm; left:20mm; right:20mm; font-size:10px; color:#8a8a8a; border-top:1px solid #e8e3d0; padding-top:6px; display:flex; justify-content:space-between; }}
 .row {{ display:flex; gap:18px; flex-wrap:wrap; align-items:flex-end; }}
 .card {{ border:1px solid #e8e3d0; border-radius:6px; padding:18px; }}
@@ -311,9 +355,9 @@ p {{ font-size:13.5px; line-height:1.65; max-width:62ch; color:#4a4a4a; }}
 .swh {{ font-size:11px; color:#8a8a8a; font-variant-numeric:tabular-nums; }}
 .type-it {{ font-family:'IT'; }}
 .spec {{ font-size:32px; }}
-.do {{ color:#1f6b4a; font-weight:bold; }} .dont {{ color:{color}; font-weight:bold; }}
+.do {{ color:#1f6b4a; font-weight:bold; }} .dont {{ color:#b42318; font-weight:bold; }}
 ul.rules {{ font-size:12.5px; line-height:1.7; color:#4a4a4a; padding-left:18px; }}
-.clearbox {{ display:inline-block; border:1px dashed {color}; padding:14px; }}
+.clearbox {{ display:inline-block; border:1px dashed {signal}; padding:14px; }}
 .clearbox img {{ height:46px; display:block; }}
 </style></head><body>
 
@@ -342,14 +386,14 @@ ul.rules {{ font-size:12.5px; line-height:1.7; color:#4a4a4a; padding-left:18px;
 
 <section class="page">
   <div class="eyebrow">02</div><h1>Colour</h1>
-  <p>One brand colour, used as a signal — on links, rules, and accents — never as flat decoration.
-     Everything else is the cream substrate and the ink neutrals.</p>
+  <p>Identity ink names the brand: Ağustos is red; every other house brand is black and white.
+     Shared Ağustos red is the interaction signal for links, focus, markers, rules, and small accents.</p>
   <div class="swatches" style="margin-top:18px;">{sw}</div>
   <h2>Do &amp; don't</h2>
   <ul class="rules">
-    <li><span class="do">Do</span> set the wordmark in Inter Tight Semibold, lowercase, in the brand colour.</li>
+    <li><span class="do">Do</span> set the wordmark in Inter Tight Semibold, lowercase, in the registered identity ink.</li>
     <li><span class="dont">Don't</span> recolour the symbol, stretch the lockup, or add a tagline beside it.</li>
-    <li><span class="do">Do</span> keep the brand colour for emphasis; <span class="dont">don't</span> fill large areas with it except the negative lockup tile.</li>
+    <li><span class="do">Do</span> use shared red for interaction and emphasis; <span class="dont">don't</span> recolour a non-Ağustos logo red.</li>
   </ul>
   <div class="foot"><span>{title} — Brand Guidelines</span><span>{domain}</span></div>
 </section>
@@ -377,12 +421,11 @@ ul.rules {{ font-size:12.5px; line-height:1.7; color:#4a4a4a; padding-left:18px;
 
 # ----------------------------------------------------------------------------
 
-def build_brand(slug, brand, reg):
+def build_brand(slug, brand, reg, design):
     base = BRAND_DIR / "exports" / slug
     lk = base / "lockup"
     fav = base / "favicon"
     pos_png = lk / f"{slug}-lockup__positive.png"
-    neg_png = lk / f"{slug}-lockup__negative.png"
     if not pos_png.exists():
         raise SystemExit(f"missing {pos_png} — run build.py --brand {slug} first")
 
@@ -391,16 +434,17 @@ def build_brand(slug, brand, reg):
     of_dir = base / "office"; of_dir.mkdir(parents=True, exist_ok=True)
     gl_dir = base / "guidelines"; gl_dir.mkdir(parents=True, exist_ok=True)
 
-    pal = palette(brand, reg)
+    pal = palette(brand, reg, design)
     write_ase(pal, sw_dir / f"{slug}.ase")
     try:
         write_clr(pal, brand["title"], sw_dir / f"{slug}.clr")
     except Exception as e:
         print(f"    (skipped .clr: {e})")
-    gen_email_signature(slug, brand, reg, em_dir / f"{slug}-signature.html", pos_png)
-    gen_letterhead_docx(slug, brand, reg, of_dir / f"{slug}-letterhead.docx", pos_png)
-    gen_pptx(slug, brand, reg, of_dir / f"{slug}-template.pptx", pos_png, neg_png)
-    gen_guidelines_html(slug, brand, reg, gl_dir / f"{slug}-brand-guidelines.html", lk, fav)
+    gen_email_signature(slug, brand, reg, design, em_dir / f"{slug}-signature.html", pos_png)
+    gen_document_docx(slug, brand, design, of_dir / f"{slug}-letterhead.docx", pos_png, letterhead=True)
+    gen_document_docx(slug, brand, design, of_dir / f"{slug}-document-template.docx", pos_png)
+    gen_pptx(slug, of_dir / f"{slug}-template.pptx")
+    gen_guidelines_html(slug, brand, reg, design, gl_dir / f"{slug}-brand-guidelines.html", lk, fav)
 
     n = sum(1 for _ in base.rglob("*") if _.is_file())
     print(f"  ✓ {slug}: office + extras done ({n} files total in exports/{slug})")
@@ -408,16 +452,34 @@ def build_brand(slug, brand, reg):
 
 def main():
     reg = json.loads(REGISTRY.read_text(encoding="utf-8"))
+    if not TOKENS.exists():
+        raise SystemExit("missing tokens/resolved.json — run scripts/build_design_system.py first")
+    design = json.loads(TOKENS.read_text(encoding="utf-8"))
     ap = argparse.ArgumentParser()
     ap.add_argument("--brand")
     args = ap.parse_args()
     brands = reg["brands"]
     if args.brand and args.brand not in brands:
         raise SystemExit(f"unknown brand '{args.brand}'")
-    targets = {args.brand: brands[args.brand]} if args.brand else brands
+    if args.brand:
+        if args.brand not in brands:
+            raise SystemExit(f"unknown brand: {args.brand}")
+        if not brands[args.brand].get("office", False):
+            raise SystemExit(f"{args.brand} does not have an Office kit")
+        targets = {args.brand: brands[args.brand]}
+    else:
+        targets = {slug: brand for slug, brand in brands.items() if brand.get("office", False)}
     print(f"Building office/extras for {len(targets)} brand(s)...")
     for slug, brand in targets.items():
-        build_brand(slug, brand, reg)
+        build_brand(slug, brand, reg, design)
+    if args.brand:
+        print("  Office manifest unchanged; run a full build before release")
+    else:
+        subprocess.run(
+            [sys.executable, str(ROOT / "scripts" / "check_office_artifacts.py"), "--write"],
+            cwd=ROOT,
+            check=True,
+        )
     print("Done. (Render guidelines HTML -> PDF with browse; see templates/README.md)")
 
 
