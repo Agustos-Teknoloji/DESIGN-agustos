@@ -48,6 +48,14 @@
 
   <% if agustos_search_config %>
     <%= render "agustos/shared/header_search", variant: :responsive %>
+    <noscript>
+      <div class="agustos-header__noscript-search site-frame">
+        <%= form_with url: agustos_value(agustos_search_config, :url), method: :get, local: true do |form| %>
+          <%= form.search_field agustos_value(agustos_search_config, :param, :q), placeholder: agustos_search_labels[:placeholder], aria: { label: agustos_search_labels[:aria] } %>
+          <%= form.submit agustos_search_labels[:submit] %>
+        <% end %>
+      </div>
+    </noscript>
   <% end %>
 </header>
 

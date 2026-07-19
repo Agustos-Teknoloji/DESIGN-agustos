@@ -83,7 +83,17 @@ end
 
 Each group has `heading`, optional `total`, and `items`. Each item has `href`,
 `title`, and optional `excerpt`; excerpts are sanitized to allow only `<mark>`.
-Without JavaScript, the same form performs a normal GET navigation.
+Without JavaScript, a `<noscript>` form performs a normal GET navigation. The
+endpoint can render a complete search page for that request while using the
+shared result partial for Turbo Frame requests:
+
+```ruby
+if turbo_frame_request?
+  render partial: "agustos/shared/search_results", locals: result_locals
+else
+  render :index, locals: { query: query, groups: groups }
+end
+```
 
 ## Verification
 

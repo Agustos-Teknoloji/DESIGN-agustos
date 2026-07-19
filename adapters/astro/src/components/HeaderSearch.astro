@@ -64,7 +64,7 @@ const responsive = variant === 'responsive-row';
   }
   .site-header__search-toggle:hover,
   .site-header__search-toggle[aria-expanded="true"] { background: var(--rule); color: var(--ink); }
-  .site-header__search-toggle:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+  .site-header__search-toggle:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 
   .site-header__search-panel {
     z-index: 30;
@@ -98,7 +98,7 @@ const responsive = variant === 'responsive-row';
     color: var(--ink-faint);
     transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
   }
-  .site-header__search-field:focus-within { border-color: var(--ink-faint); color: var(--ink-soft); }
+  .site-header__search-field:focus-within { border-color: var(--signal); box-shadow: 0 0 0 1px var(--signal); color: var(--ink-soft); }
   .site-header__search-field svg { flex: 0 0 auto; }
   .site-header__search-field input {
     flex: 1;

@@ -34,6 +34,9 @@ test('header search matches the production interaction contract', async () => {
   assert.match(header, /event\.key === 'Escape'/);
   assert.match(header, /setAttribute\('data-nav-open', 'true'\)/);
   assert.match(header, /setAttribute\('data-theme', 'dark'\)/);
+  assert.match(header, /header-search-panel-desktop-\$\{idSuffix\}/);
+  assert.match(header, /header-search-panel-responsive-\$\{idSuffix\}/);
+  assert.match(header, /groups\.forEach\(\(group\) => renderGroup/);
   assert.match(search, /desktop-dropdown/);
   assert.match(search, /responsive-row/);
   assert.match(search, /\.site-header__search--responsive \.site-header__search-field input \{ font-size: 16px; \}/);
@@ -47,5 +50,6 @@ test('header and footer use the shared frame and accessible control sizes', asyn
 
   assert.match(header, /site-header__bar site-frame/);
   assert.match(footer, /site-footer__inner site-frame/);
+  assert.match(search, /outline: 2px solid var\(--signal\)/);
   for (const source of [header, search, utility]) assert.match(source, /44px/);
 });

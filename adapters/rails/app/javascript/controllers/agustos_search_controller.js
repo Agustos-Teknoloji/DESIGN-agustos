@@ -21,7 +21,7 @@ export default class extends Controller {
     const query = this.inputTarget.value.trim()
 
     if (query.length < this.thresholdValue) {
-      if (!this.hasToggleTarget) this.close()
+      this.close()
       return
     }
 

@@ -80,6 +80,7 @@ const columns = config.columns ?? [
   .site-footer__list { display: flex; flex-direction: column; gap: 9px; margin: 0; padding: 0; list-style: none; }
   .site-footer__link { color: var(--ink-soft); font-family: var(--body); font-size: 14px; font-weight: 400; text-decoration: none; transition: color var(--dur) var(--ease); }
   .site-footer__link:hover { color: var(--ink); }
+  .site-footer__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
 
   @media (max-width: 760px) {
     .site-footer__inner { grid-template-columns: 1fr; }

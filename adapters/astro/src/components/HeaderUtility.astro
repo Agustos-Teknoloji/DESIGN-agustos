@@ -53,7 +53,7 @@ const { className, languageSwitch, theme = true } = Astro.props;
     transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
   }
   .site-header__icon-btn:hover { background: var(--rule); color: var(--ink); }
-  .site-header__icon-btn:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+  .site-header__icon-btn:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
   .site-header__theme-moon { display: none; }
   :global(html[data-theme="dark"]) .site-header__theme-sun { display: none; }
   :global(html[data-theme="dark"]) .site-header__theme-moon { display: inline-block; }
@@ -73,7 +73,7 @@ const { className, languageSwitch, theme = true } = Astro.props;
     transition: color var(--dur) var(--ease);
   }
   .site-header__lang-link:hover { color: var(--ink); }
-  .site-header__lang-link:focus-visible { outline: 2px solid var(--brand); outline-offset: 2px; }
+  .site-header__lang-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 
   @media (max-width: 1023px), (max-width: 1366px) and (hover: none) and (pointer: coarse) {
     .site-header__utility--bar { display: flex; justify-self: end; }

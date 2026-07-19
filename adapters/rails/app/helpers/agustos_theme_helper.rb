@@ -35,8 +35,8 @@ module AgustosThemeHelper
   ].freeze
 
   SEARCH_LABELS = {
-    en: { placeholder: "Search", aria: "Search this site", loading: "Searching..." },
-    tr: { placeholder: "Ara", aria: "Sitede ara", loading: "Aranıyor..." }
+    en: { placeholder: "Search", aria: "Search this site", loading: "Searching...", submit: "Search" },
+    tr: { placeholder: "Ara", aria: "Sitede ara", loading: "Aranıyor...", submit: "Ara" }
   }.freeze
 
   def agustos_theme(
