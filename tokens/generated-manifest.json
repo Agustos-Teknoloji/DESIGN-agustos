@@ -1,0 +1,14 @@
+{
+  "outputs": {
+    "adapters/astro/src/styles/tokens.css": "850e282dc43791441e0752a468f2afdea7fba96b52c56e14b0cf83b4fc71cb53",
+    "adapters/rails/app/assets/stylesheets/agustos/tokens.css": "bf308e57898741bdd6e2d4b702d1c8b9421f6ff66c77646cc3c5adf036a183d8",
+    "adapters/wordpress/assets/css/agustos.css": "64016fedf3f4acbfbbe459f7857d7e1ebd334652a90a6b59ee85d8827ef435c3",
+    "adapters/wordpress/theme.json": "3bf05b943b8d0139900b71c9f244f0e4d72ec11bbd03b6b3dfdd689ba08a1b83",
+    "tokens/agustos.css": "13904a03c5788fa396d29a2610332ed62d50b814c7f165a7da116cd17e59d942",
+    "tokens/design-system-handoff.json": "9920576f7fdd9f99d5909b0959084ad5c3471f4a2a7febd504b76b2b252f4081",
+    "tokens/resolved.json": "a801b27bc52764532168026c362191f0d69427bf9342a888ce6cc3db2d47f4b6"
+  },
+  "source_sha256": "1f657ddea4d9a5c9b03331e31f332ccf1fd69f980d46319739f1645efe976edc",
+  "system": "Ağustos Design System",
+  "version": "3.0.0"
+}

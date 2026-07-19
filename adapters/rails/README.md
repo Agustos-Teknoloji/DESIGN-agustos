@@ -94,5 +94,6 @@ ruby test/adapter_contract_test.rb
 ```
 
 The Rails adapter should not invent a separate visual system. Framework files
-handle layout, configuration, partial rendering, Turbo, and Stimulus; shared
-visual primitives remain in the canonical tokens.
+handle layout, configuration, partial rendering, Turbo, and Stimulus. Shared
+visual primitives are generated from `tokens/design-tokens.json`; verify drift
+from the repository root with `python3 scripts/build_design_system.py --check`.

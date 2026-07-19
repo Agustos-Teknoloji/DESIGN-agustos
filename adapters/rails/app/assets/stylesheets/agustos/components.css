@@ -1,13 +1,13 @@
 /* Ağustos Design System v3.0.0 — Rails adapter chrome. */
 
-body { display: flex; flex-direction: column; min-height: 100dvh; }
+.agustos-layout { display: flex; flex-direction: column; min-height: 100dvh; }
 .agustos-layout__main { flex: 1; }
-.agustos-container { width: 100%; max-width: calc(920px + 3rem); margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+.agustos-container { width: min(calc(100% - var(--measure-gutter) - var(--measure-gutter)), var(--measure-content)); margin: 0 auto; padding: 4rem 0 6rem; }
 
 .agustos-lockup { display: inline-flex; align-items: center; gap: 0.4em; color: var(--brand); text-decoration: none; }
 .agustos-lockup--mono { color: var(--ink); }
 a.agustos-lockup:hover, a.agustos-lockup:focus, a.agustos-lockup:active { text-decoration: none; }
-a.agustos-lockup:focus-visible { outline: 2px solid var(--brand); outline-offset: 3px; }
+a.agustos-lockup:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
 .agustos-lockup__symbol { width: 0.98em; height: 0.98em; color: inherit; transform: translateY(0.08em); }
 .agustos-lockup__name { color: inherit; font-family: var(--display); font-size: var(--agustos-lockup-size, 24px); font-weight: 650; line-height: 1; letter-spacing: 0; text-transform: lowercase; }
 

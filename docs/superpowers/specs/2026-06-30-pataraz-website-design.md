@@ -81,7 +81,7 @@ the `agustos` layout, and `_brand_lockup`. Re-theme to Pataraz blue and Turkish:
 - The design tokens (CSS variables in `tokens.css`) remain the source of truth. Tailwind's
   theme **references them** (`colors.brand → var(--brand)`, `cream → var(--paper)`, `ink`,
   the Inter Tight / Inter / JetBrains Mono families). Utilities for layout, tokens for brand.
-- Brand applied via the existing helper / `.brand-pataraz` (`--brand: #1a24cc`), `lang="tr"`.
+- Brand applied via the existing helper / `.brand-pataraz` (`--brand: #1a1a1a`, shared `--signal: #cf142a`), `lang="tr"`.
 - Favicon + lockup come from `brand/exports/pataraz/` via the sync task.
 
 ### 5.2 Data model
@@ -182,3 +182,8 @@ Each is a clean future addition; none is designed out.
 - Exact VPS provider/region and the `pataraz.com` DNS cutover — decided at deploy time.
 - Contact form: mailto at launch; a real form-to-email (Action Mailer) is a fast follow.
 - PATARAZ.md §3 framework-note update lands with the §4 registry documentation change.
+# Historical implementation note
+
+The layout and content decisions in this document remain useful, but its Pataraz
+blue references are superseded by `DESIGN.md` and `PATARAZ.md`: Pataraz identity
+is black and white, and Ağustos red is the shared interface signal.

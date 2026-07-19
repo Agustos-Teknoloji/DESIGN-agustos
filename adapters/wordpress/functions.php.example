@@ -1,0 +1,21 @@
+<?php
+/**
+ * Ağustos Design System v3 adapter bootstrap.
+ * Merge this function into the consuming theme's functions.php.
+ */
+function agustos_design_system_assets(): void {
+    wp_enqueue_style(
+        'agustos-design-system',
+        get_theme_file_uri('/assets/css/agustos.css'),
+        array(),
+        '3.0.0'
+    );
+}
+add_action('wp_enqueue_scripts', 'agustos_design_system_assets');
+
+function agustos_design_system_body_classes(array $classes): array {
+    $classes[] = 'brand-agustos';
+    $classes[] = 'paper-white';
+    return $classes;
+}
+add_filter('body_class', 'agustos_design_system_body_classes');

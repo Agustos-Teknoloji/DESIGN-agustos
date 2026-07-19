@@ -1,0 +1,254 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": true,
+    "color": {
+      "custom": false,
+      "defaultPalette": false,
+      "palette": [
+        {
+          "slug": "paper",
+          "name": "Paper Cream",
+          "color": "#fefcf2"
+        },
+        {
+          "slug": "paper-white",
+          "name": "Paper White",
+          "color": "#ffffff"
+        },
+        {
+          "slug": "ink",
+          "name": "Ink",
+          "color": "#1a1a1a"
+        },
+        {
+          "slug": "ink-soft",
+          "name": "Ink Soft",
+          "color": "#4a4a4a"
+        },
+        {
+          "slug": "ink-faint",
+          "name": "Ink Faint",
+          "color": "#8a8a8a"
+        },
+        {
+          "slug": "rule",
+          "name": "Rule",
+          "color": "#e8e3d0"
+        },
+        {
+          "slug": "rule-white",
+          "name": "Rule White",
+          "color": "#e8e8e8"
+        },
+        {
+          "slug": "signal",
+          "name": "Shared Signal Red",
+          "color": "#cf142a"
+        },
+        {
+          "slug": "brand-agustos",
+          "name": "Ağustos Teknoloji",
+          "color": "#cf142a"
+        },
+        {
+          "slug": "brand-pataraz",
+          "name": "Pataraz",
+          "color": "#1a1a1a"
+        },
+        {
+          "slug": "brand-pld",
+          "name": "PLD Türkiye",
+          "color": "#1a1a1a"
+        },
+        {
+          "slug": "brand-photometric",
+          "name": "Photometric",
+          "color": "#1a1a1a"
+        }
+      ]
+    },
+    "layout": {
+      "contentSize": "920px",
+      "wideSize": "1200px"
+    },
+    "spacing": {
+      "customSpacingSize": false,
+      "spacingSizes": [
+        {
+          "slug": "2xs",
+          "name": "2XS",
+          "size": "4px"
+        },
+        {
+          "slug": "xs",
+          "name": "XS",
+          "size": "8px"
+        },
+        {
+          "slug": "sm",
+          "name": "SM",
+          "size": "12px"
+        },
+        {
+          "slug": "md",
+          "name": "MD",
+          "size": "16px"
+        },
+        {
+          "slug": "lg",
+          "name": "LG",
+          "size": "20px"
+        },
+        {
+          "slug": "xl",
+          "name": "XL",
+          "size": "24px"
+        },
+        {
+          "slug": "2xl",
+          "name": "2XL",
+          "size": "32px"
+        },
+        {
+          "slug": "3xl",
+          "name": "3XL",
+          "size": "40px"
+        },
+        {
+          "slug": "4xl",
+          "name": "4XL",
+          "size": "48px"
+        },
+        {
+          "slug": "5xl",
+          "name": "5XL",
+          "size": "64px"
+        },
+        {
+          "slug": "6xl",
+          "name": "6XL",
+          "size": "80px"
+        }
+      ],
+      "units": [
+        "px",
+        "rem",
+        "em",
+        "%",
+        "vh",
+        "vw"
+      ]
+    },
+    "typography": {
+      "customFontSize": false,
+      "defaultFontSizes": false,
+      "fontFamilies": [
+        {
+          "slug": "display",
+          "name": "Inter Tight",
+          "fontFamily": "'Inter Tight', 'Inter', sans-serif"
+        },
+        {
+          "slug": "body",
+          "name": "Inter",
+          "fontFamily": "'Inter', sans-serif"
+        },
+        {
+          "slug": "mono",
+          "name": "JetBrains Mono",
+          "fontFamily": "'JetBrains Mono', monospace"
+        }
+      ],
+      "fontSizes": [
+        {
+          "slug": "footnote",
+          "name": "Footnote",
+          "size": "12.5px"
+        },
+        {
+          "slug": "body-compact",
+          "name": "Body Compact",
+          "size": "14px"
+        },
+        {
+          "slug": "body",
+          "name": "Body",
+          "size": "16.5px"
+        },
+        {
+          "slug": "heading-3",
+          "name": "Heading 3",
+          "size": "18px"
+        },
+        {
+          "slug": "heading-2",
+          "name": "Heading 2",
+          "size": "24px"
+        },
+        {
+          "slug": "heading-1",
+          "name": "Heading 1",
+          "size": "44px"
+        },
+        {
+          "slug": "hero-medium",
+          "name": "Hero Medium",
+          "size": "clamp(40px, 6vw, 72px)"
+        },
+        {
+          "slug": "hero",
+          "name": "Hero",
+          "size": "clamp(56px, 9vw, 112px)"
+        }
+      ]
+    },
+    "custom": {
+      "agustos": {
+        "radius": {
+          "small": "4px",
+          "medium": "6px",
+          "large": "10px"
+        },
+        "motion": {
+          "duration": "120ms",
+          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+        }
+      }
+    }
+  },
+  "styles": {
+    "color": {
+      "background": "var:preset|color|paper-white",
+      "text": "var:preset|color|ink"
+    },
+    "spacing": {
+      "padding": {
+        "left": "var:preset|spacing|xl",
+        "right": "var:preset|spacing|xl"
+      }
+    },
+    "typography": {
+      "fontFamily": "var:preset|font-family|body",
+      "lineHeight": "1.65"
+    },
+    "elements": {
+      "heading": {
+        "typography": {
+          "fontFamily": "var:preset|font-family|display",
+          "fontWeight": "500"
+        }
+      },
+      "link": {
+        "color": {
+          "text": "var:preset|color|signal"
+        },
+        "typography": {
+          "fontWeight": "600",
+          "textDecoration": "underline"
+        }
+      }
+    }
+  }
+}

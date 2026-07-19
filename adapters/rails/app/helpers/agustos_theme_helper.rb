@@ -42,7 +42,7 @@ module AgustosThemeHelper
   def agustos_theme(
     brand: :agustos,
     lang: :tr,
-    substrate: :cream,
+    substrate: :white,
     title: nil,
     description: nil,
     home_href: nil,
@@ -74,7 +74,7 @@ module AgustosThemeHelper
     {
       brand: :agustos,
       lang: "tr",
-      substrate: :cream,
+      substrate: :white,
       title: "Ağustos",
       description: "Typography-first design system.",
       home_href: "/",
@@ -92,7 +92,7 @@ module AgustosThemeHelper
 
   def agustos_body_class
     config = agustos_theme_config
-    classes = [BRAND_CLASSES.fetch(config[:brand], BRAND_CLASSES[:agustos])]
+    classes = ["agustos-layout", BRAND_CLASSES.fetch(config[:brand], BRAND_CLASSES[:agustos])]
     classes << "paper-white" if config[:substrate] == :white
     classes.join(" ")
   end

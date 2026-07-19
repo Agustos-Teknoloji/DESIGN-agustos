@@ -12,6 +12,7 @@
         --ink-faint: #8a8a8a;
         --rule: #e8e3d0;
         --brand: #cf142a;
+        --signal: #cf142a;
         --display: 'Inter Tight Variable', 'Inter Tight', 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         --body: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
         --mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospace;
@@ -38,13 +39,13 @@
         color: inherit;
         font-weight: 600;
         text-decoration: underline;
-        text-decoration-color: var(--brand);
+        text-decoration-color: var(--signal);
         text-decoration-thickness: 2px;
         text-underline-offset: 3px;
       }
 
       a:focus-visible {
-        outline: 2px solid var(--brand);
+        outline: 2px solid var(--signal);
         outline-offset: 4px;
       }
 
@@ -94,7 +95,7 @@
       .toc__item:hover {
         color: var(--ink);
         text-decoration: underline;
-        text-decoration-color: var(--brand);
+        text-decoration-color: var(--signal);
       }
 
       .toc__item--1 {
@@ -156,7 +157,7 @@
         float: left;
         width: 1em;
         margin-left: -1.2em;
-        color: var(--brand);
+        color: var(--signal);
         font-weight: 600;
         text-decoration: none;
         opacity: 0;
@@ -179,7 +180,7 @@
       }
 
       ul, ol { padding-left: 1.5em; }
-      li::marker { color: var(--brand); }
+      li::marker { color: var(--signal); }
 
       dt {
         margin-top: 1em;
@@ -193,7 +194,7 @@
 
       blockquote {
         padding: 0.25em 0 0.25em 1.25em;
-        border-left: 2px solid var(--brand);
+        border-left: 2px solid var(--signal);
         color: var(--ink-soft);
         font-style: italic;
       }
@@ -304,22 +305,23 @@
     <div class="page">
       <aside class="toc" aria-label="Table of contents">
         <a class="toc__brand" href="#ağustos-design-system">ağustos</a>
-        <p class="toc__meta">Rendered from DESIGN.md<br />19 July 2026 at 20:51 Istanbul time</p>
+        <p class="toc__meta">Rendered from DESIGN.md<br />19 July 2026 at 21:40 Istanbul time</p>
         <nav class="toc__items">
           <a class="toc__item toc__item--1" href="#ag-ustos-design-system">Ağustos Design System</a>
 <a class="toc__item toc__item--2" href="#what-this-is">What this is</a>
 <a class="toc__item toc__item--2" href="#system-philosophy">System philosophy</a>
+<a class="toc__item toc__item--2" href="#v3-architecture-and-governance">V3 architecture and governance</a>
 <a class="toc__item toc__item--2" href="#the-type-stack">The type stack</a>
-<a class="toc__item toc__item--2" href="#css-variables">CSS variables</a>
+<a class="toc__item toc__item--2" href="#generated-web-variables">Generated web variables</a>
 <a class="toc__item toc__item--2" href="#global-styles">Global styles</a>
-<a class="toc__item toc__item--2" href="#the-29-tokens">The 29 tokens</a>
+<a class="toc__item toc__item--2" href="#typography-and-content-tokens">Typography and content tokens</a>
 <a class="toc__item toc__item--2" href="#markdown-coverage">Markdown coverage</a>
 <a class="toc__item toc__item--2" href="#logo-system">Logo system</a>
 <a class="toc__item toc__item--2" href="#turkish-locale-handling">Turkish locale handling</a>
 <a class="toc__item toc__item--2" href="#accessibility-requirements">Accessibility requirements</a>
 <a class="toc__item toc__item--2" href="#character-coverage">Character coverage</a>
 <a class="toc__item toc__item--2" href="#substrate-strategy">Substrate strategy</a>
-<a class="toc__item toc__item--2" href="#brand-color-refinement-protocol">Brand color refinement protocol</a>
+<a class="toc__item toc__item--2" href="#ıdentity-and-signal-color-governance">Identity and signal color governance</a>
 <a class="toc__item toc__item--2" href="#what-was-cut-and-why">What was cut, and why</a>
 <a class="toc__item toc__item--2" href="#ımplementation-notes">Implementation notes</a>
 <a class="toc__item toc__item--2" href="#files-in-this-system">Files in this system</a>
@@ -331,35 +333,80 @@
         <p class="render-note">Standalone HTML preview of the canonical design specification.</p>
         <article>
           <h1 id="ag-ustos-design-system"><a class="heading-anchor" href="#ag-ustos-design-system" aria-label="Link to Ağustos Design System">#</a>Ağustos Design System</h1>
-<p><strong>Version 3.0.0</strong> · Type-first design system for Emre Güneş's brand portfolio
+<p><strong>Version 3.0.0</strong> · Cross-medium design system for Emre Güneş's brand portfolio
 <strong>Last updated:</strong> July 19, 2026
-<strong>Status:</strong> Major update · Reusable topbar and structured footer replace the legacy sidebar · Token count remains 29</p>
+<strong>Status:</strong> Architectural evolution with visual continuity</p>
 <hr />
 <h2 id="what-this-is"><a class="heading-anchor" href="#what-this-is" aria-label="Link to What this is">#</a>What this is</h2>
-<p>A typographic design system covering web, document, and product UI surfaces for a multi-brand portfolio. Built typography-first because that's the durable layer, colors change, components change, typefaces and rules persist.</p>
+<p>A typographic design system covering web, document, presentation, and product UI surfaces for a multi-brand portfolio. It is built typography-first because that is the durable layer: components change, while alignment, type, hierarchy, and rules persist.</p>
+<p><code>agustos.com</code> is the design laboratory and reference implementation. Proven patterns are promoted from real website use into this repository; the live site is never the literal source of truth. <code>tokens/design-tokens.json</code>, <code>brand/brands.json</code>, and this specification are authoritative.</p>
 <p>The portfolio currently spans:</p>
 <ul>
 <li><strong>Ağustos Teknoloji.</strong> Lighting agency and distribution (red, <code>#cf142a</code>)</li>
-<li><strong>Pataraz.</strong> Premium luminaire brand at mid-tier pricing (blue, <code>#1a24cc</code>)</li>
+<li><strong>Pataraz.</strong> Premium luminaire brand at mid-tier pricing (black/white identity)</li>
 <li><strong>PLD Türkiye.</strong> Lighting publication archive (black, <code>#1a1a1a</code>)</li>
-<li><strong>Photometric Batch.</strong> Software for lighting data (green, <code>#1f6b4a</code>)</li>
+<li><strong>Photometric Batch.</strong> Software for lighting data (black/white identity)</li>
 </ul>
-<p>Future brands plug in by choosing a name and a color. No new typography, no new logo design, no new structural decisions.</p>
+<p>Future house brands plug in by choosing a name. They inherit black/white identity ink, shared red interaction signals, typography, logo geometry, and structure.</p>
 <hr />
 <h2 id="system-philosophy"><a class="heading-anchor" href="#system-philosophy" aria-label="Link to System philosophy">#</a>System philosophy</h2>
 <p>Six rules that govern every decision in the system. These are non-negotiable; they're how the system survives over time.</p>
 <h3 id="1-portability-over-preference"><a class="heading-anchor" href="#1-portability-over-preference" aria-label="Link to 1. Portability over preference">#</a>1. Portability over preference</h3>
 <p>Every design decision must survive translation across markdown → web → PDF → docx → plain text. Treatments that exist only in HTML are luxuries, not primitives. If a treatment can't be expressed in standard markdown, it doesn't belong in the system.</p>
 <h3 id="2-the-publisher-precedes-the-brand"><a class="heading-anchor" href="#2-the-publisher-precedes-the-brand" aria-label="Link to 2. The publisher precedes the brand">#</a>2. The publisher precedes the brand</h3>
-<p>All visible brand systems express &quot;from Emre's house&quot; first, individual brand identity second. This is the inverse of most multi-brand systems. The shared symbol and shared typography identify the publisher; brand color and name identify the publication.</p>
+<p>All visible brand systems express &quot;from Emre's house&quot; first, individual brand identity second. This is the inverse of most multi-brand systems. The shared symbol, typography, neutral identity model, and red interaction signal identify the publisher; the wordmark names the publication.</p>
 <h3 id="3-one-symbol-forever"><a class="heading-anchor" href="#3-one-symbol-forever" aria-label="Link to 3. One symbol, forever">#</a>3. One symbol, forever</h3>
-<p>The Laz Güneşi is the publisher's mark. Every brand carries it, regardless of category. The symbol is fixed; the discipline of one symbol is more valuable than per-brand symbolism. Brands flex on two axes only: name and color.</p>
-<h3 id="4-color-must-sit-with-cream"><a class="heading-anchor" href="#4-color-must-sit-with-cream" aria-label="Link to 4. Color must sit with cream">#</a>4. Color must sit with cream</h3>
-<p>Brand colors must be selected (or refined) for the cream substrate. Raw web colors fight the paper; designed colors integrate. Pataraz's original <code>#0000FF</code> was refined to <code>#1a24cc</code> for this reason.</p>
-<h3 id="5-brand-color-is-a-signal-not-decoration"><a class="heading-anchor" href="#5-brand-color-is-a-signal-not-decoration" aria-label="Link to 5. Brand color is a signal, not decoration">#</a>5. Brand color is a signal, not decoration</h3>
-<p>The link is the primary interactive brand expression: bold + 2px brand-colored underline. Brand color may also appear where it carries a defined semantic role: identity marks, the page-defining hero eyebrow, editorial markers (blockquote border, pullquote opening quote, list markers, footnote refs), and focus rings. Everything else is ink on paper. Brand color carries meaning (identity, navigation, structure, accessibility), never surface decoration.</p>
+<p>The Laz Güneşi is the publisher's mark. Every brand carries it, regardless of category. The symbol is fixed; the discipline of one symbol is more valuable than per-brand symbolism. House brands flex through name and content, not a palette of logo colors.</p>
+<h3 id="4-ag-ustos-alone-owns-red-as-identity"><a class="heading-anchor" href="#4-ag-ustos-alone-owns-red-as-identity" aria-label="Link to 4. Ağustos alone owns red as identity">#</a>4. Ağustos alone owns red as identity</h3>
+<p>Ağustos uses red <code>#cf142a</code> for its symbol and wordmark. Pataraz, PLD Türkiye, Photometric, and future house brands use black <code>#1a1a1a</code> on light substrates and cream/white on black identity tiles. Do not invent a chromatic identity color for each brand.</p>
+<h3 id="5-shared-red-is-a-signal-not-decoration"><a class="heading-anchor" href="#5-shared-red-is-a-signal-not-decoration" aria-label="Link to 5. Shared red is a signal, not decoration">#</a>5. Shared red is a signal, not decoration</h3>
+<p>The link is the primary shared interaction expression: bold + 2px red underline. Red also appears in focus rings, the page-defining hero eyebrow, and editorial markers such as blockquote borders, pullquote quotes, list markers, and footnote references. Everything else is ink on paper. The identity role (<code>brandMark</code>) and interaction role (<code>signal</code>) are separate: red never recolors a non-Ağustos logo.</p>
 <h3 id="6-turkish-content-declares-its-language"><a class="heading-anchor" href="#6-turkish-content-declares-its-language" aria-label="Link to 6. Turkish content declares its language">#</a>6. Turkish content declares its language</h3>
 <p>Every Turkish content block carries <code>lang=&quot;tr&quot;</code>. CSS enables <code>font-feature-settings: &quot;locl&quot;</code> globally. This is a correctness requirement, not a preference, without it, <code>text-transform: uppercase</code> produces wrong capitalization (i → I instead of i → İ).</p>
+<hr />
+<h2 id="v3-architecture-and-governance"><a class="heading-anchor" href="#v3-architecture-and-governance" aria-label="Link to V3 architecture and governance">#</a>V3 architecture and governance</h2>
+<p>The website redesign contributed a compositional grammar, not merely a handful of CSS values: quiet one-row chrome, one aligned frame, large editorial openings, signal color used selectively, bordered content groups, small radii, short motion, and generous section rhythm.</p>
+<p>V3 separates that grammar into four layers:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Owns</th>
+<th>Canonical representation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Foundations</strong></td>
+<td>Color, type, weights, sizes, spacing, measure, borders, radii, motion</td>
+<td><code>tokens/design-tokens.json</code> → <code>foundations</code></td>
+</tr>
+<tr>
+<td><strong>Semantic roles</strong></td>
+<td>Paper, surface, ink, muted ink, rule, brand mark, shared signal, focus, display/body/data text</td>
+<td><code>tokens/design-tokens.json</code> → <code>semantic</code> and <code>themes</code></td>
+</tr>
+<tr>
+<td><strong>Recipes</strong></td>
+<td>Chrome, hero, section opening, editorial link, card, data table, document, presentation</td>
+<td><code>tokens/design-tokens.json</code> → <code>recipes</code> plus <code>tokens/web.css.tmpl</code> where behavior is web-specific</td>
+</tr>
+<tr>
+<td><strong>Adapters</strong></td>
+<td>Astro, WordPress, Rails, PowerPoint, Word/Google Docs</td>
+<td>Generated and framework-specific files under <code>adapters/</code> and <code>brand/</code></td>
+</tr>
+</tbody>
+</table>
+<p>The promotion loop is deliberate:</p>
+<ol>
+<li>Test a new pattern on a real site with real content.</li>
+<li>Confirm it is reusable and consistent with the identity principles.</li>
+<li>Express the durable decision as a foundation, semantic role, or recipe here.</li>
+<li>Regenerate adapters and artifacts.</li>
+<li>Run drift, platform, and visual QA before release.</li>
+</ol>
+<p>A web header does not become a Word header verbatim. Each adapter inherits alignment, hierarchy, type, signal color, and spacing logic, then translates them into the native conventions of its medium.</p>
 <hr />
 <h2 id="the-type-stack"><a class="heading-anchor" href="#the-type-stack" aria-label="Link to The type stack">#</a>The type stack</h2>
 <p>Three families. Each with one job. No overlap. As of v2.0 the system runs on a single sibling pair (Inter Tight + Inter) plus a code mono, the editorial serif has been retired in favor of one paired family from logotype to footnote.</p>
@@ -381,8 +428,8 @@
 <pre><code class="language-css">font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospace;
 </code></pre>
 <hr />
-<h2 id="css-variables"><a class="heading-anchor" href="#css-variables" aria-label="Link to CSS variables">#</a>CSS variables</h2>
-<p>Drop into any project. Seventeen variables define the system, including one runtime alias (<code>--brand</code>) that resolves to the active brand color.</p>
+<h2 id="generated-web-variables"><a class="heading-anchor" href="#generated-web-variables" aria-label="Link to Generated web variables">#</a>Generated web variables</h2>
+<p><code>tokens/design-tokens.json</code> is canonical. <code>tokens/agustos.css</code> is a generated, drop-in web artifact; do not edit it directly. The CSS keeps the established class APIs and the runtime <code>--brand</code> alias so existing sites can move to v3 without a visual reset.</p>
 <pre><code class="language-css">:root {
   /* Substrate */
   --paper: #fefcf2;        /* Cream, branded contexts */
@@ -406,11 +453,14 @@
   --dur: 120ms;
   --ease: ease;
 
-  /* Brand colors, pick one per page */
+  /* Shared interaction signal across every brand */
+  --signal: #cf142a;
+
+  /* Identity ink, selected per page */
   --brand-agustos: #cf142a;
-  --brand-pataraz: #1a24cc;
+  --brand-pataraz: #1a1a1a;
   --brand-pld: #1a1a1a;
-  --brand-photometric: #1f6b4a;
+  --brand-photometric: #1a1a1a;
   --brand: var(--brand-agustos);
 
   /* Type stacks, v2.0 */
@@ -419,11 +469,7 @@
   --mono:    'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospace;
 }
 </code></pre>
-<p><strong>Note on the v2.2 additions.</strong> <code>--radius-*</code> and <code>--dur</code>/<code>--ease</code> formalize values
-that were already in use ad hoc (WEBSITE-agustos's Sidebar, MobileHeader, and
-BrandLockup components all hand-wrote <code>120ms ease</code> transitions and one-off border
-radii before this addition). Three radii, not a full scale, matching the system's
-&quot;three tiers per dimension&quot; restraint principle.</p>
+<p>Radii and motion were first proven in the website redesign and are now v3 foundations. Three radii, not a full numeric scale, preserve the system's restraint principle.</p>
 <p><strong>Note on naming.</strong> v1.x used <code>--serif</code>, <code>--sans</code>, <code>--logotype</code> to name the three faces by category. v2.0 names them by role. <code>--display</code> (anything designed) and <code>--body</code> (anything read at length), because the system no longer has a serif/sans split. Mono is unchanged.</p>
 <p><strong>Per-brand application:</strong></p>
 <pre><code class="language-css">.brand-agustos { --brand: var(--brand-agustos); }
@@ -431,7 +477,7 @@ radii before this addition). Three radii, not a full scale, matching the system'
 .brand-pld     { --brand: var(--brand-pld); }
 .brand-photo   { --brand: var(--brand-photometric); }
 </code></pre>
-<p>Inside any brand-scoped element, <code>var(--brand)</code> resolves to the correct color. Adding a new brand is one line. Without a brand class, <code>--brand</code> falls back to Ağustos red.</p>
+<p>Inside any brand-scoped element, <code>var(--brand)</code> resolves to its identity ink. <code>var(--signal)</code> remains Ağustos red across every brand. Without a brand class, <code>--brand</code> falls back to Ağustos red.</p>
 <p><strong>Substrate helpers:</strong></p>
 <pre><code class="language-css">.paper-white {
   --paper: var(--paper-white);
@@ -454,8 +500,8 @@ radii before this addition). Three radii, not a full scale, matching the system'
 <p><strong>The <code>locl</code> feature is mandatory.</strong> It activates locale-aware OpenType lookups, which makes Turkish capitalization render correctly when <code>lang=&quot;tr&quot;</code> is declared on content.</p>
 <p><strong>The <code>ss01</code> stylistic set</strong> is enabled globally for Inter, it switches the single-storey lowercase <code>a</code> to the more neutral two-storey form Inter ships in <code>ss01</code>. This is a project-level taste decision; flip it off if a future audit prefers the default.</p>
 <hr />
-<h2 id="the-29-tokens"><a class="heading-anchor" href="#the-29-tokens" aria-label="Link to The 29 tokens">#</a>The 29 tokens</h2>
-<p>Each token has exactly one job. When writing content, ask only: which one of these is this? Token count went from 22 → 24 in v2.0 with the addition of <code>.type-hero</code> and <code>.type-hero-md</code>; v2.2 adds five CSS variable tokens for radii and motion, bringing the system to 29 while keeping the typography/content token set stable.</p>
+<h2 id="typography-and-content-tokens"><a class="heading-anchor" href="#typography-and-content-tokens" aria-label="Link to Typography and content tokens">#</a>Typography and content tokens</h2>
+<p>Each token has exactly one job. When writing content, ask only: which one of these is this? V3 keeps the useful v2 class API while moving its values into the structured registry.</p>
 <h3 id="hero-2-new-ın-v2-0"><a class="heading-anchor" href="#hero-2-new-ın-v2-0" aria-label="Link to Hero (2) · NEW IN v2.0">#</a>Hero (2) · NEW IN v2.0</h3>
 <table>
 <thead>
@@ -484,7 +530,7 @@ radii before this addition). Three radii, not a full scale, matching the system'
 </tr>
 </tbody>
 </table>
-<p>The hero deck is a separate utility (<code>.type-hero-deck</code>), upright body at 18–21px, max-width 54ch, paired with either hero token. It is a supporting lead, not a quote, so it does not use italic. Eyebrow above hero uses <code>.type-h4</code> in brand color; this is an allowed semantic brand accent because it labels the page-defining statement.</p>
+<p>The hero deck is a separate utility (<code>.type-hero-deck</code>), upright body at 18–21px, max-width 54ch, paired with either hero token. It is a supporting lead, not a quote, so it does not use italic. Eyebrow above hero uses <code>.type-h4</code> in shared signal red because it labels the page-defining statement.</p>
 <h3 id="hero-element-styles"><a class="heading-anchor" href="#hero-element-styles" aria-label="Link to Hero element styles">#</a>Hero element styles</h3>
 <p>The HERO section is a page-opening composition, not a new token family. It combines two typography tokens, one deck utility, and component styles. On the homepage, the hero text should occupy the first viewport as a top-aligned editorial opening; the page should not vertically center the statement or split it into text/media columns. Name the parts consistently so design notes, implementation, and CMS fields all refer to the same things.</p>
 <table>
@@ -513,13 +559,13 @@ radii before this addition). Three radii, not a full scale, matching the system'
 <td><strong>Primary CTA</strong></td>
 <td><code>.hero-link.hero-link--primary</code> inside <code>.hero-links</code></td>
 <td>Optional</td>
-<td>Main navigational path. The homepage may have two primary path links when it opens into two equal business lines. Bold editorial link with arrow and brand-colored underline. No filled button in the homepage hero.</td>
+<td>Main navigational path. The homepage may have two primary path links when it opens into two equal business lines. Bold editorial link with arrow and shared-red underline. No filled button in the homepage hero.</td>
 </tr>
 <tr>
 <td><strong>Secondary CTA</strong></td>
 <td><code>.hero-link.hero-link--secondary</code> inside <code>.hero-links</code></td>
 <td>Optional</td>
-<td>Lower-priority contact or support action placed after the primary path links. Ink-soft editorial link with arrow and brand-colored underline.</td>
+<td>Lower-priority contact or support action placed after the primary path links. Ink-soft editorial link with arrow and shared-red underline.</td>
 </tr>
 <tr>
 <td><strong>Trust Signals</strong></td>
@@ -547,7 +593,7 @@ radii before this addition). Three radii, not a full scale, matching the system'
 <li><strong>Hero Visual</strong> as the adjacent or following visual plane.</li>
 </ol>
 <p>Do not make the hero headline itself the call to action. Headline links create an oversized underline and confuse hierarchy: the statement starts behaving like a button. Keep the title as ink-on-paper; put navigation in the action row.</p>
-<p>CTA philosophy for the homepage is <strong>editorial link, not product button</strong>. Stripe-style filled buttons conflict with the rule that brand color is a signal, not a filled surface. Pentagram-style outlined boxes are internally consistent, but they still turn the action into a UI object. Ağustos should follow the restrained publisher pattern: bold text link, arrow, brand underline. The hero stays typographic.</p>
+<p>CTA philosophy for the homepage is <strong>editorial link, not product button</strong>. Filled buttons conflict with the rule that signal red is not a surface color. The restrained publisher pattern is bold text, arrow, and shared-red underline. The hero stays typographic.</p>
 <p>Hero component styles are web/component utilities, not typography tokens. Homepage hero action utilities are editorial links; boxed <code>.hero-action</code> utilities may still be used for lower section-opening CTA rows where target size and scannability matter more than first-impression typography. <code>.hero-trust</code> and <code>.hero-visual</code> belong to hero sections only:</p>
 <table>
 <thead>
@@ -566,7 +612,7 @@ radii before this addition). Three radii, not a full scale, matching the system'
 <tr>
 <td><code>.hero-link</code></td>
 <td>Base homepage action link</td>
-<td>Display family, 17-21px, weight 600, brand-colored 2px underline, arrow after text. The arrow may be literal text or <code>::after</code>; either is acceptable if accessible text stays clean.</td>
+<td>Display family, 17-21px, weight 600, shared-red 2px underline, arrow after text. The arrow may be literal text or <code>::after</code>; either is acceptable if accessible text stays clean.</td>
 </tr>
 <tr>
 <td><code>.hero-link--primary</code></td>
@@ -591,7 +637,7 @@ radii before this addition). Three radii, not a full scale, matching the system'
 </tbody>
 </table>
 <p>Actions are links, not generic buttons. In the homepage hero they should not look button-like: the action is part of the typographic composition. In lower sections, boxed links can appear when the surrounding layout needs clearer tap targets.</p>
-<p><strong>Implementation status.</strong> <code>.hero-links</code>, <code>.hero-link</code>, <code>.hero-link--primary</code>, <code>.hero-link--secondary</code>, and boxed <code>.hero-action*</code> utilities exist in the local token CSS. <code>.hero-trust</code> and <code>.hero-visual</code> are specified here as required hero utilities and should be mirrored into adapter token CSS before they are used in production hero templates.</p>
+<p><strong>Implementation status.</strong> The hero actions, trust, and visual utilities are generated into all web adapters from the v3 source.</p>
 <h3 id="headings-4"><a class="heading-anchor" href="#headings-4" aria-label="Link to Headings (4)">#</a>Headings (4)</h3>
 <table>
 <thead>
@@ -672,7 +718,7 @@ radii before this addition). Three radii, not a full scale, matching the system'
 <td>inherit</td>
 <td>600</td>
 <td>Body</td>
-<td>Bold + 2px brand-color underline, 3px offset. Primary interactive brand expression.</td>
+<td>Bold + 2px shared-red underline, 3px offset. Primary family interaction expression.</td>
 </tr>
 <tr>
 <td><code>code</code> (inline)</td>
@@ -719,25 +765,25 @@ radii before this addition). Three radii, not a full scale, matching the system'
 <td><code>.type-blockquote</code></td>
 <td>18px / lh 1.55</td>
 <td>Body italic</td>
-<td>Border-left 2px brand. <code>cite</code> is display, uppercase.</td>
+<td>Border-left 2px shared signal. <code>cite</code> is display, uppercase.</td>
 </tr>
 <tr>
 <td><code>.type-pullquote</code></td>
 <td>26px / lh 1.22</td>
 <td>Display</td>
-<td>Borders top + bottom. Opening curly quote in brand color.</td>
+<td>Borders top + bottom. Opening curly quote in shared red.</td>
 </tr>
 <tr>
 <td><code>.type-list-ol</code></td>
 <td>16.5px / lh 1.65</td>
 <td>Body</td>
-<td>Markers in brand color.</td>
+<td>Markers in shared red.</td>
 </tr>
 <tr>
 <td><code>.type-list-ul</code></td>
 <td>16.5px / lh 1.65</td>
 <td>Body</td>
-<td>Markers in brand color.</td>
+<td>Markers in shared red.</td>
 </tr>
 <tr>
 <td><code>.type-dl</code></td>
@@ -786,7 +832,7 @@ radii before this addition). Three radii, not a full scale, matching the system'
 <td><code>.type-footnote</code></td>
 <td>12.5px</td>
 <td>Body</td>
-<td>Ink-faint. <code>sup</code> markers in brand color, weight 600.</td>
+<td>Ink-faint. <code>sup</code> markers in shared red, weight 600.</td>
 </tr>
 </tbody>
 </table>
@@ -897,7 +943,7 @@ radii before this addition). Three radii, not a full scale, matching the system'
 <tr>
 <td><code>blockquote padding</code></td>
 <td><code>0.25em 0 0.25em 1.25em</code></td>
-<td>Vertical breathing inside the quote, horizontal indent past the brand-colored border</td>
+<td>Vertical breathing inside the quote, horizontal indent past the shared-red border</td>
 </tr>
 <tr>
 <td><code>blockquote cite margin-top</code></td>
@@ -1088,7 +1134,7 @@ radii before this addition). Three radii, not a full scale, matching the system'
 <hr />
 <h2 id="logo-system"><a class="heading-anchor" href="#logo-system" aria-label="Link to Logo system">#</a>Logo system</h2>
 <h3 id="the-symbol"><a class="heading-anchor" href="#the-symbol" aria-label="Link to The symbol">#</a>The symbol</h3>
-<p>The Laz Güneşi; 18 blades, 20° apart, rotational sun. Every brand carries it, in brand color.
+<p>The Laz Güneşi; 18 blades, 20° apart, rotational sun. Every brand carries the exact same symbol in its registered identity ink.
 Source of truth: <code>laz-gunesi-amblem/svg/master.svg</code> (parametric rebuild from the original Illustrator file). Asset kit (SVG/PDF/PNG/CSS) lives in the same folder.</p>
 <h3 id="the-lockup"><a class="heading-anchor" href="#the-lockup" aria-label="Link to The lockup">#</a>The lockup</h3>
 <pre><code>[ Symbol ]  brandname
@@ -1099,7 +1145,7 @@ Source of truth: <code>laz-gunesi-amblem/svg/master.svg</code> (parametric rebui
 <li>Wordmark in <code>--display</code> (Inter Tight), <code>font-weight: 650</code>, <code>letter-spacing: 0</code></li>
 <li>Variable <code>wght</code> axis 100–900. Weight 650 is the working wordmark weight: bold enough to hold at 16–20px, still refined beside the Laz Güneşi. The tighter proportions of Inter Tight (vs. Inter) keep the lockup compact without negative tracking.</li>
 <li><strong>Always lowercase.</strong> <code>text-transform: lowercase</code> is enforced on <code>.lockup__name</code> so the wordmark renders lowercase regardless of how the brandname prop is passed. The prop can stay Title Case for SEO/aria; CSS does the visual normalization.</li>
-<li>Wordmark color = <code>--brand</code> (matches the symbol, the lockup reads as one mark, not two)</li>
+<li>Wordmark color = <code>--brand</code> (identity ink; matches the symbol so the lockup reads as one mark)</li>
 <li><strong>No subtitle.</strong> The publisher mark is one word and one symbol. Sublabels and taglines belong elsewhere (page metadata, page subtitle, footer copy), not on the lockup.</li>
 <li><strong>No hover underline, ever.</strong> The lockup is identity, not a normal text link. Hover must be visually quiet. If the lockup is clickable, keyboard focus must still be visible through an accessible focus outline or equivalent site-level focus treatment.</li>
 <li><strong>Optical vertical centering.</strong> The symbol receives <code>transform: translateY(0.08em)</code> so its geometric center aligns with the wordmark's <em>optical</em> center, not the line-box geometric center. Lowercase text concentrates its visual mass between baseline and x-height; the upper portion of the line-box is mostly empty (only ascenders and the ğ breve reach there). Without the 0.08em shift, the symbol reads as floating high above all-lowercase wordmarks. Tested across all four brand wordmarks including the breve-heavy <code>ağustos</code> and ascender-light <code>pataraz</code>: single value works for both.</li>
@@ -1124,7 +1170,7 @@ Source of truth: <code>laz-gunesi-amblem/svg/master.svg</code> (parametric rebui
 <tr>
 <td><code>pataraz</code></td>
 <td><code>pataraz</code></td>
-<td><code>--brand-pataraz</code> (#1a24cc)</td>
+<td><code>--brand-pataraz</code> (#1a1a1a)</td>
 </tr>
 <tr>
 <td><code>pld</code></td>
@@ -1134,7 +1180,7 @@ Source of truth: <code>laz-gunesi-amblem/svg/master.svg</code> (parametric rebui
 <tr>
 <td><code>photo</code></td>
 <td><code>photometric</code></td>
-<td><code>--brand-photometric</code> (#1f6b4a)</td>
+<td><code>--brand-photometric</code> (#1a1a1a)</td>
 </tr>
 </tbody>
 </table>
@@ -1142,16 +1188,16 @@ Source of truth: <code>laz-gunesi-amblem/svg/master.svg</code> (parametric rebui
 <p>The page <code>&lt;title&gt;</code> is independent and stays Title Case (e.g. &quot;Ağustos Teknoloji, lighting agency and distribution&quot;) for SEO and browser-tab readability. Title and wordmark are deliberately separate concerns.</p>
 <h3 id="three-expressions"><a class="heading-anchor" href="#three-expressions" aria-label="Link to Three expressions">#</a>Three expressions</h3>
 <ol>
-<li><strong>Positive.</strong> Symbol + wordmark in brand color on cream/white substrate. Primary use, 90% of contexts.</li>
-<li><strong>Negative.</strong> Symbol in cream/white on brand-color tile. For favicons, monograms, brand-color tiles.</li>
+<li><strong>Positive.</strong> Symbol + wordmark in identity ink on cream/white substrate. Ağustos is red; all other house brands are black. Primary use, 90% of contexts.</li>
+<li><strong>Negative.</strong> Symbol + wordmark in cream/white on the identity tile: red for Ağustos, black for every other house brand. For favicons, monograms, and identity tiles.</li>
 <li><strong>Mono.</strong> Symbol + wordmark in ink on cream, or cream on ink. Single-color print, stamps, fax-quality.</li>
 </ol>
 <p>No fourth expression exists.</p>
 <h3 id="favicon-app-icons"><a class="heading-anchor" href="#favicon-app-icons" aria-label="Link to Favicon & app icons">#</a>Favicon &amp; app icons</h3>
-<p>The favicon uses the <strong>Negative</strong> expression — white Laz Güneşi on a brand-color tile. A solid tile holds its brand color and a recognizable silhouette at 16px, where the bare symbol's thin blades wash out to a faint ring. The bare symbol (Positive) is for in-page use, never the browser tab.</p>
+<p>The favicon uses the <strong>Negative</strong> expression — white Laz Güneşi on the registered identity tile. The tile is red for Ağustos and black for every other house brand. A solid tile preserves a recognizable silhouette at 16px, where the bare symbol's thin blades wash out to a faint ring.</p>
 <p>Canonical kit: <code>laz-gunesi-amblem/favicon/</code> — <code>favicon.svg</code> (rounded tile, modern browsers), <code>favicon.ico</code> (legacy, square/opaque), <code>apple-touch-icon.png</code> (180px, full-bleed for iOS masking), <code>icon-192.png</code> / <code>icon-512.png</code> + <code>site.webmanifest</code> (PWA), and <code>favicon-mono.svg</code> (bare symbol, in-page only). Copy-paste <code>&lt;head&gt;</code> tags and regeneration steps live in that folder's <code>README.md</code>.</p>
 <p>Adapter <code>public/favicon.svg</code> files are <strong>mirrors</strong> of the canonical; update them in the same change. The full asset map and sync rules are in the repo-root <code>ASSETS.md</code>.</p>
-<h3 id="logotype-ınter-tight-650-v2-1-2"><a class="heading-anchor" href="#logotype-ınter-tight-650-v2-1-2" aria-label="Link to Logotype: Inter Tight 650 (v2.1.2)">#</a>Logotype: Inter Tight 650 (v2.1.2)</h3>
+<h3 id="logotype-ınter-tight-650"><a class="heading-anchor" href="#logotype-ınter-tight-650" aria-label="Link to Logotype: Inter Tight 650">#</a>Logotype: Inter Tight 650</h3>
 <p>The wordmark uses <strong>Inter Tight</strong> (Rasmus Andersson. SIL OFL 1.1). Tighter, more compressed sibling of Inter, designed by the same hand and sharing the same skeleton. Variable <code>wght</code> axis 100–900 with italics. Used at <strong>650</strong> for the lockup.</p>
 <p>Inter Tight is the wordmark face. It is also the system display face, the same family powers heroes, headings, eyebrows, UI labels, and table headers. This consolidation is intentional: in v2.0 the wordmark and the surrounding chrome are drawn from the same family, so the lockup integrates with its context rather than asserting itself as a separate face.</p>
 <p>Why Inter Tight: after seven prior iterations (Fraunces semi-bold, Fraunces slim+WONK, Space Grotesk Light, Manrope ExtraLight, IBM Plex Sans Light, Tenor Sans Regular, Plus Jakarta Sans Light), a final round comparison evaluated Plus Jakarta 300/200, Hanken Grotesk 300, Geist 300, and Inter Tight 300 alongside a system-pairing decision (retire Newsreader for Inter as body). Inter Tight won on three axes: best-in-class Turkish <code>ğ</code> rendering, paired-skeleton harmony with Inter for body, and a &quot;tight&quot; axis that earns the <em>slick</em> descriptor without going couture-thin. The system-level question, retire Newsreader, was decided in favor of consolidation: one paired family, simpler to maintain, more rigorous register from logo to caption.</p>
@@ -1166,9 +1212,10 @@ Source of truth: <code>laz-gunesi-amblem/svg/master.svg</code> (parametric rebui
 <h3 id="adding-a-new-brand"><a class="heading-anchor" href="#adding-a-new-brand" aria-label="Link to Adding a new brand">#</a>Adding a new brand</h3>
 <ol>
 <li>Pick a lowercase wordmark (1–3 words; should look balanced next to the symbol).</li>
-<li>Pick a color (refined to sit with cream substrate, designed, not raw). Add to <code>tokens.css</code> as <code>--brand-{slug}</code> and a <code>.brand-{slug}</code> selector.</li>
-<li>Add the wordmark to the <code>BRAND_WORDMARKS</code> map in <code>BaseLayout.astro</code>.</li>
-<li>Pass <code>brand=&quot;{slug}&quot;</code> to <code>BaseLayout</code>. Lockup inherits color, font, weight, axes, and the lowercase rule automatically.</li>
+<li>Use neutral identity ink <code>#1a1a1a</code> unless this is Ağustos. A chromatic exception requires an explicit governance change.</li>
+<li>Add the registry entry and regenerate; generated adapters expose <code>--brand-{slug}</code> and the matching class.</li>
+<li>Add the wordmark to the framework brand map when an adapter requires one.</li>
+<li>Apply the brand class. The lockup inherits identity ink, font, weight, axes, and the lowercase rule; interactions continue to use shared red.</li>
 </ol>
 <p>Total time: ~10 minutes per brand. No new design work.</p>
 <hr />
@@ -1196,7 +1243,7 @@ lang: tr
 <h3 id="focus-and-keyboard"><a class="heading-anchor" href="#focus-and-keyboard" aria-label="Link to Focus and keyboard">#</a>Focus and keyboard</h3>
 <ul>
 <li>Every interactive element must expose a visible <code>:focus-visible</code> state.</li>
-<li>Brand color may be used for focus rings because it is a semantic interaction signal.</li>
+<li>Shared signal red is used for focus rings because focus belongs to interaction, not identity.</li>
 <li>Skip links are required on full web layouts with persistent navigation.</li>
 <li>Minimum practical target size for button-like controls is 44px on the shorter axis. Editorial text links may be smaller if they sit in prose, but they must have enough line-height and spacing to be tapped comfortably.</li>
 </ul>
@@ -1204,14 +1251,14 @@ lang: tr
 <ul>
 <li>Body text uses <code>--ink</code> on <code>--paper</code> or <code>--paper-white</code>.</li>
 <li>Secondary text uses <code>--ink-soft</code>; use <code>--ink-faint</code> only for captions, footnotes, dates, and low-priority proof lines.</li>
-<li>Brand-colored links and focus rings must be checked on cream, white, and dark substrates.</li>
-<li>Negative expressions (cream/white on brand-color tiles) must be checked per brand, especially Pataraz blue and Photometric green.</li>
+<li>Shared-red links and focus rings must be checked on cream, white, and dark substrates.</li>
+<li>Negative expressions must preserve cream/white contrast on red Ağustos tiles and black house-brand tiles.</li>
 </ul>
 <h3 id="motion-and-state"><a class="heading-anchor" href="#motion-and-state" aria-label="Link to Motion and state">#</a>Motion and state</h3>
 <ul>
 <li>Transitions should be short and functional (roughly 120-180ms).</li>
 <li>Do not encode meaning in color alone. Links use both weight and underline; active navigation uses position, text, and state, not just color.</li>
-<li>Dark theme is allowed as an opt-in implementation layer, but it must preserve the same token relationships: paper, ink, rule, brand, not a separate visual system.</li>
+<li>Dark theme is allowed as an opt-in implementation layer, but it must preserve the same token relationships: paper, ink, rule, identity ink, and shared signal, not a separate visual system.</li>
 </ul>
 <hr />
 <h2 id="character-coverage"><a class="heading-anchor" href="#character-coverage" aria-label="Link to Character coverage">#</a>Character coverage</h2>
@@ -1233,17 +1280,15 @@ lang: tr
 <p>Email, docx defaults, generic web, printer paper, dashboards, product UI. The paper disappears; the typography carries the brand.</p>
 <p>A single CSS variable swap flips the system. No other token changes.</p>
 <h3 id="dark-16140f-opt-in-uı-context"><a class="heading-anchor" href="#dark-16140f-opt-in-uı-context" aria-label="Link to Dark #16140f (opt-in UI context)">#</a>Dark <code>#16140f</code> (opt-in UI context)</h3>
-<p>Dark theme is an implementation layer for screens, not a third brand substrate. It inverts paper, ink, and rule while keeping brand colors stable. The dark paper keeps a warm undertone so cream-trained brand colors still integrate. Use dark theme for user preference and product UI comfort, not as a default editorial expression.</p>
+<p>Dark theme is an implementation layer for screens, not a third brand substrate. It inverts paper, ink, and rule while keeping identity and signal roles stable. Use dark theme for user preference and product UI comfort, not as a default editorial expression.</p>
 <hr />
-<h2 id="brand-color-refinement-protocol"><a class="heading-anchor" href="#brand-color-refinement-protocol" aria-label="Link to Brand color refinement protocol">#</a>Brand color refinement protocol</h2>
-<p>When adding a brand, the brand color must be evaluated against the cream substrate. Raw web colors (pure hues like <code>#0000FF</code>, <code>#FF0000</code>, <code>#00FF00</code>) fight the paper. Designed colors integrate.</p>
-<p><strong>Refinement process:</strong></p>
+<h2 id="ıdentity-and-signal-color-governance"><a class="heading-anchor" href="#ıdentity-and-signal-color-governance" aria-label="Link to Identity and signal color governance">#</a>Identity and signal color governance</h2>
+<p>Color has two separate jobs and they must never collapse into one token:</p>
 <ol>
-<li>Place the raw color next to <code>#fefcf2</code> in a test render.</li>
-<li>If the color feels aggressive, slightly off, or &quot;fights&quot; the paper, refine it.</li>
-<li>Typical refinements: shift 5–10% darker, reduce saturation 5–15%, push slightly toward the paper's warm hue.</li>
+<li><strong>Identity ink (<code>brandMark</code> / <code>--brand</code>).</strong> Ağustos is red <code>#cf142a</code>. Every other house brand is black <code>#1a1a1a</code> on light substrates and cream/white on black identity fields.</li>
+<li><strong>Interaction signal (<code>signal</code> / <code>--signal</code>).</strong> Always red <code>#cf142a</code> across every brand. Use it for links, focus, markers, rules, and small emphasis.</li>
 </ol>
-<p><strong>Example:</strong> Pataraz original <code>#0000FF</code> → refined <code>#1a24cc</code>. Same blue identity, sits with paper instead of fighting it.</p>
+<p>A new chromatic house-brand identity is a philosophy change, not a routine registry choice. It requires updating this specification, <code>brand/brands.json</code>, tokens, tests, and the decision history together.</p>
 <hr />
 <h2 id="what-was-cut-and-why"><a class="heading-anchor" href="#what-was-cut-and-why" aria-label="Link to What was cut, and why">#</a>What was cut, and why</h2>
 <p>Future-you may wonder why these don't exist. They were considered and rejected.</p>
@@ -1264,8 +1309,8 @@ lang: tr
 <td>Sat between Display-XL and H1 with no clear job. H1 absorbs chapter and cover.</td>
 </tr>
 <tr>
-<td><code>.type-eyebrow</code> (small uppercase brand-color)</td>
-<td>H4 absorbs eyebrow. Brand color appears as an eyebrow accent <strong>only above hero tokens</strong>; elsewhere, H4 stays ink-soft unless a local semantic role explicitly earns brand color.</td>
+<td><code>.type-eyebrow</code> (small uppercase signal color)</td>
+<td>H4 absorbs eyebrow. Shared red appears as an eyebrow accent <strong>only above hero tokens</strong>; elsewhere, H4 stays ink-soft unless a local semantic role explicitly earns the signal.</td>
 </tr>
 <tr>
 <td><code>.type-deck</code> (italic sub-headline)</td>
@@ -1309,17 +1354,18 @@ lang: tr
 <h2 id="ımplementation-notes"><a class="heading-anchor" href="#ımplementation-notes" aria-label="Link to Implementation notes">#</a>Implementation notes</h2>
 <h3 id="repository-architecture"><a class="heading-anchor" href="#repository-architecture" aria-label="Link to Repository architecture">#</a>Repository architecture</h3>
 <p>This repository is the canonical design-system source. Framework-specific implementations are adapters.</p>
-<pre><code class="language-txt">DESIGN.md                 Canonical specification
+<pre><code class="language-txt">tokens/design-tokens.json Canonical cross-medium token registry
+brand/brands.json         Canonical brand identity registry
+tokens/web.css.tmpl       Platform-neutral web behavior
+DESIGN.md                 Canonical human-readable specification
 MEMORY.md                 Decision history
-tokens/agustos.css        Platform-neutral CSS token source
-adapters/astro/           Astro adapter and visual demo
-adapters/rails/           Rails monolith adapter skeleton
-artifacts/                Rendered explorations and previews
-laz-gunesi-amblem/        Symbol source and exports
+scripts/                  Generators and drift checks
+adapters/                 Astro, Rails, and WordPress translations
+brand/                    Office generators and brand assets
 </code></pre>
 <p>The system should not depend on Astro. Astro is useful for static sites, documentation, and visual QA. Rails apps should consume the Rails adapter or copy the platform-neutral tokens directly.</p>
 <h3 id="web-utilities"><a class="heading-anchor" href="#web-utilities" aria-label="Link to Web utilities">#</a>Web utilities</h3>
-<p>The platform-neutral token source lives in <code>tokens/agustos.css</code>. Typography tokens are the portable core. Layout and interaction helpers are implementation utilities and may evolve without increasing the typography token count.</p>
+<p>The platform-neutral web behavior lives in <code>tokens/web.css.tmpl</code>; its values resolve from <code>tokens/design-tokens.json</code>. <code>tokens/agustos.css</code> and adapter token files are generated outputs.</p>
 <p>Current non-token utilities:</p>
 <table>
 <thead>
@@ -1335,7 +1381,7 @@ laz-gunesi-amblem/        Symbol source and exports
 </tr>
 <tr>
 <td><code>html[data-theme=&quot;dark&quot;]</code></td>
-<td>Optional dark theme; inverts paper/ink/rule while keeping brand colors stable.</td>
+<td>Optional dark theme; inverts paper/ink/rule while preserving identity and signal roles.</td>
 </tr>
 <tr>
 <td><code>.site-frame</code></td>
@@ -1359,7 +1405,7 @@ laz-gunesi-amblem/        Symbol source and exports
 </tr>
 </tbody>
 </table>
-<p>Specified but not yet fully mirrored in every adapter CSS: <code>.hero-trust</code> and <code>.hero-visual</code>. Add them to the platform-neutral token source and adapter copies before using those classes in production.</p>
+<p>Hero, section, card, and editorial-link recipes are emitted into every web adapter.</p>
 <p>The 920px value is the content measure, not the padded outer width. <code>.site-frame</code>
 and <code>.container</code> therefore cap their border box at <code>calc(920px + 3rem)</code>: 920px
 of content plus a 1.5rem gutter on each side. This keeps header, homepage,
@@ -1372,8 +1418,8 @@ redefine this horizontal geometry.</p>
 sidebar and separate mobile header are retired.</p>
 <p>The header uses a brand lockup, configurable navigation, optional CTA, optional
 language-route link, theme toggle, and search. Desktop search opens a dropdown
-inside the shared frame. At <code>1023px</code> and below — and on touch-first devices up to
-<code>1366px</code> — navigation becomes a right-hand drawer while search remains in a
+inside the shared frame. At <code>1023px</code> and below, and on touch-first devices up to
+<code>1366px</code>, navigation becomes a right-hand drawer while search remains in a
 persistent row below the topbar. Button-like controls are at least 44px. The
 responsive search input is 16px to prevent iOS focus zoom.</p>
 <p>Search is an adapter concern, not a global token. The Astro reference uses
@@ -1392,20 +1438,13 @@ never hard-coded brand policy.</p>
 <li><code>app/assets/stylesheets/agustos/components.css</code></li>
 <li><code>app/helpers/agustos_theme_helper.rb</code></li>
 <li><code>app/views/layouts/agustos.html.erb</code></li>
-<li>shared ERB partials for lockup, header, search results, and footer</li>
-<li>single-purpose Stimulus controllers for drawer, theme, and debounced Turbo search</li>
+<li>shared ERB partials for the exact lockup, header, footer, and Turbo search results</li>
+<li>focused Stimulus controllers for drawer, theme, and search panel behavior</li>
 </ul>
 <p>The Rails adapter is plain ERB first. If an app uses ViewComponent, components can wrap the same semantic pieces later without changing the design grammar.</p>
-<h3 id="pandoc-template"><a class="heading-anchor" href="#pandoc-template" aria-label="Link to Pandoc template">#</a>Pandoc template</h3>
-<p>For docx and PDF generation from markdown, the Pandoc template applies the same CSS variables and class names as the web rendering. Same source, two surfaces.</p>
-<p>A reference template should:</p>
-<ul>
-<li>Set <code>lang: tr</code> in frontmatter for Turkish documents</li>
-<li>Apply Inter Tight / Inter / JetBrains Mono via system font installations</li>
-<li>Map markdown elements to the 24 typography/content tokens and named utilities via class names</li>
-<li>Preserve <code>tnum</code> for tabular numerals in tables</li>
-</ul>
-<p>(Template file: TBD; to be developed during implementation phase.)</p>
+<h3 id="office-and-google-adapters"><a class="heading-anchor" href="#office-and-google-adapters" aria-label="Link to Office and Google adapters">#</a>Office and Google adapters</h3>
+<p><code>brand/build_templates.py</code> reads <code>tokens/resolved.json</code> to create A4 Word letterheads and styled document templates. The document template uses native Word styles and imports into Google Docs; the title sanitizer audit must pass before release.</p>
+<p><code>brand/build_presentation.mjs</code> uses <code>@oai/artifact-tool</code> to create editable 16:9 PowerPoint layouts. The same PPTX is the Google Slides import seed. Web recipes are translated into presentation-native compositions rather than copied as UI.</p>
 <h3 id="font-loading"><a class="heading-anchor" href="#font-loading" aria-label="Link to Font loading">#</a>Font loading</h3>
 <p>Self-host the three families through <code>@fontsource-variable/inter-tight</code>, <code>@fontsource-variable/inter</code>, and <code>@fontsource/jetbrains-mono</code> in web projects. Fallback stacks ensure no rendering failure even if web fonts don't load. Email contexts will permanently use native fallbacks from the stack; this is acceptable.</p>
 <h3 id="browser-support"><a class="heading-anchor" href="#browser-support" aria-label="Link to Browser support">#</a>Browser support</h3>
@@ -1413,37 +1452,35 @@ never hard-coded brand policy.</p>
 <h3 id="qa-checklist"><a class="heading-anchor" href="#qa-checklist" aria-label="Link to QA checklist">#</a>QA checklist</h3>
 <p>Run this checklist before calling a system change complete:</p>
 <ol>
-<li>Render the typography showcase and confirm all 24 typography/content tokens appear; verify the 5 radius/motion tokens are present in CSS.</li>
+<li>Render the typography showcase and confirm the established typography/content classes appear.</li>
 <li>Inspect computed margins for H2/H3/H4, body, lists, tables, code blocks, and dividers; verify the 1em baseline and 2.5em section break actually render.</li>
 <li>Test Turkish uppercase with <code>lang=&quot;tr&quot;</code> on H4/table-header-style text: <code>başlık</code>, <code>i</code>, and <code>ışık</code> must uppercase correctly.</li>
 <li>Check cream, white, and dark substrates.</li>
-<li>Check all brand colors on cream and dark substrates, including link underline, focus ring, list marker, and negative lockup.</li>
-<li>Test keyboard navigation: skip link, header nav/drawer, language controls, theme toggle, search results, hero links, and boxed actions.</li>
+<li>Check red Ağustos and black house-brand lockups separately; verify shared-red link, focus, and marker behavior under every brand class.</li>
+<li>Test keyboard navigation: skip link, header nav, search results, language controls, theme toggle, hero links, and boxed actions.</li>
+<li>Verify the desktop dropdown, responsive search row, drawer/backdrop/Escape behavior, 44px controls, and 16px responsive input.</li>
 <li>Verify mobile and desktop widths; text must not overlap, clip, or force horizontal scrolling except inside code blocks and wide tables.</li>
-<li>If tokens changed, mirror <code>tokens/agustos.css</code>, <code>adapters/astro/src/styles/tokens.css</code>, <code>adapters/rails/app/assets/stylesheets/agustos/tokens.css</code>, and <code>PROJECTS/WEBSITE-agustos/src/styles/tokens.css</code> in the same session.</li>
-<li>If document export changed, render docx/PDF samples and inspect typography, tables, footnotes, and Turkish locale handling.</li>
+<li>Run <code>python3 scripts/build_design_system.py --check</code>; generated hashes must be current.</li>
+<li>If Office export changed, render every DOCX page and PPTX slide, run the Google Docs title sanitizer, and run overflow checks.</li>
 </ol>
 <hr />
 <h2 id="files-in-this-system"><a class="heading-anchor" href="#files-in-this-system" aria-label="Link to Files in this system">#</a>Files in this system</h2>
-<p>When fully implemented, the system consists of:</p>
+<p>The system consists of:</p>
 <ul>
 <li><code>DESIGN.md</code> (this file), canonical specification</li>
 <li><code>MEMORY.md</code>: decision history and reasoning</li>
-<li><code>tokens/agustos.css</code>: <strong>canonical</strong> platform-neutral CSS variables and base rules</li>
-<li><code>adapters/astro/src/styles/tokens.css</code>: Astro adapter copy</li>
-<li><code>adapters/rails/</code>: Rails monolith adapter</li>
-<li><code>agustos-template.docx</code>: Pandoc reference template</li>
-<li><code>agustos-template.tex</code>: LaTeX template for PDF (optional)</li>
-<li><code>examples/</code>: rendered samples in HTML, docx, PDF</li>
-<li><code>fonts/</code>: self-hosted font files</li>
+<li><code>tokens/design-tokens.json</code>: canonical structured registry</li>
+<li><code>brand/brands.json</code>: canonical brand registry</li>
+<li><code>tokens/web.css.tmpl</code>: web behavior template</li>
+<li><code>tokens/resolved.json</code>: generated cross-medium values for downstream generators</li>
+<li><code>tokens/design-system-handoff.json</code>: generated single-file contract for coding systems</li>
+<li><code>tokens/agustos.css</code>: generated portable CSS</li>
+<li><code>adapters/astro/</code>, <code>adapters/rails/</code>, <code>adapters/wordpress/</code></li>
+<li><code>brand/build_templates.py</code> and <code>brand/build_presentation.mjs</code></li>
+<li><code>brand/fonts/</code> and generated <code>brand/exports/</code></li>
 </ul>
-<h3 id="mirrored-implementation"><a class="heading-anchor" href="#mirrored-implementation" aria-label="Link to Mirrored implementation">#</a>Mirrored implementation</h3>
-<p>The canonical token source is <strong>mirrored</strong> to adapter and production copies. The token bodies must stay byte-identical except for their headers.</p>
-<blockquote>
-<p><strong>⚠ Sync rule.</strong> When editing <code>tokens/agustos.css</code>, propagate the change to <code>adapters/astro/src/styles/tokens.css</code>, <code>adapters/rails/app/assets/stylesheets/agustos/tokens.css</code>, and <code>PROJECTS/WEBSITE-agustos/src/styles/tokens.css</code> in the same session. When editing tokens in any adapter, mirror back here. Drift is a defect, treat it as such.</p>
-</blockquote>
-<p>Why mirror instead of symlink or <code>@import</code>: a symlink breaks across git/Cloudflare deploy boundaries and on Windows-native checkouts; an <code>@import</code> couples the website's deploy to the spec project's file layout and fails on static hosts. The mirror is durable across deploy contexts; the cost is the discipline of two-place edits, captured by the sync rule.</p>
-<p>(Files marked TBD will be developed during implementation phase. This document is the specification; actual files come next.)</p>
+<h3 id="generated-implementation-and-drift-control"><a class="heading-anchor" href="#generated-implementation-and-drift-control" aria-label="Link to Generated implementation and drift control">#</a>Generated implementation and drift control</h3>
+<p>Generated files are committed so consuming projects never couple deployments to this repository. The normal cross-system integration is one file: <code>tokens/design-system-handoff.json</code>. Vendor or attach it as context; consumer builds do not run these generators. <code>scripts/build_design_system.py</code> and the Office/brand builders run only when canonical sources change, and drift checks verify those checked-in outputs. Never repair a generated adapter or Office artifact by hand; repair the source and regenerate.</p>
 <hr />
 <h2 id="versioning"><a class="heading-anchor" href="#versioning" aria-label="Link to Versioning">#</a>Versioning</h2>
 <p>This is <strong>v3.0.0</strong>. Subsequent changes follow semantic versioning:</p>
