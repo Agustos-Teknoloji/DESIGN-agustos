@@ -7,7 +7,7 @@ import { gfm, gfmHtml } from 'micromark-extension-gfm';
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '../../..');
 const sourcePath = resolve(root, 'DESIGN.md');
-const outputPath = resolve(root, 'artifacts/agustos-design-system-v2.1.2.html');
+const outputPath = resolve(root, 'artifacts/agustos-design-system-v3.0.0.html');
 
 const source = await readFile(sourcePath, 'utf8');
 
@@ -31,7 +31,7 @@ let htmlBody = micromark(source, {
 const usedSlugs = new Map();
 const toc = [];
 
-htmlBody = htmlBody.replace(/<h([1-3])>([\s\S]*?)<\/h\1>/g, (match, level, inner) => {
+htmlBody = htmlBody.replace(/<h([1-3])>([\s\S]*?)<\/h\1>/g, (_match, level, inner) => {
   const base = slugify(inner);
   const count = usedSlugs.get(base) || 0;
   usedSlugs.set(base, count + 1);
@@ -61,7 +61,7 @@ const html = `<!doctype html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Ağustos Design System v2.1.2</title>
+    <title>Ağustos Design System v3.0.0</title>
     <style>
       :root {
         --paper: #fefcf2;

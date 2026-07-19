@@ -1,11 +1,15 @@
 /* ============================================================
-   AĞUSTOS DESIGN SYSTEM v2.3  ·  RAILS ADAPTER COPY
+   AĞUSTOS DESIGN SYSTEM v3.0.0  ·  RAILS ADAPTER COPY
    Source of truth: PROJECTS/DESIGN-agustos/DESIGN.md
    Type-first system. 17 variables, 29 tokens, 3 families.
 
    ⚠ SYNC RULE — this file mirrors:
      PROJECTS/DESIGN-agustos/tokens/agustos.css
    Token bodies must stay byte-identical except for this header.
+
+   v3.0 changes:
+   - Web chrome moved from the legacy sidebar to the configurable topbar/footer
+     pattern; token values are unchanged from v2.3
 
    v2.3 changes:
    - Added .site-frame and rebuilt .container on the same 920px content

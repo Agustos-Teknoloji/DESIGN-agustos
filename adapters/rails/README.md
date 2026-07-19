@@ -1,32 +1,24 @@
-# Ağustos Rails Adapter
+# Ağustos Rails Adapter v3.0.0
 
-Rails implementation skeleton for the Ağustos Design System.
-
-This adapter is intended for Rails monoliths that want the typography, brand, substrate, and layout grammar from `DESIGN.md` without depending on Astro.
+Plain-ERB, Hotwire-compatible implementation of the Ağustos Design System. The
+adapter matches the Astro topbar/footer grammar without depending on Astro or a
+client-side search data protocol.
 
 ## Install Manually
 
-Copy these files into a Rails app:
+Copy the adapter surfaces into the equivalent Rails directories:
 
 ```txt
-app/assets/stylesheets/agustos/tokens.css
-app/assets/stylesheets/agustos/components.css
+app/assets/stylesheets/agustos/
 app/helpers/agustos_theme_helper.rb
 app/views/layouts/agustos.html.erb
-app/views/agustos/shared/_brand_lockup.html.erb
-app/views/agustos/shared/_sidebar.html.erb
+app/views/agustos/shared/
+app/javascript/controllers/agustos_*_controller.js
 ```
 
-Then import the styles from your app stylesheet:
-
-```css
-@import "agustos/tokens";
-@import "agustos/components";
-```
-
-With Propshaft, keep the files under `app/assets/stylesheets/agustos/`. With cssbundling-rails, import them from your bundled entrypoint instead.
-
-## Layout Usage
+Import the two stylesheets and register the three Stimulus controllers using the
+same mechanism as the host application. The live search option requires Turbo;
+navigation and theme remain ordinary HTML controls enhanced by Stimulus.
 
 Use the layout from a controller:
 
@@ -36,15 +28,71 @@ class ApplicationController < ActionController::Base
 end
 ```
 
-Set brand, language, and substrate per controller or action:
+## Chrome Configuration
+
+`agustos_theme` accepts brand and page metadata plus semantic chrome hashes:
 
 ```ruby
 before_action do
-  agustos_theme brand: :agustos, lang: :tr, substrate: :cream
+  agustos_theme(
+    brand: :pataraz,
+    lang: :en,
+    substrate: :white,
+    home_href: root_path,
+    nav: [
+      { label: "Products", href: products_path },
+      { label: "About", href: about_path }
+    ],
+    cta: { label: "Contact", href: contact_path },
+    language_switch: { code: "TR", label: "Türkçe", href: tr_root_path },
+    search: { url: search_path, param: :q },
+    footer: {
+      description: "Pataraz · project-grade lighting",
+      columns: [
+        { heading: "Company", links: [{ label: "About", href: about_path }] }
+      ]
+    }
+  )
 end
 ```
 
-## Design Rule
+`cta`, `language_switch`, and `search` may be `nil`. Links accept `aria_label`
+and `external: true`; external links receive `_blank` plus
+`noopener noreferrer`. Active navigation uses exact matching for `/` and prefix
+matching for nested sections.
 
-The Rails adapter should not invent a separate visual system. It consumes the same tokens as Astro and `WEBSITE-agustos`; Rails-specific files should only handle layout, helpers, partials, and framework ergonomics.
+## Turbo Search Contract
 
+The header submits a debounced GET request after two characters into a unique
+Turbo Frame. The endpoint owns querying and renders the supplied structural
+partial; no JSON endpoint or ActionCable channel is required.
+
+```ruby
+def index
+  query = params[:q].to_s.strip
+  groups = Search.new(query).groups
+
+  render partial: "agustos/shared/search_results", locals: {
+    frame_id: params.require(:frame_id),
+    query: query,
+    status: "#{groups.sum { |group| group[:items].size }} results",
+    groups: groups
+  }
+end
+```
+
+Each group has `heading`, optional `total`, and `items`. Each item has `href`,
+`title`, and optional `excerpt`; excerpts are sanitized to allow only `<mark>`.
+Without JavaScript, the same form performs a normal GET navigation.
+
+## Verification
+
+Run the dependency-free adapter contract tests:
+
+```bash
+ruby test/adapter_contract_test.rb
+```
+
+The Rails adapter should not invent a separate visual system. Framework files
+handle layout, configuration, partial rendering, Turbo, and Stimulus; shared
+visual primitives remain in the canonical tokens.

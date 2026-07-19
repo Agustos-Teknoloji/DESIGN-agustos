@@ -1,8 +1,8 @@
 # Ağustos Design System
 
-**Version 2.3.0** · Type-first design system for Emre Güneş's brand portfolio
-**Last updated:** July 14, 2026
-**Status:** Minor update · Unified web chrome and page content on one 920px content measure · Token count remains 29
+**Version 3.0.0** · Type-first design system for Emre Güneş's brand portfolio
+**Last updated:** July 19, 2026
+**Status:** Major update · Reusable topbar and structured footer replace the legacy sidebar · Token count remains 29
 
 ---
 
@@ -657,6 +657,30 @@ breadcrumbs, page content, and footer aligned without narrowing the readable
 measure. Component-specific utilities may set vertical padding, but should not
 redefine this horizontal geometry.
 
+### Site chrome
+
+v3 has one web-chrome pattern, derived from agustos.com production build
+`b559bc2` (2026-07-19): a sticky topbar and a structured footer. The fixed left
+sidebar and separate mobile header are retired.
+
+The header uses a brand lockup, configurable navigation, optional CTA, optional
+language-route link, theme toggle, and search. Desktop search opens a dropdown
+inside the shared frame. At `1023px` and below — and on touch-first devices up to
+`1366px` — navigation becomes a right-hand drawer while search remains in a
+persistent row below the topbar. Button-like controls are at least 44px. The
+responsive search input is 16px to prevent iOS focus zoom.
+
+Search is an adapter concern, not a global token. The Astro reference uses
+Pagefind and indexes only `<main>`, filtered by language and `page`/`post` kind.
+The Rails adapter uses a GET form targeting a Turbo Frame; consuming apps supply
+server-rendered grouped results through the documented partial locals. No JSON
+schema or ActionCable dependency belongs in the design system.
+
+The footer uses the same `.site-frame`: mono lockup and publisher description on
+the left, configurable link columns on the right. It collapses to one outer
+column at `760px`. Header and footer destinations and copy are configuration,
+never hard-coded brand policy.
+
 ### Rails adapter
 
 Rails monoliths should use `adapters/rails/` as the starting point. The adapter provides:
@@ -665,7 +689,8 @@ Rails monoliths should use `adapters/rails/` as the starting point. The adapter 
 - `app/assets/stylesheets/agustos/components.css`
 - `app/helpers/agustos_theme_helper.rb`
 - `app/views/layouts/agustos.html.erb`
-- shared ERB partials for lockup and sidebar
+- shared ERB partials for lockup, header, search results, and footer
+- single-purpose Stimulus controllers for drawer, theme, and debounced Turbo search
 
 The Rails adapter is plain ERB first. If an app uses ViewComponent, components can wrap the same semantic pieces later without changing the design grammar.
 
@@ -699,7 +724,7 @@ Run this checklist before calling a system change complete:
 3. Test Turkish uppercase with `lang="tr"` on H4/table-header-style text: `başlık`, `i`, and `ışık` must uppercase correctly.
 4. Check cream, white, and dark substrates.
 5. Check all brand colors on cream and dark substrates, including link underline, focus ring, list marker, and negative lockup.
-6. Test keyboard navigation: skip link, sidebar/header nav, language controls, theme toggle, hero links, and boxed actions.
+6. Test keyboard navigation: skip link, header nav/drawer, language controls, theme toggle, search results, hero links, and boxed actions.
 7. Verify mobile and desktop widths; text must not overlap, clip, or force horizontal scrolling except inside code blocks and wide tables.
 8. If tokens changed, mirror `tokens/agustos.css`, `adapters/astro/src/styles/tokens.css`, `adapters/rails/app/assets/stylesheets/agustos/tokens.css`, and `PROJECTS/WEBSITE-agustos/src/styles/tokens.css` in the same session.
 9. If document export changed, render docx/PDF samples and inspect typography, tables, footnotes, and Turkish locale handling.
@@ -734,7 +759,7 @@ Why mirror instead of symlink or `@import`: a symlink breaks across git/Cloudfla
 
 ## Versioning
 
-This is **v2.1.2**. Subsequent changes follow semantic versioning:
+This is **v3.0.0**. Subsequent changes follow semantic versioning:
 
 - **Major.** Breaking changes to token names, structural removal, philosophy shifts
 - **Minor.** New tokens, new brand additions, additive-only changes

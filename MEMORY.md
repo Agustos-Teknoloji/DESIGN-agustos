@@ -482,7 +482,7 @@ A few patterns from this conversation worth remembering:
 
 ## Status
 
-System is at **v2.1.2**. DESIGN.md captures the specification. This file captures the reasoning.
+System is at **v3.0.0**. DESIGN.md captures the specification. This file captures the reasoning.
 
 **v1.0.** Specification complete (all tokens, brand classes, lockup grammar, substrate behavior).
 **v1.1.** Implementation phase: Astro reference site live, real Laz Güneşi shipped (replacing the placeholder), logotype locked to Fraunces with new `--logotype` token, lockup simplified (brand color, no subtitle, no hover underline).
@@ -491,8 +491,11 @@ System is at **v2.1.2**. DESIGN.md captures the specification. This file capture
 **v1.4.** Logotype lands on Manrope ExtraLight; wordmarks finalized to single nouns where possible (`ağustos`, `pataraz`, `photometric`, plus `pld türkiye`). Symbol leads, wordmark supports.
 **v2.0.** System consolidated onto Inter Tight + Inter + JetBrains Mono; Inter Tight became both display family and wordmark face.
 **v2.1.2.** Logotype weight finalized at Inter Tight 650 with neutral tracking after bold-context comparison. Same family, stronger mark.
+**v2.2.** Radius and motion tokens formalized for production web chrome.
+**v2.3.** Header, footer, and page content aligned on one 920px content measure.
+**v3.0.0.** The production topbar and structured footer became the only supported adapter chrome; the sidebar surface was removed.
 
-The system is in production use. Future v2.x updates: additional brands, dark mode, Pandoc/docx template parity. Documented in DESIGN.md as they ship.
+The system is in production use. Future updates are documented in DESIGN.md as they ship.
 
 ## Brand asset kit (2026-06-20)
 
@@ -701,3 +704,23 @@ two content edges differed by 24px on each side.
 by repeated numbers. Responsive behavior is unchanged, inner pages keep their
 existing content density, and future components can opt into the frame without
 recreating the box-model calculation.
+
+## v3.0 — production chrome becomes the reusable system (2026-07-19)
+
+**Found:** the adapters still taught a fixed desktop sidebar and a separate mobile
+header even though agustos.com had shipped and hardened a one-row topbar, persistent
+responsive search, slide-in drawer, and structured footer. Copying the production
+components literally would have replaced one drift problem with another because
+their Turkish/English routes and company links are site content, not design policy.
+
+**Chosen:** freeze behavior at agustos.com build `b559bc2`, promote its layout and
+interaction rules into configurable Astro and Rails adapters, and remove the legacy
+sidebar surface. Astro demonstrates the full Pagefind implementation. Rails keeps
+results server-rendered in Turbo Frames with a small Stimulus debounce controller;
+there is no JSON protocol or ActionCable layer. Navigation, CTA, language link,
+footer description, and footer columns are public configuration in both adapters.
+
+**Why it matters:** every portfolio brand now inherits one tested chrome grammar
+without inheriting Ağustos-specific routes or copy. The major version is deliberate:
+consumers must replace the old sidebar partial/layout offset rather than accidentally
+loading both systems during migration.
