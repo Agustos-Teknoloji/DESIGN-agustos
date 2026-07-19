@@ -34,7 +34,7 @@ const cta = config.cta === undefined
   : config.cta;
 
 const idSuffix = locale;
-function isActive(href: string): boolean {
+function isCurrent(href: string): boolean {
   if (href === '/') return pathname === '/';
   return pathname === href || pathname.startsWith(`${href}/`);
 }
@@ -48,8 +48,8 @@ function isActive(href: string): boolean {
         {nav.map((item) => (
           <a
             href={item.href}
-            class:list={['site-header__link', { 'is-active': isActive(item.href) }]}
-            aria-current={isActive(item.href) ? 'page' : undefined}
+            class:list={['site-header__link', { 'is-active': isCurrent(item.href) }]}
+            aria-current={isCurrent(item.href) ? 'page' : undefined}
             aria-label={item.ariaLabel}
             target={item.external ? '_blank' : undefined}
             rel={item.external ? 'noopener noreferrer' : undefined}
