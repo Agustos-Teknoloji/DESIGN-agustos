@@ -1,7 +1,8 @@
-# Agent guide — Ağustos brand assets
+# Agent guide — Ağustos design system and brand assets
 
 Entry point for any AI tool (Claude, Cursor, Copilot, Codex, etc.). Goal: get you to the
-**right brand asset file fast**, and stop you from re-creating something that already exists.
+**smallest authoritative set of files fast**, and stop you from loading the whole repository or
+re-creating something that already exists.
 
 ## 30-second model
 
@@ -11,12 +12,29 @@ Entry point for any AI tool (Claude, Cursor, Copilot, Codex, etc.). Goal: get yo
 - The logo (“lockup”) = symbol + lowercase wordmark in the registered identity ink. Always lowercase. No tagline on it.
 - **Shared red `#cf142a` is the interaction signal** for links, focus, markers, and small emphasis across every brand.
 
-## Where to look, in order
+## For finished brand assets — look in this order
 
 1. **[ASSETS.md](ASSETS.md)** — the canonical index of every asset file, by category. Check here first.
 2. **`brand/exports/<brand>/`** — ready-to-use, per-brand exported files (logos, favicons, social, docs).
 3. **[DESIGN.md](DESIGN.md)** — the rules/spec. **[MEMORY.md](MEMORY.md)** — why decisions were made
    (read before reversing one). **[brand/README.md](brand/README.md)** — how to regenerate or add a brand.
+
+## Coding-agent workflow — keep context small
+
+Do not preload or paste the whole repository into context. Clone or open the repository, identify the
+task, then read only the relevant files:
+
+| Task | Start here | Read next only if needed |
+|---|---|---|
+| Implement the design system in another codebase | `tokens/design-system-handoff.json` | The matching `adapters/<platform>/README.md`, then `DESIGN.md` |
+| Find a logo, favicon, social image, document, or other finished asset | `ASSETS.md` | The matching file under `brand/exports/<brand>/` |
+| Build a Pataraz website or datasheet | `PATARAZ.md` | `DESIGN.md`, then the relevant export or generator README |
+| Change tokens or web recipes in this repository | `tokens/design-tokens.json` and `tokens/web.css.tmpl` | `DESIGN.md`, `MEMORY.md`, then `scripts/build_design_system.py` |
+| Change or add a brand | `brand/README.md` and `brand/brands.json` | `DESIGN.md`, `MEMORY.md`, then the build scripts |
+
+For consumer projects, treat `tokens/design-system-handoff.json` and files under `brand/exports/` as
+ready-to-use inputs; do not regenerate this repository. Read `MEMORY.md` only when changing a source
+decision or proposing a reversal. After repository changes, run the checks documented in `README.md`.
 
 ## "I need ___" → use this file
 
