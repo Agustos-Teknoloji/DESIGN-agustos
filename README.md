@@ -57,7 +57,14 @@ PowerPoint generation uses the plain-ESM `brand/build_presentation.mjs` source a
 - [WordPress](adapters/wordpress/README.md): generated Global Styles plus the shared recipe layer.
 - [Office](brand/templates/README.md): PowerPoint/Google Slides and Word/Google Docs translation.
 
-Brand assets are indexed in [ASSETS.md](ASSETS.md). Automated agents should begin with [AGENTS.md](AGENTS.md).
+Brand assets are indexed in [ASSETS.md](ASSETS.md). Automated agents should begin with
+[AGENTS.md](AGENTS.md), which routes each task to the smallest authoritative set of files without
+loading the entire repository into context.
 
 The frozen, standalone v3.0.0 specification is available at
 [`artifacts/agustos-design-system-v3.0.0.html`](artifacts/agustos-design-system-v3.0.0.html).
+
+## License
+
+Copyright © 2026 Ağustos Teknoloji. This repository is proprietary and all rights are reserved.
+See [LICENSE](LICENSE) for the complete terms.
