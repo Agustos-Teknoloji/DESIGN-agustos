@@ -13,6 +13,7 @@ import '@fontsource/jetbrains-mono/500.css';
 import '../styles/tokens.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import type { FooterConfig, HeaderConfig } from '../types/chrome';
 
 type Brand = 'agustos' | 'pataraz' | 'pld' | 'photo';
 
@@ -25,6 +26,13 @@ interface Props {
   substrate?: 'cream' | 'white';
   /** Page language. Default 'en'. Use 'tr' for Turkish content (mandatory per §6). */
   lang?: string;
+  /** Site chrome configuration. Defaults exercise the reusable DESIGN demo. */
+  header?: HeaderConfig;
+  footer?: FooterConfig;
+  /** Include this page's <main> in the Pagefind index. */
+  searchable?: boolean;
+  /** Pagefind grouping used by the header search results. */
+  searchKind?: 'page' | 'post';
   /**
    * Brand name shown in the header/footer wordmark. Always rendered lowercase
    * via CSS — pass any case here, the lockup normalizes it. Default per brand:
@@ -48,11 +56,21 @@ const {
   substrate = 'white',
   lang = 'en',
   brandname = BRAND_WORDMARKS[brand as Brand] ?? 'ağustos',
+  header = {},
+  footer = {},
+  searchable = true,
+  searchKind = 'page',
 } = Astro.props;
 
 const brandClass = `brand-${brand}`;
 const substrateClass = substrate === 'white' ? 'paper-white' : '';
 const bodyClass = [brandClass, substrateClass].filter(Boolean).join(' ');
+const searchAttributes = searchable ? {
+  'data-pagefind-body': '',
+  'data-search-kind': searchKind,
+  'data-search-lang': lang,
+  'data-pagefind-filter': 'kind[data-search-kind], lang[data-search-lang]',
+} : {};
 ---
 <!doctype html>
 <html lang={lang}>
@@ -67,38 +85,34 @@ const bodyClass = [brandClass, substrateClass].filter(Boolean).join(' ');
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     {/*
-      FOUC-prevention: apply saved theme + lang from localStorage BEFORE the page paints.
+      FOUC-prevention: apply the saved theme before the page paints.
       Without this, a user with dark theme saved would see a brief flash of cream/light
-      before page content paints. Inline = synchronous, runs before <body>.
+      before the header script runs. Inline = synchronous, runs before <body>.
     */}
     <script is:inline>
       (function () {
         try {
           var theme = localStorage.getItem('agustos:theme');
           if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-          var lang = localStorage.getItem('agustos:lang');
-          if (lang === 'en' || lang === 'tr') document.documentElement.setAttribute('lang', lang);
         } catch (e) { /* private mode / disabled storage — fall back to defaults */ }
       })();
     </script>
   </head>
   <body class={bodyClass}>
     <a class="skip-link" href="#main">Skip to content</a>
-    <Header brandname={brandname} pathname={Astro.url.pathname} />
-    <div class="site-shell">
-      <main id="main">
-        <slot />
-      </main>
-      <Footer brandname={brandname} />
-    </div>
+    <Header brandname={brandname} pathname={Astro.url.pathname} lang={lang} config={header} />
+    <main id="main" tabindex="-1" {...searchAttributes}>
+      <slot />
+    </main>
+    <Footer brandname={brandname} config={footer} />
   </body>
 </html>
 
 <style is:global>
-  .site-shell {
+  body {
     min-height: 100dvh;
     display: flex;
     flex-direction: column;
   }
-  .site-shell > main { flex: 1; }
+  body > main { flex: 1; }
 </style>

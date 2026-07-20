@@ -7,7 +7,7 @@ import { gfm, gfmHtml } from 'micromark-extension-gfm';
 const here = dirname(fileURLToPath(import.meta.url));
 const root = resolve(here, '../../..');
 const sourcePath = resolve(root, 'DESIGN.md');
-const outputPath = resolve(root, 'artifacts/agustos-design-system-v3.html');
+const outputPath = resolve(root, 'artifacts/agustos-design-system-v3.0.0.html');
 
 const source = await readFile(sourcePath, 'utf8');
 
@@ -61,7 +61,7 @@ const html = `<!doctype html>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Ağustos Design System v3</title>
+    <title>Ağustos Design System v3.0.0</title>
     <style>
       :root {
         --paper: #fefcf2;

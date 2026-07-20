@@ -742,3 +742,23 @@ canonical sources change.
 spacing, and shared red interaction language rather than a one-color-per-brand convention. Products
 can remain native to Astro, Rails, WordPress, Word, Slides, or another medium without chasing pixel
 identity, while users still recognize the same house.
+
+## v3.0 — production chrome becomes the reusable system (2026-07-19)
+
+**Found:** the adapters still taught a fixed desktop sidebar and a separate mobile
+header even though agustos.com had shipped and hardened a one-row topbar, persistent
+responsive search, slide-in drawer, and structured footer. Copying the production
+components literally would have replaced one drift problem with another because
+their Turkish/English routes and company links are site content, not design policy.
+
+**Chosen:** freeze behavior at agustos.com build `b559bc2`, promote its layout and
+interaction rules into configurable Astro and Rails adapters, and remove the legacy
+sidebar surface. Astro demonstrates the full Pagefind implementation. Rails keeps
+results server-rendered in Turbo Frames with a small Stimulus debounce controller;
+there is no JSON protocol or ActionCable layer. Navigation, CTA, language link,
+footer description, and footer columns are public configuration in both adapters.
+
+**Why it matters:** every portfolio brand now inherits one tested chrome grammar
+without inheriting Ağustos-specific routes or copy. The major version is deliberate:
+consumers must replace the old sidebar partial/layout offset rather than accidentally
+loading both systems during migration.

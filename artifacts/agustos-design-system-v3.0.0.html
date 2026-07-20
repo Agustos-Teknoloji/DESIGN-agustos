@@ -1,0 +1,1502 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Ağustos Design System v3.0.0</title>
+    <style>
+      :root {
+        --paper: #fefcf2;
+        --ink: #1a1a1a;
+        --ink-soft: #4a4a4a;
+        --ink-faint: #8a8a8a;
+        --rule: #e8e3d0;
+        --brand: #cf142a;
+        --signal: #cf142a;
+        --display: 'Inter Tight Variable', 'Inter Tight', 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        --body: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        --mono: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospace;
+      }
+
+      * { box-sizing: border-box; }
+
+      html {
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--body);
+        font-feature-settings: "locl" on, "kern" on, "ss01" on;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+      }
+
+      a {
+        color: inherit;
+        font-weight: 600;
+        text-decoration: underline;
+        text-decoration-color: var(--signal);
+        text-decoration-thickness: 2px;
+        text-underline-offset: 3px;
+      }
+
+      a:focus-visible {
+        outline: 2px solid var(--signal);
+        outline-offset: 4px;
+      }
+
+      .page {
+        display: grid;
+        grid-template-columns: minmax(220px, 280px) minmax(0, 1fr);
+        min-height: 100vh;
+      }
+
+      .toc {
+        position: sticky;
+        top: 0;
+        height: 100vh;
+        padding: 2rem 1.25rem 2rem 1.5rem;
+        border-right: 1px solid var(--rule);
+        overflow: auto;
+      }
+
+      .toc__brand {
+        display: block;
+        margin-bottom: 1.75rem;
+        font-family: var(--display);
+        font-size: 22px;
+        font-weight: 650;
+        letter-spacing: 0;
+        color: var(--brand);
+        text-decoration: none;
+      }
+
+      .toc__meta {
+        margin: 0 0 1.5rem;
+        color: var(--ink-faint);
+        font-size: 12.5px;
+        line-height: 1.5;
+      }
+
+      .toc__item {
+        display: block;
+        margin: 0 0 0.7rem;
+        color: var(--ink-soft);
+        font-family: var(--display);
+        font-size: 13px;
+        line-height: 1.35;
+        text-decoration: none;
+      }
+
+      .toc__item:hover {
+        color: var(--ink);
+        text-decoration: underline;
+        text-decoration-color: var(--signal);
+      }
+
+      .toc__item--1 {
+        color: var(--ink);
+        font-weight: 600;
+      }
+
+      main {
+        width: min(calc(100% - 3rem), 980px);
+        margin: 0 auto;
+        padding: 4rem 0 7rem;
+      }
+
+      article > *:first-child { margin-top: 0; }
+
+      h1, h2, h3, h4, h5, h6 {
+        font-family: var(--display);
+        color: var(--ink);
+        text-wrap: balance;
+      }
+
+      h1 {
+        margin: 0 0 0.45em;
+        font-size: clamp(46px, 7vw, 88px);
+        font-weight: 300;
+        line-height: 0.98;
+        letter-spacing: -0.044em;
+      }
+
+      h2 {
+        margin: 2.5em 0 1em;
+        padding-top: 0.15em;
+        border-top: 1px solid var(--rule);
+        font-size: 26px;
+        font-weight: 500;
+        line-height: 1.18;
+        letter-spacing: -0.014em;
+      }
+
+      h3 {
+        margin: 2.25em 0 0.8em;
+        font-size: 18px;
+        font-style: italic;
+        font-weight: 500;
+        line-height: 1.3;
+      }
+
+      h4 {
+        margin: 2em 0 0.8em;
+        color: var(--ink-soft);
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1.4;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .heading-anchor {
+        float: left;
+        width: 1em;
+        margin-left: -1.2em;
+        color: var(--signal);
+        font-weight: 600;
+        text-decoration: none;
+        opacity: 0;
+      }
+
+      h1:hover .heading-anchor,
+      h2:hover .heading-anchor,
+      h3:hover .heading-anchor,
+      .heading-anchor:focus-visible {
+        opacity: 1;
+      }
+
+      p, li, dd {
+        font-size: 16.5px;
+        line-height: 1.65;
+      }
+
+      p, ul, ol, dl, blockquote, pre, table {
+        margin: 0 0 1em;
+      }
+
+      ul, ol { padding-left: 1.5em; }
+      li::marker { color: var(--signal); }
+
+      dt {
+        margin-top: 1em;
+        font-weight: 600;
+      }
+
+      dd {
+        margin-left: 0;
+        color: var(--ink-soft);
+      }
+
+      blockquote {
+        padding: 0.25em 0 0.25em 1.25em;
+        border-left: 2px solid var(--signal);
+        color: var(--ink-soft);
+        font-style: italic;
+      }
+
+      code {
+        font-family: var(--mono);
+        font-size: 0.86em;
+        padding: 1px 5px;
+        border-radius: 3px;
+        background: rgba(0, 0, 0, 0.05);
+      }
+
+      pre {
+        overflow-x: auto;
+        padding: 1em 1.25em;
+        border-radius: 4px;
+        background: var(--ink);
+        color: var(--rule);
+      }
+
+      pre code {
+        padding: 0;
+        background: transparent;
+        color: inherit;
+        font-size: 13.5px;
+      }
+
+      table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        border-collapse: collapse;
+        font-size: 14px;
+        font-variant-numeric: tabular-nums;
+      }
+
+      th {
+        font-family: var(--display);
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        text-align: left;
+        text-transform: uppercase;
+        color: var(--ink-soft);
+        border-bottom: 2px solid var(--rule);
+      }
+
+      td {
+        border-bottom: 1px solid var(--rule);
+        vertical-align: top;
+      }
+
+      th, td {
+        padding: 0.55em 0.8em;
+      }
+
+      hr {
+        height: 1px;
+        margin: 2.5em 0 1em;
+        border: 0;
+        background: var(--rule);
+      }
+
+      strong { font-weight: 700; }
+      em { font-style: italic; }
+
+      .render-note {
+        margin: 0 0 2rem;
+        color: var(--ink-faint);
+        font-size: 13.5px;
+      }
+
+      @media (max-width: 900px) {
+        .page {
+          display: block;
+        }
+
+        .toc {
+          position: static;
+          height: auto;
+          border-right: 0;
+          border-bottom: 1px solid var(--rule);
+        }
+
+        .toc__items {
+          columns: 2;
+          column-gap: 1.5rem;
+        }
+
+        main {
+          width: min(calc(100% - 2rem), 760px);
+          padding: 3rem 0 5rem;
+        }
+
+        .heading-anchor {
+          display: none;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .toc__items { columns: 1; }
+        h1 { font-size: 42px; }
+        h2 { font-size: 23px; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <aside class="toc" aria-label="Table of contents">
+        <a class="toc__brand" href="#ağustos-design-system">ağustos</a>
+        <p class="toc__meta">Rendered from DESIGN.md<br />19 July 2026 at 21:40 Istanbul time</p>
+        <nav class="toc__items">
+          <a class="toc__item toc__item--1" href="#ag-ustos-design-system">Ağustos Design System</a>
+<a class="toc__item toc__item--2" href="#what-this-is">What this is</a>
+<a class="toc__item toc__item--2" href="#system-philosophy">System philosophy</a>
+<a class="toc__item toc__item--2" href="#v3-architecture-and-governance">V3 architecture and governance</a>
+<a class="toc__item toc__item--2" href="#the-type-stack">The type stack</a>
+<a class="toc__item toc__item--2" href="#generated-web-variables">Generated web variables</a>
+<a class="toc__item toc__item--2" href="#global-styles">Global styles</a>
+<a class="toc__item toc__item--2" href="#typography-and-content-tokens">Typography and content tokens</a>
+<a class="toc__item toc__item--2" href="#markdown-coverage">Markdown coverage</a>
+<a class="toc__item toc__item--2" href="#logo-system">Logo system</a>
+<a class="toc__item toc__item--2" href="#turkish-locale-handling">Turkish locale handling</a>
+<a class="toc__item toc__item--2" href="#accessibility-requirements">Accessibility requirements</a>
+<a class="toc__item toc__item--2" href="#character-coverage">Character coverage</a>
+<a class="toc__item toc__item--2" href="#substrate-strategy">Substrate strategy</a>
+<a class="toc__item toc__item--2" href="#ıdentity-and-signal-color-governance">Identity and signal color governance</a>
+<a class="toc__item toc__item--2" href="#what-was-cut-and-why">What was cut, and why</a>
+<a class="toc__item toc__item--2" href="#ımplementation-notes">Implementation notes</a>
+<a class="toc__item toc__item--2" href="#files-in-this-system">Files in this system</a>
+<a class="toc__item toc__item--2" href="#versioning">Versioning</a>
+<a class="toc__item toc__item--2" href="#authority">Authority</a>
+        </nav>
+      </aside>
+      <main>
+        <p class="render-note">Standalone HTML preview of the canonical design specification.</p>
+        <article>
+          <h1 id="ag-ustos-design-system"><a class="heading-anchor" href="#ag-ustos-design-system" aria-label="Link to Ağustos Design System">#</a>Ağustos Design System</h1>
+<p><strong>Version 3.0.0</strong> · Cross-medium design system for Emre Güneş's brand portfolio
+<strong>Last updated:</strong> July 19, 2026
+<strong>Status:</strong> Architectural evolution with visual continuity</p>
+<hr />
+<h2 id="what-this-is"><a class="heading-anchor" href="#what-this-is" aria-label="Link to What this is">#</a>What this is</h2>
+<p>A typographic design system covering web, document, presentation, and product UI surfaces for a multi-brand portfolio. It is built typography-first because that is the durable layer: components change, while alignment, type, hierarchy, and rules persist.</p>
+<p><code>agustos.com</code> is the design laboratory and reference implementation. Proven patterns are promoted from real website use into this repository; the live site is never the literal source of truth. <code>tokens/design-tokens.json</code>, <code>brand/brands.json</code>, and this specification are authoritative.</p>
+<p>The portfolio currently spans:</p>
+<ul>
+<li><strong>Ağustos Teknoloji.</strong> Lighting agency and distribution (red, <code>#cf142a</code>)</li>
+<li><strong>Pataraz.</strong> Premium luminaire brand at mid-tier pricing (black/white identity)</li>
+<li><strong>PLD Türkiye.</strong> Lighting publication archive (black, <code>#1a1a1a</code>)</li>
+<li><strong>Photometric Batch.</strong> Software for lighting data (black/white identity)</li>
+</ul>
+<p>Future house brands plug in by choosing a name. They inherit black/white identity ink, shared red interaction signals, typography, logo geometry, and structure.</p>
+<hr />
+<h2 id="system-philosophy"><a class="heading-anchor" href="#system-philosophy" aria-label="Link to System philosophy">#</a>System philosophy</h2>
+<p>Six rules that govern every decision in the system. These are non-negotiable; they're how the system survives over time.</p>
+<h3 id="1-portability-over-preference"><a class="heading-anchor" href="#1-portability-over-preference" aria-label="Link to 1. Portability over preference">#</a>1. Portability over preference</h3>
+<p>Every design decision must survive translation across markdown → web → PDF → docx → plain text. Treatments that exist only in HTML are luxuries, not primitives. If a treatment can't be expressed in standard markdown, it doesn't belong in the system.</p>
+<h3 id="2-the-publisher-precedes-the-brand"><a class="heading-anchor" href="#2-the-publisher-precedes-the-brand" aria-label="Link to 2. The publisher precedes the brand">#</a>2. The publisher precedes the brand</h3>
+<p>All visible brand systems express &quot;from Emre's house&quot; first, individual brand identity second. This is the inverse of most multi-brand systems. The shared symbol, typography, neutral identity model, and red interaction signal identify the publisher; the wordmark names the publication.</p>
+<h3 id="3-one-symbol-forever"><a class="heading-anchor" href="#3-one-symbol-forever" aria-label="Link to 3. One symbol, forever">#</a>3. One symbol, forever</h3>
+<p>The Laz Güneşi is the publisher's mark. Every brand carries it, regardless of category. The symbol is fixed; the discipline of one symbol is more valuable than per-brand symbolism. House brands flex through name and content, not a palette of logo colors.</p>
+<h3 id="4-ag-ustos-alone-owns-red-as-identity"><a class="heading-anchor" href="#4-ag-ustos-alone-owns-red-as-identity" aria-label="Link to 4. Ağustos alone owns red as identity">#</a>4. Ağustos alone owns red as identity</h3>
+<p>Ağustos uses red <code>#cf142a</code> for its symbol and wordmark. Pataraz, PLD Türkiye, Photometric, and future house brands use black <code>#1a1a1a</code> on light substrates and cream/white on black identity tiles. Do not invent a chromatic identity color for each brand.</p>
+<h3 id="5-shared-red-is-a-signal-not-decoration"><a class="heading-anchor" href="#5-shared-red-is-a-signal-not-decoration" aria-label="Link to 5. Shared red is a signal, not decoration">#</a>5. Shared red is a signal, not decoration</h3>
+<p>The link is the primary shared interaction expression: bold + 2px red underline. Red also appears in focus rings, the page-defining hero eyebrow, and editorial markers such as blockquote borders, pullquote quotes, list markers, and footnote references. Everything else is ink on paper. The identity role (<code>brandMark</code>) and interaction role (<code>signal</code>) are separate: red never recolors a non-Ağustos logo.</p>
+<h3 id="6-turkish-content-declares-its-language"><a class="heading-anchor" href="#6-turkish-content-declares-its-language" aria-label="Link to 6. Turkish content declares its language">#</a>6. Turkish content declares its language</h3>
+<p>Every Turkish content block carries <code>lang=&quot;tr&quot;</code>. CSS enables <code>font-feature-settings: &quot;locl&quot;</code> globally. This is a correctness requirement, not a preference, without it, <code>text-transform: uppercase</code> produces wrong capitalization (i → I instead of i → İ).</p>
+<hr />
+<h2 id="v3-architecture-and-governance"><a class="heading-anchor" href="#v3-architecture-and-governance" aria-label="Link to V3 architecture and governance">#</a>V3 architecture and governance</h2>
+<p>The website redesign contributed a compositional grammar, not merely a handful of CSS values: quiet one-row chrome, one aligned frame, large editorial openings, signal color used selectively, bordered content groups, small radii, short motion, and generous section rhythm.</p>
+<p>V3 separates that grammar into four layers:</p>
+<table>
+<thead>
+<tr>
+<th>Layer</th>
+<th>Owns</th>
+<th>Canonical representation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Foundations</strong></td>
+<td>Color, type, weights, sizes, spacing, measure, borders, radii, motion</td>
+<td><code>tokens/design-tokens.json</code> → <code>foundations</code></td>
+</tr>
+<tr>
+<td><strong>Semantic roles</strong></td>
+<td>Paper, surface, ink, muted ink, rule, brand mark, shared signal, focus, display/body/data text</td>
+<td><code>tokens/design-tokens.json</code> → <code>semantic</code> and <code>themes</code></td>
+</tr>
+<tr>
+<td><strong>Recipes</strong></td>
+<td>Chrome, hero, section opening, editorial link, card, data table, document, presentation</td>
+<td><code>tokens/design-tokens.json</code> → <code>recipes</code> plus <code>tokens/web.css.tmpl</code> where behavior is web-specific</td>
+</tr>
+<tr>
+<td><strong>Adapters</strong></td>
+<td>Astro, WordPress, Rails, PowerPoint, Word/Google Docs</td>
+<td>Generated and framework-specific files under <code>adapters/</code> and <code>brand/</code></td>
+</tr>
+</tbody>
+</table>
+<p>The promotion loop is deliberate:</p>
+<ol>
+<li>Test a new pattern on a real site with real content.</li>
+<li>Confirm it is reusable and consistent with the identity principles.</li>
+<li>Express the durable decision as a foundation, semantic role, or recipe here.</li>
+<li>Regenerate adapters and artifacts.</li>
+<li>Run drift, platform, and visual QA before release.</li>
+</ol>
+<p>A web header does not become a Word header verbatim. Each adapter inherits alignment, hierarchy, type, signal color, and spacing logic, then translates them into the native conventions of its medium.</p>
+<hr />
+<h2 id="the-type-stack"><a class="heading-anchor" href="#the-type-stack" aria-label="Link to The type stack">#</a>The type stack</h2>
+<p>Three families. Each with one job. No overlap. As of v2.0 the system runs on a single sibling pair (Inter Tight + Inter) plus a code mono, the editorial serif has been retired in favor of one paired family from logotype to footnote.</p>
+<h3 id="ınter-tight-display"><a class="heading-anchor" href="#ınter-tight-display" aria-label="Link to Inter Tight (Display)">#</a>Inter Tight (Display)</h3>
+<p>Designed by Rasmus Andersson, the same designer as Inter, as a tighter, more compressed sibling for display use. Variable wght axis 100–900 with italics. Shares Inter's skeleton, so the pair harmonizes by construction. Used for the <strong>logotype, hero tokens, all headings (H1–H4), eyebrows, UI labels, table headers, badges, dashboard numerals, pullquotes</strong>, and any &quot;designed&quot; surface.</p>
+<p><strong>Fallback stack:</strong></p>
+<pre><code class="language-css">font-family: 'Inter Tight', 'Inter', -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;
+</code></pre>
+<p>Inter Tight falls back to Inter (same designer, very close metrics), then to the user's native UI font. Designed degradation, not breakage.</p>
+<h3 id="ınter-body"><a class="heading-anchor" href="#ınter-body" aria-label="Link to Inter (Body)">#</a>Inter (Body)</h3>
+<p>The most rigorously screen-engineered open-source sans. Hinted, optical-sized, with gold-standard Latin Extended including Turkish (<code>ç</code>, <code>ğ</code>, <code>ı</code>, <code>İ</code>, <code>ö</code>, <code>ş</code>, <code>ü</code>). Variable wght axis 100–900 with italics. Used for <strong>paragraph body, em, strong, links, lists, blockquote, definition lists, footnotes, figure captions, and table cells</strong>, every paragraph and inline element.</p>
+<p><strong>Fallback stack:</strong></p>
+<pre><code class="language-css">font-family: 'Inter', -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;;
+</code></pre>
+<p>The fallback chain resolves to SF Pro on Apple, Segoe UI on Windows, Roboto on Android. Apple Color Emoji at the tail keeps emoji rendering native if any inline emoji slip into copy.</p>
+<h3 id="jetbrains-mono-monospace"><a class="heading-anchor" href="#jetbrains-mono-monospace" aria-label="Link to JetBrains Mono (Monospace)">#</a>JetBrains Mono (Monospace)</h3>
+<p>Designed for code legibility. Excellent ligatures, tabular figures, clear 0/O and 1/l/I disambiguation. Supports Turkish diacritics. Used for inline code, code blocks, file paths, hex codes, technical identifiers, section markers.</p>
+<p><strong>Fallback stack:</strong></p>
+<pre><code class="language-css">font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospace;
+</code></pre>
+<hr />
+<h2 id="generated-web-variables"><a class="heading-anchor" href="#generated-web-variables" aria-label="Link to Generated web variables">#</a>Generated web variables</h2>
+<p><code>tokens/design-tokens.json</code> is canonical. <code>tokens/agustos.css</code> is a generated, drop-in web artifact; do not edit it directly. The CSS keeps the established class APIs and the runtime <code>--brand</code> alias so existing sites can move to v3 without a visual reset.</p>
+<pre><code class="language-css">:root {
+  /* Substrate */
+  --paper: #fefcf2;        /* Cream, branded contexts */
+  --paper-white: #ffffff;  /* White, universal fallback, email, default web */
+
+  /* Ink */
+  --ink: #1a1a1a;          /* Primary text */
+  --ink-soft: #4a4a4a;     /* Secondary text, soft headings */
+  --ink-faint: #8a8a8a;    /* Tertiary, captions, footnotes */
+
+  /* Rule (separator color) */
+  --rule: #e8e3d0;         /* For cream substrate */
+  --rule-white: #e8e8e8;   /* For white substrate */
+
+  /* Radii */
+  --radius-sm: 4px;   /* small controls */
+  --radius-md: 6px;   /* buttons */
+  --radius-lg: 10px;  /* cards */
+
+  /* Motion */
+  --dur: 120ms;
+  --ease: ease;
+
+  /* Shared interaction signal across every brand */
+  --signal: #cf142a;
+
+  /* Identity ink, selected per page */
+  --brand-agustos: #cf142a;
+  --brand-pataraz: #1a1a1a;
+  --brand-pld: #1a1a1a;
+  --brand-photometric: #1a1a1a;
+  --brand: var(--brand-agustos);
+
+  /* Type stacks, v2.0 */
+  --display: 'Inter Tight Variable', 'Inter Tight', 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;
+  --body:    'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;;
+  --mono:    'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospace;
+}
+</code></pre>
+<p>Radii and motion were first proven in the website redesign and are now v3 foundations. Three radii, not a full numeric scale, preserve the system's restraint principle.</p>
+<p><strong>Note on naming.</strong> v1.x used <code>--serif</code>, <code>--sans</code>, <code>--logotype</code> to name the three faces by category. v2.0 names them by role. <code>--display</code> (anything designed) and <code>--body</code> (anything read at length), because the system no longer has a serif/sans split. Mono is unchanged.</p>
+<p><strong>Per-brand application:</strong></p>
+<pre><code class="language-css">.brand-agustos { --brand: var(--brand-agustos); }
+.brand-pataraz { --brand: var(--brand-pataraz); }
+.brand-pld     { --brand: var(--brand-pld); }
+.brand-photo   { --brand: var(--brand-photometric); }
+</code></pre>
+<p>Inside any brand-scoped element, <code>var(--brand)</code> resolves to its identity ink. <code>var(--signal)</code> remains Ağustos red across every brand. Without a brand class, <code>--brand</code> falls back to Ağustos red.</p>
+<p><strong>Substrate helpers:</strong></p>
+<pre><code class="language-css">.paper-white {
+  --paper: var(--paper-white);
+  --rule: var(--rule-white);
+}
+</code></pre>
+<p>White is an opt-in working substrate. Cream remains the default branded substrate.</p>
+<hr />
+<h2 id="global-styles"><a class="heading-anchor" href="#global-styles" aria-label="Link to Global styles">#</a>Global styles</h2>
+<pre><code class="language-css">html, body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-feature-settings: &quot;locl&quot; on, &quot;kern&quot; on, &quot;ss01&quot; on;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+</code></pre>
+<p><strong>The <code>locl</code> feature is mandatory.</strong> It activates locale-aware OpenType lookups, which makes Turkish capitalization render correctly when <code>lang=&quot;tr&quot;</code> is declared on content.</p>
+<p><strong>The <code>ss01</code> stylistic set</strong> is enabled globally for Inter, it switches the single-storey lowercase <code>a</code> to the more neutral two-storey form Inter ships in <code>ss01</code>. This is a project-level taste decision; flip it off if a future audit prefers the default.</p>
+<hr />
+<h2 id="typography-and-content-tokens"><a class="heading-anchor" href="#typography-and-content-tokens" aria-label="Link to Typography and content tokens">#</a>Typography and content tokens</h2>
+<p>Each token has exactly one job. When writing content, ask only: which one of these is this? V3 keeps the useful v2 class API while moving its values into the structured registry.</p>
+<h3 id="hero-2-new-ın-v2-0"><a class="heading-anchor" href="#hero-2-new-ın-v2-0" aria-label="Link to Hero (2) · NEW IN v2.0">#</a>Hero (2) · NEW IN v2.0</h3>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Size</th>
+<th>Weight</th>
+<th>Family</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.type-hero</code></td>
+<td>clamp(56px, 9vw, 112px) / lh 0.96</td>
+<td>300</td>
+<td>Display</td>
+<td>Tracking -0.045em. Margin-bottom 0.5em. <strong>Big hero</strong>, landing pages, launches, brand portfolio. One per page maximum.</td>
+</tr>
+<tr>
+<td><code>.type-hero-md</code></td>
+<td>clamp(40px, 6vw, 72px) / lh 1.02</td>
+<td>400</td>
+<td>Display</td>
+<td>Tracking -0.032em. Margin-bottom 0.5em. <strong>Medium hero</strong>, inner-page headers, section openers, feature blocks.</td>
+</tr>
+</tbody>
+</table>
+<p>The hero deck is a separate utility (<code>.type-hero-deck</code>), upright body at 18–21px, max-width 54ch, paired with either hero token. It is a supporting lead, not a quote, so it does not use italic. Eyebrow above hero uses <code>.type-h4</code> in shared signal red because it labels the page-defining statement.</p>
+<h3 id="hero-element-styles"><a class="heading-anchor" href="#hero-element-styles" aria-label="Link to Hero element styles">#</a>Hero element styles</h3>
+<p>The HERO section is a page-opening composition, not a new token family. It combines two typography tokens, one deck utility, and component styles. On the homepage, the hero text should occupy the first viewport as a top-aligned editorial opening; the page should not vertically center the statement or split it into text/media columns. Name the parts consistently so design notes, implementation, and CMS fields all refer to the same things.</p>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Style</th>
+<th>Required</th>
+<th>Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Headline</strong></td>
+<td><code>.type-hero</code> or <code>.type-hero-md</code></td>
+<td>Required</td>
+<td>The page statement. Ink-on-paper, never a link. On the current Ağustos homepage, use <code>.type-hero-md</code>; it matches the existing site voice: calmer, slightly heavier, and less launch-like. Reserve <code>.type-hero</code> for more dramatic landing pages, launches, and brand portfolio openings. Let the homepage headline use the full page measure; do not constrain it to a narrow poster column. One headline per hero.</td>
+</tr>
+<tr>
+<td><strong>Supporting Copy</strong></td>
+<td><code>.type-hero-deck</code></td>
+<td>Recommended</td>
+<td>One supporting lead, 1-2 sentences, max-width 54ch, upright body, ink-soft. Explains the promise; does not repeat the headline.</td>
+</tr>
+<tr>
+<td><strong>Primary CTA</strong></td>
+<td><code>.hero-link.hero-link--primary</code> inside <code>.hero-links</code></td>
+<td>Optional</td>
+<td>Main navigational path. The homepage may have two primary path links when it opens into two equal business lines. Bold editorial link with arrow and shared-red underline. No filled button in the homepage hero.</td>
+</tr>
+<tr>
+<td><strong>Secondary CTA</strong></td>
+<td><code>.hero-link.hero-link--secondary</code> inside <code>.hero-links</code></td>
+<td>Optional</td>
+<td>Lower-priority contact or support action placed after the primary path links. Ink-soft editorial link with arrow and shared-red underline.</td>
+</tr>
+<tr>
+<td><strong>Trust Signals</strong></td>
+<td><code>.hero-trust</code></td>
+<td>Optional</td>
+<td>Compact proof line below the actions: year range, client count, geography, partner names, standards, warranty, press, or certification. Body family at 13.5-14px, ink-faint or ink-soft. No badges, pills, or logo-wall treatment in the hero.</td>
+</tr>
+<tr>
+<td><strong>Hero Visual</strong></td>
+<td><code>.hero-visual</code></td>
+<td>Optional</td>
+<td>Actual product, place, object, state, screenshot, diagram, render, or media. On the homepage, keep it below or after the text-led first viewport unless the visual is the product itself. Avoid decorative-only gradients, abstract logo collages, or framed visual cards that compete with the headline.</td>
+</tr>
+</tbody>
+</table>
+<p>Optional <code>.type-h4</code> eyebrow may sit above the headline for category/context. Optional <code>.type-body</code> summary may sit between Supporting Copy and CTAs only when the page needs a second level of explanation; it is not one of the named HERO styles.</p>
+<p>Recommended order:</p>
+<ol>
+<li>Optional <code>.type-h4</code> eyebrow.</li>
+<li><strong>Headline</strong>.</li>
+<li><strong>Supporting Copy</strong>.</li>
+<li>Optional <code>.type-body</code> summary.</li>
+<li><code>.hero-links</code> containing one or two <strong>Primary CTA</strong> links and optional <strong>Secondary CTA</strong>.</li>
+<li><strong>Trust Signals</strong>.</li>
+<li><strong>Hero Visual</strong> as the adjacent or following visual plane.</li>
+</ol>
+<p>Do not make the hero headline itself the call to action. Headline links create an oversized underline and confuse hierarchy: the statement starts behaving like a button. Keep the title as ink-on-paper; put navigation in the action row.</p>
+<p>CTA philosophy for the homepage is <strong>editorial link, not product button</strong>. Filled buttons conflict with the rule that signal red is not a surface color. The restrained publisher pattern is bold text, arrow, and shared-red underline. The hero stays typographic.</p>
+<p>Hero component styles are web/component utilities, not typography tokens. Homepage hero action utilities are editorial links; boxed <code>.hero-action</code> utilities may still be used for lower section-opening CTA rows where target size and scannability matter more than first-impression typography. <code>.hero-trust</code> and <code>.hero-visual</code> belong to hero sections only:</p>
+<table>
+<thead>
+<tr>
+<th>Utility</th>
+<th>Role</th>
+<th>Style</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.hero-links</code></td>
+<td>Homepage action row</td>
+<td>Flex row, wraps, 1rem row gap, 1.5rem column gap, 2rem above.</td>
+</tr>
+<tr>
+<td><code>.hero-link</code></td>
+<td>Base homepage action link</td>
+<td>Display family, 17-21px, weight 600, shared-red 2px underline, arrow after text. The arrow may be literal text or <code>::after</code>; either is acceptable if accessible text stays clean.</td>
+</tr>
+<tr>
+<td><code>.hero-link--primary</code></td>
+<td>Main homepage path action</td>
+<td>Ink text, weight 600. Use one or two when the homepage has equal primary destinations.</td>
+</tr>
+<tr>
+<td><code>.hero-link--secondary</code></td>
+<td>Secondary homepage action</td>
+<td>Ink-soft text, weight 500.</td>
+</tr>
+<tr>
+<td><code>.hero-trust</code></td>
+<td>Trust signal line</td>
+<td>Body family, 13.5-14px, line-height 1.5, ink-faint or ink-soft, margin-top 2rem to 3.5rem after actions. Items stay textual and compact.</td>
+</tr>
+<tr>
+<td><code>.hero-visual</code></td>
+<td>Visual plane</td>
+<td>Media container for the hero image/render/screenshot/diagram. Full-width within its layout column, no decorative card chrome, caption through <code>.type-figure</code> when needed.</td>
+</tr>
+</tbody>
+</table>
+<p>Actions are links, not generic buttons. In the homepage hero they should not look button-like: the action is part of the typographic composition. In lower sections, boxed links can appear when the surrounding layout needs clearer tap targets.</p>
+<p><strong>Implementation status.</strong> The hero actions, trust, and visual utilities are generated into all web adapters from the v3 source.</p>
+<h3 id="headings-4"><a class="heading-anchor" href="#headings-4" aria-label="Link to Headings (4)">#</a>Headings (4)</h3>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Size</th>
+<th>Weight</th>
+<th>Family</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.type-h1</code></td>
+<td>44px / lh 1.05</td>
+<td>500</td>
+<td>Display</td>
+<td>Tracking -0.026em. Page title, first H1 is the page itself.</td>
+</tr>
+<tr>
+<td><code>.type-h2</code></td>
+<td>24px / lh 1.18</td>
+<td>500</td>
+<td>Display</td>
+<td>Tracking -0.014em. Section break.</td>
+</tr>
+<tr>
+<td><code>.type-h3</code></td>
+<td>18px / lh 1.3</td>
+<td>500, italic</td>
+<td>Display</td>
+<td>Italic separates categorically from H2. Inter Tight italics carry well.</td>
+</tr>
+<tr>
+<td><code>.type-h4</code></td>
+<td>12px</td>
+<td>700, uppercase</td>
+<td>Display</td>
+<td>Tracking 0.14em. Absorbs eyebrow + meta + label roles.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="body-inline-8"><a class="heading-anchor" href="#body-inline-8" aria-label="Link to Body & inline (8)">#</a>Body &amp; inline (8)</h3>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Size</th>
+<th>Weight</th>
+<th>Family</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.type-body</code></td>
+<td>16.5px / lh 1.65</td>
+<td>400</td>
+<td>Body</td>
+<td>Body text and paragraphs.</td>
+</tr>
+<tr>
+<td><code>em</code></td>
+<td>inherit</td>
+<td>400, italic</td>
+<td>Body</td>
+<td>Titles, foreign words, technical terms, deck/byline by role.</td>
+</tr>
+<tr>
+<td><code>strong</code></td>
+<td>inherit</td>
+<td>700</td>
+<td>Body</td>
+<td>Emphasis, key terms.</td>
+</tr>
+<tr>
+<td><code>a</code></td>
+<td>inherit</td>
+<td>600</td>
+<td>Body</td>
+<td>Bold + 2px shared-red underline, 3px offset. Primary family interaction expression.</td>
+</tr>
+<tr>
+<td><code>code</code> (inline)</td>
+<td>0.86em</td>
+<td>400</td>
+<td>Mono</td>
+<td>Background <code>rgba(0,0,0,0.05)</code>, padding 1px 5px.</td>
+</tr>
+<tr>
+<td><code>sub</code></td>
+<td>0.7em</td>
+<td>500</td>
+<td>Body</td>
+<td>Vertical-align -0.25em. For chemical formulas (CO₂).</td>
+</tr>
+<tr>
+<td><code>sup</code></td>
+<td>0.7em</td>
+<td>500</td>
+<td>Body</td>
+<td>Vertical-align 0.5em. For units (m²), exponents, footnote refs.</td>
+</tr>
+<tr>
+<td><code>s</code></td>
+<td>inherit</td>
+<td>400</td>
+<td>Body</td>
+<td>Strikethrough, ink-faint. For revisions, deprecated values.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="block-level-9"><a class="heading-anchor" href="#block-level-9" aria-label="Link to Block-level (9)">#</a>Block-level (9)</h3>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Size</th>
+<th>Family</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.type-blockquote</code></td>
+<td>18px / lh 1.55</td>
+<td>Body italic</td>
+<td>Border-left 2px shared signal. <code>cite</code> is display, uppercase.</td>
+</tr>
+<tr>
+<td><code>.type-pullquote</code></td>
+<td>26px / lh 1.22</td>
+<td>Display</td>
+<td>Borders top + bottom. Opening curly quote in shared red.</td>
+</tr>
+<tr>
+<td><code>.type-list-ol</code></td>
+<td>16.5px / lh 1.65</td>
+<td>Body</td>
+<td>Markers in shared red.</td>
+</tr>
+<tr>
+<td><code>.type-list-ul</code></td>
+<td>16.5px / lh 1.65</td>
+<td>Body</td>
+<td>Markers in shared red.</td>
+</tr>
+<tr>
+<td><code>.type-dl</code></td>
+<td>16px</td>
+<td>Body</td>
+<td>dt at 600 weight, dd at 400 weight in ink-soft.</td>
+</tr>
+<tr>
+<td><code>.type-figure</code></td>
+<td>placeholder + caption</td>
+<td>—</td>
+<td>Caption is 13.5px italic body, ink-faint.</td>
+</tr>
+<tr>
+<td><code>.type-code-block</code></td>
+<td>13.5px</td>
+<td>Mono</td>
+<td>Background ink, color rule.</td>
+</tr>
+<tr>
+<td><code>.type-table</code></td>
+<td>14px</td>
+<td>Body cells, display headers</td>
+<td>Tabular numerals. Last column right-aligned.</td>
+</tr>
+<tr>
+<td><code>.type-divider</code></td>
+<td>1px</td>
+<td>—</td>
+<td>Background var(--rule). For section breaks.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="supporting-1"><a class="heading-anchor" href="#supporting-1" aria-label="Link to Supporting (1)">#</a>Supporting (1)</h3>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>Size</th>
+<th>Family</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.type-footnote</code></td>
+<td>12.5px</td>
+<td>Body</td>
+<td>Ink-faint. <code>sup</code> markers in shared red, weight 600.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="vertical-rhythm-three-tiers-no-exceptions"><a class="heading-anchor" href="#vertical-rhythm-three-tiers-no-exceptions" aria-label="Link to Vertical rhythm: three tiers, no exceptions">#</a>Vertical rhythm: three tiers, no exceptions</h3>
+<p>The system uses <strong>one consistent rhythm</strong> with one structural exception. Visual hierarchy comes from heading size and weight, not from inconsistent spacing. Earlier versions tried &quot;headings hug their content&quot; (asymmetric tops and bottoms, intro-block special cases, deck-after-H1 rules) and the result was a page with five different gap sizes. v2.0 reverts to the simpler logic: every element flows at the same distance from the previous one; section markers get extra room above; one explicit eyebrow exception.</p>
+<p><strong>Tier 1, Baseline (1em ≈ 16px below every block element)</strong></p>
+<p>Every block-level token has <code>margin-bottom: 1em</code> and <code>margin-top: 0</code>. The next element sits 16px below, period. Listed exhaustively so future-me knows the rule covers everything:</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>margin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.type-hero</code>, <code>.type-hero-md</code></td>
+<td><code>0 0 0.5em</code></td>
+</tr>
+<tr>
+<td><code>.type-hero-deck</code></td>
+<td><code>0</code> (relies on hero's bottom margin)</td>
+</tr>
+<tr>
+<td><code>.type-h1</code></td>
+<td><code>0 0 1em</code></td>
+</tr>
+<tr>
+<td><code>.type-body</code></td>
+<td><code>0 0 1em</code></td>
+</tr>
+<tr>
+<td><code>.type-blockquote</code></td>
+<td><code>0 0 1em</code></td>
+</tr>
+<tr>
+<td><code>.type-list-ol</code>, <code>.type-list-ul</code></td>
+<td><code>0 0 1em</code></td>
+</tr>
+<tr>
+<td><code>.type-dl</code></td>
+<td><code>0 0 1em</code></td>
+</tr>
+<tr>
+<td><code>.type-figure</code></td>
+<td><code>0 0 1em</code></td>
+</tr>
+<tr>
+<td><code>.type-table</code></td>
+<td><code>0 0 1em</code></td>
+</tr>
+<tr>
+<td><code>.type-code-block</code></td>
+<td><code>0 0 1em</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Tier 2, Section break (2.5em ≈ 40px above all markers, 1em below)</strong></p>
+<p>A single shared <code>margin-top: 2.5em</code> for every element that visually marks a section break, sub-section, or closing block. Below the marker, baseline 1em, same as everything else. Hierarchy comes from heading size and weight, not graduated spacing.</p>
+<table>
+<thead>
+<tr>
+<th>Token</th>
+<th>margin</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.type-h2</code></td>
+<td><code>2.5em 0 1em</code></td>
+</tr>
+<tr>
+<td><code>.type-h3</code></td>
+<td><code>2.5em 0 1em</code></td>
+</tr>
+<tr>
+<td><code>.type-h4</code> (mid-article)</td>
+<td><code>2.5em 0 1em</code></td>
+</tr>
+<tr>
+<td><code>.type-pullquote</code></td>
+<td><code>2.5em 0 1em</code></td>
+</tr>
+<tr>
+<td><code>hr.type-divider</code></td>
+<td><code>2.5em 0 1em</code></td>
+</tr>
+<tr>
+<td><code>.type-footnote</code></td>
+<td><code>2.5em</code> + <code>padding-top</code> + <code>border-top</code> (editorial scope)</td>
+</tr>
+</tbody>
+</table>
+<p>CSS adjacent vertical margins collapse to the larger value (per CSS spec), so a heading with <code>margin-top: 2.5em</code> follows a paragraph with <code>margin-bottom: 1em</code> at the heading's 2.5em, a clean section break without double-counting margins.</p>
+<p><strong>Tier 3, Eyebrow exception (≈ 8px, editorial scope only)</strong></p>
+<p><code>.type-h4:first-child</code> (used as a label for <code>.type-h1</code>) collapses its margin-top to zero and the H1 gets <code>margin-top: 8px</code>. The eyebrow is a caption for the title, not a section marker. This is the <strong>only</strong> explicit exception in the system.</p>
+<p><strong>Internal (intra-block) spacing, not part of the rhythm</strong></p>
+<p>These values sit <em>inside</em> a block, not <em>between</em> blocks, so they don't follow the 3-tier system:</p>
+<table>
+<thead>
+<tr>
+<th>Element</th>
+<th>Internal spacing</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>blockquote padding</code></td>
+<td><code>0.25em 0 0.25em 1.25em</code></td>
+<td>Vertical breathing inside the quote, horizontal indent past the shared-red border</td>
+</tr>
+<tr>
+<td><code>blockquote cite margin-top</code></td>
+<td><code>0.6em</code></td>
+<td>Attribution gap below the quote text</td>
+</tr>
+<tr>
+<td><code>pullquote padding</code></td>
+<td><code>1em 0</code></td>
+<td>Vertical breathing inside the bordered block</td>
+</tr>
+<tr>
+<td><code>list padding-left</code></td>
+<td><code>1.5em</code></td>
+<td>Bullet/number gutter</td>
+</tr>
+<tr>
+<td><code>dl dt margin-top</code></td>
+<td><code>1em</code> (zero on <code>:first-child</code>)</td>
+<td>Gap between definition pairs</td>
+</tr>
+<tr>
+<td><code>dl dd margin</code></td>
+<td><code>0</code></td>
+<td>Definition hugs its term</td>
+</tr>
+<tr>
+<td><code>figure figcaption margin-top</code></td>
+<td><code>0.5em</code></td>
+<td>Caption sits tight under the image</td>
+</tr>
+<tr>
+<td><code>code-block padding</code></td>
+<td><code>1em 1.25em</code></td>
+<td>Code breathing inside the dark block</td>
+</tr>
+<tr>
+<td><code>table cells padding</code></td>
+<td><code>0.5em 0.75em</code></td>
+<td>Standard table cell breathing</td>
+</tr>
+<tr>
+<td><code>hero action margin-top</code></td>
+<td><code>1.5rem</code></td>
+<td>Action row sits close to the deck but is visually separate from the statement.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>⚠ Specificity warning for editorial-scope rules</strong></p>
+<p>When a parent element scopes its children's flow spacing via adjacent-sibling selectors (e.g., <code>.editorial &gt; * + *</code>), that selector's specificity is <code>(0,1,0)</code>: the <strong>same</strong> as a token rule like <code>.t-h1</code> or <code>.t-deck</code>. If the token rules declare <code>margin: 0</code> (as they do, to be reset-friendly), they will <strong>override</strong> the scope rule whenever they're declared later in the source. The fix is to raise the scope selector's specificity, for the editorial scope, use <code>article.editorial &gt; * + *</code> (<code>(0,1,1)</code>) instead of <code>.editorial &gt; * + *</code>. The same applies anywhere a &quot;container scope&quot; is applying flow margins to children whose token rules also touch margin.</p>
+<p>This bug was present from v1.0 through the early v2.0 spacing iterations, all the &quot;bumps&quot; to the baseline rule were silently overridden by token resets. Verify any new flow-spacing rule renders the value you set by inspecting computed styles, not by trusting the CSS reads correctly.</p>
+<p><strong>Tuning history</strong></p>
+<p>The baseline went 16px (v1.x) → 24px → 32px → 40px → <strong>16px (current)</strong>. The first three bumps were silently nullified by the specificity bug above; the value the page was actually rendering was 0px between most elements. Once the bug was fixed (specificity raised to <code>article.editorial &gt;</code>), the 40px baseline finally took effect, and read as too generous. Settled at 16px baseline + 40px section break as the simplest expressive system: 1em flow rhythm, 2.5em chapter mark, 0.5em eyebrow exception.</p>
+<p>Captured as Principle 1 in <code>CONTEXT/ops/working-principles-claude.md</code> (&quot;Consistency before local optimization&quot;) and Principle 2 (&quot;Verify the rendered output, not the written CSS&quot;), and now also as a CSS specificity warning here, so future-me doesn't regress.</p>
+<p><strong>What was removed in v2.0</strong></p>
+<ul>
+<li>The <code>H1 + .t-deck</code> adjacent-sibling rule (deck now flows at baseline 24px).</li>
+<li>The <code>.t-deck + .t-body</code> adjacent-sibling rule (body flows at baseline).</li>
+<li>The heading-hugs-first-paragraph pattern across H2/H3/H4 (first paragraph flows at baseline).</li>
+<li>Asymmetric heading margins (huge top, tight bottom).</li>
+</ul>
+<p>If a specific page needs different spacing, scope it locally, don't loosen the tokens.</p>
+<hr />
+<h2 id="markdown-coverage"><a class="heading-anchor" href="#markdown-coverage" aria-label="Link to Markdown coverage">#</a>Markdown coverage</h2>
+<p>Every token maps to a standard markdown primitive. The system survives the round-trip from Obsidian → web → PDF → docx → plain text.</p>
+<table>
+<thead>
+<tr>
+<th>Markdown</th>
+<th>Renders as</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(template-only, not markdown)</td>
+<td><code>.type-hero</code> / <code>.type-hero-md</code></td>
+<td>Hero tokens live in page templates, not markdown. Markdown bodies start at H1.</td>
+</tr>
+<tr>
+<td><code># Title</code></td>
+<td>H1</td>
+<td>First H1 is the page title</td>
+</tr>
+<tr>
+<td><code>## Section</code></td>
+<td>H2</td>
+<td></td>
+</tr>
+<tr>
+<td><code>### Subsection</code></td>
+<td>H3</td>
+<td>Italic by token rule</td>
+</tr>
+<tr>
+<td><code>#### Label</code></td>
+<td>H4</td>
+<td>Uppercase eyebrow/meta</td>
+</tr>
+<tr>
+<td><code>**bold**</code></td>
+<td>strong</td>
+<td></td>
+</tr>
+<tr>
+<td><code>*italic*</code> or <code>_italic_</code></td>
+<td>em</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[text](url)</code></td>
+<td>a</td>
+<td>Bold + brand underline</td>
+</tr>
+<tr>
+<td><code>`code`</code></td>
+<td>code (inline)</td>
+<td></td>
+</tr>
+<tr>
+<td><code>~subscript~</code></td>
+<td>sub</td>
+<td>Pandoc / Obsidian extension</td>
+</tr>
+<tr>
+<td><code>^superscript^</code></td>
+<td>sup</td>
+<td>Pandoc / Obsidian extension</td>
+</tr>
+<tr>
+<td><code>~~strikethrough~~</code></td>
+<td>s</td>
+<td>GFM standard</td>
+</tr>
+<tr>
+<td><code>&gt; quote</code></td>
+<td>blockquote</td>
+<td></td>
+</tr>
+<tr>
+<td><code>1. item</code></td>
+<td>ordered list</td>
+<td></td>
+</tr>
+<tr>
+<td><code>- item</code></td>
+<td>unordered list</td>
+<td></td>
+</tr>
+<tr>
+<td><code>term : def</code></td>
+<td>definition list</td>
+<td>Pandoc extension</td>
+</tr>
+<tr>
+<td><code>![caption](img.jpg)</code></td>
+<td>figure</td>
+<td></td>
+</tr>
+<tr>
+<td><code>```lang</code></td>
+<td>code block</td>
+<td></td>
+</tr>
+<tr>
+<td><code>| h | h |</code></td>
+<td>table</td>
+<td>GFM</td>
+</tr>
+<tr>
+<td><code>---</code></td>
+<td>divider</td>
+<td></td>
+</tr>
+<tr>
+<td><code>[^1]</code> and <code>[^1]: note</code></td>
+<td>footnote</td>
+<td>Pandoc / Obsidian</td>
+</tr>
+<tr>
+<td><code>::: pullquote</code></td>
+<td>pullquote</td>
+<td>Pandoc fenced div, only non-portable token</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Note on pullquote:</strong> the only token that requires Pandoc-specific syntax. Renders as plain blockquote in CommonMark / GFM environments. Acceptable trade-off for an editorial system.</p>
+<hr />
+<h2 id="logo-system"><a class="heading-anchor" href="#logo-system" aria-label="Link to Logo system">#</a>Logo system</h2>
+<h3 id="the-symbol"><a class="heading-anchor" href="#the-symbol" aria-label="Link to The symbol">#</a>The symbol</h3>
+<p>The Laz Güneşi; 18 blades, 20° apart, rotational sun. Every brand carries the exact same symbol in its registered identity ink.
+Source of truth: <code>laz-gunesi-amblem/svg/master.svg</code> (parametric rebuild from the original Illustrator file). Asset kit (SVG/PDF/PNG/CSS) lives in the same folder.</p>
+<h3 id="the-lockup"><a class="heading-anchor" href="#the-lockup" aria-label="Link to The lockup">#</a>The lockup</h3>
+<pre><code>[ Symbol ]  brandname
+</code></pre>
+<ul>
+<li>Symbol height = 1.4× wordmark cap height (≈ <code>Math.round(size * 1.4 * 0.7)</code> in pixels)</li>
+<li>Symbol-to-wordmark gap = 0.4× wordmark size</li>
+<li>Wordmark in <code>--display</code> (Inter Tight), <code>font-weight: 650</code>, <code>letter-spacing: 0</code></li>
+<li>Variable <code>wght</code> axis 100–900. Weight 650 is the working wordmark weight: bold enough to hold at 16–20px, still refined beside the Laz Güneşi. The tighter proportions of Inter Tight (vs. Inter) keep the lockup compact without negative tracking.</li>
+<li><strong>Always lowercase.</strong> <code>text-transform: lowercase</code> is enforced on <code>.lockup__name</code> so the wordmark renders lowercase regardless of how the brandname prop is passed. The prop can stay Title Case for SEO/aria; CSS does the visual normalization.</li>
+<li>Wordmark color = <code>--brand</code> (identity ink; matches the symbol so the lockup reads as one mark)</li>
+<li><strong>No subtitle.</strong> The publisher mark is one word and one symbol. Sublabels and taglines belong elsewhere (page metadata, page subtitle, footer copy), not on the lockup.</li>
+<li><strong>No hover underline, ever.</strong> The lockup is identity, not a normal text link. Hover must be visually quiet. If the lockup is clickable, keyboard focus must still be visible through an accessible focus outline or equivalent site-level focus treatment.</li>
+<li><strong>Optical vertical centering.</strong> The symbol receives <code>transform: translateY(0.08em)</code> so its geometric center aligns with the wordmark's <em>optical</em> center, not the line-box geometric center. Lowercase text concentrates its visual mass between baseline and x-height; the upper portion of the line-box is mostly empty (only ascenders and the ğ breve reach there). Without the 0.08em shift, the symbol reads as floating high above all-lowercase wordmarks. Tested across all four brand wordmarks including the breve-heavy <code>ağustos</code> and ascender-light <code>pataraz</code>: single value works for both.</li>
+</ul>
+<p>The <code>mono</code> expression substitutes <code>--ink</code> for <code>--brand</code> in single-color contexts (print, stamps, fax-quality).</p>
+<h3 id="per-brand-wordmarks"><a class="heading-anchor" href="#per-brand-wordmarks" aria-label="Link to Per-brand wordmarks">#</a>Per-brand wordmarks</h3>
+<p>Each brand has a fixed lowercase display name, mapped in <code>BaseLayout.astro</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Brand class</th>
+<th>Wordmark</th>
+<th>Color</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>agustos</code></td>
+<td><code>ağustos</code></td>
+<td><code>--brand-agustos</code> (#cf142a)</td>
+</tr>
+<tr>
+<td><code>pataraz</code></td>
+<td><code>pataraz</code></td>
+<td><code>--brand-pataraz</code> (#1a1a1a)</td>
+</tr>
+<tr>
+<td><code>pld</code></td>
+<td><code>pld türkiye</code></td>
+<td><code>--brand-pld</code> (#1a1a1a)</td>
+</tr>
+<tr>
+<td><code>photo</code></td>
+<td><code>photometric</code></td>
+<td><code>--brand-photometric</code> (#1a1a1a)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why one-word wordmarks (where possible).</strong> Each visible mark is a single noun: <code>ağustos</code>, <code>pataraz</code>, <code>photometric</code>. The exception is <code>pld türkiye</code> where the country qualifier is integral to the publication's identity. Drop &quot;teknoloji,&quot; &quot;luminaires,&quot; &quot;batch&quot;, those describe what the brand does, not what it's called.</p>
+<p>The page <code>&lt;title&gt;</code> is independent and stays Title Case (e.g. &quot;Ağustos Teknoloji, lighting agency and distribution&quot;) for SEO and browser-tab readability. Title and wordmark are deliberately separate concerns.</p>
+<h3 id="three-expressions"><a class="heading-anchor" href="#three-expressions" aria-label="Link to Three expressions">#</a>Three expressions</h3>
+<ol>
+<li><strong>Positive.</strong> Symbol + wordmark in identity ink on cream/white substrate. Ağustos is red; all other house brands are black. Primary use, 90% of contexts.</li>
+<li><strong>Negative.</strong> Symbol + wordmark in cream/white on the identity tile: red for Ağustos, black for every other house brand. For favicons, monograms, and identity tiles.</li>
+<li><strong>Mono.</strong> Symbol + wordmark in ink on cream, or cream on ink. Single-color print, stamps, fax-quality.</li>
+</ol>
+<p>No fourth expression exists.</p>
+<h3 id="favicon-app-icons"><a class="heading-anchor" href="#favicon-app-icons" aria-label="Link to Favicon & app icons">#</a>Favicon &amp; app icons</h3>
+<p>The favicon uses the <strong>Negative</strong> expression — white Laz Güneşi on the registered identity tile. The tile is red for Ağustos and black for every other house brand. A solid tile preserves a recognizable silhouette at 16px, where the bare symbol's thin blades wash out to a faint ring.</p>
+<p>Canonical kit: <code>laz-gunesi-amblem/favicon/</code> — <code>favicon.svg</code> (rounded tile, modern browsers), <code>favicon.ico</code> (legacy, square/opaque), <code>apple-touch-icon.png</code> (180px, full-bleed for iOS masking), <code>icon-192.png</code> / <code>icon-512.png</code> + <code>site.webmanifest</code> (PWA), and <code>favicon-mono.svg</code> (bare symbol, in-page only). Copy-paste <code>&lt;head&gt;</code> tags and regeneration steps live in that folder's <code>README.md</code>.</p>
+<p>Adapter <code>public/favicon.svg</code> files are <strong>mirrors</strong> of the canonical; update them in the same change. The full asset map and sync rules are in the repo-root <code>ASSETS.md</code>.</p>
+<h3 id="logotype-ınter-tight-650"><a class="heading-anchor" href="#logotype-ınter-tight-650" aria-label="Link to Logotype: Inter Tight 650">#</a>Logotype: Inter Tight 650</h3>
+<p>The wordmark uses <strong>Inter Tight</strong> (Rasmus Andersson. SIL OFL 1.1). Tighter, more compressed sibling of Inter, designed by the same hand and sharing the same skeleton. Variable <code>wght</code> axis 100–900 with italics. Used at <strong>650</strong> for the lockup.</p>
+<p>Inter Tight is the wordmark face. It is also the system display face, the same family powers heroes, headings, eyebrows, UI labels, and table headers. This consolidation is intentional: in v2.0 the wordmark and the surrounding chrome are drawn from the same family, so the lockup integrates with its context rather than asserting itself as a separate face.</p>
+<p>Why Inter Tight: after seven prior iterations (Fraunces semi-bold, Fraunces slim+WONK, Space Grotesk Light, Manrope ExtraLight, IBM Plex Sans Light, Tenor Sans Regular, Plus Jakarta Sans Light), a final round comparison evaluated Plus Jakarta 300/200, Hanken Grotesk 300, Geist 300, and Inter Tight 300 alongside a system-pairing decision (retire Newsreader for Inter as body). Inter Tight won on three axes: best-in-class Turkish <code>ğ</code> rendering, paired-skeleton harmony with Inter for body, and a &quot;tight&quot; axis that earns the <em>slick</em> descriptor without going couture-thin. The system-level question, retire Newsreader, was decided in favor of consolidation: one paired family, simpler to maintain, more rigorous register from logo to caption.</p>
+<p>Why 650: a May 2026 bold-weight reconsideration compared the current Inter Tight 300 lockup against Inter Tight 650/730, Hanken Grotesk 700, Plus Jakarta Sans 700, and Bricolage Grotesque 700 in desktop header, mobile header, document, dark, and brand-family contexts. Inter Tight 650 solved the small-size quietness of the Light lockup while preserving the current system, neutral tracking, and portfolio-wide calm. Inter Tight 730 was legible but close to too assertive; Bricolage 700 was more memorable but less system-neutral.</p>
+<p>The Turkish <code>ğ</code> in Inter Tight is humanist; the breve integrates with the letter body. Inter has gold-standard Latin Extended coverage. <code>ğ</code>, <code>İ</code>, <code>ı</code>, <code>ş</code>, <code>ç</code>, <code>ö</code>, <code>ü</code> all draw correctly without locale tricks.</p>
+<p>Self-hosted via <code>@fontsource-variable/inter-tight</code> (logotype + display) and <code>@fontsource-variable/inter</code> (body). System-font fallback on both, so any context where web fonts don't load (email, embedded UI, slow networks) degrades cleanly to the user's native UI font.</p>
+<p>CSS tokens:</p>
+<pre><code class="language-css">--display: 'Inter Tight Variable', 'Inter Tight', 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif;
+--body:    'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Roboto, Helvetica, Arial, sans-serif, &quot;Apple Color Emoji&quot;;
+</code></pre>
+<p>Full reasoning for the v2.0 decision in MEMORY.md turning points 19–28.</p>
+<h3 id="adding-a-new-brand"><a class="heading-anchor" href="#adding-a-new-brand" aria-label="Link to Adding a new brand">#</a>Adding a new brand</h3>
+<ol>
+<li>Pick a lowercase wordmark (1–3 words; should look balanced next to the symbol).</li>
+<li>Use neutral identity ink <code>#1a1a1a</code> unless this is Ağustos. A chromatic exception requires an explicit governance change.</li>
+<li>Add the registry entry and regenerate; generated adapters expose <code>--brand-{slug}</code> and the matching class.</li>
+<li>Add the wordmark to the framework brand map when an adapter requires one.</li>
+<li>Apply the brand class. The lockup inherits identity ink, font, weight, axes, and the lowercase rule; interactions continue to use shared red.</li>
+</ol>
+<p>Total time: ~10 minutes per brand. No new design work.</p>
+<hr />
+<h2 id="turkish-locale-handling"><a class="heading-anchor" href="#turkish-locale-handling" aria-label="Link to Turkish locale handling">#</a>Turkish locale handling</h2>
+<p>Mandatory for Turkish content. Three places to apply:</p>
+<h3 id="html"><a class="heading-anchor" href="#html" aria-label="Link to HTML">#</a>HTML</h3>
+<pre><code class="language-html">&lt;article lang=&quot;tr&quot;&gt;
+  &lt;h1&gt;Işığın mimariyle buluştuğu yer.&lt;/h1&gt;
+&lt;/article&gt;
+</code></pre>
+<h3 id="css-already-in-global-styles"><a class="heading-anchor" href="#css-already-in-global-styles" aria-label="Link to CSS (already in global styles)">#</a>CSS (already in global styles)</h3>
+<pre><code class="language-css">html {
+  font-feature-settings: &quot;locl&quot; on, &quot;kern&quot; on;
+}
+</code></pre>
+<h3 id="markdown-via-pandoc-yaml-frontmatter"><a class="heading-anchor" href="#markdown-via-pandoc-yaml-frontmatter" aria-label="Link to Markdown via Pandoc YAML frontmatter">#</a>Markdown via Pandoc YAML frontmatter</h3>
+<pre><code class="language-yaml">---
+lang: tr
+---
+</code></pre>
+<p><strong>Why this matters:</strong> without <code>lang=&quot;tr&quot;</code>, CSS <code>text-transform: uppercase</code> converts lowercase <code>i</code> to dotless <code>I</code> instead of dotted <code>İ</code>. This silently produces wrong Turkish in any uppercase styling, eyebrows, brand names, table headers, H4 labels. With the rule applied, Turkish capitalization renders correctly everywhere.</p>
+<hr />
+<h2 id="accessibility-requirements"><a class="heading-anchor" href="#accessibility-requirements" aria-label="Link to Accessibility requirements">#</a>Accessibility requirements</h2>
+<p>Accessibility is part of the design system, not an implementation afterthought. The system's restraint only works if interactive states remain legible and keyboard-operable.</p>
+<h3 id="focus-and-keyboard"><a class="heading-anchor" href="#focus-and-keyboard" aria-label="Link to Focus and keyboard">#</a>Focus and keyboard</h3>
+<ul>
+<li>Every interactive element must expose a visible <code>:focus-visible</code> state.</li>
+<li>Shared signal red is used for focus rings because focus belongs to interaction, not identity.</li>
+<li>Skip links are required on full web layouts with persistent navigation.</li>
+<li>Minimum practical target size for button-like controls is 44px on the shorter axis. Editorial text links may be smaller if they sit in prose, but they must have enough line-height and spacing to be tapped comfortably.</li>
+</ul>
+<h3 id="contrast"><a class="heading-anchor" href="#contrast" aria-label="Link to Contrast">#</a>Contrast</h3>
+<ul>
+<li>Body text uses <code>--ink</code> on <code>--paper</code> or <code>--paper-white</code>.</li>
+<li>Secondary text uses <code>--ink-soft</code>; use <code>--ink-faint</code> only for captions, footnotes, dates, and low-priority proof lines.</li>
+<li>Shared-red links and focus rings must be checked on cream, white, and dark substrates.</li>
+<li>Negative expressions must preserve cream/white contrast on red Ağustos tiles and black house-brand tiles.</li>
+</ul>
+<h3 id="motion-and-state"><a class="heading-anchor" href="#motion-and-state" aria-label="Link to Motion and state">#</a>Motion and state</h3>
+<ul>
+<li>Transitions should be short and functional (roughly 120-180ms).</li>
+<li>Do not encode meaning in color alone. Links use both weight and underline; active navigation uses position, text, and state, not just color.</li>
+<li>Dark theme is allowed as an opt-in implementation layer, but it must preserve the same token relationships: paper, ink, rule, identity ink, and shared signal, not a separate visual system.</li>
+</ul>
+<hr />
+<h2 id="character-coverage"><a class="heading-anchor" href="#character-coverage" aria-label="Link to Character coverage">#</a>Character coverage</h2>
+<p>All three faces use the <strong>Google Fonts Latin Plus</strong> glyph set. Verified support for:</p>
+<ul>
+<li><strong>Currencies</strong>, ₺ € $ £ ¥ ¢</li>
+<li><strong>Technical</strong>, ° ² ³ ₂ × − ± µ → ← ≈ ≠ ≤ ≥</li>
+<li><strong>Editorial</strong> — &quot; &quot; ' ' – — … § ¶ © ® ™ † ‡ • ·</li>
+<li><strong>Turkish alphabet</strong>, ç Ç ğ Ğ ı I i İ ö Ö ş Ş ü Ü</li>
+<li><strong>Numerals.</strong> Both proportional and tabular (<code>font-variant-numeric: tabular-nums</code>)</li>
+</ul>
+<p><strong>Not supported:</strong> Cyrillic, Greek, Arabic, Hebrew, CJK. Not relevant to current business; would require typeface swap if needed.</p>
+<hr />
+<h2 id="substrate-strategy"><a class="heading-anchor" href="#substrate-strategy" aria-label="Link to Substrate strategy">#</a>Substrate strategy</h2>
+<p>The system supports two canonical paper colors plus one opt-in dark UI layer. Same tokens, same rules, different <code>--paper</code> value.</p>
+<h3 id="cream-fefcf2-primary-branded-contexts"><a class="heading-anchor" href="#cream-fefcf2-primary-branded-contexts" aria-label="Link to Cream #fefcf2 (primary, branded contexts)">#</a>Cream <code>#fefcf2</code> (primary, branded contexts)</h3>
+<p>Marketing pages, editorial articles, proposals, beautifully-typeset cover documents. The paper carries warmth and editorial register.</p>
+<h3 id="white-ffffff-universal-working-contexts"><a class="heading-anchor" href="#white-ffffff-universal-working-contexts" aria-label="Link to White #ffffff (universal, working contexts)">#</a>White <code>#ffffff</code> (universal, working contexts)</h3>
+<p>Email, docx defaults, generic web, printer paper, dashboards, product UI. The paper disappears; the typography carries the brand.</p>
+<p>A single CSS variable swap flips the system. No other token changes.</p>
+<h3 id="dark-16140f-opt-in-uı-context"><a class="heading-anchor" href="#dark-16140f-opt-in-uı-context" aria-label="Link to Dark #16140f (opt-in UI context)">#</a>Dark <code>#16140f</code> (opt-in UI context)</h3>
+<p>Dark theme is an implementation layer for screens, not a third brand substrate. It inverts paper, ink, and rule while keeping identity and signal roles stable. Use dark theme for user preference and product UI comfort, not as a default editorial expression.</p>
+<hr />
+<h2 id="ıdentity-and-signal-color-governance"><a class="heading-anchor" href="#ıdentity-and-signal-color-governance" aria-label="Link to Identity and signal color governance">#</a>Identity and signal color governance</h2>
+<p>Color has two separate jobs and they must never collapse into one token:</p>
+<ol>
+<li><strong>Identity ink (<code>brandMark</code> / <code>--brand</code>).</strong> Ağustos is red <code>#cf142a</code>. Every other house brand is black <code>#1a1a1a</code> on light substrates and cream/white on black identity fields.</li>
+<li><strong>Interaction signal (<code>signal</code> / <code>--signal</code>).</strong> Always red <code>#cf142a</code> across every brand. Use it for links, focus, markers, rules, and small emphasis.</li>
+</ol>
+<p>A new chromatic house-brand identity is a philosophy change, not a routine registry choice. It requires updating this specification, <code>brand/brands.json</code>, tokens, tests, and the decision history together.</p>
+<hr />
+<h2 id="what-was-cut-and-why"><a class="heading-anchor" href="#what-was-cut-and-why" aria-label="Link to What was cut, and why">#</a>What was cut, and why</h2>
+<p>Future-you may wonder why these don't exist. They were considered and rejected.</p>
+<table>
+<thead>
+<tr>
+<th>Cut</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><del><code>.type-display-xl</code> (64px)</del>; <em>brought back in v2.0 as <code>.type-hero</code> and <code>.type-hero-md</code></em></td>
+<td>v1.x argued layout creates presence above what type alone provides. v2.0 reversed that for landing/brand pages where the hero <em>is</em> the layout. Hero exists at two scales (big and medium); H1 still does page-title duty inside articles.</td>
+</tr>
+<tr>
+<td><code>.type-display</code> (48px)</td>
+<td>Sat between Display-XL and H1 with no clear job. H1 absorbs chapter and cover.</td>
+</tr>
+<tr>
+<td><code>.type-eyebrow</code> (small uppercase signal color)</td>
+<td>H4 absorbs eyebrow. Shared red appears as an eyebrow accent <strong>only above hero tokens</strong>; elsewhere, H4 stays ink-soft unless a local semantic role explicitly earns the signal.</td>
+</tr>
+<tr>
+<td><code>.type-deck</code> (italic sub-headline)</td>
+<td>Solved by <code>.type-hero-deck</code> utility for hero contexts; otherwise use normal body or <code>*italic*</code> only when the copy is genuinely editorial emphasis.</td>
+</tr>
+<tr>
+<td><code>.type-byline</code> (italic 14px)</td>
+<td>Editorial italic body does the job. Inline within prose if helpful.</td>
+</tr>
+<tr>
+<td><code>.type-sc</code> (small caps for brand names)</td>
+<td>Editorial flourish, not a system primitive. Brand names render fine in regular case.</td>
+</tr>
+<tr>
+<td><code>.type-small</code> (generic secondary)</td>
+<td>If it's secondary, it's a footnote. No middle tier.</td>
+</tr>
+<tr>
+<td><code>.type-meta</code> (UI labels)</td>
+<td>H4 absorbs meta. One token, one job, across all label-like contexts.</td>
+</tr>
+<tr>
+<td><code>.type-caption</code> (figure caption)</td>
+<td>Lives inside <code>.type-figure</code> as <code>figcaption</code>. Not addressable; inherent.</td>
+</tr>
+<tr>
+<td><code>strong em</code> (bold italic)</td>
+<td>Rarely the right choice. If something needs strongest emphasis, bold or italic alone is sufficient.</td>
+</tr>
+<tr>
+<td>Universal yellow highlight (<code>&lt;mark&gt;</code>)</td>
+<td>Non-portable across markdown environments. The system uses link treatment for emphasized terms instead.</td>
+</tr>
+<tr>
+<td>Strong-em as separate token</td>
+<td>Bold or italic alone covers all needed emphasis levels.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="ımplementation-notes"><a class="heading-anchor" href="#ımplementation-notes" aria-label="Link to Implementation notes">#</a>Implementation notes</h2>
+<h3 id="repository-architecture"><a class="heading-anchor" href="#repository-architecture" aria-label="Link to Repository architecture">#</a>Repository architecture</h3>
+<p>This repository is the canonical design-system source. Framework-specific implementations are adapters.</p>
+<pre><code class="language-txt">tokens/design-tokens.json Canonical cross-medium token registry
+brand/brands.json         Canonical brand identity registry
+tokens/web.css.tmpl       Platform-neutral web behavior
+DESIGN.md                 Canonical human-readable specification
+MEMORY.md                 Decision history
+scripts/                  Generators and drift checks
+adapters/                 Astro, Rails, and WordPress translations
+brand/                    Office generators and brand assets
+</code></pre>
+<p>The system should not depend on Astro. Astro is useful for static sites, documentation, and visual QA. Rails apps should consume the Rails adapter or copy the platform-neutral tokens directly.</p>
+<h3 id="web-utilities"><a class="heading-anchor" href="#web-utilities" aria-label="Link to Web utilities">#</a>Web utilities</h3>
+<p>The platform-neutral web behavior lives in <code>tokens/web.css.tmpl</code>; its values resolve from <code>tokens/design-tokens.json</code>. <code>tokens/agustos.css</code> and adapter token files are generated outputs.</p>
+<p>Current non-token utilities:</p>
+<table>
+<thead>
+<tr>
+<th>Utility</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>.paper-white</code></td>
+<td>Switches <code>--paper</code> and <code>--rule</code> to white-context values.</td>
+</tr>
+<tr>
+<td><code>html[data-theme=&quot;dark&quot;]</code></td>
+<td>Optional dark theme; inverts paper/ink/rule while preserving identity and signal roles.</td>
+</tr>
+<tr>
+<td><code>.site-frame</code></td>
+<td>Shared site-chrome frame: 920px content measure plus 1.5rem gutters.</td>
+</tr>
+<tr>
+<td><code>.container</code></td>
+<td>The same frame geometry plus default vertical page padding.</td>
+</tr>
+<tr>
+<td><code>.hero-links</code>, <code>.hero-link*</code></td>
+<td>Editorial homepage hero action row.</td>
+</tr>
+<tr>
+<td><code>.hero-action*</code></td>
+<td>Boxed lower-section CTA links where tap target and scannability matter.</td>
+</tr>
+<tr>
+<td><code>.skip-link</code></td>
+<td>Keyboard accessibility utility for persistent navigation layouts.</td>
+</tr>
+</tbody>
+</table>
+<p>Hero, section, card, and editorial-link recipes are emitted into every web adapter.</p>
+<p>The 920px value is the content measure, not the padded outer width. <code>.site-frame</code>
+and <code>.container</code> therefore cap their border box at <code>calc(920px + 3rem)</code>: 920px
+of content plus a 1.5rem gutter on each side. This keeps header, homepage,
+breadcrumbs, page content, and footer aligned without narrowing the readable
+measure. Component-specific utilities may set vertical padding, but should not
+redefine this horizontal geometry.</p>
+<h3 id="site-chrome"><a class="heading-anchor" href="#site-chrome" aria-label="Link to Site chrome">#</a>Site chrome</h3>
+<p>v3 has one web-chrome pattern, derived from agustos.com production build
+<code>b559bc2</code> (2026-07-19): a sticky topbar and a structured footer. The fixed left
+sidebar and separate mobile header are retired.</p>
+<p>The header uses a brand lockup, configurable navigation, optional CTA, optional
+language-route link, theme toggle, and search. Desktop search opens a dropdown
+inside the shared frame. At <code>1023px</code> and below, and on touch-first devices up to
+<code>1366px</code>, navigation becomes a right-hand drawer while search remains in a
+persistent row below the topbar. Button-like controls are at least 44px. The
+responsive search input is 16px to prevent iOS focus zoom.</p>
+<p>Search is an adapter concern, not a global token. The Astro reference uses
+Pagefind and indexes only <code>&lt;main&gt;</code>, filtered by language and <code>page</code>/<code>post</code> kind.
+The Rails adapter uses a GET form targeting a Turbo Frame; consuming apps supply
+server-rendered grouped results through the documented partial locals. No JSON
+schema or ActionCable dependency belongs in the design system.</p>
+<p>The footer uses the same <code>.site-frame</code>: mono lockup and publisher description on
+the left, configurable link columns on the right. It collapses to one outer
+column at <code>760px</code>. Header and footer destinations and copy are configuration,
+never hard-coded brand policy.</p>
+<h3 id="rails-adapter"><a class="heading-anchor" href="#rails-adapter" aria-label="Link to Rails adapter">#</a>Rails adapter</h3>
+<p>Rails monoliths should use <code>adapters/rails/</code> as the starting point. The adapter provides:</p>
+<ul>
+<li><code>app/assets/stylesheets/agustos/tokens.css</code></li>
+<li><code>app/assets/stylesheets/agustos/components.css</code></li>
+<li><code>app/helpers/agustos_theme_helper.rb</code></li>
+<li><code>app/views/layouts/agustos.html.erb</code></li>
+<li>shared ERB partials for the exact lockup, header, footer, and Turbo search results</li>
+<li>focused Stimulus controllers for drawer, theme, and search panel behavior</li>
+</ul>
+<p>The Rails adapter is plain ERB first. If an app uses ViewComponent, components can wrap the same semantic pieces later without changing the design grammar.</p>
+<h3 id="office-and-google-adapters"><a class="heading-anchor" href="#office-and-google-adapters" aria-label="Link to Office and Google adapters">#</a>Office and Google adapters</h3>
+<p><code>brand/build_templates.py</code> reads <code>tokens/resolved.json</code> to create A4 Word letterheads and styled document templates. The document template uses native Word styles and imports into Google Docs; the title sanitizer audit must pass before release.</p>
+<p><code>brand/build_presentation.mjs</code> uses <code>@oai/artifact-tool</code> to create editable 16:9 PowerPoint layouts. The same PPTX is the Google Slides import seed. Web recipes are translated into presentation-native compositions rather than copied as UI.</p>
+<h3 id="font-loading"><a class="heading-anchor" href="#font-loading" aria-label="Link to Font loading">#</a>Font loading</h3>
+<p>Self-host the three families through <code>@fontsource-variable/inter-tight</code>, <code>@fontsource-variable/inter</code>, and <code>@fontsource/jetbrains-mono</code> in web projects. Fallback stacks ensure no rendering failure even if web fonts don't load. Email contexts will permanently use native fallbacks from the stack; this is acceptable.</p>
+<h3 id="browser-support"><a class="heading-anchor" href="#browser-support" aria-label="Link to Browser support">#</a>Browser support</h3>
+<p>The system uses CSS custom properties, <code>font-variation-settings</code>, <code>color-mix()</code>, <code>font-feature-settings</code>. All supported in browsers from 2022 forward. No IE support, no Edge Legacy support, both are end-of-life.</p>
+<h3 id="qa-checklist"><a class="heading-anchor" href="#qa-checklist" aria-label="Link to QA checklist">#</a>QA checklist</h3>
+<p>Run this checklist before calling a system change complete:</p>
+<ol>
+<li>Render the typography showcase and confirm the established typography/content classes appear.</li>
+<li>Inspect computed margins for H2/H3/H4, body, lists, tables, code blocks, and dividers; verify the 1em baseline and 2.5em section break actually render.</li>
+<li>Test Turkish uppercase with <code>lang=&quot;tr&quot;</code> on H4/table-header-style text: <code>başlık</code>, <code>i</code>, and <code>ışık</code> must uppercase correctly.</li>
+<li>Check cream, white, and dark substrates.</li>
+<li>Check red Ağustos and black house-brand lockups separately; verify shared-red link, focus, and marker behavior under every brand class.</li>
+<li>Test keyboard navigation: skip link, header nav, search results, language controls, theme toggle, hero links, and boxed actions.</li>
+<li>Verify the desktop dropdown, responsive search row, drawer/backdrop/Escape behavior, 44px controls, and 16px responsive input.</li>
+<li>Verify mobile and desktop widths; text must not overlap, clip, or force horizontal scrolling except inside code blocks and wide tables.</li>
+<li>Run <code>python3 scripts/build_design_system.py --check</code>; generated hashes must be current.</li>
+<li>If Office export changed, render every DOCX page and PPTX slide, run the Google Docs title sanitizer, and run overflow checks.</li>
+</ol>
+<hr />
+<h2 id="files-in-this-system"><a class="heading-anchor" href="#files-in-this-system" aria-label="Link to Files in this system">#</a>Files in this system</h2>
+<p>The system consists of:</p>
+<ul>
+<li><code>DESIGN.md</code> (this file), canonical specification</li>
+<li><code>MEMORY.md</code>: decision history and reasoning</li>
+<li><code>tokens/design-tokens.json</code>: canonical structured registry</li>
+<li><code>brand/brands.json</code>: canonical brand registry</li>
+<li><code>tokens/web.css.tmpl</code>: web behavior template</li>
+<li><code>tokens/resolved.json</code>: generated cross-medium values for downstream generators</li>
+<li><code>tokens/design-system-handoff.json</code>: generated single-file contract for coding systems</li>
+<li><code>tokens/agustos.css</code>: generated portable CSS</li>
+<li><code>adapters/astro/</code>, <code>adapters/rails/</code>, <code>adapters/wordpress/</code></li>
+<li><code>brand/build_templates.py</code> and <code>brand/build_presentation.mjs</code></li>
+<li><code>brand/fonts/</code> and generated <code>brand/exports/</code></li>
+</ul>
+<h3 id="generated-implementation-and-drift-control"><a class="heading-anchor" href="#generated-implementation-and-drift-control" aria-label="Link to Generated implementation and drift control">#</a>Generated implementation and drift control</h3>
+<p>Generated files are committed so consuming projects never couple deployments to this repository. The normal cross-system integration is one file: <code>tokens/design-system-handoff.json</code>. Vendor or attach it as context; consumer builds do not run these generators. <code>scripts/build_design_system.py</code> and the Office/brand builders run only when canonical sources change, and drift checks verify those checked-in outputs. Never repair a generated adapter or Office artifact by hand; repair the source and regenerate.</p>
+<hr />
+<h2 id="versioning"><a class="heading-anchor" href="#versioning" aria-label="Link to Versioning">#</a>Versioning</h2>
+<p>This is <strong>v3.0.0</strong>. Subsequent changes follow semantic versioning:</p>
+<ul>
+<li><strong>Major.</strong> Breaking changes to token names, structural removal, philosophy shifts</li>
+<li><strong>Minor.</strong> New tokens, new brand additions, additive-only changes</li>
+<li><strong>Patch.</strong> Color refinements, weight tuning, fallback adjustments</li>
+</ul>
+<p>Each version updates this document and notes the change in MEMORY.md.</p>
+<hr />
+<h2 id="authority"><a class="heading-anchor" href="#authority" aria-label="Link to Authority">#</a>Authority</h2>
+<p>This system was designed by Emre Güneş in dialogue with Claude over the course of one extended design conversation in May 2026. It reflects Emre's editorial sensibility, business priorities, and engineering principles. Decisions documented in MEMORY.md.</p>
+<p>The system is the product of his judgment, not Claude's. Future changes should be made by him, with reasoning documented.</p>
+
+        </article>
+      </main>
+    </div>
+  </body>
+</html>

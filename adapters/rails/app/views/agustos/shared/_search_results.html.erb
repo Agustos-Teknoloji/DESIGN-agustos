@@ -1,0 +1,23 @@
+<%= turbo_frame_tag frame_id, class: "agustos-header__search-output", aria: { live: "polite" }, data: { query: query } do %>
+  <p class="agustos-header__search-status" role="status"><%= status %></p>
+  <% groups.each do |group| %>
+    <% items = group.fetch(:items, []) %>
+    <% next if items.empty? %>
+    <section class="agustos-header__search-group">
+      <h3 class="agustos-header__search-heading">
+        <%= group.fetch(:heading) %>
+        <span><%= group.fetch(:total, items.length) %></span>
+      </h3>
+      <ul class="agustos-header__search-list">
+        <% items.each do |item| %>
+          <li class="agustos-header__search-result">
+            <%= link_to item.fetch(:href) do %>
+              <span class="agustos-header__search-result-title"><%= item.fetch(:title) %></span>
+              <% if item[:excerpt].present? %><span class="agustos-header__search-result-excerpt"><%= sanitize item[:excerpt], tags: %w[mark] %></span><% end %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+<% end %>

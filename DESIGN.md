@@ -682,6 +682,30 @@ breadcrumbs, page content, and footer aligned without narrowing the readable
 measure. Component-specific utilities may set vertical padding, but should not
 redefine this horizontal geometry.
 
+### Site chrome
+
+v3 has one web-chrome pattern, derived from agustos.com production build
+`b559bc2` (2026-07-19): a sticky topbar and a structured footer. The fixed left
+sidebar and separate mobile header are retired.
+
+The header uses a brand lockup, configurable navigation, optional CTA, optional
+language-route link, theme toggle, and search. Desktop search opens a dropdown
+inside the shared frame. At `1023px` and below, and on touch-first devices up to
+`1366px`, navigation becomes a right-hand drawer while search remains in a
+persistent row below the topbar. Button-like controls are at least 44px. The
+responsive search input is 16px to prevent iOS focus zoom.
+
+Search is an adapter concern, not a global token. The Astro reference uses
+Pagefind and indexes only `<main>`, filtered by language and `page`/`post` kind.
+The Rails adapter uses a GET form targeting a Turbo Frame; consuming apps supply
+server-rendered grouped results through the documented partial locals. No JSON
+schema or ActionCable dependency belongs in the design system.
+
+The footer uses the same `.site-frame`: mono lockup and publisher description on
+the left, configurable link columns on the right. It collapses to one outer
+column at `760px`. Header and footer destinations and copy are configuration,
+never hard-coded brand policy.
+
 ### Rails adapter
 
 Rails monoliths should use `adapters/rails/` as the starting point. The adapter provides:
@@ -690,7 +714,8 @@ Rails monoliths should use `adapters/rails/` as the starting point. The adapter 
 - `app/assets/stylesheets/agustos/components.css`
 - `app/helpers/agustos_theme_helper.rb`
 - `app/views/layouts/agustos.html.erb`
-- shared ERB partials for the exact lockup and one-row header
+- shared ERB partials for the exact lockup, header, footer, and Turbo search results
+- focused Stimulus controllers for drawer, theme, and search panel behavior
 
 The Rails adapter is plain ERB first. If an app uses ViewComponent, components can wrap the same semantic pieces later without changing the design grammar.
 
@@ -717,10 +742,11 @@ Run this checklist before calling a system change complete:
 3. Test Turkish uppercase with `lang="tr"` on H4/table-header-style text: `başlık`, `i`, and `ışık` must uppercase correctly.
 4. Check cream, white, and dark substrates.
 5. Check red Ağustos and black house-brand lockups separately; verify shared-red link, focus, and marker behavior under every brand class.
-6. Test keyboard navigation: skip link, header nav, language controls, theme toggle, hero links, and boxed actions.
-7. Verify mobile and desktop widths; text must not overlap, clip, or force horizontal scrolling except inside code blocks and wide tables.
-8. Run `python3 scripts/build_design_system.py --check`; generated hashes must be current.
-9. If Office export changed, render every DOCX page and PPTX slide, run the Google Docs title sanitizer, and run overflow checks.
+6. Test keyboard navigation: skip link, header nav, search results, language controls, theme toggle, hero links, and boxed actions.
+7. Verify the desktop dropdown, responsive search row, drawer/backdrop/Escape behavior, 44px controls, and 16px responsive input.
+8. Verify mobile and desktop widths; text must not overlap, clip, or force horizontal scrolling except inside code blocks and wide tables.
+9. Run `python3 scripts/build_design_system.py --check`; generated hashes must be current.
+10. If Office export changed, render every DOCX page and PPTX slide, run the Google Docs title sanitizer, and run overflow checks.
 
 ---
 

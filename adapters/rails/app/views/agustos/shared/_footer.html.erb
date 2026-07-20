@@ -1,0 +1,21 @@
+<% footer = agustos_footer_config %>
+<footer class="agustos-footer">
+  <div class="agustos-footer__inner site-frame">
+    <div class="agustos-footer__brand">
+      <%= render "agustos/shared/brand_lockup", href: nil, size: 20, expression: :mono %>
+      <p class="type-footnote"><%= agustos_value(footer, :description) %> · &copy; <%= Time.current.year %></p>
+    </div>
+    <div class="agustos-footer__cols">
+      <% agustos_value(footer, :columns, []).each do |column| %>
+        <nav class="agustos-footer__col" aria-label="<%= agustos_value(column, :aria_label, agustos_value(column, :heading)) %>">
+          <p class="type-h4 agustos-footer__col-heading"><%= agustos_value(column, :heading) %></p>
+          <ul class="agustos-footer__list">
+            <% agustos_value(column, :links, []).each do |link| %>
+              <li><%= link_to agustos_value(link, :label), agustos_value(link, :href), **agustos_link_html_options(link, class_name: "agustos-footer__link") %></li>
+            <% end %>
+          </ul>
+        </nav>
+      <% end %>
+    </div>
+  </div>
+</footer>

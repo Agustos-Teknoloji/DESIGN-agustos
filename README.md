@@ -58,3 +58,6 @@ PowerPoint generation uses the plain-ESM `brand/build_presentation.mjs` source a
 - [Office](brand/templates/README.md): PowerPoint/Google Slides and Word/Google Docs translation.
 
 Brand assets are indexed in [ASSETS.md](ASSETS.md). Automated agents should begin with [AGENTS.md](AGENTS.md).
+
+The frozen, standalone v3.0.0 specification is available at
+[`artifacts/agustos-design-system-v3.0.0.html`](artifacts/agustos-design-system-v3.0.0.html).

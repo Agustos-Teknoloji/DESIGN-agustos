@@ -1,22 +1,89 @@
 ---
+import BrandLockup from './BrandLockup.astro';
+import type { FooterConfig } from '../types/chrome';
+
 interface Props {
   brandname?: string;
+  config?: FooterConfig;
 }
-const { brandname = 'Ağustos Teknoloji' } = Astro.props;
+
+const { brandname = 'ağustos', config = {} } = Astro.props;
 const year = new Date().getFullYear();
+const description = config.description ?? 'Ağustos Design System · multi-brand typography and chrome';
+const columns = config.columns ?? [
+  {
+    heading: 'Explore',
+    links: [
+      { href: '/', label: 'Home' },
+      { href: '/about', label: 'About' },
+    ],
+  },
+  {
+    heading: 'Content',
+    links: [
+      { href: '/blog', label: 'Writing' },
+      { href: '/typography', label: 'Typography' },
+    ],
+  },
+  {
+    heading: 'Repository',
+    links: [
+      { href: 'https://github.com/Agustos-Teknoloji/DESIGN-agustos', label: 'Source', external: true },
+      { href: 'https://github.com/Agustos-Teknoloji/DESIGN-agustos/blob/main/DESIGN.md', label: 'Design spec', external: true },
+      { href: 'https://github.com/Agustos-Teknoloji/DESIGN-agustos/blob/main/ASSETS.md', label: 'Asset index', external: true },
+    ],
+  },
+];
 ---
 <footer class="site-footer">
-  <p class="type-footnote">{brandname} · &copy; {year}</p>
+  <div class="site-footer__inner site-frame">
+    <div class="site-footer__brand">
+      <BrandLockup brandname={brandname} expression="mono" size={20} />
+      <p class="type-footnote">{description} · &copy; {year}</p>
+    </div>
+
+    <div class="site-footer__cols">
+      {columns.map((column) => (
+        <nav class="site-footer__col" aria-label={column.ariaLabel ?? column.heading}>
+          <p class="type-h4 site-footer__col-heading">{column.heading}</p>
+          <ul class="site-footer__list">
+            {column.links.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="site-footer__link"
+                  aria-label={link.ariaLabel}
+                  target={link.external ? '_blank' : undefined}
+                  rel={link.external ? 'noopener noreferrer' : undefined}
+                >{link.label}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      ))}
+    </div>
+  </div>
 </footer>
 
 <style>
-  .site-footer {
-    margin-top: var(--space-6xl);
-    border-top: 1px solid var(--rule);
-    padding: var(--space-lg) var(--measure-gutter) var(--space-xl);
+  .site-footer { margin-top: 6rem; border-top: 1px solid var(--rule); }
+  .site-footer__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    padding-block: clamp(3rem, 6vw, 4.5rem);
   }
-  .site-footer p {
-    max-width: var(--measure-content);
-    margin: 0 auto;
+  .site-footer__brand { display: flex; flex-direction: column; gap: 14px; max-width: 34ch; }
+  .site-footer__brand .type-footnote { margin: 0; color: var(--ink-faint); }
+  .site-footer__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+  .site-footer__col-heading { margin: 0 0 12px; color: var(--ink-soft); }
+  .site-footer__list { display: flex; flex-direction: column; gap: 9px; margin: 0; padding: 0; list-style: none; }
+  .site-footer__link { color: var(--ink-soft); font-family: var(--body); font-size: 14px; font-weight: 400; text-decoration: none; transition: color var(--dur) var(--ease); }
+  .site-footer__link:hover { color: var(--ink); }
+  .site-footer__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+
+  @media (max-width: 760px) {
+    .site-footer__inner { grid-template-columns: 1fr; }
+    .site-footer__cols { grid-template-columns: repeat(2, 1fr); }
   }
 </style>

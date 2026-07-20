@@ -36,12 +36,13 @@ class AdapterContractTest(unittest.TestCase):
                 self.assertNotIn("text-decoration-color: var(--brand)", css)
                 self.assertNotRegex(css, r"\{\{[^}]+\}\}")
 
-    def test_astro_uses_one_row_header_and_active_navigation(self):
+    def test_astro_uses_shared_frame_header_and_active_navigation(self):
         header = (ROOT / "adapters" / "astro" / "src" / "components" / "Header.astro").read_text(encoding="utf-8")
         self.assertIn('<header class="site-header">', header)
         self.assertIn("aria-current={isCurrent(item.href) ? 'page' : undefined}", header)
-        self.assertIn("max-width: var(--measure-content)", header)
-        self.assertIn("@media (max-width: 640px)", header)
+        self.assertIn('class="site-header__bar site-frame"', header)
+        self.assertIn("@media (max-width: 1023px)", header)
+        self.assertIn("(max-width: 1366px) and (hover: none) and (pointer: coarse)", header)
 
     def test_astro_layout_has_no_legacy_sidebar_contract(self):
         layout = (ROOT / "adapters" / "astro" / "src" / "layouts" / "BaseLayout.astro").read_text(encoding="utf-8")

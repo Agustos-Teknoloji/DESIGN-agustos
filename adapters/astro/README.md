@@ -16,8 +16,11 @@ adapters/astro/
     ├── components/
     │   ├── BrandLockup.astro
     │   ├── Footer.astro
-    │   ├── LazGunesi.astro
-    │   └── Header.astro
+    │   ├── Header.astro
+    │   ├── HeaderSearch.astro
+    │   ├── HeaderUtility.astro
+    │   └── LazGunesi.astro
+    ├── types/chrome.ts
     ├── content/blog/
     ├── layouts/BaseLayout.astro
     ├── pages/
@@ -41,6 +44,38 @@ Build and preview:
 npm run build
 npm run preview
 ```
+
+The production build runs Pagefind after Astro and verifies that the generated
+index can be queried with the header's language and page/post filters.
+
+## Chrome Configuration
+
+`BaseLayout` accepts semantic `header` and `footer` configuration. Destinations
+and copy are consumer data; spacing, states, responsive behavior, and typography
+belong to the adapter.
+
+```astro
+<BaseLayout
+  title="Pataraz"
+  brand="pataraz"
+  header={{
+    homeHref: '/',
+    nav: [{ href: '/products', label: 'Products' }],
+    cta: { href: '/contact', label: 'Contact' },
+    languageSwitch: { href: '/tr', label: 'Türkçe', code: 'TR' },
+  }}
+  footer={{
+    description: 'Pataraz · project-grade lighting',
+    columns: [{ heading: 'Company', links: [{ href: '/about', label: 'About' }] }],
+  }}
+>
+  ...
+</BaseLayout>
+```
+
+Set `searchable={false}` to exclude a page. Blog detail pages should pass
+`searchKind="post"`; other pages default to `"page"`. Set
+`header={{ search: false }}` to remove search from the chrome.
 
 Regenerate the standalone HTML preview from `DESIGN.md`:
 
