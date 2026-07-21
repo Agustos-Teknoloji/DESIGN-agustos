@@ -65,6 +65,7 @@
   --brand-pataraz:     #1a1a1a;
   --brand-pld:         #1a1a1a;
   --brand-photometric: #1a1a1a;
+  --brand-specquick:   #1a1a1a;
 
   /* Default brand fallback (resolves before any .brand-* applies) */
   --brand: var(--brand-agustos);
@@ -86,6 +87,7 @@
 .brand-pataraz { --brand: var(--brand-pataraz); }
 .brand-pld     { --brand: var(--brand-pld); }
 .brand-photo   { --brand: var(--brand-photometric); }
+.brand-specquick { --brand: var(--brand-specquick); }
 
 /* Substrate override — opt into white paper for working/UI contexts */
 .paper-white {

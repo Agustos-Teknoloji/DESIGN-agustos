@@ -18,6 +18,7 @@ The portfolio currently spans:
 - **Pataraz.** Premium luminaire brand at mid-tier pricing (black/white identity)
 - **PLD Türkiye.** Lighting publication archive (black, `#1a1a1a`)
 - **Photometric Batch.** Software for lighting data (black/white identity)
+- **SpecQuick.** Private luminaire catalogue software (black/white identity)
 
 Future house brands plug in by choosing a name. They inherit black/white identity ink, shared red interaction signals, typography, logo geometry, and structure.
 
@@ -154,6 +155,7 @@ font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospa
   --brand-pataraz: #1a1a1a;
   --brand-pld: #1a1a1a;
   --brand-photometric: #1a1a1a;
+  --brand-specquick: #1a1a1a;
   --brand: var(--brand-agustos);
 
   /* Type stacks, v2.0 */
@@ -174,6 +176,7 @@ Radii and motion were first proven in the website redesign and are now v3 founda
 .brand-pataraz { --brand: var(--brand-pataraz); }
 .brand-pld     { --brand: var(--brand-pld); }
 .brand-photo   { --brand: var(--brand-photometric); }
+.brand-specquick { --brand: var(--brand-specquick); }
 ```
 
 Inside any brand-scoped element, `var(--brand)` resolves to its identity ink. `var(--signal)` remains Ağustos red across every brand. Without a brand class, `--brand` falls back to Ağustos red.
@@ -458,6 +461,7 @@ Each brand has a fixed lowercase display name, mapped in `BaseLayout.astro`:
 | `pataraz` | `pataraz` | `--brand-pataraz` (#1a1a1a) |
 | `pld` | `pld türkiye` | `--brand-pld` (#1a1a1a) |
 | `photo` | `photometric` | `--brand-photometric` (#1a1a1a) |
+| `specquick` | `specquick` | `--brand-specquick` (#1a1a1a) |
 
 **Why one-word wordmarks (where possible).** Each visible mark is a single noun: `ağustos`, `pataraz`, `photometric`. The exception is `pld türkiye` where the country qualifier is integral to the publication's identity. Drop "teknoloji," "luminaires," "batch", those describe what the brand does, not what it's called.
 
