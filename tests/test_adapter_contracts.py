@@ -57,6 +57,8 @@ class AdapterContractTest(unittest.TestCase):
         self.assertIn('classes << "paper-white" if config[:substrate] == :white', helper)
         self.assertIn("BRAND_CLASSES.fetch(config[:brand], BRAND_CLASSES[:agustos])", helper)
         self.assertIn("BRAND_WORDMARKS.fetch(agustos_theme_config[:brand], BRAND_WORDMARKS[:agustos])", helper)
+        self.assertIn('specquick: "brand-specquick"', helper)
+        self.assertIn('specquick: "specquick"', helper)
 
     def test_rails_layout_uses_header_not_sidebar(self):
         layout = (ROOT / "adapters" / "rails" / "app" / "views" / "layouts" / "agustos.html.erb").read_text(encoding="utf-8")
@@ -95,6 +97,7 @@ class AdapterContractTest(unittest.TestCase):
         self.assertEqual(handoff["system"]["brands"]["pataraz"]["color"], "#1a1a1a")
         self.assertEqual(handoff["system"]["brands"]["pld"]["color"], "#1a1a1a")
         self.assertEqual(handoff["system"]["brands"]["photometric"]["color"], "#1a1a1a")
+        self.assertEqual(handoff["system"]["brands"]["specquick"]["color"], "#1a1a1a")
         self.assertEqual(handoff["system"]["semantic"]["color"]["signal"], "#cf142a")
         self.assertEqual(handoff["system"]["recipes"]["chrome"]["contentMeasure"], "920px")
         self.assertGreaterEqual(len(handoff["contract"]["invariants"]), 6)
@@ -114,6 +117,7 @@ class AdapterContractTest(unittest.TestCase):
             "pataraz": "#1a1a1a",
             "pld": "#1a1a1a",
             "photometric": "#1a1a1a",
+            "specquick": "#1a1a1a",
         }
         retired = ("#1a24cc", "#0000ff", "#1f6b4a")
         for slug, color in expected.items():

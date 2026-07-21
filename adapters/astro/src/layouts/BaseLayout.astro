@@ -15,7 +15,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import type { FooterConfig, HeaderConfig } from '../types/chrome';
 
-type Brand = 'agustos' | 'pataraz' | 'pld' | 'photo';
+type Brand = 'agustos' | 'pataraz' | 'pld' | 'photo' | 'specquick';
 
 interface Props {
   title: string;
@@ -36,7 +36,7 @@ interface Props {
   /**
    * Brand name shown in the header/footer wordmark. Always rendered lowercase
    * via CSS — pass any case here, the lockup normalizes it. Default per brand:
-   *   ağustos · pataraz · pld türkiye · photometric batch
+   *   ağustos · pataraz · pld türkiye · photometric · specquick
    */
   brandname?: string;
 }
@@ -47,6 +47,7 @@ const BRAND_WORDMARKS: Record<Brand, string> = {
   pataraz: 'pataraz',
   pld:     'pld türkiye',
   photo:   'photometric',
+  specquick: 'specquick',
 };
 
 const {

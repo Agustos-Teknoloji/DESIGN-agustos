@@ -115,7 +115,8 @@ expressions automatically. ~10 minutes.
 
 - ✅ `agustos` — full kit generated and reviewed: logos, favicons, social, swatches,
   email signature, Office templates (PPTX/DOCX), and 4-page guidelines PDF.
-- ⏳ `pataraz`, `pld`, `photometric` — registered, not yet generated. Run both scripts
+- ⏳ `pataraz`, `pld`, `photometric`, `specquick` — registered; non-office brands ship logos,
+  favicons, and social assets only. Run `build.py` for a non-office brand, or both scripts
   (`build.py` then `build_templates.py`) per brand when ready.
 - 📄 Datasheets (`build_datasheet.py`) — `pataraz` ships two real products (**PL22** ceiling
   + **PX22** wall, data + photos from pataraz.com); `agustos` is a sample (**Pro Spot 28**)

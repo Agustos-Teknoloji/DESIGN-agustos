@@ -54,6 +54,15 @@
             "office": false,
       "tagline_en": "",
       "tagline_tr": ""
+    },
+    "specquick": {
+      "wordmark": "specquick",
+      "color": "#1a1a1a",
+      "title": "SpecQuick",
+      "domain": "app.specquick.com",
+      "office": false,
+      "tagline_en": "",
+      "tagline_tr": ""
     }
   }
 }

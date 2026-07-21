@@ -139,6 +139,15 @@
         "tagline_tr": "",
         "title": "PLD Türkiye",
         "wordmark": "pld türkiye"
+      },
+      "specquick": {
+        "color": "#1a1a1a",
+        "domain": "app.specquick.com",
+        "office": false,
+        "tagline_en": "",
+        "tagline_tr": "",
+        "title": "SpecQuick",
+        "wordmark": "specquick"
       }
     },
     "foundations": {

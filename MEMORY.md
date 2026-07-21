@@ -762,3 +762,18 @@ footer description, and footer columns are public configuration in both adapters
 without inheriting Ağustos-specific routes or copy. The major version is deliberate:
 consumers must replace the old sidebar partial/layout offset rather than accidentally
 loading both systems during migration.
+
+## v3.0 — SpecQuick joins as a neutral product identity (2026-07-21)
+
+**Context:** SpecQuick is the private luminaire-catalogue product for the Planlux pilot and a
+future multi-firm SaaS. Its product interface needs the established house identity without
+turning Planlux into a sub-brand or introducing another palette.
+
+**Chosen:** register `specquick` as a lowercase Inter Tight 650 wordmark with black/white
+identity ink, the exact shared Laz Güneşi, and `app.specquick.com` as its domain. It receives
+the generated logo, favicon, and social kit; Office templates remain out of scope. Shared red
+continues to signal links, focus, markers, and small emphasis but never recolors the lockup.
+
+**Why it matters:** this is the first product registered after the v3 identity/signal split and
+proves that a new house product can join through registry data and generation rather than a new
+logo or color exercise.
