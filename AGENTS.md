@@ -43,7 +43,8 @@ brand slug into `<brand>` in the path (e.g. `agustos`, `pld`).
 
 > Coverage: `agustos`, `pataraz`, `pld` have the **full** set above. `photometric` has **logos,
 > favicons, and social only** (no office / swatches / email / guidelines yet). The **datasheet**
-> kit holds many products per brand: real Pataraz sheets (`pataraz-pl22`, `pataraz-px22`) and an
+> kit holds many products per brand: real Pataraz sheets (`pataraz-pl22`, `pataraz-px22`,
+> `pataraz-py300600`, `pataraz-py600600`, `pataraz-py6001200`) and an
 > `agustos` sample (`agustos-pro-spot-28`); other brands produce a generic sheet on demand.
 
 ## The three logo expressions — pick by background
