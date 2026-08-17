@@ -238,7 +238,7 @@ def build_brand(slug, brand, reg):
 
     # --- Lockups: positive / negative / mono ---
     expressions = {
-        "positive": dict(mark=color, bg=None),    # brand color on transparent (primary)
+        "positive": dict(mark=color, bg=None),    # registered identity ink on transparent
         "negative": dict(mark=paper, bg=color),   # cream marks on brand field
         "mono":     dict(mark=ink,   bg=None),    # single-color print
     }

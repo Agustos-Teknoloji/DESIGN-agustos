@@ -1,8 +1,8 @@
 # Pataraz — brand spec
 
 The brand-specific spec for **Pataraz**. Pataraz is a *faithful sibling* in the Ağustos
-Design System: it shares one symbol, one type stack, and one set of rules, and differs only
-by **color** (`#1a24cc`) and **wordmark** (`pataraz`).
+Design System: it shares one symbol, one type stack, one neutral identity model, and one set of
+rules. Its distinguishing identity element is the **wordmark** (`pataraz`).
 
 This file does **not** restate the whole system. It records what is *Pataraz-specific* and
 points back to the master documents for everything else:
@@ -49,7 +49,8 @@ thing to translate or maintain across artifacts.
 |---|---|---|
 | Role | Parent: technology + curated distribution | In-house premium luminaire brand |
 | Audience | Broad / commercial | B2B spec market (designers, specifiers) |
-| Color | Red `#cf142a` | Blue `#1a24cc` |
+| Identity ink | Red `#cf142a` | Black `#1a1a1a` |
+| Interaction signal | Red `#cf142a` | Shared red `#cf142a` |
 | Hero asset | The portfolio | The product datasheet ("teknik föy") |
 | Tagline | *curated solutions* / *seçkin çözümler* | none |
 
@@ -62,23 +63,22 @@ strategy, not a budget compromise.
 ## 2. Identity rules (Pataraz-specific)
 
 Everything below is the *shared* system applied to Pataraz. The rule lives in `DESIGN.md`; this
-section only notes the Pataraz value and the few things to check because the color is blue.
+section only notes the Pataraz application.
 
 ### Color
 
-- **Pataraz blue is `#1a24cc`.** This is the single source of truth — tokens, symbol SVGs,
-  favicons, exports. `--brand-pataraz` in `DESIGN.md` §"CSS variables".
-- **Why not `#0000FF`.** The original pure web-blue was *refined* to `#1a24cc` so it sits with
-  the cream substrate instead of fighting it (`DESIGN.md` §"Color must sit with cream" and
-  §"Brand color refinement protocol"; rationale in `MEMORY.md`). Pure `#0000FF` is stale — if you
-  find it, it is a bug; fix it to `#1a24cc`.
+- **Pataraz identity ink is black `#1a1a1a`.** The positive lockup is black on cream/white;
+  the negative lockup is cream/white on a black tile.
+- **Shared interaction signal is Ağustos red `#cf142a`.** Links, focus, markers, section ticks,
+  and small emphasis use red across the whole portfolio. Red never recolors the Pataraz logo.
+- Pataraz blue is retired. `#1a24cc` and the older `#0000FF` are historical values, not active tokens.
 - Cream paper `#fefcf2`, ink `#1a1a1a`, and the substrate strategy are shared, unchanged
   (`DESIGN.md` §"Substrate strategy").
 
 ### Symbol & lockup
 
-- **Symbol:** the shared Laz Güneşi (18-blade sun), in Pataraz blue. Never redrawn, never
-  recolored to anything but `#1a24cc`. One symbol, forever (`DESIGN.md` §"The symbol").
+- **Symbol:** the shared Laz Güneşi (18-blade sun), in black for the positive identity expression.
+  Never redraw it or substitute an approximation. One symbol, forever (`DESIGN.md` §"The symbol").
 - **Wordmark:** `pataraz` — lowercase, single noun (no "luminaires"/"aydınlatma" qualifier on
   the mark), Inter Tight weight **650** (`DESIGN.md` §"Per-brand wordmarks", §"Logotype: Inter
   Tight 650"). Never a tagline or subtitle on the lockup.
@@ -92,15 +92,13 @@ Shared, unchanged: **Inter Tight** (display/wordmark), **Inter** (body), **JetBr
 
 ### Three expressions & favicon
 
-- **positive** (blue marks on light/dark) — default, ~90% of uses.
-- **negative** (cream/white marks on a blue tile) — favicons, blue banners.
+- **positive** (black marks on light) — default, ~90% of uses.
+- **negative** (cream/white marks on a black tile) — favicons and identity tiles.
 - **mono** (single ink) — single-color print, engraving.
-- The **favicon is the negative expression**: white symbol on a blue `#1a24cc` tile
+- The **favicon is the negative expression**: white symbol on a black `#1a1a1a` tile
   (`DESIGN.md` §"Three expressions", §"Favicon & app icons").
 
-> **Blue-specific check.** When placing cream/white on the blue tile, verify contrast and
-> legibility per `DESIGN.md` §"Accessibility requirements / Contrast" — Pataraz blue is a flagged
-> case there. Re-check any negative composition before shipping.
+Verify every negative composition for contrast and small-size legibility before shipping.
 
 ### Where the files are
 
@@ -114,7 +112,7 @@ master symbol and re-run the build — see `ASSETS.md` and `brand/README.md`.
 
 The new site is a **specification / reference catalog**, not a storytelling shop. Its job is to
 let a specifier find a product, trust the company, and walk away with the datasheet. Built
-entirely inside the shared system (cream substrate, the type stack, blue as the single accent).
+entirely inside the shared system (cream substrate, neutral identity ink, shared red signal).
 
 ### Information architecture
 
@@ -133,9 +131,8 @@ points into Series.
 
 ### Look & component notes (within the system)
 
-- **Substrate & accent.** Cream `#fefcf2` ground, ink `#1a1a1a` text, blue `#1a24cc` as the
-  *single* accent — used as a signal (active state, section marks, the symbol), not decoration
-  (`DESIGN.md` §"Brand color is a signal, not decoration").
+- **Substrate & accent.** Cream `#fefcf2` ground, ink `#1a1a1a` text, and shared red `#cf142a`
+  used as a signal for active states, section marks, links, and focus. The symbol remains black.
 - **Hero.** Calm and product-led: the luminaire and its defining numbers, not a slogan. Lots of
   cream, generous rhythm (`DESIGN.md` §"Vertical rhythm").
 - **Spec tables.** The most important component. Mirror the datasheet's grouped structure
@@ -145,7 +142,7 @@ points into Series.
 - **Product page.** Photo + dimensioned drawing, short description, the grouped spec tables, and
   a prominent **datasheet download**. The on-page spec and the PDF datasheet must agree — same
   source of truth.
-- **Typography & lockup** per `DESIGN.md`; favicon is the negative-on-blue set in
+- **Typography & lockup** per `DESIGN.md`; favicon is the negative-on-black set in
   `brand/exports/pataraz/favicon/` (with `site.webmanifest`).
 - **Accessibility & Turkish locale** are non-negotiable — follow `DESIGN.md`
   §"Accessibility requirements" and §"Turkish locale handling".
@@ -160,7 +157,7 @@ points into Series.
 
 The datasheet ("teknik föy") is Pataraz's **hero asset** (Section 1). Like everything else in the
 kit it is *generated, not hand-made*: the data lives in one place and the brand chrome (lockup,
-blue, footer) resolves from `brands.json`. **Never hand-edit files under `brand/exports/`.**
+identity ink, footer) resolves from `brands.json`. **Never hand-edit files under `brand/exports/`.**
 
 This section documents the conventions the engine already encodes, so every future datasheet
 matches the two real ones (PL22, PX22) without re-deriving the rules.

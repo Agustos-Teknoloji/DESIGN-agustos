@@ -52,7 +52,7 @@ def hexrgb(h):
 #
 # Field labels are Turkish. To document a new product, copy a block, give it a new
 # key, set `brand`, and replace the values; to change which specs appear, edit the
-# `specs` groups (the group title becomes the brand-coloured section label). Order
+# `specs` groups (the group title becomes the shared-red section label). Order
 # matters — rows render top-to-bottom, groups flow into 2 columns.
 # ----------------------------------------------------------------------------
 
@@ -465,6 +465,7 @@ def _ordering(order):
 
 def gen_datasheet_html(slug, brand, reg, product, out: Path, lk_dir: Path):
     color = brand["color"]
+    signal = reg["signal"]["color"]
     title, domain = brand["title"], brand.get("domain", "")
     it = (FONTS / "inter-tight" / "InterTight[wght].ttf").as_uri()
     inr = (FONTS / "inter" / "Inter[opsz,wght].ttf").as_uri()
@@ -492,7 +493,7 @@ def gen_datasheet_html(slug, brand, reg, product, out: Path, lk_dir: Path):
 @font-face {{ font-family:'JB'; src:url('{mono}'); }}
 @page {{ size:A4; margin:0; }}
 * {{ box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }}
-:root {{ --brand:{color}; --ink:#1a1a1a; --soft:#4a4a4a; --faint:#8a8a8a;
+:root {{ --brand:{color}; --signal:{signal}; --ink:#1a1a1a; --soft:#4a4a4a; --faint:#8a8a8a;
          --paper:#fefcf2; --rule:#e8e3d0; }}
 body {{ margin:0; font-family:'IN',sans-serif; color:var(--ink); background:var(--paper);
         font-feature-settings:"locl" on,"kern" on; }}
@@ -500,11 +501,11 @@ body {{ margin:0; font-family:'IN',sans-serif; color:var(--ink); background:var(
 
 /* Header */
 .head {{ display:flex; justify-content:space-between; align-items:flex-end;
-         padding-bottom:8px; border-bottom:2px solid var(--brand); }}
+         padding-bottom:8px; border-bottom:2px solid var(--signal); }}
 .head img {{ height:30px; display:block; }}
 .head .doc {{ text-align:right; }}
 .doc-type {{ font-family:'IT'; font-weight:650; font-size:11px; text-transform:uppercase;
-             letter-spacing:0.16em; color:var(--brand); }}
+             letter-spacing:0.16em; color:var(--signal); }}
 .doc-code {{ font-family:'JB'; font-size:11px; color:var(--soft); margin-top:3px;
              font-variant-numeric:tabular-nums; }}
 
@@ -522,7 +523,7 @@ h1 {{ font-family:'IT'; font-weight:650; font-size:30px; letter-spacing:-0.02em;
 .slot .ph {{ border:1.5px dashed var(--rule); display:flex; flex-direction:column;
              align-items:center; justify-content:center; background:#fff; }}
 .slot.has-img img {{ object-fit:contain; border:1px solid var(--rule); background:#fff; }}
-.ph-mark {{ font-family:'IT'; font-weight:300; font-size:30px; color:var(--brand);
+.ph-mark {{ font-family:'IT'; font-weight:300; font-size:30px; color:var(--signal);
             line-height:1; opacity:0.55; }}
 .ph-lbl {{ font-family:'IT'; font-weight:650; font-size:12px; color:var(--soft); margin-top:6px; }}
 .ph-sub {{ font-size:10px; color:var(--faint); margin-top:2px; }}
@@ -538,8 +539,8 @@ h1 {{ font-family:'IT'; font-weight:650; font-size:30px; letter-spacing:-0.02em;
 .group {{ break-inside:avoid; -webkit-column-break-inside:avoid; display:inline-block;
           width:100%; margin-bottom:11px; }}
 .glabel {{ font-family:'IT'; font-weight:650; font-size:9.5px; text-transform:uppercase;
-           letter-spacing:0.1em; color:var(--brand); margin-bottom:5px;
-           padding-left:8px; border-left:2px solid var(--brand); }}
+           letter-spacing:0.1em; color:var(--signal); margin-bottom:5px;
+           padding-left:8px; border-left:2px solid var(--signal); }}
 .srow {{ display:flex; justify-content:space-between; gap:8px; align-items:baseline;
          padding:2.5px 0; border-bottom:1px solid rgba(0,0,0,0.045); }}
 .sk {{ font-size:10px; color:var(--soft); flex:1 1 auto; }}
@@ -547,14 +548,14 @@ h1 {{ font-family:'IT'; font-weight:650; font-size:30px; letter-spacing:-0.02em;
        white-space:nowrap; font-variant-numeric:tabular-nums; }}
 
 /* Ordering matrix */
-.order {{ width:100%; border-collapse:collapse; margin-top:6px; border-top:2px solid var(--brand); }}
+.order {{ width:100%; border-collapse:collapse; margin-top:6px; border-top:2px solid var(--signal); }}
 .order th {{ font-family:'IT'; font-weight:650; font-size:9px; text-transform:uppercase;
             letter-spacing:0.08em; color:var(--ink); text-align:left;
             padding:6px 8px; border-bottom:1px solid var(--rule); }}
 .order td {{ font-family:'JB'; font-size:10px; color:var(--ink); padding:5px 8px;
             border-bottom:1px solid var(--rule); font-variant-numeric:tabular-nums; }}
 .order tbody tr:nth-child(even) {{ background:rgba(0,0,0,0.02); }}
-.order td:first-child {{ color:var(--brand); }}
+.order td:first-child {{ color:var(--signal); }}
 
 /* Certifications */
 .certs {{ margin-top:11px; font-size:10px; color:var(--soft); }}

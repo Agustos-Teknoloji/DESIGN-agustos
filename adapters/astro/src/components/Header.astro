@@ -1,47 +1,424 @@
 ---
 import BrandLockup from './BrandLockup.astro';
+import HeaderSearch from './HeaderSearch.astro';
+import HeaderUtility from './HeaderUtility.astro';
+import { SEARCH_LABELS } from '../types/chrome';
+import type { ChromeLink, HeaderConfig, SearchLabels } from '../types/chrome';
 
 interface Props {
   brandname: string;
+  pathname: string;
+  lang?: string;
+  config?: HeaderConfig;
 }
-const { brandname } = Astro.props;
+
+const { brandname, pathname, lang = 'en', config = {} } = Astro.props;
+const locale = lang === 'tr' ? 'tr' : 'en';
+const defaults = SEARCH_LABELS[locale];
+const searchConfig = config.search === false ? false : (typeof config.search === 'object' ? config.search : {});
+const searchLabels: SearchLabels = { ...defaults, ...(searchConfig === false ? {} : searchConfig.labels) };
+const searchEnabled = searchConfig !== false;
+const themeEnabled = config.theme !== false;
+const hasUtility = Boolean(config.languageSwitch || themeEnabled);
+
+const defaultNav: ChromeLink[] = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/blog', label: 'Writing' },
+  { href: '/typography', label: 'Typography' },
+];
+const nav = config.nav ?? defaultNav;
+const homeHref = config.homeHref ?? '/';
+const cta = config.cta === undefined
+  ? { href: 'https://github.com/Agustos-Teknoloji/DESIGN-agustos', label: 'View source', external: true }
+  : config.cta;
+
+const idSuffix = locale;
+function isCurrent(href: string): boolean {
+  if (href === '/') return pathname === '/';
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
 ---
 <header class="site-header">
-  <div class="site-header__inner">
-    <BrandLockup brandname={brandname} href="/" size={20} />
-    <nav aria-label="Primary">
-      <a href="/">Home</a>
-      <a href="/about">About</a>
-      <a href="/blog">Writing</a>
-      <a href="/typography">Typography</a>
-    </nav>
+  <div class="site-header__bar site-frame">
+    <BrandLockup brandname={brandname} href={homeHref} size={22} />
+
+    <div id="site-header-panel" class="site-header__panel">
+      <nav class="site-header__nav" aria-label="Primary">
+        {nav.map((item) => (
+          <a
+            href={item.href}
+            class:list={['site-header__link', { 'is-active': isCurrent(item.href) }]}
+            aria-current={isCurrent(item.href) ? 'page' : undefined}
+            aria-label={item.ariaLabel}
+            target={item.external ? '_blank' : undefined}
+            rel={item.external ? 'noopener noreferrer' : undefined}
+          >{item.label}</a>
+        ))}
+      </nav>
+
+      {searchEnabled && <HeaderSearch variant="desktop-dropdown" labels={searchLabels} panelId={`header-search-panel-desktop-${idSuffix}`} resultsId={`header-search-results-desktop-${idSuffix}`} />}
+      {hasUtility && <HeaderUtility className="site-header__utility--drawer" languageSwitch={config.languageSwitch} theme={themeEnabled} />}
+      {cta && (
+        <a
+          href={cta.href}
+          class="site-header__cta"
+          aria-label={cta.ariaLabel}
+          target={cta.external ? '_blank' : undefined}
+          rel={cta.external ? 'noopener noreferrer' : undefined}
+        >{cta.label}</a>
+      )}
+    </div>
+
+    <HeaderUtility className="site-header__utility--bar" languageSwitch={config.languageSwitch} theme={themeEnabled} />
+    <button type="button" class="site-header__burger" aria-label="Open navigation" aria-controls="site-header-panel" aria-expanded="false" data-nav-toggle>
+      <span class="site-header__burger-bar"></span>
+      <span class="site-header__burger-bar"></span>
+      <span class="site-header__burger-bar"></span>
+    </button>
   </div>
+
+  {searchEnabled && <HeaderSearch variant="responsive-row" labels={searchLabels} panelId={`header-search-panel-responsive-${idSuffix}`} resultsId={`header-search-results-responsive-${idSuffix}`} />}
 </header>
+
+<button type="button" class="nav-backdrop" aria-label="Close navigation" data-nav-close></button>
 
 <style>
   .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: saturate(1.1) blur(8px);
     border-bottom: 1px solid var(--rule);
-    padding: 1.25rem 1.5rem;
   }
-  .site-header__inner {
-    max-width: 920px;
-    margin: 0 auto;
+  .site-header__bar {
+    position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 2rem;
-    flex-wrap: wrap;
+    gap: clamp(1.5rem, 2vw, 2rem);
+    padding-block: 0.9rem;
   }
-  nav {
-    display: flex;
-    gap: 1.5rem;
+  .site-header__panel {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto auto;
+    flex: 1 1 auto;
+    align-items: center;
+    column-gap: 1rem;
+    min-width: 0;
+  }
+  .site-header__nav { display: flex; justify-self: center; gap: clamp(1.6rem, 2.2vw, 2rem); }
+  .site-header__link {
+    color: var(--ink-soft);
     font-family: var(--display);
-    font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
+    font-size: 14.5px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: color var(--dur) var(--ease);
   }
-  /* Nav links use the standard link treatment — bold + brand underline. */
-  nav a { color: var(--ink-soft); }
-  nav a:hover { color: var(--ink); }
+  .site-header__link:hover,
+  .site-header__link.is-active { color: var(--ink); }
+  .site-header__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+
+  .site-header__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 0.5em 0.9em;
+    background: var(--ink);
+    border-radius: var(--radius-md);
+    color: var(--paper);
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background var(--dur) var(--ease);
+  }
+  .site-header__cta:hover { background: color-mix(in srgb, var(--ink) 92%, var(--brand) 8%); }
+  .site-header__cta:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+  :global(.site-header__search-group + .site-header__search-group) { margin-top: 0.35rem; padding-top: 0.35rem; border-top: 1px solid var(--rule); }
+  :global(.site-header__search-heading) {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin: 0;
+    padding: 0.45rem 0.5rem 0.2rem;
+    color: var(--ink-faint);
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  :global(.site-header__search-heading-count) { font-family: var(--body); font-size: 11px; font-weight: 500; letter-spacing: 0; text-transform: none; }
+  :global(.site-header__search-list) { margin: 0; padding: 0; list-style: none; }
+  :global(.site-header__search-result) { margin: 0; }
+  :global(.site-header__search-result a) { display: block; padding: 0.55rem 0.5rem; border-radius: var(--radius-sm); color: var(--ink-soft); text-decoration: none; }
+  :global(.site-header__search-result a:hover),
+  :global(.site-header__search-result a:focus-visible) { outline: 0; background: var(--rule); color: var(--ink); }
+  :global(.site-header__search-result-title) { display: block; font-family: var(--display); font-size: 14px; font-weight: 600; line-height: 1.25; }
+  :global(.site-header__search-result-excerpt) { display: block; max-width: 70ch; margin-top: 0.3rem; color: var(--ink-faint); font-family: var(--body); font-size: 12.5px; line-height: 1.45; }
+  :global(.site-header__search-result-excerpt mark) { padding: 0 0.1em; background: color-mix(in srgb, var(--signal) 18%, transparent); color: var(--ink); }
+
+  .site-header__burger {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background var(--dur) var(--ease);
+  }
+  .site-header__burger:hover { background: var(--rule); }
+  .site-header__burger:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+  .site-header__burger-bar { display: block; width: 18px; height: 1.5px; background: var(--ink); border-radius: 2px; transition: transform 200ms ease, opacity 200ms ease; }
+  :global(body[data-nav-open="true"]) .site-header__burger-bar:nth-child(1) { transform: translateY(5.5px) rotate(45deg); }
+  :global(body[data-nav-open="true"]) .site-header__burger-bar:nth-child(2) { opacity: 0; }
+  :global(body[data-nav-open="true"]) .site-header__burger-bar:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
+
+  .nav-backdrop { display: none; position: fixed; inset: 0; z-index: 15; padding: 0; background: rgba(26, 26, 26, 0.32); border: 0; cursor: pointer; opacity: 0; transition: opacity 200ms ease; }
+
+  @media (max-width: 1023px), (max-width: 1366px) and (hover: none) and (pointer: coarse) {
+    :global(html), :global(body) { overflow-x: clip; }
+    .site-header__bar { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; column-gap: 0.75rem; }
+    .site-header__burger { display: inline-flex; justify-self: end; }
+    .site-header__panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1.5rem;
+      width: min(320px, 86vw);
+      height: 100dvh;
+      margin: 0;
+      padding: 5rem 1.5rem 1.5rem;
+      overflow-y: auto;
+      background: var(--paper);
+      border-left: 1px solid var(--rule);
+      box-shadow: -8px 0 32px rgba(26, 26, 26, 0.06);
+      visibility: hidden;
+      pointer-events: none;
+      transform: translateX(100%);
+      transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 220ms;
+    }
+    :global(body[data-nav-open="true"]) .site-header__panel { visibility: visible; pointer-events: auto; transform: translateX(0); transition-delay: 0s; }
+    .site-header__nav { flex-direction: column; justify-self: stretch; gap: 0.25rem; }
+    .site-header__link { padding: 0.5rem 0; }
+    .site-header__cta { justify-content: center; }
+    :global(body[data-nav-open="true"]) .nav-backdrop { display: block; opacity: 1; }
+  }
+  @media (max-width: 480px) { .site-header__bar { column-gap: 0.25rem; padding-inline: 0.75rem; } }
 </style>
+
+<script>
+  type SearchLabels = { loading: string; empty: string; unavailable: string; result: string; results: string; pages: string; posts: string };
+  type PagefindData = { url: string; excerpt?: string; meta?: { title?: string } };
+  type PagefindModule = { init?: () => unknown | Promise<unknown>; search: (term: string, options?: { filters?: Record<string, string | string[]> }) => Promise<{ results: Array<{ data: () => Promise<PagefindData> }> }> };
+  type SearchGroup = { heading: string; kind: 'page' | 'post'; total: number; results: PagefindData[]; showExcerpts: boolean };
+
+  const body = document.body;
+  const html = document.documentElement;
+  const RESPONSIVE_HEADER_QUERY = '(max-width: 1023px), (max-width: 1366px) and (hover: none) and (pointer: coarse)';
+  const SEARCH_THRESHOLD = 2;
+  let pagefindPromise: Promise<PagefindModule> | null = null;
+
+  function closeSearchPanel(root: HTMLElement) {
+    const panel = root.querySelector<HTMLElement>('[data-search-panel]');
+    const toggle = root.querySelector<HTMLButtonElement>('[data-search-toggle]');
+    const input = root.querySelector<HTMLInputElement>('[data-search-input]');
+    panel?.setAttribute('hidden', '');
+    toggle?.setAttribute('aria-expanded', 'false');
+    if (root.dataset.searchVariant === 'responsive') input?.setAttribute('aria-expanded', 'false');
+  }
+
+  function openSearchPanel(root: HTMLElement, focusInput = true) {
+    const panel = root.querySelector<HTMLElement>('[data-search-panel]');
+    const toggle = root.querySelector<HTMLButtonElement>('[data-search-toggle]');
+    const input = root.querySelector<HTMLInputElement>('[data-search-input]');
+    panel?.removeAttribute('hidden');
+    toggle?.setAttribute('aria-expanded', 'true');
+    if (root.dataset.searchVariant === 'responsive') input?.setAttribute('aria-expanded', 'true');
+    if (focusInput) input?.focus();
+  }
+
+  function setNavOpen(open: boolean) {
+    if (open) body.setAttribute('data-nav-open', 'true');
+    else body.removeAttribute('data-nav-open');
+    document.querySelectorAll<HTMLButtonElement>('[data-nav-toggle]').forEach((button) => button.setAttribute('aria-expanded', String(open)));
+    if (open) document.querySelectorAll<HTMLElement>('[data-search-root]').forEach(closeSearchPanel);
+    body.style.overflow = open ? 'hidden' : '';
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('[data-nav-toggle]').forEach((button) => button.addEventListener('click', () => setNavOpen(!body.hasAttribute('data-nav-open'))));
+  document.querySelectorAll<HTMLButtonElement>('[data-nav-close]').forEach((button) => button.addEventListener('click', () => setNavOpen(false)));
+  document.querySelectorAll<HTMLAnchorElement>('.site-header__nav a, .site-header__cta').forEach((link) => link.addEventListener('click', () => {
+    if (window.matchMedia(RESPONSIVE_HEADER_QUERY).matches) setNavOpen(false);
+  }));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && body.hasAttribute('data-nav-open')) setNavOpen(false);
+  });
+
+  document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((button) => button.addEventListener('click', () => {
+    const dark = html.getAttribute('data-theme') !== 'dark';
+    if (dark) html.setAttribute('data-theme', 'dark');
+    else html.removeAttribute('data-theme');
+    try { localStorage.setItem('agustos:theme', dark ? 'dark' : 'light'); } catch { /* storage unavailable */ }
+  }));
+
+  function loadPagefind() {
+    const pagefindPath = '/pagefind/pagefind.js';
+    pagefindPromise ??= import(/* @vite-ignore */ pagefindPath).then(async (pagefind) => {
+      await pagefind.init?.();
+      return pagefind as PagefindModule;
+    });
+    return pagefindPromise;
+  }
+
+  function setSearchStatus(root: HTMLElement, message: string) {
+    const status = root.querySelector<HTMLElement>('[data-search-status]');
+    if (status) status.textContent = message;
+  }
+  function clearSearchResults(root: HTMLElement) { root.querySelector<HTMLElement>('[data-search-results]')?.replaceChildren(); }
+  function resultLinks(root: HTMLElement) { return Array.from(root.querySelectorAll<HTMLAnchorElement>('[data-search-results] a')); }
+  function delay(ms: number) { return new Promise((resolve) => window.setTimeout(resolve, ms)); }
+
+  async function fetchGroup(pagefind: PagefindModule, query: string, kind: 'page' | 'post', lang: string, heading: string, limit: number, showExcerpts: boolean): Promise<SearchGroup> {
+    const response = await pagefind.search(query, { filters: { kind, lang } });
+    const results = await Promise.all(response.results.slice(0, limit).map((result) => result.data()));
+    return { heading, kind, total: response.results.length, results, showExcerpts };
+  }
+
+  function renderGroup(container: HTMLElement, group: SearchGroup) {
+    if (group.results.length === 0) return;
+    const section = document.createElement('section');
+    const heading = document.createElement('h3');
+    const count = document.createElement('span');
+    const list = document.createElement('ul');
+    section.className = 'site-header__search-group';
+    heading.className = 'site-header__search-heading';
+    heading.textContent = group.heading;
+    count.className = 'site-header__search-heading-count';
+    count.textContent = String(group.total);
+    list.className = 'site-header__search-list';
+    heading.append(count);
+    section.append(heading, list);
+    group.results.forEach((result) => {
+      const item = document.createElement('li');
+      const link = document.createElement('a');
+      const title = document.createElement('span');
+      item.className = `site-header__search-result site-header__search-result--${group.kind}`;
+      link.href = result.url;
+      title.className = 'site-header__search-result-title';
+      title.textContent = result.meta?.title || result.url;
+      link.append(title);
+      if (group.showExcerpts && result.excerpt) {
+        const excerpt = document.createElement('span');
+        excerpt.className = 'site-header__search-result-excerpt';
+        excerpt.innerHTML = result.excerpt;
+        link.append(excerpt);
+      }
+      item.append(link);
+      list.append(item);
+    });
+    container.append(section);
+  }
+
+  function renderResults(root: HTMLElement, groups: SearchGroup[], labels: SearchLabels) {
+    const results = root.querySelector<HTMLElement>('[data-search-results]');
+    if (!results) return;
+    results.replaceChildren();
+    const shown = groups.reduce((total, group) => total + group.results.length, 0);
+    if (shown === 0) return setSearchStatus(root, labels.empty);
+    setSearchStatus(root, `${shown} ${shown === 1 ? labels.result : labels.results}`);
+    groups.forEach((group) => renderGroup(results, group));
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-search-root]').forEach((root) => {
+    const toggle = root.querySelector<HTMLButtonElement>('[data-search-toggle]');
+    const input = root.querySelector<HTMLInputElement>('[data-search-input]');
+    const labels = JSON.parse(root.dataset.searchLabels || '{}') as SearchLabels;
+    const variant = root.dataset.searchVariant;
+    let searchRun = 0;
+    if (!input) return;
+
+    toggle?.addEventListener('click', () => {
+      const panel = root.querySelector<HTMLElement>('[data-search-panel]');
+      panel && !panel.hasAttribute('hidden') ? closeSearchPanel(root) : openSearchPanel(root);
+    });
+    input.addEventListener('focus', () => {
+      void loadPagefind().catch(() => {});
+      if (variant === 'responsive' && input.value.trim().length >= SEARCH_THRESHOLD) openSearchPanel(root, false);
+    });
+    input.addEventListener('input', async () => {
+      const query = input.value.trim();
+      const currentRun = ++searchRun;
+      clearSearchResults(root);
+      if (query.length < SEARCH_THRESHOLD) {
+        setSearchStatus(root, '');
+        if (variant === 'responsive') closeSearchPanel(root);
+        return;
+      }
+      openSearchPanel(root, false);
+      setSearchStatus(root, labels.loading);
+      try {
+        await delay(180);
+        if (currentRun !== searchRun) return;
+        const pagefind = await loadPagefind();
+        const groups = await Promise.all([
+          fetchGroup(pagefind, query, 'page', html.lang || 'en', labels.pages, 4, false),
+          fetchGroup(pagefind, query, 'post', html.lang || 'en', labels.posts, 3, true),
+        ]);
+        if (currentRun === searchRun) renderResults(root, groups, labels);
+      } catch {
+        clearSearchResults(root);
+        setSearchStatus(root, labels.unavailable);
+      }
+    });
+    input.addEventListener('keydown', (event) => {
+      const links = resultLinks(root);
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        if (variant === 'desktop') toggle?.focus();
+        closeSearchPanel(root);
+      } else if (event.key === 'ArrowDown' && links.length) {
+        event.preventDefault();
+        links[0].focus();
+      } else if (event.key === 'Enter' && links.length) {
+        event.preventDefault();
+        window.location.href = links[0].href;
+      }
+    });
+    root.addEventListener('keydown', (event) => {
+      const links = resultLinks(root);
+      const active = links.indexOf(document.activeElement as HTMLAnchorElement);
+      if (active < 0) return;
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        variant === 'desktop' ? toggle?.focus() : input.focus();
+        closeSearchPanel(root);
+      } else if (event.key === 'ArrowDown') {
+        event.preventDefault();
+        links[Math.min(active + 1, links.length - 1)]?.focus();
+      } else if (event.key === 'ArrowUp') {
+        event.preventDefault();
+        active === 0 ? input.focus() : links[active - 1]?.focus();
+      }
+    });
+    document.addEventListener('click', (event) => {
+      if (!root.contains(event.target as Node)) closeSearchPanel(root);
+    });
+  });
+</script>

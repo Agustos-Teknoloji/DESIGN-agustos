@@ -16,6 +16,7 @@ re-run the build:
 | a wordmark, color, tagline, domain | `brands.json` | `build.py` |
 | the symbol itself | `../laz-gunesi-amblem/svg/master.svg` | `build.py` |
 | type stack / tracking | `brands.json` → `type` | `build.py` |
+| shared spacing, hierarchy, document or slide recipes | `../tokens/design-tokens.json` | `../scripts/build_design_system.py`, then `build_templates.py` |
 
 ## Quick start
 
@@ -28,6 +29,7 @@ cd brand && npm install
 ../.venv/bin/python build.py --brand agustos          # omit --brand for all
 
 # 2. working documents — office, swatches, email, guidelines source
+python3 ../scripts/build_design_system.py
 ../.venv/bin/python build_templates.py --brand agustos
 # then render the guidelines PDF (one browse command — see templates/README.md)
 
@@ -45,7 +47,7 @@ favicon/     favicon.ico, favicon.svg, apple-touch-icon.png, manifest pngs, site
 social/      square avatar (400 & 1000px) + 1200x630 og image (svg + png)
 swatches/    <brand>.ase (Adobe) + <brand>.clr (Apple)
 email/       <brand>-signature.html (email-safe, self-contained)
-office/      <brand>-letterhead.docx + <brand>-template.pptx
+office/      <brand>-letterhead.docx + <brand>-document-template.docx + <brand>-template.pptx
 guidelines/  <brand>-brand-guidelines.html + .pdf (4-page shareable)
 datasheet/   <product-key>.html + .pdf  (one A4 "teknik föy" per product, e.g. pataraz-px22)
 ```
@@ -72,16 +74,16 @@ Build one with `--product <key>`, a whole brand with `--brand <slug>`, or all wi
   from real data; values the source does not publish are either left as `—` placeholders or
   carried over from a same-platform sibling (noted in the block as an assumption).
 - **To change which specs appear:** edit the `specs` groups — the group name becomes the
-  brand-coloured section label; rows render in order, flowing into two columns.
+  shared-red section label; rows render in order, flowing into two columns.
 - **Ordering matrix + certifications are optional** — omit those keys and the section
   disappears (e.g. PL22 is a single tunable SKU with no published variants).
 - Labels are Turkish (`lang="tr"`, so İ/ı capitalise correctly). Values are set in
-  JetBrains Mono with tabular numerals; brand colour is used only as a signal.
+  JetBrains Mono with tabular numerals; shared red is used only as a signal.
 - Std-lib only (no PIL/reportlab) — runs on system `python3`. `--pdf` renders via the
   gstack `browse` tool; A4 page size is set in the HTML's `@page` rule.
 
-- **positive** — brand color on transparent. Primary, ~90% of uses.
-- **negative** — cream marks on a brand-color field. Banners, brand tiles.
+- **positive** — registered identity ink on transparent: red for Ağustos, black for every other house brand. Primary, ~90% of uses.
+- **negative** — cream marks on the identity field: red for Ağustos, black for every other house brand. Banners, identity tiles.
 - **mono** — single ink color on transparent. Print, stamps, engraving.
 
 The wordmark is baked to vector **outlines**, so every file renders identically with
@@ -95,6 +97,8 @@ no font installed.
 2. Composes the lockup with the symbol per `DESIGN.md` geometry (symbol = 1.4× cap height, gap = 0.4× size, optical centering for lowercase).
 3. Writes SVG masters, renders PDF (`reportlab`, pure Python) and PNG (`scripts/render_png.mjs`, the `resvg` binary — no system Cairo needed).
 4. Builds `.ico`, app icons, and the web manifest with Pillow.
+
+Office artifacts are a second generation path: the v3 registry resolves to `tokens/resolved.json`; `build_templates.py` maps its document recipe into native Word styles, and `build_presentation.mjs` maps its presentation recipe into editable PowerPoint objects using `pptxgenjs`. The PPTX and document-template DOCX are the import seeds for Google Slides and Google Docs.
 
 ## Adding a brand
 

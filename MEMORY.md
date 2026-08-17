@@ -702,6 +702,67 @@ by repeated numbers. Responsive behavior is unchanged, inner pages keep their
 existing content density, and future components can opt into the frame without
 recreating the box-model calculation.
 
+## v3.0 — the website becomes the laboratory, not the authority (2026-07-19)
+
+**Found:** the current website redesign had established a useful grammar—quiet one-row chrome,
+one 920px aligned frame, editorial openings, restrained cards, small radii, short motion, and
+brand color as signal—but the repository still treated CSS as the source. Astro and Rails copied
+that CSS manually, Rails retained the old sidebar model, Office generators hard-coded values,
+and WordPress had no adapter.
+
+**Chosen:** preserve the visual identity and evolve the architecture. `tokens/design-tokens.json`
+became the cross-medium registry; `brand/brands.json` remains the identity registry. A generator
+now resolves foundations, semantic roles, and recipes into CSS, WordPress Global Styles, downstream
+JSON, and a content-hash manifest. Astro and Rails use the website-led topbar/frame composition.
+Word uses native named styles, and PowerPoint is generated as editable objects from the same resolved
+tokens. The resulting DOCX and PPTX are the Google Docs and Google Slides import seeds.
+
+**Why it matters:** the website can keep moving quickly without becoming an accidental API. Patterns
+earn promotion through real use, then the repository makes them portable. Drift is tested rather than
+managed by memory, while each medium remains free to translate the system into its native form.
+
+## v3.0 — identity ink separates from interaction signal (2026-07-19)
+
+**Reversed:** the portfolio previously assigned a chromatic identity color to each brand. That made
+the brand family depend on a palette and blurred two different jobs: naming the brand and showing an
+action. Pataraz blue and Photometric green are now historical decisions, not active identity rules.
+
+**Chosen:** Ağustos alone owns red `#cf142a` as identity. Pataraz, PLD Türkiye, Photometric, and
+future house brands use black/white identity expressions. The same Ağustos red remains a shared
+interaction signal for links, focus, markers, rules, and small emphasis across every brand. The token
+model now names these separately as `brandMark` and `signal`.
+
+**Distribution decision:** `tokens/design-system-handoff.json` is the primary portable contract for
+coding systems. It embeds the exact Laz Güneşi SVG and carries the rules, resolved values, recipes,
+acceptance checks, and brand registry in one file. Consumer deployments read or vendor that file;
+they do not regenerate CSS, Office, or brand exports. Those artifacts rebuild only when their
+canonical sources change.
+
+**Why it matters:** family resemblance now comes from the symbol, typography, alignment, surfaces,
+spacing, and shared red interaction language rather than a one-color-per-brand convention. Products
+can remain native to Astro, Rails, WordPress, Word, Slides, or another medium without chasing pixel
+identity, while users still recognize the same house.
+
+## v3.0 — production chrome becomes the reusable system (2026-07-19)
+
+**Found:** the adapters still taught a fixed desktop sidebar and a separate mobile
+header even though agustos.com had shipped and hardened a one-row topbar, persistent
+responsive search, slide-in drawer, and structured footer. Copying the production
+components literally would have replaced one drift problem with another because
+their Turkish/English routes and company links are site content, not design policy.
+
+**Chosen:** freeze behavior at agustos.com build `b559bc2`, promote its layout and
+interaction rules into configurable Astro and Rails adapters, and remove the legacy
+sidebar surface. Astro demonstrates the full Pagefind implementation. Rails keeps
+results server-rendered in Turbo Frames with a small Stimulus debounce controller;
+there is no JSON protocol or ActionCable layer. Navigation, CTA, language link,
+footer description, and footer columns are public configuration in both adapters.
+
+**Why it matters:** every portfolio brand now inherits one tested chrome grammar
+without inheriting Ağustos-specific routes or copy. The major version is deliberate:
+consumers must replace the old sidebar partial/layout offset rather than accidentally
+loading both systems during migration.
+
 ## PY series datasheets: three sheets, one per size (2026-08-10)
 
 Added `pataraz-py300600`, `pataraz-py600600`, `pataraz-py6001200` to the datasheet

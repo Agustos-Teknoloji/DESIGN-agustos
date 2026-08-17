@@ -1,57 +1,70 @@
 # Ağustos Design System
 
-Typography-first design system for Emre Güneş's multi-brand portfolio.
+Cross-medium design system for Ağustos and its house brands. `agustos.com` is the design laboratory and reference implementation; this repository is the authority.
 
-The canonical specification is [DESIGN.md](DESIGN.md). A rendered HTML preview lives at [artifacts/agustos-design-system-v2.1.2.html](artifacts/agustos-design-system-v2.1.2.html). Every brand asset — logo, symbol, favicon, colors, fonts — is indexed in [ASSETS.md](ASSETS.md); agents should start at [AGENTS.md](AGENTS.md).
+The system preserves the established identity—Laz Güneşi, lowercase wordmarks, Inter Tight + Inter—while separating identity ink from interaction: Ağustos alone is red, every other house brand is black/white, and shared red signals links, focus, and small emphasis everywhere.
 
-This repository is intentionally platform-neutral. Astro, Rails, and future implementations are adapters of the same system, not separate design systems.
+## Architecture
 
-## What is included
+Four layers separate durable decisions from platform syntax:
 
-- `ASSETS.md`: **canonical index of every brand asset** (logo, symbol, favicon, colors, fonts). Start here to find a file.
-- `AGENTS.md`: entry point for automated agents working in this repo.
-- `DESIGN.md`: canonical design-system specification.
-- `MEMORY.md`: decision history and reasoning.
-- `tokens/agustos.css`: platform-neutral CSS token source.
-- `adapters/astro/`: Astro adapter, demo implementation, and typography showcase.
-- `adapters/rails/`: Rails monolith adapter skeleton.
-- `laz-gunesi-amblem/`: Laz Güneşi symbol source, exported assets, and the favicon/app-icon kit (`favicon/`).
-- `artifacts/`: rendered design explorations and previews.
+1. **Foundations:** color, typography, spacing, measure, radii, and motion.
+2. **Semantic roles:** paper, surface, ink, muted ink, rule, brand signal, focus, display, body, and data.
+3. **Recipes:** chrome, hero, section opening, editorial link, card, data table, document, and presentation.
+4. **Adapters:** Astro, WordPress, Rails, PowerPoint, and Word/Google Docs.
 
-## Adapter Strategy
+Hand-edit these sources:
 
-Use the design system through the adapter that matches the application:
+- `tokens/design-tokens.json` — canonical cross-medium design registry.
+- `tokens/design-system-handoff.json` — generated, self-contained contract to give another coding system. This is the primary integration artifact.
+- `brand/brands.json` — canonical brand identity registry.
+- `tokens/web.css.tmpl` — platform-neutral web behavior and compatibility classes.
+- `DESIGN.md` — human-readable specification and governance.
+- `MEMORY.md` — decision history.
 
-- Rails monoliths should start from `adapters/rails/`.
-- Astro/static sites should start from `adapters/astro/`.
-- Shared CSS changes should begin in `tokens/agustos.css`, then be mirrored into adapter copies.
+Everything under `brand/exports/` and all generated token/adapter files are outputs. Consumer deployments use the checked-in handoff or adapter; they never regenerate this repository's artifacts.
 
-Astro is a reference implementation, not the canonical center of the system.
-
-## Astro Preview
+## Generate and verify
 
 ```bash
-cd adapters/astro
-npm install
-npm run dev
+python3 scripts/build_design_system.py
+python3 scripts/build_design_system.py --check
+python3 scripts/check_office_artifacts.py --check
+python3 -m unittest discover -s tests
 ```
 
-To regenerate the standalone HTML preview from `DESIGN.md`:
+The generator writes:
+
+- `tokens/agustos.css` and `tokens/resolved.json`
+- `tokens/design-system-handoff.json`, the portable machine-readable implementation contract
+- Astro and Rails token CSS
+- WordPress `theme.json` and CSS
+- `tokens/generated-manifest.json`, including content hashes for drift detection
+- `brand/exports/office-manifest.json`, covering nine Office artifacts and their generator sources
+
+Office artifacts consume `tokens/resolved.json`:
 
 ```bash
-cd adapters/astro
-node scripts/render-design-html.mjs
+python3 brand/build_templates.py --brand agustos
 ```
 
-## Rails Usage
+PowerPoint generation uses the plain-ESM `brand/build_presentation.mjs` source and the declared public `pptxgenjs` dependency. Word output includes both a compact letterhead and a styled document template suitable for import into Google Docs.
 
-Copy the Rails adapter files into a Rails app:
+## Adapters
 
-```txt
-adapters/rails/app/assets/stylesheets/agustos/
-adapters/rails/app/helpers/agustos_theme_helper.rb
-adapters/rails/app/views/layouts/agustos.html.erb
-adapters/rails/app/views/agustos/shared/
-```
+- [Astro](adapters/astro/README.md): reference web implementation and visual QA surface.
+- [Rails](adapters/rails/README.md): topbar, shared frame, helpers, and ERB partials for a monolith.
+- [WordPress](adapters/wordpress/README.md): generated Global Styles plus the shared recipe layer.
+- [Office](brand/templates/README.md): PowerPoint/Google Slides and Word/Google Docs translation.
 
-Then use `layout "agustos"` from Rails controllers. See [adapters/rails/README.md](adapters/rails/README.md).
+Brand assets are indexed in [ASSETS.md](ASSETS.md). Automated agents should begin with
+[AGENTS.md](AGENTS.md), which routes each task to the smallest authoritative set of files without
+loading the entire repository into context.
+
+The frozen, standalone v3.0.0 specification is available at
+[`artifacts/agustos-design-system-v3.0.0.html`](artifacts/agustos-design-system-v3.0.0.html).
+
+## License
+
+Copyright © 2026 Ağustos Teknoloji. This repository is proprietary and all rights are reserved.
+See [LICENSE](LICENSE) for the complete terms.

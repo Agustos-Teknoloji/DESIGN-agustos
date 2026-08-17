@@ -1,0 +1,62 @@
+<header class="agustos-header">
+  <div class="agustos-header__bar site-frame">
+    <%= render "agustos/shared/brand_lockup", href: agustos_theme_config[:home_href], size: 22 %>
+
+    <div id="agustos-header-panel" class="agustos-header__panel" data-agustos-nav-target="panel">
+      <nav class="agustos-header__nav" aria-label="Primary">
+        <% agustos_nav_items.each do |item| %>
+          <% href = agustos_value(item, :href) %>
+          <% active = agustos_nav_active?(href) %>
+          <% options = agustos_link_html_options(item, class_name: "agustos-header__link#{' is-active' if active}") %>
+          <% options[:aria] = (options[:aria] || {}).merge(current: "page") if active %>
+          <%= link_to agustos_value(item, :label), href,
+            **options,
+            data: { action: "agustos-nav#follow" } %>
+        <% end %>
+      </nav>
+
+      <% if agustos_search_config %>
+        <%= render "agustos/shared/header_search", variant: :desktop %>
+      <% end %>
+
+      <div class="agustos-header__utility agustos-header__utility--drawer">
+        <%= render "agustos/shared/header_utility" %>
+      </div>
+
+      <% if agustos_header_cta %>
+        <%= link_to agustos_value(agustos_header_cta, :label), agustos_value(agustos_header_cta, :href),
+          **agustos_link_html_options(agustos_header_cta, class_name: "agustos-header__cta"),
+          data: { action: "agustos-nav#follow" } %>
+      <% end %>
+    </div>
+
+    <div class="agustos-header__utility agustos-header__utility--bar">
+      <%= render "agustos/shared/header_utility" %>
+    </div>
+    <button
+      type="button"
+      class="agustos-header__burger"
+      aria-label="Open navigation"
+      aria-controls="agustos-header-panel"
+      aria-expanded="false"
+      data-agustos-nav-target="toggle"
+      data-action="agustos-nav#toggle"
+    >
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+
+  <% if agustos_search_config %>
+    <%= render "agustos/shared/header_search", variant: :responsive %>
+    <noscript>
+      <div class="agustos-header__noscript-search site-frame">
+        <%= form_with url: agustos_value(agustos_search_config, :url), method: :get, local: true do |form| %>
+          <%= form.search_field agustos_value(agustos_search_config, :param, :q), placeholder: agustos_search_labels[:placeholder], aria: { label: agustos_search_labels[:aria] } %>
+          <%= form.submit agustos_search_labels[:submit] %>
+        <% end %>
+      </div>
+    </noscript>
+  <% end %>
+</header>
+
+<button type="button" class="agustos-nav-backdrop" aria-label="Close navigation" data-agustos-nav-target="backdrop" data-action="agustos-nav#close"></button>

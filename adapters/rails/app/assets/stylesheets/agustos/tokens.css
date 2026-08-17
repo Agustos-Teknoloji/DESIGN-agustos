@@ -1,42 +1,6 @@
-/* ============================================================
-   AĞUSTOS DESIGN SYSTEM v2.3  ·  RAILS ADAPTER COPY
-   Source of truth: PROJECTS/DESIGN-agustos/DESIGN.md
-   Type-first system. 17 variables, 29 tokens, 3 families.
-
-   ⚠ SYNC RULE — this file mirrors:
-     PROJECTS/DESIGN-agustos/tokens/agustos.css
-   Token bodies must stay byte-identical except for this header.
-
-   v2.3 changes:
-   - Added .site-frame and rebuilt .container on the same 920px content
-     measure with 1.5rem gutters, so site chrome and page content align
-
-   v2.2 changes:
-   - Added --radius-sm/--radius-md/--radius-lg (4/6/10px) and --dur/--ease
-     motion tokens, for the topbar + homepage redesign
-     (PROJECTS/WEBSITE-agustos/docs/superpowers/specs/2026-07-10-topbar-homepage-redesign-design.md)
-
-   v2.1 changes:
-   - Recast .type-hero-deck as an upright lead, not an italic quote
-   - Tightened hero title-to-deck spacing
-   - Added hero action utilities for primary/secondary CTAs
-   - Added editorial hero-link utilities for page-opening action rows
-     (editorial pattern: typographic link, not button — per DESIGN.md
-      "CTA philosophy". Boxed .hero-action* stays for lower section CTAs.)
-
-   v2.0 changes:
-   - Retired Newsreader (serif body)
-   - Retired Plus Jakarta Sans (logotype-only face)
-   - Retired Source Sans 3 (UI sans)
-   - Adopted Inter Tight as the unified DISPLAY family
-     (logotype, hero, headings, eyebrows, UI labels, table headers, KPIs, badges)
-   - Adopted Inter as the unified BODY family
-     (paragraphs, em, strong, links, lists, blockquote, footnote, figcaption, table cells)
-   - Added .type-hero (Big Hero) and .type-hero-md (Medium Hero) tokens
-   - Renamed --serif/--sans/--logotype → --display/--body
-     (system fallback chains terminate in native UI fonts)
-   - Token count 22 → 24
-   ============================================================ */
+/* AĞUSTOS DESIGN SYSTEM v3.0.0 · GENERATED RAILS ADAPTER CSS
+   Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
+   Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
 /* -- 1. CSS variables ---------------------------------------- */
 
@@ -54,26 +18,58 @@
   --rule:        #e8e3d0;
   --rule-white:  #e8e8e8;
 
-  /* Radii — new in v2.2, added for the topbar/homepage redesign */
+  /* Semantic state colors for product and application surfaces */
+  --state-success: #1f6b4a;
+  --state-warning: #8a5a00;
+  --state-danger:  #b42318;
+  --state-info:    #1a4d8f;
+
+  /* Shared interaction signal. Ağustos owns red as identity; every house brand
+     uses the same red for links, focus, markers, and small emphasis. */
+  --signal: #cf142a;
+
+  /* Shared spacing and measures */
+  --space-2xs: 4px;
+  --space-xs:  8px;
+  --space-sm:  12px;
+  --space-md:  16px;
+  --space-lg:  20px;
+  --space-xl:  24px;
+  --space-2xl: 32px;
+  --space-3xl: 40px;
+  --space-4xl: 48px;
+  --space-5xl: 64px;
+  --space-6xl: 80px;
+  --measure-content: 920px;
+  --measure-gutter: 24px;
+  --measure-text: 54ch;
+  --control-min: 44px;
+
+  /* Named type sizes for adapter chrome and native platform mappings */
+  --size-footnote: 12.5px;
+  --size-body-compact: 14px;
+  --size-body: 16.5px;
+
+  /* Radii — proven by the website redesign and promoted into v3 foundations */
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 10px;
 
-  /* Motion — codifies the 120ms hover transitions already used ad hoc across
-     the codebase (Sidebar, MobileHeader, BrandLockup) */
+  /* Motion — short, purposeful state changes; never decorative drift */
   --dur: 120ms;
-  --ease: ease;
+  --ease: cubic-bezier(0.25, 0.1, 0.25, 1);
 
-  /* Brand colors — pick one per page via .brand-* class */
+  /* Identity ink — selected per page and used by lockups or decisive brand fields.
+     Ağustos is red; every other house brand is neutral black/white. */
   --brand-agustos:     #cf142a;
-  --brand-pataraz:     #1a24cc;
+  --brand-pataraz:     #1a1a1a;
   --brand-pld:         #1a1a1a;
-  --brand-photometric: #1f6b4a;
+  --brand-photometric: #1a1a1a;
 
   /* Default brand fallback (resolves before any .brand-* applies) */
   --brand: var(--brand-agustos);
 
-  /* Type stacks — v2.0
+  /* Type stacks — retained in v3
      --display: Inter Tight (logo, hero, headings, UI). Falls back through
                 Inter to native UI fonts. Variable wght 100–900 with italics.
      --body:    Inter (paragraphs, inline elements). Falls back to the
@@ -140,7 +136,7 @@ body {
 
 img, svg { max-width: 100%; height: auto; display: block; }
 
-/* -- 4. The 29 tokens ---------------------------------------- */
+/* -- 4. Typography and content classes ---------------------- */
 
 /* --- Hero (2) — NEW IN v2.0 --- */
 
@@ -252,17 +248,17 @@ strong, .type-strong {
   font-weight: 700;
 }
 
-/* The single brand expression: bold + 2px brand-color underline. */
+/* The shared interaction expression: bold + 2px signal-red underline. */
 a, .type-link {
   color: inherit;
   font-weight: 600;
   text-decoration: underline;
-  text-decoration-color: var(--brand);
+  text-decoration-color: var(--signal);
   text-decoration-thickness: 2px;
   text-underline-offset: 3px;
-  transition: text-decoration-color 120ms ease;
+  transition: text-decoration-color var(--dur) var(--ease);
 }
-a:hover { text-decoration-color: color-mix(in srgb, var(--brand) 70%, var(--ink) 30%); }
+a:hover { text-decoration-color: color-mix(in srgb, var(--signal) 70%, var(--ink) 30%); }
 
 code, .type-code {
   font-family: var(--mono);
@@ -297,7 +293,7 @@ s, del, .type-strike {
   /* Content block — 1em baseline rhythm. */
   margin: 0 0 1em;
   padding: 0.25em 0 0.25em 1.25em;
-  border-left: 2px solid var(--brand);
+  border-left: 2px solid var(--signal);
   font-family: var(--body);
   font-size: 18px;
   font-style: italic;
@@ -333,7 +329,7 @@ s, del, .type-strike {
 }
 .type-pullquote::before {
   content: "\201C"; /* Left double curly quote */
-  color: var(--brand);
+  color: var(--signal);
   font-size: 1.1em;
   margin-right: 0.05em;
 }
@@ -346,7 +342,7 @@ s, del, .type-strike {
   /* Content block — 1em baseline rhythm. */
   margin: 0 0 1em;
 }
-.type-list-ol li::marker, ol li::marker { color: var(--brand); font-weight: 600; }
+.type-list-ol li::marker, ol li::marker { color: var(--signal); font-weight: 600; }
 
 .type-list-ul, ul {
   font-family: var(--body);
@@ -356,7 +352,7 @@ s, del, .type-strike {
   /* Content block — 1em baseline rhythm. */
   margin: 0 0 1em;
 }
-.type-list-ul li::marker, ul li::marker { color: var(--brand); }
+.type-list-ul li::marker, ul li::marker { color: var(--signal); }
 
 .type-dl, dl {
   font-family: var(--body);
@@ -447,7 +443,7 @@ table th:last-child, table td:last-child { text-align: right; }
   color: var(--ink-faint);
 }
 .type-footnote sup, .type-footnote .ref {
-  color: var(--brand);
+  color: var(--signal);
   font-weight: 600;
 }
 
@@ -456,9 +452,9 @@ table th:last-child, table td:last-child { text-align: right; }
 .site-frame,
 .container {
   width: 100%;
-  max-width: calc(920px + 3rem);
+  max-width: 968px;
   margin: 0 auto;
-  padding-inline: 1.5rem;
+  padding-inline: 24px;
 }
 
 .container {
@@ -481,8 +477,8 @@ table th:last-child, table td:last-child { text-align: right; }
   min-height: 44px;
   padding: 0.7rem 1rem;
   border: 1px solid var(--rule);
-  border-radius: 4px;
-  box-shadow: inset 0 -2px 0 var(--brand);
+  border-radius: var(--radius-sm);
+  box-shadow: inset 0 -2px 0 var(--signal);
   color: var(--ink);
   font-family: var(--display);
   font-size: 14px;
@@ -493,20 +489,20 @@ table th:last-child, table td:last-child { text-align: right; }
   text-decoration: none;
   white-space: nowrap;
   transition:
-    background 120ms ease,
-    border-color 120ms ease,
-    box-shadow 120ms ease,
-    color 120ms ease;
+    background var(--dur) var(--ease),
+    border-color var(--dur) var(--ease),
+    box-shadow var(--dur) var(--ease),
+    color var(--dur) var(--ease);
 }
 
 .hero-action:hover {
   border-color: var(--ink-soft);
-  box-shadow: inset 0 -3px 0 var(--brand);
+  box-shadow: inset 0 -3px 0 var(--signal);
   text-decoration: none;
 }
 
 .hero-action:focus-visible {
-  outline: 2px solid var(--brand);
+  outline: 2px solid var(--signal);
   outline-offset: 3px;
 }
 
@@ -518,7 +514,7 @@ table th:last-child, table td:last-child { text-align: right; }
 
 .hero-action--primary:hover {
   border-color: var(--ink);
-  background: color-mix(in srgb, var(--ink) 92%, var(--brand) 8%);
+  background: color-mix(in srgb, var(--ink) 92%, var(--signal) 8%);
   color: var(--paper);
 }
 
@@ -528,7 +524,7 @@ table th:last-child, table td:last-child { text-align: right; }
 
 /* Editorial hero links — page-opening action row.
    Typographic link pattern (not button) for page-defining hero compositions.
-   Inherits bold + brand-colored underline from the global `a` rule; this
+   Inherits bold + shared-red underline from the global `a` rule; this
    utility adds display family + larger size + the action-row layout. */
 .hero-links {
   display: flex;
@@ -553,6 +549,78 @@ table th:last-child, table td:last-child { text-align: right; }
 .hero-link--secondary {
   color: var(--ink-soft);
   font-weight: 500;
+}
+
+.hero-trust {
+  margin: var(--space-xl) 0 0;
+  font-family: var(--body);
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--ink-faint);
+}
+
+.hero-visual {
+  width: 100%;
+  margin-top: var(--space-4xl);
+}
+
+/* v3 composition recipes. These are deliberately structural: adapters may
+   wrap them in framework components without changing the visual grammar. */
+.agustos-section {
+  padding-block: clamp(48px, 6vw, 80px);
+  border-bottom: 1px solid var(--rule);
+}
+
+.agustos-section__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-xl);
+  margin-bottom: 12px;
+}
+
+.agustos-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+.agustos-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+  padding: 24px;
+  background: var(--paper-white);
+  border: 1px solid var(--rule);
+  border-radius: 10px;
+}
+
+.agustos-card--marked {
+  border-left: 2px solid var(--signal);
+}
+
+.agustos-chrome-link {
+  min-height: var(--control-min);
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.agustos-chrome-link:hover,
+.agustos-chrome-link[aria-current="page"] {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+@media (max-width: 720px) {
+  .agustos-section__head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-xs);
+  }
 }
 
 /* Skip link for keyboard users */

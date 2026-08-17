@@ -14,36 +14,44 @@
     "paper_white": "#ffffff",
     "ink": "#1a1a1a"
   },
+  "signal": {
+    "color": "#cf142a",
+    "$source": "Ağustos red is the shared interaction signal across every house brand. It does not recolor non-Ağustos identity marks."
+  },
   "brands": {
-    "agustos": {
-      "wordmark": "ağustos",
-      "color": "#cf142a",
-      "title": "Ağustos Teknoloji",
-      "domain": "agustos.com",
-      "tagline_en": "curated solutions",
+        "agustos": {
+            "wordmark": "ağustos",
+            "color": "#cf142a",
+            "title": "Ağustos Teknoloji",
+            "domain": "agustos.com",
+            "office": true,
+            "tagline_en": "curated solutions",
       "tagline_tr": "seçkin çözümler"
     },
     "pataraz": {
       "wordmark": "pataraz",
-      "color": "#1a24cc",
-      "title": "Pataraz",
-      "domain": "pataraz.com",
+            "color": "#1a1a1a",
+            "title": "Pataraz",
+            "domain": "pataraz.com",
+            "office": true,
       "tagline_en": "",
       "tagline_tr": ""
     },
     "pld": {
       "wordmark": "pld türkiye",
-      "color": "#1a1a1a",
-      "title": "PLD Türkiye",
-      "domain": "pldturkiye.com",
+            "color": "#1a1a1a",
+            "title": "PLD Türkiye",
+            "domain": "pldturkiye.com",
+            "office": true,
       "tagline_en": "",
       "tagline_tr": ""
     },
     "photometric": {
       "wordmark": "photometric",
-      "color": "#1f6b4a",
-      "title": "Photometric",
-      "domain": "TODO",
+            "color": "#1a1a1a",
+            "title": "Photometric",
+            "domain": "",
+            "office": false,
       "tagline_en": "",
       "tagline_tr": ""
     }

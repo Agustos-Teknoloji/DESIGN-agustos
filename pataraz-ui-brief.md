@@ -34,7 +34,8 @@ engineering speaks." When in doubt, show the number.
 
 | Token | Value | Use |
 |---|---|---|
-| **Pataraz blue** | `#1a24cc` | The single accent. A **signal, not decoration** — active state, section marks, the symbol, key links. Never a wash or gradient. |
+| **Pataraz identity ink** | `#1a1a1a` | The logo, wordmark, and decisive identity fields. Black/white only. |
+| **Shared signal red** | `#cf142a` | Links, focus, active state, section marks, and small emphasis across every house brand. |
 | Cream (paper) | `#fefcf2` | Default page ground. The brand substrate. |
 | White (paper-white) | `#ffffff` | Optional working/UI substrate (e.g. dense tables) via `.paper-white`. |
 | Ink | `#1a1a1a` | Primary text. |
@@ -42,8 +43,8 @@ engineering speaks." When in doubt, show the number.
 | Ink-faint | `#8a8a8a` | Captions, meta. |
 | Rule | `#e8e3d0` | Hairline dividers on cream (`#e8e8e8` on white). |
 
-Optional dark theme (opt-in, not required at launch): paper `#16140f`, ink `#f0ebd8`, blue
-stays `#1a24cc`.
+Optional dark theme (opt-in, not required at launch): paper `#16140f`, ink `#f0ebd8`, and
+shared signal red stays `#cf142a`.
 
 ### Type — three families, one system
 
@@ -73,7 +74,7 @@ Scale (from the design system — match it):
   breathe — the opposite of a dense dashboard.
 - **Motion is minimal and calm.** Hotwire gives instant filter/nav updates; do NOT add flashy
   transitions. A subtle fade on Turbo-frame swaps is the ceiling.
-- One accent. The page is cream + ink + a little blue. That's the whole palette.
+- One shared signal. The page is cream + ink + a little red. That's the whole palette.
 
 ---
 
@@ -82,7 +83,7 @@ Scale (from the design system — match it):
 **Do**
 - Lead with the product and its defining numbers.
 - Set every spec value in JetBrains Mono; align units in columns.
-- Use blue sparingly as a signal (a marker, an active filter, the download link).
+- Use red sparingly as a shared signal (a marker, an active filter, the download link).
 - Hairline rules and whitespace to separate, not boxes and shadows.
 - Turkish throughout (`lang="tr"`), İ/ı correct.
 
@@ -91,7 +92,7 @@ Scale (from the design system — match it):
 - No drop-shadow "card soup," no rounded-everything, no emoji.
 - No stock-photo hero of a generic office. Use the real product photography.
 - No marketing superlatives ("revolutionary," "stunning"). Specifiers discount adjectives.
-- Blue is never a background wash or a gradient. One flat accent.
+- Red is never a background wash or a gradient. It remains a small, flat interaction signal.
 
 ---
 
@@ -135,7 +136,7 @@ product's numbers and its downloadable PDF.
 > Open it and match its visual language — it is the canonical look for the whole site. The
 > series, catalog, and home pages should feel like they came from the same hand.
 
-1. **Title block:** series eyebrow (blue, with a tick) → product name (Inter Tight, large) →
+1. **Title block:** series eyebrow (shared red, with a tick) → product name (Inter Tight, large) →
    one-line Turkish deck. No code/revision chip in the title.
 2. **Hero (two columns):**
    - **Left — image gallery:** a main viewer + a thumbnail strip. Products have **several
@@ -147,7 +148,7 @@ product's numbers and its downloadable PDF.
      download affordance.
 3. **Description:** one short Turkish paragraph (Inter).
 4. **Spec tables:** the **five grouped tables** (see §7) — the most important component. Group
-   titles in blue with a marker; rows are `label … value`, values in **JetBrains Mono**,
+   titles in shared red with a marker; rows are `label … value`, values in **JetBrains Mono**,
    tabular-nums, right-aligned. Must match the datasheet PDF exactly.
 
 ### Series `/seriler`, `/seriler/:series`
@@ -171,7 +172,7 @@ product's numbers and its downloadable PDF.
 | `DocumentList` | The "Belgeler" list — **several typed downloads** (PDF / IES / manual / CE), each a tag + name + download. |
 | `ProductCard` | Catalog + series listing tile: image, name, code (mono), key specs. |
 | `FilterSidebar` | Catalog filters → Turbo Frame, URL-reflected. |
-| `Header` / `Footer` / `BrandLockup` | From the design system; re-themed blue. |
+| `Header` / `Footer` / `BrandLockup` | From the design system; neutral Pataraz identity with shared red interactions. |
 
 > **Content model note (folded back from the mock):** each product carries **`images[]`**
 > (gallery, not a single photo) and **`documents[]`** (each = label + file + format, not a single
@@ -224,9 +225,9 @@ Two real products. Use this exact data so the spec tables and cards are true.
 
 | Asset | Path |
 |---|---|
-| Logo (lockup, blue on light) | `brand/exports/pataraz/lockup/pataraz-lockup__positive.svg` |
-| Logo (negative, on blue tile) | `brand/exports/pataraz/lockup/pataraz-lockup__negative.svg` |
-| Favicon (white symbol on blue) | `brand/exports/pataraz/favicon/favicon.svg` (full set in that dir + `site.webmanifest`) |
+| Logo (lockup, black on light) | `brand/exports/pataraz/lockup/pataraz-lockup__positive.svg` |
+| Logo (negative, on black tile) | `brand/exports/pataraz/lockup/pataraz-lockup__negative.svg` |
+| Favicon (white symbol on black) | `brand/exports/pataraz/favicon/favicon.svg` (full set in that dir + `site.webmanifest`) |
 | PL22 product photo | `brand/datasheet-assets/pataraz/pl22-urun.jpg` |
 | PL22 dimension drawing | `brand/datasheet-assets/pataraz/pl22-drawing.png` |
 | PX22 product photo | `brand/datasheet-assets/pataraz/px22-urun.jpg` |
@@ -238,8 +239,9 @@ Two real products. Use this exact data so the spec tables and cards are true.
 
 ## 9. Hard brand rules (don't break)
 
-- **Blue is `#1a24cc`** everywhere. Never another blue, never a gradient, never a wash.
-- **One symbol** (the Laz Güneşi sun), only ever in blue. Never redraw or recolor it.
+- **Identity is black/white.** Pataraz does not own a chromatic brand color.
+- **Shared signal is red `#cf142a`.** Use it for interaction and small emphasis, never for the logo.
+- **One symbol** (the Laz Güneşi sun), using the registered identity expression. Never redraw it.
 - **Wordmark `pataraz`** — lowercase, Inter Tight 650, no tagline/subtitle on the lockup.
 - **Numbers belong in JetBrains Mono.** Always.
 - **Turkish, `lang="tr"`.** No English at launch.
