@@ -762,3 +762,92 @@ footer description, and footer columns are public configuration in both adapters
 without inheriting Ağustos-specific routes or copy. The major version is deliberate:
 consumers must replace the old sidebar partial/layout offset rather than accidentally
 loading both systems during migration.
+
+## PY series datasheets: three sheets, one per size (2026-08-10)
+
+Added `pataraz-py300600`, `pataraz-py600600`, `pataraz-py6001200` to the datasheet
+`PRODUCTS` registry — PY serisi, Pataraz's recessed ceiling "ışık paneli" (light
+panel), in its three published sizes. Data + photos transcribed from
+pataraz.com/py-serisi/py300600, /py600600, /py6001200. User explicitly chose
+**three separate sheets** over a single series sheet with a size matrix — each size
+is a full standalone A4 document, not a shared table.
+
+Two decisions worth remembering:
+
+1. **The shared product photo is not a site defect.** pataraz.com serves the
+   identical image for PY300600 (300×600mm) and PY6001200 (1200×600mm). First read
+   as a content-integrity bug (two different products, one photo) — flagged to the
+   user before building. The actual reason: both panels are 1:2 elongated
+   rectangles (300:600 and 600:1200 reduce to the same ratio), so an illustrative
+   3D render — which conveys shape, not absolute scale — is legitimately identical
+   for both. PY600600 (square, 1:1) correctly has its own distinct render. **Always
+   check the ratio math before calling a shared asset a bug** — the site was right,
+   the instinct to flag it first (rather than silently ship or silently "fix" it)
+   was still the correct move.
+
+2. **No same-platform carry-over for the unpublished environmental fields**, unlike
+   PX22's decision to carry IP/ta/insulation/lifetime/warranty from PL22. PY serisi
+   is a different form factor (flat recessed panel vs. windowed skylight box), and
+   no explicit direction was given to assume shared platform this time — so those
+   five fields are honest `—` placeholders, per the project's default "honest
+   placeholders over fabricated specs" rule. Carry-over is the exception (requires
+   an explicit same-platform judgment call), not the default.
+
+Also added a new spec row, **"Gökyüzü boyutu"** (visible illuminated aperture size,
+smaller than the housing since the panel recesses into the ceiling) — a real
+published field unique to this product type that PL22/PX22 don't have. Placed in
+the Fiziksel group, right after Boyutlar.
+
+**Why it mattered:** confirms the multi-product engine (built for PX22) scales
+cleanly to a size-variant family — three new `PRODUCTS` entries, zero engine
+changes, `_validate_products()` passed all three on the first build. Also
+reinforces that "looks like a bug" claims about third-party data should be checked
+against the math before being treated as fact.
+
+## PY series follow-up: 36→43mm correction + in-house technical drawings (2026-08-10)
+
+Same day, same three products. The owner supplied a technical drawing (side
+profile + front elevation, PY300600 at 300×600) showing thickness **43mm** —
+disagreeing with the 36mm published on pataraz.com and already on the sheet.
+Flagged before touching anything (same instinct as the PX22 718/781 case);
+confirmed by the owner: 36mm is the flat panel alone, 43mm is the true installed
+depth once the mounting clips are included. **pataraz.com itself still shows
+36mm** — the owner is correcting the live site separately; this fix only covers
+the datasheet, and this repo has no access to edit the external site.
+
+Applied 43mm to **all three sizes**, not just PY300600 — the assumption is that
+the clip/edge hardware is shared across the PY family (same mounting system,
+only the panel area changes). Flagged as an assumption in the `PRODUCTS` comment;
+confirm if any size turns out to use different clips.
+
+**No technical drawing existed for any PY size on pataraz.com** (confirmed by
+checking each product page directly — one product photo each, no dimensioned
+drawing). Generated all three in-house as programmatic SVG — a Python script
+(two-view: side profile with mounting-clip glyphs + depth dimension; front
+elevation with double-outline frame + width/height dimension lines) matching the
+owner-supplied reference's exact visual convention, parameterized per product so
+each size gets correct real proportions (a genuine 1:2 rectangle for
+300×600/1200×600, a true square for 600×600) rather than a generic placeholder.
+Saved at `datasheet-assets/pataraz/py{300600,600600,6001200}-drawing.svg`.
+
+**Tooling note:** `cairosvg` (considered for SVG→PNG preview) needs system
+`libcairo`, not installed and not worth a system-level install for a one-off
+preview; PyMuPDF (already in use for other PDF/SVG work this session) renders
+SVG pages directly via `fitz.open(path)` — no extra system dependency. Prefer
+PyMuPDF over cairosvg for any future SVG rasterization in this environment.
+
+**Why it mattered:** the dashed "Teknik çizim pending" placeholder is now a real,
+correctly-dimensioned drawing on all three sheets — matching PL22/PX22's
+completeness — without waiting on the manufacturer to publish one. The 36/43
+discrepancy also reinforces the same lesson as PX22 718/781: always surface a
+numeric conflict between sources before either silently trusting one or silently
+"fixing" it.
+
+**Same-day reversal:** the initial PY entries left Koruma & Ortam / Ömür & Garanti
+as honest "—" placeholders (different form factor from PL/PX, no carry-over
+direction given). The user then explicitly said to use PX22's values — so all
+three PY sizes now carry IP20 / −20…+40 °C / Class II / L70B50 @ 30.000 saat /
+2 yıl, same as PL22/PX22. This is not a contradiction of the earlier "no
+assumption without direction" default — it's the exception firing exactly as
+designed: honest placeholder is the default *until* the product owner makes the
+same-platform call explicitly, same pattern as PX22's own carry-over from PL22.

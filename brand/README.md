@@ -117,7 +117,8 @@ expressions automatically. ~10 minutes.
   email signature, Office templates (PPTX/DOCX), and 4-page guidelines PDF.
 - ⏳ `pataraz`, `pld`, `photometric` — registered, not yet generated. Run both scripts
   (`build.py` then `build_templates.py`) per brand when ready.
-- 📄 Datasheets (`build_datasheet.py`) — `pataraz` ships two real products (**PL22** ceiling
-  + **PX22** wall, data + photos from pataraz.com); `agustos` is a sample (**Pro Spot 28**)
-  showing the full template (ordering matrix + certs). Other brands generate a generic sheet
-  on demand.
+- 📄 Datasheets (`build_datasheet.py`) — `pataraz` ships five real products: **PL22** ceiling,
+  **PX22** wall, and the **PY serisi** recessed light panel in its three published sizes
+  (**PY300600**, **PY600600**, **PY6001200**), all data + photos from pataraz.com; `agustos`
+  is a sample (**Pro Spot 28**) showing the full template (ordering matrix + certs). Other
+  brands generate a generic sheet on demand.

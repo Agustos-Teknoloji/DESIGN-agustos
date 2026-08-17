@@ -160,6 +160,166 @@ PRODUCTS = {
         # IP / ta / izolasyon / ömür / garanti carried over from PL22 (same platform);
         # no ordering matrix — a single tunable SKU with no published variants.
     },
+    # Real products — PY serisi, data transcribed from pataraz.com/py-serisi/py300600,
+    # /py600600, /py6001200 (2026-08-10). Three sizes of the same recessed ceiling
+    # panel ("ışık paneli") sharing PL/PX's tuning platform (Bluetooth+DALI,
+    # 2100–7500 K, Ra 93) — differ by power, output, size, and weight. IP / ta /
+    # izolasyon / ömür / garanti are not published for this series; per explicit
+    # product-owner direction (2026-08-10) they are carried over from PL22/PX22
+    # (IP20, −20…+40 °C, Class II, L70B50 @ 30.000 saat, 2 yıl) as a same-platform
+    # assumption across all three PY sizes — confirm against the manufacturer's
+    # full PY spec sheet when published.
+    #
+    # PY300600 and PY6001200 use pataraz.com's identical product render — both are
+    # 1:2 elongated-rectangle panels (300:600 and 600:1200 reduce to the same
+    # ratio), so the shared illustrative image is dimensionally consistent, not a
+    # site error. Each entry still points at its own downloaded copy.
+    #
+    # Thickness corrected 36→43 mm (owner-confirmed, 2026-08-10): the site's 36mm is
+    # the flat panel alone; 43mm is the true installed depth including the mounting
+    # clips shown in the owner-supplied technical drawing. Applied to all three
+    # sizes on the assumption the clip hardware is shared across the PY family
+    # (same edge/frame system, only the panel area changes) — confirm if any size
+    # uses a different clip. NOTE: pataraz.com itself still shows 36mm; the owner
+    # is updating the live site separately, this fix only corrects the datasheet.
+    # Drawings generated in-house (side profile + front elevation, matching the
+    # owner-supplied reference style) since pataraz.com publishes none for this
+    # series — see datasheet-assets/pataraz/py*-drawing.svg.
+    "pataraz-py300600": {
+        "brand": "pataraz",
+        "name": "PY300600",
+        "series": "PY serisi · ultra ince ışık paneli",
+        "code": "PY300600",
+        "doc_type": "Teknik Föy",
+        "rev": "Rev. 01 · 2026-08",
+        "photo": str(BRAND_DIR / "datasheet-assets" / "pataraz" / "py300600.png"),
+        "drawing": str(BRAND_DIR / "datasheet-assets" / "pataraz" / "py300600-drawing.svg"),
+        "description": (
+            "Gökyüzü etkisi yaratan ultra ince ışık paneli, PY serisinin kompakt "
+            "ölçüsü. 2100–7500 K ayarlanabilir beyaz ışığıyla gün ışığının ritmini "
+            "iç mekâna taşır; yüksek renksel geriverim (Ra 93) ile renkleri doğal "
+            "gösterir. Sıva altı montaj, Bluetooth ve DALI ile kontrol."
+        ),
+        "dim_note": "G × U × Y: 300 × 600 × 43 mm",
+        "specs": {
+            "Elektriksel": [
+                ("Güç", "40 W"),
+                ("Kontrol sistemi", "Bluetooth · DALI"),
+            ],
+            "Fotometrik": [
+                ("Işık çıkışı", "1050 lm"),
+                ("Renk sıcaklığı", "2100–7500 K (ayarlanabilir)"),
+                ("Renksel geriverim", "Ra 93"),
+            ],
+            "Fiziksel": [
+                ("Boyutlar", "300 × 600 × 43 mm"),
+                ("Gökyüzü boyutu", "527 × 227 mm"),
+                ("Ağırlık", "2,84 kg"),
+                ("Montaj şekli", "Sıva altı"),
+                ("Montaj yeri", "Tavan"),
+            ],
+            "Koruma & Ortam": [
+                ("Koruma sınıfı (IP)", "IP20"),
+                ("Ortam sıcaklığı (ta)", "−20 … +40 °C"),
+                ("İzolasyon sınıfı", "Class II"),
+            ],
+            "Ömür & Garanti": [
+                ("Ömür", "L70B50 @ 30.000 saat"),
+                ("Garanti", "2 yıl"),
+            ],
+        },
+        # No ordering matrix / certifications published for PY300600.
+    },
+    "pataraz-py600600": {
+        "brand": "pataraz",
+        "name": "PY600600",
+        "series": "PY serisi · ultra ince ışık paneli",
+        "code": "PY600600",
+        "doc_type": "Teknik Föy",
+        "rev": "Rev. 01 · 2026-08",
+        "photo": str(BRAND_DIR / "datasheet-assets" / "pataraz" / "py600600.png"),
+        "drawing": str(BRAND_DIR / "datasheet-assets" / "pataraz" / "py600600-drawing.svg"),
+        "description": (
+            "Gökyüzü etkisi yaratan ultra ince ışık paneli, PY serisinin kare "
+            "ölçüsü. 2100–7500 K ayarlanabilir beyaz ışığıyla gün ışığının ritmini "
+            "iç mekâna taşır; yüksek renksel geriverim (Ra 93) ile renkleri doğal "
+            "gösterir. Sıva altı montaj, Bluetooth ve DALI ile kontrol."
+        ),
+        "dim_note": "G × U × Y: 600 × 600 × 43 mm",
+        "specs": {
+            "Elektriksel": [
+                ("Güç", "60 W"),
+                ("Kontrol sistemi", "Bluetooth · DALI"),
+            ],
+            "Fotometrik": [
+                ("Işık çıkışı", "2100 lm"),
+                ("Renk sıcaklığı", "2100–7500 K (ayarlanabilir)"),
+                ("Renksel geriverim", "Ra 93"),
+            ],
+            "Fiziksel": [
+                ("Boyutlar", "600 × 600 × 43 mm"),
+                ("Gökyüzü boyutu", "527 × 527 mm"),
+                ("Ağırlık", "4,8 kg"),
+                ("Montaj şekli", "Sıva altı"),
+                ("Montaj yeri", "Tavan"),
+            ],
+            "Koruma & Ortam": [
+                ("Koruma sınıfı (IP)", "IP20"),
+                ("Ortam sıcaklığı (ta)", "−20 … +40 °C"),
+                ("İzolasyon sınıfı", "Class II"),
+            ],
+            "Ömür & Garanti": [
+                ("Ömür", "L70B50 @ 30.000 saat"),
+                ("Garanti", "2 yıl"),
+            ],
+        },
+        # No ordering matrix / certifications published for PY600600.
+    },
+    "pataraz-py6001200": {
+        "brand": "pataraz",
+        "name": "PY6001200",
+        "series": "PY serisi · ultra ince ışık paneli",
+        "code": "PY6001200",
+        "doc_type": "Teknik Föy",
+        "rev": "Rev. 01 · 2026-08",
+        "photo": str(BRAND_DIR / "datasheet-assets" / "pataraz" / "py6001200.png"),
+        "drawing": str(BRAND_DIR / "datasheet-assets" / "pataraz" / "py6001200-drawing.svg"),
+        "description": (
+            "Gökyüzü etkisi yaratan ultra ince ışık paneli, PY serisinin geniş "
+            "ölçüsü. 2100–7500 K ayarlanabilir beyaz ışığıyla gün ışığının ritmini "
+            "iç mekâna taşır; yüksek renksel geriverim (Ra 93) ile renkleri doğal "
+            "gösterir. Sıva altı montaj, Bluetooth ve DALI ile kontrol."
+        ),
+        "dim_note": "G × U × Y: 1200 × 600 × 43 mm",
+        "specs": {
+            "Elektriksel": [
+                ("Güç", "100 W"),
+                ("Kontrol sistemi", "Bluetooth · DALI"),
+            ],
+            "Fotometrik": [
+                ("Işık çıkışı", "2700 lm"),
+                ("Renk sıcaklığı", "2100–7500 K (ayarlanabilir)"),
+                ("Renksel geriverim", "Ra 93"),
+            ],
+            "Fiziksel": [
+                ("Boyutlar", "1200 × 600 × 43 mm"),
+                ("Gökyüzü boyutu", "1127 × 227 mm"),
+                ("Ağırlık", "8 kg"),
+                ("Montaj şekli", "Sıva altı"),
+                ("Montaj yeri", "Tavan"),
+            ],
+            "Koruma & Ortam": [
+                ("Koruma sınıfı (IP)", "IP20"),
+                ("Ortam sıcaklığı (ta)", "−20 … +40 °C"),
+                ("İzolasyon sınıfı", "Class II"),
+            ],
+            "Ömür & Garanti": [
+                ("Ömür", "L70B50 @ 30.000 saat"),
+                ("Garanti", "2 yıl"),
+            ],
+        },
+        # No ordering matrix / certifications published for PY6001200.
+    },
     "agustos-pro-spot-28": {
         "brand": "agustos",
         "name": "Pro Spot 28",
