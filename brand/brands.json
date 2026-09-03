@@ -46,11 +46,20 @@
       "tagline_en": "",
       "tagline_tr": ""
     },
-    "photometric": {
-      "wordmark": "photometric",
+    "iesdesk": {
+      "wordmark": "iesdesk",
             "color": "#1a1a1a",
-            "title": "Photometric",
-            "domain": "",
+            "title": "IESdesk",
+            "domain": "iesdesk.com",
+            "office": false,
+      "tagline_en": "",
+      "tagline_tr": ""
+    },
+    "specquick": {
+      "wordmark": "specquick",
+            "color": "#1a1a1a",
+            "title": "SpecQuick",
+            "domain": "specquick.com",
             "office": false,
       "tagline_en": "",
       "tagline_tr": ""

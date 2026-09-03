@@ -8,7 +8,7 @@ const blog = defineCollection({
     deck: z.string().optional(),
     date: z.coerce.date(),
     lang: z.enum(['en', 'tr']).default('en'),
-    brand: z.enum(['agustos', 'pataraz', 'pld', 'photo']).default('agustos'),
+    brand: z.enum(['agustos', 'pataraz', 'pld', 'iesdesk', 'specquick']).default('agustos'),
     draft: z.boolean().default(false),
   }),
 });

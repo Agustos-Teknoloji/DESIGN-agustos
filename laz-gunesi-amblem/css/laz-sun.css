@@ -7,8 +7,6 @@
 :root {
   /* Brand tokens — override at the page or component level */
   --laz-red:        #cf142a;
-  --laz-red-dark:   #A8161F;
-  --laz-red-light:  #E84A56;
 
   /* Default sun size + color (used by .laz-sun) */
   --laz-size:  4rem;

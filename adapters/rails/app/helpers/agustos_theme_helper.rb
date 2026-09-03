@@ -4,14 +4,16 @@ module AgustosThemeHelper
     agustos: "brand-agustos",
     pataraz: "brand-pataraz",
     pld: "brand-pld",
-    photo: "brand-photo"
+    iesdesk: "brand-iesdesk",
+    specquick: "brand-specquick"
   }.freeze
 
   BRAND_WORDMARKS = {
     agustos: "ağustos",
     pataraz: "pataraz",
     pld: "pld türkiye",
-    photo: "photometric"
+    iesdesk: "iesdesk",
+    specquick: "specquick"
   }.freeze
 
   DEFAULT_NAV = [

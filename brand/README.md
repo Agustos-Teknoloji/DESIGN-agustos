@@ -115,8 +115,10 @@ expressions automatically. ~10 minutes.
 
 - ✅ `agustos` — full kit generated and reviewed: logos, favicons, social, swatches,
   email signature, Office templates (PPTX/DOCX), and 4-page guidelines PDF.
-- ⏳ `pataraz`, `pld`, `photometric` — registered, not yet generated. Run both scripts
+- ⏳ `pataraz`, `pld` — registered, not yet generated. Run both scripts
   (`build.py` then `build_templates.py`) per brand when ready.
+- ✅ `iesdesk`, `specquick` — logos, favicons, and social generated (documents deferred,
+  matching Photometric Batch's prior treatment before it retired in favor of `iesdesk`).
 - 📄 Datasheets (`build_datasheet.py`) — `pataraz` ships five real products: **PL22** ceiling,
   **PX22** wall, and the **PY serisi** recessed light panel in its three published sizes
   (**PY300600**, **PY600600**, **PY6001200**), all data + photos from pataraz.com; `agustos`

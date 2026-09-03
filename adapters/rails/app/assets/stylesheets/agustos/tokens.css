@@ -64,7 +64,8 @@
   --brand-agustos:     #cf142a;
   --brand-pataraz:     #1a1a1a;
   --brand-pld:         #1a1a1a;
-  --brand-photometric: #1a1a1a;
+  --brand-iesdesk:     #1a1a1a;
+  --brand-specquick:   #1a1a1a;
 
   /* Default brand fallback (resolves before any .brand-* applies) */
   --brand: var(--brand-agustos);
@@ -82,10 +83,11 @@
 
 /* -- 2. Per-brand application -------------------------------- */
 
-.brand-agustos { --brand: var(--brand-agustos); }
-.brand-pataraz { --brand: var(--brand-pataraz); }
-.brand-pld     { --brand: var(--brand-pld); }
-.brand-photo   { --brand: var(--brand-photometric); }
+.brand-agustos   { --brand: var(--brand-agustos); }
+.brand-pataraz   { --brand: var(--brand-pataraz); }
+.brand-pld       { --brand: var(--brand-pld); }
+.brand-iesdesk   { --brand: var(--brand-iesdesk); }
+.brand-specquick { --brand: var(--brand-specquick); }
 
 /* Substrate override — opt into white paper for working/UI contexts */
 .paper-white {

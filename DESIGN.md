@@ -17,7 +17,8 @@ The portfolio currently spans:
 - **Ağustos Teknoloji.** Lighting agency and distribution (red, `#cf142a`)
 - **Pataraz.** Premium luminaire brand at mid-tier pricing (black/white identity)
 - **PLD Türkiye.** Lighting publication archive (black, `#1a1a1a`)
-- **Photometric Batch.** Software for lighting data (black/white identity)
+- **IESdesk.** Software for lighting data (black/white identity) — successor to Photometric Batch
+- **SpecQuick.** House brand (black/white identity)
 
 Future house brands plug in by choosing a name. They inherit black/white identity ink, shared red interaction signals, typography, logo geometry, and structure.
 
@@ -41,7 +42,7 @@ The Laz Güneşi is the publisher's mark. Every brand carries it, regardless of 
 
 ### 4. Ağustos alone owns red as identity
 
-Ağustos uses red `#cf142a` for its symbol and wordmark. Pataraz, PLD Türkiye, Photometric, and future house brands use black `#1a1a1a` on light substrates and cream/white on black identity tiles. Do not invent a chromatic identity color for each brand.
+Ağustos uses red `#cf142a` for its symbol and wordmark. Pataraz, PLD Türkiye, IESdesk, SpecQuick, and future house brands use black `#1a1a1a` on light substrates and cream/white on black identity tiles. Do not invent a chromatic identity color for each brand.
 
 ### 5. Shared red is a signal, not decoration
 
@@ -153,7 +154,8 @@ font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospa
   --brand-agustos: #cf142a;
   --brand-pataraz: #1a1a1a;
   --brand-pld: #1a1a1a;
-  --brand-photometric: #1a1a1a;
+  --brand-iesdesk: #1a1a1a;
+  --brand-specquick: #1a1a1a;
   --brand: var(--brand-agustos);
 
   /* Type stacks, v2.0 */
@@ -170,10 +172,11 @@ Radii and motion were first proven in the website redesign and are now v3 founda
 **Per-brand application:**
 
 ```css
-.brand-agustos { --brand: var(--brand-agustos); }
-.brand-pataraz { --brand: var(--brand-pataraz); }
-.brand-pld     { --brand: var(--brand-pld); }
-.brand-photo   { --brand: var(--brand-photometric); }
+.brand-agustos   { --brand: var(--brand-agustos); }
+.brand-pataraz   { --brand: var(--brand-pataraz); }
+.brand-pld       { --brand: var(--brand-pld); }
+.brand-iesdesk   { --brand: var(--brand-iesdesk); }
+.brand-specquick { --brand: var(--brand-specquick); }
 ```
 
 Inside any brand-scoped element, `var(--brand)` resolves to its identity ink. `var(--signal)` remains Ağustos red across every brand. Without a brand class, `--brand` falls back to Ağustos red.
@@ -457,9 +460,10 @@ Each brand has a fixed lowercase display name, mapped in `BaseLayout.astro`:
 | `agustos` | `ağustos` | `--brand-agustos` (#cf142a) |
 | `pataraz` | `pataraz` | `--brand-pataraz` (#1a1a1a) |
 | `pld` | `pld türkiye` | `--brand-pld` (#1a1a1a) |
-| `photo` | `photometric` | `--brand-photometric` (#1a1a1a) |
+| `iesdesk` | `iesdesk` | `--brand-iesdesk` (#1a1a1a) |
+| `specquick` | `specquick` | `--brand-specquick` (#1a1a1a) |
 
-**Why one-word wordmarks (where possible).** Each visible mark is a single noun: `ağustos`, `pataraz`, `photometric`. The exception is `pld türkiye` where the country qualifier is integral to the publication's identity. Drop "teknoloji," "luminaires," "batch", those describe what the brand does, not what it's called.
+**Why one-word wordmarks (where possible).** Each visible mark is a single noun: `ağustos`, `pataraz`, `iesdesk`, `specquick`. The exception is `pld türkiye` where the country qualifier is integral to the publication's identity. Drop "teknoloji," "luminaires," "batch", those describe what the brand does, not what it's called.
 
 The page `<title>` is independent and stays Title Case (e.g. "Ağustos Teknoloji, lighting agency and distribution") for SEO and browser-tab readability. Title and wordmark are deliberately separate concerns.
 

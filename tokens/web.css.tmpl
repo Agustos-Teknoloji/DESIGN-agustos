@@ -62,7 +62,8 @@
   --brand-agustos:     {{brands.agustos.color}};
   --brand-pataraz:     {{brands.pataraz.color}};
   --brand-pld:         {{brands.pld.color}};
-  --brand-photometric: {{brands.photometric.color}};
+  --brand-iesdesk:     {{brands.iesdesk.color}};
+  --brand-specquick:   {{brands.specquick.color}};
 
   /* Default brand fallback (resolves before any .brand-* applies) */
   --brand: var(--brand-agustos);
@@ -80,10 +81,11 @@
 
 /* -- 2. Per-brand application -------------------------------- */
 
-.brand-agustos { --brand: var(--brand-agustos); }
-.brand-pataraz { --brand: var(--brand-pataraz); }
-.brand-pld     { --brand: var(--brand-pld); }
-.brand-photo   { --brand: var(--brand-photometric); }
+.brand-agustos   { --brand: var(--brand-agustos); }
+.brand-pataraz   { --brand: var(--brand-pataraz); }
+.brand-pld       { --brand: var(--brand-pld); }
+.brand-iesdesk   { --brand: var(--brand-iesdesk); }
+.brand-specquick { --brand: var(--brand-specquick); }
 
 /* Substrate override — opt into white paper for working/UI contexts */
 .paper-white {

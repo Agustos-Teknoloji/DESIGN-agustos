@@ -851,3 +851,36 @@ three PY sizes now carry IP20 / −20…+40 °C / Class II / L70B50 @ 30.000 saa
 assumption without direction" default — it's the exception firing exactly as
 designed: honest placeholder is the default *until* the product owner makes the
 same-platform call explicitly, same pattern as PX22's own carry-over from PL22.
+
+---
+
+## Photometric Batch retires → IESdesk; SpecQuick joins the portfolio (2026-09-03)
+
+**Chosen:** `photometric` is removed from the brand registry. `iesdesk` (title
+"IESdesk", domain iesdesk.com) takes its slot as the direct successor —
+same black `#1a1a1a` identity ink, same "logos, favicons, social only" kit
+level, same underlying product (software for lighting/IES data). `specquick`
+(title "SpecQuick", domain specquick.com) joins as a new fifth house brand,
+same black identity ink and minimal kit.
+
+**Why:** the user confirmed Photometric Batch (or a brand like it) is gone,
+folded into IESdesk. This is a rename/succession, not two independent events —
+`brand/exports/photometric/` was deleted rather than kept as a parallel
+archive; the registry doesn't carry a dead brand slot alongside its successor.
+
+**How to apply:** every place that enumerated the four brands by name
+(`AGENTS.md`, `ASSETS.md`, `DESIGN.md`, `brand/README.md`, adapter brand
+maps in Astro/Rails, `tests/test_adapter_contracts.py`) needed updating —
+this is not one registry edit, it's a registry edit plus a sweep of every
+hardcoded brand enumeration outside the generated-outputs path. Frozen
+historical artifacts (`artifacts/*.html`, `laz-gunesi-amblem/docs/_OLD-*`)
+and past MEMORY.md entries that named "Photometric Batch" were **not**
+rewritten — they're a record of what was true at the time, not living spec.
+SpecQuick's business description in DESIGN.md's brand list is a placeholder
+("House brand") — refine it once its actual positioning is known.
+
+**Confirms:** [[Ağustos alone owns red as identity]] still holds — both new
+brands got `#1a1a1a`, not a new chromatic color. Adding a brand remains a
+~10-minute registry-entry-plus-rebuild operation per `brand/README.md`'s
+"Adding a brand" section; this was the first time that path was exercised
+for a *retirement* as well as an addition.

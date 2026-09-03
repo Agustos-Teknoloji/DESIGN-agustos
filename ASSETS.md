@@ -15,7 +15,7 @@ canonical *asset map* (the files). [MEMORY.md](MEMORY.md) holds the decision his
 | Token | Value | Use |
 |---|---|---|
 | **Ağustos red identity** | `#cf142a` | Ağustos symbol and wordmark; also the shared interaction signal. |
-| House-brand identity ink | `#1a1a1a` | Pataraz, PLD Türkiye, Photometric, and future house-brand positive marks. |
+| House-brand identity ink | `#1a1a1a` | Pataraz, PLD Türkiye, IESdesk, SpecQuick, and future house-brand positive marks. |
 | Shared interaction signal | `#cf142a` | Links, focus, markers, rules, and small emphasis across every brand. Never recolors a non-Ağustos logo. |
 | Cream (paper) | `#fefcf2` | Primary branded substrate. |
 | Ink | `#1a1a1a` | Primary text. |
@@ -105,7 +105,7 @@ scripts; never hand-edit `exports/`.
 Each `exports/<brand>/` holds: `lockup/` (positive/negative/mono × svg·pdf·png), `favicon/`,
 `social/`, `swatches/` (.ase/.clr), `email/` (signature), `office/` (editable PPTX, letterhead DOCX, styled document DOCX),
 `guidelines/` (4-page PDF), and `datasheet/` (A4 lighting product sheets, html + pdf). Full
-kits: `agustos`, `pataraz`, `pld`; `photometric` has logos only. The `datasheet/` folder holds
+kits: `agustos`, `pataraz`, `pld`; `iesdesk` and `specquick` have logos only. The `datasheet/` folder holds
 one sheet per product — real Pataraz luminaires (`pataraz-pl22`, `pataraz-px22`, and the
 PY series `pataraz-py300600` / `pataraz-py600600` / `pataraz-py6001200`) and an `agustos`
 sample (`agustos-pro-spot-28`); add a product by editing the `PRODUCTS` dict in

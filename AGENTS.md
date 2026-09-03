@@ -6,7 +6,7 @@ re-creating something that already exists.
 
 ## 30-second model
 
-- One company, several brands: **ağustos** (parent), **pataraz**, **pld türkiye**, **photometric**.
+- One company, several brands: **ağustos** (parent), **pataraz**, **pld türkiye**, **iesdesk**, **specquick**.
 - Every brand shares **one symbol** — the Laz Güneşi (18-blade sun). Ağustos alone owns red;
   every other house brand uses black/white identity ink and differs by its **wordmark**.
 - The logo (“lockup”) = symbol + lowercase wordmark in the registered identity ink. Always lowercase. No tagline on it.
@@ -38,7 +38,7 @@ decision or proposing a reversal. After repository changes, run the checks docum
 
 ## "I need ___" → use this file
 
-First pick the **brand** (`agustos` · `pataraz` · `pld` · `photometric`), then the use. Substitute the
+First pick the **brand** (`agustos` · `pataraz` · `pld` · `iesdesk` · `specquick`), then the use. Substitute the
 brand slug into `<brand>` in the path (e.g. `agustos`, `pld`).
 
 | I need… | File |
@@ -60,8 +60,8 @@ brand slug into `<brand>` in the path (e.g. `agustos`, `pld`).
 | A **product datasheet** (lighting "teknik föy", A4) | `brand/exports/<brand>/datasheet/<product-key>.pdf` (e.g. `pataraz-px22.pdf`; edit `PRODUCTS` in `brand/build_datasheet.py`, re-run) |
 | The **fonts** (to install) | `brand/fonts/` (Inter Tight, Inter, JetBrains Mono + licenses) |
 
-> Coverage: `agustos`, `pataraz`, `pld` have the **full** set above. `photometric` has **logos,
-> favicons, and social only** (no office / swatches / email / guidelines yet). The **datasheet**
+> Coverage: `agustos`, `pataraz`, `pld` have the **full** set above. `iesdesk` and `specquick` have
+> **logos, favicons, and social only** (no office / swatches / email / guidelines yet). The **datasheet**
 > kit holds many products per brand: real Pataraz sheets (`pataraz-pl22`, `pataraz-px22`,
 > `pataraz-py300600`, `pataraz-py600600`, `pataraz-py6001200`) and an
 > `agustos` sample (`agustos-pro-spot-28`); other brands produce a generic sheet on demand.
@@ -82,7 +82,8 @@ works on dark.
 | `agustos` | ağustos | `#cf142a` | agustos.com | full |
 | `pataraz` | pataraz | `#1a1a1a` | pataraz.com | full |
 | `pld` | pld türkiye | `#1a1a1a` | pldturkiye.com | full |
-| `photometric` | photometric | `#1a1a1a` | — | logos only |
+| `iesdesk` | iesdesk | `#1a1a1a` | iesdesk.com | logos only |
+| `specquick` | specquick | `#1a1a1a` | specquick.com | logos only |
 
 Novara (outdoor kitchen furniture) is a brand Ağustos **represents/distributes** (like Soraa, CoeLux),
 **not** a house brand — it has no assets here and needs none.
