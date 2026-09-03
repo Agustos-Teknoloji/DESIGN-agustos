@@ -4,18 +4,20 @@ import BrandLockup from '../components/BrandLockup.astro';
 
 // Brand-switcher demo data
 const brands = [
-  { id: 'agustos', name: 'Ağustos',     hex: '#cf142a' },
-  { id: 'pataraz', name: 'Pataraz',     hex: '#1a1a1a' },
-  { id: 'pld',     name: 'PLD Türkiye', hex: '#1a1a1a' },
-  { id: 'photo',   name: 'Photometric', hex: '#1a1a1a' },
+  { id: 'agustos',   name: 'Ağustos',     hex: '#cf142a' },
+  { id: 'pataraz',   name: 'Pataraz',     hex: '#1a1a1a' },
+  { id: 'pld',       name: 'PLD Türkiye', hex: '#1a1a1a' },
+  { id: 'iesdesk',   name: 'IESdesk',     hex: '#1a1a1a' },
+  { id: 'specquick', name: 'SpecQuick',   hex: '#1a1a1a' },
 ] as const;
 
 // Per-brand wordmark mapping (matches BaseLayout's BRAND_WORDMARKS).
 const portfolio = [
-  { brand: 'agustos', wordmark: 'ağustos',     swatch: '#cf142a' },
-  { brand: 'pataraz', wordmark: 'pataraz',     swatch: '#1a1a1a' },
-  { brand: 'pld',     wordmark: 'pld türkiye', swatch: '#1a1a1a' },
-  { brand: 'photo',   wordmark: 'photometric', swatch: '#1a1a1a' },
+  { brand: 'agustos',   wordmark: 'ağustos',     swatch: '#cf142a' },
+  { brand: 'pataraz',   wordmark: 'pataraz',     swatch: '#1a1a1a' },
+  { brand: 'pld',       wordmark: 'pld türkiye', swatch: '#1a1a1a' },
+  { brand: 'iesdesk',   wordmark: 'iesdesk',     swatch: '#1a1a1a' },
+  { brand: 'specquick', wordmark: 'specquick',   swatch: '#1a1a1a' },
 ] as const;
 ---
 <BaseLayout
@@ -57,7 +59,7 @@ const portfolio = [
     {/* ---- Brand portfolio: all four lockups in Inter Tight 650 ---- */}
     <h4 class="type-h4">Brand portfolio</h4>
     <p class="type-body">
-      Four wordmarks in Inter Tight 650. Ağustos alone is red; the other house brands are black and white. Same lockup grammar
+      Five wordmarks in Inter Tight 650. Ağustos alone is red; the other house brands are black and white. Same lockup grammar
       across the portfolio: symbol height = 1.4× wordmark cap height, gap = 0.4× wordmark size,
       always lowercase. The Turkish <em>ı</em> in <em>pataraz</em> and <em>pld türkiye</em> and
       the <em>ğ</em> in <em>ağustos</em> show how Inter Tight handles the Turkish alphabet at every size.
@@ -186,7 +188,8 @@ const portfolio = [
         <tr><td>Ağustos</td><td>Red</td><td><code>#cf142a</code></td><td>—</td></tr>
         <tr><td>Pataraz</td><td>Black</td><td><code>#1a1a1a</code></td><td>house neutral</td></tr>
         <tr><td>PLD Türkiye</td><td>Black</td><td><code>#1a1a1a</code></td><td>—</td></tr>
-        <tr><td>Photometric</td><td>Black</td><td><code>#1a1a1a</code></td><td>house neutral</td></tr>
+        <tr><td>IESdesk</td><td>Black</td><td><code>#1a1a1a</code></td><td>house neutral</td></tr>
+        <tr><td>SpecQuick</td><td>Black</td><td><code>#1a1a1a</code></td><td>house neutral</td></tr>
       </tbody>
     </table>
 

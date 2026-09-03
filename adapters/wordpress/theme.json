@@ -63,8 +63,13 @@
           "color": "#1a1a1a"
         },
         {
-          "slug": "brand-photometric",
-          "name": "Photometric",
+          "slug": "brand-iesdesk",
+          "name": "IESdesk",
+          "color": "#1a1a1a"
+        },
+        {
+          "slug": "brand-specquick",
+          "name": "SpecQuick",
           "color": "#1a1a1a"
         }
       ]

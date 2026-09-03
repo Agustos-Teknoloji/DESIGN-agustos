@@ -262,7 +262,7 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
             "invariants": [
                 "Use the exact Laz Güneşi asset. Never redraw or approximate the symbol.",
                 "Keep every wordmark lowercase, Inter Tight weight 650, and free of taglines.",
-                "Ağustos alone owns red as identity ink; Pataraz, PLD Türkiye, Photometric, and future house brands use neutral black/white identity ink by default.",
+                "Ağustos alone owns red as identity ink; Pataraz, PLD Türkiye, IESdesk, SpecQuick, and future house brands use neutral black/white identity ink by default.",
                 "Use shared signal red for links, focus, markers, and small emphasis across every brand; never use it to recolor a non-Ağustos logo.",
                 "Default working interfaces to white paper, dark ink, restrained rules, and small radii.",
                 "Align primary content to one 920px frame on the web; preserve the same alignment logic in other media.",

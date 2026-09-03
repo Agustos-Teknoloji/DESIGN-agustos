@@ -82,7 +82,7 @@
     "invariants": [
       "Use the exact Laz Güneşi asset. Never redraw or approximate the symbol.",
       "Keep every wordmark lowercase, Inter Tight weight 650, and free of taglines.",
-      "Ağustos alone owns red as identity ink; Pataraz, PLD Türkiye, Photometric, and future house brands use neutral black/white identity ink by default.",
+      "Ağustos alone owns red as identity ink; Pataraz, PLD Türkiye, IESdesk, SpecQuick, and future house brands use neutral black/white identity ink by default.",
       "Use shared signal red for links, focus, markers, and small emphasis across every brand; never use it to recolor a non-Ağustos logo.",
       "Default working interfaces to white paper, dark ink, restrained rules, and small radii.",
       "Align primary content to one 920px frame on the web; preserve the same alignment logic in other media.",
@@ -113,6 +113,15 @@
         "title": "Ağustos Teknoloji",
         "wordmark": "ağustos"
       },
+      "iesdesk": {
+        "color": "#1a1a1a",
+        "domain": "iesdesk.com",
+        "office": false,
+        "tagline_en": "",
+        "tagline_tr": "",
+        "title": "IESdesk",
+        "wordmark": "iesdesk"
+      },
       "pataraz": {
         "color": "#1a1a1a",
         "domain": "pataraz.com",
@@ -122,15 +131,6 @@
         "title": "Pataraz",
         "wordmark": "pataraz"
       },
-      "photometric": {
-        "color": "#1a1a1a",
-        "domain": "",
-        "office": false,
-        "tagline_en": "",
-        "tagline_tr": "",
-        "title": "Photometric",
-        "wordmark": "photometric"
-      },
       "pld": {
         "color": "#1a1a1a",
         "domain": "pldturkiye.com",
@@ -139,6 +139,15 @@
         "tagline_tr": "",
         "title": "PLD Türkiye",
         "wordmark": "pld türkiye"
+      },
+      "specquick": {
+        "color": "#1a1a1a",
+        "domain": "specquick.com",
+        "office": false,
+        "tagline_en": "",
+        "tagline_tr": "",
+        "title": "SpecQuick",
+        "wordmark": "specquick"
       }
     },
     "foundations": {

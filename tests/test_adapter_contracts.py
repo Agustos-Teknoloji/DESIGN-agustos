@@ -94,7 +94,8 @@ class AdapterContractTest(unittest.TestCase):
         self.assertEqual(handoff["system"]["brands"]["agustos"]["color"], "#cf142a")
         self.assertEqual(handoff["system"]["brands"]["pataraz"]["color"], "#1a1a1a")
         self.assertEqual(handoff["system"]["brands"]["pld"]["color"], "#1a1a1a")
-        self.assertEqual(handoff["system"]["brands"]["photometric"]["color"], "#1a1a1a")
+        self.assertEqual(handoff["system"]["brands"]["iesdesk"]["color"], "#1a1a1a")
+        self.assertEqual(handoff["system"]["brands"]["specquick"]["color"], "#1a1a1a")
         self.assertEqual(handoff["system"]["semantic"]["color"]["signal"], "#cf142a")
         self.assertEqual(handoff["system"]["recipes"]["chrome"]["contentMeasure"], "920px")
         self.assertGreaterEqual(len(handoff["contract"]["invariants"]), 6)
@@ -113,7 +114,8 @@ class AdapterContractTest(unittest.TestCase):
             "agustos": "#cf142a",
             "pataraz": "#1a1a1a",
             "pld": "#1a1a1a",
-            "photometric": "#1a1a1a",
+            "iesdesk": "#1a1a1a",
+            "specquick": "#1a1a1a",
         }
         retired = ("#1a24cc", "#0000ff", "#1f6b4a")
         for slug, color in expected.items():
