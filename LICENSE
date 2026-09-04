@@ -12,6 +12,14 @@ Ağustos Teknoloji employees, contractors, service providers, and automated
 coding systems may use these materials solely on behalf of Ağustos Teknoloji
 and only when expressly authorized to do so.
 
+EXCEPTION — THE DISTRIBUTION KIT
+
+The `ui/` and `tokens/` directories are licensed separately and permissively, so
+that other parties may build interfaces with this design system. See `ui/LICENSE`
+for those terms, including its reservation of every Ağustos brand name, wordmark,
+logo, and the Laz Güneşi symbol. Nothing outside those two directories is covered
+by that grant.
+
 Third-party components included in this repository remain subject to their own
 license terms. This includes the bundled fonts and their accompanying license
 files. Nothing in this license grants rights to any Ağustos Teknoloji brand

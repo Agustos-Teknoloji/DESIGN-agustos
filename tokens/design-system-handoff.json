@@ -40,9 +40,21 @@
       "type-footnote",
       "site-frame",
       "container",
+      "skip-link",
+      "brand-agustos",
+      "brand-pataraz",
+      "brand-pld",
+      "brand-iesdesk",
+      "brand-specquick",
+      "paper-white",
       "hero-links",
       "hero-link",
+      "hero-link--primary",
+      "hero-link--secondary",
+      "hero-actions",
       "hero-action",
+      "hero-action--primary",
+      "hero-action--secondary",
       "hero-trust",
       "hero-visual",
       "agustos-section",
@@ -50,7 +62,37 @@
       "agustos-card-grid",
       "agustos-card",
       "agustos-card--marked",
-      "agustos-chrome-link"
+      "agustos-chrome-link",
+      "agustos-fieldset",
+      "agustos-field",
+      "agustos-field--invalid",
+      "agustos-label",
+      "agustos-label--required",
+      "agustos-input",
+      "agustos-textarea",
+      "agustos-select",
+      "agustos-check",
+      "agustos-hint",
+      "agustos-error",
+      "agustos-button",
+      "agustos-button--primary",
+      "agustos-button--secondary",
+      "agustos-button--quiet",
+      "agustos-badge",
+      "agustos-badge--success",
+      "agustos-badge--warning",
+      "agustos-badge--danger",
+      "agustos-badge--info",
+      "agustos-badge--signal",
+      "agustos-notice",
+      "agustos-notice__title",
+      "agustos-notice--success",
+      "agustos-notice--warning",
+      "agustos-notice--danger",
+      "agustos-notice--info",
+      "agustos-tabs",
+      "agustos-tab",
+      "agustos-tabs__panel"
     ]
   },
   "contract": {
@@ -170,9 +212,13 @@
         "ruleWhite": "#e8e8e8",
         "signalRed": "#cf142a",
         "stateDanger": "#b42318",
+        "stateDangerDark": "#f08c82",
         "stateInfo": "#1a4d8f",
+        "stateInfoDark": "#8ab6e8",
         "stateSuccess": "#1f6b4a",
-        "stateWarning": "#8a5a00"
+        "stateSuccessDark": "#7ec9a2",
+        "stateWarning": "#8a5a00",
+        "stateWarningDark": "#d9a441"
       },
       "duration": {
         "drawer": "220ms",
@@ -364,7 +410,7 @@
         "surface": "#ffffff"
       }
     },
-    "version": "3.0.0"
+    "version": "3.1.0"
   },
-  "version": "3.0.0"
+  "version": "3.1.0"
 }

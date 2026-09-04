@@ -40,7 +40,15 @@ The generator writes:
 - Astro and Rails token CSS
 - WordPress `theme.json` and CSS
 - `tokens/generated-manifest.json`, including content hashes for drift detection
+- `ui/`, the distribution kit (see below)
 - `brand/exports/office-manifest.json`, covering nine Office artifacts and their generator sources
+
+Web fonts are generated separately, because subsetting needs `fonttools[woff2]` and CI does not
+install it. Run it only when the master fonts in `brand/fonts/` change:
+
+```bash
+./.venv/bin/python scripts/build_ui_fonts.py
+```
 
 Office artifacts consume `tokens/resolved.json`:
 
@@ -49,6 +57,39 @@ python3 brand/build_templates.py --brand agustos
 ```
 
 PowerPoint generation uses the plain-ESM `brand/build_presentation.mjs` source and the declared public `pptxgenjs` dependency. Word output includes both a compact letterhead and a styled document template suitable for import into Google Docs.
+
+## Distribution kit
+
+`ui/` is what another repository consumes. It is generated; do not hand-edit anything in it except
+`UI-KIT.md.tmpl`, `starter.html.tmpl`, `check-agustos-ui.py.tmpl`, `AGENTS-SNIPPET.md.tmpl`, and
+`LICENSE`.
+
+| File | Purpose |
+|---|---|
+| `UI-KIT.md` | The entry point. One file, 162 lines, sufficient on its own. |
+| `agustos.css` | The stylesheet. Byte-identical to `tokens/agustos.css` apart from its header. |
+| `agustos-fonts.css` + `fonts/` | Self-hosted Inter Tight, Inter, and JetBrains Mono. **Required** — the stylesheet declares font stacks, not faces. |
+| `starter.html` | Every published class, rendered once. |
+| `kit.json` | The same contract, machine-readable, with file hashes. |
+| `check-agustos-ui.py` | Compliance checker a consuming project runs to prove it complied. |
+| `AGENTS-SNIPPET.md` | The stanza a consuming repository pastes into its own `AGENTS.md`. |
+
+Two ways to consume it:
+
+- **Production** — copy `ui/` into `vendor/agustos-ui/` and commit it. No runtime dependency on a
+  third-party CDN, and the bundler can process the CSS normally.
+- **Prototypes** — link the version-pinned CDN URLs in `UI-KIT.md`. Never `@main` or `@latest`: an
+  unpinned link restyles a live page the moment a token changes, with no review.
+
+Preview it locally with the `agustos-ui-kit` entry in `.claude/launch.json`, or:
+
+```bash
+python3 -m http.server 4330 --directory ui
+```
+
+Any change under `ui/` requires a VERSION bump, a rebuild, and a matching `v<VERSION>` git tag in the
+same change. `VERSION` participates in the manifest's source hash, so CI fails if the rebuild is
+missed.
 
 ## Adapters
 
@@ -68,3 +109,8 @@ The frozen, standalone v3.0.0 specification is available at
 
 Copyright © 2026 Ağustos Teknoloji. This repository is proprietary and all rights are reserved.
 See [LICENSE](LICENSE) for the complete terms.
+
+**Exception:** `ui/` and `tokens/` — the distribution kit — are licensed permissively under
+[`ui/LICENSE`](ui/LICENSE) so other parties can build interfaces with the system. Every brand name,
+wordmark, logo, and the Laz Güneşi symbol remain reserved, as does everything under `brand/exports/`.
+Fonts in `ui/fonts/` are SIL Open Font License 1.1.

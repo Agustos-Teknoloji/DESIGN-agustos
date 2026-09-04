@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v3.0.0 · GENERATED ASTRO ADAPTER CSS
+/* AĞUSTOS DESIGN SYSTEM v3.1.0 · GENERATED ASTRO ADAPTER CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -75,10 +75,11 @@
                 Inter to native UI fonts. Variable wght 100–900 with italics.
      --body:    Inter (paragraphs, inline elements). Falls back to the
                 canonical system stack ending in Apple Color Emoji.
-     --mono:    JetBrains Mono with native ui-monospace fallback. */
+     --mono:    JetBrains Mono with native ui-monospace fallback. Variable first,
+                matching --display and --body so one @font-face name serves both. */
   --display: 'Inter Tight Variable', 'Inter Tight', 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --body:    'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji";
-  --mono:    'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospace;
+  --mono:    'JetBrains Mono Variable', 'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospace;
 }
 
 /* -- 2. Per-brand application -------------------------------- */
@@ -107,6 +108,13 @@ html[data-theme="dark"] {
   --ink-faint:  #6e6960;
   --rule:        #2a2620;
   --rule-white:  #2a2620;
+
+  /* State colors are substrate-specific. The light values fall to 2.19-3.11
+     contrast on dark paper; these lift every one back above 7. */
+  --state-success: #7ec9a2;
+  --state-warning: #d9a441;
+  --state-danger:  #f08c82;
+  --state-info:    #8ab6e8;
 }
 html[data-theme="dark"] code,
 html[data-theme="dark"] .type-code {
@@ -471,7 +479,8 @@ table th:last-child, table td:last-child { text-align: right; }
   margin-top: 1.5rem;
 }
 
-.hero-action {
+.hero-action,
+.agustos-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -497,30 +506,35 @@ table th:last-child, table td:last-child { text-align: right; }
     color var(--dur) var(--ease);
 }
 
-.hero-action:hover {
+.hero-action:hover,
+.agustos-button:hover {
   border-color: var(--ink-soft);
   box-shadow: inset 0 -3px 0 var(--signal);
   text-decoration: none;
 }
 
-.hero-action:focus-visible {
+.hero-action:focus-visible,
+.agustos-button:focus-visible {
   outline: 2px solid var(--signal);
   outline-offset: 3px;
 }
 
-.hero-action--primary {
+.hero-action--primary,
+.agustos-button--primary {
   border-color: var(--ink);
   background: var(--ink);
   color: var(--paper);
 }
 
-.hero-action--primary:hover {
+.hero-action--primary:hover,
+.agustos-button--primary:hover {
   border-color: var(--ink);
   background: color-mix(in srgb, var(--ink) 92%, var(--signal) 8%);
   color: var(--paper);
 }
 
-.hero-action--secondary {
+.hero-action--secondary,
+.agustos-button--secondary {
   background: transparent;
 }
 
@@ -565,6 +579,9 @@ table th:last-child, table td:last-child { text-align: right; }
   width: 100%;
   margin-top: var(--space-4xl);
 }
+
+/* `.agustos-button` above is the same control under its product-surface name.
+   Do not fork it; extend the shared blocks. */
 
 /* v3 composition recipes. These are deliberately structural: adapters may
    wrap them in framework components without changing the visual grammar. */
@@ -636,3 +653,308 @@ table th:last-child, table td:last-child { text-align: right; }
   z-index: 999;
 }
 .skip-link:focus { left: 1rem; }
+
+/* -- 6. UI primitives ---------------------------------------- */
+
+/* Product-surface controls. Same grammar as the editorial layer above: hairline
+   rules, 4/6px radii, one 2px signal accent per element, 44px targets, no fills
+   that the page does not already own.
+
+   This is NOT a component framework. If a pattern is not here, compose it from
+   `.agustos-card`, `.agustos-section`, and the `.type-*` classes. Deliberately
+   absent, and to stay absent: breadcrumbs, pagination, modals, tooltips,
+   dropdowns, toasts, progress bars, accordions, avatars, and grid utilities.
+   Breadcrumbs and pagination are chrome — they belong beside
+   `.agustos-chrome-link` in the adapter layer, not here. */
+
+/* --- Forms (11) --- */
+
+.agustos-fieldset {
+  margin: 0 0 var(--space-xl);
+  padding: 0;
+  border: 0;  /* kill the default 3D groove */
+}
+
+.agustos-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  margin-bottom: var(--space-md);
+}
+
+.agustos-label {
+  font-family: var(--display);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
+/* The one place signal red appears in a form at rest. */
+.agustos-label--required::after {
+  content: " *";
+  color: var(--signal);
+}
+
+.agustos-input,
+.agustos-textarea,
+.agustos-select {
+  width: 100%;
+  min-height: var(--control-min);
+  padding: 0.6rem 0.75rem;
+  background: var(--paper-white);
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-sm);
+  color: var(--ink);
+  font-family: var(--body);
+  /* 16px exactly: iOS zooms the viewport on focus below this. */
+  font-size: 16px;
+  line-height: 1.4;
+  transition:
+    border-color var(--dur) var(--ease),
+    background var(--dur) var(--ease);
+}
+
+.agustos-input::placeholder,
+.agustos-textarea::placeholder {
+  color: var(--ink-faint);
+}
+
+.agustos-input:hover,
+.agustos-textarea:hover,
+.agustos-select:hover {
+  border-color: var(--ink-faint);
+}
+
+.agustos-input:focus-visible,
+.agustos-textarea:focus-visible,
+.agustos-select:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+  border-color: var(--ink-soft);
+}
+
+.agustos-input:disabled,
+.agustos-textarea:disabled,
+.agustos-select:disabled {
+  background: color-mix(in srgb, var(--rule) 40%, var(--paper));
+  color: var(--ink-faint);
+  cursor: not-allowed;
+}
+
+.agustos-textarea {
+  min-height: 8em;
+  line-height: 1.55;
+  resize: vertical;
+}
+
+/* Native chevron kept on purpose: no SVG asset enters this file, and the
+   platform affordance is what users already recognise. */
+.agustos-select {
+  padding-inline-end: var(--space-xl);
+}
+
+/* Invalid state. Works from the class or from `aria-invalid` alone, so
+   server-rendered markup needs no extra class plumbing. */
+.agustos-field--invalid .agustos-input,
+.agustos-field--invalid .agustos-textarea,
+.agustos-field--invalid .agustos-select,
+.agustos-input[aria-invalid="true"],
+.agustos-textarea[aria-invalid="true"],
+.agustos-select[aria-invalid="true"] {
+  border-color: var(--state-danger);
+}
+
+/* Checkbox and radio. `accent-color` gives a brand-correct control in one
+   declaration — no replaced-element markup, no pseudo-element drawing. */
+.agustos-check {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: var(--control-min);
+  font-family: var(--body);
+  font-size: var(--size-body-compact);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.agustos-check input {
+  flex: none;
+  inline-size: 1rem;
+  block-size: 1rem;
+  margin: 0;
+  accent-color: var(--signal);
+}
+
+/* --ink-soft (7.3-8.9 contrast), not --ink-faint (3.4). A form hint states a
+   requirement — it is content, and it has to be readable. Placeholders keep
+   --ink-faint because they are a prompt, not information. */
+.agustos-hint {
+  font-family: var(--body);
+  font-size: var(--size-footnote);
+  line-height: 1.5;
+  color: var(--ink-soft);
+}
+
+.agustos-error {
+  font-family: var(--display);
+  font-size: var(--size-footnote);
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--state-danger);
+}
+
+/* --- Buttons (1 new; the other three alias .hero-action in section 5) --- */
+
+/* Tertiary action. The rank the system lacked, and the reason people invent
+   their own bare <button>. */
+.agustos-button--quiet {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  color: var(--ink-soft);
+}
+
+.agustos-button--quiet:hover {
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--signal);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* --- Badges (6) --- */
+
+/* The `.type-h4` and table-header typographic register at badge scale. Bordered
+   and transparent, never a filled pill: no new visual idiom enters the system. */
+.agustos-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2xs);
+  padding: 2px var(--space-xs);
+  border: 1px solid currentColor;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.agustos-badge--success { color: var(--state-success); }
+.agustos-badge--warning { color: var(--state-warning); }
+.agustos-badge--danger  { color: var(--state-danger); }
+.agustos-badge--info    { color: var(--state-info); }
+.agustos-badge--signal  { color: var(--signal); }
+
+/* --- Notices (6) --- */
+
+/* Same 2px left-rule grammar as `blockquote` and `.agustos-card--marked`.
+   Three components, one idiom. */
+.agustos-notice {
+  padding: var(--space-md) var(--space-lg);
+  border-left: 2px solid var(--rule);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--ink) 3%, var(--paper));
+  font-family: var(--body);
+  font-size: var(--size-body-compact);
+  line-height: 1.6;
+  color: var(--ink);
+}
+
+.agustos-notice__title {
+  display: block;
+  margin-bottom: var(--space-2xs);
+  font-family: var(--display);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+.agustos-notice--success {
+  border-left-color: var(--state-success);
+  background: color-mix(in srgb, var(--state-success) 6%, var(--paper));
+}
+
+.agustos-notice--warning {
+  border-left-color: var(--state-warning);
+  background: color-mix(in srgb, var(--state-warning) 6%, var(--paper));
+}
+
+.agustos-notice--danger {
+  border-left-color: var(--state-danger);
+  background: color-mix(in srgb, var(--state-danger) 6%, var(--paper));
+}
+
+.agustos-notice--info {
+  border-left-color: var(--state-info);
+  background: color-mix(in srgb, var(--state-info) 6%, var(--paper));
+}
+
+/* --- Tabs (3) --- */
+
+/* The 2px signal underline on the active item is the house pattern already used
+   for current-page markers; this promotes it rather than inventing one. */
+.agustos-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xl);
+  border-bottom: 1px solid var(--rule);
+}
+
+.agustos-tab {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-min);
+  margin-bottom: -1px;
+  border: 0;
+  border-bottom: 2px solid transparent;
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: var(--size-body-compact);
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+
+.agustos-tab:hover {
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.agustos-tab:focus-visible {
+  outline: 2px solid var(--signal);
+  outline-offset: 2px;
+}
+
+.agustos-tab[aria-selected="true"],
+.agustos-tab.is-active {
+  border-bottom-color: var(--signal);
+  color: var(--ink);
+}
+
+.agustos-tabs__panel {
+  padding-block: var(--space-xl);
+}
+
+/* --- Reduced motion --- */
+
+/* The handoff contract promises this; nothing delivered it before v3.1. */
+@media (prefers-reduced-motion: reduce) {
+  .hero-action,
+  .agustos-button,
+  .agustos-input,
+  .agustos-textarea,
+  .agustos-select,
+  .agustos-tab,
+  .agustos-chrome-link {
+    transition: none;
+  }
+}

@@ -26,12 +26,22 @@ TOKEN_SOURCE = ROOT / "tokens" / "design-tokens.json"
 BRAND_SOURCE = ROOT / "brand" / "brands.json"
 WEB_TEMPLATE = ROOT / "tokens" / "web.css.tmpl"
 SYMBOL_SOURCE = ROOT / "laz-gunesi-amblem" / "svg" / "master.svg"
+VERSION_FILE = ROOT / "VERSION"
+UI_DIR = ROOT / "ui"
+UI_FONT_DIR = UI_DIR / "fonts"
+UI_TEMPLATES = (
+    (UI_DIR / "UI-KIT.md.tmpl", UI_DIR / "UI-KIT.md"),
+    (UI_DIR / "starter.html.tmpl", UI_DIR / "starter.html"),
+    (UI_DIR / "check-agustos-ui.py.tmpl", UI_DIR / "check-agustos-ui.py"),
+    (UI_DIR / "AGENTS-SNIPPET.md.tmpl", UI_DIR / "AGENTS-SNIPPET.md"),
+)
 
 CSS_OUTPUTS = {
     ROOT / "tokens" / "agustos.css": "canonical platform-neutral CSS",
     ROOT / "adapters" / "astro" / "src" / "styles" / "tokens.css": "Astro adapter CSS",
     ROOT / "adapters" / "rails" / "app" / "assets" / "stylesheets" / "agustos" / "tokens.css": "Rails adapter CSS",
     ROOT / "adapters" / "wordpress" / "assets" / "css" / "agustos.css": "WordPress adapter CSS",
+    ROOT / "ui" / "agustos.css": "distribution kit CSS",
 }
 
 PLACEHOLDER = re.compile(r"\{\{\s*([a-zA-Z0-9_.-]+)\s*\}\}")
@@ -328,6 +338,185 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
     }
 
 
+def kit_context(tokens: dict[str, Any]) -> dict[str, str]:
+    """Resolve the `{{ui.*}}` substitutions used by the ui/ text templates."""
+    version = VERSION_FILE.read_text(encoding="utf-8").strip()
+    if version != tokens["version"]:
+        raise TokenError(
+            f"VERSION ({version}) disagrees with tokens/design-tokens.json ({tokens['version']}); "
+            "a distribution kit cannot publish two version numbers"
+        )
+    distribution = tokens["distribution"]
+    repository = distribution["repository"]
+    return {
+        "version": version,
+        "repository": repository,
+        "cdnBase": distribution["cdnBase"].format(repository=repository, version=version),
+        "rawBase": distribution["rawBase"].format(repository=repository, version=version),
+    }
+
+
+def ui_fonts_css(tokens: dict[str, Any], context: dict[str, str]) -> str:
+    """Self-hosted @font-face declarations for the distribution kit.
+
+    The url() is relative on purpose. The same file then resolves correctly both
+    from the CDN (…/ui/agustos-fonts.css -> …/ui/fonts/…) and from a vendored
+    copy, so no version is baked into the stylesheet itself.
+
+    Each family is declared under both names in the CSS stack, so whichever the
+    browser matches first resolves to one cached download.
+    """
+    lines = [
+        f"/* AĞUSTOS DESIGN SYSTEM v{context['version']} · GENERATED SELF-HOSTED WEBFONTS",
+        "   Sources: tokens/design-tokens.json (distribution.fonts) + ui/fonts/*.woff2",
+        "   Do not hand-edit this file. Run: python3 scripts/build_design_system.py",
+        "",
+        "   Load this BEFORE agustos.css. Without it the type stacks fall back to",
+        "   system sans and the page renders wrong while appearing to comply.",
+        "",
+        "   Fonts are SIL Open Font License 1.1. Each OFL.txt in ui/fonts/ must",
+        "   travel with any copy of these files. */",
+        "",
+    ]
+    for entry in tokens["distribution"]["fonts"]:
+        for family in entry["families"]:
+            lines.append("@font-face {")
+            lines.append(f"  font-family: '{family}';")
+            lines.append(f"  src: url('./fonts/{entry['file']}') format('woff2-variations');")
+            lines.append(f"  font-weight: {entry['weight']};")
+            lines.append(f"  font-style: {entry['style']};")
+            lines.append("  font-display: swap;")
+            lines.append("}")
+            lines.append("")
+    return "\n".join(lines).rstrip("\n") + "\n"
+
+
+def render_text_template(path: Path, context: dict[str, str]) -> str:
+    """Substitute `{{ui.*}}` in a ui/ text template.
+
+    Separate from render_web_css because that renderer resolves token paths and
+    rejects non-scalar values; this one only knows the kit context, and permits
+    a multi-line block so the checker can carry an injected token table.
+    """
+    def replace(match: re.Match[str]) -> str:
+        key = match.group(1)
+        if not key.startswith("ui."):
+            raise TokenError(f"{path.name}: only {{{{ui.*}}}} placeholders are allowed, got {key}")
+        name = key[3:]
+        if name not in context:
+            raise TokenError(f"{path.name}: unknown kit placeholder ui.{name}")
+        return context[name]
+
+    return PLACEHOLDER.sub(replace, path.read_text(encoding="utf-8"))
+
+
+def font_digests() -> dict[str, str]:
+    """Hash the committed woff2 binaries so --check covers them.
+
+    Deliberately hashing rather than regenerating: subsetting needs
+    fonttools[woff2], which CI does not install. See scripts/build_ui_fonts.py.
+    """
+    digests: dict[str, str] = {}
+    for path in sorted(UI_FONT_DIR.glob("*.woff2")):
+        digests[str(path.relative_to(ROOT))] = hashlib.sha256(path.read_bytes()).hexdigest()
+    return digests
+
+
+def verify_fonts(tokens: dict[str, Any]) -> list[str]:
+    """Every declared font must exist and be a real woff2."""
+    problems: list[str] = []
+    for entry in tokens["distribution"]["fonts"]:
+        path = UI_FONT_DIR / entry["file"]
+        if not path.exists():
+            problems.append(f"missing font: {path.relative_to(ROOT)} (run scripts/build_ui_fonts.py)")
+        elif path.read_bytes()[:4] != b"wOF2":
+            problems.append(f"not a woff2 file: {path.relative_to(ROOT)}")
+    return problems
+
+
+def checker_token_table(resolved: dict[str, Any], brands: dict[str, Any]) -> str:
+    """Python literal mapping hex value -> the CSS variable that owns it.
+
+    Injected into ui/check-agustos-ui.py so a vendored checker needs no network
+    and cannot silently disagree with the registry it was cut from.
+    """
+    colors = resolved["foundations"]["color"]
+    table = {
+        colors["paperCream"]: "--paper",
+        colors["paperWhite"]: "--paper-white",
+        colors["ink"]: "--ink",
+        colors["inkSoft"]: "--ink-soft",
+        colors["inkFaint"]: "--ink-faint",
+        colors["ruleCream"]: "--rule",
+        colors["ruleWhite"]: "--rule-white",
+        colors["paperDark"]: "--paper",
+        colors["inkDark"]: "--ink",
+        colors["signalRed"]: "--signal",
+        colors["stateSuccess"]: "--state-success",
+        colors["stateWarning"]: "--state-warning",
+        colors["stateDanger"]: "--state-danger",
+        colors["stateInfo"]: "--state-info",
+    }
+    for slug, brand in brands["brands"].items():
+        table.setdefault(brand["color"], f"--brand-{slug}")
+    lines = ["{"]
+    for value, name in table.items():
+        lines.append(f'    "{value.lower()}": "{name}",')
+    lines.append("}")
+    return "\n".join(lines)
+
+
+def checker_class_list(tokens: dict[str, Any]) -> str:
+    names = tokens["compatibility"]["cssClasses"]
+    lines = ["{"]
+    for name in names:
+        lines.append(f'    "{name}",')
+    lines.append("}")
+    return "\n".join(lines)
+
+
+def ui_kit_json(
+    tokens: dict[str, Any],
+    brands: dict[str, Any],
+    context: dict[str, str],
+    outputs: dict[Path, str],
+) -> dict[str, Any]:
+    """Machine index of the kit: what it contains and where to fetch it."""
+    files: dict[str, dict[str, Any]] = {}
+    for path, content in sorted(outputs.items(), key=lambda item: str(item[0])):
+        if UI_DIR not in path.parents:
+            continue
+        encoded = content.encode("utf-8")
+        files[path.name] = {"bytes": len(encoded), "sha256": hashlib.sha256(encoded).hexdigest()}
+    for path in sorted(UI_FONT_DIR.glob("*.woff2")):
+        payload = path.read_bytes()
+        files[f"fonts/{path.name}"] = {"bytes": len(payload), "sha256": hashlib.sha256(payload).hexdigest()}
+
+    return {
+        "system": tokens["name"],
+        "version": context["version"],
+        "repository": context["repository"],
+        "cdnBase": context["cdnBase"],
+        "rawBase": context["rawBase"],
+        "entryPoint": "UI-KIT.md",
+        "headSnippet": (
+            f'<link rel="stylesheet" href="{context["cdnBase"]}agustos-fonts.css">\n'
+            f'<link rel="stylesheet" href="{context["cdnBase"]}agustos.css">'
+        ),
+        "signal": brands["signal"],
+        "brandClasses": [f"brand-{slug}" for slug in brands["brands"]],
+        "substrates": ["paper", "paper-white"],
+        "darkTheme": 'html[data-theme="dark"]',
+        "cssClasses": tokens["compatibility"]["cssClasses"],
+        "files": files,
+        # The only place @latest is permitted: this is data, never a stylesheet
+        # reference. See ui/UI-KIT.md.
+        "latestKitUrl": (
+            f"https://cdn.jsdelivr.net/gh/{context['repository']}@latest/ui/kit.json"
+        ),
+    }
+
+
 def expected_outputs() -> dict[Path, str]:
     tokens = load_json(TOKEN_SOURCE)
     brands = load_json(BRAND_SOURCE)
@@ -355,13 +544,33 @@ def expected_outputs() -> dict[Path, str]:
         wordpress_theme(tokens, brands), ensure_ascii=False, indent=2
     ) + "\n"
 
+    # --- ui/ distribution kit -------------------------------------------
+    context = kit_context(tokens)
+    outputs[UI_DIR / "agustos-fonts.css"] = ui_fonts_css(tokens, context)
+    context["tokenTable"] = checker_token_table(resolved, brands)
+    context["classList"] = checker_class_list(tokens)
+    for template, target in UI_TEMPLATES:
+        outputs[target] = render_text_template(template, context)
+    outputs[UI_DIR / "kit.json"] = json.dumps(
+        ui_kit_json(tokens, brands, context, outputs), ensure_ascii=False, indent=2, sort_keys=True
+    ) + "\n"
+
+    # VERSION and the ui/ templates belong in the source hash. Without VERSION,
+    # bumping the version without rebuilding would leave every pinned URL in the
+    # kit stale while --check still reported clean.
     source_hash = hashlib.sha256(
-        TOKEN_SOURCE.read_bytes() + BRAND_SOURCE.read_bytes() + WEB_TEMPLATE.read_bytes() + SYMBOL_SOURCE.read_bytes()
+        TOKEN_SOURCE.read_bytes()
+        + BRAND_SOURCE.read_bytes()
+        + WEB_TEMPLATE.read_bytes()
+        + SYMBOL_SOURCE.read_bytes()
+        + VERSION_FILE.read_bytes()
+        + b"".join(template.read_bytes() for template, _ in UI_TEMPLATES)
     ).hexdigest()
     manifest = {
         "system": tokens["name"],
         "version": tokens["version"],
         "source_sha256": source_hash,
+        "fonts": font_digests(),
         "outputs": {
             str(path.relative_to(ROOT)): hashlib.sha256(content.encode("utf-8")).hexdigest()
             for path, content in sorted(outputs.items(), key=lambda item: str(item[0]))
@@ -374,7 +583,7 @@ def expected_outputs() -> dict[Path, str]:
 
 
 def write_or_check(outputs: dict[Path, str], check: bool) -> int:
-    drift: list[str] = []
+    drift: list[str] = list(verify_fonts(load_json(TOKEN_SOURCE)))
     for path, content in outputs.items():
         current = path.read_text(encoding="utf-8") if path.exists() else None
         if current == content:

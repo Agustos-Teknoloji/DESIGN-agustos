@@ -4,7 +4,10 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Ağustos HERO Example</title>
-    <link rel="stylesheet" href="https://website-agustos.pages.dev/_astro/_slug_.CySdSaxZ.css">
+    <!-- Pinned kit. The previous link was a content-hashed Astro build artifact
+         from a deploy that no longer exists. -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v3.1.0/ui/agustos-fonts.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v3.1.0/ui/agustos.css">
     <style>
       body {
         margin: 0;
@@ -30,7 +33,7 @@
 
       .hero__eyebrow {
         margin: 0 0 clamp(1.5rem, 3vw, 2.5rem);
-        color: var(--signal, #cf142a);
+        color: var(--signal);
       }
 
       .hero--example .type-hero-md {
@@ -55,7 +58,7 @@
         display: inline-flex;
         align-items: baseline;
         gap: 0.35em;
-        border-bottom: 2px solid var(--signal, #cf142a);
+        border-bottom: 2px solid var(--signal);
         color: var(--ink);
         font-family: var(--display);
         font-size: clamp(17px, 1.3vw, 21px);
@@ -67,7 +70,7 @@
 
       .hero-link::after {
         content: "\2192";
-        color: var(--signal, #cf142a);
+        color: var(--signal);
       }
 
       .hero-link--secondary {

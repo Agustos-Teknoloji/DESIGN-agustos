@@ -4,6 +4,9 @@ Astro 5 reference implementation for the [Ağustos Design System](../../DESIGN.m
 
 This adapter is useful for static sites, documentation, marketing pages, and visual QA. It is not the canonical center of the system; shared decisions live in `../../tokens/design-tokens.json` and `DESIGN.md`.
 
+> Building a UI in a repository that is not one of these adapters? Use the distribution kit
+> at [`ui/UI-KIT.md`](../../ui/UI-KIT.md) instead — it needs no framework integration.
+
 ## What's Inside
 
 ```txt
@@ -96,7 +99,7 @@ Run `python3 scripts/build_design_system.py` from the repository root. CI uses `
 
 ## Brands
 
-Every page can declare one of four brands via `BaseLayout`:
+Every page can declare one of five brands via `BaseLayout`:
 
 ```astro
 <BaseLayout brand="pataraz" title="Pataraz">
@@ -109,7 +112,8 @@ Available brand ids:
 - `agustos`
 - `pataraz`
 - `pld`
-- `photo`
+- `iesdesk`
+- `specquick`
 
 ## Substrates
 

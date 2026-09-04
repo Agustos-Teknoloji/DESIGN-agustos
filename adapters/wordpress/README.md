@@ -14,3 +14,6 @@ python3 scripts/build_design_system.py --check
 Use WordPress blocks for native authoring. Apply the shared recipe classes (`agustos-section`, `agustos-card-grid`, `agustos-card`, `agustos-chrome-link`) only where Global Styles cannot express the intended composition.
 
 Set the site brand on the body or a wrapping block with `brand-agustos`, `brand-pataraz`, `brand-pld`, `brand-iesdesk`, or `brand-specquick`. Add `paper-white` for the white working substrate.
+
+> Building a UI in a repository that is not one of these adapters? Use the distribution kit
+> at [`ui/UI-KIT.md`](../../ui/UI-KIT.md) instead — it needs no framework integration.

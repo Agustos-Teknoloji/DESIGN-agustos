@@ -17,6 +17,18 @@ python3 scripts/build_design_system.py --check
 
 Generated files include `agustos.css`, `resolved.json`, `design-system-handoff.json`, `generated-manifest.json`, framework token CSS, and WordPress `theme.json`.
 
+## Which artifact does another system need?
+
+| You are… | Use | Why |
+|---|---|---|
+| Building a web UI in another repository | `ui/UI-KIT.md` | Ready-made CSS and classes. Nothing to translate. |
+| Generating this system into a new medium (slides, native app, print) | `design-system-handoff.json` | The full contract: invariants, forbidden patterns, recipes, embedded symbol. |
+| Writing a trusted generator inside this repository | `resolved.json` | Compact platform-neutral values, no contract prose. |
+
+Picking `design-system-handoff.json` for a website is the common mistake: it makes the agent
+re-derive CSS that `ui/agustos.css` already contains, and two agents deriving separately produce
+two different buttons.
+
 ## Handoff to another coding system
 
 Give the other system [`design-system-handoff.json`](design-system-handoff.json) when you need one portable, machine-readable file. It contains resolved tokens, brands, the exact embedded Laz Güneşi SVG plus its checksum, recipes, compatibility classes, invariants, forbidden patterns, medium translations, and acceptance checks.

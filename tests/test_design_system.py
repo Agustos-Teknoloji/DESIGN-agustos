@@ -164,7 +164,8 @@ class DesignSystemGenerationTest(unittest.TestCase):
             "brands": brands["brands"],
         }
         handoff = self.builder.handoff_contract(resolved, self.tokens)
-        self.assertEqual(handoff["system"]["version"], "3.0.0")
+        version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+        self.assertEqual(handoff["system"]["version"], version)
         self.assertIn("web", handoff["contract"]["mediums"])
         self.assertIn("document", handoff["contract"]["mediums"])
         self.assertIn("presentation", handoff["contract"]["mediums"])

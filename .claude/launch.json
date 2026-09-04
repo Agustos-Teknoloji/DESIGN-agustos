@@ -4,8 +4,28 @@
     {
       "name": "agustos-astro",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["--prefix", "adapters/astro", "run", "dev", "--", "--port", "4321"],
+      "runtimeArgs": [
+        "--prefix",
+        "adapters/astro",
+        "run",
+        "dev",
+        "--",
+        "--port",
+        "4321"
+      ],
       "port": 4321
+    },
+    {
+      "name": "agustos-ui-kit",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4330",
+        "--directory",
+        "ui"
+      ],
+      "port": 4330
     }
   ]
 }

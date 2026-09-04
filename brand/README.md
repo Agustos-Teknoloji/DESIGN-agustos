@@ -115,8 +115,8 @@ expressions automatically. ~10 minutes.
 
 - ✅ `agustos` — full kit generated and reviewed: logos, favicons, social, swatches,
   email signature, Office templates (PPTX/DOCX), and 4-page guidelines PDF.
-- ⏳ `pataraz`, `pld` — registered, not yet generated. Run both scripts
-  (`build.py` then `build_templates.py`) per brand when ready.
+- ✅ `pataraz`, `pld` — full kit generated: logos, favicons, social, swatches,
+  email signature, Office templates, and guidelines. `pataraz` also ships datasheets.
 - ✅ `iesdesk`, `specquick` — logos, favicons, and social generated (documents deferred,
   matching Photometric Batch's prior treatment before it retired in favor of `iesdesk`).
 - 📄 Datasheets (`build_datasheet.py`) — `pataraz` ships five real products: **PL22** ceiling,
