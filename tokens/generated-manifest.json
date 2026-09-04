@@ -3,12 +3,12 @@
     "adapters/astro/src/styles/tokens.css": "2b6df6d12728e8d05931e9b4fb9912a24024291e567e74abdfa551556ad16c76",
     "adapters/rails/app/assets/stylesheets/agustos/tokens.css": "51ac86b1ba64ac9bc7a0d416e20d3ac5c16332c988e231a96b384333708a9169",
     "adapters/wordpress/assets/css/agustos.css": "04a97f07757b7a1f4cd27e8605722808d272920736207b16982411727793570d",
-    "adapters/wordpress/theme.json": "85b08bd05a6e052c0061dc29b5b32b8067b5110e613c9f64138ecfc57a21a2f8",
+    "adapters/wordpress/theme.json": "beb106e3d9a55d5bb84df979f9a5e68dcaf7f814c8e76a4699e061c24bf4af78",
     "tokens/agustos.css": "e648e71de4ef0079c12252fb8be6efe6bc2079775aedf20cdad8d999f3c53ed8",
-    "tokens/design-system-handoff.json": "e4606ac57d96dc052b46cca4cb5e9b12ca953f76709c9b7ca4742103543d5a2f",
-    "tokens/resolved.json": "3766ad82148ee268ab81bd6e1823e09161e52238d4d91180006debf983196c05"
+    "tokens/design-system-handoff.json": "2b511c4901a07280e6ce6bdb3cb7f4275df6c80e0ef52e206e42df1374cae327",
+    "tokens/resolved.json": "97856af6e9c334453a1a489374fd4ac691a73f24bee889b1e49b961a62e39d23"
   },
-  "source_sha256": "87a00df4dd919559c75b61fb60b992135879e5f1d110f80cfe0fe27a6f64e2de",
+  "source_sha256": "62069bd8488eed86e1b345e5752b3963ef6c9f630fd66073d686f8c4abc705fb",
   "system": "Ağustos Design System",
   "version": "3.0.0"
 }
