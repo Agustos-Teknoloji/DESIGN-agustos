@@ -213,15 +213,15 @@ const portfolio = [
   </article>
 </BaseLayout>
 
-<script>
+<script define:vars={{ brandIds: brands.map((b) => b.id) }}>
   // Brand switcher — toggles the body class.
-  const buttons = document.querySelectorAll<HTMLButtonElement>('.switcher__btn');
+  const buttons = document.querySelectorAll('.switcher__btn');
   buttons.forEach((btn) => {
     btn.addEventListener('click', () => {
       const brand = btn.dataset.brand;
       if (!brand) return;
       const body = document.body;
-      ['brand-agustos', 'brand-pataraz', 'brand-pld', 'brand-photo'].forEach((c) => body.classList.remove(c));
+      brandIds.forEach((id) => body.classList.remove(`brand-${id}`));
       body.classList.add(`brand-${brand}`);
     });
   });
