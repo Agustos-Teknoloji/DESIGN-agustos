@@ -4,6 +4,9 @@ Plain-ERB, Hotwire-compatible implementation of the Ağustos Design System. The
 adapter matches the Astro topbar/footer grammar without depending on Astro or a
 client-side search data protocol.
 
+> Building a UI in a repository that is not one of these adapters? Use the distribution kit
+> at [`ui/UI-KIT.md`](../../ui/UI-KIT.md) instead — it needs no framework integration.
+
 ## Install Manually
 
 Copy the adapter surfaces into the equivalent Rails directories:

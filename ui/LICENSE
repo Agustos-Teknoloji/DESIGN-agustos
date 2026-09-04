@@ -1,0 +1,58 @@
+Ağustos UI Kit License
+
+Copyright © 2026 Ağustos Teknoloji.
+
+This license applies ONLY to the following parts of the DESIGN-agustos repository:
+
+  - the `ui/` directory, excluding `ui/fonts/`
+  - the `tokens/` directory
+
+Everything else in this repository — including but not limited to `brand/`,
+`laz-gunesi-amblem/`, `adapters/`, `mockups/`, `artifacts/`, and all documentation —
+remains subject to the root LICENSE, which reserves all rights.
+
+
+GRANT
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of the
+covered files, to deal in them without restriction, including without limitation the
+rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+of the covered files, and to permit persons to whom the covered files are furnished to
+do so, subject to the following conditions:
+
+The above copyright notice, this permission notice, and the trademark reservation below
+shall be included in all copies or substantial portions of the covered files.
+
+
+TRADEMARK AND IDENTITY RESERVATION
+
+This license grants no rights to any Ağustos Teknoloji brand name, wordmark, logo,
+trademark, trade dress, or other source identifier. Specifically reserved, and NOT
+licensed by this file:
+
+  - the names "Ağustos", "Pataraz", "PLD Türkiye", "IESdesk", and "SpecQuick",
+    and any wordmark or logotype rendering of them
+  - the Laz Güneşi symbol, in every form and file format
+  - every lockup, favicon, social image, and other asset under `brand/exports/`
+    and `laz-gunesi-amblem/`
+
+You may use the covered files to build interfaces. You may not use them to present
+your work as originating from, endorsed by, or affiliated with Ağustos Teknoloji, and
+you may not apply Ağustos identity marks to your own products or services.
+
+
+THIRD-PARTY COMPONENTS
+
+Font files under `ui/fonts/` are third-party works, are NOT covered by this license,
+and remain subject to the SIL Open Font License 1.1. Each font's OFL.txt is distributed
+alongside it and must travel with any copy of those files.
+
+
+NO WARRANTY
+
+THE COVERED FILES ARE PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF
+CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE COVERED
+FILES OR THE USE OR OTHER DEALINGS IN THEM.

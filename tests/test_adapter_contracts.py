@@ -90,7 +90,8 @@ class AdapterContractTest(unittest.TestCase):
 
     def test_single_file_handoff_contains_tokens_rules_and_brand_registry(self):
         handoff = json.loads((ROOT / "tokens" / "design-system-handoff.json").read_text(encoding="utf-8"))
-        self.assertEqual(handoff["version"], "3.0.0")
+        version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+        self.assertEqual(handoff["version"], version)
         self.assertEqual(handoff["system"]["brands"]["agustos"]["color"], "#cf142a")
         self.assertEqual(handoff["system"]["brands"]["pataraz"]["color"], "#1a1a1a")
         self.assertEqual(handoff["system"]["brands"]["pld"]["color"], "#1a1a1a")

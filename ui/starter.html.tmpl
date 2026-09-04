@@ -1,0 +1,233 @@
+<!doctype html>
+<!-- GENERATED. Do not hand-edit. Run: python3 scripts/build_design_system.py
+     Reference render of every class the Ağustos UI kit publishes, and the
+     fixture ui/check-agustos-ui.py must score clean against. -->
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ağustos UI kit v{{ui.version}} — reference render</title>
+
+<!-- Fonts FIRST, then the system. Without the first tag the page renders in
+     system sans while appearing to comply.
+
+     Relative, because this file ships inside the kit: it resolves from the CDN,
+     from a vendored copy, and from disk. Starting a new project instead? Use the
+     pinned CDN form in UI-KIT.md. -->
+<link rel="stylesheet" href="./agustos-fonts.css">
+<link rel="stylesheet" href="./agustos.css">
+
+<style>
+  /* Page scaffolding for this demo only. Not part of the kit. */
+  .demo { display: grid; gap: var(--space-md); }
+  .demo-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); }
+  .demo-swatch { display: flex; align-items: center; gap: var(--space-xs); }
+  .demo-swatch i { inline-size: 1rem; block-size: 1rem; border-radius: var(--radius-sm); }
+</style>
+</head>
+
+<body class="brand-agustos paper-white">
+<a class="skip-link" href="#main">İçeriğe geç</a>
+
+<main id="main" class="container">
+
+  <p class="type-h4">Ağustos UI kit · v{{ui.version}}</p>
+  <h1 class="type-hero">Reference render</h1>
+  <p class="type-hero-deck">
+    Every published class, once. Copy from here rather than inventing a variant.
+  </p>
+
+  <div class="hero-actions">
+    <a class="hero-action hero-action--primary" href="#forms">Primary</a>
+    <a class="hero-action hero-action--secondary" href="#forms">Secondary</a>
+  </div>
+
+  <div class="hero-links">
+    <a class="hero-link hero-link--primary" href="#forms">Editorial primary</a>
+    <a class="hero-link hero-link--secondary" href="#badges">Editorial secondary</a>
+  </div>
+
+  <p class="hero-trust">Substrate, brand, and theme are switched by class alone.</p>
+
+  <!-- ---------- Editorial layer ---------- -->
+  <section class="agustos-section">
+    <div class="agustos-section__head">
+      <h2 class="type-h2">Editorial</h2>
+      <span class="agustos-badge">type-*</span>
+    </div>
+
+    <h3 class="type-h3">Başlık üçüncü seviye</h3>
+    <p class="type-body">
+      Gövde metni. Türkçe karakterler: ğüşiöçİĞÜŞÖÇ. Bir <a class="type-link" href="#main">bağlantı</a>,
+      bir <code class="type-code">code</code> parçası ve ₺1.250,00 tutarı.
+    </p>
+
+    <blockquote class="type-blockquote">Quiet chrome, generous rhythm, one frame.</blockquote>
+    <p class="type-pullquote">The website proves the grammar; this registry publishes it.</p>
+
+    <ul class="type-list-ul"><li>Unordered item</li><li>Second item</li></ul>
+    <ol class="type-list-ol"><li>Ordered item</li><li>Second item</li></ol>
+
+    <dl class="type-dl"><dt>Term</dt><dd>Definition</dd></dl>
+
+    <figure class="type-figure">
+      <figcaption>Figure caption</figcaption>
+    </figure>
+
+    <pre class="type-code-block"><code>python3 check-agustos-ui.py .</code></pre>
+
+    <table class="type-table">
+      <thead><tr><th>Token</th><th>Value</th></tr></thead>
+      <tbody><tr><td>--signal</td><td>brand red</td></tr></tbody>
+    </table>
+
+    <hr class="type-divider">
+    <p class="type-footnote">Footnote register.</p>
+  </section>
+
+  <!-- ---------- Forms ---------- -->
+  <section class="agustos-section" id="forms">
+    <div class="agustos-section__head">
+      <h2 class="type-h2">Forms</h2>
+      <span class="agustos-badge agustos-badge--signal">v3.1</span>
+    </div>
+
+    <form class="demo" onsubmit="return false">
+      <fieldset class="agustos-fieldset">
+        <div class="agustos-field">
+          <label class="agustos-label agustos-label--required" for="f-name">Ad soyad</label>
+          <input class="agustos-input" id="f-name" type="text" placeholder="Adınız">
+          <span class="agustos-hint">44 piksel minimum dokunma alanı.</span>
+        </div>
+
+        <div class="agustos-field agustos-field--invalid">
+          <label class="agustos-label" for="f-mail">E-posta</label>
+          <input class="agustos-input" id="f-mail" type="email" value="hatalı" aria-invalid="true">
+          <span class="agustos-error">Geçerli bir e-posta adresi girin.</span>
+        </div>
+
+        <div class="agustos-field">
+          <label class="agustos-label" for="f-brand">Marka</label>
+          <select class="agustos-select" id="f-brand">
+            <option>ağustos</option><option>pataraz</option><option>pld türkiye</option>
+          </select>
+        </div>
+
+        <div class="agustos-field">
+          <label class="agustos-label" for="f-note">Not</label>
+          <textarea class="agustos-textarea" id="f-note" placeholder="Kısa not"></textarea>
+        </div>
+
+        <label class="agustos-check"><input type="checkbox" checked> Koşulları kabul ediyorum</label>
+        <label class="agustos-check"><input type="radio" name="r" checked> Birinci seçenek</label>
+        <label class="agustos-check"><input type="radio" name="r"> İkinci seçenek</label>
+
+        <div class="agustos-field">
+          <label class="agustos-label" for="f-off">Devre dışı</label>
+          <input class="agustos-input" id="f-off" type="text" value="disabled" disabled>
+        </div>
+      </fieldset>
+
+      <div class="demo-row">
+        <button class="agustos-button agustos-button--primary" type="submit">Kaydet</button>
+        <button class="agustos-button agustos-button--secondary" type="button">Vazgeç</button>
+        <button class="agustos-button agustos-button--quiet" type="button">Sil</button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ---------- Badges and notices ---------- -->
+  <section class="agustos-section" id="badges">
+    <div class="agustos-section__head"><h2 class="type-h2">Badges and notices</h2></div>
+
+    <div class="demo-row">
+      <span class="agustos-badge">Neutral</span>
+      <span class="agustos-badge agustos-badge--success">Onaylı</span>
+      <span class="agustos-badge agustos-badge--warning">Beklemede</span>
+      <span class="agustos-badge agustos-badge--danger">Reddedildi</span>
+      <span class="agustos-badge agustos-badge--info">Bilgi</span>
+      <span class="agustos-badge agustos-badge--signal">Yeni</span>
+    </div>
+
+    <div class="demo" style="margin-top: var(--space-lg)">
+      <div class="agustos-notice">
+        <strong class="agustos-notice__title">Neutral</strong>
+        Same two-pixel left rule as a blockquote and a marked card.
+      </div>
+      <div class="agustos-notice agustos-notice--success">
+        <strong class="agustos-notice__title">Success</strong> Datasheet published.
+      </div>
+      <div class="agustos-notice agustos-notice--warning">
+        <strong class="agustos-notice__title">Warning</strong> Two brands still lack an office kit.
+      </div>
+      <div class="agustos-notice agustos-notice--danger">
+        <strong class="agustos-notice__title">Danger</strong> Generated files must not be hand-edited.
+      </div>
+      <div class="agustos-notice agustos-notice--info">
+        <strong class="agustos-notice__title">Info</strong> Signal red never recolors a house logo.
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- Tabs and cards ---------- -->
+  <section class="agustos-section">
+    <div class="agustos-section__head"><h2 class="type-h2">Tabs and cards</h2></div>
+
+    <div class="agustos-tabs" role="tablist">
+      <button class="agustos-tab" role="tab" aria-selected="true" type="button">Genel</button>
+      <button class="agustos-tab" role="tab" aria-selected="false" type="button">Teknik</button>
+      <button class="agustos-tab" role="tab" aria-selected="false" type="button">Belgeler</button>
+    </div>
+
+    <div class="agustos-tabs__panel" role="tabpanel">
+      <div class="agustos-card-grid">
+        <article class="agustos-card">
+          <h3 class="type-h3">Card</h3>
+          <p class="type-body">Bordered group on the paper substrate.</p>
+        </article>
+        <article class="agustos-card agustos-card--marked">
+          <h3 class="type-h3">Marked card</h3>
+          <p class="type-body">The same signal rule, applied to a group.</p>
+        </article>
+        <article class="agustos-card">
+          <h3 class="type-h3">Chrome link</h3>
+          <p><a class="agustos-chrome-link" href="#main" aria-current="page">Navigation item</a></p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---------- Brand and substrate switches ---------- -->
+  <section class="agustos-section">
+    <div class="agustos-section__head"><h2 class="type-h2">Brands and substrates</h2></div>
+    <div class="demo-row">
+      <span class="demo-swatch brand-agustos"><i style="background: var(--brand)"></i>brand-agustos</span>
+      <span class="demo-swatch brand-pataraz"><i style="background: var(--brand)"></i>brand-pataraz</span>
+      <span class="demo-swatch brand-pld"><i style="background: var(--brand)"></i>brand-pld</span>
+      <span class="demo-swatch brand-iesdesk"><i style="background: var(--brand)"></i>brand-iesdesk</span>
+      <span class="demo-swatch brand-specquick"><i style="background: var(--brand)"></i>brand-specquick</span>
+    </div>
+    <p class="type-footnote">
+      Substrate: <code class="type-code">paper</code> (cream, default) or
+      <code class="type-code">paper-white</code>. Dark theme:
+      <code class="type-code">html[data-theme="dark"]</code>.
+    </p>
+    <div class="demo-row">
+      <button class="agustos-button agustos-button--secondary" type="button"
+              onclick="document.documentElement.dataset.theme =
+                       document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">
+        Tema değiştir
+      </button>
+      <button class="agustos-button agustos-button--quiet" type="button"
+              onclick="document.body.classList.toggle('paper-white')">
+        Substrate değiştir
+      </button>
+    </div>
+  </section>
+
+  <p class="type-footnote">
+    Ağustos Design System v{{ui.version}} · {{ui.repository}}
+  </p>
+</main>
+</body>
+</html>

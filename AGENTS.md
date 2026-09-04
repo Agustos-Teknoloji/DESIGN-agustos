@@ -26,14 +26,16 @@ task, then read only the relevant files:
 
 | Task | Start here | Read next only if needed |
 |---|---|---|
-| Implement the design system in another codebase | `tokens/design-system-handoff.json` | The matching `adapters/<platform>/README.md`, then `DESIGN.md` |
+| **Build a UI in another repository** (Astro, WordPress, Rails, plain HTML) | **`ui/UI-KIT.md`** | `ui/starter.html`, then `ui/kit.json` |
+| Generate this system into a new medium (documents, slides, native app) | `tokens/design-system-handoff.json` | The matching `adapters/<platform>/README.md`, then `DESIGN.md` |
 | Find a logo, favicon, social image, document, or other finished asset | `ASSETS.md` | The matching file under `brand/exports/<brand>/` |
 | Build a Pataraz website or datasheet | `PATARAZ.md` | `DESIGN.md`, then the relevant export or generator README |
 | Change tokens or web recipes in this repository | `tokens/design-tokens.json` and `tokens/web.css.tmpl` | `DESIGN.md`, `MEMORY.md`, then `scripts/build_design_system.py` |
 | Change or add a brand | `brand/README.md` and `brand/brands.json` | `DESIGN.md`, `MEMORY.md`, then the build scripts |
 
-For consumer projects, treat `tokens/design-system-handoff.json` and files under `brand/exports/` as
-ready-to-use inputs; do not regenerate this repository. Read `MEMORY.md` only when changing a source
+For consumer projects, treat `ui/`, `tokens/design-system-handoff.json`, and files under
+`brand/exports/` as ready-to-use inputs; do not regenerate this repository. A project that builds
+web interfaces needs `ui/UI-KIT.md` and nothing else — it is the whole contract in 162 lines. Read `MEMORY.md` only when changing a source
 decision or proposing a reversal. After repository changes, run the checks documented in `README.md`.
 
 ## "I need ___" → use this file
@@ -104,6 +106,12 @@ Novara (outdoor kitchen furniture) is a brand Ağustos **represents/distributes*
 - **Taglines** are defined in `brand/brands.json` (`tagline_en` / `tagline_tr`) but used sparingly and
   **not printed** on artifacts. The lockup is always tagline-free.
 - If you **add, move, or recolor** any brand asset, **update `ASSETS.md` in the same change**.
+- **Consuming projects never re-declare tokens.** Load `ui/agustos.css` and use `var(--name)`.
+  A hand-typed `#cf142a` or `--paper: #fefcf2` in a consumer repository is a defect; run
+  `python3 ui/check-agustos-ui.py <project>` to find them.
+- **Fonts must be loaded, not just declared.** `agustos.css` sets font *stacks* only. Without
+  `ui/agustos-fonts.css` (or the `@fontsource-variable` packages) a page renders in system sans
+  while appearing to comply.
 - **Design tokens are registry-first.** Edit `tokens/design-tokens.json` or `tokens/web.css.tmpl`, then run
   `python3 scripts/build_design_system.py`. Never hand-edit generated CSS, `theme.json`, or `tokens/resolved.json`.
 

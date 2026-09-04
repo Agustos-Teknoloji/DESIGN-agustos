@@ -1,14 +1,28 @@
 {
-  "outputs": {
-    "adapters/astro/src/styles/tokens.css": "2b6df6d12728e8d05931e9b4fb9912a24024291e567e74abdfa551556ad16c76",
-    "adapters/rails/app/assets/stylesheets/agustos/tokens.css": "51ac86b1ba64ac9bc7a0d416e20d3ac5c16332c988e231a96b384333708a9169",
-    "adapters/wordpress/assets/css/agustos.css": "04a97f07757b7a1f4cd27e8605722808d272920736207b16982411727793570d",
-    "adapters/wordpress/theme.json": "85b08bd05a6e052c0061dc29b5b32b8067b5110e613c9f64138ecfc57a21a2f8",
-    "tokens/agustos.css": "e648e71de4ef0079c12252fb8be6efe6bc2079775aedf20cdad8d999f3c53ed8",
-    "tokens/design-system-handoff.json": "e4606ac57d96dc052b46cca4cb5e9b12ca953f76709c9b7ca4742103543d5a2f",
-    "tokens/resolved.json": "3766ad82148ee268ab81bd6e1823e09161e52238d4d91180006debf983196c05"
+  "fonts": {
+    "ui/fonts/inter-tight-variable-italic.woff2": "6e715985a3e23b892cac44e350f6869652a512f3700507956d794b31115a6ac4",
+    "ui/fonts/inter-tight-variable.woff2": "c52c8a8eeb18d83da6bc3817313c635c4548856b84b8294d6c3c82f151211023",
+    "ui/fonts/inter-variable-italic.woff2": "1b15dbceced03fd28e2b78206de8224b05ca586e3c5f80c4ad658c0c914c50c0",
+    "ui/fonts/inter-variable.woff2": "8ebb9f9abd2365d33a7c40e31e501f203d6a309768df74cb2e63d5fb861e70a5",
+    "ui/fonts/jetbrains-mono-variable.woff2": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
   },
-  "source_sha256": "87a00df4dd919559c75b61fb60b992135879e5f1d110f80cfe0fe27a6f64e2de",
+  "outputs": {
+    "adapters/astro/src/styles/tokens.css": "dd4c673fe31204ecbeede7775dcb6f4920b830bf72850cdf032f539a2a184608",
+    "adapters/rails/app/assets/stylesheets/agustos/tokens.css": "09406e8146b072646952f2c8eaf63ef40bd7febe1d3d949acf89d4d333e0b116",
+    "adapters/wordpress/assets/css/agustos.css": "0bbee15f13df07b4304f275dd6eb53e4b0a289314d4361a4143816a02d86a90a",
+    "adapters/wordpress/theme.json": "85b08bd05a6e052c0061dc29b5b32b8067b5110e613c9f64138ecfc57a21a2f8",
+    "tokens/agustos.css": "d00a87c3e7596b4b0c42c7001664423c1c4b8ccc5a69dd6a2b0f08b079a4266c",
+    "tokens/design-system-handoff.json": "b7e50000a9fab5dfd63df7624b27204b1161aba44b444de7eb950feadc87b563",
+    "tokens/resolved.json": "529ab2ed9e9a46c0a4943109554c0451d91266f9574f21d0e9fe0567b6150d85",
+    "ui/AGENTS-SNIPPET.md": "c0ba32c3f333f9b0b12fe47846644118e64bafb6b31506172972789409bed970",
+    "ui/UI-KIT.md": "d0ddf747820a99fde711067740eec3f183face0a3e667ba352747ab80deb0469",
+    "ui/agustos-fonts.css": "9259ee921763bbcc9c26a47f4e0265955a6b959b9269e586036cace908dcd4be",
+    "ui/agustos.css": "71542c059b76f9176ed186fca8206625f3158c9d127894fefd6d0f434530410a",
+    "ui/check-agustos-ui.py": "440451a3fb5771e3f3da15df37eba101af24176571cf98f1ba5af8ce4152cd99",
+    "ui/kit.json": "ba07341438f7652b3b2284a38de1e2aa394c7d2d02936aad8588c37740130367",
+    "ui/starter.html": "d788879fb64aab3a4a57d825e4d1cc10d155d9e68c63826b13046ce5686dcf7f"
+  },
+  "source_sha256": "b655529b7eb2d8ede6345445d65776eec09e972170b006344d10fc59b6301989",
   "system": "Ağustos Design System",
-  "version": "3.0.0"
+  "version": "3.1.0"
 }

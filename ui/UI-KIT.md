@@ -1,0 +1,162 @@
+# Ağustos UI kit — v3.1.0
+
+You are building an interface for an Ağustos-family brand. This file is the authority.
+Read it, then build. You do not need `DESIGN.md`, and you should not open it.
+
+Everything here is generated from one registry. If a value is not in this file, do not
+invent it — ask.
+
+---
+
+## Install — production
+
+Copy these into `vendor/agustos-ui/` in your project and commit them:
+
+    agustos.css
+    agustos-fonts.css
+    fonts/                 (5 woff2 files + 3 OFL.txt — the licenses must travel with them)
+    check-agustos-ui.py
+    UI-KIT.md
+
+Then load the two stylesheets, **fonts first**:
+
+```html
+<link rel="stylesheet" href="/vendor/agustos-ui/agustos-fonts.css">
+<link rel="stylesheet" href="/vendor/agustos-ui/agustos.css">
+```
+
+Vendoring means your site does not depend on a third-party CDN at runtime, and your
+bundler can process the CSS normally.
+
+**npm projects may skip `agustos-fonts.css`** and install the fonts instead:
+
+```
+npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono
+```
+
+## Install — prototypes only
+
+For a throwaway mockup with no build step:
+
+```html
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v3.1.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v3.1.0/ui/agustos.css">
+```
+
+**Never publish `@main` or `@latest` in a stylesheet URL.** An unpinned link restyles the
+page the moment a token changes upstream, with no review. Pin `@v3.1.0`.
+
+## One warning before you start
+
+`agustos.css` owns the page. It styles `html`, `body`, `a`, `ul`, `table`, `blockquote`,
+and more. **Do not load it alongside Bootstrap, Tailwind preflight, or another CSS
+framework** — they will fight, and the result will look broken in ways that are hard to
+trace. This is a complete page stylesheet, not a component library you layer on.
+
+---
+
+## Page skeleton
+
+```html
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/vendor/agustos-ui/agustos-fonts.css">
+  <link rel="stylesheet" href="/vendor/agustos-ui/agustos.css">
+</head>
+<body class="brand-agustos paper-white">
+  <a class="skip-link" href="#main">İçeriğe geç</a>
+  <main id="main" class="container">
+    <!-- your page -->
+  </main>
+</body>
+</html>
+```
+
+`lang="tr"` is not decoration: it activates the `locl` font feature that makes Turkish
+capitalization correct.
+
+## Brand, substrate, theme
+
+| Switch | Values | Where |
+|---|---|---|
+| Brand | `brand-agustos` · `brand-pataraz` · `brand-pld` · `brand-iesdesk` · `brand-specquick` | `<body>`, required |
+| Substrate | default cream, or `paper-white` for working interfaces | `<body>` |
+| Theme | `data-theme="dark"` (opt-in) | `<html>` |
+
+Only Ağustos owns red as identity. Every other house brand is black or white. Signal red
+(`#cf142a`) is shared by all of them for links, focus, markers, and small emphasis — it
+never recolors a non-Ağustos logo.
+
+## Classes
+
+Every class the kit publishes. See `starter.html` for one rendered instance of each.
+
+| Group | Classes |
+|---|---|
+| Frame | `site-frame` `container` `skip-link` |
+| Headings | `type-hero` `type-hero-md` `type-hero-deck` `type-h1` `type-h2` `type-h3` `type-h4` |
+| Text | `type-body` `type-link` `type-code` `type-blockquote` `type-pullquote` `type-footnote` |
+| Blocks | `type-list-ul` `type-list-ol` `type-dl` `type-figure` `type-code-block` `type-table` `type-divider` |
+| Hero | `hero-actions` `hero-action` `hero-action--primary` `hero-action--secondary` · `hero-links` `hero-link` `hero-link--primary` `hero-link--secondary` · `hero-trust` `hero-visual` |
+| Sections | `agustos-section` `agustos-section__head` |
+| Cards | `agustos-card-grid` `agustos-card` `agustos-card--marked` |
+| Chrome | `agustos-chrome-link` |
+| Forms | `agustos-fieldset` `agustos-field` `agustos-field--invalid` · `agustos-label` `agustos-label--required` · `agustos-input` `agustos-textarea` `agustos-select` `agustos-check` `agustos-hint` `agustos-error` |
+| Buttons | `agustos-button` `--primary` `--secondary` `--quiet` |
+| Badges | `agustos-badge` `--success` `--warning` `--danger` `--info` `--signal` |
+| Notices | `agustos-notice` `agustos-notice__title` `--success` `--warning` `--danger` `--info` |
+| Tabs | `agustos-tabs` `agustos-tab` `agustos-tabs__panel` |
+
+Bare HTML elements are styled too: `h1`–`h4`, `p`, `a`, `ul`, `ol`, `dl`, `table`,
+`blockquote`, `pre`, `code`, `hr`. Semantic markup gets the right result without classes.
+
+There is nothing here for modals, tooltips, dropdowns, toasts, breadcrumbs, pagination,
+or accordions. That is deliberate. Compose them from `agustos-card`, `agustos-button`,
+and the `type-*` classes rather than importing a component library.
+
+## Variables
+
+Use `var(--name)`, never the literal value. Spacing `--space-2xs` … `--space-6xl`.
+Radii `--radius-sm` (4px) `--radius-md` (6px) `--radius-lg` (10px) — nothing larger exists.
+Color `--paper` `--ink` `--ink-soft` `--ink-faint` `--rule` `--signal` `--brand`
+`--state-success|warning|danger|info`. Type `--display` `--body` `--mono`.
+Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-content` (920px).
+
+`ui/kit.json` carries the same list in machine-readable form.
+
+## Hard rules
+
+1. **Never retype a token value.** Use `var(--signal)`, not `#cf142a`.
+2. **Brand red is `#cf142a`.** `#D11D2B` is stale — fix it wherever you find it.
+3. **Never restyle a kit class.** Overriding `.agustos-card` breaks every other page. Compose a new class.
+4. **Radii are 4, 6, and 10px.** Nothing rounder. No pills, no blobs, no gradients.
+5. **44px minimum for anything clickable.** `--control-min` exists for this.
+6. **Never redraw the Laz Güneşi symbol.** If you need the logo and do not have the file, request it.
+
+## Verify before you call it done
+
+```bash
+python3 vendor/agustos-ui/check-agustos-ui.py .
+```
+
+Exit 0 means compliant. It flags hardcoded token values, missing font loading, unpinned
+CDN URLs, missing brand class, oversized radii, and kit classes you have overridden.
+Add `--strict` to fail on warnings too, `--json` for machine-readable output.
+
+## Check for a newer kit
+
+```bash
+python3 vendor/agustos-ui/check-agustos-ui.py --update-check
+```
+
+## If you need more than this file
+
+- `kit.json` — the same contract, machine-readable, with file hashes.
+- `starter.html` — every class, rendered once.
+- `tokens/design-system-handoff.json` in the source repository — the full contract,
+  including the embedded symbol, for a system that generates rather than consumes.
+
+Source: `Agustos-Teknoloji/DESIGN-agustos` · licensed under `ui/LICENSE`.

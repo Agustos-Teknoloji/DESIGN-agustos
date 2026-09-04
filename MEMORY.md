@@ -884,3 +884,70 @@ brands got `#1a1a1a`, not a new chromatic color. Adding a brand remains a
 ~10-minute registry-entry-plus-rebuild operation per `brand/README.md`'s
 "Adding a brand" section; this was the first time that path was exercised
 for a *retirement* as well as an addition.
+
+---
+
+## v3.1 — the system gets a front door (2026-09-04)
+
+**On the table:** the question was literally "what is the best way to share this
+for other coding agents to follow — an MD file, a GitHub link, or a folder?"
+The premise behind it: every project built from this system was drifting, and
+the UIs did not look alike.
+
+**Chosen:** all three, layered. A `ui/` folder holding one short entry-point
+document (`UI-KIT.md`, 162 lines), reachable by URL because the repository is
+already public. The Markdown is what an agent *reads*; the folder is what it
+*pulls*; the GitHub link is what makes both reachable without re-explaining
+anything. Production projects vendor a pinned copy; prototypes link the pinned
+CDN. Naming for the new primitives is `.agustos-*` BEM.
+
+**Why:** the repository already had an excellent contract in
+`tokens/design-system-handoff.json` — invariants, forbidden patterns, acceptance
+checks, the embedded symbol with its checksum. It was unreachable. No URL, no
+install command, no snippet. So agents did the only thing available and retyped
+the values: `mockups/pataraz-px22.html` re-declared `--paper` and `--signal` by
+hand, and `hero-example.html` linked a stale content-hashed Cloudflare URL. The
+drift was already in the repository, in two files, as evidence.
+
+Three things had to be true before the folder could work:
+
+1. **Handing an agent tokens is not handing it a UI.** Two agents given the same
+   tokens build different buttons. `agustos.css` — not the JSON — is what makes
+   two sites look alike. So the CSS became the primary artifact, and the missing
+   primitives (forms, badges, notices, tabs) had to exist first, because those
+   gaps are exactly where an agent improvises.
+2. **The stylesheet declared font stacks and no `@font-face`.** A project could
+   load the system, follow every rule, and render in system sans. This was the
+   silent failure mode, and it is why the kit self-hosts subset woff2.
+3. **`.agustos-*` over `.field` / `.badge` / `.tabs`.** Collision safety, not
+   taste. This CSS drops into WordPress themes and Rails apps carrying
+   Bootstrap descendants, where those are the most-collided class names on the
+   web. Verbosity is the price of being droppable.
+
+**How to apply:** every new primitive goes in `tokens/web.css.tmpl` and
+`compatibility.cssClasses`, never in a consumer repository. A test now verifies
+that every published class exists in every generated stylesheet — that list had
+grown to 33 entries with nothing checking it, and it is now 75. Any change under
+`ui/` needs a VERSION bump, a rebuild, and a matching `v<VERSION>` tag in the
+same change; `VERSION` is in the manifest source hash so CI catches a missed
+rebuild.
+
+**Also fixed, because building the components activated them:** the four
+`--state-*` colors scored 2.19–3.11 contrast on dark paper. They shipped in v3.0
+with no consumer, so the failure was latent — the first `.agustos-notice--info`
+would have made it real. Dark variants now clear 7:1. Separately, `--ink-faint`
+scores 3.36–3.45 on *every* substrate; `.agustos-hint` therefore uses
+`--ink-soft`. The token itself was left alone because `.type-footnote` and
+`.hero-trust` already depend on it and changing it restyles live pages. That one
+is still open.
+
+**Confirms:** registry-first still holds. The kit is a distribution layer, not a
+second source of truth — `ui/agustos.css` is byte-identical to
+`tokens/agustos.css` apart from its header comment, and a test enforces it.
+
+**Rejected:** an npm package (heavier than the problem, and three of the five
+consuming stacks are not Node); a git submodule (fragile, and the earlier
+pataraz.com spec that proposed one was never implemented); and a scoped
+`.agustos-ui { }` variant of the stylesheet, which would need a build-time
+prefixer this repository does not have. `agustos.css` owns the page — that is
+now stated plainly in `UI-KIT.md` rather than engineered around.

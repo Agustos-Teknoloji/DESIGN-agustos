@@ -34,7 +34,8 @@ class OfficeArtifactContractTest(unittest.TestCase):
     def test_office_manifest_is_current(self):
         self.assertEqual(self.checker.check_manifest(ROOT), [])
         manifest = self.checker.expected_manifest(ROOT)
-        self.assertEqual(manifest["version"], "3.0.0")
+        version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+        self.assertEqual(manifest["version"], version)
         self.assertEqual(len(manifest["artifacts"]), 9)
 
     def test_office_manifest_cli_passes(self):
