@@ -7,22 +7,22 @@
     "ui/fonts/jetbrains-mono-variable.woff2": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
   },
   "outputs": {
-    "adapters/astro/src/styles/tokens.css": "dd4c673fe31204ecbeede7775dcb6f4920b830bf72850cdf032f539a2a184608",
-    "adapters/rails/app/assets/stylesheets/agustos/tokens.css": "09406e8146b072646952f2c8eaf63ef40bd7febe1d3d949acf89d4d333e0b116",
-    "adapters/wordpress/assets/css/agustos.css": "0bbee15f13df07b4304f275dd6eb53e4b0a289314d4361a4143816a02d86a90a",
+    "adapters/astro/src/styles/tokens.css": "212e029b6c18d8aa1ffd025a394229d29042713872de4f3fb5b234db41baf428",
+    "adapters/rails/app/assets/stylesheets/agustos/tokens.css": "4ad01f4ed207e94195d4ab0f02e5585c48f233b61534d2c53ff9312ff8615ea8",
+    "adapters/wordpress/assets/css/agustos.css": "e8d133c01b00215d6e499147510704663f5c3589c6c00ff9da69e5bbe9011bb4",
     "adapters/wordpress/theme.json": "beb106e3d9a55d5bb84df979f9a5e68dcaf7f814c8e76a4699e061c24bf4af78",
-    "tokens/agustos.css": "d00a87c3e7596b4b0c42c7001664423c1c4b8ccc5a69dd6a2b0f08b079a4266c",
+    "tokens/agustos.css": "f7da58ecec28feb4f8f350eb8eee3bdf5005c595eed92365237c6919a0891752",
     "tokens/design-system-handoff.json": "7f97d05fe68e42fd075658e0d309cc181a05a1f62e57ffb34c76d86367984a21",
     "tokens/resolved.json": "60b89b87261c5eee32077c2a43f92fd57818a3a3266d2a58426465ee96b81b47",
     "ui/AGENTS-SNIPPET.md": "c0ba32c3f333f9b0b12fe47846644118e64bafb6b31506172972789409bed970",
     "ui/UI-KIT.md": "d0ddf747820a99fde711067740eec3f183face0a3e667ba352747ab80deb0469",
     "ui/agustos-fonts.css": "9259ee921763bbcc9c26a47f4e0265955a6b959b9269e586036cace908dcd4be",
-    "ui/agustos.css": "71542c059b76f9176ed186fca8206625f3158c9d127894fefd6d0f434530410a",
+    "ui/agustos.css": "bebaf0384b85c71e9c72bd77c21a854be82b429965210c5e00955ab1eeca7bc5",
     "ui/check-agustos-ui.py": "440451a3fb5771e3f3da15df37eba101af24176571cf98f1ba5af8ce4152cd99",
-    "ui/kit.json": "ba07341438f7652b3b2284a38de1e2aa394c7d2d02936aad8588c37740130367",
+    "ui/kit.json": "8e7d2560a8bcc76ee5ea5462aee59564101d65f3eebfc27a0b17ddf03af4c720",
     "ui/starter.html": "d788879fb64aab3a4a57d825e4d1cc10d155d9e68c63826b13046ce5686dcf7f"
   },
-  "source_sha256": "a0302e805c6ddd58676dfc60d94bcdf8ad2cc29381615a53d6e3470b75aabb90",
+  "source_sha256": "e1d4b8349fc0d37106bde705d415877d681eabc7bafa51cfeff2c14082fd4096",
   "system": "Ağustos Design System",
   "version": "3.1.0"
 }
