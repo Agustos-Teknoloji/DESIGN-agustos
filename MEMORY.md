@@ -951,3 +951,39 @@ pataraz.com spec that proposed one was never implemented); and a scoped
 `.agustos-ui { }` variant of the stylesheet, which would need a build-time
 prefixer this repository does not have. `agustos.css` owns the page — that is
 now stated plainly in `UI-KIT.md` rather than engineered around.
+
+## v3.1 pre-tag cleanup: the two open items closed (2026-09-04)
+
+**On the table:** two loose ends flagged before cutting the `v3.1.0` tag —
+`ui/LICENSE` was unreviewed legal text, and the `--ink-faint` contrast failure
+noted above was still open in `.type-footnote` and `.hero-trust`.
+
+**Chosen, on the license:** an engineering QA pass, not a legal opinion —
+verified the covered-file scope against the actual `ui/`/`tokens/` contents,
+cross-checked the root `LICENSE` exception clause and `README.md` both point at
+it consistently, confirmed every `ui/fonts/*.woff2` ships its `OFL-*.txt`, and
+diffed the trademark-reservation list against `brand/brands.json`. Found one
+real defect: the list still spelled the name `"IESdesk"`, the casing #16
+(`b895f4f`) had already corrected everywhere else to `"IESDesk"`. Fixed. Actual
+legal sign-off is still Emre's call — this pass only confirms the text agrees
+with the repository it describes.
+
+**Chosen, on the contrast failure:** rather than touching the `--ink-faint`
+token itself (which would silently restyle every other consumer of it),
+`.type-footnote` and `.hero-trust` switched to `--ink-soft`, the same fix
+already applied to `.agustos-hint`. Both are real content — a footnote citation,
+a client-count trust line — not a quiet mark, so 4.5:1 applies. DESIGN.md's
+contrast section and the two component tables were updated to stop
+recommending `--ink-faint` for footnotes and proof lines.
+
+**Left open, deliberately:** `.type-strike`, `.type-blockquote cite`, and
+`.type-figure figcaption` also render real content in `--ink-faint` and likely
+fail the same 4.5:1 floor, but neither was named in the request. Flagged
+separately rather than folded in silently.
+
+**How to apply:** `tokens/web.css.tmpl` is still the only hand-edit surface for
+web behavior — `python3 scripts/build_design_system.py` regenerated
+`tokens/agustos.css`, all three adapters, `ui/agustos.css`, and `ui/kit.json`'s
+hash. `VERSION` stayed `3.1.0`; no git tag existed yet for this cycle, so no
+bump was owed. Full suite (69 tests, contrast included) and `--check` both
+pass clean.
