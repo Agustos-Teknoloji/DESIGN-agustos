@@ -132,7 +132,7 @@ font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospa
   /* Ink */
   --ink: #1a1a1a;          /* Primary text */
   --ink-soft: #4a4a4a;     /* Secondary text, soft headings */
-  --ink-faint: #8a8a8a;    /* Tertiary, captions, footnotes */
+  --ink-faint: #8a8a8a;    /* Tertiary — placeholders, disabled state; not for content text */
 
   /* Rule (separator color) */
   --rule: #e8e3d0;         /* For cream substrate */
@@ -237,7 +237,7 @@ The HERO section is a page-opening composition, not a new token family. It combi
 | **Supporting Copy** | `.type-hero-deck` | Recommended | One supporting lead, 1-2 sentences, max-width 54ch, upright body, ink-soft. Explains the promise; does not repeat the headline. |
 | **Primary CTA** | `.hero-link.hero-link--primary` inside `.hero-links` | Optional | Main navigational path. The homepage may have two primary path links when it opens into two equal business lines. Bold editorial link with arrow and shared-red underline. No filled button in the homepage hero. |
 | **Secondary CTA** | `.hero-link.hero-link--secondary` inside `.hero-links` | Optional | Lower-priority contact or support action placed after the primary path links. Ink-soft editorial link with arrow and shared-red underline. |
-| **Trust Signals** | `.hero-trust` | Optional | Compact proof line below the actions: year range, client count, geography, partner names, standards, warranty, press, or certification. Body family at 13.5-14px, ink-faint or ink-soft. No badges, pills, or logo-wall treatment in the hero. |
+| **Trust Signals** | `.hero-trust` | Optional | Compact proof line below the actions: year range, client count, geography, partner names, standards, warranty, press, or certification. Body family at 13.5-14px, ink-soft. No badges, pills, or logo-wall treatment in the hero. |
 | **Hero Visual** | `.hero-visual` | Optional | Actual product, place, object, state, screenshot, diagram, render, or media. On the homepage, keep it below or after the text-led first viewport unless the visual is the product itself. Avoid decorative-only gradients, abstract logo collages, or framed visual cards that compete with the headline. |
 
 Optional `.type-h4` eyebrow may sit above the headline for category/context. Optional `.type-body` summary may sit between Supporting Copy and CTAs only when the page needs a second level of explanation; it is not one of the named HERO styles.
@@ -264,7 +264,7 @@ Hero component styles are web/component utilities, not typography tokens. Homepa
 | `.hero-link` | Base homepage action link | Display family, 17-21px, weight 600, shared-red 2px underline, arrow after text. The arrow may be literal text or `::after`; either is acceptable if accessible text stays clean. |
 | `.hero-link--primary` | Main homepage path action | Ink text, weight 600. Use one or two when the homepage has equal primary destinations. |
 | `.hero-link--secondary` | Secondary homepage action | Ink-soft text, weight 500. |
-| `.hero-trust` | Trust signal line | Body family, 13.5-14px, line-height 1.5, ink-faint or ink-soft, margin-top 2rem to 3.5rem after actions. Items stay textual and compact. |
+| `.hero-trust` | Trust signal line | Body family, 13.5-14px, line-height 1.5, ink-soft, margin-top 2rem to 3.5rem after actions. Items stay textual and compact. |
 | `.hero-visual` | Visual plane | Media container for the hero image/render/screenshot/diagram. Full-width within its layout column, no decorative card chrome, caption through `.type-figure` when needed. |
 
 Actions are links, not generic buttons. In the homepage hero they should not look button-like: the action is part of the typographic composition. In lower sections, boxed links can appear when the surrounding layout needs clearer tap targets.
@@ -311,7 +311,7 @@ Actions are links, not generic buttons. In the homepage hero they should not loo
 
 | Token | Size | Family | Notes |
 |---|---|---|---|
-| `.type-footnote` | 12.5px | Body | Ink-faint. `sup` markers in shared red, weight 600. |
+| `.type-footnote` | 12.5px | Body | Ink-soft. `sup` markers in shared red, weight 600. |
 
 ### Vertical rhythm: three tiers, no exceptions
 
@@ -564,7 +564,7 @@ Accessibility is part of the design system, not an implementation afterthought. 
 ### Contrast
 
 - Body text uses `--ink` on `--paper` or `--paper-white`.
-- Secondary text uses `--ink-soft`; use `--ink-faint` only for footnotes, dates, and low-priority proof lines. Captions and citations are content and use `--ink-soft`.
+- Secondary text uses `--ink-soft`. `--ink-faint` scores 3.36-3.45 contrast on every substrate, below the 4.5:1 floor for text — it is reserved for non-content marks (placeholders, disabled state) that WCAG does not hold to that floor. Footnotes, captions, citations, and proof lines are content and use `--ink-soft`.
 - Shared-red links and focus rings must be checked on cream, white, and dark substrates.
 - Negative expressions must preserve cream/white contrast on red Ağustos tiles and black house-brand tiles.
 

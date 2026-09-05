@@ -453,11 +453,13 @@ table th:last-child, table td:last-child { text-align: right; }
 
 /* --- Supporting (1) --- */
 
+/* --ink-soft (7.3-8.9 contrast), not --ink-faint (3.4). A footnote is
+   content, not a quiet mark, so it has to clear 4.5:1. */
 .type-footnote {
   font-family: var(--body);
   font-size: 12.5px;
   line-height: 1.55;
-  color: var(--ink-faint);
+  color: var(--ink-soft);
 }
 .type-footnote sup, .type-footnote .ref {
   color: var(--signal);
@@ -574,12 +576,14 @@ table th:last-child, table td:last-child { text-align: right; }
   font-weight: 500;
 }
 
+/* --ink-soft (7.3-8.9 contrast), not --ink-faint (3.4). Trust signals state
+   real proof — year range, client count — so they have to clear 4.5:1. */
 .hero-trust {
   margin: var(--space-xl) 0 0;
   font-family: var(--body);
   font-size: 13.5px;
   line-height: 1.5;
-  color: var(--ink-faint);
+  color: var(--ink-soft);
 }
 
 .hero-visual {
