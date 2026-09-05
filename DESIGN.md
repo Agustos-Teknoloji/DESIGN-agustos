@@ -132,7 +132,7 @@ font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospa
   /* Ink */
   --ink: #1a1a1a;          /* Primary text */
   --ink-soft: #4a4a4a;     /* Secondary text, soft headings */
-  --ink-faint: #8a8a8a;    /* Tertiary, captions, footnotes */
+  --ink-faint: #8a8a8a;    /* Tertiary — placeholders, disabled state; not for content text */
 
   /* Rule (separator color) */
   --rule: #e8e3d0;         /* For cream substrate */
@@ -291,7 +291,7 @@ Actions are links, not generic buttons. In the homepage hero they should not loo
 | `code` (inline) | 0.86em | 400 | Mono | Background `rgba(0,0,0,0.05)`, padding 1px 5px. |
 | `sub` | 0.7em | 500 | Body | Vertical-align -0.25em. For chemical formulas (CO₂). |
 | `sup` | 0.7em | 500 | Body | Vertical-align 0.5em. For units (m²), exponents, footnote refs. |
-| `s` | inherit | 400 | Body | Strikethrough, ink-faint. For revisions, deprecated values. |
+| `s` | inherit | 400 | Body | Strikethrough, ink-soft. For revisions, deprecated values. |
 
 ### Block-level (9)
 
@@ -302,7 +302,7 @@ Actions are links, not generic buttons. In the homepage hero they should not loo
 | `.type-list-ol` | 16.5px / lh 1.65 | Body | Markers in shared red. |
 | `.type-list-ul` | 16.5px / lh 1.65 | Body | Markers in shared red. |
 | `.type-dl` | 16px | Body | dt at 600 weight, dd at 400 weight in ink-soft. |
-| `.type-figure` | placeholder + caption | — | Caption is 13.5px italic body, ink-faint. |
+| `.type-figure` | placeholder + caption | — | Caption is 13.5px italic body, ink-soft. |
 | `.type-code-block` | 13.5px | Mono | Background ink, color rule. |
 | `.type-table` | 14px | Body cells, display headers | Tabular numerals. Last column right-aligned. |
 | `.type-divider` | 1px | — | Background var(--rule). For section breaks. |
@@ -564,7 +564,7 @@ Accessibility is part of the design system, not an implementation afterthought. 
 ### Contrast
 
 - Body text uses `--ink` on `--paper` or `--paper-white`.
-- Secondary text uses `--ink-soft`. `--ink-faint` scores 3.36-3.45 contrast on every substrate, below the 4.5:1 floor for text — it is reserved for non-content marks (placeholders, disabled state) that WCAG does not hold to that floor. Footnotes, captions, and proof lines are content and use `--ink-soft`.
+- Secondary text uses `--ink-soft`. `--ink-faint` scores 3.36-3.45 contrast on every substrate, below the 4.5:1 floor for text — it is reserved for non-content marks (placeholders, disabled state) that WCAG does not hold to that floor. Footnotes, captions, citations, and proof lines are content and use `--ink-soft`.
 - Shared-red links and focus rings must be checked on cream, white, and dark substrates.
 - Negative expressions must preserve cream/white contrast on red Ağustos tiles and black house-brand tiles.
 

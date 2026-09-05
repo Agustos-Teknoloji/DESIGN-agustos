@@ -292,9 +292,12 @@ sup, .type-sup {
   line-height: 0;
 }
 
+/* --ink-soft (7.3-8.9 contrast), not --ink-faint (3.4). Struck-through text is
+   still content — a superseded price, a corrected claim — so it has to clear
+   4.5:1. */
 s, del, .type-strike {
   text-decoration: line-through;
-  color: var(--ink-faint);
+  color: var(--ink-soft);
 }
 
 /* --- Block-level (9) --- */
@@ -311,6 +314,8 @@ s, del, .type-strike {
   line-height: 1.55;
   color: var(--ink-soft);
 }
+/* --ink-soft (7.3-8.9 contrast), not --ink-faint (3.4). A citation names the
+   source — real content, not a quiet mark, so it has to clear 4.5:1. */
 .type-blockquote cite, blockquote cite {
   display: block;
   margin-top: 0.6em;
@@ -320,7 +325,7 @@ s, del, .type-strike {
   font-style: normal;
   text-transform: uppercase;
   letter-spacing: 0.12em;
-  color: var(--ink-faint);
+  color: var(--ink-soft);
 }
 
 .type-pullquote {
@@ -381,12 +386,14 @@ s, del, .type-strike {
   margin: 0 0 1em;
   padding: 0;
 }
+/* --ink-soft (7.3-8.9 contrast), not --ink-faint (3.4). A caption describes
+   the figure — content, not decoration, so it has to clear 4.5:1. */
 .type-figure figcaption, figure figcaption {
   margin-top: 0.5em;
   font-family: var(--body);
   font-size: 13.5px;
   font-style: italic;
-  color: var(--ink-faint);
+  color: var(--ink-soft);
 }
 
 .type-code-block, pre {
