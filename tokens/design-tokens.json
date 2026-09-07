@@ -1,7 +1,7 @@
 {
   "$schema": "https://design-tokens.github.io/community-group/format/",
   "name": "Ağustos Design System",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Canonical cross-medium design values. CSS, framework adapters, and Office templates are generated consumers.",
   "meta": {
     "referenceImplementation": "https://agustos.com",
@@ -24,7 +24,6 @@
       "grounded",
       "quietly confident"
     ],
-    "textureRequired": false,
     "principles": [
       "Express warmth through existing cream or white surfaces, comfortable spacing, readable typography, and approachable language.",
       "Make every section useful. Keep navigation, information, and next actions easy to understand.",
@@ -36,14 +35,13 @@
       "Write direct, helpful copy with familiar words. Explain practical benefits and next steps."
     ],
     "avoid": [
-      "Mandatory texture, grain overlays, simulated paper, or decorative material effects",
       "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
       "Replacing red interaction signals with earthy accent colors",
       "Low-contrast text, vague labels, excessive whitespace, or decorative motion",
       "Inflated luxury claims or forced friendliness"
     ],
     "acceptance": [
-      "Pages without texture or imagery still feel warm, human, and complete.",
+      "Pages feel warm, human, and complete through clear typography, purposeful spacing, and helpful language.",
       "Visitors can understand the content and identify the next action quickly.",
       "Forms and technical content remain clear, readable, and easy to scan.",
       "Brand identity, keyboard focus, reduced motion, and supported themes remain intact."

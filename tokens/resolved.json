@@ -48,13 +48,12 @@
   },
   "designDirection": {
     "acceptance": [
-      "Pages without texture or imagery still feel warm, human, and complete.",
+      "Pages feel warm, human, and complete through clear typography, purposeful spacing, and helpful language.",
       "Visitors can understand the content and identify the next action quickly.",
       "Forms and technical content remain clear, readable, and easy to scan.",
       "Brand identity, keyboard focus, reduced motion, and supported themes remain intact."
     ],
     "avoid": [
-      "Mandatory texture, grain overlays, simulated paper, or decorative material effects",
       "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
       "Replacing red interaction signals with earthy accent colors",
       "Low-contrast text, vague labels, excessive whitespace, or decorative motion",
@@ -83,8 +82,7 @@
       "Keep text, controls, and technical tables on plain surfaces. Flat pages without imagery are a complete expression.",
       "Retain registered logos, font families, red interaction signals, supported themes, and accessible contrast.",
       "Write direct, helpful copy with familiar words. Explain practical benefits and next steps."
-    ],
-    "textureRequired": false
+    ]
   },
   "foundations": {
     "border": {
@@ -304,5 +302,5 @@
       "surface": "#ffffff"
     }
   },
-  "version": "4.0.0"
+  "version": "4.0.1"
 }

@@ -8,7 +8,7 @@ Status: Proposed implementation plan. Production design remains unchanged.
 Create a minimal, functional, and elegant system with warmth and human presence.
 Use Scandinavian clarity through alignment, useful objects, readable type, and simple controls.
 Express Mediterranean warmth through soft neutrals, natural light, comfortable proportions, and approachable language.
-Texture is optional. A flat interface must express the direction without material imagery or decorative effects.
+Express the direction through clear typography, comfortable spacing, warm neutrals, and approachable language.
 Use the companion website brief, `agustos-iskandivvian-website-brief-2026-09-07.md`, to guide visual decisions.
 
 Keywords: calm, warm, functional, elegant, natural, spacious, human, approachable, precise.
@@ -24,13 +24,11 @@ Editorial pages can carry more atmosphere. Software and technical documents need
 | Color | Use neutral surfaces to carry warmth. Keep red as a clear interaction signal. | Preserve registered identity inks and semantic status colors. |
 | Typography | Retain Inter Tight, Inter, and JetBrains Mono. Test calmer display weights and more comfortable paragraph spacing. | Preserve Inter Tight 650 for wordmarks. Keep technical values legible. |
 | Composition | Pair clear alignment with generous openings, varied image sizes, and occasional asymmetric editorial layouts. | Preserve reading order and one shared alignment frame. |
-| Texture | Use material detail only when relevant source imagery supports the content. Flat surfaces are a complete expression. | Never add texture to satisfy the style label. Keep reading and control surfaces plain. |
 | Photography | Show natural light, real installations, material details, and people using spaces. | Preserve accurate product color, geometry, and technical evidence. |
 | Components | Use warm surface groups, selective borders, and modest corners. Reduce unnecessary card containers. | Keep control boundaries, focus, and selected states clear. |
 | Motion | Use brief, quiet feedback for actions and state changes. | Preserve reduced-motion behavior. |
 | Voice | Use direct language about people, places, materials, and practical benefits. | Preserve factual claims and technical terminology. |
 
-Texture is an optional presentation treatment. Meaning must survive without it.
 Avoid full-page noise overlays, distressed type, decorative arches, and a separate decorative palette for each brand.
 Use olive and clay tones within photography before considering additional interface colors.
 
@@ -45,7 +43,7 @@ Use olive and clay tones within photography before considering additional interf
 2. Develop and select the visual direction.
 
    Compare three treatments: warm clarity, approachable editorial, and sunlit imagery.
-   Keep at least one treatment entirely free of texture and material imagery.
+   Compare how each treatment uses typography, spacing, and language.
    Use the same Turkish and English content for each treatment.
    Include an editorial opening, Pataraz product section, and compact software form.
    Select one treatment before changing shared production tokens.
@@ -53,8 +51,8 @@ Use olive and clay tones within photography before considering additional interf
 
 3. Update the authoritative design rules.
 
-   Update `DESIGN.md` with the new objective, surface roles, texture rules, photography guidance, and composition examples.
-   Clarify that warmth comes from composition, color, and language. Texture is optional and carries no essential meaning.
+   Update `DESIGN.md` with the new objective, surface roles, photography guidance, and composition examples.
+   Clarify that warmth comes from composition, color, and language.
    Append the decision and its reasons to `MEMORY.md`. Preserve earlier entries as historical evidence.
    Update `PATARAZ.md` with material photography and product presentation guidance.
    Update `AGENTS.md` and `README.md` so future contributors find the new rules.
@@ -87,7 +85,7 @@ Use olive and clay tones within photography before considering additional interf
    Keep document body pages and technical datasheets plain and economical to print.
    Regenerate affected artifacts for every supported brand using documented build commands.
    Register added material assets and changed brand assets in `ASSETS.md`.
-   Store source images with provenance and reuse rights. Avoid generated texture overlays behind reading content.
+   Store source images with provenance and reuse rights.
 
 7. Verify and release.
 
@@ -108,7 +106,7 @@ Use olive and clay tones within photography before considering additional interf
 - Focus, control boundaries, errors, and selected states remain clear.
 - Mobile layouts preserve reading order and avoid horizontal overflow.
 - Turkish characters render correctly, and the declared fonts load successfully.
-- Pages without texture or imagery still feel warm, human, and complete.
+- Pages feel warm, human, and complete through typography, spacing, and language.
 - Added images have explicit dimensions and appropriate compression. Decorative assets do not block page interaction.
 - Office artifacts remain editable, and printed documents remain legible.
 - Generated artifacts match their sources. Consumer projects do not redeclare tokens.

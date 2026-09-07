@@ -295,7 +295,7 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
                 "Run the medium adapter's tests plus the acceptance checks in this file.",
             ],
             "mediums": {
-                "web": "One-row header, shared frame, warm editorial hierarchy, selective borders, helpful copy, and short motion. Texture is optional.",
+                "web": "One-row header, shared frame, warm editorial hierarchy, selective borders, helpful copy, and short motion.",
                 "document": "Native named styles, generous opening space, exact lockup header, thin signal rule, editable tables.",
                 "presentation": "Editable 16:9 layouts; red or neutral identity section fields; shared red signals; quiet cream or white content slides.",
             },

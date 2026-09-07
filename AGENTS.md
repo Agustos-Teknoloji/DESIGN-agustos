@@ -17,7 +17,7 @@ re-creating something that already exists.
 **İskandivvian: Scandinavian restraint filtered through Mediterranean warmth.**
 Create minimal, functional, and elegant experiences that feel calm, warm, and human.
 Use clear hierarchy, comfortable spacing, existing neutral surfaces, and direct language.
-Texture is optional. Flat pages without imagery are a complete expression.
+Keep the experience welcoming and easy to use.
 Preserve registered logos, fonts, red interaction signals, accessibility, and supported themes.
 Read `ui/UI-KIT.md` for website application rules. The generated contract includes this direction.
 

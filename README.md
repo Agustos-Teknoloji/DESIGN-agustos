@@ -10,7 +10,7 @@ The system preserves the established identity—Laz Güneşi, lowercase wordmark
 
 Create minimal, functional, and elegant experiences that feel calm, welcoming, and human.
 Express warmth through comfortable spacing, clear typography, existing neutral surfaces, and direct language.
-Texture and imagery are optional. Flat interfaces must feel complete.
+Keep the experience welcoming and easy to use.
 
 `DESIGN.md` defines the rules. `tokens/design-tokens.json` holds the portable `designDirection` contract.
 The generator publishes this contract in the handoff, resolved registry, and UI kit.

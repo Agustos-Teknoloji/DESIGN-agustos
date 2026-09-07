@@ -6,7 +6,7 @@
     "brand-iesdesk",
     "brand-specquick"
   ],
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.0/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.1/ui/",
   "cssClasses": [
     "type-hero",
     "type-hero-md",
@@ -87,13 +87,12 @@
   "darkTheme": "html[data-theme=\"dark\"]",
   "designDirection": {
     "acceptance": [
-      "Pages without texture or imagery still feel warm, human, and complete.",
+      "Pages feel warm, human, and complete through clear typography, purposeful spacing, and helpful language.",
       "Visitors can understand the content and identify the next action quickly.",
       "Forms and technical content remain clear, readable, and easy to scan.",
       "Brand identity, keyboard focus, reduced motion, and supported themes remain intact."
     ],
     "avoid": [
-      "Mandatory texture, grain overlays, simulated paper, or decorative material effects",
       "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
       "Replacing red interaction signals with earthy accent colors",
       "Low-contrast text, vague labels, excessive whitespace, or decorative motion",
@@ -122,30 +121,29 @@
       "Keep text, controls, and technical tables on plain surfaces. Flat pages without imagery are a complete expression.",
       "Retain registered logos, font families, red interaction signals, supported themes, and accessible contrast.",
       "Write direct, helpful copy with familiar words. Explain practical benefits and next steps."
-    ],
-    "textureRequired": false
+    ]
   },
   "entryPoint": "UI-KIT.md",
   "files": {
     "AGENTS-SNIPPET.md": {
-      "bytes": 2104,
-      "sha256": "3900ecb09d92d25a6bfff3e68bddead2e69465f9f227670d610a9dd37f7cda1e"
+      "bytes": 2083,
+      "sha256": "765cdcf905910fea54722c2489182bc5b41fcc4e675e7b11f10a896048398617"
     },
     "UI-KIT.md": {
-      "bytes": 7705,
-      "sha256": "d391d5342cd882b7f1073f973b1ac87868fed9b7d953853c8e176923636ff8af"
+      "bytes": 7601,
+      "sha256": "7654a186c6145f8bb7e9ca7203600528f8cff0842bb9d5bf4899ea8d4e6074c5"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
-      "sha256": "3713d6820554dcfb3c2b28ba359a7f27bb0e6cef23be3eb25ddd2ef0e174bd9c"
+      "sha256": "c45c835850df3d4b121cfb68970ad5af6e9fc6c2e08fa7e7810b4ac00d06bf8b"
     },
     "agustos.css": {
       "bytes": 24778,
-      "sha256": "5d81f6bd5e54bf029d76b1bc81aae57935f52f7ff52b841971c62c5a94c0f4c0"
+      "sha256": "611c18361c2e4632aadfff045e7f3f80243e28af99d141fa934b742c47c183e9"
     },
     "check-agustos-ui.py": {
       "bytes": 14575,
-      "sha256": "2169c3264c5f685402a35e6d346e58dc7efab46a54adee2c180199b6ad0f0053"
+      "sha256": "d7308ec442d688afc794df6df1f43f97ff4127a64fb5d89ae6a5af2554af6052"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -169,12 +167,12 @@
     },
     "starter.html": {
       "bytes": 10221,
-      "sha256": "d1e4c4e8a535adaba6e20b4054fac91715b7ac87815704386d64f7c28b85d61a"
+      "sha256": "1a54f9ea68b4e4f6fe5492b3c72013f14b25340279ea705f9d49d5b20f1a397d"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.0/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.1/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.1/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v4.0.0/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v4.0.1/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "signal": {
     "$source": "Ağustos red is the shared interaction signal across every house brand. It does not recolor non-Ağustos identity marks.",
@@ -185,5 +183,5 @@
     "paper-white"
   ],
   "system": "Ağustos Design System",
-  "version": "4.0.0"
+  "version": "4.0.1"
 }

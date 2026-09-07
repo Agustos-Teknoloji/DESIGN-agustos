@@ -972,3 +972,13 @@ The major version follows the policy for philosophy changes, despite preserving 
 Website compositions and visual comparison follow in a separate application step.
 
 Office rendering inputs match v3.1.0 exactly. Existing binaries remain valid; the generated manifest records the new version and source hash.
+
+
+## v4.0.1 — simplify the design direction (2026-09-07)
+
+The user asked to forget texture because the topic caused confusion.
+This supersedes earlier guidance that discussed it as an optional treatment.
+Current guidance now focuses on Scandinavian clarity, Mediterranean warmth, and a human feel.
+Express this through typography, spacing, neutral surfaces, and helpful language.
+The user correction also applies to the saved website brief and implementation plan.
+Existing visual values and website layouts remain unchanged.

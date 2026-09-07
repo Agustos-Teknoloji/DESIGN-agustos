@@ -59,7 +59,6 @@ class DesignSystemGenerationTest(unittest.TestCase):
         self.assertEqual(resolved["designDirection"], direction)
         self.assertEqual(handoff["contract"]["designDirection"], direction)
         self.assertEqual(kit["designDirection"], direction)
-        self.assertIs(direction["textureRequired"], False)
         guide = outputs[ROOT / "ui" / "UI-KIT.md"]
         for rule in direction["principles"] + direction["avoid"]:
             self.assertIn(rule, guide)

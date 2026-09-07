@@ -2,6 +2,15 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
+## [4.0.1] - 2026-09-07
+
+### Changed
+
+- Simplify the design direction around clarity, warmth, and human language.
+- Remove material treatments as a design topic from current guidance and consumer contracts.
+- Update the website brief and implementation plan to match the clarified direction.
+- Preserve existing visual values, layouts, and public CSS classes.
+
 ## [4.0.0] - 2026-09-07
 
 ### Changed

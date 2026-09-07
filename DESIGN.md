@@ -1,6 +1,6 @@
 # Ağustos Design System
 
-**Version 4.0.0** · Cross-medium design system for Emre Güneş's brand portfolio
+**Version 4.0.1** · Cross-medium design system for Emre Güneş's brand portfolio
 **Last updated:** September 7, 2026
 **Status:** Approved design direction; website application follows separately
 
@@ -32,7 +32,7 @@ Future house brands plug in by choosing a name. They inherit black/white identit
 Create minimal, functional, and elegant experiences that feel calm, welcoming, and human.
 Use clarity, alignment, and low visual noise to provide structure.
 Use comfortable proportions, warm neutral surfaces, and helpful language to provide warmth.
-Texture is optional. Flat interfaces without imagery must feel complete.
+Keep the experience welcoming and easy to use.
 
 ### Apply the direction
 
@@ -47,12 +47,11 @@ Texture is optional. Flat interfaces without imagery must feel complete.
 - Preserve product colors, material appearance, and technical evidence in imagery.
 - Write direct, helpful copy. Explain practical benefits and next steps with familiar words.
 
-### Optional imagery and texture
+### Imagery
 
 Natural light and material detail can support relevant images.
-Neither imagery nor texture is required to express the style.
+Use images when they explain the content.
 Keep text, tables, and controls on plain surfaces.
-Do not add grain overlays, simulated paper, ornamental motifs, or decorative material effects to satisfy the style label.
 Use shadows only when they clarify layering.
 Avoid unrelated lifestyle imagery, inflated luxury claims, excessive whitespace, and forced friendliness.
 
@@ -62,7 +61,7 @@ Editorial pages can carry more atmosphere through composition and relevant photo
 Software uses the same warmth through language, spacing, and clear controls.
 Documents and technical sheets retain plain reading surfaces and economical printing.
 Presentations use calm hierarchy, purposeful spacing, and relevant images.
-Every medium must remain useful without texture or images.
+Every medium must remain clear and useful.
 
 ### Implementation contract
 
@@ -869,7 +868,7 @@ Generated files are committed so consuming projects never couple deployments to 
 
 ## Versioning
 
-This is **v4.0.0**. The major version records the approved design philosophy change. Subsequent changes follow semantic versioning:
+This is **v4.0.1**. The major version records the approved design philosophy change. Subsequent changes follow semantic versioning:
 
 - **Major.** Breaking changes to token names, structural removal, philosophy shifts
 - **Minor.** New tokens, new brand additions, additive-only changes

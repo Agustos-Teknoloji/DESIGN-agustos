@@ -12,7 +12,7 @@ Scandinavian restraint filtered through Mediterranean warmth.
 
 Create a minimal, functional, and elegant website that feels calm, welcoming, and human.
 Combine clear structure and low visual noise with warm neutrals, comfortable spacing, and approachable language.
-Texture is optional. Flat colors, typography, and layout can fully express this style.
+Express this style through color, typography, layout, and approachable language.
 
 ## Intended experience
 
@@ -60,16 +60,13 @@ Stack content in a logical order on mobile.
 Keep forms and technical tables compact enough for their tasks.
 Do not use excessive whitespace as a substitute for useful content.
 
-## Imagery and texture
+## Imagery
 
 Use imagery when it explains the product, place, people, or work.
 Prefer real installations, believable daylight, and accurate material detail.
 Avoid generic lifestyle images that add atmosphere without useful context.
 Do not apply warm filters that distort product finishes or lighting performance.
 
-Texture is neither required nor a measure of success.
-Do not add grain overlays, paper backgrounds, plaster effects, or simulated linen to make a page comply.
-If source photography contains texture, let it remain within the image.
 Keep text, forms, tables, and controls on plain surfaces.
 
 ## Interface and language
@@ -95,7 +92,7 @@ Propose shared source changes in this repository when the kit cannot express a r
 ## Review questions
 
 1. Can visitors understand the page and its next action quickly?
-2. Does the page feel warm and approachable without texture or imagery?
+2. Does the page feel warm and approachable through its layout, typography, and language?
 3. Does spacing clarify relationships while keeping useful content within reach?
 4. Do images explain something relevant and preserve factual accuracy?
 5. Do controls, text, and focus states remain clear in every supported theme?
@@ -106,7 +103,7 @@ Propose shared source changes in this repository when the kit cannot express a r
 Apply Scandinavian restraint with Mediterranean warmth to this website.
 Use clear hierarchy, simple layouts, purposeful spacing, warm neutrals, and direct, approachable language.
 Create an elegant, calm, functional experience with low visual noise.
-Texture is optional; the design must feel complete on flat surfaces without imagery.
+Make every page welcoming, readable, and easy to use.
 Use authentic, naturally lit photographs only when they support the content.
 Preserve the existing brand identity, font families, red interaction signals, accessibility rules, and generated token contract.
 Judge the result by clarity, warmth, and ease of use.

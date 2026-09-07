@@ -1,4 +1,4 @@
-# Ağustos UI kit — v4.0.0
+# Ağustos UI kit — v4.0.1
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -9,7 +9,7 @@ Use the generated registry values. Request missing values instead of inventing t
 Scandinavian restraint filtered through Mediterranean warmth.
 
 Create minimal, functional, and elegant interfaces that feel warm and human.
-İskandivvian is our project label. Texture is optional, and flat surfaces are a complete expression.
+İskandivvian is our project label. Keep the experience welcoming and easy to use.
 
 - Express warmth through existing cream or white surfaces, comfortable spacing, readable typography, and approachable language.
 - Make every section useful. Keep navigation, information, and next actions easy to understand.
@@ -22,7 +22,6 @@ Create minimal, functional, and elegant interfaces that feel warm and human.
 
 Avoid:
 
-- Mandatory texture, grain overlays, simulated paper, or decorative material effects
 - Ornamental Mediterranean motifs or unrelated lifestyle imagery
 - Replacing red interaction signals with earthy accent colors
 - Low-contrast text, vague labels, excessive whitespace, or decorative motion
@@ -58,11 +57,11 @@ npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-va
 For a throwaway mockup with no build step:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.0/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.0/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.1/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.1/ui/agustos.css">
 ```
 
-**Pin stylesheet URLs to `@v4.0.0`.** Never publish `@main` or `@latest`; upstream changes can restyle your page.
+**Pin stylesheet URLs to `@v4.0.1`.** Never publish `@main` or `@latest`; upstream changes can restyle your page.
 
 ## One warning before you start
 
