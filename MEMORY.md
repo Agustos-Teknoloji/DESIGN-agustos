@@ -987,3 +987,34 @@ web behavior — `python3 scripts/build_design_system.py` regenerated
 hash. `VERSION` stayed `3.1.0`; no git tag existed yet for this cycle, so no
 bump was owed. Full suite (69 tests, contrast included) and `--check` both
 pass clean.
+
+
+## v4.0 — Scandinavian restraint with Mediterranean warmth (2026-09-07)
+
+The user approved İskandivvian as the project label for the new direction.
+The definition is: Scandinavian restraint filtered through Mediterranean warmth.
+The user explicitly removed texture as a requirement and deferred website application.
+
+Warmth now comes from comfortable spacing, readable typography, neutral surfaces, and approachable language.
+Texture and imagery are optional. Flat pages must feel warm, human, and complete.
+This updates earlier exploration that treated material tactility as a defining requirement.
+
+The shared symbol, registered identity inks, font families, and red interaction signals remain authoritative.
+The existing palette supports the direction. This change introduces no speculative colors, font changes, or layout redesigns.
+
+The registry now owns a portable designDirection contract.
+The generator publishes it in the handoff, resolved registry, and UI kit.
+The major version follows the policy for philosophy changes, despite preserving the existing CSS API.
+Website compositions and visual comparison follow in a separate application step.
+
+Office rendering inputs match v3.1.0 exactly. Existing binaries remain valid; the generated manifest records the new version and source hash.
+
+
+## v4.0.1 — simplify the design direction (2026-09-07)
+
+The user asked to forget texture because the topic caused confusion.
+This supersedes earlier guidance that discussed it as an optional treatment.
+Current guidance now focuses on Scandinavian clarity, Mediterranean warmth, and a human feel.
+Express this through typography, spacing, neutral surfaces, and helpful language.
+The user correction also applies to the saved website brief and implementation plan.
+Existing visual values and website layouts remain unchanged.

@@ -6,7 +6,7 @@
     "brand-iesdesk",
     "brand-specquick"
   ],
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v3.1.0/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.2/ui/",
   "cssClasses": [
     "type-hero",
     "type-hero-md",
@@ -85,27 +85,65 @@
     "agustos-tabs__panel"
   ],
   "darkTheme": "html[data-theme=\"dark\"]",
+  "designDirection": {
+    "acceptance": [
+      "Pages feel warm, human, and complete through clear typography, purposeful spacing, and helpful language.",
+      "Visitors can understand the content and identify the next action quickly.",
+      "Forms and technical content remain clear, readable, and easy to scan.",
+      "Brand identity, keyboard focus, reduced motion, and supported themes remain intact."
+    ],
+    "avoid": [
+      "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
+      "Replacing red interaction signals with earthy accent colors",
+      "Low-contrast text, vague labels, excessive whitespace, or decorative motion",
+      "Inflated luxury claims or forced friendliness"
+    ],
+    "definition": "Scandinavian restraint filtered through Mediterranean warmth.",
+    "intent": "Create minimal, functional, and elegant experiences that feel calm, warm, and human.",
+    "keywords": [
+      "calm",
+      "clear",
+      "warm",
+      "functional",
+      "elegant",
+      "approachable",
+      "grounded",
+      "quietly confident"
+    ],
+    "name": "İskandivvian",
+    "naming": "Use this as a defined project label, not an established design movement.",
+    "principles": [
+      "Express warmth through existing cream or white surfaces, comfortable spacing, readable typography, and approachable language.",
+      "Make every section useful. Keep navigation, information, and next actions easy to understand.",
+      "Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.",
+      "Use modest corners and selective borders. Add shadows only when they clarify layering.",
+      "Use authentic imagery only when it explains people, places, products, or work. Preserve product colors and technical facts.",
+      "Keep text, controls, and technical tables on plain surfaces. Flat pages without imagery are a complete expression.",
+      "Retain registered logos, font families, red interaction signals, supported themes, and accessible contrast.",
+      "Write direct, helpful copy with familiar words. Explain practical benefits and next steps."
+    ]
+  },
   "entryPoint": "UI-KIT.md",
   "files": {
     "AGENTS-SNIPPET.md": {
-      "bytes": 1769,
-      "sha256": "c0ba32c3f333f9b0b12fe47846644118e64bafb6b31506172972789409bed970"
+      "bytes": 2083,
+      "sha256": "3bb9062dbe5a195678a629f4729b248ee20ba58161ca6b687e2f9d662815749d"
     },
     "UI-KIT.md": {
-      "bytes": 6788,
-      "sha256": "d0ddf747820a99fde711067740eec3f183face0a3e667ba352747ab80deb0469"
+      "bytes": 7601,
+      "sha256": "91b767018c69438dd47a0522cc81251b514d7e2dd3ce03b7663e45cf9cdaf909"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
-      "sha256": "9259ee921763bbcc9c26a47f4e0265955a6b959b9269e586036cace908dcd4be"
+      "sha256": "00ad8e409d88997404c6980e527ce0aa03d60abd3e900e1fc57d43a12a063629"
     },
     "agustos.css": {
       "bytes": 25536,
-      "sha256": "c5173a972ab7225618abfabb824f95ef54646926a216fb9483f64676b3242c38"
+      "sha256": "d6260dae17f085a6b0985334f1782e4d9f5f6410d026ca44f62eef808dea2c62"
     },
     "check-agustos-ui.py": {
       "bytes": 14575,
-      "sha256": "440451a3fb5771e3f3da15df37eba101af24176571cf98f1ba5af8ce4152cd99"
+      "sha256": "f6e6f1fd8e23874511fb557509d9570a56390949dec31618aedfad9b108e0189"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -129,12 +167,12 @@
     },
     "starter.html": {
       "bytes": 10221,
-      "sha256": "d788879fb64aab3a4a57d825e4d1cc10d155d9e68c63826b13046ce5686dcf7f"
+      "sha256": "1fca39ca08db2dd8610966e05b2637235a6408b44d823b8bfce2c0143bf6e19b"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v3.1.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v3.1.0/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.2/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.2/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v3.1.0/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v4.0.2/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "signal": {
     "$source": "Ağustos red is the shared interaction signal across every house brand. It does not recolor non-Ağustos identity marks.",
@@ -145,5 +183,5 @@
     "paper-white"
   ],
   "system": "Ağustos Design System",
-  "version": "3.1.0"
+  "version": "4.0.2"
 }

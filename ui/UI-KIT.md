@@ -1,12 +1,31 @@
-# Ağustos UI kit — v3.1.0
+# Ağustos UI kit — v4.0.2
 
-You are building an interface for an Ağustos-family brand. This file is the authority.
-Read it, then build. You do not need `DESIGN.md`, and you should not open it.
+Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
-Everything here is generated from one registry. If a value is not in this file, do not
-invent it — ask.
+Use the generated registry values. Request missing values instead of inventing them.
 
----
+## Design direction — İskandivvian
+
+Scandinavian restraint filtered through Mediterranean warmth.
+
+Create minimal, functional, and elegant interfaces that feel warm and human.
+İskandivvian is our project label. Keep the experience welcoming and easy to use.
+
+- Express warmth through existing cream or white surfaces, comfortable spacing, readable typography, and approachable language.
+- Make every section useful. Keep navigation, information, and next actions easy to understand.
+- Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.
+- Use modest corners and selective borders. Add shadows only when they clarify layering.
+- Use authentic imagery only when it explains people, places, products, or work. Preserve product colors and technical facts.
+- Keep text, controls, and technical tables on plain surfaces. Flat pages without imagery are a complete expression.
+- Retain registered logos, font families, red interaction signals, supported themes, and accessible contrast.
+- Write direct, helpful copy with familiar words. Explain practical benefits and next steps.
+
+Avoid:
+
+- Ornamental Mediterranean motifs or unrelated lifestyle imagery
+- Replacing red interaction signals with earthy accent colors
+- Low-contrast text, vague labels, excessive whitespace, or decorative motion
+- Inflated luxury claims or forced friendliness
 
 ## Install — production
 
@@ -25,8 +44,7 @@ Then load the two stylesheets, **fonts first**:
 <link rel="stylesheet" href="/vendor/agustos-ui/agustos.css">
 ```
 
-Vendoring means your site does not depend on a third-party CDN at runtime, and your
-bundler can process the CSS normally.
+Vendoring removes runtime CDN dependencies and supports local bundling.
 
 **npm projects may skip `agustos-fonts.css`** and install the fonts instead:
 
@@ -39,21 +57,16 @@ npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-va
 For a throwaway mockup with no build step:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v3.1.0/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v3.1.0/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.2/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.2/ui/agustos.css">
 ```
 
-**Never publish `@main` or `@latest` in a stylesheet URL.** An unpinned link restyles the
-page the moment a token changes upstream, with no review. Pin `@v3.1.0`.
+**Pin stylesheet URLs to `@v4.0.2`.** Never publish `@main` or `@latest`; upstream changes can restyle your page.
 
 ## One warning before you start
 
-`agustos.css` owns the page. It styles `html`, `body`, `a`, `ul`, `table`, `blockquote`,
-and more. **Do not load it alongside Bootstrap, Tailwind preflight, or another CSS
-framework** — they will fight, and the result will look broken in ways that are hard to
-trace. This is a complete page stylesheet, not a component library you layer on.
-
----
+`agustos.css` styles the whole page, including bare HTML elements.
+**Do not combine it with Bootstrap, Tailwind preflight, or another page stylesheet.** Their rules can conflict.
 
 ## Page skeleton
 
@@ -75,8 +88,7 @@ trace. This is a complete page stylesheet, not a component library you layer on.
 </html>
 ```
 
-`lang="tr"` is not decoration: it activates the `locl` font feature that makes Turkish
-capitalization correct.
+Use `lang="tr"` for Turkish content so locale-sensitive capitalization renders correctly.
 
 ## Brand, substrate, theme
 
@@ -86,9 +98,8 @@ capitalization correct.
 | Substrate | default cream, or `paper-white` for working interfaces | `<body>` |
 | Theme | `data-theme="dark"` (opt-in) | `<html>` |
 
-Only Ağustos owns red as identity. Every other house brand is black or white. Signal red
-(`#cf142a`) is shared by all of them for links, focus, markers, and small emphasis — it
-never recolors a non-Ağustos logo.
+Ağustos alone owns red identity ink. Other house brands use black or white.
+Shared red (`#cf142a`) signals links, focus, markers, and small emphasis. Never recolor another house-brand logo red.
 
 ## Classes
 
@@ -113,9 +124,7 @@ Every class the kit publishes. See `starter.html` for one rendered instance of e
 Bare HTML elements are styled too: `h1`–`h4`, `p`, `a`, `ul`, `ol`, `dl`, `table`,
 `blockquote`, `pre`, `code`, `hr`. Semantic markup gets the right result without classes.
 
-There is nothing here for modals, tooltips, dropdowns, toasts, breadcrumbs, pagination,
-or accordions. That is deliberate. Compose them from `agustos-card`, `agustos-button`,
-and the `type-*` classes rather than importing a component library.
+Compose missing components from `agustos-card`, `agustos-button`, and `type-*` classes. Do not import another component library.
 
 ## Variables
 
@@ -142,9 +151,8 @@ Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-conten
 python3 vendor/agustos-ui/check-agustos-ui.py .
 ```
 
-Exit 0 means compliant. It flags hardcoded token values, missing font loading, unpinned
-CDN URLs, missing brand class, oversized radii, and kit classes you have overridden.
-Add `--strict` to fail on warnings too, `--json` for machine-readable output.
+Fix reported token values, font loading, CDN pins, brand classes, radii, and class overrides.
+Use `--strict` to fail on warnings; use `--json` for structured output. Exit 0 confirms automated checks passed.
 
 ## Check for a newer kit
 
@@ -156,7 +164,6 @@ python3 vendor/agustos-ui/check-agustos-ui.py --update-check
 
 - `kit.json` — the same contract, machine-readable, with file hashes.
 - `starter.html` — every class, rendered once.
-- `tokens/design-system-handoff.json` in the source repository — the full contract,
-  including the embedded symbol, for a system that generates rather than consumes.
+- `tokens/design-system-handoff.json` in the source repository — the full cross-medium contract with the embedded symbol.
 
 Source: `Agustos-Teknoloji/DESIGN-agustos` · licensed under `ui/LICENSE`.

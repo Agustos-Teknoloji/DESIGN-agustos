@@ -12,6 +12,15 @@ re-creating something that already exists.
 - The logo (“lockup”) = symbol + lowercase wordmark in the registered identity ink. Always lowercase. No tagline on it.
 - **Shared red `#cf142a` is the interaction signal** for links, focus, markers, and small emphasis across every brand.
 
+## Design direction
+
+**İskandivvian: Scandinavian restraint filtered through Mediterranean warmth.**
+Create minimal, functional, and elegant experiences that feel calm, warm, and human.
+Use clear hierarchy, comfortable spacing, existing neutral surfaces, and direct language.
+Keep the experience welcoming and easy to use.
+Preserve registered logos, fonts, red interaction signals, accessibility, and supported themes.
+Read `ui/UI-KIT.md` for website application rules. The generated contract includes this direction.
+
 ## For finished brand assets — look in this order
 
 1. **[ASSETS.md](ASSETS.md)** — the canonical index of every asset file, by category. Check here first.
@@ -35,7 +44,7 @@ task, then read only the relevant files:
 
 For consumer projects, treat `ui/`, `tokens/design-system-handoff.json`, and files under
 `brand/exports/` as ready-to-use inputs; do not regenerate this repository. A project that builds
-web interfaces needs `ui/UI-KIT.md` and nothing else — it is the whole contract in 162 lines. Read `MEMORY.md` only when changing a source
+web interfaces needs `ui/UI-KIT.md` and nothing else — it contains the complete interface contract. Read `MEMORY.md` only when changing a source
 decision or proposing a reversal. After repository changes, run the checks documented in `README.md`.
 
 ## "I need ___" → use this file

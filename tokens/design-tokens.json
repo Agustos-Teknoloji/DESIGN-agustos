@@ -1,13 +1,51 @@
 {
   "$schema": "https://design-tokens.github.io/community-group/format/",
   "name": "Ağustos Design System",
-  "version": "3.1.0",
+  "version": "4.0.2",
   "description": "Canonical cross-medium design values. CSS, framework adapters, and Office templates are generated consumers.",
   "meta": {
     "referenceImplementation": "https://agustos.com",
     "authority": "DESIGN-agustos",
     "principle": "The website proves the grammar; this registry publishes it.",
     "locale": "tr"
+  },
+  "designDirection": {
+    "name": "İskandivvian",
+    "definition": "Scandinavian restraint filtered through Mediterranean warmth.",
+    "naming": "Use this as a defined project label, not an established design movement.",
+    "intent": "Create minimal, functional, and elegant experiences that feel calm, warm, and human.",
+    "keywords": [
+      "calm",
+      "clear",
+      "warm",
+      "functional",
+      "elegant",
+      "approachable",
+      "grounded",
+      "quietly confident"
+    ],
+    "principles": [
+      "Express warmth through existing cream or white surfaces, comfortable spacing, readable typography, and approachable language.",
+      "Make every section useful. Keep navigation, information, and next actions easy to understand.",
+      "Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.",
+      "Use modest corners and selective borders. Add shadows only when they clarify layering.",
+      "Use authentic imagery only when it explains people, places, products, or work. Preserve product colors and technical facts.",
+      "Keep text, controls, and technical tables on plain surfaces. Flat pages without imagery are a complete expression.",
+      "Retain registered logos, font families, red interaction signals, supported themes, and accessible contrast.",
+      "Write direct, helpful copy with familiar words. Explain practical benefits and next steps."
+    ],
+    "avoid": [
+      "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
+      "Replacing red interaction signals with earthy accent colors",
+      "Low-contrast text, vague labels, excessive whitespace, or decorative motion",
+      "Inflated luxury claims or forced friendliness"
+    ],
+    "acceptance": [
+      "Pages feel warm, human, and complete through clear typography, purposeful spacing, and helpful language.",
+      "Visitors can understand the content and identify the next action quickly.",
+      "Forms and technical content remain clear, readable, and easy to scan.",
+      "Brand identity, keyboard focus, reduced motion, and supported themes remain intact."
+    ]
   },
   "distribution": {
     "repository": "Agustos-Teknoloji/DESIGN-agustos",

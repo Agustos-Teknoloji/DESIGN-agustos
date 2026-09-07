@@ -4,6 +4,19 @@ Cross-medium design system for Ağustos and its house brands. `agustos.com` is t
 
 The system preserves the established identity—Laz Güneşi, lowercase wordmarks, Inter Tight + Inter—while separating identity ink from interaction: Ağustos alone is red, every other house brand is black/white, and shared red signals links, focus, and small emphasis everywhere.
 
+## Design direction
+
+**İskandivvian: Scandinavian restraint filtered through Mediterranean warmth.**
+
+Create minimal, functional, and elegant experiences that feel calm, welcoming, and human.
+Express warmth through comfortable spacing, clear typography, existing neutral surfaces, and direct language.
+Keep the experience welcoming and easy to use.
+
+`DESIGN.md` defines the rules. `tokens/design-tokens.json` holds the portable `designDirection` contract.
+The generator publishes this contract in the handoff, resolved registry, and UI kit.
+Version 4.0.0 establishes this direction. Website application follows separately.
+Existing token values, CSS classes, logos, and fonts remain compatible.
+
 ## Architecture
 
 Four layers separate durable decisions from platform syntax:
@@ -16,11 +29,12 @@ Four layers separate durable decisions from platform syntax:
 Hand-edit these sources:
 
 - `tokens/design-tokens.json` — canonical cross-medium design registry.
-- `tokens/design-system-handoff.json` — generated, self-contained contract to give another coding system. This is the primary integration artifact.
 - `brand/brands.json` — canonical brand identity registry.
 - `tokens/web.css.tmpl` — platform-neutral web behavior and compatibility classes.
 - `DESIGN.md` — human-readable specification and governance.
 - `MEMORY.md` — decision history.
+
+`tokens/design-system-handoff.json` is the generated integration contract. Never hand-edit it.
 
 Everything under `brand/exports/` and all generated token/adapter files are outputs. Consumer deployments use the checked-in handoff or adapter; they never regenerate this repository's artifacts.
 
@@ -66,7 +80,7 @@ PowerPoint generation uses the plain-ESM `brand/build_presentation.mjs` source a
 
 | File | Purpose |
 |---|---|
-| `UI-KIT.md` | The entry point. One file, 162 lines, sufficient on its own. |
+| `UI-KIT.md` | The entry point. One compact contract, sufficient on its own. |
 | `agustos.css` | The stylesheet. Byte-identical to `tokens/agustos.css` apart from its header. |
 | `agustos-fonts.css` + `fonts/` | Self-hosted Inter Tight, Inter, and JetBrains Mono. **Required** — the stylesheet declares font stacks, not faces. |
 | `starter.html` | Every published class, rendered once. |

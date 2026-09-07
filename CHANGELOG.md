@@ -2,6 +2,39 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
+## [4.0.2] - 2026-09-07
+
+### Changed
+
+- Complete the handoff with clear boundaries between finished repository work and pending website application.
+- Carry forward the latest main-branch contrast fixes and license correction into the versioned kit.
+- Regenerate the distribution files and manifests for the integrated release.
+
+## [4.0.1] - 2026-09-07
+
+### Changed
+
+- Simplify the design direction around clarity, warmth, and human language.
+- Remove material treatments as a design topic from current guidance and consumer contracts.
+- Update the website brief and implementation plan to match the clarified direction.
+- Preserve existing visual values, layouts, and public CSS classes.
+
+## [4.0.0] - 2026-09-07
+
+### Changed
+
+- Adopt İskandivvian: Scandinavian restraint filtered through Mediterranean warmth.
+- Define warmth through clear typography, purposeful spacing, neutral surfaces, and helpful language. Texture is optional.
+- Publish the canonical design direction in the resolved registry, handoff, UI kit, and contributor guidance.
+- Preserve numeric tokens, existing layouts, fonts, logos, and public CSS classes. Website application follows separately.
+- Correct the README source list to identify the handoff as generated.
+
+### Migration
+
+- Vendor the complete v4.0.0 kit after release. Keep both stylesheets and bundled fonts together.
+- Read the new design guidance before applying it to website compositions.
+- Existing class names and token variables need no migration.
+
 ## [3.1.0] - 2026-09-04
 
 ### Added

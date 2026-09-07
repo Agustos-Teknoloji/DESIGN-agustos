@@ -131,6 +131,14 @@ points into Series.
 
 ### Look & component notes (within the system)
 
+Apply İskandivvian: Scandinavian restraint filtered through Mediterranean warmth.
+Keep product discovery and technical comparison clear, calm, and functional.
+Use comfortable spacing, plain surfaces, and direct explanations to make the experience approachable.
+Use naturally lit installation photographs only when they support product understanding.
+Preserve product finishes, technical facts, black identity ink, and red interaction signals.
+Use imagery that supports product understanding.
+
+
 - **Substrate & accent.** Cream `#fefcf2` ground, ink `#1a1a1a` text, and shared red `#cf142a`
   used as a signal for active states, section marks, links, and focus. The symbol remains black.
 - **Hero.** Calm and product-led: the luminaire and its defining numbers, not a slogan. Lots of
