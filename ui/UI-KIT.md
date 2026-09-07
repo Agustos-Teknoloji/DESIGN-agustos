@@ -1,4 +1,4 @@
-# Ağustos UI kit — v4.0.1
+# Ağustos UI kit — v4.0.2
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -57,11 +57,11 @@ npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-va
 For a throwaway mockup with no build step:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.1/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.1/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.2/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.2/ui/agustos.css">
 ```
 
-**Pin stylesheet URLs to `@v4.0.1`.** Never publish `@main` or `@latest`; upstream changes can restyle your page.
+**Pin stylesheet URLs to `@v4.0.2`.** Never publish `@main` or `@latest`; upstream changes can restyle your page.
 
 ## One warning before you start
 

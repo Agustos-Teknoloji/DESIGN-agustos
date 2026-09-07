@@ -2,6 +2,14 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
+## [4.0.2] - 2026-09-07
+
+### Changed
+
+- Complete the handoff with clear boundaries between finished repository work and pending website application.
+- Carry forward the latest main-branch contrast fixes and license correction into the versioned kit.
+- Regenerate the distribution files and manifests for the integrated release.
+
 ## [4.0.1] - 2026-09-07
 
 ### Changed

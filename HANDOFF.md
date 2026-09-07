@@ -1,7 +1,7 @@
 # Design application handoff
 
 Date: 2026-09-07
-Design system version: 4.0.1
+Design system version: 4.0.2
 Status: Design direction approved. Repository contract updated. Visual application remains pending.
 
 ## Objective
