@@ -1,7 +1,7 @@
 # İskandivvian website brief
 
 Date: 2026-09-07
-Status: Proposed direction for discussion and implementation planning.
+Status: Approved direction. Website application remains pending. Read `../HANDOFF.md` before implementation.
 
 ## Definition
 

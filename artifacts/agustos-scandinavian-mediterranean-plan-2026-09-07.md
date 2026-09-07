@@ -1,7 +1,10 @@
 # Scandinavian–Mediterranean design evolution
 
 Date: 2026-09-07
-Status: Proposed implementation plan. Production design remains unchanged.
+Status: Historical exploration plan. Use `../HANDOFF.md` for current status and remaining work.
+
+The repository contract is implemented in v4.0.1. Website application remains pending.
+The steps below mix completed work with exploratory proposals. Do not execute them as an outstanding checklist.
 
 ## Design objective
 
