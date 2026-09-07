@@ -1,8 +1,8 @@
 # Ağustos Design System
 
-**Version 3.0.0** · Cross-medium design system for Emre Güneş's brand portfolio
-**Last updated:** July 19, 2026
-**Status:** Architectural evolution with visual continuity
+**Version 4.0.0** · Cross-medium design system for Emre Güneş's brand portfolio
+**Last updated:** September 7, 2026
+**Status:** Approved design direction; website application follows separately
 
 ---
 
@@ -24,13 +24,61 @@ Future house brands plug in by choosing a name. They inherit black/white identit
 
 ---
 
+## Design direction — İskandivvian
+
+**Scandinavian restraint filtered through Mediterranean warmth.**
+
+İskandivvian is the project label for this defined direction.
+Create minimal, functional, and elegant experiences that feel calm, welcoming, and human.
+Use clarity, alignment, and low visual noise to provide structure.
+Use comfortable proportions, warm neutral surfaces, and helpful language to provide warmth.
+Texture is optional. Flat interfaces without imagery must feel complete.
+
+### Apply the direction
+
+- Retain cream, white, and dark themes. Use the existing palette before proposing additional colors.
+- Preserve Inter Tight, Inter, and JetBrains Mono. Establish hierarchy through readable size, weight, and spacing.
+- Keep wordmarks lowercase at Inter Tight 650. Use the exact Laz Güneşi asset and registered identity ink.
+- Keep red links, focus, and interaction signals. Earth tones in photography do not create new interface colors.
+- Give each section a clear purpose. Use selective borders and modest corners to clarify groups and controls.
+- Use one alignment frame. Let generous spacing explain relationships without pushing useful information out of reach.
+- Keep forms and technical content easy to scan. Preserve contrast, keyboard focus, and reduced-motion behavior.
+- Use authentic photographs only when they explain people, places, products, or work.
+- Preserve product colors, material appearance, and technical evidence in imagery.
+- Write direct, helpful copy. Explain practical benefits and next steps with familiar words.
+
+### Optional imagery and texture
+
+Natural light and material detail can support relevant images.
+Neither imagery nor texture is required to express the style.
+Keep text, tables, and controls on plain surfaces.
+Do not add grain overlays, simulated paper, ornamental motifs, or decorative material effects to satisfy the style label.
+Use shadows only when they clarify layering.
+Avoid unrelated lifestyle imagery, inflated luxury claims, excessive whitespace, and forced friendliness.
+
+### Cross-medium application
+
+Editorial pages can carry more atmosphere through composition and relevant photography.
+Software uses the same warmth through language, spacing, and clear controls.
+Documents and technical sheets retain plain reading surfaces and economical printing.
+Presentations use calm hierarchy, purposeful spacing, and relevant images.
+Every medium must remain useful without texture or images.
+
+### Implementation contract
+
+`tokens/design-tokens.json` owns the machine-readable `designDirection` field.
+The generator publishes it in the handoff, resolved registry, and UI kit.
+Version 4 establishes the direction without changing numeric tokens or existing page layouts.
+Apply website compositions in a later change using representative content.
+Promote additional shared values only after rendered examples demonstrate a repeated need.
+
 ## System philosophy
 
 Six rules that govern every decision in the system. These are non-negotiable; they're how the system survives over time.
 
 ### 1. Portability over preference
 
-Every design decision must survive translation across markdown → web → PDF → docx → plain text. Treatments that exist only in HTML are luxuries, not primitives. If a treatment can't be expressed in standard markdown, it doesn't belong in the system.
+Every design decision must survive translation across markdown → web → PDF → docx → plain text. Meaning and reading order must survive standard markdown. Optional presentation treatments must never carry essential meaning.
 
 ### 2. The publisher precedes the brand
 
@@ -821,7 +869,7 @@ Generated files are committed so consuming projects never couple deployments to 
 
 ## Versioning
 
-This is **v3.1.0**. Subsequent changes follow semantic versioning:
+This is **v4.0.0**. The major version records the approved design philosophy change. Subsequent changes follow semantic versioning:
 
 - **Major.** Breaking changes to token names, structural removal, philosophy shifts
 - **Minor.** New tokens, new brand additions, additive-only changes

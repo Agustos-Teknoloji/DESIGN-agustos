@@ -106,6 +106,46 @@
       "If the referenced logo asset is unavailable, request it instead of recreating it."
     ],
     "authority": "This generated handoff is authoritative; agustos.com is a reference implementation.",
+    "designDirection": {
+      "acceptance": [
+        "Pages without texture or imagery still feel warm, human, and complete.",
+        "Visitors can understand the content and identify the next action quickly.",
+        "Forms and technical content remain clear, readable, and easy to scan.",
+        "Brand identity, keyboard focus, reduced motion, and supported themes remain intact."
+      ],
+      "avoid": [
+        "Mandatory texture, grain overlays, simulated paper, or decorative material effects",
+        "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
+        "Replacing red interaction signals with earthy accent colors",
+        "Low-contrast text, vague labels, excessive whitespace, or decorative motion",
+        "Inflated luxury claims or forced friendliness"
+      ],
+      "definition": "Scandinavian restraint filtered through Mediterranean warmth.",
+      "intent": "Create minimal, functional, and elegant experiences that feel calm, warm, and human.",
+      "keywords": [
+        "calm",
+        "clear",
+        "warm",
+        "functional",
+        "elegant",
+        "approachable",
+        "grounded",
+        "quietly confident"
+      ],
+      "name": "İskandivvian",
+      "naming": "Use this as a defined project label, not an established design movement.",
+      "principles": [
+        "Express warmth through existing cream or white surfaces, comfortable spacing, readable typography, and approachable language.",
+        "Make every section useful. Keep navigation, information, and next actions easy to understand.",
+        "Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.",
+        "Use modest corners and selective borders. Add shadows only when they clarify layering.",
+        "Use authentic imagery only when it explains people, places, products, or work. Preserve product colors and technical facts.",
+        "Keep text, controls, and technical tables on plain surfaces. Flat pages without imagery are a complete expression.",
+        "Retain registered logos, font families, red interaction signals, supported themes, and accessible contrast.",
+        "Write direct, helpful copy with familiar words. Explain practical benefits and next steps."
+      ],
+      "textureRequired": false
+    },
     "forbidden": [
       "Inventing a new logo expression or approximate sun symbol",
       "Two-row or sidebar-first website chrome unless the product requirement makes it necessary",
@@ -128,12 +168,12 @@
       "Use shared signal red for links, focus, markers, and small emphasis across every brand; never use it to recolor a non-Ağustos logo.",
       "Default working interfaces to white paper, dark ink, restrained rules, and small radii.",
       "Align primary content to one 920px frame on the web; preserve the same alignment logic in other media.",
-      "Prefer large typographic openings, quiet chrome, bordered groups, and generous section rhythm."
+      "Use calm typographic openings, quiet chrome, selective borders, and purposeful spacing."
     ],
     "mediums": {
       "document": "Native named styles, generous opening space, exact lockup header, thin signal rule, editable tables.",
       "presentation": "Editable 16:9 layouts; red or neutral identity section fields; shared red signals; quiet cream or white content slides.",
-      "web": "One-row header, shared frame, editorial hero, restrained bordered groups, short motion."
+      "web": "One-row header, shared frame, warm editorial hierarchy, selective borders, helpful copy, and short motion. Texture is optional."
     },
     "recognitionGoal": "Create clear family resemblance across brands and media through shared hierarchy, alignment, surface, spacing, and signal logic. Pixel-identical output is neither required nor preferred."
   },
@@ -191,6 +231,46 @@
         "title": "SpecQuick",
         "wordmark": "specquick"
       }
+    },
+    "designDirection": {
+      "acceptance": [
+        "Pages without texture or imagery still feel warm, human, and complete.",
+        "Visitors can understand the content and identify the next action quickly.",
+        "Forms and technical content remain clear, readable, and easy to scan.",
+        "Brand identity, keyboard focus, reduced motion, and supported themes remain intact."
+      ],
+      "avoid": [
+        "Mandatory texture, grain overlays, simulated paper, or decorative material effects",
+        "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
+        "Replacing red interaction signals with earthy accent colors",
+        "Low-contrast text, vague labels, excessive whitespace, or decorative motion",
+        "Inflated luxury claims or forced friendliness"
+      ],
+      "definition": "Scandinavian restraint filtered through Mediterranean warmth.",
+      "intent": "Create minimal, functional, and elegant experiences that feel calm, warm, and human.",
+      "keywords": [
+        "calm",
+        "clear",
+        "warm",
+        "functional",
+        "elegant",
+        "approachable",
+        "grounded",
+        "quietly confident"
+      ],
+      "name": "İskandivvian",
+      "naming": "Use this as a defined project label, not an established design movement.",
+      "principles": [
+        "Express warmth through existing cream or white surfaces, comfortable spacing, readable typography, and approachable language.",
+        "Make every section useful. Keep navigation, information, and next actions easy to understand.",
+        "Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.",
+        "Use modest corners and selective borders. Add shadows only when they clarify layering.",
+        "Use authentic imagery only when it explains people, places, products, or work. Preserve product colors and technical facts.",
+        "Keep text, controls, and technical tables on plain surfaces. Flat pages without imagery are a complete expression.",
+        "Retain registered logos, font families, red interaction signals, supported themes, and accessible contrast.",
+        "Write direct, helpful copy with familiar words. Explain practical benefits and next steps."
+      ],
+      "textureRequired": false
     },
     "foundations": {
       "border": {
@@ -410,7 +490,7 @@
         "surface": "#ffffff"
       }
     },
-    "version": "3.1.0"
+    "version": "4.0.0"
   },
-  "version": "3.1.0"
+  "version": "4.0.0"
 }

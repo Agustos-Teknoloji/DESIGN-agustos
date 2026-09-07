@@ -41,6 +41,30 @@ class DesignSystemGenerationTest(unittest.TestCase):
         with self.assertRaisesRegex(self.builder.TokenError, "unknown token path"):
             self.builder.resolve_token(self.tokens, "foundations.color.missing")
 
+    def test_design_direction_reaches_every_consumer_contract(self):
+        tokens = copy.deepcopy(self.tokens)
+        tokens["designDirection"]["principles"].append("A new rule must reach every consumer.")
+        original_load = self.builder.load_json
+
+        def load(path):
+            return tokens if path == self.builder.TOKEN_SOURCE else original_load(path)
+
+        with mock.patch.object(self.builder, "load_json", side_effect=load):
+            outputs = self.builder.expected_outputs()
+
+        direction = tokens["designDirection"]
+        resolved = json.loads(outputs[ROOT / "tokens" / "resolved.json"])
+        handoff = json.loads(outputs[ROOT / "tokens" / "design-system-handoff.json"])
+        kit = json.loads(outputs[ROOT / "ui" / "kit.json"])
+        self.assertEqual(resolved["designDirection"], direction)
+        self.assertEqual(handoff["contract"]["designDirection"], direction)
+        self.assertEqual(kit["designDirection"], direction)
+        self.assertIs(direction["textureRequired"], False)
+        guide = outputs[ROOT / "ui" / "UI-KIT.md"]
+        for rule in direction["principles"] + direction["avoid"]:
+            self.assertIn(rule, guide)
+        self.assertIn(direction["definition"], outputs[ROOT / "ui" / "AGENTS-SNIPPET.md"])
+
     def test_circular_alias_is_rejected(self):
         tokens = copy.deepcopy(self.tokens)
         tokens["cycle"] = {

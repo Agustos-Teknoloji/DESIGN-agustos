@@ -2,6 +2,22 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
+## [4.0.0] - 2026-09-07
+
+### Changed
+
+- Adopt İskandivvian: Scandinavian restraint filtered through Mediterranean warmth.
+- Define warmth through clear typography, purposeful spacing, neutral surfaces, and helpful language. Texture is optional.
+- Publish the canonical design direction in the resolved registry, handoff, UI kit, and contributor guidance.
+- Preserve numeric tokens, existing layouts, fonts, logos, and public CSS classes. Website application follows separately.
+- Correct the README source list to identify the handoff as generated.
+
+### Migration
+
+- Vendor the complete v4.0.0 kit after release. Keep both stylesheets and bundled fonts together.
+- Read the new design guidance before applying it to website compositions.
+- Existing class names and token variables need no migration.
+
 ## [3.1.0] - 2026-09-04
 
 ### Added

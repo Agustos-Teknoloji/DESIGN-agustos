@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate every machine-readable and web-facing v3 design-system adapter.
+"""Generate every machine-readable and web-facing design-system adapter.
 
 The hand-edited inputs are:
   - tokens/design-tokens.json (cross-medium foundations, semantics, recipes)
@@ -264,6 +264,7 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
             "literally into documents or slides."
         ),
         "contract": {
+            "designDirection": tokens["designDirection"],
             "authority": "This generated handoff is authoritative; agustos.com is a reference implementation.",
             "recognitionGoal": (
                 "Create clear family resemblance across brands and media through shared hierarchy, alignment, "
@@ -276,7 +277,7 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
                 "Use shared signal red for links, focus, markers, and small emphasis across every brand; never use it to recolor a non-Ağustos logo.",
                 "Default working interfaces to white paper, dark ink, restrained rules, and small radii.",
                 "Align primary content to one 920px frame on the web; preserve the same alignment logic in other media.",
-                "Prefer large typographic openings, quiet chrome, bordered groups, and generous section rhythm.",
+                "Use calm typographic openings, quiet chrome, selective borders, and purposeful spacing.",
             ],
             "forbidden": [
                 "Inventing a new logo expression or approximate sun symbol",
@@ -294,7 +295,7 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
                 "Run the medium adapter's tests plus the acceptance checks in this file.",
             ],
             "mediums": {
-                "web": "One-row header, shared frame, editorial hero, restrained bordered groups, short motion.",
+                "web": "One-row header, shared frame, warm editorial hierarchy, selective borders, helpful copy, and short motion. Texture is optional.",
                 "document": "Native named styles, generous opening space, exact lockup header, thin signal rule, editable tables.",
                 "presentation": "Editable 16:9 layouts; red or neutral identity section fields; shared red signals; quiet cream or white content slides.",
             },
@@ -351,6 +352,13 @@ def kit_context(tokens: dict[str, Any]) -> dict[str, str]:
     return {
         "version": version,
         "repository": repository,
+        "designDefinition": tokens["designDirection"]["definition"],
+        "designGuidance": "\n".join(
+            f"- {rule}" for rule in tokens["designDirection"]["principles"]
+        ),
+        "designAvoid": "\n".join(
+            f"- {rule}" for rule in tokens["designDirection"]["avoid"]
+        ),
         "cdnBase": distribution["cdnBase"].format(repository=repository, version=version),
         "rawBase": distribution["rawBase"].format(repository=repository, version=version),
     }
@@ -499,6 +507,7 @@ def ui_kit_json(
         "cdnBase": context["cdnBase"],
         "rawBase": context["rawBase"],
         "entryPoint": "UI-KIT.md",
+        "designDirection": tokens["designDirection"],
         "headSnippet": (
             f'<link rel="stylesheet" href="{context["cdnBase"]}agustos-fonts.css">\n'
             f'<link rel="stylesheet" href="{context["cdnBase"]}agustos.css">'
@@ -527,6 +536,7 @@ def expected_outputs() -> dict[Path, str]:
     resolved = {
         "name": tokens["name"],
         "version": tokens["version"],
+        "designDirection": tokens["designDirection"],
         "foundations": resolve_tree(tokens, tokens["foundations"]),
         "semantic": resolve_tree(tokens, tokens["semantic"]),
         "themes": resolve_tree(tokens, tokens["themes"]),
