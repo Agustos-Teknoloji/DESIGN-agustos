@@ -25,7 +25,7 @@
         {
           "slug": "surface",
           "name": "Surface",
-          "color": "#f4f2ed"
+          "color": "#ebebeb"
         },
         {
           "slug": "ink",
@@ -35,7 +35,7 @@
         {
           "slug": "ink-soft",
           "name": "Ink Soft",
-          "color": "#403b34"
+          "color": "#404040"
         },
         {
           "slug": "ink-faint",

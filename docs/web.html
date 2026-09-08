@@ -24,7 +24,7 @@ document.addEventListener("error", function (event) {
   .book-nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--signal); text-underline-offset: 4px; }
   .book-nav .push { margin-left: auto; }
   .stage { margin: 0 0 var(--space-5xl); border: 1px solid var(--rule); border-radius: var(--radius-lg); overflow: hidden; }
-  .stage__label { margin: 0; padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--rule); background: var(--surface-muted); font-size: 13px; font-weight: 600; }
+  .stage__label { margin: 0; padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--rule); background: var(--surface); font-size: 13px; font-weight: 600; }
   .site-header, .site-footer { background: var(--paper); }
   .site-header { border-bottom: 1px solid var(--rule); }
   .site-header__bar, .site-footer__inner { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); min-height: 64px; }
@@ -34,7 +34,11 @@ document.addEventListener("error", function (event) {
   .site-header__cta { margin-left: var(--space-sm); }
   .lockup { display: flex; align-items: center; text-decoration: none; }
   .lockup img { height: 22px; width: auto; }
-  .site-footer { border-top: 1px solid var(--rule); padding-block: var(--space-xl); }
+  .site-footer .lockup img { background: transparent; }
+  .site-footer { background: var(--footer-paper); color: var(--footer-ink); border-top: 0; padding-block: var(--space-xl); }
+  .site-footer .type-h4, .site-footer .type-footnote, .site-footer__link { color: var(--footer-ink); }
+  .site-footer .agustos-button--primary { background: var(--footer-ink); color: var(--footer-paper); border-color: var(--footer-ink); }
+  .site-footer .agustos-button--primary:hover { background: var(--footer-cta-hover); border-color: var(--footer-cta-hover); color: var(--footer-paper); }
   .site-footer__cols { display: flex; flex-wrap: wrap; gap: var(--space-3xl); margin-left: auto; }
   .site-footer__list { list-style: none; margin: 0; padding: 0; }
   .preview-main { padding: var(--space-xl) var(--space-lg) var(--space-3xl); }
@@ -203,7 +207,7 @@ document.addEventListener("error", function (event) {
             <a class="agustos-button agustos-button--secondary" href="#spec">Download spec sheet</a>
           </div>
         </div>
-        <div class="agustos-card" style="background:var(--surface-muted);min-height:12rem;display:flex;align-items:center;justify-content:center">
+        <div class="agustos-card" style="background:var(--surface);min-height:12rem;display:flex;align-items:center;justify-content:center">
           <p class="type-footnote">Product photograph or drawing. Preserve real finish. No lifestyle crop.</p>
         </div>
       </div>
@@ -240,7 +244,7 @@ document.addEventListener("error", function (event) {
     <footer class="site-footer">
       <div class="site-footer__inner site-frame">
         <div>
-          <p class="lockup"><img src="../brand/exports/pataraz/lockup/pataraz-lockup__positive.svg" alt="pataraz"></p>
+          <p class="lockup"><img src="../brand/exports/pataraz/lockup/pataraz-lockup__negative.svg" alt="pataraz"></p>
           <p class="type-footnote">Specified luminaires. Clear data. © 2026</p>
         </div>
         <div class="site-footer__cols">
@@ -258,6 +262,7 @@ document.addEventListener("error", function (event) {
               <li><a class="site-footer__link" href="#spec">Spec sheets</a></li>
             </ul>
           </nav>
+          <a class="agustos-button agustos-button--primary" href="#product">Contact</a>
         </div>
       </div>
     </footer>
@@ -266,7 +271,7 @@ document.addEventListener("error", function (event) {
   <section class="container" style="padding-block:var(--space-3xl)">
     <div class="agustos-notice">
       <strong class="agustos-notice__title">Dark theme</strong>
-      Use the control in the top bar. Dark inverts paper, ink, and rule. Identity and signal stay the same. Dark is a user preference, not a second brand.
+      Use the control in the top bar. Dark reuses the six colours, flipped. Paper is off-black. Ink is white. The primary CTA is filled red. The footer stays off-black.
     </div>
   </section>
 </main>

@@ -23,8 +23,8 @@ CSS_OUTPUTS = (
     ROOT / "adapters" / "wordpress" / "assets" / "css" / "agustos.css",
 )
 
-DARK_PAPER = "#16140f"
-LIGHT_SUBSTRATES = ("#ffffff", "#fdf5f5")
+DARK_PAPER = "#15130f"
+LIGHT_SUBSTRATES = ("#ffffff", "#fdf5f5", "#ebebeb")
 
 
 def _relative_luminance(hex_color: str) -> float:
@@ -116,12 +116,20 @@ class PrimitiveTest(unittest.TestCase):
     def test_signal_red_is_never_a_solid_background(self):
         """`forbidden`: signal red as unrestricted background or decoration.
 
-        A small share inside color-mix is a tint, not a red field — the primary
-        button's hover has warmed ink with 8% signal since v3.0. Anything above
-        10% is a red background wearing a function call.
+        A small share inside color-mix is a tint, not a red field. The one
+        approved solid fill is the dark-theme primary CTA.
         """
         css = (ROOT / "tokens" / "agustos.css").read_text(encoding="utf-8")
-        for declaration in re.findall(r"\n\s*background(?:-color)?:\s*([^;]+);", css):
+        exception = re.search(
+            r'html\[data-theme="dark"\] \.hero-action--primary,.*?'
+            r'html\[data-theme="dark"\] \.agustos-button--primary:hover \{.*?\}',
+            css,
+            flags=re.S,
+        )
+        self.assertIsNotNone(exception, "dark-theme primary CTA exception is missing")
+        self.assertIn("var(--signal)", exception.group(0))
+        remainder = css[: exception.start()] + css[exception.end() :]
+        for declaration in re.findall(r"\n\s*background(?:-color)?:\s*([^;]+);", remainder):
             if "var(--signal)" not in declaration and "#cf142a" not in declaration.lower():
                 continue
             share = re.search(r"var\(--signal\)\s+(\d+)%", declaration)
@@ -163,6 +171,44 @@ class StateColorContrastTest(unittest.TestCase):
             with self.subTest(path=path.relative_to(ROOT)):
                 for role in self.ROLES:
                     self.assertIn(f"--state-{role.lower()}:", block)
+
+
+class SixColourPaletteTest(unittest.TestCase):
+    """v5 locks six identity colours. Dark theme reuses them. No new hexes."""
+
+    SIX = {"#ffffff", "#fdf5f5", "#ebebeb", "#404040", "#15130f", "#cf142a"}
+    SUPPORT = {"#e8e4da", "#8a8378"}
+
+    def _color(self, name: str) -> str:
+        return TOKENS["foundations"]["color"][name]["$value"].lower()
+
+    def test_light_roles_are_the_locked_six(self):
+        self.assertEqual(self._color("paperWhite"), "#ffffff")
+        self.assertEqual(self._color("paperCream"), "#fdf5f5")
+        self.assertEqual(self._color("paperGray"), "#ebebeb")
+        self.assertEqual(self._color("inkSoft"), "#404040")
+        self.assertEqual(self._color("ink"), "#15130f")
+        self.assertEqual(self._color("signalRed"), "#cf142a")
+
+    def test_dark_roles_reuse_the_six_or_support_values(self):
+        allowed = self.SIX | self.SUPPORT
+        for name in (
+            "paperDark",
+            "inkDark",
+            "inkSoftDark",
+            "inkFaintDark",
+            "ruleDark",
+            "creamDark",
+            "surfaceDark",
+        ):
+            with self.subTest(name=name):
+                self.assertIn(self._color(name), allowed)
+
+    def test_dark_ink_soft_meets_contrast_on_dark_paper(self):
+        self.assertGreaterEqual(
+            contrast_ratio(self._color("inkSoftDark"), self._color("paperDark")),
+            4.5,
+        )
 
 
 class VersionTest(unittest.TestCase):

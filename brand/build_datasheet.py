@@ -493,8 +493,8 @@ def gen_datasheet_html(slug, brand, reg, product, out: Path, lk_dir: Path):
 @font-face {{ font-family:'JB'; src:url('{mono}'); }}
 @page {{ size:A4; margin:0; }}
 * {{ box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }}
-:root {{ --brand:{color}; --signal:{signal}; --ink:#15130f; --soft:#403b34; --faint:#8a8378;
-         --paper:#ffffff; --rule:#e8e4da; --surface:#f4f2ed; }}
+:root {{ --brand:{color}; --signal:{signal}; --ink:#15130f; --soft:#404040; --faint:#8a8378;
+         --paper:#ffffff; --rule:#e8e4da; --surface:#ebebeb; }}
 body {{ margin:0; font-family:'IN',sans-serif; color:var(--ink); background:var(--paper);
         font-feature-settings:"locl" on,"kern" on; }}
 .page {{ width:210mm; height:297mm; overflow:hidden; padding:12mm 13mm 12mm; position:relative; }}

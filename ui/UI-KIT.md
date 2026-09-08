@@ -11,19 +11,19 @@ Scandinavian restraint filtered through Mediterranean warmth.
 Create minimal, functional, and elegant interfaces that feel warm and human.
 İskandivvian is our project label. Keep the experience welcoming and easy to use.
 
-- Use white as the paper. Reserve cream for full-bleed callout and CTA bands.
-- Express warmth through warm grays, cream bands, comfortable spacing, readable typography, and approachable language.
+- Use white as the paper. Reserve cream for full-bleed callout and CTA bands. The six colours are white #ffffff, cream #fdf5f5, light gray #ebebeb, dark gray #404040, off-black #15130f, and red #cf142a.
+- Express warmth through those grays, cream bands, comfortable spacing, readable typography, and approachable language.
 - Make every section useful. Keep navigation, information, and next actions easy to understand.
 - Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.
 - Use modest corners and hairline rules. Do not use shadows, gradients, or textures.
 - Keep text, controls, and technical tables on plain surfaces. Use authentic imagery only when it explains the work.
-- Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. Retain registered logos, fonts, and accessible contrast.
+- Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. The one fill exception is the dark-theme primary CTA. Dark theme reuses the same six roles, flipped. Retain registered logos, fonts, and accessible contrast.
 - Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings.
 
 Avoid:
 
 - Ornamental Mediterranean motifs or unrelated lifestyle imagery
-- Red fills, red buttons, red statistics, or red as an element's own colour
+- Red fills, red buttons, red statistics, or red as an element's own colour, except the dark-theme primary CTA
 - Uppercase labels, eyebrow labels, arrows on buttons, or decorative motion
 - Inflated luxury claims or forced friendliness
 
@@ -96,10 +96,10 @@ Use `lang="tr"` for Turkish content so locale-sensitive capitalization renders c
 |---|---|---|
 | Brand | `brand-agustos` · `brand-pataraz` · `brand-pld` · `brand-iesdesk` · `brand-specquick` | `<body>`, required |
 | Substrate | white paper by default; `paper-white` remains valid | `<body>` |
-| Theme | `data-theme="dark"` (opt-in; palette not yet redefined) | `<html>` |
+| Theme | `data-theme="dark"` (same six colours, flipped) | `<html>` |
 
 Ağustos alone owns red identity ink. Other house brands use off-black `#15130f` or white.
-Shared red (`#cf142a`) is a 2px rule under content links and menu hover/current, plus keyboard focus. Never a fill, button, or statistic.
+Shared red (`#cf142a`) is a 2px rule under content links and menu hover/current, plus keyboard focus. Never a fill except the dark primary CTA.
 
 ## Classes
 
@@ -131,7 +131,7 @@ Compose missing components from `agustos-card`, `agustos-button`, and `type-*` c
 Use `var(--name)`, never the literal value. Spacing `--space-2xs` … `--space-6xl`.
 Radii `--radius-sm` (4px) `--radius-md` (6px) `--radius-lg` (10px) — nothing larger exists.
 Color `--paper` `--cream` `--surface` `--ink` `--ink-soft` `--ink-faint` `--rule` `--signal` `--brand`
-`--state-success|warning|danger|info`. Type `--display` `--body` `--mono`.
+`--footer-*` `--state-success|warning|danger|info`. Type `--display` `--body` `--mono`.
 Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-content` (1180px).
 
 `ui/kit.json` carries the same list in machine-readable form.

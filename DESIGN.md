@@ -2,7 +2,7 @@
 
 **Version 5.0.0** · Cross-medium design system for Emre Güneş's brand portfolio
 **Last updated:** September 8, 2026
-**Status:** White-substrate visual direction applied to the registry, kit, and adapters
+**Status:** White-substrate visual direction and locked dark theme applied to the registry, kit, and adapters
 
 ## Standard artifacts
 
@@ -52,7 +52,7 @@ Keep the experience welcoming and easy to use.
 - Use the six-color palette before proposing additional colors. Do not invent a seventh hex.
 - Preserve Inter Tight, Inter, and JetBrains Mono. Establish hierarchy through readable size, weight, and spacing.
 - Keep wordmarks lowercase at Inter Tight 650. Use the exact Laz Güneşi asset and registered identity ink.
-- Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus.
+- Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. The one fill exception is the dark-theme primary CTA.
 - Give each section a clear purpose. Use hairline rules and modest corners. Do not use shadows.
 - Use one 1180px alignment frame with 32px gutters. Scale type with `clamp()`. Wrap card rows with flex, not fixed-column grids.
 - Keep forms and technical content easy to scan. Preserve contrast, keyboard focus, and reduced-motion behavior.
@@ -79,8 +79,8 @@ Every medium must remain clear and useful.
 
 `tokens/design-tokens.json` owns the machine-readable `designDirection` field.
 The generator publishes it in the handoff, resolved registry, and UI kit.
-Version 5 applies the approved white-substrate palette, type scale, action system, and layout measure.
-Dark theme remains an open decision; the existing invert stays until a dark palette is defined.
+Version 5 applies the approved white-substrate palette, type scale, action system, layout measure, and locked dark theme.
+The dark theme reuses the same six colours, flipped. No new hexes.
 
 ## System philosophy
 
@@ -104,7 +104,7 @@ Ağustos uses red `#cf142a` for its symbol and wordmark. Pataraz, PLD Türkiye, 
 
 ### 5. Shared red is a signal, not decoration
 
-The link is the primary shared interaction expression: a 2px red underline on content links. The same 2px rule appears under a menu item on hover and on the current page. Keyboard focus is a 2px red outline at 2px offset. Red is never a fill, a button, a statistic, or an element's own colour. The identity role (`brandMark`) and interaction role (`signal`) are separate: red never recolors a non-Ağustos logo.
+The link is the primary shared interaction expression: a 2px red underline on content links. The same 2px rule appears under a menu item on hover and on the current page. Keyboard focus is a 2px red outline at 2px offset. Red is never a fill, a button, a statistic, or an element's own colour, except the dark-theme primary CTA. The identity role (`brandMark`) and interaction role (`signal`) are separate: red never recolors a non-Ağustos logo. The one fill exception is the dark-theme primary CTA, because black is not available as a fill on dark paper.
 
 ### 6. Turkish content declares its language
 
@@ -187,11 +187,13 @@ font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospa
   --paper: #ffffff;        /* White, primary paper */
   --paper-white: #ffffff;  /* Compatibility alias */
   --cream: #fdf5f5;        /* Full-bleed callout and CTA bands only */
-  --surface: #f4f2ed;      /* Functional tiles, image regions, summary panels */
+  --surface: #ebebeb;      /* Functional tiles, image regions, summary panels */
+  --footer-paper: #15130f; /* Footer ground. Never inverts. */
+  --footer-ink: #ffffff;   /* Footer type. Never inverts. */
 
   /* Ink */
   --ink: #15130f;          /* Headlines, filled buttons, footer, house-brand identity */
-  --ink-soft: #403b34;     /* Secondary text */
+  --ink-soft: #404040;     /* Secondary text */
   --ink-faint: #8a8378;    /* Labels and quiet metadata */
 
   /* Rule (separator color) */
@@ -321,8 +323,8 @@ Hero component styles are web/component utilities, not typography tokens. Homepa
 |---|---|---|
 | `.hero-actions` | Band-level action row | Flex row, wraps, 12px gap. |
 | `.hero-action` | Shared button | 44px, 6px radius, no shadow, no arrow. Display family, 15px, weight 600. |
-| `.hero-action--primary` | Committing action | Filled off-black. Hover stays black. One per band. |
-| `.hero-action--secondary` | Alternative action | Outline. Hover fills black, label turns white. |
+| `.hero-action--primary` | Committing action | Filled off-black. Hover stays black. One per band. On dark, filled red. |
+| `.hero-action--secondary` | Alternative action | Outline. Hover fills black, label turns white. On dark, filled white. |
 | `.hero-links` | In-prose action row | Flex row for red-ruled text links. |
 | `.hero-link` | Content link | Display family, 2px red rule. Hover turns ink red. |
 | `.hero-link--primary` | Main in-prose path | Ink text, weight 600. |
@@ -628,14 +630,14 @@ Accessibility is part of the design system, not an implementation afterthought. 
 
 - Body text uses `--ink` on `--paper` or `--paper-white`.
 - Secondary text uses `--ink-soft`. `--ink-faint` scores 3.36-3.45 contrast on every substrate, below the 4.5:1 floor for text — it is reserved for non-content marks (placeholders, disabled state) that WCAG does not hold to that floor. Footnotes, captions, citations, and proof lines are content and use `--ink-soft`.
-- Shared-red links and focus rings must be checked on cream, white, and dark substrates.
+- Shared-red links and focus rings must be checked on cream, white, light gray, and dark substrates.
 - Negative expressions must preserve cream/white contrast on red Ağustos tiles and black house-brand tiles.
 
 ### Motion and state
 
 - Transitions should be short and functional (150ms, `cubic-bezier(0.2, 0, 0, 1)`).
 - Do not encode meaning in color alone. Links use both weight and underline; active navigation uses position, text, and state, not just color.
-- Dark theme is allowed as an opt-in implementation layer, but it must preserve the same token relationships: paper, ink, rule, identity ink, and shared signal, not a separate visual system.
+- Dark theme is allowed as an opt-in implementation layer. It must preserve the same six colour roles, flipped: paper, surface, cream/callout, ink, ink-soft, and shared signal.
 
 ---
 
@@ -665,15 +667,17 @@ Marketing pages, product pages, email, documents, dashboards, and product UI. Ab
 
 Full-bleed callout and CTA bands with hairline rules top and bottom. Never an inset rounded card. Never the page paper. Logo red at 5% into white.
 
-### Light gray `#f4f2ed` (functional surface)
+### Light gray `#ebebeb` (functional surface)
 
 Key-figure tiles, image regions, and summary panels.
 
 A single CSS variable swap still flips dark theme. Cream is not a third page substrate.
 
-### Dark `#16140f` (opt-in UI context; palette open)
+### Dark `#15130f` (opt-in; locked)
 
-Dark theme is an implementation layer for screens. The invert remains until a dedicated dark palette is decided. Use dark theme for user preference, not as a default editorial expression.
+Same six colours, flipped. Paper `#15130f`, surface `#404040`, callout band `#ebebeb`, ink `#ffffff`, ink-soft `#8a8378`, red unchanged.
+The primary CTA on a dark hero is filled red. The secondary is filled white.
+The footer stays off-black in both themes.
 
 ---
 
@@ -737,7 +741,7 @@ Current non-token utilities:
 | Utility | Role |
 |---|---|
 | `.paper-white` | Compatibility class. White is already the default paper. |
-| `html[data-theme="dark"]` | Optional dark theme; inverts paper/ink/rule while preserving identity and signal roles. Dark palette is not yet redefined. |
+| `html[data-theme="dark"]` | Optional dark theme. Same six colours, flipped. Paper `#15130f`, surface `#404040`, callout `#ebebeb`, ink `#ffffff`, ink-soft `#8a8378`. Primary CTA is filled red. |
 | `.site-frame` | Shared site-chrome frame: 1180px content measure plus 32px gutters. |
 | `.container` | The same frame geometry plus default vertical page padding. |
 | `.hero-actions`, `.hero-action*` | Shared button system. Filled black + outline. |
@@ -766,9 +770,9 @@ dark paper, so `html[data-theme="dark"]` overrides all four with `state*Dark` va
 
 Hero, section, card, and editorial-link recipes are emitted into every web adapter.
 
-The 920px value is the content measure, not the padded outer width. `.site-frame`
-and `.container` therefore cap their border box at `calc(920px + 3rem)`: 920px
-of content plus a 1.5rem gutter on each side. This keeps header, homepage,
+The 1180px value is the content measure, not the padded outer width. `.site-frame`
+and `.container` therefore cap their border box at `1244px`: 1180px
+of content plus a 32px gutter on each side. This keeps header, homepage,
 breadcrumbs, page content, and footer aligned without narrowing the readable
 measure. Component-specific utilities may set vertical padding, but should not
 redefine this horizontal geometry.
@@ -851,7 +855,7 @@ Run this checklist before calling a system change complete:
 1. Render the typography showcase and confirm the established typography/content classes appear.
 2. Inspect computed margins for H2/H3/H4, body, lists, tables, code blocks, and dividers; verify the 1em baseline and 2.5em section break actually render.
 3. Test Turkish uppercase with `lang="tr"` on H4/table-header-style text: `başlık`, `i`, and `ışık` must uppercase correctly.
-4. Check cream, white, and dark substrates.
+4. Check cream, white, light gray, and dark substrates.
 5. Check red Ağustos and black house-brand lockups separately; verify shared-red link, focus, and marker behavior under every brand class.
 6. Test keyboard navigation: skip link, header nav, search results, language controls, theme toggle, hero links, and boxed actions.
 7. Verify the desktop dropdown, responsive search row, drawer/backdrop/Escape behavior, 44px controls, and 16px responsive input.
@@ -888,7 +892,7 @@ Generated files are committed so consuming projects never couple deployments to 
 
 ## Versioning
 
-This is **v4.0.2**. The major version records the approved design philosophy change. Subsequent changes follow semantic versioning:
+This is **v5.0.0**. The major version records the approved design philosophy change. Subsequent changes follow semantic versioning:
 
 - **Major.** Breaking changes to token names, structural removal, philosophy shifts
 - **Minor.** New tokens, new brand additions, additive-only changes

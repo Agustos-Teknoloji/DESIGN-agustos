@@ -86,10 +86,10 @@ Use `lang="tr"` for Turkish content so locale-sensitive capitalization renders c
 |---|---|---|
 | Brand | `brand-agustos` · `brand-pataraz` · `brand-pld` · `brand-iesdesk` · `brand-specquick` | `<body>`, required |
 | Substrate | white paper by default; `paper-white` remains valid | `<body>` |
-| Theme | `data-theme="dark"` (opt-in; palette not yet redefined) | `<html>` |
+| Theme | `data-theme="dark"` (same six colours, flipped) | `<html>` |
 
 Ağustos alone owns red identity ink. Other house brands use off-black `#15130f` or white.
-Shared red (`#cf142a`) is a 2px rule under content links and menu hover/current, plus keyboard focus. Never a fill, button, or statistic.
+Shared red (`#cf142a`) is a 2px rule under content links and menu hover/current, plus keyboard focus. Never a fill except the dark primary CTA.
 
 ## Classes
 
@@ -121,7 +121,7 @@ Compose missing components from `agustos-card`, `agustos-button`, and `type-*` c
 Use `var(--name)`, never the literal value. Spacing `--space-2xs` … `--space-6xl`.
 Radii `--radius-sm` (4px) `--radius-md` (6px) `--radius-lg` (10px) — nothing larger exists.
 Color `--paper` `--cream` `--surface` `--ink` `--ink-soft` `--ink-faint` `--rule` `--signal` `--brand`
-`--state-success|warning|danger|info`. Type `--display` `--body` `--mono`.
+`--footer-*` `--state-success|warning|danger|info`. Type `--display` `--body` `--mono`.
 Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-content` (1180px).
 
 `ui/kit.json` carries the same list in machine-readable form.

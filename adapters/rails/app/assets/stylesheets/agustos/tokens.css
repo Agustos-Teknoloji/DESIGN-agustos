@@ -9,11 +9,16 @@
   --paper:        #ffffff;
   --paper-white:  #ffffff;
   --cream:        #fdf5f5;
-  --surface:      #f4f2ed;
+  --surface:      #ebebeb;
+
+  /* Footer never follows the theme invert. It stays off-black. */
+  --footer-paper: #15130f;
+  --footer-ink:   #ffffff;
+  --footer-cta-hover: #e8e4da;
 
   /* Ink */
   --ink:        #15130f;
-  --ink-soft:   #403b34;
+  --ink-soft:   #404040;
   --ink-faint:  #8a8378;
 
   /* Rule */
@@ -27,7 +32,8 @@
   --state-info:    #1a4d8f;
 
   /* Shared interaction signal. Red is rationed: the 2px content-link rule,
-     the 2px menu hover/current rule, and keyboard focus. Never a fill. */
+     the 2px menu hover/current rule, and keyboard focus. The one fill
+     exception is the dark-theme primary CTA. */
   --signal: #cf142a;
 
   /* Shared spacing and measures */
@@ -99,16 +105,18 @@
   --rule:  var(--rule-white);
 }
 
-/* Dark theme — opt-in via html[data-theme="dark"]. The dark palette is not yet
-   redefined; keep the existing warm invert until that decision lands. */
+/* Dark theme — opt-in via html[data-theme="dark"]. Same six colours, flipped.
+   Footer variables stay off-black. */
 html[data-theme="dark"] {
-  --paper:        #16140f;
-  --paper-white:  #16140f;
-  --ink:        #f0ebd8;
-  --ink-soft:   #a8a39a;
-  --ink-faint:  #6e6960;
-  --rule:        #2a2620;
-  --rule-white:  #2a2620;
+  --paper:        #15130f;
+  --paper-white:  #15130f;
+  --cream:        #ebebeb;
+  --surface:      #404040;
+  --ink:        #ffffff;
+  --ink-soft:   #8a8378;
+  --ink-faint:  #8a8378;
+  --rule:        #404040;
+  --rule-white:  #404040;
 
   /* State colors are substrate-specific. The light values fall to 2.19-3.11
      contrast on dark paper; these lift every one back above 7. */
@@ -120,6 +128,33 @@ html[data-theme="dark"] {
 html[data-theme="dark"] code,
 html[data-theme="dark"] .type-code {
   background: rgba(255, 255, 255, 0.07);
+}
+
+/* Dark hero: black is not available as a fill. Primary is filled red —
+   the one approved deviation. Secondary is filled white. */
+html[data-theme="dark"] .hero-action--primary,
+html[data-theme="dark"] .agustos-button--primary {
+  background: var(--signal);
+  border-color: var(--signal);
+  color: #ffffff;
+}
+html[data-theme="dark"] .hero-action--primary:hover,
+html[data-theme="dark"] .agustos-button--primary:hover {
+  background: var(--signal);
+  border-color: var(--signal);
+  color: #ffffff;
+}
+html[data-theme="dark"] .hero-action--secondary,
+html[data-theme="dark"] .agustos-button--secondary {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #15130f;
+}
+html[data-theme="dark"] .hero-action--secondary:hover,
+html[data-theme="dark"] .agustos-button--secondary:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #15130f;
 }
 
 /* -- 3. Reset + global rules --------------------------------- */

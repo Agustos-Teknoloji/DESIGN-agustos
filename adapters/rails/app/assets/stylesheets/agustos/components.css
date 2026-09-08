@@ -69,17 +69,27 @@ body[data-nav-open] .agustos-header__burger span:nth-child(2) { opacity: 0; }
 body[data-nav-open] .agustos-header__burger span:nth-child(3) { transform: translateY(-5.5px) rotate(-45deg); }
 .agustos-nav-backdrop { display: none; position: fixed; inset: 0; z-index: 15; padding: 0; background: rgba(26, 26, 26, 0.32); border: 0; opacity: 0; }
 
-.agustos-footer { margin-top: 4rem; background: var(--ink); color: var(--paper); --lockup-color: var(--paper); }
+.agustos-footer { margin-top: 4rem; background: var(--footer-paper); color: var(--footer-ink); --lockup-color: var(--footer-ink); }
 .agustos-footer__inner { display: flex; flex-wrap: wrap; gap: 48px; padding-block: 56px; }
 .agustos-footer__brand { display: flex; flex-direction: column; gap: 14px; flex: 1 1 220px; max-width: 40ch; }
-.agustos-footer__brand .type-footnote { margin: 0; color: color-mix(in srgb, var(--paper) 72%, var(--ink)); }
+.agustos-footer__brand .type-footnote { margin: 0; color: color-mix(in srgb, var(--footer-ink) 72%, var(--footer-paper)); }
 .agustos-footer__cols { display: flex; flex-wrap: wrap; flex: 1 1 360px; gap: 32px; }
 .agustos-footer__col { flex: 1 1 140px; }
-.agustos-footer__col-heading { margin: 0 0 12px; color: color-mix(in srgb, var(--paper) 72%, var(--ink)); }
+.agustos-footer__col-heading { margin: 0 0 12px; color: color-mix(in srgb, var(--footer-ink) 72%, var(--footer-paper)); }
 .agustos-footer__list { display: flex; flex-direction: column; gap: 9px; margin: 0; padding: 0; list-style: none; }
-.agustos-footer__link { color: var(--paper); font-family: var(--display); font-size: 15px; font-weight: 500; text-decoration: none; }
-.agustos-footer__link:hover { color: var(--paper); }
+.agustos-footer__link { color: var(--footer-ink); font-family: var(--display); font-size: 15px; font-weight: 500; text-decoration: none; }
+.agustos-footer__link:hover { color: var(--footer-ink); }
 .agustos-footer__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.agustos-footer .agustos-button--primary {
+  background: var(--footer-ink);
+  color: var(--footer-paper);
+  border-color: var(--footer-ink);
+}
+.agustos-footer .agustos-button--primary:hover {
+  background: var(--footer-cta-hover);
+  border-color: var(--footer-cta-hover);
+  color: var(--footer-paper);
+}
 
 @media (max-width: 1023px), (max-width: 1366px) and (hover: none) and (pointer: coarse) {
   html, body { overflow-x: clip; }

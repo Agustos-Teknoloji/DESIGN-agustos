@@ -55,7 +55,7 @@
     ],
     "avoid": [
       "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
-      "Red fills, red buttons, red statistics, or red as an element's own colour",
+      "Red fills, red buttons, red statistics, or red as an element's own colour, except the dark-theme primary CTA",
       "Uppercase labels, eyebrow labels, arrows on buttons, or decorative motion",
       "Inflated luxury claims or forced friendliness"
     ],
@@ -74,13 +74,13 @@
     "name": "İskandivvian",
     "naming": "Use this as a defined project label, not an established design movement.",
     "principles": [
-      "Use white as the paper. Reserve cream for full-bleed callout and CTA bands.",
-      "Express warmth through warm grays, cream bands, comfortable spacing, readable typography, and approachable language.",
+      "Use white as the paper. Reserve cream for full-bleed callout and CTA bands. The six colours are white #ffffff, cream #fdf5f5, light gray #ebebeb, dark gray #404040, off-black #15130f, and red #cf142a.",
+      "Express warmth through those grays, cream bands, comfortable spacing, readable typography, and approachable language.",
       "Make every section useful. Keep navigation, information, and next actions easy to understand.",
       "Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.",
       "Use modest corners and hairline rules. Do not use shadows, gradients, or textures.",
       "Keep text, controls, and technical tables on plain surfaces. Use authentic imagery only when it explains the work.",
-      "Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. Retain registered logos, fonts, and accessible contrast.",
+      "Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. The one fill exception is the dark-theme primary CTA. Dark theme reuses the same six roles, flipped. Retain registered logos, fonts, and accessible contrast.",
       "Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings."
     ]
   },
@@ -90,18 +90,19 @@
       "signal": "2px"
     },
     "color": {
+      "creamDark": "#ebebeb",
       "ink": "#15130f",
-      "inkDark": "#f0ebd8",
+      "inkDark": "#ffffff",
       "inkFaint": "#8a8378",
-      "inkFaintDark": "#6e6960",
-      "inkSoft": "#403b34",
-      "inkSoftDark": "#a8a39a",
+      "inkFaintDark": "#8a8378",
+      "inkSoft": "#404040",
+      "inkSoftDark": "#8a8378",
       "paperCream": "#fdf5f5",
-      "paperDark": "#16140f",
-      "paperGray": "#f4f2ed",
+      "paperDark": "#15130f",
+      "paperGray": "#ebebeb",
       "paperWhite": "#ffffff",
       "ruleCream": "#e8e4da",
-      "ruleDark": "#2a2620",
+      "ruleDark": "#404040",
       "ruleWhite": "#e8e4da",
       "signalRed": "#cf142a",
       "stateDanger": "#b42318",
@@ -111,7 +112,8 @@
       "stateSuccess": "#1f6b4a",
       "stateSuccessDark": "#7ec9a2",
       "stateWarning": "#8a5a00",
-      "stateWarningDark": "#d9a441"
+      "stateWarningDark": "#d9a441",
+      "surfaceDark": "#404040"
     },
     "duration": {
       "drawer": "220ms",
@@ -194,7 +196,7 @@
       "markedBorder": "2px",
       "padding": "24px",
       "radius": "10px",
-      "surface": "#f4f2ed"
+      "surface": "#ebebeb"
     },
     "chrome": {
       "contentMeasure": "1180px",
@@ -255,10 +257,10 @@
       "paper": "#ffffff",
       "rule": "#e8e4da",
       "signal": "#cf142a",
-      "surface": "#f4f2ed",
+      "surface": "#ebebeb",
       "text": "#15130f",
       "textFaint": "#8a8378",
-      "textMuted": "#403b34"
+      "textMuted": "#404040"
     },
     "layout": {
       "bodyMeasure": "72ch",
@@ -293,12 +295,13 @@
   },
   "themes": {
     "dark": {
-      "paper": "#16140f",
-      "rule": "#2a2620",
-      "surface": "#16140f",
-      "text": "#f0ebd8",
-      "textFaint": "#6e6960",
-      "textMuted": "#a8a39a"
+      "cream": "#ebebeb",
+      "paper": "#15130f",
+      "rule": "#404040",
+      "surface": "#404040",
+      "text": "#ffffff",
+      "textFaint": "#8a8378",
+      "textMuted": "#8a8378"
     },
     "white": {
       "paper": "#ffffff",
