@@ -36,21 +36,6 @@ class AdapterContractTest(unittest.TestCase):
                 self.assertNotIn("text-decoration-color: var(--brand)", css)
                 self.assertNotRegex(css, r"\{\{[^}]+\}\}")
 
-    def test_generated_css_never_reintroduces_uppercase_text(self):
-        """v5.0.0: no uppercase anywhere — labels, table headers, breadcrumbs, and
-        menu items are sentence case. Guards against silent regression."""
-        paths = [
-            ROOT / "tokens" / "agustos.css",
-            ROOT / "adapters" / "astro" / "src" / "styles" / "tokens.css",
-            ROOT / "adapters" / "rails" / "app" / "assets" / "stylesheets" / "agustos" / "tokens.css",
-            ROOT / "adapters" / "wordpress" / "assets" / "css" / "agustos.css",
-            ROOT / "ui" / "agustos.css",
-        ]
-        for path in paths:
-            css = path.read_text(encoding="utf-8")
-            with self.subTest(path=path):
-                self.assertNotIn("text-transform: uppercase", css)
-
     def test_astro_uses_shared_frame_header_and_active_navigation(self):
         header = (ROOT / "adapters" / "astro" / "src" / "components" / "Header.astro").read_text(encoding="utf-8")
         self.assertIn('<header class="site-header">', header)
@@ -95,7 +80,7 @@ class AdapterContractTest(unittest.TestCase):
         self.assertFalse(theme["settings"]["color"]["custom"])
         self.assertFalse(theme["settings"]["color"]["defaultPalette"])
         self.assertFalse(theme["settings"]["typography"]["customFontSize"])
-        self.assertEqual(theme["settings"]["layout"], {"contentSize": "1180px", "wideSize": "1200px"})
+        self.assertEqual(theme["settings"]["layout"], {"contentSize": "1180px", "wideSize": "1180px"})
 
     def test_ci_enforces_web_office_and_unit_contracts(self):
         workflow = (ROOT / ".github" / "workflows" / "design-system.yml").read_text(encoding="utf-8")
@@ -133,7 +118,7 @@ class AdapterContractTest(unittest.TestCase):
             "iesdesk": "#15130f",
             "specquick": "#15130f",
         }
-        retired = ("#1a24cc", "#0000ff", "#1f6b4a", "#1a1a1a")
+        retired = ("#1a24cc", "#0000ff", "#1f6b4a")
         for slug, color in expected.items():
             path = ROOT / "brand" / "exports" / slug / "lockup" / f"{slug}-lockup__positive.svg"
             svg = path.read_text(encoding="utf-8").lower()

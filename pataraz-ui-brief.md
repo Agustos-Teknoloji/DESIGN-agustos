@@ -34,13 +34,14 @@ engineering speaks." When in doubt, show the number.
 
 | Token | Value | Use |
 |---|---|---|
-| **Pataraz identity ink** | `#15130f` | The logo, wordmark, and decisive identity fields. Off-black/white only. |
-| **Shared signal red** | `#cf142a` | Links, focus, active state, section marks, and small emphasis across every house brand. |
-| White (paper) | `#ffffff` | Default page ground as of v5.0.0. The primary substrate. |
-| Cream (band) | `#fdf5f5` | Opt-in, full-bleed callout/CTA band tint only, via `.band-cream`. Never a page substrate. |
+| **Pataraz identity ink** | `#15130f` | The logo, wordmark, and decisive identity fields. Black/white only. |
+| **Shared signal red** | `#cf142a` | 2px content-link rule, menu hover or current-page rule, and keyboard focus. |
+| White (paper) | `#ffffff` | Default page ground. |
+| Cream (callout) | `#fdf5f5` | Full-bleed callout and CTA bands only. |
+| Surface | `#f4f2ed` | Functional tiles, image regions, summary panels. |
 | Ink | `#15130f` | Primary text. |
 | Ink-soft | `#403b34` | Secondary text. |
-| Ink-faint | `#8a8378` | Captions, meta. |
+| Ink-faint | `#8a8378` | Labels and quiet metadata. |
 | Rule | `#e8e4da` | Hairline dividers. |
 
 Optional dark theme (opt-in, not required at launch): paper `#16140f`, ink `#f0ebd8`, and

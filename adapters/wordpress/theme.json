@@ -9,13 +9,23 @@
       "palette": [
         {
           "slug": "paper",
-          "name": "Paper Cream",
-          "color": "#fdf5f5"
+          "name": "Paper",
+          "color": "#ffffff"
         },
         {
           "slug": "paper-white",
           "name": "Paper White",
           "color": "#ffffff"
+        },
+        {
+          "slug": "cream",
+          "name": "Cream",
+          "color": "#fdf5f5"
+        },
+        {
+          "slug": "surface",
+          "name": "Surface",
+          "color": "#f4f2ed"
         },
         {
           "slug": "ink",
@@ -76,7 +86,7 @@
     },
     "layout": {
       "contentSize": "1180px",
-      "wideSize": "1200px"
+      "wideSize": "1180px"
     },
     "spacing": {
       "customSpacingSize": false,
@@ -175,7 +185,7 @@
         {
           "slug": "body-compact",
           "name": "Body Compact",
-          "size": "14px"
+          "size": "15.5px"
         },
         {
           "slug": "body",
@@ -190,22 +200,22 @@
         {
           "slug": "heading-2",
           "name": "Heading 2",
-          "size": "24px"
+          "size": "clamp(34px, 4.4vw, 52px)"
         },
         {
           "slug": "heading-1",
           "name": "Heading 1",
-          "size": "44px"
+          "size": "clamp(40px, 5vw, 60px)"
         },
         {
           "slug": "hero-medium",
           "name": "Hero Medium",
-          "size": "clamp(40px, 6vw, 72px)"
+          "size": "clamp(40px, 5vw, 60px)"
         },
         {
           "slug": "hero",
           "name": "Hero",
-          "size": "clamp(56px, 9vw, 112px)"
+          "size": "clamp(56px, 8.5vw, 104px)"
         }
       ]
     },
@@ -247,7 +257,7 @@
       },
       "link": {
         "color": {
-          "text": "var:preset|color|signal"
+          "text": "var:preset|color|ink"
         },
         "typography": {
           "fontWeight": "600",

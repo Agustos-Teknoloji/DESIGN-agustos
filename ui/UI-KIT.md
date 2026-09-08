@@ -11,22 +11,21 @@ Scandinavian restraint filtered through Mediterranean warmth.
 Create minimal, functional, and elegant interfaces that feel warm and human.
 İskandivvian is our project label. Keep the experience welcoming and easy to use.
 
-- White is the primary substrate (~70% of every surface); cream is a full-bleed callout/CTA-band tint only, never the page paper.
+- Use white as the paper. Reserve cream for full-bleed callout and CTA bands.
+- Express warmth through warm grays, cream bands, comfortable spacing, readable typography, and approachable language.
 - Make every section useful. Keep navigation, information, and next actions easy to understand.
 - Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.
-- Use modest corners and selective borders. Flat surfaces — no shadows anywhere.
-- Use authentic imagery only when it explains people, places, products, or work. Preserve product colors and technical facts.
-- Keep text, controls, and technical tables on plain surfaces. Flat pages without imagery are a complete expression.
-- Retain registered logos, font families, red interaction signals, supported themes, and accessible contrast.
-- Write direct, helpful copy with familiar words. Explain practical benefits and next steps. Sentence case everywhere — no uppercase labels, eyebrows, or headers.
+- Use modest corners and hairline rules. Do not use shadows, gradients, or textures.
+- Keep text, controls, and technical tables on plain surfaces. Use authentic imagery only when it explains the work.
+- Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. Retain registered logos, fonts, and accessible contrast.
+- Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings.
 
 Avoid:
 
 - Ornamental Mediterranean motifs or unrelated lifestyle imagery
-- Replacing red interaction signals with earthy accent colors
-- Low-contrast text, vague labels, excessive whitespace, or decorative motion
-- Inflated luxury claims, forced friendliness, uppercase text, or any shadow
-- Cream used as a page substrate, an inset rounded card, or mixed with a gray band on the same page
+- Red fills, red buttons, red statistics, or red as an element's own colour
+- Uppercase labels, eyebrow labels, arrows on buttons, or decorative motion
+- Inflated luxury claims or forced friendliness
 
 ## Install — production
 
@@ -80,7 +79,7 @@ For a throwaway mockup with no build step:
   <link rel="stylesheet" href="/vendor/agustos-ui/agustos-fonts.css">
   <link rel="stylesheet" href="/vendor/agustos-ui/agustos.css">
 </head>
-<body class="brand-agustos">
+<body class="brand-agustos paper-white">
   <a class="skip-link" href="#main">İçeriğe geç</a>
   <main id="main" class="container">
     <!-- your page -->
@@ -96,11 +95,11 @@ Use `lang="tr"` for Turkish content so locale-sensitive capitalization renders c
 | Switch | Values | Where |
 |---|---|---|
 | Brand | `brand-agustos` · `brand-pataraz` · `brand-pld` · `brand-iesdesk` · `brand-specquick` | `<body>`, required |
-| Substrate | white by default; `band-cream` for a full-bleed callout/CTA band only, never a page or an inset card; `paper-white` is a no-op kept for back-compat | `<body>`/section |
-| Theme | `data-theme="dark"` (opt-in) | `<html>` |
+| Substrate | white paper by default; `paper-white` remains valid | `<body>` |
+| Theme | `data-theme="dark"` (opt-in; palette not yet redefined) | `<html>` |
 
-Ağustos alone owns red identity ink. Other house brands use black or white.
-Shared red (`#cf142a`) signals links, focus, markers, and small emphasis. Never recolor another house-brand logo red.
+Ağustos alone owns red identity ink. Other house brands use off-black `#15130f` or white.
+Shared red (`#cf142a`) is a 2px rule under content links and menu hover/current, plus keyboard focus. Never a fill, button, or statistic.
 
 ## Classes
 
@@ -117,7 +116,7 @@ Every class the kit publishes. See `starter.html` for one rendered instance of e
 | Cards | `agustos-card-grid` `agustos-card` `agustos-card--marked` |
 | Chrome | `agustos-chrome-link` |
 | Forms | `agustos-fieldset` `agustos-field` `agustos-field--invalid` · `agustos-label` `agustos-label--required` · `agustos-input` `agustos-textarea` `agustos-select` `agustos-check` `agustos-hint` `agustos-error` |
-| Buttons | `agustos-button` `--primary` (filled, committing) `--secondary` (outline, alternative) — no third tier |
+| Buttons | `agustos-button` `--primary` `--secondary` `--quiet` |
 | Badges | `agustos-badge` `--success` `--warning` `--danger` `--info` `--signal` |
 | Notices | `agustos-notice` `agustos-notice__title` `--success` `--warning` `--danger` `--info` |
 | Tabs | `agustos-tabs` `agustos-tab` `agustos-tabs__panel` |
@@ -131,9 +130,9 @@ Compose missing components from `agustos-card`, `agustos-button`, and `type-*` c
 
 Use `var(--name)`, never the literal value. Spacing `--space-2xs` … `--space-6xl`.
 Radii `--radius-sm` (4px) `--radius-md` (6px) `--radius-lg` (10px) — nothing larger exists.
-Color `--paper` `--ink` `--ink-soft` `--ink-faint` `--rule` `--signal` `--brand`
+Color `--paper` `--cream` `--surface` `--ink` `--ink-soft` `--ink-faint` `--rule` `--signal` `--brand`
 `--state-success|warning|danger|info`. Type `--display` `--body` `--mono`.
-Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-content` (920px).
+Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-content` (1180px).
 
 `ui/kit.json` carries the same list in machine-readable form.
 

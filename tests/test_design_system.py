@@ -171,7 +171,7 @@ class DesignSystemGenerationTest(unittest.TestCase):
         self.assertEqual(palette["signal"], "#cf142a")
         self.assertEqual(
             theme["styles"]["elements"]["link"]["color"]["text"],
-            "var:preset|color|signal",
+            "var:preset|color|ink",
         )
         self.assertEqual(theme["styles"]["color"]["background"], "var:preset|color|paper-white")
 

@@ -5,12 +5,11 @@
 /* -- 1. CSS variables ---------------------------------------- */
 
 :root {
-  /* Substrate — v5.0.0: white is primary (~70% of every surface). Cream is a
-     callout/CTA-band tint only, opted into via .band-cream. */
-  --paper:        #ffffff;  /* White — primary substrate */
-  --paper-white:  #ffffff;  /* White — explicit alias for consumers that opted in under v4 */
-  --paper-cream:  #fdf5f5;  /* Cream — callout/CTA band tint only */
-  --surface-muted: #f4f2ed; /* Functional surfaces: key-figure tiles, image regions, summary panels */
+  /* Substrate — white is the paper. Cream is a callout band only. */
+  --paper:        #ffffff;
+  --paper-white:  #ffffff;
+  --cream:        #fdf5f5;
+  --surface:      #f4f2ed;
 
   /* Ink */
   --ink:        #15130f;
@@ -27,8 +26,8 @@
   --state-danger:  #b42318;
   --state-info:    #1a4d8f;
 
-  /* Shared interaction signal. Ağustos owns red as identity; every house brand
-     uses the same red for links, focus, markers, and small emphasis. */
+  /* Shared interaction signal. Red is rationed: the 2px content-link rule,
+     the 2px menu hover/current rule, and keyboard focus. Never a fill. */
   --signal: #cf142a;
 
   /* Shared spacing and measures */
@@ -45,12 +44,13 @@
   --space-6xl: 80px;
   --measure-content: 1180px;
   --measure-gutter: 32px;
-  --measure-text: 72ch;
+  --measure-text: 54ch;
+  --measure-body: 72ch;
   --control-min: 44px;
 
   /* Named type sizes for adapter chrome and native platform mappings */
   --size-footnote: 12.5px;
-  --size-body-compact: 14px;
+  --size-body-compact: 15.5px;
   --size-body: 16.5px;
 
   /* Radii — proven by the website redesign and promoted into v3 foundations */
@@ -93,29 +93,17 @@
 .brand-iesdesk   { --brand: var(--brand-iesdesk); }
 .brand-specquick { --brand: var(--brand-specquick); }
 
-/* Substrate override — v5.0.0: white is now the default paper. Kept as a no-op
-   for any consumer still applying it explicitly. */
+/* Substrate override — kept for compatibility. White is already the default paper. */
 .paper-white {
   --paper: var(--paper-white);
   --rule:  var(--rule-white);
 }
 
-/* Opt-in cream band — full-bleed callout/CTA sections only. Never an inset card,
-   never the page substrate. Pair with hairline rules top and bottom on the section
-   itself; this utility only swaps the paper/rule tint. */
-.band-cream {
-  --paper: var(--paper-cream);
-}
-
-/* Dark theme — opt-in via html[data-theme="dark"]. Same tokens, inverted ink/paper.
-   Brand colors stay the same; designed to read on both substrates. The dark paper
-   keeps a warm undertone (#16140f, not pure black) so cream-trained colors still
-   integrate. Toggle persistence belongs to the consuming site's chrome. */
+/* Dark theme — opt-in via html[data-theme="dark"]. The dark palette is not yet
+   redefined; keep the existing warm invert until that decision lands. */
 html[data-theme="dark"] {
   --paper:        #16140f;
   --paper-white:  #16140f;
-  --paper-cream:  #16140f;
-  --surface-muted: #16140f;
   --ink:        #f0ebd8;
   --ink-soft:   #a8a39a;
   --ink-faint:  #6e6960;
@@ -166,8 +154,8 @@ img, svg { max-width: 100%; height: auto; display: block; }
 .type-hero {
   font-family: var(--display);
   font-weight: 300;
-  font-size: clamp(56px, 9vw, 112px);
-  line-height: 0.96;
+  font-size: clamp(56px, 8.5vw, 104px);
+  line-height: 0.95;
   letter-spacing: -0.045em;
   color: var(--ink);
   margin: 0 0 0.5em;
@@ -175,10 +163,10 @@ img, svg { max-width: 100%; height: auto; display: block; }
 
 .type-hero-md {
   font-family: var(--display);
-  font-weight: 400;
-  font-size: clamp(40px, 6vw, 72px);
-  line-height: 1.02;
-  letter-spacing: -0.032em;
+  font-weight: 300;
+  font-size: clamp(40px, 5vw, 60px);
+  line-height: 1;
+  letter-spacing: -0.04em;
   color: var(--ink);
   margin: 0 0 0.5em;
 }
@@ -189,10 +177,10 @@ img, svg { max-width: 100%; height: auto; display: block; }
   font-family: var(--body);
   font-weight: 400;
   font-style: normal;
-  font-size: clamp(18px, 1.5vw, 21px);
+  font-size: 20px;
   line-height: 1.55;
   color: var(--ink-soft);
-  max-width: 72ch;
+  max-width: 54ch;
   margin: 0;
 }
 
@@ -208,20 +196,20 @@ img, svg { max-width: 100%; height: auto; display: block; }
 
 .type-h1 {
   font-family: var(--display);
-  font-size: 44px;
-  font-weight: 500;
-  line-height: 1.05;
-  letter-spacing: -0.026em;
+  font-size: clamp(40px, 5vw, 60px);
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.04em;
   margin: 0 0 1em;
   color: var(--ink);
 }
 
 .type-h2 {
   font-family: var(--display);
-  font-size: 24px;
-  font-weight: 500;
-  line-height: 1.18;
-  letter-spacing: -0.014em;
+  font-size: clamp(34px, 4.4vw, 52px);
+  font-weight: 400;
+  line-height: 1.02;
+  letter-spacing: -0.034em;
   /* margin-top 2.5em ≈ 40px (collapses with prior body's 1em → max wins).
      margin-bottom 1em matches baseline → consistent gap below the heading. */
   margin: 2.5em 0 1em;
@@ -241,12 +229,13 @@ img, svg { max-width: 100%; height: auto; display: block; }
 
 .type-h4 {
   font-family: var(--display);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
   line-height: 1.4;
-  letter-spacing: 0;
+  letter-spacing: 0.005em;
+  text-transform: none;
   margin: 2.5em 0 1em;
-  color: var(--ink-soft);
+  color: var(--ink-faint);
 }
 
 /* --- Body & inline (8) --- */
@@ -270,8 +259,8 @@ strong, .type-strong {
   font-weight: 700;
 }
 
-/* The shared interaction expression: bold + 2px signal-red underline.
-   Hover: ink turns red, the rule stays (it's already signal-colored). */
+/* Content-link rule: 2px red underline. Hover turns the ink red; the rule stays.
+   Chrome, buttons, and footer links reset this. */
 a, .type-link {
   color: inherit;
   font-weight: 600;
@@ -281,8 +270,8 @@ a, .type-link {
   text-underline-offset: 3px;
   transition: color var(--dur) var(--ease);
 }
-a:hover { color: var(--signal); }
-a:focus-visible {
+a:hover, .type-link:hover { color: var(--signal); }
+a:focus-visible, .type-link:focus-visible {
   outline: 2px solid var(--signal);
   outline-offset: 2px;
 }
@@ -323,25 +312,24 @@ s, del, .type-strike {
   /* Content block — 1em baseline rhythm. */
   margin: 0 0 1em;
   padding: 0.25em 0 0.25em 1.25em;
-  border-left: 2px solid var(--signal);
-  font-family: var(--body);
-  font-size: 18px;
+  border-left: 2px solid var(--ink);
+  font-family: var(--display);
+  font-size: 22px;
   font-style: italic;
   font-weight: 400;
-  line-height: 1.55;
-  color: var(--ink-soft);
+  line-height: 1.35;
+  color: var(--ink);
 }
-/* --ink-soft (7.3-8.9 contrast), not --ink-faint (3.4). A citation names the
-   source — real content, not a quiet mark, so it has to clear 4.5:1. */
 .type-blockquote cite, blockquote cite {
   display: block;
   margin-top: 0.6em;
   font-family: var(--display);
-  font-size: 12px;
+  font-size: 12.5px;
   font-weight: 600;
   font-style: normal;
-  letter-spacing: 0;
-  color: var(--ink-soft);
+  text-transform: none;
+  letter-spacing: 0.005em;
+  color: var(--ink-faint);
 }
 
 .type-pullquote {
@@ -360,7 +348,7 @@ s, del, .type-strike {
 }
 .type-pullquote::before {
   content: "\201C"; /* Left double curly quote */
-  color: var(--signal);
+  color: var(--ink);
   font-size: 1.1em;
   margin-right: 0.05em;
 }
@@ -373,7 +361,7 @@ s, del, .type-strike {
   /* Content block — 1em baseline rhythm. */
   margin: 0 0 1em;
 }
-.type-list-ol li::marker, ol li::marker { color: var(--signal); font-weight: 600; }
+.type-list-ol li::marker, ol li::marker { color: var(--ink); font-weight: 600; }
 
 .type-list-ul, ul {
   font-family: var(--body);
@@ -383,7 +371,7 @@ s, del, .type-strike {
   /* Content block — 1em baseline rhythm. */
   margin: 0 0 1em;
 }
-.type-list-ul li::marker, ul li::marker { color: var(--signal); }
+.type-list-ul li::marker, ul li::marker { color: var(--ink); }
 
 .type-dl, dl {
   font-family: var(--body);
@@ -435,20 +423,21 @@ s, del, .type-strike {
   width: 100%;
   border-collapse: collapse;
   font-family: var(--body);
-  font-size: 14px;
+  font-size: 15.5px;
   font-variant-numeric: tabular-nums;
   /* Content block — 1em baseline rhythm. */
   margin: 0 0 1em;
 }
 .type-table th, table th {
   font-family: var(--display);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0;
-  color: var(--ink-soft);
+  font-size: 12.5px;
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: 0.005em;
+  color: var(--ink-faint);
   text-align: left;
   padding: 0.5em 0.75em;
-  border-bottom: 2px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
 }
 .type-table td, table td {
   padding: 0.5em 0.75em;
@@ -477,7 +466,7 @@ table th:last-child, table td:last-child { text-align: right; }
   color: var(--ink-soft);
 }
 .type-footnote sup, .type-footnote .ref {
-  color: var(--signal);
+  color: var(--ink);
   font-weight: 600;
 }
 
@@ -503,8 +492,6 @@ table th:last-child, table td:last-child { text-align: right; }
   margin-top: 1.5rem;
 }
 
-/* Two treatments, no third: filled black (the committing action) and outline
-   (the real alternative). 44px minimum, 6px radius, no shadow, no arrow. */
 .hero-action,
 .agustos-button {
   display: inline-flex;
@@ -512,12 +499,13 @@ table th:last-child, table td:last-child { text-align: right; }
   justify-content: center;
   max-width: 100%;
   min-height: 44px;
-  padding: 0.7rem 1rem;
+  padding: 0 20px;
   border: 1px solid var(--ink);
   border-radius: var(--radius-md);
+  box-shadow: none;
   color: var(--ink);
   font-family: var(--display);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   line-height: 1;
   letter-spacing: 0;
@@ -530,39 +518,41 @@ table th:last-child, table td:last-child { text-align: right; }
     color var(--dur) var(--ease);
 }
 
+.hero-action:hover,
+.agustos-button:hover {
+  text-decoration: none;
+}
+
 .hero-action:focus-visible,
 .agustos-button:focus-visible {
   outline: 2px solid var(--signal);
   outline-offset: 2px;
 }
 
-/* Filled black — the committing action. Stays black on hover, per rule. */
 .hero-action--primary,
 .agustos-button--primary {
   border-color: var(--ink);
   background: var(--ink);
-  color: var(--paper-white);
+  color: var(--paper);
 }
 
 .hero-action--primary:hover,
 .agustos-button--primary:hover {
   border-color: var(--ink);
   background: var(--ink);
-  color: var(--paper-white);
+  color: var(--paper);
 }
 
-/* Outline — the real alternative, downloads included. Fills black on hover,
-   label turns white. */
 .hero-action--secondary,
 .agustos-button--secondary {
   background: transparent;
+  color: var(--ink);
 }
 
 .hero-action--secondary:hover,
 .agustos-button--secondary:hover {
   background: var(--ink);
-  border-color: var(--ink);
-  color: var(--paper-white);
+  color: var(--paper);
 }
 
 /* Editorial hero links — page-opening action row.
@@ -615,12 +605,13 @@ table th:last-child, table td:last-child { text-align: right; }
 /* v3 composition recipes. These are deliberately structural: adapters may
    wrap them in framework components without changing the visual grammar. */
 .agustos-section {
-  padding-block: clamp(48px, 6vw, 80px);
+  padding-block: 64px;
   border-bottom: 1px solid var(--rule);
 }
 
 .agustos-section__head {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
   gap: var(--space-xl);
@@ -628,9 +619,13 @@ table th:last-child, table td:last-child { text-align: right; }
 }
 
 .agustos-card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  display: flex;
+  flex-wrap: wrap;
   gap: 20px;
+}
+.agustos-card-grid > * {
+  flex: 1 1 220px;
+  min-width: 0;
 }
 
 .agustos-card {
@@ -639,36 +634,32 @@ table th:last-child, table td:last-child { text-align: right; }
   gap: 14px;
   min-width: 0;
   padding: 24px;
-  background: var(--paper-white);
+  background: var(--paper);
   border: 1px solid var(--rule);
   border-radius: 10px;
 }
 
 .agustos-card--marked {
-  border-left: 2px solid var(--signal);
+  border-left: 2px solid var(--ink);
 }
 
 .agustos-chrome-link {
   min-height: var(--control-min);
   color: var(--ink-soft);
   font-family: var(--display);
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 500;
   text-decoration: none;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 2px;
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
 
 .agustos-chrome-link:hover,
 .agustos-chrome-link[aria-current="page"] {
   color: var(--ink);
   text-decoration: none;
-}
-
-@media (max-width: 720px) {
-  .agustos-section__head {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: var(--space-xs);
-  }
+  border-bottom-color: var(--signal);
 }
 
 /* Skip link for keyboard users */
@@ -713,17 +704,17 @@ table th:last-child, table td:last-child { text-align: right; }
 
 .agustos-label {
   font-family: var(--display);
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 600;
   line-height: 1.4;
-  letter-spacing: 0;
-  color: var(--ink-soft);
+  letter-spacing: 0.005em;
+  text-transform: none;
+  color: var(--ink-faint);
 }
 
-/* The one place signal red appears in a form at rest. */
 .agustos-label--required::after {
   content: " *";
-  color: var(--signal);
+  color: var(--ink);
 }
 
 .agustos-input,
@@ -734,7 +725,7 @@ table th:last-child, table td:last-child { text-align: right; }
   padding: 0.6rem 0.75rem;
   background: var(--paper-white);
   border: 1px solid var(--rule);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   color: var(--ink);
   font-family: var(--body);
   /* 16px exactly: iOS zooms the viewport on focus below this. */
@@ -813,7 +804,7 @@ table th:last-child, table td:last-child { text-align: right; }
   inline-size: 1rem;
   block-size: 1rem;
   margin: 0;
-  accent-color: var(--signal);
+  accent-color: var(--ink);
 }
 
 /* --ink-soft (7.3-8.9 contrast), not --ink-faint (3.4). A form hint states a
@@ -834,9 +825,28 @@ table th:last-child, table td:last-child { text-align: right; }
   color: var(--state-danger);
 }
 
-/* --- Buttons: both variants alias .hero-action in section 5. Two treatments,
-   no third — a tertiary "quiet" rank was retired in v5.0.0. Where a lower-emphasis
-   action is needed, use a content link (bold + 2px signal underline) instead. --- */
+/* --- Buttons (1 new; the other three alias .hero-action in section 5) --- */
+
+/* Tertiary action. The rank the system lacked, and the reason people invent
+   their own bare <button>. */
+.agustos-button--quiet {
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--signal);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+.agustos-button--quiet:hover {
+  border-color: transparent;
+  box-shadow: none;
+  color: var(--signal);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 
 /* --- Badges (6) --- */
 
@@ -848,14 +858,15 @@ table th:last-child, table td:last-child { text-align: right; }
   gap: var(--space-2xs);
   padding: 2px var(--space-xs);
   border: 1px solid currentColor;
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   background: transparent;
   color: var(--ink-soft);
   font-family: var(--display);
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 12.5px;
+  font-weight: 600;
   line-height: 1.5;
-  letter-spacing: 0;
+  letter-spacing: 0.005em;
+  text-transform: none;
   white-space: nowrap;
 }
 
@@ -863,7 +874,7 @@ table th:last-child, table td:last-child { text-align: right; }
 .agustos-badge--warning { color: var(--state-warning); }
 .agustos-badge--danger  { color: var(--state-danger); }
 .agustos-badge--info    { color: var(--state-info); }
-.agustos-badge--signal  { color: var(--signal); }
+.agustos-badge--signal  { color: var(--ink); }
 
 /* --- Notices (6) --- */
 
@@ -872,7 +883,7 @@ table th:last-child, table td:last-child { text-align: right; }
 .agustos-notice {
   padding: var(--space-md) var(--space-lg);
   border-left: 2px solid var(--rule);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   background: color-mix(in srgb, var(--ink) 3%, var(--paper));
   font-family: var(--body);
   font-size: var(--size-body-compact);

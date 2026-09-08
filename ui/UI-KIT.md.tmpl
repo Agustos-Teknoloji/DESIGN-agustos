@@ -69,7 +69,7 @@ For a throwaway mockup with no build step:
   <link rel="stylesheet" href="/vendor/agustos-ui/agustos-fonts.css">
   <link rel="stylesheet" href="/vendor/agustos-ui/agustos.css">
 </head>
-<body class="brand-agustos">
+<body class="brand-agustos paper-white">
   <a class="skip-link" href="#main">İçeriğe geç</a>
   <main id="main" class="container">
     <!-- your page -->
@@ -85,11 +85,11 @@ Use `lang="tr"` for Turkish content so locale-sensitive capitalization renders c
 | Switch | Values | Where |
 |---|---|---|
 | Brand | `brand-agustos` · `brand-pataraz` · `brand-pld` · `brand-iesdesk` · `brand-specquick` | `<body>`, required |
-| Substrate | white by default; `band-cream` for a full-bleed callout/CTA band only, never a page or an inset card; `paper-white` is a no-op kept for back-compat | `<body>`/section |
-| Theme | `data-theme="dark"` (opt-in) | `<html>` |
+| Substrate | white paper by default; `paper-white` remains valid | `<body>` |
+| Theme | `data-theme="dark"` (opt-in; palette not yet redefined) | `<html>` |
 
-Ağustos alone owns red identity ink. Other house brands use black or white.
-Shared red (`#cf142a`) signals links, focus, markers, and small emphasis. Never recolor another house-brand logo red.
+Ağustos alone owns red identity ink. Other house brands use off-black `#15130f` or white.
+Shared red (`#cf142a`) is a 2px rule under content links and menu hover/current, plus keyboard focus. Never a fill, button, or statistic.
 
 ## Classes
 
@@ -106,7 +106,7 @@ Every class the kit publishes. See `starter.html` for one rendered instance of e
 | Cards | `agustos-card-grid` `agustos-card` `agustos-card--marked` |
 | Chrome | `agustos-chrome-link` |
 | Forms | `agustos-fieldset` `agustos-field` `agustos-field--invalid` · `agustos-label` `agustos-label--required` · `agustos-input` `agustos-textarea` `agustos-select` `agustos-check` `agustos-hint` `agustos-error` |
-| Buttons | `agustos-button` `--primary` (filled, committing) `--secondary` (outline, alternative) — no third tier |
+| Buttons | `agustos-button` `--primary` `--secondary` `--quiet` |
 | Badges | `agustos-badge` `--success` `--warning` `--danger` `--info` `--signal` |
 | Notices | `agustos-notice` `agustos-notice__title` `--success` `--warning` `--danger` `--info` |
 | Tabs | `agustos-tabs` `agustos-tab` `agustos-tabs__panel` |
@@ -120,9 +120,9 @@ Compose missing components from `agustos-card`, `agustos-button`, and `type-*` c
 
 Use `var(--name)`, never the literal value. Spacing `--space-2xs` … `--space-6xl`.
 Radii `--radius-sm` (4px) `--radius-md` (6px) `--radius-lg` (10px) — nothing larger exists.
-Color `--paper` `--ink` `--ink-soft` `--ink-faint` `--rule` `--signal` `--brand`
+Color `--paper` `--cream` `--surface` `--ink` `--ink-soft` `--ink-faint` `--rule` `--signal` `--brand`
 `--state-success|warning|danger|info`. Type `--display` `--body` `--mono`.
-Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-content` (920px).
+Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-content` (1180px).
 
 `ui/kit.json` carries the same list in machine-readable form.
 

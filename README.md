@@ -14,8 +14,8 @@ Keep the experience welcoming and easy to use.
 
 `DESIGN.md` defines the rules. `tokens/design-tokens.json` holds the portable `designDirection` contract.
 The generator publishes this contract in the handoff, resolved registry, and UI kit.
-Version 4.0.0 establishes this direction. Website application follows separately.
-Existing token values, CSS classes, logos, and fonts remain compatible.
+Version 5.0.0 applies the approved white-substrate palette, type scale, action system, and layout measure.
+Existing class names remain compatible. Numeric token values change.
 
 ## Architecture
 

@@ -7,7 +7,7 @@ const brands = [
   { id: 'agustos',   name: 'Ağustos',     hex: '#cf142a' },
   { id: 'pataraz',   name: 'Pataraz',     hex: '#15130f' },
   { id: 'pld',       name: 'PLD Türkiye', hex: '#15130f' },
-  { id: 'iesdesk',   name: 'IESdesk',     hex: '#15130f' },
+  { id: 'iesdesk',   name: 'IESDesk',     hex: '#15130f' },
   { id: 'specquick', name: 'SpecQuick',   hex: '#15130f' },
 ] as const;
 
@@ -27,13 +27,13 @@ const portfolio = [
   <article class="container">
     {/* ---- Hero showcase ---- */}
     <section style="margin-bottom: 4rem;">
-      <p class="type-h4" style="color: var(--signal); margin-bottom: 1.5rem;">v3 · Hero · type-hero</p>
+      <p class="type-h4" style="margin-bottom: 1.5rem;">v5 · Hero · type-hero</p>
       <h1 class="type-hero">Where light meets architecture.</h1>
       <p class="type-hero-deck">A studio working with Turkey's leading designers since 2009. Twelve international brands, one specification discipline.</p>
     </section>
 
     <section style="margin-bottom: 4rem;">
-      <p class="type-h4" style="color: var(--signal); margin-bottom: 1.5rem;">Hero (medium) · type-hero-md</p>
+      <p class="type-h4" style="margin-bottom: 1.5rem;">Hero (medium) · type-hero-md</p>
       <h2 class="type-hero-md">Premium luminaires, mid-tier pricing.</h2>
       <p class="type-hero-deck">Pataraz delivers project-grade fixtures without the project-grade markup.</p>
     </section>
@@ -59,7 +59,7 @@ const portfolio = [
     {/* ---- Brand portfolio: all four lockups in Inter Tight 650 ---- */}
     <h4 class="type-h4">Brand portfolio</h4>
     <p class="type-body">
-      Five wordmarks in Inter Tight 650. Ağustos alone is red; the other house brands are off-black and white. Same lockup grammar
+      Five wordmarks in Inter Tight 650. Ağustos alone is red; the other house brands are off-black `#15130f`. Same lockup grammar
       across the portfolio: symbol height = 1.4× wordmark cap height, gap = 0.4× wordmark size,
       always lowercase. The Turkish <em>ı</em> in <em>pataraz</em> and <em>pld türkiye</em> and
       the <em>ğ</em> in <em>ağustos</em> show how Inter Tight handles the Turkish alphabet at every size.
@@ -88,8 +88,8 @@ const portfolio = [
     <h4 class="type-h4">Negative expression</h4>
     <p class="type-body">
       White symbol and wordmark on the registered identity tile (DESIGN.md §"Three expressions"). For favicons,
-      monograms, identity tiles, and hero stamps. The negative ink is
-      a fixed value (#ffffff) so the tile reads correctly in both light and dark themes.
+      monograms, identity tiles, and hero stamps. The reverse marks use paper white
+      so the tile reads correctly in both light and dark themes.
     </p>
 
     <div class="portfolio-negative">
@@ -137,7 +137,7 @@ const portfolio = [
     <h4 class="type-h4">Ordered list</h4>
     <ol>
       <li>Pick a name (lowercase wordmark, 1–3 words, balanced next to the symbol).</li>
-      <li>Use neutral off-black and white identity ink unless the brand is Ağustos.</li>
+      <li>Use neutral black and white identity ink unless the brand is Ağustos.</li>
       <li>Apply existing lockup grammar — Inter Tight 650, neutral tracking.</li>
     </ol>
 
@@ -151,16 +151,16 @@ const portfolio = [
     <h4 class="type-h4">Definition list</h4>
     <dl>
       <dt>Substrate</dt>
-      <dd>White <code>#ffffff</code> is primary (v5.0.0). Cream <code>#fdf5f5</code> is an opt-in callout/CTA-band tint only.</dd>
+      <dd>White <code>#ffffff</code> paper. Cream <code>#fdf5f5</code> for callout bands only.</dd>
       <dt>Rule</dt>
-      <dd>Separator colour. <code>#e8e4da</code> hairline.</dd>
+      <dd>Hairline separator. <code>#e8e4da</code> on light surfaces.</dd>
       <dt>Locale</dt>
       <dd>Turkish content declares <code>lang="tr"</code> and the global <code>font-feature-settings: "locl"</code> handles correct capitalization (i → İ).</dd>
     </dl>
 
     <h4 class="type-h4">Figure</h4>
     <figure class="type-figure">
-      <div style="background: var(--rule); aspect-ratio: 16 / 9; display: grid; place-items: center; color: var(--ink-faint); font-family: var(--display); letter-spacing: 0; font-size: 12px; font-weight: 700;">
+      <div style="background: var(--surface); aspect-ratio: 16 / 9; display: grid; place-items: center; color: var(--ink-faint); font-family: var(--display); font-size: 12.5px; font-weight: 600;">
         Image placeholder
       </div>
       <figcaption>Figure 1 — A reference render slot, sized for editorial use. Caption is 13.5px italic in <code>--ink-faint</code>.</figcaption>
@@ -188,7 +188,7 @@ const portfolio = [
         <tr><td>Ağustos</td><td>Red</td><td><code>#cf142a</code></td><td>—</td></tr>
         <tr><td>Pataraz</td><td>Off-black</td><td><code>#15130f</code></td><td>house neutral</td></tr>
         <tr><td>PLD Türkiye</td><td>Off-black</td><td><code>#15130f</code></td><td>—</td></tr>
-        <tr><td>IESdesk</td><td>Off-black</td><td><code>#15130f</code></td><td>house neutral</td></tr>
+        <tr><td>IESDesk</td><td>Off-black</td><td><code>#15130f</code></td><td>house neutral</td></tr>
         <tr><td>SpecQuick</td><td>Off-black</td><td><code>#15130f</code></td><td>house neutral</td></tr>
       </tbody>
     </table>
@@ -292,7 +292,7 @@ const portfolio = [
     .portfolio__lockup--sm { grid-column: 3; }
   }
 
-  /* ---- Negative expression: registered identity tiles with white lockup ---- */
+  /* ---- Negative expression: registered identity tiles with cream lockup ---- */
   .portfolio-negative {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -306,10 +306,9 @@ const portfolio = [
   }
   .portfolio-negative__tile {
     /* Identity tile. The --lockup-color override forces the symbol+wordmark to
-       a fixed white value so the negative reads correctly in light AND dark themes
-       (var(--paper) would invert in dark mode and break the contrast), matching
-       DESIGN.md's favicon rule (white symbol on the identity tile). */
-    --lockup-color: #ffffff;
+       a fixed cream value so the negative reads correctly in light AND dark themes
+       (var(--paper) would invert in dark mode and break the contrast). */
+    --lockup-color: #fefcf2;
     background: var(--brand);
     border-radius: 8px;
     padding: 1.25rem 1rem;

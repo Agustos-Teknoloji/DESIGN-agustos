@@ -10,10 +10,11 @@
     "$source": "Matched to the LIVE site agustos.com (verified 2026-06-20): weight 650, letter-spacing normal. DESIGN.md, BrandLockup.astro, and the Rails adapter were reconciled to 650 on 2026-06-20 (they previously said Light 300). tokens.css weight 300 is .type-hero, NOT the lockup — left unchanged."
   },
   "substrate": {
-    "paper": "#fdf5f5",
+    "paper": "#ffffff",
     "paper_white": "#ffffff",
-    "ink": "#15130f",
-    "$source": "v5.0.0: white is primary; paper is now a callout-band tint only. Ink is the new off-black, shared by every non-Ağustos identity mark."
+    "cream": "#fdf5f5",
+    "surface": "#f4f2ed",
+    "ink": "#15130f"
   },
   "signal": {
     "color": "#cf142a",
