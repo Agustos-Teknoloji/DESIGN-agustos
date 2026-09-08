@@ -10,15 +10,15 @@ re-creating something that already exists.
 - Every brand shares **one symbol** — the Laz Güneşi (18-blade sun). Ağustos alone owns red;
   every other house brand uses black/white identity ink and differs by its **wordmark**.
 - The logo (“lockup”) = symbol + lowercase wordmark in the registered identity ink. Always lowercase. No tagline on it.
-- **Shared red `#cf142a` is a 2px rule** under content links and menu hover/current, plus keyboard focus. Never a fill.
+- **Shared red `#cf142a` is a 2px rule** under content links and menu hover/current, plus keyboard focus. Never a fill except the dark-theme primary CTA.
 
 ## Design direction
 
 **İskandivvian: Scandinavian restraint filtered through Mediterranean warmth.**
 Create minimal, functional, and elegant experiences that feel calm, warm, and human.
-Use clear hierarchy, comfortable spacing, white paper, cream callout bands, and direct language.
+Use clear hierarchy, comfortable spacing, white paper, cream callout bands, light gray `#ebebeb`, and direct language.
 Keep the experience welcoming and easy to use.
-Preserve registered logos, fonts, rationed red rules, accessibility, and supported themes.
+Preserve registered logos, fonts, rationed red rules, accessibility, and the locked dark theme.
 Read `ui/UI-KIT.md` for website application rules. The generated contract includes this direction.
 
 ## For finished brand assets — look in this order

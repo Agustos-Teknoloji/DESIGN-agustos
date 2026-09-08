@@ -38,14 +38,15 @@ engineering speaks." When in doubt, show the number.
 | **Shared signal red** | `#cf142a` | 2px content-link rule, menu hover or current-page rule, and keyboard focus. |
 | White (paper) | `#ffffff` | Default page ground. |
 | Cream (callout) | `#fdf5f5` | Full-bleed callout and CTA bands only. |
-| Surface | `#f4f2ed` | Functional tiles, image regions, summary panels. |
+| Surface | `#ebebeb` | Functional tiles, image regions, summary panels. |
 | Ink | `#15130f` | Primary text. |
-| Ink-soft | `#403b34` | Secondary text. |
+| Ink-soft | `#404040` | Secondary text. |
 | Ink-faint | `#8a8378` | Labels and quiet metadata. |
 | Rule | `#e8e4da` | Hairline dividers. |
 
-Optional dark theme (opt-in, not required at launch): paper `#16140f`, ink `#f0ebd8`, and
-shared signal red stays `#cf142a`.
+Optional dark theme (opt-in, not required at launch): paper `#15130f`, surface `#404040`,
+callout `#ebebeb`, ink `#ffffff`, ink-soft `#8a8378`. Shared signal red stays `#cf142a`.
+The dark primary CTA is filled red. The dark secondary CTA is filled white.
 
 ### Type — three families, one system
 

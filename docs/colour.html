@@ -35,16 +35,16 @@
 
   <p class="type-h4">Standard artifact 3 of 5</p>
   <h1 class="type-hero-md">Colour</h1>
-  <p class="type-hero-deck">White paper. Off-black ink. Shared red for action. Identity ink names the brand. Those jobs must not collapse into one token.</p>
+  <p class="type-hero-deck">Six colours. White paper. Off-black ink. Shared red for action. Dark theme reuses the same six, flipped. Identity ink names the brand. Those jobs must not collapse into one token.</p>
 
   <section class="agustos-section">
     <h2 class="type-h2">Substrate</h2>
-    <p class="type-body">About 70% of every surface is white. Cream is a full-bleed callout band only. Dark is opt-in, not the default editorial look.</p>
+    <p class="type-body">About 70% of every surface is white. Cream is a full-bleed callout band only. Dark is opt-in. It uses the same six colours, flipped.</p>
     <div class="swatches">
-      <div class="swatch"><i style="background:#ffffff;border-bottom:1px solid var(--rule)"></i><p><b>White paper</b><code>--paper #ffffff</code><br>Primary. Pages, UI, spec sheets.</p></div>
-      <div class="swatch"><i style="background:#f4f2ed"></i><p><b>Muted surface</b><code>--surface-muted #f4f2ed</code><br>Key figures, image wells. ~14%.</p></div>
-      <div class="swatch"><i style="background:#fdf5f5"></i><p><b>Cream band</b><code>--paper-cream #fdf5f5</code><br>CTA band only. Never a page.</p></div>
-      <div class="swatch"><i style="background:#16140f"></i><p><b>Dark paper</b><code>--paper-dark #16140f</code><br>Opt-in theme. Toggle above.</p></div>
+      <div class="swatch"><i style="background:#ffffff;border-bottom:1px solid var(--rule)"></i><p><b>White paper</b><code>--paper #ffffff</code><br>Primary. Pages, UI, spec sheets. ~70%.</p></div>
+      <div class="swatch"><i style="background:#ebebeb"></i><p><b>Light gray</b><code>--surface #ebebeb</code><br>Key figures, image wells. ~14%.</p></div>
+      <div class="swatch"><i style="background:#fdf5f5"></i><p><b>Cream band</b><code>--cream #fdf5f5</code><br>CTA band only. Never a page.</p></div>
+      <div class="swatch"><i style="background:#15130f"></i><p><b>Dark paper</b><code>--paper #15130f</code><br>Opt-in theme. Toggle above.</p></div>
     </div>
   </section>
 
@@ -52,7 +52,7 @@
     <h2 class="type-h2">Ink</h2>
     <div class="swatches">
       <div class="swatch"><i style="background:#15130f"></i><p><b>Ink</b><code>--ink #15130f</code><br>Body text, filled buttons, footer lockup.</p></div>
-      <div class="swatch"><i style="background:#403b34"></i><p><b>Ink soft</b><code>--ink-soft #403b34</code><br>Secondary text, decks, hints.</p></div>
+      <div class="swatch"><i style="background:#404040"></i><p><b>Ink soft</b><code>--ink-soft #404040</code><br>Secondary text, decks, hints.</p></div>
       <div class="swatch"><i style="background:#8a8378"></i><p><b>Ink faint</b><code>--ink-faint #8a8378</code><br>Placeholders only. Not content.</p></div>
       <div class="swatch"><i style="background:#e8e4da"></i><p><b>Rule</b><code>--rule #e8e4da</code><br>Hairline separators.</p></div>
     </div>
@@ -60,7 +60,7 @@
 
   <section class="agustos-section">
     <h2 class="type-h2">Identity and signal</h2>
-    <p class="type-body">Ağustos identity is red. Every other house brand identity is off-black. Shared signal red is always <code>#cf142a</code> for links, focus, markers, and small emphasis. Never recolor a non-Ağustos logo red. Never fill a button with signal red.</p>
+    <p class="type-body">Ağustos identity is red. Every other house brand identity is off-black. Shared signal red is always <code>#cf142a</code> for links, focus, markers, and small emphasis. Never recolor a non-Ağustos logo red. Never fill a button with signal red except the dark-theme primary CTA.</p>
     <div class="swatches">
       <div class="swatch"><i style="background:#cf142a"></i><p><b>Signal / Ağustos</b><code>--signal #cf142a</code><br>Action. Also Ağustos identity ink.</p></div>
       <div class="swatch"><i style="background:#15130f"></i><p><b>House identity</b><code>--brand #15130f</code><br>Pataraz, PLD, IESDesk, SpecQuick.</p></div>
@@ -80,12 +80,26 @@
   </section>
 
   <section class="agustos-section">
+    <h2 class="type-h2">Dark theme</h2>
+    <p class="type-body">Locked. No new hexes. Paper, surface, callout, ink, and ink-soft reuse the six colours. The primary CTA is filled red. The footer stays off-black.</p>
+    <div class="swatches">
+      <div class="swatch"><i style="background:#15130f"></i><p><b>Paper</b><code>#15130f</code><br>Off-black becomes the substrate.</p></div>
+      <div class="swatch"><i style="background:#404040"></i><p><b>Surface</b><code>#404040</code><br>Cards and panels on dark paper.</p></div>
+      <div class="swatch"><i style="background:#ebebeb"></i><p><b>Callout</b><code>#ebebeb</code><br>Header and CTA bands on dark.</p></div>
+      <div class="swatch"><i style="background:#ffffff;border-bottom:1px solid var(--rule)"></i><p><b>Ink</b><code>#ffffff</code><br>Headlines and primary text.</p></div>
+      <div class="swatch"><i style="background:#8a8378"></i><p><b>Ink soft</b><code>#8a8378</code><br>Secondary text on dark.</p></div>
+      <div class="swatch"><i style="background:#cf142a"></i><p><b>Red</b><code>#cf142a</code><br>Unchanged. Dark primary CTA fill.</p></div>
+    </div>
+  </section>
+
+  <section class="agustos-section">
     <h2 class="type-h2">Do not</h2>
     <ul class="type-list-ul">
       <li>Use cream as the page paper or as an inset rounded card.</li>
       <li>Mix a cream band and a gray band on the same page.</li>
       <li>Replace red links with terracotta, olive, or beige.</li>
       <li>Add shadows, gradients, or a second accent colour.</li>
+      <li>Invent a seventh palette hex. Dark theme reuses the six.</li>
       <li>Retype a hex in a consumer project. Use <code>var(--name)</code>.</li>
     </ul>
   </section>

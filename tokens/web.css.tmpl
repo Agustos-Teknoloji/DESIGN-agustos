@@ -9,6 +9,11 @@
   --cream:        {{foundations.color.paperCream}};
   --surface:      {{foundations.color.paperGray}};
 
+  /* Footer never follows the theme invert. It stays off-black. */
+  --footer-paper: {{foundations.color.ink}};
+  --footer-ink:   {{foundations.color.paperWhite}};
+  --footer-cta-hover: {{foundations.color.ruleCream}};
+
   /* Ink */
   --ink:        {{foundations.color.ink}};
   --ink-soft:   {{foundations.color.inkSoft}};
@@ -25,7 +30,8 @@
   --state-info:    {{foundations.color.stateInfo}};
 
   /* Shared interaction signal. Red is rationed: the 2px content-link rule,
-     the 2px menu hover/current rule, and keyboard focus. Never a fill. */
+     the 2px menu hover/current rule, and keyboard focus. The one fill
+     exception is the dark-theme primary CTA. */
   --signal: {{foundations.color.signalRed}};
 
   /* Shared spacing and measures */
@@ -97,11 +103,13 @@
   --rule:  var(--rule-white);
 }
 
-/* Dark theme — opt-in via html[data-theme="dark"]. The dark palette is not yet
-   redefined; keep the existing warm invert until that decision lands. */
+/* Dark theme — opt-in via html[data-theme="dark"]. Same six colours, flipped.
+   Footer variables stay off-black. */
 html[data-theme="dark"] {
   --paper:        {{foundations.color.paperDark}};
   --paper-white:  {{foundations.color.paperDark}};
+  --cream:        {{foundations.color.creamDark}};
+  --surface:      {{foundations.color.surfaceDark}};
   --ink:        {{foundations.color.inkDark}};
   --ink-soft:   {{foundations.color.inkSoftDark}};
   --ink-faint:  {{foundations.color.inkFaintDark}};
@@ -118,6 +126,33 @@ html[data-theme="dark"] {
 html[data-theme="dark"] code,
 html[data-theme="dark"] .type-code {
   background: rgba(255, 255, 255, 0.07);
+}
+
+/* Dark hero: black is not available as a fill. Primary is filled red —
+   the one approved deviation. Secondary is filled white. */
+html[data-theme="dark"] .hero-action--primary,
+html[data-theme="dark"] .agustos-button--primary {
+  background: var(--signal);
+  border-color: var(--signal);
+  color: {{foundations.color.paperWhite}};
+}
+html[data-theme="dark"] .hero-action--primary:hover,
+html[data-theme="dark"] .agustos-button--primary:hover {
+  background: var(--signal);
+  border-color: var(--signal);
+  color: {{foundations.color.paperWhite}};
+}
+html[data-theme="dark"] .hero-action--secondary,
+html[data-theme="dark"] .agustos-button--secondary {
+  background: {{foundations.color.paperWhite}};
+  border-color: {{foundations.color.paperWhite}};
+  color: {{foundations.color.ink}};
+}
+html[data-theme="dark"] .hero-action--secondary:hover,
+html[data-theme="dark"] .agustos-button--secondary:hover {
+  background: {{foundations.color.paperWhite}};
+  border-color: {{foundations.color.paperWhite}};
+  color: {{foundations.color.ink}};
 }
 
 /* -- 3. Reset + global rules --------------------------------- */

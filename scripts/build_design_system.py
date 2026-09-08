@@ -276,7 +276,7 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
                 "Use the exact Laz Güneşi asset. Never redraw or approximate the symbol.",
                 "Keep every wordmark lowercase, Inter Tight weight 650, and free of taglines.",
                 "Ağustos alone owns red as identity ink; Pataraz, PLD Türkiye, IESdesk, SpecQuick, and future house brands use neutral black/white identity ink by default.",
-                "Use shared signal red only for the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus; never use it to recolor a non-Ağustos logo.",
+                "Use shared signal red only for the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus; never use it to recolor a non-Ağustos logo. The one fill exception is the dark-theme primary CTA.",
                 "Default working interfaces to white paper, off-black ink, restrained rules, and small radii. No shadows.",
                 "Align primary content to one 1180px frame on the web; preserve the same alignment logic in other media.",
                 "Use calm typographic openings, quiet chrome, sentence case, and purposeful spacing. Do not use uppercase labels or eyebrow headings.",
@@ -286,7 +286,7 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
                 "Two-row or sidebar-first website chrome unless the product requirement makes it necessary",
                 "Purple gradients, decorative blobs, large uniform radii, or centered generic SaaS feature grids",
                 "Giving a non-Ağustos house brand its own chromatic identity color without an explicit governance change",
-                "Using signal red as a fill, a button, a statistic, or an element's own colour",
+                "Using signal red as a fill, a button, a statistic, or an element's own colour, except the dark-theme primary CTA",
                 "Hard-coding values that already exist in foundations, semantic roles, or recipes",
             ],
             "implementationOrder": [
@@ -472,23 +472,28 @@ def checker_token_table(resolved: dict[str, Any], brands: dict[str, Any]) -> str
     and cannot silently disagree with the registry it was cut from.
     """
     colors = resolved["foundations"]["color"]
-    table = {
-        colors["paperCream"]: "--cream",
-        colors["paperWhite"]: "--paper",
-        colors["paperGray"]: "--surface",
-        colors["ink"]: "--ink",
-        colors["inkSoft"]: "--ink-soft",
-        colors["inkFaint"]: "--ink-faint",
-        colors["ruleCream"]: "--rule",
-        colors["ruleWhite"]: "--rule-white",
-        colors["paperDark"]: "--paper",
-        colors["inkDark"]: "--ink",
-        colors["signalRed"]: "--signal",
-        colors["stateSuccess"]: "--state-success",
-        colors["stateWarning"]: "--state-warning",
-        colors["stateDanger"]: "--state-danger",
-        colors["stateInfo"]: "--state-info",
-    }
+    # Light-theme mappings win when a dark role reuses the same hex.
+    table: dict[str, str] = {}
+    for value, name in (
+        (colors["paperCream"], "--cream"),
+        (colors["paperWhite"], "--paper"),
+        (colors["paperGray"], "--surface"),
+        (colors["ink"], "--ink"),
+        (colors["inkSoft"], "--ink-soft"),
+        (colors["inkFaint"], "--ink-faint"),
+        (colors["ruleCream"], "--rule"),
+        (colors["ruleWhite"], "--rule-white"),
+        (colors["signalRed"], "--signal"),
+        (colors["stateSuccess"], "--state-success"),
+        (colors["stateWarning"], "--state-warning"),
+        (colors["stateDanger"], "--state-danger"),
+        (colors["stateInfo"], "--state-info"),
+        (colors["paperDark"], "--paper"),
+        (colors["inkDark"], "--ink"),
+        (colors["creamDark"], "--cream"),
+        (colors["surfaceDark"], "--surface"),
+    ):
+        table.setdefault(value, name)
     for slug, brand in brands["brands"].items():
         table.setdefault(brand["color"], f"--brand-{slug}")
     lines = ["{"]

@@ -1019,18 +1019,19 @@ Express this through typography, spacing, neutral surfaces, and helpful language
 The user correction also applies to the saved website brief and implementation plan.
 Existing visual values and website layouts remain unchanged.
 
-## v5.0 — white substrate, red as a 2px rule (2026-09-08)
+## v5.0 — white substrate, six colours, locked dark theme (2026-09-08)
 
-The attached design bundle superseded the cream-substrate direction.
-White is now the paper. Cream `#fdf5f5` is a full-bleed callout band only.
-The six-color palette, off-black `#15130f`, one H2 role, filled-plus-outline buttons, and the 1180px frame are locked.
+The attached design bundle superseded both the cream-substrate direction and the first white-substrate pass.
+White is the paper. Cream `#fdf5f5` is a full-bleed callout band only.
+The six colours are locked: white `#ffffff`, cream `#fdf5f5`, light gray `#ebebeb`, dark gray `#404040`, off-black `#15130f`, red `#cf142a`.
 
-Red is rationed to three uses: the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus.
-No red fills, red buttons, red statistics, uppercase labels, eyebrow headings, arrows, or shadows.
+The first v5 pass had used `#f4f2ed` and `#403b34` and left dark as an invert. This bundle replaced those with `#ebebeb` and `#404040`, and locked dark as the same six roles flipped.
+
+Red is rationed to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus.
+The one fill exception is the dark-theme primary CTA, because black is not available as a fill on dark paper.
 
 House-brand identity ink moved from `#1a1a1a` to `#15130f`. Public CSS class names stay.
-Dark theme, CTA repetition, photography, and quote placement remain open.
-Do not invent values for those.
+CTA repetition, photography, quote placement, and whether dark ships on marketing pages remain open.
 
 ## Slim handoff zip (2026-09-08)
 

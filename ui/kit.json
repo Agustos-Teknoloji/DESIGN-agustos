@@ -94,7 +94,7 @@
     ],
     "avoid": [
       "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
-      "Red fills, red buttons, red statistics, or red as an element's own colour",
+      "Red fills, red buttons, red statistics, or red as an element's own colour, except the dark-theme primary CTA",
       "Uppercase labels, eyebrow labels, arrows on buttons, or decorative motion",
       "Inflated luxury claims or forced friendliness"
     ],
@@ -113,13 +113,13 @@
     "name": "İskandivvian",
     "naming": "Use this as a defined project label, not an established design movement.",
     "principles": [
-      "Use white as the paper. Reserve cream for full-bleed callout and CTA bands.",
-      "Express warmth through warm grays, cream bands, comfortable spacing, readable typography, and approachable language.",
+      "Use white as the paper. Reserve cream for full-bleed callout and CTA bands. The six colours are white #ffffff, cream #fdf5f5, light gray #ebebeb, dark gray #404040, off-black #15130f, and red #cf142a.",
+      "Express warmth through those grays, cream bands, comfortable spacing, readable typography, and approachable language.",
       "Make every section useful. Keep navigation, information, and next actions easy to understand.",
       "Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.",
       "Use modest corners and hairline rules. Do not use shadows, gradients, or textures.",
       "Keep text, controls, and technical tables on plain surfaces. Use authentic imagery only when it explains the work.",
-      "Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. Retain registered logos, fonts, and accessible contrast.",
+      "Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. The one fill exception is the dark-theme primary CTA. Dark theme reuses the same six roles, flipped. Retain registered logos, fonts, and accessible contrast.",
       "Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings."
     ]
   },
@@ -130,20 +130,20 @@
       "sha256": "2991c2091c61dc82aaf59577e1d9c45072584073404271fbd89d9ce1874f6c42"
     },
     "UI-KIT.md": {
-      "bytes": 7687,
-      "sha256": "0c8be0c06fc7faf288db34196fb097554bf60ea80e93ccea2bdec8b652d6b2f5"
+      "bytes": 7960,
+      "sha256": "1f638381034cebc3daf934da81479ec277d406a89abb2bbaad86b36b811b18bb"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
       "sha256": "aad1ab9bf1362cf9c3b1a903accc98737f1a26bbf7fc3f53bcbafce4ffd4ebac"
     },
     "agustos.css": {
-      "bytes": 25447,
-      "sha256": "0c0a4b65d7ed2e83850e5c5bca521a8971f9a3e699bc66315bfebead29681c5d"
+      "bytes": 26519,
+      "sha256": "0ac1247a182b4c7c2ed7321330380405518b954dda31c972f6c470675576358d"
     },
     "check-agustos-ui.py": {
-      "bytes": 14572,
-      "sha256": "4618824016d886f4d09e2224900114f7a3435ab6c6c784d365c3f05aeb5d818c"
+      "bytes": 14516,
+      "sha256": "c415883be070fd34d6baa1a5cded227c258352c8cac841e8ea6915d67ac0140b"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
