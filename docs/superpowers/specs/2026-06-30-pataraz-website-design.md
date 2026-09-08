@@ -81,7 +81,7 @@ the `agustos` layout, and `_brand_lockup`. Re-theme to Pataraz blue and Turkish:
 - The design tokens (CSS variables in `tokens.css`) remain the source of truth. Tailwind's
   theme **references them** (`colors.brand → var(--brand)`, `cream → var(--paper)`, `ink`,
   the Inter Tight / Inter / JetBrains Mono families). Utilities for layout, tokens for brand.
-- Brand applied via the existing helper / `.brand-pataraz` (`--brand: #1a1a1a`, shared `--signal: #cf142a`), `lang="tr"`.
+- Brand applied via the existing helper / `.brand-pataraz` (`--brand: #15130f`, shared `--signal: #cf142a`), `lang="tr"`.
 - Favicon + lockup come from `brand/exports/pataraz/` via the sync task.
 
 ### 5.2 Data model
