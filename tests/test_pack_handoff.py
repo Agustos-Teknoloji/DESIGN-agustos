@@ -64,10 +64,17 @@ class PackHandoffTest(unittest.TestCase):
         text = html.decode("utf-8")
         self.assertIn('href="ui/agustos.css"', text)
         self.assertIn("src=\"logos/pataraz-lockup__positive.svg\"", text)
+        self.assertNotIn('href="agustos.css"', text.replace('href="ui/agustos.css"', ""))
         html = next(payload for name, payload in self.members if name.endswith("START-HERE.html"))
         text = html.decode("utf-8")
         self.assertIn('href="ui/agustos.css"', text)
         self.assertNotIn('href="../ui/agustos.css"', text)
+
+    def test_repo_handbook_uses_same_folder_css(self):
+        for name in ("fonts.html", "colour.html", "web.html", "brands.html"):
+            text = (ROOT / "docs" / name).read_text(encoding="utf-8")
+            self.assertIn('href="agustos.css"', text, name)
+            self.assertNotIn('href="../ui/agustos.css"', text, name)
 
     def test_zip_writes_and_stays_small(self):
         with tempfile.TemporaryDirectory() as temp:

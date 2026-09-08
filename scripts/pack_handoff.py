@@ -63,6 +63,8 @@ def lockup_svgs(root: Path = ROOT) -> list[Path]:
 
 def rewrite_handbook_html(html: str) -> str:
     """Point kit and lockup paths at the zip root."""
+    html = html.replace('href="agustos-fonts.css"', 'href="ui/agustos-fonts.css"')
+    html = html.replace('href="agustos.css"', 'href="ui/agustos.css"')
     html = html.replace('href="../ui/agustos-fonts.css"', 'href="ui/agustos-fonts.css"')
     html = html.replace('href="../ui/agustos.css"', 'href="ui/agustos.css"')
     html = html.replace('href="../DESIGN.md"', 'href="DESIGN.md"')
@@ -74,7 +76,9 @@ def rewrite_handbook_html(html: str) -> str:
 def rewrite_setup_html(html: str) -> str:
     """Point kit stylesheets at the zip-root ui/ folder."""
     return (
-        html.replace('href="../ui/agustos-fonts.css"', 'href="ui/agustos-fonts.css"')
+        html.replace('href="agustos-fonts.css"', 'href="ui/agustos-fonts.css"')
+        .replace('href="agustos.css"', 'href="ui/agustos.css"')
+        .replace('href="../ui/agustos-fonts.css"', 'href="ui/agustos-fonts.css"')
         .replace('href="../ui/agustos.css"', 'href="ui/agustos.css"')
         .replace('href="../ui/UI-KIT.md"', 'href="ui/UI-KIT.md"')
         .replace("python3 scripts/pack_handoff.py", "this zip is already packed")

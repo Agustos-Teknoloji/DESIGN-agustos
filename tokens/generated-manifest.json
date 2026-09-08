@@ -11,6 +11,8 @@
     "adapters/rails/app/assets/stylesheets/agustos/tokens.css": "00d9633f1d3307cff778293378e8d6164d553855b3c7cd48ce555670f42d0295",
     "adapters/wordpress/assets/css/agustos.css": "1320a35dd6ca34087ca71afb0c6054c1f01c938e905cbecc0b09fd7c23aabe4b",
     "adapters/wordpress/theme.json": "b3fba3f4085c417e25b77639c3b9869dd6b78877cb5040f0051a8b3d0f564a8e",
+    "docs/agustos-fonts.css": "9284e48b05dcffcd98e59d159bc8e6ef12699de3eb08772feb8e536a71784ac6",
+    "docs/agustos.css": "0c0a4b65d7ed2e83850e5c5bca521a8971f9a3e699bc66315bfebead29681c5d",
     "tokens/agustos.css": "495fe3fa04044cecfff5b3653ce514a3e3cf0a2741529e0dc47ef9257050759d",
     "tokens/design-system-handoff.json": "f45d914b62feca7d79729f428f65e37362c682c39e7b8287c1d9976aeda5e9ad",
     "tokens/resolved.json": "7b73be789de4b30a9987a1be11c45c3519eeac34bb92a016c7f452f87dfc63a8",

@@ -401,6 +401,27 @@ def ui_fonts_css(tokens: dict[str, Any], context: dict[str, str]) -> str:
     return "\n".join(lines).rstrip("\n") + "\n"
 
 
+def docs_fonts_css(tokens: dict[str, Any], context: dict[str, str]) -> str:
+    """Font faces for HTML files that live in docs/.
+
+    Same-folder stylesheets load when those pages are opened as files. Safari
+    blocks parent-directory CSS on file://. Font files stay in ui/fonts/; a
+    CDN copy is the fallback when that path is not available.
+    """
+    cdn_fonts = context["cdnBase"] + "fonts/"
+    lines: list[str] = []
+    for line in ui_fonts_css(tokens, context).splitlines(keepends=True):
+        marker = "url('./fonts/"
+        if marker in line:
+            name = line.split(marker, 1)[1].split("'", 1)[0]
+            line = (
+                f"  src: url('../ui/fonts/{name}') format('woff2-variations'),\n"
+                f"       url('{cdn_fonts}{name}') format('woff2-variations');\n"
+            )
+        lines.append(line)
+    return "".join(lines)
+
+
 def render_text_template(path: Path, context: dict[str, str]) -> str:
     """Substitute `{{ui.*}}` in a ui/ text template.
 
@@ -560,6 +581,8 @@ def expected_outputs() -> dict[Path, str]:
     # --- ui/ distribution kit -------------------------------------------
     context = kit_context(tokens)
     outputs[UI_DIR / "agustos-fonts.css"] = ui_fonts_css(tokens, context)
+    outputs[ROOT / "docs" / "agustos.css"] = outputs[UI_DIR / "agustos.css"]
+    outputs[ROOT / "docs" / "agustos-fonts.css"] = docs_fonts_css(tokens, context)
     context["tokenTable"] = checker_token_table(resolved, brands)
     context["classList"] = checker_class_list(tokens)
     for template, target in UI_TEMPLATES:
