@@ -1018,3 +1018,16 @@ Current guidance now focuses on Scandinavian clarity, Mediterranean warmth, and 
 Express this through typography, spacing, neutral surfaces, and helpful language.
 The user correction also applies to the saved website brief and implementation plan.
 Existing visual values and website layouts remain unchanged.
+
+## v5.0 — white substrate, red as a 2px rule (2026-09-08)
+
+The attached design bundle superseded the cream-substrate direction.
+White is now the paper. Cream `#fdf5f5` is a full-bleed callout band only.
+The six-color palette, off-black `#15130f`, one H2 role, filled-plus-outline buttons, and the 1180px frame are locked.
+
+Red is rationed to three uses: the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus.
+No red fills, red buttons, red statistics, uppercase labels, eyebrow headings, arrows, or shadows.
+
+House-brand identity ink moved from `#1a1a1a` to `#15130f`. Public CSS class names stay.
+Dark theme, CTA repetition, photography, and quote placement remain open.
+Do not invent values for those.

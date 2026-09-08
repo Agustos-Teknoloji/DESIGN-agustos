@@ -10,9 +10,11 @@
     "$source": "Matched to the LIVE site agustos.com (verified 2026-06-20): weight 650, letter-spacing normal. DESIGN.md, BrandLockup.astro, and the Rails adapter were reconciled to 650 on 2026-06-20 (they previously said Light 300). tokens.css weight 300 is .type-hero, NOT the lockup — left unchanged."
   },
   "substrate": {
-    "paper": "#fefcf2",
+    "paper": "#ffffff",
     "paper_white": "#ffffff",
-    "ink": "#1a1a1a"
+    "cream": "#fdf5f5",
+    "surface": "#f4f2ed",
+    "ink": "#15130f"
   },
   "signal": {
     "color": "#cf142a",
@@ -30,7 +32,7 @@
     },
     "pataraz": {
       "wordmark": "pataraz",
-            "color": "#1a1a1a",
+            "color": "#15130f",
             "title": "Pataraz",
             "domain": "pataraz.com",
             "office": true,
@@ -39,7 +41,7 @@
     },
     "pld": {
       "wordmark": "pld türkiye",
-            "color": "#1a1a1a",
+            "color": "#15130f",
             "title": "PLD Türkiye",
             "domain": "pldturkiye.com",
             "office": true,
@@ -48,7 +50,7 @@
     },
     "iesdesk": {
       "wordmark": "iesdesk",
-            "color": "#1a1a1a",
+            "color": "#15130f",
             "title": "IESDesk",
             "domain": "iesdesk.com",
             "office": false,
@@ -57,7 +59,7 @@
     },
     "specquick": {
       "wordmark": "specquick",
-            "color": "#1a1a1a",
+            "color": "#15130f",
             "title": "SpecQuick",
             "domain": "specquick.com",
             "office": false,

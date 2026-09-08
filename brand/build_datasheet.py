@@ -493,19 +493,18 @@ def gen_datasheet_html(slug, brand, reg, product, out: Path, lk_dir: Path):
 @font-face {{ font-family:'JB'; src:url('{mono}'); }}
 @page {{ size:A4; margin:0; }}
 * {{ box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }}
-:root {{ --brand:{color}; --signal:{signal}; --ink:#1a1a1a; --soft:#4a4a4a; --faint:#8a8a8a;
-         --paper:#fefcf2; --rule:#e8e3d0; }}
+:root {{ --brand:{color}; --signal:{signal}; --ink:#15130f; --soft:#403b34; --faint:#8a8378;
+         --paper:#ffffff; --rule:#e8e4da; --surface:#f4f2ed; }}
 body {{ margin:0; font-family:'IN',sans-serif; color:var(--ink); background:var(--paper);
         font-feature-settings:"locl" on,"kern" on; }}
 .page {{ width:210mm; height:297mm; overflow:hidden; padding:12mm 13mm 12mm; position:relative; }}
 
 /* Header */
 .head {{ display:flex; justify-content:space-between; align-items:flex-end;
-         padding-bottom:8px; border-bottom:2px solid var(--signal); }}
+         padding-bottom:8px; border-bottom:1px solid var(--rule); }}
 .head img {{ height:30px; display:block; }}
 .head .doc {{ text-align:right; }}
-.doc-type {{ font-family:'IT'; font-weight:650; font-size:11px; text-transform:uppercase;
-             letter-spacing:0.16em; color:var(--signal); }}
+.doc-type {{ font-family:'IT'; font-weight:600; font-size:11px; letter-spacing:0.005em; color:var(--faint); }}
 .doc-code {{ font-family:'JB'; font-size:11px; color:var(--soft); margin-top:3px;
              font-variant-numeric:tabular-nums; }}
 

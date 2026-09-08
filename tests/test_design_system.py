@@ -34,7 +34,7 @@ class DesignSystemGenerationTest(unittest.TestCase):
     def test_aliases_resolve_to_canonical_foundations(self):
         self.assertEqual(
             self.builder.resolve_token(self.tokens, "semantic.color.paper"),
-            "#fefcf2",
+            "#ffffff",
         )
 
     def test_unknown_token_path_is_rejected(self):
@@ -109,7 +109,7 @@ class DesignSystemGenerationTest(unittest.TestCase):
         self.assertEqual(self.builder.css_easing("linear"), "linear")
 
     def test_frame_measure_supports_pixel_and_calculated_units(self):
-        self.assertEqual(self.builder.css_frame_measure(self.tokens), "968px")
+        self.assertEqual(self.builder.css_frame_measure(self.tokens), "1244px")
         tokens = copy.deepcopy(self.tokens)
         tokens["foundations"]["measure"]["content"]["$value"] = "58rem"
         tokens["foundations"]["measure"]["gutter"]["$value"] = "1.5rem"
@@ -142,7 +142,7 @@ class DesignSystemGenerationTest(unittest.TestCase):
                     self.builder.render_web_css(self.tokens, brands, "test")
         self.assertEqual(
             self.builder.resolve_token(self.tokens, "semantic.layout.contentMeasure"),
-            "920px",
+            "1180px",
         )
 
     def test_expected_outputs_cover_all_web_adapters(self):
@@ -165,13 +165,13 @@ class DesignSystemGenerationTest(unittest.TestCase):
         theme = self.builder.wordpress_theme(self.tokens, brands)
         palette = {item["slug"]: item["color"] for item in theme["settings"]["color"]["palette"]}
         self.assertEqual(theme["version"], 3)
-        self.assertEqual(theme["settings"]["layout"]["contentSize"], "920px")
+        self.assertEqual(theme["settings"]["layout"]["contentSize"], "1180px")
         self.assertEqual(palette["brand-agustos"], "#cf142a")
-        self.assertEqual(palette["brand-pataraz"], "#1a1a1a")
+        self.assertEqual(palette["brand-pataraz"], "#15130f")
         self.assertEqual(palette["signal"], "#cf142a")
         self.assertEqual(
             theme["styles"]["elements"]["link"]["color"]["text"],
-            "var:preset|color|signal",
+            "var:preset|color|ink",
         )
         self.assertEqual(theme["styles"]["color"]["background"], "var:preset|color|paper-white")
 

@@ -10,15 +10,15 @@ re-creating something that already exists.
 - Every brand shares **one symbol** — the Laz Güneşi (18-blade sun). Ağustos alone owns red;
   every other house brand uses black/white identity ink and differs by its **wordmark**.
 - The logo (“lockup”) = symbol + lowercase wordmark in the registered identity ink. Always lowercase. No tagline on it.
-- **Shared red `#cf142a` is the interaction signal** for links, focus, markers, and small emphasis across every brand.
+- **Shared red `#cf142a` is a 2px rule** under content links and menu hover/current, plus keyboard focus. Never a fill.
 
 ## Design direction
 
 **İskandivvian: Scandinavian restraint filtered through Mediterranean warmth.**
 Create minimal, functional, and elegant experiences that feel calm, warm, and human.
-Use clear hierarchy, comfortable spacing, existing neutral surfaces, and direct language.
+Use clear hierarchy, comfortable spacing, white paper, cream callout bands, and direct language.
 Keep the experience welcoming and easy to use.
-Preserve registered logos, fonts, red interaction signals, accessibility, and supported themes.
+Preserve registered logos, fonts, rationed red rules, accessibility, and supported themes.
 Read `ui/UI-KIT.md` for website application rules. The generated contract includes this direction.
 
 ## For finished brand assets — look in this order
@@ -91,10 +91,10 @@ works on dark.
 | Brand (slug) | Wordmark | Color | Domain | Kit |
 |---|---|---|---|---|
 | `agustos` | ağustos | `#cf142a` | agustos.com | full |
-| `pataraz` | pataraz | `#1a1a1a` | pataraz.com | full |
-| `pld` | pld türkiye | `#1a1a1a` | pldturkiye.com | full |
-| `iesdesk` | iesdesk | `#1a1a1a` | iesdesk.com | logos only |
-| `specquick` | specquick | `#1a1a1a` | specquick.com | logos only |
+| `pataraz` | pataraz | `#15130f` | pataraz.com | full |
+| `pld` | pld türkiye | `#15130f` | pldturkiye.com | full |
+| `iesdesk` | iesdesk | `#15130f` | iesdesk.com | logos only |
+| `specquick` | specquick | `#15130f` | specquick.com | logos only |
 
 Novara (outdoor kitchen furniture) is a brand Ağustos **represents/distributes** (like Soraa, CoeLux),
 **not** a house brand — it has no assets here and needs none.
@@ -108,7 +108,7 @@ Novara (outdoor kitchen furniture) is a brand Ağustos **represents/distributes*
 - **Brand red is `#cf142a`.** `#D11D2B` is stale; if you see it, fix it to `#cf142a`.
 - **Wordmark = Inter Tight, weight 650, lowercase, registered identity ink.** Never put a tagline or subtitle on the lockup.
 - **One symbol for all brands.** Never redraw it. Use red for Ağustos identity; use black/white for every other house brand.
-- **Signal and identity are separate.** Red links/focus/markers do not make a non-Ağustos logo red.
+- **Signal and identity are separate.** Red rules and focus do not make a non-Ağustos logo red.
 - **NEVER hand-edit anything under `brand/exports/`.** It is all generated. To change an asset, edit
   **`brand/brands.json`** (the keystone registry) or the master symbol, then re-run the build
   (`brand/build.py` + `brand/build_templates.py` — see `brand/README.md`). Then update `ASSETS.md`.
@@ -116,7 +116,7 @@ Novara (outdoor kitchen furniture) is a brand Ağustos **represents/distributes*
   **not printed** on artifacts. The lockup is always tagline-free.
 - If you **add, move, or recolor** any brand asset, **update `ASSETS.md` in the same change**.
 - **Consuming projects never re-declare tokens.** Load `ui/agustos.css` and use `var(--name)`.
-  A hand-typed `#cf142a` or `--paper: #fefcf2` in a consumer repository is a defect; run
+  A consuming project that hand-types `#cf142a` or `--paper: #ffffff` is a defect; run
   `python3 ui/check-agustos-ui.py <project>` to find them.
 - **Fonts must be loaded, not just declared.** `agustos.css` sets font *stacks* only. Without
   `ui/agustos-fonts.css` (or the `@fontsource-variable` packages) a page renders in system sans

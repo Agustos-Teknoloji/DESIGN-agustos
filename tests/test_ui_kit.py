@@ -24,7 +24,7 @@ CSS_OUTPUTS = (
 )
 
 DARK_PAPER = "#16140f"
-LIGHT_SUBSTRATES = ("#ffffff", "#fefcf2")
+LIGHT_SUBSTRATES = ("#ffffff", "#fdf5f5")
 
 
 def _relative_luminance(hex_color: str) -> float:

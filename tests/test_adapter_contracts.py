@@ -19,7 +19,7 @@ class AdapterContractTest(unittest.TestCase):
             ROOT / "adapters" / "wordpress" / "assets" / "css" / "agustos.css",
         ]
         required = (
-            "--measure-content: 920px",
+            "--measure-content: 1180px",
             "--paper-white:",
             "#ffffff",
             "--signal: #cf142a",
@@ -80,7 +80,7 @@ class AdapterContractTest(unittest.TestCase):
         self.assertFalse(theme["settings"]["color"]["custom"])
         self.assertFalse(theme["settings"]["color"]["defaultPalette"])
         self.assertFalse(theme["settings"]["typography"]["customFontSize"])
-        self.assertEqual(theme["settings"]["layout"], {"contentSize": "920px", "wideSize": "1200px"})
+        self.assertEqual(theme["settings"]["layout"], {"contentSize": "1180px", "wideSize": "1180px"})
 
     def test_ci_enforces_web_office_and_unit_contracts(self):
         workflow = (ROOT / ".github" / "workflows" / "design-system.yml").read_text(encoding="utf-8")
@@ -93,12 +93,12 @@ class AdapterContractTest(unittest.TestCase):
         version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
         self.assertEqual(handoff["version"], version)
         self.assertEqual(handoff["system"]["brands"]["agustos"]["color"], "#cf142a")
-        self.assertEqual(handoff["system"]["brands"]["pataraz"]["color"], "#1a1a1a")
-        self.assertEqual(handoff["system"]["brands"]["pld"]["color"], "#1a1a1a")
-        self.assertEqual(handoff["system"]["brands"]["iesdesk"]["color"], "#1a1a1a")
-        self.assertEqual(handoff["system"]["brands"]["specquick"]["color"], "#1a1a1a")
+        self.assertEqual(handoff["system"]["brands"]["pataraz"]["color"], "#15130f")
+        self.assertEqual(handoff["system"]["brands"]["pld"]["color"], "#15130f")
+        self.assertEqual(handoff["system"]["brands"]["iesdesk"]["color"], "#15130f")
+        self.assertEqual(handoff["system"]["brands"]["specquick"]["color"], "#15130f")
         self.assertEqual(handoff["system"]["semantic"]["color"]["signal"], "#cf142a")
-        self.assertEqual(handoff["system"]["recipes"]["chrome"]["contentMeasure"], "920px")
+        self.assertEqual(handoff["system"]["recipes"]["chrome"]["contentMeasure"], "1180px")
         self.assertGreaterEqual(len(handoff["contract"]["invariants"]), 6)
         self.assertGreaterEqual(len(handoff["contract"]["acceptance"]), 6)
 
@@ -113,10 +113,10 @@ class AdapterContractTest(unittest.TestCase):
     def test_active_brand_exports_use_red_only_for_agustos_identity(self):
         expected = {
             "agustos": "#cf142a",
-            "pataraz": "#1a1a1a",
-            "pld": "#1a1a1a",
-            "iesdesk": "#1a1a1a",
-            "specquick": "#1a1a1a",
+            "pataraz": "#15130f",
+            "pld": "#15130f",
+            "iesdesk": "#15130f",
+            "specquick": "#15130f",
         }
         retired = ("#1a24cc", "#0000ff", "#1f6b4a")
         for slug, color in expected.items():

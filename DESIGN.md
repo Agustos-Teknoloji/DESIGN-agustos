@@ -1,8 +1,8 @@
 # Ağustos Design System
 
-**Version 4.0.2** · Cross-medium design system for Emre Güneş's brand portfolio
-**Last updated:** September 7, 2026
-**Status:** Approved design direction; website application follows separately
+**Version 5.0.0** · Cross-medium design system for Emre Güneş's brand portfolio
+**Last updated:** September 8, 2026
+**Status:** White-substrate visual direction applied to the registry, kit, and adapters
 
 ---
 
@@ -16,8 +16,8 @@ The portfolio currently spans:
 
 - **Ağustos Teknoloji.** Lighting agency and distribution (red, `#cf142a`)
 - **Pataraz.** Premium luminaire brand at mid-tier pricing (black/white identity)
-- **PLD Türkiye.** Lighting publication archive (black, `#1a1a1a`)
-- **IESdesk.** Software for lighting data (black/white identity) — successor to Photometric Batch
+- **PLD Türkiye.** Lighting publication archive (off-black, `#15130f`)
+- **IESDesk.** Software for lighting data (black/white identity) — successor to Photometric Batch
 - **SpecQuick.** House brand (black/white identity)
 
 Future house brands plug in by choosing a name. They inherit black/white identity ink, shared red interaction signals, typography, logo geometry, and structure.
@@ -36,16 +36,16 @@ Keep the experience welcoming and easy to use.
 
 ### Apply the direction
 
-- Retain cream, white, and dark themes. Use the existing palette before proposing additional colors.
+- Use white as the paper. Reserve cream `#fdf5f5` for full-bleed callout and CTA bands.
+- Use the six-color palette before proposing additional colors. Do not invent a seventh hex.
 - Preserve Inter Tight, Inter, and JetBrains Mono. Establish hierarchy through readable size, weight, and spacing.
 - Keep wordmarks lowercase at Inter Tight 650. Use the exact Laz Güneşi asset and registered identity ink.
-- Keep red links, focus, and interaction signals. Earth tones in photography do not create new interface colors.
-- Give each section a clear purpose. Use selective borders and modest corners to clarify groups and controls.
-- Use one alignment frame. Let generous spacing explain relationships without pushing useful information out of reach.
+- Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus.
+- Give each section a clear purpose. Use hairline rules and modest corners. Do not use shadows.
+- Use one 1180px alignment frame with 32px gutters. Scale type with `clamp()`. Wrap card rows with flex, not fixed-column grids.
 - Keep forms and technical content easy to scan. Preserve contrast, keyboard focus, and reduced-motion behavior.
 - Use authentic photographs only when they explain people, places, products, or work.
-- Preserve product colors, material appearance, and technical evidence in imagery.
-- Write direct, helpful copy. Explain practical benefits and next steps with familiar words.
+- Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings.
 
 ### Imagery
 
@@ -67,9 +67,8 @@ Every medium must remain clear and useful.
 
 `tokens/design-tokens.json` owns the machine-readable `designDirection` field.
 The generator publishes it in the handoff, resolved registry, and UI kit.
-Version 4 establishes the direction without changing numeric tokens or existing page layouts.
-Apply website compositions in a later change using representative content.
-Promote additional shared values only after rendered examples demonstrate a repeated need.
+Version 5 applies the approved white-substrate palette, type scale, action system, and layout measure.
+Dark theme remains an open decision; the existing invert stays until a dark palette is defined.
 
 ## System philosophy
 
@@ -89,11 +88,11 @@ The Laz Güneşi is the publisher's mark. Every brand carries it, regardless of 
 
 ### 4. Ağustos alone owns red as identity
 
-Ağustos uses red `#cf142a` for its symbol and wordmark. Pataraz, PLD Türkiye, IESdesk, SpecQuick, and future house brands use black `#1a1a1a` on light substrates and cream/white on black identity tiles. Do not invent a chromatic identity color for each brand.
+Ağustos uses red `#cf142a` for its symbol and wordmark. Pataraz, PLD Türkiye, IESDesk, SpecQuick, and future house brands use off-black `#15130f` on light substrates and cream/white on black identity tiles. Do not invent a chromatic identity color for each brand.
 
 ### 5. Shared red is a signal, not decoration
 
-The link is the primary shared interaction expression: bold + 2px red underline. Red also appears in focus rings, the page-defining hero eyebrow, and editorial markers such as blockquote borders, pullquote quotes, list markers, and footnote references. Everything else is ink on paper. The identity role (`brandMark`) and interaction role (`signal`) are separate: red never recolors a non-Ağustos logo.
+The link is the primary shared interaction expression: a 2px red underline on content links. The same 2px rule appears under a menu item on hover and on the current page. Keyboard focus is a 2px red outline at 2px offset. Red is never a fill, a button, a statistic, or an element's own colour. The identity role (`brandMark`) and interaction role (`signal`) are separate: red never recolors a non-Ağustos logo.
 
 ### 6. Turkish content declares its language
 
@@ -173,17 +172,19 @@ font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospa
 ```css
 :root {
   /* Substrate */
-  --paper: #fefcf2;        /* Cream, branded contexts */
-  --paper-white: #ffffff;  /* White, universal fallback, email, default web */
+  --paper: #ffffff;        /* White, primary paper */
+  --paper-white: #ffffff;  /* Compatibility alias */
+  --cream: #fdf5f5;        /* Full-bleed callout and CTA bands only */
+  --surface: #f4f2ed;      /* Functional tiles, image regions, summary panels */
 
   /* Ink */
-  --ink: #1a1a1a;          /* Primary text */
-  --ink-soft: #4a4a4a;     /* Secondary text, soft headings */
-  --ink-faint: #8a8a8a;    /* Tertiary — placeholders, disabled state; not for content text */
+  --ink: #15130f;          /* Headlines, filled buttons, footer, house-brand identity */
+  --ink-soft: #403b34;     /* Secondary text */
+  --ink-faint: #8a8378;    /* Labels and quiet metadata */
 
   /* Rule (separator color) */
-  --rule: #e8e3d0;         /* For cream substrate */
-  --rule-white: #e8e8e8;   /* For white substrate */
+  --rule: #e8e4da;         /* Hairline on light surfaces */
+  --rule-white: #e8e4da;   /* Compatibility alias */
 
   /* Radii */
   --radius-sm: 4px;   /* small controls */
@@ -191,18 +192,18 @@ font-family: 'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospa
   --radius-lg: 10px;  /* cards */
 
   /* Motion */
-  --dur: 120ms;
-  --ease: ease;
+  --dur: 150ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
 
   /* Shared interaction signal across every brand */
   --signal: #cf142a;
 
   /* Identity ink, selected per page */
   --brand-agustos: #cf142a;
-  --brand-pataraz: #1a1a1a;
-  --brand-pld: #1a1a1a;
-  --brand-iesdesk: #1a1a1a;
-  --brand-specquick: #1a1a1a;
+  --brand-pataraz: #15130f;
+  --brand-pld: #15130f;
+  --brand-iesdesk: #15130f;
+  --brand-specquick: #15130f;
   --brand: var(--brand-agustos);
 
   /* Type stacks, v2.0 */
@@ -237,7 +238,7 @@ Inside any brand-scoped element, `var(--brand)` resolves to its identity ink. `v
 }
 ```
 
-White is an opt-in working substrate. Cream remains the default branded substrate.
+White is the default paper. Cream is a callout-band color, not a page substrate. `.paper-white` remains a compatibility class.
 
 ---
 
@@ -269,10 +270,10 @@ Each token has exactly one job. When writing content, ask only: which one of the
 
 | Token | Size | Weight | Family | Notes |
 |---|---|---|---|---|
-| `.type-hero` | clamp(56px, 9vw, 112px) / lh 0.96 | 300 | Display | Tracking -0.045em. Margin-bottom 0.5em. **Big hero**, landing pages, launches, brand portfolio. One per page maximum. |
-| `.type-hero-md` | clamp(40px, 6vw, 72px) / lh 1.02 | 400 | Display | Tracking -0.032em. Margin-bottom 0.5em. **Medium hero**, inner-page headers, section openers, feature blocks. |
+| `.type-hero` | clamp(56px, 8.5vw, 104px) / lh 0.95 | 300 | Display | Tracking -0.045em. Margin-bottom 0.5em. Marketing page opening. One per page maximum. |
+| `.type-hero-md` | clamp(40px, 5vw, 60px) / lh 1.0 | 300 | Display | Tracking -0.04em. Product and inner-page titles. |
 
-The hero deck is a separate utility (`.type-hero-deck`), upright body at 18–21px, max-width 54ch, paired with either hero token. It is a supporting lead, not a quote, so it does not use italic. Eyebrow above hero uses `.type-h4` in shared signal red because it labels the page-defining statement.
+The hero deck is a separate utility (`.type-hero-deck`), upright body at 20px, max-width 54ch, paired with either hero token. It is a supporting lead, not a quote, so it does not use italic. Do not place an eyebrow above the hero. The headline carries the opening.
 
 ### Hero element styles
 
@@ -280,37 +281,40 @@ The HERO section is a page-opening composition, not a new token family. It combi
 
 | Element | Style | Required | Definition |
 |---|---|---|---|
-| **Headline** | `.type-hero` or `.type-hero-md` | Required | The page statement. Ink-on-paper, never a link. On the current Ağustos homepage, use `.type-hero-md`; it matches the existing site voice: calmer, slightly heavier, and less launch-like. Reserve `.type-hero` for more dramatic landing pages, launches, and brand portfolio openings. Let the homepage headline use the full page measure; do not constrain it to a narrow poster column. One headline per hero. |
+| **Headline** | `.type-hero` or `.type-hero-md` | Required | The page statement. Ink-on-paper, never a link. On the current Ağustos homepage, use `.type-hero`; it matches the locked marketing opening. Use `.type-hero-md` for product and inner-page titles. Let the homepage headline use the full page measure. One headline per hero. |
 | **Supporting Copy** | `.type-hero-deck` | Recommended | One supporting lead, 1-2 sentences, max-width 54ch, upright body, ink-soft. Explains the promise; does not repeat the headline. |
-| **Primary CTA** | `.hero-link.hero-link--primary` inside `.hero-links` | Optional | Main navigational path. The homepage may have two primary path links when it opens into two equal business lines. Bold editorial link with arrow and shared-red underline. No filled button in the homepage hero. |
-| **Secondary CTA** | `.hero-link.hero-link--secondary` inside `.hero-links` | Optional | Lower-priority contact or support action placed after the primary path links. Ink-soft editorial link with arrow and shared-red underline. |
+| **Primary CTA** | `.hero-action.hero-action--primary` inside `.hero-actions` | Optional | The committing action. Filled black button, 44px, no arrow. One per band. |
+| **Secondary CTA** | `.hero-action.hero-action--secondary` inside `.hero-actions` | Optional | The real alternative. Outline button that fills black on hover. A CTA pair is always filled + outline. |
 | **Trust Signals** | `.hero-trust` | Optional | Compact proof line below the actions: year range, client count, geography, partner names, standards, warranty, press, or certification. Body family at 13.5-14px, ink-soft. No badges, pills, or logo-wall treatment in the hero. |
 | **Hero Visual** | `.hero-visual` | Optional | Actual product, place, object, state, screenshot, diagram, render, or media. On the homepage, keep it below or after the text-led first viewport unless the visual is the product itself. Avoid decorative-only gradients, abstract logo collages, or framed visual cards that compete with the headline. |
 
-Optional `.type-h4` eyebrow may sit above the headline for category/context. Optional `.type-body` summary may sit between Supporting Copy and CTAs only when the page needs a second level of explanation; it is not one of the named HERO styles.
+Optional `.type-body` summary may sit between Supporting Copy and CTAs only when the page needs a second level of explanation. Do not add an eyebrow above the headline.
 
 Recommended order:
 
-1. Optional `.type-h4` eyebrow.
-2. **Headline**.
-3. **Supporting Copy**.
-4. Optional `.type-body` summary.
-5. `.hero-links` containing one or two **Primary CTA** links and optional **Secondary CTA**.
-6. **Trust Signals**.
-7. **Hero Visual** as the adjacent or following visual plane.
+1. **Headline**.
+2. **Supporting Copy**.
+3. Optional `.type-body` summary.
+4. `.hero-actions` containing one **Primary CTA** and optional **Secondary CTA**.
+5. **Trust Signals**.
+6. **Hero Visual** as the adjacent or following visual plane.
 
 Do not make the hero headline itself the call to action. Headline links create an oversized underline and confuse hierarchy: the statement starts behaving like a button. Keep the title as ink-on-paper; put navigation in the action row.
 
-CTA philosophy for the homepage is **editorial link, not product button**. Filled buttons conflict with the rule that signal red is not a surface color. The restrained publisher pattern is bold text, arrow, and shared-red underline. The hero stays typographic.
+CTA philosophy for the homepage is **filled + outline buttons**. A content link with a 2px red rule is the in-prose action, not the band-level commit. Do not use arrows.
 
-Hero component styles are web/component utilities, not typography tokens. Homepage hero action utilities are editorial links; boxed `.hero-action` utilities may still be used for lower section-opening CTA rows where target size and scannability matter more than first-impression typography. `.hero-trust` and `.hero-visual` belong to hero sections only:
+Hero component styles are web/component utilities, not typography tokens. Homepage hero actions are the shared button system. `.hero-link` remains available as the in-prose red-ruled link. `.hero-trust` and `.hero-visual` belong to hero sections only:
 
 | Utility | Role | Style |
 |---|---|---|
-| `.hero-links` | Homepage action row | Flex row, wraps, 1rem row gap, 1.5rem column gap, 2rem above. |
-| `.hero-link` | Base homepage action link | Display family, 17-21px, weight 600, shared-red 2px underline, arrow after text. The arrow may be literal text or `::after`; either is acceptable if accessible text stays clean. |
-| `.hero-link--primary` | Main homepage path action | Ink text, weight 600. Use one or two when the homepage has equal primary destinations. |
-| `.hero-link--secondary` | Secondary homepage action | Ink-soft text, weight 500. |
+| `.hero-actions` | Band-level action row | Flex row, wraps, 12px gap. |
+| `.hero-action` | Shared button | 44px, 6px radius, no shadow, no arrow. Display family, 15px, weight 600. |
+| `.hero-action--primary` | Committing action | Filled off-black. Hover stays black. One per band. |
+| `.hero-action--secondary` | Alternative action | Outline. Hover fills black, label turns white. |
+| `.hero-links` | In-prose action row | Flex row for red-ruled text links. |
+| `.hero-link` | Content link | Display family, 2px red rule. Hover turns ink red. |
+| `.hero-link--primary` | Main in-prose path | Ink text, weight 600. |
+| `.hero-link--secondary` | Secondary in-prose path | Ink-soft text, weight 500. |
 | `.hero-trust` | Trust signal line | Body family, 13.5-14px, line-height 1.5, ink-soft, margin-top 2rem to 3.5rem after actions. Items stay textual and compact. |
 | `.hero-visual` | Visual plane | Media container for the hero image/render/screenshot/diagram. Full-width within its layout column, no decorative card chrome, caption through `.type-figure` when needed. |
 
@@ -322,10 +326,10 @@ Actions are links, not generic buttons. In the homepage hero they should not loo
 
 | Token | Size | Weight | Family | Notes |
 |---|---|---|---|---|
-| `.type-h1` | 44px / lh 1.05 | 500 | Display | Tracking -0.026em. Page title, first H1 is the page itself. |
-| `.type-h2` | 24px / lh 1.18 | 500 | Display | Tracking -0.014em. Section break. |
-| `.type-h3` | 18px / lh 1.3 | 500, italic | Display | Italic separates categorically from H2. Inter Tight italics carry well. |
-| `.type-h4` | 12px | 700, uppercase | Display | Tracking 0.14em. Absorbs eyebrow + meta + label roles. |
+| `.type-h1` | clamp(40px, 5vw, 60px) / lh 1.0 | 300 | Display | Tracking -0.04em. Page and product title. |
+| `.type-h2` | clamp(34px, 4.4vw, 52px) / lh 1.02 | 400 | Display | Tracking -0.034em. One H2 role on marketing and product pages. |
+| `.type-h3` | 18px / lh 1.3 | 500, italic | Display | Italic separates categorically from H2. |
+| `.type-h4` | 12.5px | 600, sentence case | Display | Tracking 0.005em. Labels, table headers, breadcrumbs. No uppercase. |
 
 ### Body & inline (8)
 
@@ -344,10 +348,10 @@ Actions are links, not generic buttons. In the homepage hero they should not loo
 
 | Token | Size | Family | Notes |
 |---|---|---|---|
-| `.type-blockquote` | 18px / lh 1.55 | Body italic | Border-left 2px shared signal. `cite` is display, uppercase. |
-| `.type-pullquote` | 26px / lh 1.22 | Display | Borders top + bottom. Opening curly quote in shared red. |
-| `.type-list-ol` | 16.5px / lh 1.65 | Body | Markers in shared red. |
-| `.type-list-ul` | 16.5px / lh 1.65 | Body | Markers in shared red. |
+| `.type-blockquote` | 22px / lh 1.35 | Display italic | Border-left 2px ink. `cite` is display, sentence case, ink-faint. |
+| `.type-pullquote` | 26px / lh 1.22 | Display | Borders top + bottom. Opening curly quote in ink. |
+| `.type-list-ol` | 16.5px / lh 1.65 | Body | Markers in ink. |
+| `.type-list-ul` | 16.5px / lh 1.65 | Body | Markers in ink. |
 | `.type-dl` | 16px | Body | dt at 600 weight, dd at 400 weight in ink-soft. |
 | `.type-figure` | placeholder + caption | — | Caption is 13.5px italic body, ink-soft. |
 | `.type-code-block` | 13.5px | Mono | Background ink, color rule. |
@@ -358,7 +362,7 @@ Actions are links, not generic buttons. In the homepage hero they should not loo
 
 | Token | Size | Family | Notes |
 |---|---|---|---|
-| `.type-footnote` | 12.5px | Body | Ink-soft. `sup` markers in shared red, weight 600. |
+| `.type-footnote` | 12.5px | Body | Ink-soft. `sup` markers in ink, weight 600. |
 
 ### Vertical rhythm: three tiers, no exceptions
 
@@ -505,10 +509,10 @@ Each brand has a fixed lowercase display name, mapped in `BaseLayout.astro`:
 | Brand class | Wordmark | Color |
 |---|---|---|
 | `agustos` | `ağustos` | `--brand-agustos` (#cf142a) |
-| `pataraz` | `pataraz` | `--brand-pataraz` (#1a1a1a) |
-| `pld` | `pld türkiye` | `--brand-pld` (#1a1a1a) |
-| `iesdesk` | `iesdesk` | `--brand-iesdesk` (#1a1a1a) |
-| `specquick` | `specquick` | `--brand-specquick` (#1a1a1a) |
+| `pataraz` | `pataraz` | `--brand-pataraz` (#15130f) |
+| `pld` | `pld türkiye` | `--brand-pld` (#15130f) |
+| `iesdesk` | `iesdesk` | `--brand-iesdesk` (#15130f) |
+| `specquick` | `specquick` | `--brand-specquick` (#15130f) |
 
 **Why one-word wordmarks (where possible).** Each visible mark is a single noun: `ağustos`, `pataraz`, `iesdesk`, `specquick`. The exception is `pld türkiye` where the country qualifier is integral to the publication's identity. Drop "teknoloji," "luminaires," "batch", those describe what the brand does, not what it's called.
 
@@ -556,7 +560,7 @@ Full reasoning for the v2.0 decision in MEMORY.md turning points 19–28.
 ### Adding a new brand
 
 1. Pick a lowercase wordmark (1–3 words; should look balanced next to the symbol).
-2. Use neutral identity ink `#1a1a1a` unless this is Ağustos. A chromatic exception requires an explicit governance change.
+2. Use neutral identity ink `#15130f` unless this is Ağustos. A chromatic exception requires an explicit governance change.
 3. Add the registry entry and regenerate; generated adapters expose `--brand-{slug}` and the matching class.
 4. Add the wordmark to the framework brand map when an adapter requires one.
 5. Apply the brand class. The lockup inherits identity ink, font, weight, axes, and the lowercase rule; interactions continue to use shared red.
@@ -617,7 +621,7 @@ Accessibility is part of the design system, not an implementation afterthought. 
 
 ### Motion and state
 
-- Transitions should be short and functional (roughly 120-180ms).
+- Transitions should be short and functional (150ms, `cubic-bezier(0.2, 0, 0, 1)`).
 - Do not encode meaning in color alone. Links use both weight and underline; active navigation uses position, text, and state, not just color.
 - Dark theme is allowed as an opt-in implementation layer, but it must preserve the same token relationships: paper, ink, rule, identity ink, and shared signal, not a separate visual system.
 
@@ -639,21 +643,25 @@ All three faces use the **Google Fonts Latin Plus** glyph set. Verified support 
 
 ## Substrate strategy
 
-The system supports two canonical paper colors plus one opt-in dark UI layer. Same tokens, same rules, different `--paper` value.
+The system supports one white paper, one cream callout band, one functional gray, plus one opt-in dark UI layer. Same tokens, same rules.
 
-### Cream `#fefcf2` (primary, branded contexts)
+### White `#ffffff` (primary paper)
 
-Marketing pages, editorial articles, proposals, beautifully-typeset cover documents. The paper carries warmth and editorial register.
+Marketing pages, product pages, email, documents, dashboards, and product UI. About 70% of every surface.
 
-### White `#ffffff` (universal, working contexts)
+### Cream `#fdf5f5` (callout band only)
 
-Email, docx defaults, generic web, printer paper, dashboards, product UI. The paper disappears; the typography carries the brand.
+Full-bleed callout and CTA bands with hairline rules top and bottom. Never an inset rounded card. Never the page paper. Logo red at 5% into white.
 
-A single CSS variable swap flips the system. No other token changes.
+### Light gray `#f4f2ed` (functional surface)
 
-### Dark `#16140f` (opt-in UI context)
+Key-figure tiles, image regions, and summary panels.
 
-Dark theme is an implementation layer for screens, not a third brand substrate. It inverts paper, ink, and rule while keeping identity and signal roles stable. Use dark theme for user preference and product UI comfort, not as a default editorial expression.
+A single CSS variable swap still flips dark theme. Cream is not a third page substrate.
+
+### Dark `#16140f` (opt-in UI context; palette open)
+
+Dark theme is an implementation layer for screens. The invert remains until a dedicated dark palette is decided. Use dark theme for user preference, not as a default editorial expression.
 
 ---
 
@@ -661,8 +669,8 @@ Dark theme is an implementation layer for screens, not a third brand substrate. 
 
 Color has two separate jobs and they must never collapse into one token:
 
-1. **Identity ink (`brandMark` / `--brand`).** Ağustos is red `#cf142a`. Every other house brand is black `#1a1a1a` on light substrates and cream/white on black identity fields.
-2. **Interaction signal (`signal` / `--signal`).** Always red `#cf142a` across every brand. Use it for links, focus, markers, rules, and small emphasis.
+1. **Identity ink (`brandMark` / `--brand`).** Ağustos is red `#cf142a`. Every other house brand is off-black `#15130f` on light substrates and cream/white on black identity fields.
+2. **Interaction signal (`signal` / `--signal`).** Always red `#cf142a` across every brand. Use it only for the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus.
 
 A new chromatic house-brand identity is a philosophy change, not a routine registry choice. It requires updating this specification, `brand/brands.json`, tokens, tests, and the decision history together.
 
@@ -716,12 +724,12 @@ Current non-token utilities:
 
 | Utility | Role |
 |---|---|
-| `.paper-white` | Switches `--paper` and `--rule` to white-context values. |
-| `html[data-theme="dark"]` | Optional dark theme; inverts paper/ink/rule while preserving identity and signal roles. |
-| `.site-frame` | Shared site-chrome frame: 920px content measure plus 1.5rem gutters. |
+| `.paper-white` | Compatibility class. White is already the default paper. |
+| `html[data-theme="dark"]` | Optional dark theme; inverts paper/ink/rule while preserving identity and signal roles. Dark palette is not yet redefined. |
+| `.site-frame` | Shared site-chrome frame: 1180px content measure plus 32px gutters. |
 | `.container` | The same frame geometry plus default vertical page padding. |
-| `.hero-links`, `.hero-link*` | Editorial homepage hero action row. |
-| `.hero-action*` | Boxed lower-section CTA links where tap target and scannability matter. |
+| `.hero-actions`, `.hero-action*` | Shared button system. Filled black + outline. |
+| `.hero-links`, `.hero-link*` | In-prose red-ruled text links. |
 | `.skip-link` | Keyboard accessibility utility for persistent navigation layouts. |
 
 UI primitives — NEW IN v3.1. Product-surface controls in the same grammar as the editorial layer:
@@ -729,10 +737,10 @@ hairline rules, 4/6px radii, one 2px signal accent per element, 44px targets.
 
 | Group | Classes | Notes |
 |---|---|---|
-| Forms | `.agustos-fieldset` `.agustos-field` `.agustos-field--invalid` `.agustos-label` `.agustos-label--required` `.agustos-input` `.agustos-textarea` `.agustos-select` `.agustos-check` `.agustos-hint` `.agustos-error` | Inputs are 16px to prevent iOS focus zoom. Checkboxes and radios use `accent-color: var(--signal)` rather than replaced markup. The invalid state responds to `aria-invalid` as well as the class. `.agustos-hint` uses `--ink-soft`, not `--ink-faint`: a hint is content and must clear 4.5:1. |
-| Buttons | `.agustos-button` `--primary` `--secondary` `--quiet` | The first three are selector-list aliases of `.hero-action*`, so there is one visual definition. `--quiet` is the tertiary rank the system previously lacked. |
+| Forms | `.agustos-fieldset` `.agustos-field` `.agustos-field--invalid` `.agustos-label` `.agustos-label--required` `.agustos-input` `.agustos-textarea` `.agustos-select` `.agustos-check` `.agustos-hint` `.agustos-error` | Inputs are 16px to prevent iOS focus zoom. Checkboxes and radios use `accent-color: var(--ink)`. Labels are sentence case. The invalid state responds to `aria-invalid` as well as the class. `.agustos-hint` uses `--ink-soft`, not `--ink-faint`. |
+| Buttons | `.agustos-button` `--primary` `--secondary` `--quiet` | Primary is filled black and stays black on hover. Secondary is outline and fills black on hover. `--quiet` is the in-prose red-ruled text action on a button element. Never two filled buttons in one band. |
 | Badges | `.agustos-badge` `--success` `--warning` `--danger` `--info` `--signal` | The `.type-h4` typographic register at badge scale. Bordered and transparent, never a filled pill. |
-| Notices | `.agustos-notice` `.agustos-notice__title` `--success` `--warning` `--danger` `--info` | The same 2px left-rule grammar as `blockquote` and `.agustos-card--marked`. |
+| Notices | `.agustos-notice` `.agustos-notice__title` `--success` `--warning` `--danger` `--info` | The same 2px left-rule grammar as `blockquote` and `.agustos-card--marked`, in ink or state color, not signal red. |
 | Tabs | `.agustos-tabs` `.agustos-tab` `.agustos-tabs__panel` | Active state via `aria-selected="true"` or `.is-active`; a 2px signal underline, the existing current-item marker. |
 
 Deliberately absent, and to stay absent: breadcrumbs, pagination, modals, tooltips, dropdowns,

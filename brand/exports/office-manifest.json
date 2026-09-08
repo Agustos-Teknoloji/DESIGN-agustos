@@ -1,16 +1,16 @@
 {
   "artifacts": {
-    "brand/exports/agustos/office/agustos-document-template.docx": "f78ca4dbce07dd67892089ac7f5d15204fdfdcc6776d220b7a91cc73ecb70a70",
-    "brand/exports/agustos/office/agustos-letterhead.docx": "6d210d80b5d13f2749f282ab999ce1dfd4fd4423970be8c49912489ffd13962e",
-    "brand/exports/agustos/office/agustos-template.pptx": "b11617a5873f2b902ca598570e120f80baebbd7f5311c86f29e7429a2ba917ca",
-    "brand/exports/pataraz/office/pataraz-document-template.docx": "0923ccb22536b0f0aa0285634f50cedc78c92b558ec83190b1284eddbae3c9ca",
-    "brand/exports/pataraz/office/pataraz-letterhead.docx": "e76ea6af320e52e7f6424e49bea266f1250f59d54ba9ccb3020ddddee5ae5b3d",
-    "brand/exports/pataraz/office/pataraz-template.pptx": "7f4f79715a5e9efdf3203c0791e064ef01e949c6160f1f7267cbb771576c915b",
-    "brand/exports/pld/office/pld-document-template.docx": "1b76fce7ca3bb430005f73e82fe077249e488bf3ea1b3bbb24eeab6a550db806",
-    "brand/exports/pld/office/pld-letterhead.docx": "0cba93fb993728307f1ef63d05fd731205879864c27df462b3e4cce767d4e4cd",
-    "brand/exports/pld/office/pld-template.pptx": "75322995e2444d5c0572dec71f00b29aec364b3ac8a541ed7adeabb5585c8811"
+    "brand/exports/agustos/office/agustos-document-template.docx": "5dc26615cc2ee9ee0b12d3a669c91bab3479fbaf037ac7db697db9a775e82036",
+    "brand/exports/agustos/office/agustos-letterhead.docx": "d326b01d74c6b21778056df45453b153a546beab7b55077c7404aef8dcb7cecd",
+    "brand/exports/agustos/office/agustos-template.pptx": "8450542b89d9d6e28fc2964e071b914b33c8b036c64b2c9c38728f1423d50956",
+    "brand/exports/pataraz/office/pataraz-document-template.docx": "58fb3b0620867a3199dc7de6de5951ea6691c30e0dff04bfb7310e1591f897b8",
+    "brand/exports/pataraz/office/pataraz-letterhead.docx": "1577343181378d653b7a34e5354212e4c578d036050e86b81aec37f7d53ca7ea",
+    "brand/exports/pataraz/office/pataraz-template.pptx": "57e66364c01c930b6dc8395254bc8f17e36ffb0b01866d6229b5e7358baae90a",
+    "brand/exports/pld/office/pld-document-template.docx": "e86a00d410172df941573749dcb5f9b2eded6b2a5144712ab88dc235428f08de",
+    "brand/exports/pld/office/pld-letterhead.docx": "c2dc9ba39a8f57f95b3dc8db5ef8404d962fe88e24b1bda019d5bdac3e8ff88d",
+    "brand/exports/pld/office/pld-template.pptx": "be5175a5a9d1f3df87e21e76393fdfe4e6858b03a6e27fe6aa9484939e2ca0ec"
   },
-  "source_sha256": "0c6b0b207f68fb15c79d8dde6ff7e9d2a83549bd3bdd8c72a5404695833931eb",
+  "source_sha256": "4df3302499887bd62dbc1d961cc7966023819af6a88598dd4d7ee555a31876b0",
   "system": "Ağustos Design System",
-  "version": "4.0.2"
+  "version": "5.0.0"
 }

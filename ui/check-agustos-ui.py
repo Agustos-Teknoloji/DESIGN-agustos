@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ağustos UI kit compliance checker — v4.0.2
+"""Ağustos UI kit compliance checker — v5.0.0
 
 GENERATED. Do not hand-edit. Regenerate with:
     python3 scripts/build_design_system.py
@@ -22,20 +22,20 @@ import re
 import sys
 from pathlib import Path
 
-KIT_VERSION = "4.0.2"
+KIT_VERSION = "5.0.0"
 REPOSITORY = "Agustos-Teknoloji/DESIGN-agustos"
 LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json"
 
 # hex value -> the variable that owns it. Injected from the token registry, so a
 # vendored copy of this file cannot drift from the system it was cut from.
 TOKEN_COLORS = {
-    "#fefcf2": "--paper",
-    "#ffffff": "--paper-white",
-    "#1a1a1a": "--ink",
-    "#4a4a4a": "--ink-soft",
-    "#8a8a8a": "--ink-faint",
-    "#e8e3d0": "--rule",
-    "#e8e8e8": "--rule-white",
+    "#fdf5f5": "--cream",
+    "#ffffff": "--paper",
+    "#f4f2ed": "--surface",
+    "#15130f": "--ink",
+    "#403b34": "--ink-soft",
+    "#8a8378": "--ink-faint",
+    "#e8e4da": "--rule-white",
     "#16140f": "--paper",
     "#f0ebd8": "--ink",
     "#cf142a": "--signal",
@@ -123,9 +123,9 @@ KIT_CLASSES = {
     "agustos-tabs__panel",
 }
 
-# #1a1a1a and #ffffff are legitimate as identity ink and as paper. Reported at
+# #15130f and #ffffff are legitimate as identity ink and as paper. Reported at
 # warning level rather than error: too common to fail a build over.
-SOFT_COLORS = {"#1a1a1a", "#ffffff"}
+SOFT_COLORS = {"#15130f", "#ffffff"}
 
 STALE_RED = "#d11d2b"
 SIGNAL_RED = "#cf142a"

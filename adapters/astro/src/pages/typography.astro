@@ -5,19 +5,19 @@ import BrandLockup from '../components/BrandLockup.astro';
 // Brand-switcher demo data
 const brands = [
   { id: 'agustos',   name: 'Ağustos',     hex: '#cf142a' },
-  { id: 'pataraz',   name: 'Pataraz',     hex: '#1a1a1a' },
-  { id: 'pld',       name: 'PLD Türkiye', hex: '#1a1a1a' },
-  { id: 'iesdesk',   name: 'IESdesk',     hex: '#1a1a1a' },
-  { id: 'specquick', name: 'SpecQuick',   hex: '#1a1a1a' },
+  { id: 'pataraz',   name: 'Pataraz',     hex: '#15130f' },
+  { id: 'pld',       name: 'PLD Türkiye', hex: '#15130f' },
+  { id: 'iesdesk',   name: 'IESDesk',     hex: '#15130f' },
+  { id: 'specquick', name: 'SpecQuick',   hex: '#15130f' },
 ] as const;
 
 // Per-brand wordmark mapping (matches BaseLayout's BRAND_WORDMARKS).
 const portfolio = [
   { brand: 'agustos',   wordmark: 'ağustos',     swatch: '#cf142a' },
-  { brand: 'pataraz',   wordmark: 'pataraz',     swatch: '#1a1a1a' },
-  { brand: 'pld',       wordmark: 'pld türkiye', swatch: '#1a1a1a' },
-  { brand: 'iesdesk',   wordmark: 'iesdesk',     swatch: '#1a1a1a' },
-  { brand: 'specquick', wordmark: 'specquick',   swatch: '#1a1a1a' },
+  { brand: 'pataraz',   wordmark: 'pataraz',     swatch: '#15130f' },
+  { brand: 'pld',       wordmark: 'pld türkiye', swatch: '#15130f' },
+  { brand: 'iesdesk',   wordmark: 'iesdesk',     swatch: '#15130f' },
+  { brand: 'specquick', wordmark: 'specquick',   swatch: '#15130f' },
 ] as const;
 ---
 <BaseLayout
@@ -27,13 +27,13 @@ const portfolio = [
   <article class="container">
     {/* ---- Hero showcase ---- */}
     <section style="margin-bottom: 4rem;">
-      <p class="type-h4" style="color: var(--signal); margin-bottom: 1.5rem;">v3 · Hero · type-hero</p>
+      <p class="type-h4" style="margin-bottom: 1.5rem;">v5 · Hero · type-hero</p>
       <h1 class="type-hero">Where light meets architecture.</h1>
       <p class="type-hero-deck">A studio working with Turkey's leading designers since 2009. Twelve international brands, one specification discipline.</p>
     </section>
 
     <section style="margin-bottom: 4rem;">
-      <p class="type-h4" style="color: var(--signal); margin-bottom: 1.5rem;">Hero (medium) · type-hero-md</p>
+      <p class="type-h4" style="margin-bottom: 1.5rem;">Hero (medium) · type-hero-md</p>
       <h2 class="type-hero-md">Premium luminaires, mid-tier pricing.</h2>
       <p class="type-hero-deck">Pataraz delivers project-grade fixtures without the project-grade markup.</p>
     </section>
@@ -59,7 +59,7 @@ const portfolio = [
     {/* ---- Brand portfolio: all four lockups in Inter Tight 650 ---- */}
     <h4 class="type-h4">Brand portfolio</h4>
     <p class="type-body">
-      Five wordmarks in Inter Tight 650. Ağustos alone is red; the other house brands are black and white. Same lockup grammar
+      Five wordmarks in Inter Tight 650. Ağustos alone is red; the other house brands are off-black `#15130f`. Same lockup grammar
       across the portfolio: symbol height = 1.4× wordmark cap height, gap = 0.4× wordmark size,
       always lowercase. The Turkish <em>ı</em> in <em>pataraz</em> and <em>pld türkiye</em> and
       the <em>ğ</em> in <em>ağustos</em> show how Inter Tight handles the Turkish alphabet at every size.
@@ -87,9 +87,9 @@ const portfolio = [
     {/* ---- Negative expression ---- */}
     <h4 class="type-h4">Negative expression</h4>
     <p class="type-body">
-      Cream symbol and wordmark on the registered identity tile (DESIGN.md §"Three expressions"). For favicons,
-      monograms, identity tiles, and hero stamps. The cream text is
-      a fixed value (#fefcf2) so the tile reads correctly in both light and dark themes.
+      White symbol and wordmark on the registered identity tile (DESIGN.md §"Three expressions"). For favicons,
+      monograms, identity tiles, and hero stamps. The reverse marks use paper white
+      so the tile reads correctly in both light and dark themes.
     </p>
 
     <div class="portfolio-negative">
@@ -151,16 +151,16 @@ const portfolio = [
     <h4 class="type-h4">Definition list</h4>
     <dl>
       <dt>Substrate</dt>
-      <dd>Cream <code>#fefcf2</code> for branded contexts, white <code>#ffffff</code> for working contexts.</dd>
+      <dd>White <code>#ffffff</code> paper. Cream <code>#fdf5f5</code> for callout bands only.</dd>
       <dt>Rule</dt>
-      <dd>Separator colour. <code>#e8e3d0</code> on cream, <code>#e8e8e8</code> on white.</dd>
+      <dd>Hairline separator. <code>#e8e4da</code> on light surfaces.</dd>
       <dt>Locale</dt>
       <dd>Turkish content declares <code>lang="tr"</code> and the global <code>font-feature-settings: "locl"</code> handles correct capitalization (i → İ).</dd>
     </dl>
 
     <h4 class="type-h4">Figure</h4>
     <figure class="type-figure">
-      <div style="background: var(--rule); aspect-ratio: 16 / 9; display: grid; place-items: center; color: var(--ink-faint); font-family: var(--display); text-transform: uppercase; letter-spacing: 0.14em; font-size: 11px; font-weight: 700;">
+      <div style="background: var(--surface); aspect-ratio: 16 / 9; display: grid; place-items: center; color: var(--ink-faint); font-family: var(--display); font-size: 12.5px; font-weight: 600;">
         Image placeholder
       </div>
       <figcaption>Figure 1 — A reference render slot, sized for editorial use. Caption is 13.5px italic in <code>--ink-faint</code>.</figcaption>
@@ -169,8 +169,8 @@ const portfolio = [
     <h4 class="type-h4">Code block</h4>
     <pre><code>{`/* tokens.css */
 :root {
-  --paper: #fefcf2;
-  --ink:   #1a1a1a;
+  --paper: #ffffff;
+  --ink:   #15130f;
   --brand: var(--brand-agustos);
 }`}</code></pre>
 
@@ -186,10 +186,10 @@ const portfolio = [
       </thead>
       <tbody>
         <tr><td>Ağustos</td><td>Red</td><td><code>#cf142a</code></td><td>—</td></tr>
-        <tr><td>Pataraz</td><td>Black</td><td><code>#1a1a1a</code></td><td>house neutral</td></tr>
-        <tr><td>PLD Türkiye</td><td>Black</td><td><code>#1a1a1a</code></td><td>—</td></tr>
-        <tr><td>IESdesk</td><td>Black</td><td><code>#1a1a1a</code></td><td>house neutral</td></tr>
-        <tr><td>SpecQuick</td><td>Black</td><td><code>#1a1a1a</code></td><td>house neutral</td></tr>
+        <tr><td>Pataraz</td><td>Off-black</td><td><code>#15130f</code></td><td>house neutral</td></tr>
+        <tr><td>PLD Türkiye</td><td>Off-black</td><td><code>#15130f</code></td><td>—</td></tr>
+        <tr><td>IESDesk</td><td>Off-black</td><td><code>#15130f</code></td><td>house neutral</td></tr>
+        <tr><td>SpecQuick</td><td>Off-black</td><td><code>#15130f</code></td><td>house neutral</td></tr>
       </tbody>
     </table>
 

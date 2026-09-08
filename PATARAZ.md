@@ -49,7 +49,7 @@ thing to translate or maintain across artifacts.
 |---|---|---|
 | Role | Parent: technology + curated distribution | In-house premium luminaire brand |
 | Audience | Broad / commercial | B2B spec market (designers, specifiers) |
-| Identity ink | Red `#cf142a` | Black `#1a1a1a` |
+| Identity ink | Red `#cf142a` | Off-black `#15130f` |
 | Interaction signal | Red `#cf142a` | Shared red `#cf142a` |
 | Hero asset | The portfolio | The product datasheet ("teknik föy") |
 | Tagline | *curated solutions* / *seçkin çözümler* | none |
@@ -67,13 +67,11 @@ section only notes the Pataraz application.
 
 ### Color
 
-- **Pataraz identity ink is black `#1a1a1a`.** The positive lockup is black on cream/white;
+- **Pataraz identity ink is off-black `#15130f`.** The positive lockup is off-black on white;
   the negative lockup is cream/white on a black tile.
-- **Shared interaction signal is Ağustos red `#cf142a`.** Links, focus, markers, section ticks,
-  and small emphasis use red across the whole portfolio. Red never recolors the Pataraz logo.
+- **Shared interaction signal is Ağustos red `#cf142a`.** Content links and menu hover use a 2px red rule. Red never recolors the Pataraz logo.
 - Pataraz blue is retired. `#1a24cc` and the older `#0000FF` are historical values, not active tokens.
-- Cream paper `#fefcf2`, ink `#1a1a1a`, and the substrate strategy are shared, unchanged
-  (`DESIGN.md` §"Substrate strategy").
+- White paper `#ffffff`, cream bands `#fdf5f5`, and off-black ink `#15130f` are shared (`DESIGN.md` §"Substrate strategy").
 
 ### Symbol & lockup
 
@@ -95,7 +93,7 @@ Shared, unchanged: **Inter Tight** (display/wordmark), **Inter** (body), **JetBr
 - **positive** (black marks on light) — default, ~90% of uses.
 - **negative** (cream/white marks on a black tile) — favicons and identity tiles.
 - **mono** (single ink) — single-color print, engraving.
-- The **favicon is the negative expression**: white symbol on a black `#1a1a1a` tile
+- The **favicon is the negative expression**: white symbol on an off-black `#15130f` tile
   (`DESIGN.md` §"Three expressions", §"Favicon & app icons").
 
 Verify every negative composition for contrast and small-size legibility before shipping.
@@ -112,7 +110,7 @@ master symbol and re-run the build — see `ASSETS.md` and `brand/README.md`.
 
 The new site is a **specification / reference catalog**, not a storytelling shop. Its job is to
 let a specifier find a product, trust the company, and walk away with the datasheet. Built
-entirely inside the shared system (cream substrate, neutral identity ink, shared red signal).
+entirely inside the shared system (white substrate, off-black identity ink, rationed red rules).
 
 ### Information architecture
 
@@ -139,10 +137,8 @@ Preserve product finishes, technical facts, black identity ink, and red interact
 Use imagery that supports product understanding.
 
 
-- **Substrate & accent.** Cream `#fefcf2` ground, ink `#1a1a1a` text, and shared red `#cf142a`
-  used as a signal for active states, section marks, links, and focus. The symbol remains black.
-- **Hero.** Calm and product-led: the luminaire and its defining numbers, not a slogan. Lots of
-  cream, generous rhythm (`DESIGN.md` §"Vertical rhythm").
+- **Substrate & accent.** White `#ffffff` paper, cream `#fdf5f5` callout bands, ink `#15130f` text, and shared red `#cf142a` used as a 2px rule under content links and menu hover. The symbol remains off-black.
+- **Hero.** Calm and product-led: the luminaire and its defining numbers, not a slogan. Generous rhythm (`DESIGN.md` §"Vertical rhythm").
 - **Spec tables.** The most important component. Mirror the datasheet's grouped structure
   (Elektriksel / Fotometrik / Fiziksel / Koruma & Ortam / Ömür & Garanti). Numbers and units in
   **JetBrains Mono** for alignment and credibility; Turkish labels, `lang="tr"` so İ/ı

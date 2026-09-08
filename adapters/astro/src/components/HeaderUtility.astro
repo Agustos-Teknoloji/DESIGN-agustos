@@ -52,7 +52,7 @@ const { className, languageSwitch, theme = true } = Astro.props;
     cursor: pointer;
     transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
   }
-  .site-header__icon-btn:hover { background: var(--rule); color: var(--ink); }
+  .site-header__icon-btn:hover { color: var(--ink); border-bottom: 2px solid var(--signal); background: transparent; border-radius: 0; }
   .site-header__icon-btn:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
   .site-header__theme-moon { display: none; }
   :global(html[data-theme="dark"]) .site-header__theme-sun { display: none; }
@@ -72,7 +72,7 @@ const { className, languageSwitch, theme = true } = Astro.props;
     text-decoration: none;
     transition: color var(--dur) var(--ease);
   }
-  .site-header__lang-link:hover { color: var(--ink); }
+  .site-header__lang-link:hover { color: var(--ink); border-bottom: 2px solid var(--signal); }
   .site-header__lang-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 
   @media (max-width: 1023px), (max-width: 1366px) and (hover: none) and (pointer: coarse) {

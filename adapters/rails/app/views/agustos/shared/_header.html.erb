@@ -15,19 +15,21 @@
         <% end %>
       </nav>
 
-      <% if agustos_search_config %>
-        <%= render "agustos/shared/header_search", variant: :desktop %>
-      <% end %>
+      <div class="agustos-header__end">
+        <% if agustos_search_config %>
+          <%= render "agustos/shared/header_search", variant: :desktop %>
+        <% end %>
 
-      <div class="agustos-header__utility agustos-header__utility--drawer">
-        <%= render "agustos/shared/header_utility" %>
+        <div class="agustos-header__utility agustos-header__utility--drawer">
+          <%= render "agustos/shared/header_utility" %>
+        </div>
+
+        <% if agustos_header_cta %>
+          <%= link_to agustos_value(agustos_header_cta, :label), agustos_value(agustos_header_cta, :href),
+            **agustos_link_html_options(agustos_header_cta, class_name: "agustos-header__cta"),
+            data: { action: "agustos-nav#follow" } %>
+        <% end %>
       </div>
-
-      <% if agustos_header_cta %>
-        <%= link_to agustos_value(agustos_header_cta, :label), agustos_value(agustos_header_cta, :href),
-          **agustos_link_html_options(agustos_header_cta, class_name: "agustos-header__cta"),
-          data: { action: "agustos-nav#follow" } %>
-      <% end %>
     </div>
 
     <div class="agustos-header__utility agustos-header__utility--bar">

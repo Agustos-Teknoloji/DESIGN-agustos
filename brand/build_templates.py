@@ -62,8 +62,9 @@ def palette(brand, reg, design):
         ("Ink", colors["ink"]),
         ("Ink Soft", colors["inkSoft"]),
         ("Ink Faint", colors["inkFaint"]),
-        ("Paper (Cream)", colors["paperCream"]),
+        ("Cream (callout)", colors["paperCream"]),
         ("Paper White", colors["paperWhite"]),
+        ("Surface", colors["paperGray"]),
         ("Rule", colors["ruleCream"]),
     ]
 
@@ -103,19 +104,21 @@ def gen_email_signature(slug, brand, reg, design, out: Path, lockup_png: Path):
     domain = brand.get("domain", "")
     # Tagline intentionally omitted — defined in the registry but used sparingly,
     # never on everyday artifacts (see brands.json $tagline_policy).
+    ink = design["foundations"]["color"]["ink"]
+    soft = design["foundations"]["color"]["inkSoft"]
     html = f"""<!-- {title} email signature. Paste into your mail client's signature editor.
      Self-contained (logo embedded). Replace {{{{NAME}}}}, {{{{ROLE}}}}, {{{{PHONE}}}}. -->
-<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;">
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;color:{ink};">
   <tr>
     <td style="padding-right:18px;vertical-align:middle;">
       <img src="{logo}" width="150" alt="{title}" style="display:block;border:0;">
     </td>
     <td style="border-left:2px solid {signal};padding-left:18px;vertical-align:middle;line-height:1.5;">
-      <div style="font-size:15px;font-weight:bold;color:#1a1a1a;">{{{{NAME}}}}</div>
-      <div style="font-size:13px;color:#4a4a4a;padding-bottom:6px;">{{{{ROLE}}}} &middot; {title}</div>
-      <div style="font-size:12px;color:#4a4a4a;">
+      <div style="font-size:15px;font-weight:bold;color:{ink};">{{{{NAME}}}}</div>
+      <div style="font-size:13px;color:{soft};padding-bottom:6px;">{{{{ROLE}}}} &middot; {title}</div>
+      <div style="font-size:12px;color:{soft};">
         {{{{PHONE}}}} &nbsp;|&nbsp;
-        <a href="mailto:hello@{domain}" style="color:#4a4a4a;text-decoration:none;">hello@{domain}</a> &nbsp;|&nbsp;
+        <a href="mailto:hello@{domain}" style="color:{soft};text-decoration:none;">hello@{domain}</a> &nbsp;|&nbsp;
         <a href="https://{domain}" style="color:{signal};text-decoration:none;font-weight:bold;">{domain}</a>
       </div>
     </td>
@@ -313,12 +316,13 @@ def gen_pptx(slug, out: Path):
 def gen_guidelines_html(slug, brand, reg, design, out: Path, lk_dir: Path, fav_dir: Path):
     color = brand["color"]
     signal = design["semantic"]["color"]["signal"]
+    colors = design["foundations"]["color"]
     title, domain = brand["title"], brand.get("domain", "")
     fonts = BRAND_DIR / "fonts"
     pal = palette(brand, reg, design)
     sw = "".join(
         f'<div class="sw"><div class="chip" style="background:{hx};'
-        f'{"border:1px solid #e8e3d0;" if hx.lower() in ("#fefcf2","#ffffff") else ""}"></div>'
+        f'{"border:1px solid " + colors["ruleCream"] + ";" if hx.lower() in (colors["paperCream"].lower(), colors["paperWhite"].lower()) else ""}"></div>'
         f'<div class="swn">{name}</div><div class="swh">{hx.upper()}</div></div>'
         for name, hx in pal
     )
@@ -330,33 +334,38 @@ def gen_guidelines_html(slug, brand, reg, design, out: Path, lk_dir: Path, fav_d
     mono = (lk_dir / f"{slug}-lockup__mono.svg").as_uri()
     fav = (fav_dir / "favicon.svg").as_uri()
 
+    ink = colors["ink"]
+    soft = colors["inkSoft"]
+    faint = colors["inkFaint"]
+    paper = colors["paperWhite"]
+    rule = colors["ruleCream"]
     html = f"""<!doctype html><html><head><meta charset="utf-8"><style>
 @font-face {{ font-family:'IT'; src:url('{it}'); }}
 @font-face {{ font-family:'IN'; src:url('{inr}'); }}
 @page {{ size:A4; margin:0; }}
 * {{ box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }}
-body {{ margin:0; font-family:'IN',sans-serif; color:#1a1a1a; background:#fefcf2; }}
+body {{ margin:0; font-family:'IN',sans-serif; color:{ink}; background:{paper}; }}
 .page {{ width:210mm; min-height:297mm; padding:22mm 20mm; page-break-after:always; position:relative; }}
 .page:last-child {{ page-break-after:auto; }}
 h1 {{ font-family:'IT'; font-weight:650; font-size:46px; letter-spacing:-0.03em; margin:0 0 6px; }}
-h2 {{ font-family:'IT'; font-weight:650; font-size:13px; text-transform:uppercase; letter-spacing:0.14em; color:#8a8a8a; margin:34px 0 14px; }}
-p {{ font-size:13.5px; line-height:1.65; max-width:62ch; color:#4a4a4a; }}
+h2 {{ font-family:'IT'; font-weight:600; font-size:13px; letter-spacing:0.005em; color:{faint}; margin:34px 0 14px; }}
+p {{ font-size:13.5px; line-height:1.65; max-width:62ch; color:{soft}; }}
 .cover-mark {{ width:230px; margin:48mm 0 10mm; }}
-.eyebrow {{ font-family:'IT'; font-weight:650; font-size:12px; text-transform:uppercase; letter-spacing:0.16em; color:{signal}; }}
-.foot {{ position:absolute; bottom:14mm; left:20mm; right:20mm; font-size:10px; color:#8a8a8a; border-top:1px solid #e8e3d0; padding-top:6px; display:flex; justify-content:space-between; }}
+.eyebrow {{ font-family:'IT'; font-weight:600; font-size:12px; letter-spacing:0.005em; color:{faint}; }}
+.foot {{ position:absolute; bottom:14mm; left:20mm; right:20mm; font-size:10px; color:{faint}; border-top:1px solid {rule}; padding-top:6px; display:flex; justify-content:space-between; }}
 .row {{ display:flex; gap:18px; flex-wrap:wrap; align-items:flex-end; }}
-.card {{ border:1px solid #e8e3d0; border-radius:6px; padding:18px; }}
+.card {{ border:1px solid {rule}; border-radius:6px; padding:18px; }}
 .card.dark {{ background:{color}; border-color:{color}; }}
 .card img {{ height:38px; display:block; }}
-.lbl {{ font-family:'IT'; font-weight:650; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:#8a8a8a; margin-top:12px; }}
+.lbl {{ font-family:'IT'; font-weight:600; font-size:10px; letter-spacing:0.005em; color:{faint}; margin-top:12px; }}
 .swatches {{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }}
 .chip {{ height:64px; border-radius:6px; }}
 .swn {{ font-family:'IT'; font-weight:650; font-size:12px; margin-top:8px; }}
-.swh {{ font-size:11px; color:#8a8a8a; font-variant-numeric:tabular-nums; }}
+.swh {{ font-size:11px; color:{faint}; font-variant-numeric:tabular-nums; }}
 .type-it {{ font-family:'IT'; }}
 .spec {{ font-size:32px; }}
 .do {{ color:#1f6b4a; font-weight:bold; }} .dont {{ color:#b42318; font-weight:bold; }}
-ul.rules {{ font-size:12.5px; line-height:1.7; color:#4a4a4a; padding-left:18px; }}
+ul.rules {{ font-size:12.5px; line-height:1.7; color:{soft}; padding-left:18px; }}
 .clearbox {{ display:inline-block; border:1px dashed {signal}; padding:14px; }}
 .clearbox img {{ height:46px; display:block; }}
 </style></head><body>
@@ -371,7 +380,7 @@ ul.rules {{ font-size:12.5px; line-height:1.7; color:#4a4a4a; padding-left:18px;
 <section class="page">
   <div class="eyebrow">01</div><h1>The logo</h1>
   <p>The mark is the Laz Güneşi symbol locked up with the wordmark. Three expressions cover every
-     surface. Use the positive form first — it works on cream and dark backgrounds alike.</p>
+     surface. Use the positive form first — it works on white and dark backgrounds alike.</p>
   <div class="row" style="margin-top:18px;">
     <div class="card"><img src="{pos}"><div class="lbl">Positive — primary</div></div>
     <div class="card dark"><img src="{neg}"><div class="lbl" style="color:rgba(255,255,255,.7)">Negative — on brand</div></div>
@@ -386,8 +395,8 @@ ul.rules {{ font-size:12.5px; line-height:1.7; color:#4a4a4a; padding-left:18px;
 
 <section class="page">
   <div class="eyebrow">02</div><h1>Colour</h1>
-  <p>Identity ink names the brand: Ağustos is red; every other house brand is black and white.
-     Shared Ağustos red is the interaction signal for links, focus, markers, rules, and small accents.</p>
+  <p>Identity ink names the brand: Ağustos is red; every other house brand is off-black and white.
+     Shared Ağustos red is a 2px rule under content links and menu hover, plus keyboard focus.</p>
   <div class="swatches" style="margin-top:18px;">{sw}</div>
   <h2>Do &amp; don't</h2>
   <ul class="rules">

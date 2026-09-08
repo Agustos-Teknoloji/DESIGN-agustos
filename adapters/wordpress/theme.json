@@ -9,8 +9,8 @@
       "palette": [
         {
           "slug": "paper",
-          "name": "Paper Cream",
-          "color": "#fefcf2"
+          "name": "Paper",
+          "color": "#ffffff"
         },
         {
           "slug": "paper-white",
@@ -18,29 +18,39 @@
           "color": "#ffffff"
         },
         {
+          "slug": "cream",
+          "name": "Cream",
+          "color": "#fdf5f5"
+        },
+        {
+          "slug": "surface",
+          "name": "Surface",
+          "color": "#f4f2ed"
+        },
+        {
           "slug": "ink",
           "name": "Ink",
-          "color": "#1a1a1a"
+          "color": "#15130f"
         },
         {
           "slug": "ink-soft",
           "name": "Ink Soft",
-          "color": "#4a4a4a"
+          "color": "#403b34"
         },
         {
           "slug": "ink-faint",
           "name": "Ink Faint",
-          "color": "#8a8a8a"
+          "color": "#8a8378"
         },
         {
           "slug": "rule",
           "name": "Rule",
-          "color": "#e8e3d0"
+          "color": "#e8e4da"
         },
         {
           "slug": "rule-white",
           "name": "Rule White",
-          "color": "#e8e8e8"
+          "color": "#e8e4da"
         },
         {
           "slug": "signal",
@@ -55,28 +65,28 @@
         {
           "slug": "brand-pataraz",
           "name": "Pataraz",
-          "color": "#1a1a1a"
+          "color": "#15130f"
         },
         {
           "slug": "brand-pld",
           "name": "PLD Türkiye",
-          "color": "#1a1a1a"
+          "color": "#15130f"
         },
         {
           "slug": "brand-iesdesk",
           "name": "IESDesk",
-          "color": "#1a1a1a"
+          "color": "#15130f"
         },
         {
           "slug": "brand-specquick",
           "name": "SpecQuick",
-          "color": "#1a1a1a"
+          "color": "#15130f"
         }
       ]
     },
     "layout": {
-      "contentSize": "920px",
-      "wideSize": "1200px"
+      "contentSize": "1180px",
+      "wideSize": "1180px"
     },
     "spacing": {
       "customSpacingSize": false,
@@ -175,7 +185,7 @@
         {
           "slug": "body-compact",
           "name": "Body Compact",
-          "size": "14px"
+          "size": "15.5px"
         },
         {
           "slug": "body",
@@ -190,22 +200,22 @@
         {
           "slug": "heading-2",
           "name": "Heading 2",
-          "size": "24px"
+          "size": "clamp(34px, 4.4vw, 52px)"
         },
         {
           "slug": "heading-1",
           "name": "Heading 1",
-          "size": "44px"
+          "size": "clamp(40px, 5vw, 60px)"
         },
         {
           "slug": "hero-medium",
           "name": "Hero Medium",
-          "size": "clamp(40px, 6vw, 72px)"
+          "size": "clamp(40px, 5vw, 60px)"
         },
         {
           "slug": "hero",
           "name": "Hero",
-          "size": "clamp(56px, 9vw, 112px)"
+          "size": "clamp(56px, 8.5vw, 104px)"
         }
       ]
     },
@@ -217,8 +227,8 @@
           "large": "10px"
         },
         "motion": {
-          "duration": "120ms",
-          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+          "duration": "150ms",
+          "easing": "cubic-bezier(0.2, 0, 0, 1)"
         }
       }
     }
@@ -247,7 +257,7 @@
       },
       "link": {
         "color": {
-          "text": "var:preset|color|signal"
+          "text": "var:preset|color|ink"
         },
         "typography": {
           "fontWeight": "600",

@@ -1,5 +1,5 @@
 {
-  "name": "IESdesk",
+  "name": "IESDesk",
   "short_name": "iesdesk",
   "icons": [
     {
@@ -13,7 +13,7 @@
       "type": "image/png"
     }
   ],
-  "theme_color": "#1a1a1a",
-  "background_color": "#fefcf2",
+  "theme_color": "#15130f",
+  "background_color": "#ffffff",
   "display": "standalone"
 }

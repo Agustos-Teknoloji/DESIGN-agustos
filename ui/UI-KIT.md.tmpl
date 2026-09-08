@@ -85,11 +85,11 @@ Use `lang="tr"` for Turkish content so locale-sensitive capitalization renders c
 | Switch | Values | Where |
 |---|---|---|
 | Brand | `brand-agustos` · `brand-pataraz` · `brand-pld` · `brand-iesdesk` · `brand-specquick` | `<body>`, required |
-| Substrate | default cream, or `paper-white` for working interfaces | `<body>` |
-| Theme | `data-theme="dark"` (opt-in) | `<html>` |
+| Substrate | white paper by default; `paper-white` remains valid | `<body>` |
+| Theme | `data-theme="dark"` (opt-in; palette not yet redefined) | `<html>` |
 
-Ağustos alone owns red identity ink. Other house brands use black or white.
-Shared red (`#cf142a`) signals links, focus, markers, and small emphasis. Never recolor another house-brand logo red.
+Ağustos alone owns red identity ink. Other house brands use off-black `#15130f` or white.
+Shared red (`#cf142a`) is a 2px rule under content links and menu hover/current, plus keyboard focus. Never a fill, button, or statistic.
 
 ## Classes
 
@@ -120,9 +120,9 @@ Compose missing components from `agustos-card`, `agustos-button`, and `type-*` c
 
 Use `var(--name)`, never the literal value. Spacing `--space-2xs` … `--space-6xl`.
 Radii `--radius-sm` (4px) `--radius-md` (6px) `--radius-lg` (10px) — nothing larger exists.
-Color `--paper` `--ink` `--ink-soft` `--ink-faint` `--rule` `--signal` `--brand`
+Color `--paper` `--cream` `--surface` `--ink` `--ink-soft` `--ink-faint` `--rule` `--signal` `--brand`
 `--state-success|warning|danger|info`. Type `--display` `--body` `--mono`.
-Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-content` (920px).
+Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-content` (1180px).
 
 `ui/kit.json` carries the same list in machine-readable form.
 

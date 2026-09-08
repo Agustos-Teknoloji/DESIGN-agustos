@@ -15,10 +15,11 @@ canonical *asset map* (the files). [MEMORY.md](MEMORY.md) holds the decision his
 | Token | Value | Use |
 |---|---|---|
 | **Ağustos red identity** | `#cf142a` | Ağustos symbol and wordmark; also the shared interaction signal. |
-| House-brand identity ink | `#1a1a1a` | Pataraz, PLD Türkiye, IESdesk, SpecQuick, and future house-brand positive marks. |
-| Shared interaction signal | `#cf142a` | Links, focus, markers, rules, and small emphasis across every brand. Never recolors a non-Ağustos logo. |
-| Cream (paper) | `#fefcf2` | Primary branded substrate. |
-| Ink | `#1a1a1a` | Primary text. |
+| House-brand identity ink | `#15130f` | Pataraz, PLD Türkiye, IESDesk, SpecQuick, and future house-brand positive marks. |
+| Shared interaction signal | `#cf142a` | 2px content-link rule, menu hover or current-page rule, and keyboard focus. Never a fill. |
+| White (paper) | `#ffffff` | Primary substrate. |
+| Cream (callout band) | `#fdf5f5` | Full-bleed callout and CTA bands only. |
+| Ink | `#15130f` | Headlines, filled buttons, footer, and house-brand identity. |
 
 Canonical color source: [`tokens/design-tokens.json`](tokens/design-tokens.json) plus the per-brand values in [`brand/brands.json`](brand/brands.json). `tokens/agustos.css` is generated.
 

@@ -1,4 +1,4 @@
-# Ağustos UI kit — v4.0.2
+# Ağustos UI kit — v5.0.0
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -11,20 +11,20 @@ Scandinavian restraint filtered through Mediterranean warmth.
 Create minimal, functional, and elegant interfaces that feel warm and human.
 İskandivvian is our project label. Keep the experience welcoming and easy to use.
 
-- Express warmth through existing cream or white surfaces, comfortable spacing, readable typography, and approachable language.
+- Use white as the paper. Reserve cream for full-bleed callout and CTA bands.
+- Express warmth through warm grays, cream bands, comfortable spacing, readable typography, and approachable language.
 - Make every section useful. Keep navigation, information, and next actions easy to understand.
 - Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.
-- Use modest corners and selective borders. Add shadows only when they clarify layering.
-- Use authentic imagery only when it explains people, places, products, or work. Preserve product colors and technical facts.
-- Keep text, controls, and technical tables on plain surfaces. Flat pages without imagery are a complete expression.
-- Retain registered logos, font families, red interaction signals, supported themes, and accessible contrast.
-- Write direct, helpful copy with familiar words. Explain practical benefits and next steps.
+- Use modest corners and hairline rules. Do not use shadows, gradients, or textures.
+- Keep text, controls, and technical tables on plain surfaces. Use authentic imagery only when it explains the work.
+- Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. Retain registered logos, fonts, and accessible contrast.
+- Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings.
 
 Avoid:
 
 - Ornamental Mediterranean motifs or unrelated lifestyle imagery
-- Replacing red interaction signals with earthy accent colors
-- Low-contrast text, vague labels, excessive whitespace, or decorative motion
+- Red fills, red buttons, red statistics, or red as an element's own colour
+- Uppercase labels, eyebrow labels, arrows on buttons, or decorative motion
 - Inflated luxury claims or forced friendliness
 
 ## Install — production
@@ -57,11 +57,11 @@ npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-va
 For a throwaway mockup with no build step:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.2/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.2/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.0/ui/agustos.css">
 ```
 
-**Pin stylesheet URLs to `@v4.0.2`.** Never publish `@main` or `@latest`; upstream changes can restyle your page.
+**Pin stylesheet URLs to `@v5.0.0`.** Never publish `@main` or `@latest`; upstream changes can restyle your page.
 
 ## One warning before you start
 
@@ -95,11 +95,11 @@ Use `lang="tr"` for Turkish content so locale-sensitive capitalization renders c
 | Switch | Values | Where |
 |---|---|---|
 | Brand | `brand-agustos` · `brand-pataraz` · `brand-pld` · `brand-iesdesk` · `brand-specquick` | `<body>`, required |
-| Substrate | default cream, or `paper-white` for working interfaces | `<body>` |
-| Theme | `data-theme="dark"` (opt-in) | `<html>` |
+| Substrate | white paper by default; `paper-white` remains valid | `<body>` |
+| Theme | `data-theme="dark"` (opt-in; palette not yet redefined) | `<html>` |
 
-Ağustos alone owns red identity ink. Other house brands use black or white.
-Shared red (`#cf142a`) signals links, focus, markers, and small emphasis. Never recolor another house-brand logo red.
+Ağustos alone owns red identity ink. Other house brands use off-black `#15130f` or white.
+Shared red (`#cf142a`) is a 2px rule under content links and menu hover/current, plus keyboard focus. Never a fill, button, or statistic.
 
 ## Classes
 
@@ -130,9 +130,9 @@ Compose missing components from `agustos-card`, `agustos-button`, and `type-*` c
 
 Use `var(--name)`, never the literal value. Spacing `--space-2xs` … `--space-6xl`.
 Radii `--radius-sm` (4px) `--radius-md` (6px) `--radius-lg` (10px) — nothing larger exists.
-Color `--paper` `--ink` `--ink-soft` `--ink-faint` `--rule` `--signal` `--brand`
+Color `--paper` `--cream` `--surface` `--ink` `--ink-soft` `--ink-faint` `--rule` `--signal` `--brand`
 `--state-success|warning|danger|info`. Type `--display` `--body` `--mono`.
-Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-content` (920px).
+Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-content` (1180px).
 
 `ui/kit.json` carries the same list in machine-readable form.
 

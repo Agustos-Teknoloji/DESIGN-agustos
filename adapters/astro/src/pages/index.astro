@@ -10,44 +10,64 @@ const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', ye
 ---
 <BaseLayout
   title="Ağustos Teknoloji — lighting agency and distribution"
-  description="A lighting agency built on typography, cream paper, and one symbol that travels across every brand we publish."
+  description="Architectural lighting specified, sourced and delivered for projects across Türkiye and the Gulf."
 >
-  <article class="container">
-    <section class="agustos-section hero-opening" aria-labelledby="hero-title">
-      <p class="type-h4 hero-kicker">Ağustos Teknoloji</p>
-      <h1 id="hero-title" class="type-hero-md">Lighting knowledge, product systems, and specification support.</h1>
-      <p class="type-hero-deck">A lighting agency and distribution practice — published from Emre Güneş’s house.</p>
-      <p class="hero-links">
-        <a class="hero-link hero-link--primary" href="/about">What we do</a>
-        <a class="hero-link hero-link--secondary" href="/blog">Read our writing</a>
-      </p>
+  <article>
+    <section class="container hero-opening" aria-labelledby="hero-title">
+      <h1 id="hero-title" class="type-hero">Light, specified.</h1>
+      <p class="type-hero-deck">Architectural lighting specified, sourced and delivered for projects across Türkiye and the Gulf. We work alongside architects and lighting designers, from concept calculation to the luminaire on site.</p>
+      <div class="hero-actions">
+        <a class="hero-action hero-action--primary" href="/about">Start a project</a>
+        <a class="hero-action hero-action--secondary" href="/blog">See specified work</a>
+      </div>
     </section>
 
-    <section class="agustos-section" aria-labelledby="practice-title">
-      <div class="agustos-section__head">
-        <p class="type-label">Practice</p>
-        <h2 id="practice-title" class="type-h2">One aligned frame. Several ways into the work.</h2>
+    <section class="agustos-band" aria-labelledby="numbers-title">
+      <div class="container agustos-band__inner">
+        <h2 id="numbers-title" class="type-h2">Numbers</h2>
+        <div class="stat-row">
+          <div class="stat-row__item">
+            <div class="stat-row__value">2009</div>
+            <div class="type-h4">Founded</div>
+          </div>
+          <div class="stat-row__item">
+            <div class="stat-row__value">240+</div>
+            <div class="type-h4">Projects delivered</div>
+          </div>
+          <div class="stat-row__item">
+            <div class="stat-row__value">11</div>
+            <div class="type-h4">Countries supplied</div>
+          </div>
+          <div class="stat-row__item">
+            <div class="stat-row__value">38</div>
+            <div class="type-h4">Manufacturers represented</div>
+          </div>
+        </div>
       </div>
+    </section>
+
+    <section class="container agustos-section" aria-labelledby="practice-title">
+      <h2 id="practice-title" class="type-h2">What we do</h2>
       <div class="agustos-card-grid">
-        <article class="agustos-card agustos-card--marked">
-          <h3 class="type-h3">Specification</h3>
-          <p class="type-body">Technical product knowledge for architectural lighting decisions.</p>
+        <article class="agustos-card">
+          <h3 class="type-h3">Lighting design</h3>
+          <p class="type-body">Concept, calculation and specification for architectural and retail interiors.</p>
         </article>
         <article class="agustos-card">
-          <h3 class="type-h3">Distribution</h3>
-          <p class="type-body">Focused partnerships supported with useful, legible product information.</p>
+          <h3 class="type-h3">Sourcing</h3>
+          <p class="type-body">European manufacturers, matched to the specification rather than to stock.</p>
         </article>
         <article class="agustos-card">
-          <h3 class="type-h3">Publishing</h3>
-          <p class="type-body">Archives, tools, and writing for people who take the technical layer seriously.</p>
+          <h3 class="type-h3">Supply</h3>
+          <p class="type-body">Held stock, customs and site delivery on the project schedule.</p>
         </article>
       </div>
     </section>
 
-    <section class="agustos-section" aria-labelledby="writing-title">
+    <section class="container agustos-section" aria-labelledby="writing-title">
       <div class="agustos-section__head">
-        <p class="type-label">Journal</p>
         <h2 id="writing-title" class="type-h2">Recent writing</h2>
+        <a class="type-link" href="/blog">All writing</a>
       </div>
       <ul class="post-list">
         {posts.map((post) => (
@@ -68,6 +88,22 @@ const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', ye
   .post-list li:last-child { border-bottom: 0; }
   .post-list__date { display: block; margin-top: 0.25em; }
   .post-list__deck { margin-top: 0.5em; color: var(--ink-soft); }
-  .hero-opening { padding-top: var(--space-5xl); }
-  .hero-kicker { color: var(--signal); }
+  .hero-opening { padding-top: var(--space-5xl); padding-bottom: var(--space-5xl); }
+  .agustos-band {
+    background: var(--cream);
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .agustos-band__inner { padding-block: 32px; }
+  .stat-row { display: flex; flex-wrap: wrap; gap: 8px 32px; margin-top: 20px; }
+  .stat-row__item { flex: 1 1 160px; display: flex; flex-direction: column; gap: 6px; }
+  .stat-row__value {
+    font-family: var(--display);
+    font-size: 36px;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
+    line-height: 1;
+    color: var(--ink);
+  }
 </style>

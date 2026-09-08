@@ -6,7 +6,7 @@
     "brand-iesdesk",
     "brand-specquick"
   ],
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.2/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.0/ui/",
   "cssClasses": [
     "type-hero",
     "type-hero-md",
@@ -87,15 +87,15 @@
   "darkTheme": "html[data-theme=\"dark\"]",
   "designDirection": {
     "acceptance": [
-      "Pages feel warm, human, and complete through clear typography, purposeful spacing, and helpful language.",
+      "Pages feel warm, human, and complete through white paper, warm neutrals, clear typography, and helpful language.",
       "Visitors can understand the content and identify the next action quickly.",
       "Forms and technical content remain clear, readable, and easy to scan.",
       "Brand identity, keyboard focus, reduced motion, and supported themes remain intact."
     ],
     "avoid": [
       "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
-      "Replacing red interaction signals with earthy accent colors",
-      "Low-contrast text, vague labels, excessive whitespace, or decorative motion",
+      "Red fills, red buttons, red statistics, or red as an element's own colour",
+      "Uppercase labels, eyebrow labels, arrows on buttons, or decorative motion",
       "Inflated luxury claims or forced friendliness"
     ],
     "definition": "Scandinavian restraint filtered through Mediterranean warmth.",
@@ -113,37 +113,37 @@
     "name": "İskandivvian",
     "naming": "Use this as a defined project label, not an established design movement.",
     "principles": [
-      "Express warmth through existing cream or white surfaces, comfortable spacing, readable typography, and approachable language.",
+      "Use white as the paper. Reserve cream for full-bleed callout and CTA bands.",
+      "Express warmth through warm grays, cream bands, comfortable spacing, readable typography, and approachable language.",
       "Make every section useful. Keep navigation, information, and next actions easy to understand.",
       "Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.",
-      "Use modest corners and selective borders. Add shadows only when they clarify layering.",
-      "Use authentic imagery only when it explains people, places, products, or work. Preserve product colors and technical facts.",
-      "Keep text, controls, and technical tables on plain surfaces. Flat pages without imagery are a complete expression.",
-      "Retain registered logos, font families, red interaction signals, supported themes, and accessible contrast.",
-      "Write direct, helpful copy with familiar words. Explain practical benefits and next steps."
+      "Use modest corners and hairline rules. Do not use shadows, gradients, or textures.",
+      "Keep text, controls, and technical tables on plain surfaces. Use authentic imagery only when it explains the work.",
+      "Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. Retain registered logos, fonts, and accessible contrast.",
+      "Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings."
     ]
   },
   "entryPoint": "UI-KIT.md",
   "files": {
     "AGENTS-SNIPPET.md": {
-      "bytes": 2083,
-      "sha256": "3bb9062dbe5a195678a629f4729b248ee20ba58161ca6b687e2f9d662815749d"
+      "bytes": 2085,
+      "sha256": "2991c2091c61dc82aaf59577e1d9c45072584073404271fbd89d9ce1874f6c42"
     },
     "UI-KIT.md": {
-      "bytes": 7601,
-      "sha256": "91b767018c69438dd47a0522cc81251b514d7e2dd3ce03b7663e45cf9cdaf909"
+      "bytes": 7687,
+      "sha256": "0c8be0c06fc7faf288db34196fb097554bf60ea80e93ccea2bdec8b652d6b2f5"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
-      "sha256": "00ad8e409d88997404c6980e527ce0aa03d60abd3e900e1fc57d43a12a063629"
+      "sha256": "aad1ab9bf1362cf9c3b1a903accc98737f1a26bbf7fc3f53bcbafce4ffd4ebac"
     },
     "agustos.css": {
-      "bytes": 25536,
-      "sha256": "d6260dae17f085a6b0985334f1782e4d9f5f6410d026ca44f62eef808dea2c62"
+      "bytes": 25447,
+      "sha256": "0c0a4b65d7ed2e83850e5c5bca521a8971f9a3e699bc66315bfebead29681c5d"
     },
     "check-agustos-ui.py": {
-      "bytes": 14575,
-      "sha256": "f6e6f1fd8e23874511fb557509d9570a56390949dec31618aedfad9b108e0189"
+      "bytes": 14572,
+      "sha256": "4618824016d886f4d09e2224900114f7a3435ab6c6c784d365c3f05aeb5d818c"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -166,13 +166,13 @@
       "sha256": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
     },
     "starter.html": {
-      "bytes": 10221,
-      "sha256": "1fca39ca08db2dd8610966e05b2637235a6408b44d823b8bfce2c0143bf6e19b"
+      "bytes": 10263,
+      "sha256": "9595cbddd0cffdfe76f556652b5a1ba9bbd4c82cb7e07d93b06a869b22068f38"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.2/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.2/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.0/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v4.0.2/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v5.0.0/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "signal": {
     "$source": "Ağustos red is the shared interaction signal across every house brand. It does not recolor non-Ağustos identity marks.",
@@ -180,8 +180,9 @@
   },
   "substrates": [
     "paper",
-    "paper-white"
+    "paper-white",
+    "cream"
   ],
   "system": "Ağustos Design System",
-  "version": "4.0.2"
+  "version": "5.0.0"
 }
