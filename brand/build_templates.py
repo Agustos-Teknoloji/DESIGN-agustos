@@ -105,17 +105,17 @@ def gen_email_signature(slug, brand, reg, design, out: Path, lockup_png: Path):
     # never on everyday artifacts (see brands.json $tagline_policy).
     html = f"""<!-- {title} email signature. Paste into your mail client's signature editor.
      Self-contained (logo embedded). Replace {{{{NAME}}}}, {{{{ROLE}}}}, {{{{PHONE}}}}. -->
-<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;">
+<table cellpadding="0" cellspacing="0" border="0" style="font-family:Arial,Helvetica,sans-serif;color:#15130f;">
   <tr>
     <td style="padding-right:18px;vertical-align:middle;">
       <img src="{logo}" width="150" alt="{title}" style="display:block;border:0;">
     </td>
     <td style="border-left:2px solid {signal};padding-left:18px;vertical-align:middle;line-height:1.5;">
-      <div style="font-size:15px;font-weight:bold;color:#1a1a1a;">{{{{NAME}}}}</div>
-      <div style="font-size:13px;color:#4a4a4a;padding-bottom:6px;">{{{{ROLE}}}} &middot; {title}</div>
-      <div style="font-size:12px;color:#4a4a4a;">
+      <div style="font-size:15px;font-weight:bold;color:#15130f;">{{{{NAME}}}}</div>
+      <div style="font-size:13px;color:#403b34;padding-bottom:6px;">{{{{ROLE}}}} &middot; {title}</div>
+      <div style="font-size:12px;color:#403b34;">
         {{{{PHONE}}}} &nbsp;|&nbsp;
-        <a href="mailto:hello@{domain}" style="color:#4a4a4a;text-decoration:none;">hello@{domain}</a> &nbsp;|&nbsp;
+        <a href="mailto:hello@{domain}" style="color:#403b34;text-decoration:none;">hello@{domain}</a> &nbsp;|&nbsp;
         <a href="https://{domain}" style="color:{signal};text-decoration:none;font-weight:bold;">{domain}</a>
       </div>
     </td>
@@ -318,7 +318,7 @@ def gen_guidelines_html(slug, brand, reg, design, out: Path, lk_dir: Path, fav_d
     pal = palette(brand, reg, design)
     sw = "".join(
         f'<div class="sw"><div class="chip" style="background:{hx};'
-        f'{"border:1px solid #e8e3d0;" if hx.lower() in ("#fefcf2","#ffffff") else ""}"></div>'
+        f'{"border:1px solid #e8e4da;" if hx.lower() in ("#fdf5f5","#ffffff") else ""}"></div>'
         f'<div class="swn">{name}</div><div class="swh">{hx.upper()}</div></div>'
         for name, hx in pal
     )
@@ -335,28 +335,28 @@ def gen_guidelines_html(slug, brand, reg, design, out: Path, lk_dir: Path, fav_d
 @font-face {{ font-family:'IN'; src:url('{inr}'); }}
 @page {{ size:A4; margin:0; }}
 * {{ box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }}
-body {{ margin:0; font-family:'IN',sans-serif; color:#1a1a1a; background:#fefcf2; }}
+body {{ margin:0; font-family:'IN',sans-serif; color:#15130f; background:#ffffff; }}
 .page {{ width:210mm; min-height:297mm; padding:22mm 20mm; page-break-after:always; position:relative; }}
 .page:last-child {{ page-break-after:auto; }}
 h1 {{ font-family:'IT'; font-weight:650; font-size:46px; letter-spacing:-0.03em; margin:0 0 6px; }}
-h2 {{ font-family:'IT'; font-weight:650; font-size:13px; text-transform:uppercase; letter-spacing:0.14em; color:#8a8a8a; margin:34px 0 14px; }}
-p {{ font-size:13.5px; line-height:1.65; max-width:62ch; color:#4a4a4a; }}
+h2 {{ font-family:'IT'; font-weight:650; font-size:13px; letter-spacing:0.02em; color:#8a8378; margin:34px 0 14px; }}
+p {{ font-size:13.5px; line-height:1.65; max-width:62ch; color:#403b34; }}
 .cover-mark {{ width:230px; margin:48mm 0 10mm; }}
-.eyebrow {{ font-family:'IT'; font-weight:650; font-size:12px; text-transform:uppercase; letter-spacing:0.16em; color:{signal}; }}
-.foot {{ position:absolute; bottom:14mm; left:20mm; right:20mm; font-size:10px; color:#8a8a8a; border-top:1px solid #e8e3d0; padding-top:6px; display:flex; justify-content:space-between; }}
+.eyebrow {{ font-family:'IT'; font-weight:650; font-size:12px; letter-spacing:0.02em; color:{signal}; }}
+.foot {{ position:absolute; bottom:14mm; left:20mm; right:20mm; font-size:10px; color:#8a8378; border-top:1px solid #e8e4da; padding-top:6px; display:flex; justify-content:space-between; }}
 .row {{ display:flex; gap:18px; flex-wrap:wrap; align-items:flex-end; }}
-.card {{ border:1px solid #e8e3d0; border-radius:6px; padding:18px; }}
+.card {{ border:1px solid #e8e4da; border-radius:6px; padding:18px; }}
 .card.dark {{ background:{color}; border-color:{color}; }}
 .card img {{ height:38px; display:block; }}
-.lbl {{ font-family:'IT'; font-weight:650; font-size:10px; text-transform:uppercase; letter-spacing:0.1em; color:#8a8a8a; margin-top:12px; }}
+.lbl {{ font-family:'IT'; font-weight:650; font-size:10px; letter-spacing:0.02em; color:#8a8378; margin-top:12px; }}
 .swatches {{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }}
 .chip {{ height:64px; border-radius:6px; }}
 .swn {{ font-family:'IT'; font-weight:650; font-size:12px; margin-top:8px; }}
-.swh {{ font-size:11px; color:#8a8a8a; font-variant-numeric:tabular-nums; }}
+.swh {{ font-size:11px; color:#8a8378; font-variant-numeric:tabular-nums; }}
 .type-it {{ font-family:'IT'; }}
 .spec {{ font-size:32px; }}
 .do {{ color:#1f6b4a; font-weight:bold; }} .dont {{ color:#b42318; font-weight:bold; }}
-ul.rules {{ font-size:12.5px; line-height:1.7; color:#4a4a4a; padding-left:18px; }}
+ul.rules {{ font-size:12.5px; line-height:1.7; color:#403b34; padding-left:18px; }}
 .clearbox {{ display:inline-block; border:1px dashed {signal}; padding:14px; }}
 .clearbox img {{ height:46px; display:block; }}
 </style></head><body>

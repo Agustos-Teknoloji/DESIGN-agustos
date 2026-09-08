@@ -49,7 +49,7 @@ thing to translate or maintain across artifacts.
 |---|---|---|
 | Role | Parent: technology + curated distribution | In-house premium luminaire brand |
 | Audience | Broad / commercial | B2B spec market (designers, specifiers) |
-| Identity ink | Red `#cf142a` | Black `#1a1a1a` |
+| Identity ink | Red `#cf142a` | Off-black `#15130f` |
 | Interaction signal | Red `#cf142a` | Shared red `#cf142a` |
 | Hero asset | The portfolio | The product datasheet ("teknik föy") |
 | Tagline | *curated solutions* / *seçkin çözümler* | none |
@@ -67,17 +67,18 @@ section only notes the Pataraz application.
 
 ### Color
 
-- **Pataraz identity ink is black `#1a1a1a`.** The positive lockup is black on cream/white;
-  the negative lockup is cream/white on a black tile.
+- **Pataraz identity ink is off-black `#15130f`.** The positive lockup is off-black on white;
+  the negative lockup is white on an off-black tile.
 - **Shared interaction signal is Ağustos red `#cf142a`.** Links, focus, markers, section ticks,
   and small emphasis use red across the whole portfolio. Red never recolors the Pataraz logo.
 - Pataraz blue is retired. `#1a24cc` and the older `#0000FF` are historical values, not active tokens.
-- Cream paper `#fefcf2`, ink `#1a1a1a`, and the substrate strategy are shared, unchanged
-  (`DESIGN.md` §"Substrate strategy").
+- White paper `#ffffff`, ink `#15130f`, and the substrate strategy are shared, unchanged
+  (`DESIGN.md` §"Substrate strategy"). As of v5.0.0, white is primary; cream (`#fdf5f5`) is an
+  opt-in callout/CTA-band tint only, not a page substrate.
 
 ### Symbol & lockup
 
-- **Symbol:** the shared Laz Güneşi (18-blade sun), in black for the positive identity expression.
+- **Symbol:** the shared Laz Güneşi (18-blade sun), in off-black for the positive identity expression.
   Never redraw it or substitute an approximation. One symbol, forever (`DESIGN.md` §"The symbol").
 - **Wordmark:** `pataraz` — lowercase, single noun (no "luminaires"/"aydınlatma" qualifier on
   the mark), Inter Tight weight **650** (`DESIGN.md` §"Per-brand wordmarks", §"Logotype: Inter
@@ -92,10 +93,10 @@ Shared, unchanged: **Inter Tight** (display/wordmark), **Inter** (body), **JetBr
 
 ### Three expressions & favicon
 
-- **positive** (black marks on light) — default, ~90% of uses.
-- **negative** (cream/white marks on a black tile) — favicons and identity tiles.
+- **positive** (off-black marks on light) — default, ~90% of uses.
+- **negative** (cream/white marks on an off-black tile) — favicons and identity tiles.
 - **mono** (single ink) — single-color print, engraving.
-- The **favicon is the negative expression**: white symbol on a black `#1a1a1a` tile
+- The **favicon is the negative expression**: white symbol on an off-black `#15130f` tile
   (`DESIGN.md` §"Three expressions", §"Favicon & app icons").
 
 Verify every negative composition for contrast and small-size legibility before shipping.
@@ -135,14 +136,16 @@ Apply İskandivvian: Scandinavian restraint filtered through Mediterranean warmt
 Keep product discovery and technical comparison clear, calm, and functional.
 Use comfortable spacing, plain surfaces, and direct explanations to make the experience approachable.
 Use naturally lit installation photographs only when they support product understanding.
-Preserve product finishes, technical facts, black identity ink, and red interaction signals.
+Preserve product finishes, technical facts, off-black identity ink, and red interaction signals.
 Use imagery that supports product understanding.
 
 
-- **Substrate & accent.** Cream `#fefcf2` ground, ink `#1a1a1a` text, and shared red `#cf142a`
-  used as a signal for active states, section marks, links, and focus. The symbol remains black.
-- **Hero.** Calm and product-led: the luminaire and its defining numbers, not a slogan. Lots of
-  cream, generous rhythm (`DESIGN.md` §"Vertical rhythm").
+- **Substrate & accent.** White `#ffffff` ground (v5.0.0), ink `#15130f` text, and shared red
+  `#cf142a` used as a signal for active states, section marks, links, and focus. Cream (`#fdf5f5`)
+  is available only as an opt-in, full-bleed callout/CTA band — never the page ground. The symbol
+  remains off-black.
+- **Hero.** Calm and product-led: the luminaire and its defining numbers, not a slogan. White
+  ground, generous rhythm (`DESIGN.md` §"Vertical rhythm").
 - **Spec tables.** The most important component. Mirror the datasheet's grouped structure
   (Elektriksel / Fotometrik / Fiziksel / Koruma & Ortam / Ömür & Garanti). Numbers and units in
   **JetBrains Mono** for alignment and credibility; Turkish labels, `lang="tr"` so İ/ı

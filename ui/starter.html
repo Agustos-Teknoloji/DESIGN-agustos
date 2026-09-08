@@ -6,7 +6,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ağustos UI kit v4.0.2 — reference render</title>
+<title>Ağustos UI kit v5.0.0 — reference render</title>
 
 <!-- Fonts FIRST, then the system. Without the first tag the page renders in
      system sans while appearing to comply.
@@ -26,12 +26,12 @@
 </style>
 </head>
 
-<body class="brand-agustos paper-white">
+<body class="brand-agustos">
 <a class="skip-link" href="#main">İçeriğe geç</a>
 
 <main id="main" class="container">
 
-  <p class="type-h4">Ağustos UI kit · v4.0.2</p>
+  <p class="type-h4">Ağustos UI kit · v5.0.0</p>
   <h1 class="type-hero">Reference render</h1>
   <p class="type-hero-deck">
     Every published class, once. Copy from here rather than inventing a variant.
@@ -131,7 +131,6 @@
       <div class="demo-row">
         <button class="agustos-button agustos-button--primary" type="submit">Kaydet</button>
         <button class="agustos-button agustos-button--secondary" type="button">Vazgeç</button>
-        <button class="agustos-button agustos-button--quiet" type="button">Sil</button>
       </div>
     </form>
   </section>
@@ -208,25 +207,25 @@
       <span class="demo-swatch brand-specquick"><i style="background: var(--brand)"></i>brand-specquick</span>
     </div>
     <p class="type-footnote">
-      Substrate: <code class="type-code">paper</code> (cream, default) or
-      <code class="type-code">paper-white</code>. Dark theme:
-      <code class="type-code">html[data-theme="dark"]</code>.
+      Substrate: <code class="type-code">paper</code> (white, default) or
+      <code class="type-code">band-cream</code> for a full-bleed callout/CTA band.
+      Dark theme: <code class="type-code">html[data-theme="dark"]</code>.
     </p>
     <div class="demo-row">
-      <button class="agustos-button agustos-button--secondary" type="button"
+      <button class="agustos-button agustos-button--primary" type="button"
               onclick="document.documentElement.dataset.theme =
                        document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">
         Tema değiştir
       </button>
-      <button class="agustos-button agustos-button--quiet" type="button"
-              onclick="document.body.classList.toggle('paper-white')">
+      <button class="agustos-button agustos-button--secondary" type="button"
+              onclick="document.body.classList.toggle('band-cream')">
         Substrate değiştir
       </button>
     </div>
   </section>
 
   <p class="type-footnote">
-    Ağustos Design System v4.0.2 · Agustos-Teknoloji/DESIGN-agustos
+    Ağustos Design System v5.0.0 · Agustos-Teknoloji/DESIGN-agustos
   </p>
 </main>
 </body>

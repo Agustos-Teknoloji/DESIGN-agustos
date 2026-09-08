@@ -143,7 +143,7 @@ class OfficeArtifactContractTest(unittest.TestCase):
 
     def test_office_templates_preserve_identity_and_shared_signal_colors(self):
         for slug in self.brands:
-            identity = "CF142A" if slug == "agustos" else "1A1A1A"
+            identity = "CF142A" if slug == "agustos" else "15130F"
             for kind in ("letterhead", "document-template"):
                 path = ROOT / "brand" / "exports" / slug / "office" / f"{slug}-{kind}.docx"
                 with self.subTest(slug=slug, kind=kind), zipfile.ZipFile(path) as archive:

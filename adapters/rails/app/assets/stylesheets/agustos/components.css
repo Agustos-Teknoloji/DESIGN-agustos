@@ -53,7 +53,7 @@ html[data-theme="dark"] .agustos-header__theme-moon { display: block; }
 .agustos-header__search--responsive .agustos-header__search-panel { position: absolute; top: calc(100% + 0.5rem); right: 0; left: 0; }
 .agustos-header__search--responsive .agustos-header__search-field input { font-size: 16px; }
 .agustos-header__search-group + .agustos-header__search-group { margin-top: 0.35rem; padding-top: 0.35rem; border-top: 1px solid var(--rule); }
-.agustos-header__search-heading { display: flex; align-items: baseline; justify-content: space-between; margin: 0; padding: 0.45rem 0.5rem 0.2rem; color: var(--ink-faint); font-family: var(--display); font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.agustos-header__search-heading { display: flex; align-items: baseline; justify-content: space-between; margin: 0; padding: 0.45rem 0.5rem 0.2rem; color: var(--ink-faint); font-family: var(--display); font-size: 12px; font-weight: 700; letter-spacing: 0; }
 .agustos-header__search-heading span { font-family: var(--body); font-weight: 500; letter-spacing: 0; text-transform: none; }
 .agustos-header__search-list { margin: 0; padding: 0; list-style: none; }
 .agustos-header__search-result a { display: block; padding: 0.55rem 0.5rem; border-radius: var(--radius-sm); color: var(--ink-soft); text-decoration: none; }

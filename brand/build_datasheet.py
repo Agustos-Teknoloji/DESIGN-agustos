@@ -493,8 +493,8 @@ def gen_datasheet_html(slug, brand, reg, product, out: Path, lk_dir: Path):
 @font-face {{ font-family:'JB'; src:url('{mono}'); }}
 @page {{ size:A4; margin:0; }}
 * {{ box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }}
-:root {{ --brand:{color}; --signal:{signal}; --ink:#1a1a1a; --soft:#4a4a4a; --faint:#8a8a8a;
-         --paper:#fefcf2; --rule:#e8e3d0; }}
+:root {{ --brand:{color}; --signal:{signal}; --ink:#15130f; --soft:#403b34; --faint:#8a8378;
+         --paper:#ffffff; --rule:#e8e4da; }}
 body {{ margin:0; font-family:'IN',sans-serif; color:var(--ink); background:var(--paper);
         font-feature-settings:"locl" on,"kern" on; }}
 .page {{ width:210mm; height:297mm; overflow:hidden; padding:12mm 13mm 12mm; position:relative; }}
@@ -504,8 +504,8 @@ body {{ margin:0; font-family:'IN',sans-serif; color:var(--ink); background:var(
          padding-bottom:8px; border-bottom:2px solid var(--signal); }}
 .head img {{ height:30px; display:block; }}
 .head .doc {{ text-align:right; }}
-.doc-type {{ font-family:'IT'; font-weight:650; font-size:11px; text-transform:uppercase;
-             letter-spacing:0.16em; color:var(--signal); }}
+.doc-type {{ font-family:'IT'; font-weight:650; font-size:11px;
+             letter-spacing:0.02em; color:var(--signal); }}
 .doc-code {{ font-family:'JB'; font-size:11px; color:var(--soft); margin-top:3px;
              font-variant-numeric:tabular-nums; }}
 
@@ -517,8 +517,8 @@ h1 {{ font-family:'IT'; font-weight:650; font-size:30px; letter-spacing:-0.02em;
 /* Visual slots */
 .visuals {{ display:grid; grid-template-columns:1fr 1fr; gap:8mm; margin-top:11px; }}
 .slot {{ position:relative; }}
-.slot-cap {{ font-family:'IT'; font-weight:650; font-size:9.5px; text-transform:uppercase;
-             letter-spacing:0.12em; color:var(--faint); margin-bottom:5px; }}
+.slot-cap {{ font-family:'IT'; font-weight:650; font-size:9.5px;
+             letter-spacing:0.02em; color:var(--faint); margin-bottom:5px; }}
 .slot .ph, .slot.has-img img {{ width:100%; aspect-ratio:3/2; border-radius:5px; }}
 .slot .ph {{ border:1.5px dashed var(--rule); display:flex; flex-direction:column;
              align-items:center; justify-content:center; background:#fff; }}
@@ -532,14 +532,14 @@ h1 {{ font-family:'IT'; font-weight:650; font-size:30px; letter-spacing:-0.02em;
 .desc {{ font-size:12px; line-height:1.6; color:var(--soft); max-width:64ch; margin:13px 0 2px; }}
 
 /* Spec grid — groups packed into 2 columns */
-.section-label {{ font-family:'IT'; font-weight:650; font-size:10px; text-transform:uppercase;
-                  letter-spacing:0.14em; color:var(--ink); margin:16px 0 9px;
+.section-label {{ font-family:'IT'; font-weight:650; font-size:10px;
+                  letter-spacing:0.02em; color:var(--ink); margin:16px 0 9px;
                   padding-bottom:5px; border-bottom:1px solid var(--rule); }}
 .specs {{ columns:2; column-gap:12mm; }}
 .group {{ break-inside:avoid; -webkit-column-break-inside:avoid; display:inline-block;
           width:100%; margin-bottom:11px; }}
-.glabel {{ font-family:'IT'; font-weight:650; font-size:9.5px; text-transform:uppercase;
-           letter-spacing:0.1em; color:var(--signal); margin-bottom:5px;
+.glabel {{ font-family:'IT'; font-weight:650; font-size:9.5px;
+           letter-spacing:0.02em; color:var(--signal); margin-bottom:5px;
            padding-left:8px; border-left:2px solid var(--signal); }}
 .srow {{ display:flex; justify-content:space-between; gap:8px; align-items:baseline;
          padding:2.5px 0; border-bottom:1px solid rgba(0,0,0,0.045); }}
@@ -549,8 +549,8 @@ h1 {{ font-family:'IT'; font-weight:650; font-size:30px; letter-spacing:-0.02em;
 
 /* Ordering matrix */
 .order {{ width:100%; border-collapse:collapse; margin-top:6px; border-top:2px solid var(--signal); }}
-.order th {{ font-family:'IT'; font-weight:650; font-size:9px; text-transform:uppercase;
-            letter-spacing:0.08em; color:var(--ink); text-align:left;
+.order th {{ font-family:'IT'; font-weight:650; font-size:9px;
+            letter-spacing:0.02em; color:var(--ink); text-align:left;
             padding:6px 8px; border-bottom:1px solid var(--rule); }}
 .order td {{ font-family:'JB'; font-size:10px; color:var(--ink); padding:5px 8px;
             border-bottom:1px solid var(--rule); font-variant-numeric:tabular-nums; }}
@@ -559,8 +559,8 @@ h1 {{ font-family:'IT'; font-weight:650; font-size:30px; letter-spacing:-0.02em;
 
 /* Certifications */
 .certs {{ margin-top:11px; font-size:10px; color:var(--soft); }}
-.certs b {{ font-family:'IT'; font-weight:650; font-size:9px; text-transform:uppercase;
-            letter-spacing:0.12em; color:var(--faint); margin-right:8px; }}
+.certs b {{ font-family:'IT'; font-weight:650; font-size:9px;
+            letter-spacing:0.02em; color:var(--faint); margin-right:8px; }}
 
 /* Footer */
 .foot {{ position:absolute; left:13mm; right:13mm; bottom:9mm; display:flex;
