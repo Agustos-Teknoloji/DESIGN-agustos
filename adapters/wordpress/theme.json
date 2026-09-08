@@ -10,7 +10,7 @@
         {
           "slug": "paper",
           "name": "Paper Cream",
-          "color": "#fefcf2"
+          "color": "#fdf5f5"
         },
         {
           "slug": "paper-white",
@@ -20,27 +20,27 @@
         {
           "slug": "ink",
           "name": "Ink",
-          "color": "#1a1a1a"
+          "color": "#15130f"
         },
         {
           "slug": "ink-soft",
           "name": "Ink Soft",
-          "color": "#4a4a4a"
+          "color": "#403b34"
         },
         {
           "slug": "ink-faint",
           "name": "Ink Faint",
-          "color": "#8a8a8a"
+          "color": "#8a8378"
         },
         {
           "slug": "rule",
           "name": "Rule",
-          "color": "#e8e3d0"
+          "color": "#e8e4da"
         },
         {
           "slug": "rule-white",
           "name": "Rule White",
-          "color": "#e8e8e8"
+          "color": "#e8e4da"
         },
         {
           "slug": "signal",
@@ -55,27 +55,27 @@
         {
           "slug": "brand-pataraz",
           "name": "Pataraz",
-          "color": "#1a1a1a"
+          "color": "#15130f"
         },
         {
           "slug": "brand-pld",
           "name": "PLD Türkiye",
-          "color": "#1a1a1a"
+          "color": "#15130f"
         },
         {
           "slug": "brand-iesdesk",
           "name": "IESDesk",
-          "color": "#1a1a1a"
+          "color": "#15130f"
         },
         {
           "slug": "brand-specquick",
           "name": "SpecQuick",
-          "color": "#1a1a1a"
+          "color": "#15130f"
         }
       ]
     },
     "layout": {
-      "contentSize": "920px",
+      "contentSize": "1180px",
       "wideSize": "1200px"
     },
     "spacing": {
@@ -217,8 +217,8 @@
           "large": "10px"
         },
         "motion": {
-          "duration": "120ms",
-          "easing": "cubic-bezier(0.25, 0.1, 0.25, 1)"
+          "duration": "150ms",
+          "easing": "cubic-bezier(0.2, 0, 0, 1)"
         }
       }
     }

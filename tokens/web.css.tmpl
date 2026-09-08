@@ -3,9 +3,12 @@
 /* -- 1. CSS variables ---------------------------------------- */
 
 :root {
-  /* Substrate */
-  --paper:        {{foundations.color.paperCream}};  /* Cream — branded contexts */
-  --paper-white:  {{foundations.color.paperWhite}};  /* White — universal fallback */
+  /* Substrate — v5.0.0: white is primary (~70% of every surface). Cream is a
+     callout/CTA-band tint only, opted into via .band-cream. */
+  --paper:        {{foundations.color.paperWhite}};  /* White — primary substrate */
+  --paper-white:  {{foundations.color.paperWhite}};  /* White — explicit alias for consumers that opted in under v4 */
+  --paper-cream:  {{foundations.color.paperCream}};  /* Cream — callout/CTA band tint only */
+  --surface-muted: {{foundations.color.surfaceMuted}}; /* Functional surfaces: key-figure tiles, image regions, summary panels */
 
   /* Ink */
   --ink:        {{foundations.color.ink}};
@@ -13,7 +16,7 @@
   --ink-faint:  {{foundations.color.inkFaint}};
 
   /* Rule */
-  --rule:        {{foundations.color.ruleCream}};
+  --rule:        {{foundations.color.ruleWhite}};
   --rule-white:  {{foundations.color.ruleWhite}};
 
   /* Semantic state colors for product and application surfaces */
@@ -88,10 +91,18 @@
 .brand-iesdesk   { --brand: var(--brand-iesdesk); }
 .brand-specquick { --brand: var(--brand-specquick); }
 
-/* Substrate override — opt into white paper for working/UI contexts */
+/* Substrate override — v5.0.0: white is now the default paper. Kept as a no-op
+   for any consumer still applying it explicitly. */
 .paper-white {
   --paper: var(--paper-white);
   --rule:  var(--rule-white);
+}
+
+/* Opt-in cream band — full-bleed callout/CTA sections only. Never an inset card,
+   never the page substrate. Pair with hairline rules top and bottom on the section
+   itself; this utility only swaps the paper/rule tint. */
+.band-cream {
+  --paper: var(--paper-cream);
 }
 
 /* Dark theme — opt-in via html[data-theme="dark"]. Same tokens, inverted ink/paper.
@@ -101,6 +112,8 @@
 html[data-theme="dark"] {
   --paper:        {{foundations.color.paperDark}};
   --paper-white:  {{foundations.color.paperDark}};
+  --paper-cream:  {{foundations.color.paperDark}};
+  --surface-muted: {{foundations.color.paperDark}};
   --ink:        {{foundations.color.inkDark}};
   --ink-soft:   {{foundations.color.inkSoftDark}};
   --ink-faint:  {{foundations.color.inkFaintDark}};
@@ -227,10 +240,9 @@ img, svg { max-width: 100%; height: auto; display: block; }
 .type-h4 {
   font-family: var(--display);
   font-size: {{foundations.fontSize.h4}};
-  font-weight: {{foundations.fontWeight.bold}};
+  font-weight: {{foundations.fontWeight.semibold}};
   line-height: 1.4;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   margin: 2.5em 0 1em;
   color: var(--ink-soft);
 }
@@ -256,7 +268,8 @@ strong, .type-strong {
   font-weight: {{foundations.fontWeight.bold}};
 }
 
-/* The shared interaction expression: bold + 2px signal-red underline. */
+/* The shared interaction expression: bold + 2px signal-red underline.
+   Hover: ink turns red, the rule stays (it's already signal-colored). */
 a, .type-link {
   color: inherit;
   font-weight: 600;
@@ -264,9 +277,13 @@ a, .type-link {
   text-decoration-color: var(--signal);
   text-decoration-thickness: {{foundations.border.signal}};
   text-underline-offset: 3px;
-  transition: text-decoration-color var(--dur) var(--ease);
+  transition: color var(--dur) var(--ease);
 }
-a:hover { text-decoration-color: color-mix(in srgb, var(--signal) 70%, var(--ink) 30%); }
+a:hover { color: var(--signal); }
+a:focus-visible {
+  outline: {{foundations.border.signal}} solid var(--signal);
+  outline-offset: 2px;
+}
 
 code, .type-code {
   font-family: var(--mono);
@@ -318,11 +335,10 @@ s, del, .type-strike {
   display: block;
   margin-top: 0.6em;
   font-family: var(--display);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 600;
   font-style: normal;
-  text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0;
   color: var(--ink-soft);
 }
 
@@ -424,10 +440,9 @@ s, del, .type-strike {
 }
 .type-table th, table th {
   font-family: var(--display);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
+  letter-spacing: 0;
   color: var(--ink-soft);
   text-align: left;
   padding: 0.5em 0.75em;
@@ -486,6 +501,8 @@ table th:last-child, table td:last-child { text-align: right; }
   margin-top: 1.5rem;
 }
 
+/* Two treatments, no third: filled black (the committing action) and outline
+   (the real alternative). 44px minimum, 6px radius, no shadow, no arrow. */
 .hero-action,
 .agustos-button {
   display: inline-flex;
@@ -494,9 +511,8 @@ table th:last-child, table td:last-child { text-align: right; }
   max-width: 100%;
   min-height: {{foundations.measure.controlMinimum}};
   padding: 0.7rem 1rem;
-  border: 1px solid var(--rule);
-  border-radius: var(--radius-sm);
-  box-shadow: inset 0 -2px 0 var(--signal);
+  border: 1px solid var(--ink);
+  border-radius: var(--radius-md);
   color: var(--ink);
   font-family: var(--display);
   font-size: 14px;
@@ -509,40 +525,42 @@ table th:last-child, table td:last-child { text-align: right; }
   transition:
     background var(--dur) var(--ease),
     border-color var(--dur) var(--ease),
-    box-shadow var(--dur) var(--ease),
     color var(--dur) var(--ease);
-}
-
-.hero-action:hover,
-.agustos-button:hover {
-  border-color: var(--ink-soft);
-  box-shadow: inset 0 -3px 0 var(--signal);
-  text-decoration: none;
 }
 
 .hero-action:focus-visible,
 .agustos-button:focus-visible {
   outline: 2px solid var(--signal);
-  outline-offset: 3px;
+  outline-offset: 2px;
 }
 
+/* Filled black — the committing action. Stays black on hover, per rule. */
 .hero-action--primary,
 .agustos-button--primary {
   border-color: var(--ink);
   background: var(--ink);
-  color: var(--paper);
+  color: var(--paper-white);
 }
 
 .hero-action--primary:hover,
 .agustos-button--primary:hover {
   border-color: var(--ink);
-  background: color-mix(in srgb, var(--ink) 92%, var(--signal) 8%);
-  color: var(--paper);
+  background: var(--ink);
+  color: var(--paper-white);
 }
 
+/* Outline — the real alternative, downloads included. Fills black on hover,
+   label turns white. */
 .hero-action--secondary,
 .agustos-button--secondary {
   background: transparent;
+}
+
+.hero-action--secondary:hover,
+.agustos-button--secondary:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper-white);
 }
 
 /* Editorial hero links — page-opening action row.
@@ -694,10 +712,9 @@ table th:last-child, table td:last-child { text-align: right; }
 .agustos-label {
   font-family: var(--display);
   font-size: {{foundations.fontSize.h4}};
-  font-weight: {{foundations.fontWeight.bold}};
+  font-weight: {{foundations.fontWeight.semibold}};
   line-height: 1.4;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   color: var(--ink-soft);
 }
 
@@ -715,7 +732,7 @@ table th:last-child, table td:last-child { text-align: right; }
   padding: 0.6rem 0.75rem;
   background: var(--paper-white);
   border: {{foundations.border.hairline}} solid var(--rule);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   color: var(--ink);
   font-family: var(--body);
   /* 16px exactly: iOS zooms the viewport on focus below this. */
@@ -815,24 +832,9 @@ table th:last-child, table td:last-child { text-align: right; }
   color: var(--state-danger);
 }
 
-/* --- Buttons (1 new; the other three alias .hero-action in section 5) --- */
-
-/* Tertiary action. The rank the system lacked, and the reason people invent
-   their own bare <button>. */
-.agustos-button--quiet {
-  border-color: transparent;
-  background: transparent;
-  box-shadow: none;
-  color: var(--ink-soft);
-}
-
-.agustos-button--quiet:hover {
-  border-color: transparent;
-  box-shadow: none;
-  color: var(--signal);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
+/* --- Buttons: both variants alias .hero-action in section 5. Two treatments,
+   no third — a tertiary "quiet" rank was retired in v5.0.0. Where a lower-emphasis
+   action is needed, use a content link (bold + 2px signal underline) instead. --- */
 
 /* --- Badges (6) --- */
 
@@ -844,15 +846,14 @@ table th:last-child, table td:last-child { text-align: right; }
   gap: var(--space-2xs);
   padding: 2px var(--space-xs);
   border: {{foundations.border.hairline}} solid currentColor;
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   background: transparent;
   color: var(--ink-soft);
   font-family: var(--display);
-  font-size: 11px;
+  font-size: 12px;
   font-weight: {{foundations.fontWeight.bold}};
   line-height: 1.5;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0;
   white-space: nowrap;
 }
 
@@ -869,7 +870,7 @@ table th:last-child, table td:last-child { text-align: right; }
 .agustos-notice {
   padding: var(--space-md) var(--space-lg);
   border-left: {{foundations.border.signal}} solid var(--rule);
-  border-radius: var(--radius-sm);
+  border-radius: var(--radius-md);
   background: color-mix(in srgb, var(--ink) 3%, var(--paper));
   font-family: var(--body);
   font-size: var(--size-body-compact);

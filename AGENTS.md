@@ -91,10 +91,10 @@ works on dark.
 | Brand (slug) | Wordmark | Color | Domain | Kit |
 |---|---|---|---|---|
 | `agustos` | ağustos | `#cf142a` | agustos.com | full |
-| `pataraz` | pataraz | `#1a1a1a` | pataraz.com | full |
-| `pld` | pld türkiye | `#1a1a1a` | pldturkiye.com | full |
-| `iesdesk` | iesdesk | `#1a1a1a` | iesdesk.com | logos only |
-| `specquick` | specquick | `#1a1a1a` | specquick.com | logos only |
+| `pataraz` | pataraz | `#15130f` | pataraz.com | full |
+| `pld` | pld türkiye | `#15130f` | pldturkiye.com | full |
+| `iesdesk` | iesdesk | `#15130f` | iesdesk.com | logos only |
+| `specquick` | specquick | `#15130f` | specquick.com | logos only |
 
 Novara (outdoor kitchen furniture) is a brand Ağustos **represents/distributes** (like Soraa, CoeLux),
 **not** a house brand — it has no assets here and needs none.
@@ -116,7 +116,7 @@ Novara (outdoor kitchen furniture) is a brand Ağustos **represents/distributes*
   **not printed** on artifacts. The lockup is always tagline-free.
 - If you **add, move, or recolor** any brand asset, **update `ASSETS.md` in the same change**.
 - **Consuming projects never re-declare tokens.** Load `ui/agustos.css` and use `var(--name)`.
-  A hand-typed `#cf142a` or `--paper: #fefcf2` in a consumer repository is a defect; run
+  A hand-typed `#cf142a` or `--paper: #ffffff` in a consumer repository is a defect; run
   `python3 ui/check-agustos-ui.py <project>` to find them.
 - **Fonts must be loaded, not just declared.** `agustos.css` sets font *stacks* only. Without
   `ui/agustos-fonts.css` (or the `@fontsource-variable` packages) a page renders in system sans

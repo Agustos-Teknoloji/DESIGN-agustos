@@ -1,4 +1,4 @@
-# Ağustos UI kit — v4.0.2
+# Ağustos UI kit — v5.0.0
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -11,21 +11,22 @@ Scandinavian restraint filtered through Mediterranean warmth.
 Create minimal, functional, and elegant interfaces that feel warm and human.
 İskandivvian is our project label. Keep the experience welcoming and easy to use.
 
-- Express warmth through existing cream or white surfaces, comfortable spacing, readable typography, and approachable language.
+- White is the primary substrate (~70% of every surface); cream is a full-bleed callout/CTA-band tint only, never the page paper.
 - Make every section useful. Keep navigation, information, and next actions easy to understand.
 - Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.
-- Use modest corners and selective borders. Add shadows only when they clarify layering.
+- Use modest corners and selective borders. Flat surfaces — no shadows anywhere.
 - Use authentic imagery only when it explains people, places, products, or work. Preserve product colors and technical facts.
 - Keep text, controls, and technical tables on plain surfaces. Flat pages without imagery are a complete expression.
 - Retain registered logos, font families, red interaction signals, supported themes, and accessible contrast.
-- Write direct, helpful copy with familiar words. Explain practical benefits and next steps.
+- Write direct, helpful copy with familiar words. Explain practical benefits and next steps. Sentence case everywhere — no uppercase labels, eyebrows, or headers.
 
 Avoid:
 
 - Ornamental Mediterranean motifs or unrelated lifestyle imagery
 - Replacing red interaction signals with earthy accent colors
 - Low-contrast text, vague labels, excessive whitespace, or decorative motion
-- Inflated luxury claims or forced friendliness
+- Inflated luxury claims, forced friendliness, uppercase text, or any shadow
+- Cream used as a page substrate, an inset rounded card, or mixed with a gray band on the same page
 
 ## Install — production
 
@@ -57,11 +58,11 @@ npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-va
 For a throwaway mockup with no build step:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.2/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v4.0.2/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.0/ui/agustos.css">
 ```
 
-**Pin stylesheet URLs to `@v4.0.2`.** Never publish `@main` or `@latest`; upstream changes can restyle your page.
+**Pin stylesheet URLs to `@v5.0.0`.** Never publish `@main` or `@latest`; upstream changes can restyle your page.
 
 ## One warning before you start
 
@@ -79,7 +80,7 @@ For a throwaway mockup with no build step:
   <link rel="stylesheet" href="/vendor/agustos-ui/agustos-fonts.css">
   <link rel="stylesheet" href="/vendor/agustos-ui/agustos.css">
 </head>
-<body class="brand-agustos paper-white">
+<body class="brand-agustos">
   <a class="skip-link" href="#main">İçeriğe geç</a>
   <main id="main" class="container">
     <!-- your page -->
@@ -95,7 +96,7 @@ Use `lang="tr"` for Turkish content so locale-sensitive capitalization renders c
 | Switch | Values | Where |
 |---|---|---|
 | Brand | `brand-agustos` · `brand-pataraz` · `brand-pld` · `brand-iesdesk` · `brand-specquick` | `<body>`, required |
-| Substrate | default cream, or `paper-white` for working interfaces | `<body>` |
+| Substrate | white by default; `band-cream` for a full-bleed callout/CTA band only, never a page or an inset card; `paper-white` is a no-op kept for back-compat | `<body>`/section |
 | Theme | `data-theme="dark"` (opt-in) | `<html>` |
 
 Ağustos alone owns red identity ink. Other house brands use black or white.
@@ -116,7 +117,7 @@ Every class the kit publishes. See `starter.html` for one rendered instance of e
 | Cards | `agustos-card-grid` `agustos-card` `agustos-card--marked` |
 | Chrome | `agustos-chrome-link` |
 | Forms | `agustos-fieldset` `agustos-field` `agustos-field--invalid` · `agustos-label` `agustos-label--required` · `agustos-input` `agustos-textarea` `agustos-select` `agustos-check` `agustos-hint` `agustos-error` |
-| Buttons | `agustos-button` `--primary` `--secondary` `--quiet` |
+| Buttons | `agustos-button` `--primary` (filled, committing) `--secondary` (outline, alternative) — no third tier |
 | Badges | `agustos-badge` `--success` `--warning` `--danger` `--info` `--signal` |
 | Notices | `agustos-notice` `agustos-notice__title` `--success` `--warning` `--danger` `--info` |
 | Tabs | `agustos-tabs` `agustos-tab` `agustos-tabs__panel` |

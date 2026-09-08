@@ -47,6 +47,7 @@
       "brand-iesdesk",
       "brand-specquick",
       "paper-white",
+      "band-cream",
       "hero-links",
       "hero-link",
       "hero-link--primary",
@@ -77,7 +78,6 @@
       "agustos-button",
       "agustos-button--primary",
       "agustos-button--secondary",
-      "agustos-button--quiet",
       "agustos-badge",
       "agustos-badge--success",
       "agustos-badge--warning",
@@ -117,7 +117,8 @@
         "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
         "Replacing red interaction signals with earthy accent colors",
         "Low-contrast text, vague labels, excessive whitespace, or decorative motion",
-        "Inflated luxury claims or forced friendliness"
+        "Inflated luxury claims, forced friendliness, uppercase text, or any shadow",
+        "Cream used as a page substrate, an inset rounded card, or mixed with a gray band on the same page"
       ],
       "definition": "Scandinavian restraint filtered through Mediterranean warmth.",
       "intent": "Create minimal, functional, and elegant experiences that feel calm, warm, and human.",
@@ -134,14 +135,14 @@
       "name": "İskandivvian",
       "naming": "Use this as a defined project label, not an established design movement.",
       "principles": [
-        "Express warmth through existing cream or white surfaces, comfortable spacing, readable typography, and approachable language.",
+        "White is the primary substrate (~70% of every surface); cream is a full-bleed callout/CTA-band tint only, never the page paper.",
         "Make every section useful. Keep navigation, information, and next actions easy to understand.",
         "Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.",
-        "Use modest corners and selective borders. Add shadows only when they clarify layering.",
+        "Use modest corners and selective borders. Flat surfaces — no shadows anywhere.",
         "Use authentic imagery only when it explains people, places, products, or work. Preserve product colors and technical facts.",
         "Keep text, controls, and technical tables on plain surfaces. Flat pages without imagery are a complete expression.",
         "Retain registered logos, font families, red interaction signals, supported themes, and accessible contrast.",
-        "Write direct, helpful copy with familiar words. Explain practical benefits and next steps."
+        "Write direct, helpful copy with familiar words. Explain practical benefits and next steps. Sentence case everywhere — no uppercase labels, eyebrows, or headers."
       ]
     },
     "forbidden": [
@@ -194,7 +195,7 @@
         "wordmark": "ağustos"
       },
       "iesdesk": {
-        "color": "#1a1a1a",
+        "color": "#15130f",
         "domain": "iesdesk.com",
         "office": false,
         "tagline_en": "",
@@ -203,7 +204,7 @@
         "wordmark": "iesdesk"
       },
       "pataraz": {
-        "color": "#1a1a1a",
+        "color": "#15130f",
         "domain": "pataraz.com",
         "office": true,
         "tagline_en": "",
@@ -212,7 +213,7 @@
         "wordmark": "pataraz"
       },
       "pld": {
-        "color": "#1a1a1a",
+        "color": "#15130f",
         "domain": "pldturkiye.com",
         "office": true,
         "tagline_en": "",
@@ -221,7 +222,7 @@
         "wordmark": "pld türkiye"
       },
       "specquick": {
-        "color": "#1a1a1a",
+        "color": "#15130f",
         "domain": "specquick.com",
         "office": false,
         "tagline_en": "",
@@ -241,7 +242,8 @@
         "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
         "Replacing red interaction signals with earthy accent colors",
         "Low-contrast text, vague labels, excessive whitespace, or decorative motion",
-        "Inflated luxury claims or forced friendliness"
+        "Inflated luxury claims, forced friendliness, uppercase text, or any shadow",
+        "Cream used as a page substrate, an inset rounded card, or mixed with a gray band on the same page"
       ],
       "definition": "Scandinavian restraint filtered through Mediterranean warmth.",
       "intent": "Create minimal, functional, and elegant experiences that feel calm, warm, and human.",
@@ -258,14 +260,14 @@
       "name": "İskandivvian",
       "naming": "Use this as a defined project label, not an established design movement.",
       "principles": [
-        "Express warmth through existing cream or white surfaces, comfortable spacing, readable typography, and approachable language.",
+        "White is the primary substrate (~70% of every surface); cream is a full-bleed callout/CTA-band tint only, never the page paper.",
         "Make every section useful. Keep navigation, information, and next actions easy to understand.",
         "Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.",
-        "Use modest corners and selective borders. Add shadows only when they clarify layering.",
+        "Use modest corners and selective borders. Flat surfaces — no shadows anywhere.",
         "Use authentic imagery only when it explains people, places, products, or work. Preserve product colors and technical facts.",
         "Keep text, controls, and technical tables on plain surfaces. Flat pages without imagery are a complete expression.",
         "Retain registered logos, font families, red interaction signals, supported themes, and accessible contrast.",
-        "Write direct, helpful copy with familiar words. Explain practical benefits and next steps."
+        "Write direct, helpful copy with familiar words. Explain practical benefits and next steps. Sentence case everywhere — no uppercase labels, eyebrows, or headers."
       ]
     },
     "foundations": {
@@ -274,18 +276,18 @@
         "signal": "2px"
       },
       "color": {
-        "ink": "#1a1a1a",
+        "ink": "#15130f",
         "inkDark": "#f0ebd8",
-        "inkFaint": "#8a8a8a",
+        "inkFaint": "#8a8378",
         "inkFaintDark": "#6e6960",
-        "inkSoft": "#4a4a4a",
+        "inkSoft": "#403b34",
         "inkSoftDark": "#a8a39a",
-        "paperCream": "#fefcf2",
+        "paperCream": "#fdf5f5",
         "paperDark": "#16140f",
         "paperWhite": "#ffffff",
-        "ruleCream": "#e8e3d0",
+        "ruleCream": "#e8e4da",
         "ruleDark": "#2a2620",
-        "ruleWhite": "#e8e8e8",
+        "ruleWhite": "#e8e4da",
         "signalRed": "#cf142a",
         "stateDanger": "#b42318",
         "stateDangerDark": "#f08c82",
@@ -294,11 +296,12 @@
         "stateSuccess": "#1f6b4a",
         "stateSuccessDark": "#7ec9a2",
         "stateWarning": "#8a5a00",
-        "stateWarningDark": "#d9a441"
+        "stateWarningDark": "#d9a441",
+        "surfaceMuted": "#f4f2ed"
       },
       "duration": {
         "drawer": "220ms",
-        "micro": "120ms",
+        "micro": "150ms",
         "short": "180ms"
       },
       "easing": {
@@ -309,9 +312,9 @@
           1
         ],
         "standard": [
-          0.25,
-          0.1,
-          0.25,
+          0.2,
+          0,
+          0,
           1
         ]
       },
@@ -327,7 +330,7 @@
         "h1": "44px",
         "h2": "24px",
         "h3": "18px",
-        "h4": "12px",
+        "h4": "13px",
         "hero": "clamp(56px, 9vw, 112px)",
         "heroDeck": "clamp(18px, 1.5vw, 21px)",
         "heroMedium": "clamp(40px, 6vw, 72px)"
@@ -341,10 +344,11 @@
         "wordmark": 650
       },
       "measure": {
-        "content": "920px",
+        "content": "1180px",
         "controlMinimum": "44px",
-        "gutter": "24px",
-        "text": "54ch",
+        "gutter": "32px",
+        "heroText": "54ch",
+        "text": "72ch",
         "wide": "1200px"
       },
       "radius": {
@@ -379,10 +383,10 @@
         "surface": "#ffffff"
       },
       "chrome": {
-        "contentMeasure": "920px",
+        "contentMeasure": "1180px",
         "controlMinimum": "44px",
         "gap": "32px",
-        "gutter": "24px",
+        "gutter": "32px",
         "paddingBlock": "14px",
         "rule": "1px"
       },
@@ -433,32 +437,33 @@
       "color": {
         "brandMark": "{brand.color}",
         "focus": "#cf142a",
-        "paper": "#fefcf2",
-        "rule": "#e8e3d0",
+        "paper": "#ffffff",
+        "rule": "#e8e4da",
         "signal": "#cf142a",
         "surface": "#ffffff",
-        "text": "#1a1a1a",
-        "textFaint": "#8a8a8a",
-        "textMuted": "#4a4a4a"
+        "surfaceMuted": "#f4f2ed",
+        "text": "#15130f",
+        "textFaint": "#8a8378",
+        "textMuted": "#403b34"
       },
       "layout": {
-        "contentGutter": "24px",
-        "contentMeasure": "920px",
-        "readingMeasure": "54ch"
+        "contentGutter": "32px",
+        "contentMeasure": "1180px",
+        "readingMeasure": "72ch"
       },
       "motion": {
-        "interactionDuration": "120ms",
+        "interactionDuration": "150ms",
         "interactionEasing": [
-          0.25,
-          0.1,
-          0.25,
+          0.2,
+          0,
+          0,
           1
         ]
       },
       "shape": {
         "buttonRadius": "6px",
         "cardRadius": "10px",
-        "controlRadius": "4px"
+        "controlRadius": "6px"
       },
       "typography": {
         "body": "Inter",
@@ -472,6 +477,11 @@
       "color": "#cf142a"
     },
     "themes": {
+      "creamBand": {
+        "paper": "#fdf5f5",
+        "rule": "#e8e4da",
+        "surface": "#ffffff"
+      },
       "dark": {
         "paper": "#16140f",
         "rule": "#2a2620",
@@ -482,11 +492,11 @@
       },
       "white": {
         "paper": "#ffffff",
-        "rule": "#e8e8e8",
+        "rule": "#e8e4da",
         "surface": "#ffffff"
       }
     },
-    "version": "4.0.2"
+    "version": "5.0.0"
   },
-  "version": "4.0.2"
+  "version": "5.0.0"
 }
