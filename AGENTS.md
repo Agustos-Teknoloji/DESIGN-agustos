@@ -35,17 +35,20 @@ task, then read only the relevant files:
 
 | Task | Start here | Read next only if needed |
 |---|---|---|
-| **Build a UI in another repository** (Astro, WordPress, Rails, plain HTML) | **`ui/UI-KIT.md`** | `ui/starter.html`, then `ui/kit.json` |
+| **Build a UI in another repository** (Astro, WordPress, Rails, plain HTML) | **`DESIGN.md`**, then **`docs/web.html`** | `docs/fonts.html`, `docs/colour.html`, `docs/brands.html`, then `ui/UI-KIT.md` |
+| **See what a source change regenerates** | **`docs/what-generates.html`** | Everyday: `python3 scripts/build_design_system.py`. Full rebuild only if asked. |
+| **Share this system as a zip** | **`docs/handoff-setup.html`** then `python3 scripts/pack_handoff.py` | `HANDOFF.md`. Do not zip the whole repository. |
 | Generate this system into a new medium (documents, slides, native app) | `tokens/design-system-handoff.json` | The matching `adapters/<platform>/README.md`, then `DESIGN.md` |
 | Find a logo, favicon, social image, document, or other finished asset | `ASSETS.md` | The matching file under `brand/exports/<brand>/` |
 | Build a Pataraz website or datasheet | `PATARAZ.md` | `DESIGN.md`, then the relevant export or generator README |
-| Change tokens or web recipes in this repository | `tokens/design-tokens.json` and `tokens/web.css.tmpl` | `DESIGN.md`, `MEMORY.md`, then `scripts/build_design_system.py` |
-| Change or add a brand | `brand/README.md` and `brand/brands.json` | `DESIGN.md`, `MEMORY.md`, then the build scripts |
+| Change tokens or web recipes in this repository | `tokens/design-tokens.json` and `tokens/web.css.tmpl` | `python3 scripts/build_design_system.py`. Do not run brand or font scripts unless asked. |
+| Change or add a brand | `brand/README.md` and `brand/brands.json` | `python3 scripts/build_design_system.py`. Full `brand/build.py` only if asked. |
 
 For consumer projects, treat `ui/`, `tokens/design-system-handoff.json`, and files under
 `brand/exports/` as ready-to-use inputs; do not regenerate this repository. A project that builds
 web interfaces needs `ui/UI-KIT.md` and nothing else — it contains the complete interface contract. Read `MEMORY.md` only when changing a source
-decision or proposing a reversal. After repository changes, run the checks documented in `README.md`.
+decision or proposing a reversal. After an everyday source change, run `python3 scripts/build_design_system.py` and the unit tests. Do not run
+`brand/build.py`, `brand/build_templates.py`, `scripts/build_ui_fonts.py`, or `brand/build_datasheet.py` unless the user asks for a full rebuild.
 
 ## "I need ___" → use this file
 
@@ -109,9 +112,9 @@ Novara (outdoor kitchen furniture) is a brand Ağustos **represents/distributes*
 - **Wordmark = Inter Tight, weight 650, lowercase, registered identity ink.** Never put a tagline or subtitle on the lockup.
 - **One symbol for all brands.** Never redraw it. Use red for Ağustos identity; use black/white for every other house brand.
 - **Signal and identity are separate.** Red rules and focus do not make a non-Ağustos logo red.
-- **NEVER hand-edit anything under `brand/exports/`.** It is all generated. To change an asset, edit
-  **`brand/brands.json`** (the keystone registry) or the master symbol, then re-run the build
-  (`brand/build.py` + `brand/build_templates.py` — see `brand/README.md`). Then update `ASSETS.md`.
+- **NEVER hand-edit anything under `brand/exports/`.** It is all generated. Everyday token and
+  kit changes use `python3 scripts/build_design_system.py` only. Run `brand/build.py` and
+  `brand/build_templates.py` only when the user asks for a full asset rebuild. Then update `ASSETS.md`.
 - **Taglines** are defined in `brand/brands.json` (`tagline_en` / `tagline_tr`) but used sparingly and
   **not printed** on artifacts. The lockup is always tagline-free.
 - If you **add, move, or recolor** any brand asset, **update `ASSETS.md` in the same change**.

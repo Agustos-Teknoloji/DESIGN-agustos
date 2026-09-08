@@ -2,46 +2,70 @@
 
 Date: 2026-09-08
 Design system version: 5.0.0
-Status: White-substrate visual direction applied to this repository. Consumer websites still need to vendor v5.0.0.
+Status: White-substrate visual direction applied. Share the five artifacts. Do not regenerate the factory.
 
-## Objective
+Open these five artifacts first:
 
-Apply Scandinavian restraint filtered through Mediterranean warmth.
-Create minimal, functional, and elegant experiences that feel calm, welcoming, and human.
-Express warmth through white paper, warm grays, cream callout bands, clear typography, comfortable spacing, and helpful language.
+1. `DESIGN.md` — direction, colour, type, brands, principles.
+2. `docs/fonts.html`
+3. `docs/colour.html`
+4. `docs/web.html` — header, footer, homepage, listing, finder, product page, spec sheet. Dark theme included.
+5. `docs/brands.html`
 
-## Completed work
+White paper, warm grays, and cream callout bands. Shared red is a 2px rule, not a fill.
 
-- Applied the approved white-substrate palette, type scale, action system, and 1180px frame to the canonical registry.
-- Rationed red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus.
-- Moved house-brand identity ink to `#15130f`.
-- Regenerated the UI kit, adapters, and brand identity assets.
-- Kept public CSS class names. Dark theme remains an open decision.
+## What this file is
 
-## Sources to read
+Instructions for applying the existing UI kit to another repository.
+This is not a prompt to rebuild the design system.
 
-1. Read `AGENTS.md` in the target repository.
-2. Read this design repository's `ui/UI-KIT.md` for website work.
-3. Read `DESIGN.md` for the palette, type, action, and layout rules.
-4. Read `PATARAZ.md` when the selected brand is Pataraz.
+## Do not reproduce
 
-For another medium, start with `tokens/design-system-handoff.json` and the matching adapter instructions.
+Do not run `scripts/build_design_system.py`.
+Do not run `brand/build.py`, `brand/build_templates.py`, or `scripts/build_ui_fonts.py`.
+Do not retype token values. Do not redraw the Laz Güneşi.
 
-## Remaining website work
+Those commands rebuild generated files that already ship in `ui/` and `brand/exports/`.
+A website agent that runs them spends its time on the factory, not on the page.
 
-1. Vendor `ui/` at v5.0.0 into the target website.
-2. Map pages to the kit: white paper, cream bands, filled-plus-outline buttons, one H2 role.
-3. Implement the three-zone header and the permanent black footer with a white "Contact" CTA.
-4. Check font loading, Turkish language handling, keyboard access, contrast, and supported themes.
-5. Run the target project's required tests and `python3 vendor/agustos-ui/check-agustos-ui.py .`.
+## Share this, not the factory
 
-## Implementation boundaries
+From this repository:
 
-Use the six-color palette and existing fonts. Keep wordmarks lowercase in Inter Tight 650.
-Use the exact Laz Güneşi asset and each brand's registered identity ink.
-Do not add red fills, uppercase labels, eyebrow headings, arrows, or shadows.
-Load both the generated stylesheet and fonts. Use kit classes and token variables.
-Consumer repositories must not regenerate this design repository or redeclare its token values.
+```bash
+python3 scripts/pack_handoff.py
+```
+
+That writes `dist/agustos-ui-handoff-v5.0.0.zip`.
+The zip holds the five artifacts, the kit, and lockup SVGs.
+It does not hold generators, adapters, Office files, or decision history.
+
+If you zip the whole repository, a coding agent regenerates CSS, logos, fonts, and Office files before it changes a page.
+
+If you already opened the slim zip, skip packing. Start at Apply to a website.
+
+## Apply to a website
+
+1. Copy the zip's `ui/` folder to `vendor/agustos-ui/` in the target repository. Commit it.
+2. Paste `vendor/agustos-ui/AGENTS-SNIPPET.md` into that project's `AGENTS.md`.
+3. Load fonts first, then the stylesheet. Put a `brand-*` class on `<body>`.
+4. Use white paper, cream bands, filled-plus-outline buttons, and one H2 role.
+5. Run `python3 vendor/agustos-ui/check-agustos-ui.py .` and make it exit 0.
+
+Read `DESIGN.md` and `docs/web.html` before you write markup.
+Keep wordmarks lowercase in Inter Tight 650. Do not add red fills, uppercase labels, arrows, or shadows.
+
+## If a Claude Design zip arrives in this repository
+
+Edit only:
+
+- `tokens/design-tokens.json`
+- `tokens/web.css.tmpl`
+- `brand/brands.json` (only when identity ink, wordmark, or roster changes)
+
+Then run `python3 scripts/build_design_system.py`.
+Do not rebuild logos, Office files, fonts, or datasheets unless asked.
+Do not copy `.dc.html` markup into this repository.
 
 ## Open decisions
 

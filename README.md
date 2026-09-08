@@ -40,37 +40,29 @@ Everything under `brand/exports/` and all generated token/adapter files are outp
 
 ## Generate and verify
 
+After an everyday source change, refresh the kit. Do not rebuild logos, Office files, or fonts
+unless someone asks.
+
 ```bash
 python3 scripts/build_design_system.py
 python3 scripts/build_design_system.py --check
-python3 scripts/check_office_artifacts.py --check
 python3 -m unittest discover -s tests
 ```
 
-The generator writes:
+The five standard artifacts are [DESIGN.md](DESIGN.md), [docs/fonts.html](docs/fonts.html), [docs/colour.html](docs/colour.html), [docs/web.html](docs/web.html), and [docs/brands.html](docs/brands.html).
 
-- `tokens/agustos.css` and `tokens/resolved.json`
-- `tokens/design-system-handoff.json`, the portable machine-readable implementation contract
-- Astro and Rails token CSS
-- WordPress `theme.json` and CSS
-- `tokens/generated-manifest.json`, including content hashes for drift detection
-- `ui/`, the distribution kit (see below)
-- `brand/exports/office-manifest.json`, covering nine Office artifacts and their generator sources
+The everyday command writes `ui/` and the matching token CSS. Adapter CSS and the handoff JSON
+travel with that same command. Logos, Office templates, webfonts, and datasheets do not.
 
-Web fonts are generated separately, because subsetting needs `fonttools[woff2]` and CI does not
-install it. Run it only when the master fonts in `brand/fonts/` change:
+A full rebuild is manual. Run it only when asked:
 
 ```bash
+./.venv/bin/python brand/build.py
+./.venv/bin/python brand/build_templates.py
 ./.venv/bin/python scripts/build_ui_fonts.py
+python3 brand/build_datasheet.py --pdf
+python3 scripts/check_office_artifacts.py --check
 ```
-
-Office artifacts consume `tokens/resolved.json`:
-
-```bash
-python3 brand/build_templates.py --brand agustos
-```
-
-PowerPoint generation uses the plain-ESM `brand/build_presentation.mjs` source and the declared public `pptxgenjs` dependency. Word output includes both a compact letterhead and a styled document template suitable for import into Google Docs.
 
 ## Distribution kit
 
@@ -95,10 +87,18 @@ Two ways to consume it:
 - **Prototypes** — link the version-pinned CDN URLs in `UI-KIT.md`. Never `@main` or `@latest`: an
   unpinned link restyles a live page the moment a token changes, with no review.
 
-Preview it locally with the `agustos-ui-kit` entry in `.claude/launch.json`, or:
+Preview the kit locally with the `agustos-ui-kit` entry in `.claude/launch.json`, or:
 
 ```bash
 python3 -m http.server 4330 --directory ui
+```
+
+To hand the kit to another coding agent, pack the slim zip. Do not zip the whole repository.
+The factory (generators, `DESIGN.md`, `MEMORY.md`, Office files) makes the agent regenerate
+work that `ui/` already contains. See [docs/handoff-setup.html](docs/handoff-setup.html).
+
+```bash
+python3 scripts/pack_handoff.py
 ```
 
 Any change under `ui/` requires a VERSION bump, a rebuild, and a matching `v<VERSION>` git tag in the

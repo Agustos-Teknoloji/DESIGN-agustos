@@ -1031,3 +1031,18 @@ No red fills, red buttons, red statistics, uppercase labels, eyebrow headings, a
 House-brand identity ink moved from `#1a1a1a` to `#15130f`. Public CSS class names stay.
 Dark theme, CTA repetition, photography, and quote placement remain open.
 Do not invent values for those.
+
+## Slim handoff zip (2026-09-08)
+
+**On the table:** sharing a handoff zip of this repository made website (and inbound Design)
+work slow, because the receiving agent regenerated CSS, logos, fonts, and Office files before
+it changed a page.
+
+**Chosen:** treat the repository as the factory and `ui/` as the product. Everyday source changes
+run `python3 scripts/build_design_system.py` only. Logos, Office files, fonts, and datasheets
+rebuild only when the user asks. Five standard artifacts (`DESIGN.md`, fonts, colour, web, brands)
+are what a coding agent should open. A packer writes `dist/agustos-ui-handoff-v<VERSION>.zip`
+with those files, the kit, and lockup SVGs.
+
+**Rejected:** attaching `tokens/design-system-handoff.json` as the default website handoff.
+That file is for new media. On the web it causes a second, drifting stylesheet.

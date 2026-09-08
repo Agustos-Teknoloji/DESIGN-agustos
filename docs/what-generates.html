@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What this repository generates</title>
+<link rel="stylesheet" href="../ui/agustos-fonts.css">
+<link rel="stylesheet" href="../ui/agustos.css">
+<style>
+  .map-hero { padding-block: var(--space-3xl) var(--space-xl); }
+  .pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+  }
+  .pair pre {
+    margin: var(--space-md) 0 0;
+    padding: var(--space-sm) var(--space-md);
+    background: #f4f2ed;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    font-size: 13px;
+    white-space: pre-wrap;
+  }
+  @media (max-width: 820px) { .pair { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body class="brand-agustos">
+<a class="skip-link" href="#main">Skip to content</a>
+<main id="main" class="container">
+
+  <header class="map-hero">
+    <p class="type-h4">Ağustos Design System v5.0.0</p>
+    <h1 class="type-hero-md">Every change, one command</h1>
+    <p class="type-hero-deck">
+      Edit a source. Refresh the UI kit. Stop. Logos, Office files, and fonts wait until someone asks.
+    </p>
+  </header>
+
+  <div class="pair">
+    <article class="agustos-card agustos-card--marked">
+      <p class="type-h4">Every change</p>
+      <h2 class="type-h2">Refresh the kit</h2>
+      <p class="type-body">
+        Edit <code>tokens/design-tokens.json</code>, <code>tokens/web.css.tmpl</code>,
+        <code>brand/brands.json</code>, or a <code>ui/*.tmpl</code> file.
+      </p>
+      <pre>python3 scripts/build_design_system.py
+python3 scripts/build_design_system.py --check</pre>
+      <p class="type-body">That overwrites the committed UI kit in <code>ui/</code> and the matching CSS.</p>
+    </article>
+
+    <article class="agustos-card">
+      <p class="type-h4">Only when asked</p>
+      <h2 class="type-h2">Full rebuild</h2>
+      <p class="type-body">
+        Do not run these unless the user asks. They rebuild logos, Office files, fonts, and datasheets.
+      </p>
+      <pre>./.venv/bin/python brand/build.py
+./.venv/bin/python brand/build_templates.py
+./.venv/bin/python scripts/build_ui_fonts.py
+python3 brand/build_datasheet.py --pdf</pre>
+    </article>
+  </div>
+
+  <p class="type-footnote" style="margin-top: var(--space-xl)">
+    Do not hand-edit <code>ui/</code> (except <code>*.tmpl</code> and <code>LICENSE</code>) or
+    <code>brand/exports/</code>. The next generate overwrites those files.
+  </p>
+
+</main>
+</body>
+</html>

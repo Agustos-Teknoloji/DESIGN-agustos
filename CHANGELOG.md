@@ -2,6 +2,15 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
+## Unreleased
+
+### Changed
+
+- Add a slim handoff zip (`scripts/pack_handoff.py`) and an HTML map of the factory versus the kit.
+- Tell website agents to copy `ui/` and stop. Do not zip the whole repository or re-run generators.
+- Everyday source changes refresh the UI kit only. Logos, Office files, fonts, and datasheets wait for an explicit ask.
+- Publish five standard artifacts: `DESIGN.md` plus HTML explainers for fonts, colour, web elements, and brands.
+
 ## [5.0.0] - 2026-09-08
 
 ### Changed
