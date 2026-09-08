@@ -153,6 +153,14 @@ class DesignSystemGenerationTest(unittest.TestCase):
         self.assertIn("adapters/wordpress/assets/css/agustos.css", relative)
         self.assertIn("adapters/wordpress/theme.json", relative)
         self.assertIn("tokens/design-system-handoff.json", relative)
+        self.assertIn("docs/agustos.css", relative)
+        self.assertIn("docs/agustos-fonts.css", relative)
+
+    def test_docs_font_css_points_at_ui_fonts_and_cdn(self):
+        css = self.builder.docs_fonts_css(self.tokens, self.builder.kit_context(self.tokens))
+        self.assertIn("url('../ui/fonts/", css)
+        self.assertIn("cdn.jsdelivr.net", css)
+        self.assertNotIn("url('./fonts/", css)
 
     def test_resolved_registry_stays_platform_neutral(self):
         resolved = self.builder.resolve_tree(self.tokens, self.tokens["semantic"])

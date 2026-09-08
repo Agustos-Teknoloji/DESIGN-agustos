@@ -6,7 +6,7 @@
 
 ## Standard artifacts
 
-These five files are the shareable system. Open the HTML in a browser. Read this file before you write markup.
+These five files are the shareable system. Open the HTML in a browser. Stylesheets sit next to the HTML files. Read this file before you write markup.
 
 1. **This file (`DESIGN.md`)** — contract for any LLM or implementer: direction, colour, type, brands, principles, and rules.
 2. [`docs/fonts.html`](docs/fonts.html) — families, sizes, weights, Turkish, wordmark rules.

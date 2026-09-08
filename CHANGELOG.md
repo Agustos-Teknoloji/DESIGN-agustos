@@ -4,6 +4,10 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+### Fixed
+
+- Load handbook HTML with same-folder stylesheets so the pages render when opened as files.
+
 ### Changed
 
 - Add a slim handoff zip (`scripts/pack_handoff.py`) and an HTML map of the factory versus the kit.
