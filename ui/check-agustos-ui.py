@@ -29,8 +29,9 @@ LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@l
 # hex value -> the variable that owns it. Injected from the token registry, so a
 # vendored copy of this file cannot drift from the system it was cut from.
 TOKEN_COLORS = {
-    "#fdf5f5": "--paper",
-    "#ffffff": "--paper-white",
+    "#fdf5f5": "--cream",
+    "#ffffff": "--paper",
+    "#f4f2ed": "--surface",
     "#15130f": "--ink",
     "#403b34": "--ink-soft",
     "#8a8378": "--ink-faint",
@@ -74,7 +75,6 @@ KIT_CLASSES = {
     "brand-iesdesk",
     "brand-specquick",
     "paper-white",
-    "band-cream",
     "hero-links",
     "hero-link",
     "hero-link--primary",
@@ -105,6 +105,7 @@ KIT_CLASSES = {
     "agustos-button",
     "agustos-button--primary",
     "agustos-button--secondary",
+    "agustos-button--quiet",
     "agustos-badge",
     "agustos-badge--success",
     "agustos-badge--warning",

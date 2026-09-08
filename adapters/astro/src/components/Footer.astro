@@ -40,6 +40,7 @@ const columns = config.columns ?? [
     <div class="site-footer__brand">
       <BrandLockup brandname={brandname} expression="mono" size={20} />
       <p class="type-footnote">{description} · &copy; {year}</p>
+      <a class="site-footer__cta" href="/about">Contact</a>
     </div>
 
     <div class="site-footer__cols">
@@ -66,24 +67,43 @@ const columns = config.columns ?? [
 </footer>
 
 <style>
-  .site-footer { margin-top: 6rem; border-top: 1px solid var(--rule); }
+  .site-footer {
+    margin-top: 4rem;
+    background: var(--ink);
+    color: var(--paper);
+    --lockup-color: var(--paper);
+  }
   .site-footer__inner {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
-    gap: clamp(2rem, 6vw, 5rem);
-    padding-block: clamp(3rem, 6vw, 4.5rem);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 48px;
+    padding-block: 56px;
   }
-  .site-footer__brand { display: flex; flex-direction: column; gap: 14px; max-width: 34ch; }
-  .site-footer__brand .type-footnote { margin: 0; color: var(--ink-faint); }
-  .site-footer__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-  .site-footer__col-heading { margin: 0 0 12px; color: var(--ink-soft); }
+  .site-footer__brand { display: flex; flex-direction: column; gap: 14px; flex: 1 1 220px; max-width: 40ch; }
+  .site-footer__brand .type-footnote { margin: 0; color: color-mix(in srgb, var(--paper) 72%, var(--ink)); }
+  .site-footer__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-start;
+    min-height: 44px;
+    padding: 0 20px;
+    background: var(--paper);
+    color: var(--ink);
+    border-radius: var(--radius-md);
+    font-family: var(--display);
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background var(--dur) var(--ease);
+  }
+  .site-footer__cta:hover { background: var(--rule); color: var(--ink); }
+  .site-footer__cta:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+  .site-footer__cols { display: flex; flex-wrap: wrap; flex: 1 1 360px; gap: 32px; }
+  .site-footer__col { flex: 1 1 140px; }
+  .site-footer__col-heading { margin: 0 0 12px; color: color-mix(in srgb, var(--paper) 72%, var(--ink)); }
   .site-footer__list { display: flex; flex-direction: column; gap: 9px; margin: 0; padding: 0; list-style: none; }
-  .site-footer__link { color: var(--ink-soft); font-family: var(--body); font-size: 14px; font-weight: 400; text-decoration: none; transition: color var(--dur) var(--ease); }
-  .site-footer__link:hover { color: var(--ink); }
-  .site-footer__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
-
-  @media (max-width: 760px) {
-    .site-footer__inner { grid-template-columns: 1fr; }
-    .site-footer__cols { grid-template-columns: repeat(2, 1fr); }
-  }
+  .site-footer__link { color: var(--paper); font-family: var(--display); font-size: 15px; font-weight: 500; text-decoration: none; }
+  .site-footer__link:hover { color: var(--paper); }
+  .site-footer__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 </style>

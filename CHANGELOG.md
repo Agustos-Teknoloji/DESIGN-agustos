@@ -2,6 +2,22 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
+## [5.0.0] - 2026-09-08
+
+### Changed
+
+- Apply the approved white-substrate visual direction: white paper, cream callout bands, warm gray surfaces, off-black ink `#15130f`.
+- Ration red `#cf142a` to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus.
+- Lock one H2 role, sentence-case labels, a filled-plus-outline button system, and an 1180px content column with 32px gutters.
+- Move house-brand identity ink from `#1a1a1a` to `#15130f`.
+- Preserve public CSS class names. Dark theme stays an open decision with the existing invert.
+
+### Migration
+
+- Vendor the complete v5.0.0 kit after release. Default paper is now white.
+- Replace cream-page layouts with white paper plus optional cream bands.
+- Restyle CTA pairs as filled black plus outline. Remove arrows and uppercase labels.
+
 ## [4.0.2] - 2026-09-07
 
 ### Changed

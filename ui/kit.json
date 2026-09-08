@@ -37,7 +37,6 @@
     "brand-iesdesk",
     "brand-specquick",
     "paper-white",
-    "band-cream",
     "hero-links",
     "hero-link",
     "hero-link--primary",
@@ -68,6 +67,7 @@
     "agustos-button",
     "agustos-button--primary",
     "agustos-button--secondary",
+    "agustos-button--quiet",
     "agustos-badge",
     "agustos-badge--success",
     "agustos-badge--warning",
@@ -87,17 +87,16 @@
   "darkTheme": "html[data-theme=\"dark\"]",
   "designDirection": {
     "acceptance": [
-      "Pages feel warm, human, and complete through clear typography, purposeful spacing, and helpful language.",
+      "Pages feel warm, human, and complete through white paper, warm neutrals, clear typography, and helpful language.",
       "Visitors can understand the content and identify the next action quickly.",
       "Forms and technical content remain clear, readable, and easy to scan.",
       "Brand identity, keyboard focus, reduced motion, and supported themes remain intact."
     ],
     "avoid": [
       "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
-      "Replacing red interaction signals with earthy accent colors",
-      "Low-contrast text, vague labels, excessive whitespace, or decorative motion",
-      "Inflated luxury claims, forced friendliness, uppercase text, or any shadow",
-      "Cream used as a page substrate, an inset rounded card, or mixed with a gray band on the same page"
+      "Red fills, red buttons, red statistics, or red as an element's own colour",
+      "Uppercase labels, eyebrow labels, arrows on buttons, or decorative motion",
+      "Inflated luxury claims or forced friendliness"
     ],
     "definition": "Scandinavian restraint filtered through Mediterranean warmth.",
     "intent": "Create minimal, functional, and elegant experiences that feel calm, warm, and human.",
@@ -114,37 +113,37 @@
     "name": "İskandivvian",
     "naming": "Use this as a defined project label, not an established design movement.",
     "principles": [
-      "White is the primary substrate (~70% of every surface); cream is a full-bleed callout/CTA-band tint only, never the page paper.",
+      "Use white as the paper. Reserve cream for full-bleed callout and CTA bands.",
+      "Express warmth through warm grays, cream bands, comfortable spacing, readable typography, and approachable language.",
       "Make every section useful. Keep navigation, information, and next actions easy to understand.",
       "Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.",
-      "Use modest corners and selective borders. Flat surfaces — no shadows anywhere.",
-      "Use authentic imagery only when it explains people, places, products, or work. Preserve product colors and technical facts.",
-      "Keep text, controls, and technical tables on plain surfaces. Flat pages without imagery are a complete expression.",
-      "Retain registered logos, font families, red interaction signals, supported themes, and accessible contrast.",
-      "Write direct, helpful copy with familiar words. Explain practical benefits and next steps. Sentence case everywhere — no uppercase labels, eyebrows, or headers."
+      "Use modest corners and hairline rules. Do not use shadows, gradients, or textures.",
+      "Keep text, controls, and technical tables on plain surfaces. Use authentic imagery only when it explains the work.",
+      "Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. Retain registered logos, fonts, and accessible contrast.",
+      "Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings."
     ]
   },
   "entryPoint": "UI-KIT.md",
   "files": {
     "AGENTS-SNIPPET.md": {
-      "bytes": 2083,
-      "sha256": "dd05ea8fb266ad1628e8b3071f024154586899602a39f137e5131e9e902c8c0c"
+      "bytes": 2085,
+      "sha256": "2991c2091c61dc82aaf59577e1d9c45072584073404271fbd89d9ce1874f6c42"
     },
     "UI-KIT.md": {
-      "bytes": 7939,
-      "sha256": "985598f21710b10eb2b5bbf709a224fcb660a64e1787986444575311a60d6632"
+      "bytes": 7687,
+      "sha256": "0c8be0c06fc7faf288db34196fb097554bf60ea80e93ccea2bdec8b652d6b2f5"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
       "sha256": "aad1ab9bf1362cf9c3b1a903accc98737f1a26bbf7fc3f53bcbafce4ffd4ebac"
     },
     "agustos.css": {
-      "bytes": 26160,
-      "sha256": "b6c941bc36d11180899cd5eb43d7648b632f30d05c3c8ea2cfeeb96457c25e28"
+      "bytes": 25447,
+      "sha256": "0c0a4b65d7ed2e83850e5c5bca521a8971f9a3e699bc66315bfebead29681c5d"
     },
     "check-agustos-ui.py": {
-      "bytes": 14539,
-      "sha256": "ae892efdd58f6a85e24cfcc7b8893421bd15a5bd9775bacd1728edd111de494b"
+      "bytes": 14572,
+      "sha256": "4618824016d886f4d09e2224900114f7a3435ab6c6c784d365c3f05aeb5d818c"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -167,8 +166,8 @@
       "sha256": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
     },
     "starter.html": {
-      "bytes": 10155,
-      "sha256": "661192750fbdffd945c3e3ced31f434b3c9cedcc9e64e1c8da3f6db658cdead2"
+      "bytes": 10263,
+      "sha256": "9595cbddd0cffdfe76f556652b5a1ba9bbd4c82cb7e07d93b06a869b22068f38"
     }
   },
   "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.0/ui/agustos.css\">",
@@ -181,7 +180,8 @@
   },
   "substrates": [
     "paper",
-    "paper-white"
+    "paper-white",
+    "cream"
   ],
   "system": "Ağustos Design System",
   "version": "5.0.0"

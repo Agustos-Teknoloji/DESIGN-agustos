@@ -25,24 +25,23 @@
       "quietly confident"
     ],
     "principles": [
-      "White is the primary substrate (~70% of every surface); cream is a full-bleed callout/CTA-band tint only, never the page paper.",
+      "Use white as the paper. Reserve cream for full-bleed callout and CTA bands.",
+      "Express warmth through warm grays, cream bands, comfortable spacing, readable typography, and approachable language.",
       "Make every section useful. Keep navigation, information, and next actions easy to understand.",
       "Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.",
-      "Use modest corners and selective borders. Flat surfaces — no shadows anywhere.",
-      "Use authentic imagery only when it explains people, places, products, or work. Preserve product colors and technical facts.",
-      "Keep text, controls, and technical tables on plain surfaces. Flat pages without imagery are a complete expression.",
-      "Retain registered logos, font families, red interaction signals, supported themes, and accessible contrast.",
-      "Write direct, helpful copy with familiar words. Explain practical benefits and next steps. Sentence case everywhere — no uppercase labels, eyebrows, or headers."
+      "Use modest corners and hairline rules. Do not use shadows, gradients, or textures.",
+      "Keep text, controls, and technical tables on plain surfaces. Use authentic imagery only when it explains the work.",
+      "Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. Retain registered logos, fonts, and accessible contrast.",
+      "Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings."
     ],
     "avoid": [
       "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
-      "Replacing red interaction signals with earthy accent colors",
-      "Low-contrast text, vague labels, excessive whitespace, or decorative motion",
-      "Inflated luxury claims, forced friendliness, uppercase text, or any shadow",
-      "Cream used as a page substrate, an inset rounded card, or mixed with a gray band on the same page"
+      "Red fills, red buttons, red statistics, or red as an element's own colour",
+      "Uppercase labels, eyebrow labels, arrows on buttons, or decorative motion",
+      "Inflated luxury claims or forced friendliness"
     ],
     "acceptance": [
-      "Pages feel warm, human, and complete through clear typography, purposeful spacing, and helpful language.",
+      "Pages feel warm, human, and complete through white paper, warm neutrals, clear typography, and helpful language.",
       "Visitors can understand the content and identify the next action quickly.",
       "Forms and technical content remain clear, readable, and easy to scan.",
       "Brand identity, keyboard focus, reduced motion, and supported themes remain intact."
@@ -88,14 +87,14 @@
   "foundations": {
     "color": {
       "$type": "color",
-      "paperCream": { "$value": "#fdf5f5", "$description": "Callout/CTA band tint only — logo red at 5% into white. Never a page substrate; always a full-bleed band with hairline rules top and bottom." },
-      "paperWhite": { "$value": "#ffffff", "$description": "Primary substrate, ~70% of every surface." },
-      "surfaceMuted": { "$value": "#f4f2ed", "$description": "Functional surfaces: key-figure tiles, image regions, summary panels." },
-      "ink": { "$value": "#15130f", "$description": "Off-black. Headlines, filled buttons, footer, and shared non-Ağustos brand identity ink." },
-      "inkSoft": { "$value": "#403b34", "$description": "Dark gray. Secondary text." },
-      "inkFaint": { "$value": "#8a8378", "$description": "Faint label text — captions, metadata, quiet proof." },
-      "ruleCream": { "$value": "#e8e4da", "$description": "Hairline rule." },
-      "ruleWhite": { "$value": "#e8e4da", "$description": "Hairline rule." },
+      "paperCream": { "$value": "#fdf5f5", "$description": "Full-bleed callout and CTA band. Logo red at 5% into white. Never the page paper." },
+      "paperWhite": { "$value": "#ffffff", "$description": "Primary substrate. About 70% of every surface." },
+      "paperGray": { "$value": "#f4f2ed", "$description": "Functional surfaces: key-figure tiles, image regions, and summary panels." },
+      "ink": { "$value": "#15130f", "$description": "Headlines, filled buttons, footer, and house-brand identity ink." },
+      "inkSoft": { "$value": "#403b34", "$description": "Secondary text." },
+      "inkFaint": { "$value": "#8a8378", "$description": "Small labels and quiet metadata." },
+      "ruleCream": { "$value": "#e8e4da", "$description": "Hairline rule on light surfaces." },
+      "ruleWhite": { "$value": "#e8e4da", "$description": "Hairline rule alias kept for compatibility." },
       "paperDark": { "$value": "#16140f", "$description": "Warm dark UI substrate." },
       "inkDark": { "$value": "#f0ebd8", "$description": "Primary text on dark." },
       "inkSoftDark": { "$value": "#a8a39a", "$description": "Secondary text on dark." },
@@ -128,15 +127,15 @@
     },
     "fontSize": {
       "$type": "dimension",
-      "hero": { "$value": "clamp(56px, 9vw, 112px)" },
-      "heroMedium": { "$value": "clamp(40px, 6vw, 72px)" },
-      "heroDeck": { "$value": "clamp(18px, 1.5vw, 21px)" },
-      "h1": { "$value": "44px" },
-      "h2": { "$value": "24px" },
+      "hero": { "$value": "clamp(56px, 8.5vw, 104px)" },
+      "heroMedium": { "$value": "clamp(40px, 5vw, 60px)" },
+      "heroDeck": { "$value": "20px" },
+      "h1": { "$value": "clamp(40px, 5vw, 60px)" },
+      "h2": { "$value": "clamp(34px, 4.4vw, 52px)" },
       "h3": { "$value": "18px" },
-      "h4": { "$value": "13px" },
+      "h4": { "$value": "12.5px" },
       "body": { "$value": "16.5px" },
-      "bodyCompact": { "$value": "14px" },
+      "bodyCompact": { "$value": "15.5px" },
       "footnote": { "$value": "12.5px" }
     },
     "spacing": {
@@ -173,11 +172,11 @@
     },
     "measure": {
       "$type": "dimension",
-      "content": { "$value": "1180px", "$description": "Shared content measure for page and chrome." },
+      "content": { "$value": "1180px", "$description": "Shared content column for page and chrome." },
       "gutter": { "$value": "32px", "$description": "Horizontal frame gutter." },
-      "text": { "$value": "72ch", "$description": "Readable long-form body measure." },
-      "heroText": { "$value": "54ch", "$description": "Hero supporting-copy measure." },
-      "wide": { "$value": "1200px", "$description": "Optional media and data width." },
+      "text": { "$value": "54ch", "$description": "Hero supporting copy measure." },
+      "body": { "$value": "72ch", "$description": "Readable long-form measure." },
+      "wide": { "$value": "1180px", "$description": "Media and data width. Same as the content column." },
       "controlMinimum": { "$value": "44px", "$description": "Minimum button-like target on the shorter axis." }
     },
     "border": {
@@ -190,12 +189,12 @@
     "color": {
       "$type": "color",
       "paper": { "$value": "{foundations.color.paperWhite}" },
-      "surface": { "$value": "{foundations.color.paperWhite}" },
-      "surfaceMuted": { "$value": "{foundations.color.surfaceMuted}" },
+      "surface": { "$value": "{foundations.color.paperGray}" },
+      "cream": { "$value": "{foundations.color.paperCream}" },
       "text": { "$value": "{foundations.color.ink}" },
       "textMuted": { "$value": "{foundations.color.inkSoft}" },
       "textFaint": { "$value": "{foundations.color.inkFaint}" },
-      "rule": { "$value": "{foundations.color.ruleWhite}" },
+      "rule": { "$value": "{foundations.color.ruleCream}" },
       "brandMark": { "$value": "{brand.color}" },
       "signal": { "$value": "{foundations.color.signalRed}" },
       "focus": { "$value": "{semantic.color.signal}" }
@@ -209,10 +208,11 @@
     "layout": {
       "contentMeasure": { "$value": "{foundations.measure.content}" },
       "contentGutter": { "$value": "{foundations.measure.gutter}" },
-      "readingMeasure": { "$value": "{foundations.measure.text}" }
+      "readingMeasure": { "$value": "{foundations.measure.text}" },
+      "bodyMeasure": { "$value": "{foundations.measure.body}" }
     },
     "shape": {
-      "controlRadius": { "$value": "{foundations.radius.medium}" },
+      "controlRadius": { "$value": "{foundations.radius.small}" },
       "buttonRadius": { "$value": "{foundations.radius.medium}" },
       "cardRadius": { "$value": "{foundations.radius.large}" }
     },
@@ -225,14 +225,7 @@
     "white": {
       "paper": { "$value": "{foundations.color.paperWhite}" },
       "surface": { "$value": "{foundations.color.paperWhite}" },
-      "rule": { "$value": "{foundations.color.ruleWhite}" },
-      "$description": "No-op as of v5.0.0 — white is now the default paper. Kept for back-compat with any consumer still applying `.paper-white` explicitly."
-    },
-    "creamBand": {
-      "paper": { "$value": "{foundations.color.paperCream}" },
-      "surface": { "$value": "{foundations.color.paperWhite}" },
-      "rule": { "$value": "{foundations.color.ruleWhite}" },
-      "$description": "Opt-in, full-bleed callout/CTA band only — never an inset card, never the page substrate."
+      "rule": { "$value": "{foundations.color.ruleWhite}" }
     },
     "dark": {
       "paper": { "$value": "{foundations.color.paperDark}" },
@@ -248,7 +241,7 @@
       "contentMeasure": { "$value": "{semantic.layout.contentMeasure}" },
       "gutter": { "$value": "{semantic.layout.contentGutter}" },
       "controlMinimum": { "$value": "{foundations.measure.controlMinimum}" },
-      "paddingBlock": { "$value": "14px" },
+      "paddingBlock": { "$value": "20px" },
       "gap": { "$value": "{foundations.spacing.2xl}" },
       "rule": { "$value": "{foundations.border.hairline}" }
     },
@@ -256,11 +249,11 @@
       "paddingBlockStart": { "$value": "clamp(56px, 9vw, 112px)" },
       "paddingBlockEnd": { "$value": "clamp(48px, 6vw, 80px)" },
       "headline": { "$value": "heroMedium" },
-      "deckMeasure": { "$value": "{foundations.measure.heroText}" },
+      "deckMeasure": { "$value": "{semantic.layout.readingMeasure}" },
       "actionGap": { "$value": "{foundations.spacing.xl}" }
     },
     "section": {
-      "paddingBlock": { "$value": "clamp(48px, 6vw, 80px)" },
+      "paddingBlock": { "$value": "64px" },
       "headingGap": { "$value": "{foundations.spacing.sm}" },
       "rule": { "$value": "{foundations.border.hairline}" }
     },
@@ -335,7 +328,6 @@
         "brand-iesdesk",
         "brand-specquick",
         "paper-white",
-        "band-cream",
         "hero-links",
         "hero-link",
         "hero-link--primary",
@@ -366,6 +358,7 @@
         "agustos-button",
         "agustos-button--primary",
         "agustos-button--secondary",
+        "agustos-button--quiet",
         "agustos-badge",
         "agustos-badge--success",
         "agustos-badge--warning",

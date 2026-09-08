@@ -155,8 +155,10 @@ def wordpress_theme(tokens: dict[str, Any], brands: dict[str, Any]) -> dict[str,
     size = lambda path: resolve_token(tokens, f"foundations.fontSize.{path}")
     space = lambda path: resolve_token(tokens, f"foundations.spacing.{path}")
     palette = [
-        {"slug": "paper", "name": "Paper Cream", "color": color("paperCream")},
+        {"slug": "paper", "name": "Paper", "color": color("paperWhite")},
         {"slug": "paper-white", "name": "Paper White", "color": color("paperWhite")},
+        {"slug": "cream", "name": "Cream", "color": color("paperCream")},
+        {"slug": "surface", "name": "Surface", "color": color("paperGray")},
         {"slug": "ink", "name": "Ink", "color": color("ink")},
         {"slug": "ink-soft", "name": "Ink Soft", "color": color("inkSoft")},
         {"slug": "ink-faint", "name": "Ink Faint", "color": color("inkFaint")},
@@ -243,7 +245,7 @@ def wordpress_theme(tokens: dict[str, Any], brands: dict[str, Any]) -> dict[str,
             "elements": {
                 "heading": {"typography": {"fontFamily": "var:preset|font-family|display", "fontWeight": "500"}},
                 "link": {
-                    "color": {"text": "var:preset|color|signal"},
+                    "color": {"text": "var:preset|color|ink"},
                     "typography": {"fontWeight": "600", "textDecoration": "underline"},
                 },
             },
@@ -274,17 +276,17 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
                 "Use the exact Laz Güneşi asset. Never redraw or approximate the symbol.",
                 "Keep every wordmark lowercase, Inter Tight weight 650, and free of taglines.",
                 "Ağustos alone owns red as identity ink; Pataraz, PLD Türkiye, IESdesk, SpecQuick, and future house brands use neutral black/white identity ink by default.",
-                "Use shared signal red for links, focus, markers, and small emphasis across every brand; never use it to recolor a non-Ağustos logo.",
-                "Default working interfaces to white paper, dark ink, restrained rules, and small radii.",
-                "Align primary content to one 920px frame on the web; preserve the same alignment logic in other media.",
-                "Use calm typographic openings, quiet chrome, selective borders, and purposeful spacing.",
+                "Use shared signal red only for the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus; never use it to recolor a non-Ağustos logo.",
+                "Default working interfaces to white paper, off-black ink, restrained rules, and small radii. No shadows.",
+                "Align primary content to one 1180px frame on the web; preserve the same alignment logic in other media.",
+                "Use calm typographic openings, quiet chrome, sentence case, and purposeful spacing. Do not use uppercase labels or eyebrow headings.",
             ],
             "forbidden": [
                 "Inventing a new logo expression or approximate sun symbol",
                 "Two-row or sidebar-first website chrome unless the product requirement makes it necessary",
                 "Purple gradients, decorative blobs, large uniform radii, or centered generic SaaS feature grids",
                 "Giving a non-Ağustos house brand its own chromatic identity color without an explicit governance change",
-                "Using signal red as an unrestricted background or decoration",
+                "Using signal red as a fill, a button, a statistic, or an element's own colour",
                 "Hard-coding values that already exist in foundations, semantic roles, or recipes",
             ],
             "implementationOrder": [
@@ -297,11 +299,11 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
             "mediums": {
                 "web": "One-row header, shared frame, warm editorial hierarchy, selective borders, helpful copy, and short motion.",
                 "document": "Native named styles, generous opening space, exact lockup header, thin signal rule, editable tables.",
-                "presentation": "Editable 16:9 layouts; red or neutral identity section fields; shared red signals; quiet cream or white content slides.",
+                "presentation": "Editable 16:9 layouts; red or neutral identity section fields; shared red signals; quiet white content slides.",
             },
             "acceptance": [
                 "The selected brand's identity ink, wordmark, and lockup expression match the brand registry.",
-                "Links, focus, markers, and small emphasis use shared signal red regardless of selected brand.",
+                "Content links use ink with a 2px red rule. Menu items reveal that rule on hover or the current page. Keyboard focus uses a 2px red outline.",
                 "Display, body, and mono type roles use the declared families and hierarchy.",
                 "Content aligns to one dominant frame or margin system.",
                 "Interactive elements have visible focus states and motion respects reduced-motion preferences.",
@@ -450,8 +452,9 @@ def checker_token_table(resolved: dict[str, Any], brands: dict[str, Any]) -> str
     """
     colors = resolved["foundations"]["color"]
     table = {
-        colors["paperCream"]: "--paper",
-        colors["paperWhite"]: "--paper-white",
+        colors["paperCream"]: "--cream",
+        colors["paperWhite"]: "--paper",
+        colors["paperGray"]: "--surface",
         colors["ink"]: "--ink",
         colors["inkSoft"]: "--ink-soft",
         colors["inkFaint"]: "--ink-faint",
@@ -514,7 +517,7 @@ def ui_kit_json(
         ),
         "signal": brands["signal"],
         "brandClasses": [f"brand-{slug}" for slug in brands["brands"]],
-        "substrates": ["paper", "paper-white"],
+        "substrates": ["paper", "paper-white", "cream"],
         "darkTheme": 'html[data-theme="dark"]',
         "cssClasses": tokens["compatibility"]["cssClasses"],
         "files": files,

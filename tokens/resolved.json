@@ -48,17 +48,16 @@
   },
   "designDirection": {
     "acceptance": [
-      "Pages feel warm, human, and complete through clear typography, purposeful spacing, and helpful language.",
+      "Pages feel warm, human, and complete through white paper, warm neutrals, clear typography, and helpful language.",
       "Visitors can understand the content and identify the next action quickly.",
       "Forms and technical content remain clear, readable, and easy to scan.",
       "Brand identity, keyboard focus, reduced motion, and supported themes remain intact."
     ],
     "avoid": [
       "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
-      "Replacing red interaction signals with earthy accent colors",
-      "Low-contrast text, vague labels, excessive whitespace, or decorative motion",
-      "Inflated luxury claims, forced friendliness, uppercase text, or any shadow",
-      "Cream used as a page substrate, an inset rounded card, or mixed with a gray band on the same page"
+      "Red fills, red buttons, red statistics, or red as an element's own colour",
+      "Uppercase labels, eyebrow labels, arrows on buttons, or decorative motion",
+      "Inflated luxury claims or forced friendliness"
     ],
     "definition": "Scandinavian restraint filtered through Mediterranean warmth.",
     "intent": "Create minimal, functional, and elegant experiences that feel calm, warm, and human.",
@@ -75,14 +74,14 @@
     "name": "İskandivvian",
     "naming": "Use this as a defined project label, not an established design movement.",
     "principles": [
-      "White is the primary substrate (~70% of every surface); cream is a full-bleed callout/CTA-band tint only, never the page paper.",
+      "Use white as the paper. Reserve cream for full-bleed callout and CTA bands.",
+      "Express warmth through warm grays, cream bands, comfortable spacing, readable typography, and approachable language.",
       "Make every section useful. Keep navigation, information, and next actions easy to understand.",
       "Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.",
-      "Use modest corners and selective borders. Flat surfaces — no shadows anywhere.",
-      "Use authentic imagery only when it explains people, places, products, or work. Preserve product colors and technical facts.",
-      "Keep text, controls, and technical tables on plain surfaces. Flat pages without imagery are a complete expression.",
-      "Retain registered logos, font families, red interaction signals, supported themes, and accessible contrast.",
-      "Write direct, helpful copy with familiar words. Explain practical benefits and next steps. Sentence case everywhere — no uppercase labels, eyebrows, or headers."
+      "Use modest corners and hairline rules. Do not use shadows, gradients, or textures.",
+      "Keep text, controls, and technical tables on plain surfaces. Use authentic imagery only when it explains the work.",
+      "Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. Retain registered logos, fonts, and accessible contrast.",
+      "Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings."
     ]
   },
   "foundations": {
@@ -99,6 +98,7 @@
       "inkSoftDark": "#a8a39a",
       "paperCream": "#fdf5f5",
       "paperDark": "#16140f",
+      "paperGray": "#f4f2ed",
       "paperWhite": "#ffffff",
       "ruleCream": "#e8e4da",
       "ruleDark": "#2a2620",
@@ -111,8 +111,7 @@
       "stateSuccess": "#1f6b4a",
       "stateSuccessDark": "#7ec9a2",
       "stateWarning": "#8a5a00",
-      "stateWarningDark": "#d9a441",
-      "surfaceMuted": "#f4f2ed"
+      "stateWarningDark": "#d9a441"
     },
     "duration": {
       "drawer": "220ms",
@@ -140,15 +139,15 @@
     },
     "fontSize": {
       "body": "16.5px",
-      "bodyCompact": "14px",
+      "bodyCompact": "15.5px",
       "footnote": "12.5px",
-      "h1": "44px",
-      "h2": "24px",
+      "h1": "clamp(40px, 5vw, 60px)",
+      "h2": "clamp(34px, 4.4vw, 52px)",
       "h3": "18px",
-      "h4": "13px",
-      "hero": "clamp(56px, 9vw, 112px)",
-      "heroDeck": "clamp(18px, 1.5vw, 21px)",
-      "heroMedium": "clamp(40px, 6vw, 72px)"
+      "h4": "12.5px",
+      "hero": "clamp(56px, 8.5vw, 104px)",
+      "heroDeck": "20px",
+      "heroMedium": "clamp(40px, 5vw, 60px)"
     },
     "fontWeight": {
       "bold": 700,
@@ -159,12 +158,12 @@
       "wordmark": 650
     },
     "measure": {
+      "body": "72ch",
       "content": "1180px",
       "controlMinimum": "44px",
       "gutter": "32px",
-      "heroText": "54ch",
-      "text": "72ch",
-      "wide": "1200px"
+      "text": "54ch",
+      "wide": "1180px"
     },
     "radius": {
       "large": "10px",
@@ -195,14 +194,14 @@
       "markedBorder": "2px",
       "padding": "24px",
       "radius": "10px",
-      "surface": "#ffffff"
+      "surface": "#f4f2ed"
     },
     "chrome": {
       "contentMeasure": "1180px",
       "controlMinimum": "44px",
       "gap": "32px",
       "gutter": "32px",
-      "paddingBlock": "14px",
+      "paddingBlock": "20px",
       "rule": "1px"
     },
     "dataTable": {
@@ -244,27 +243,28 @@
     },
     "section": {
       "headingGap": "12px",
-      "paddingBlock": "clamp(48px, 6vw, 80px)",
+      "paddingBlock": "64px",
       "rule": "1px"
     }
   },
   "semantic": {
     "color": {
       "brandMark": "{brand.color}",
+      "cream": "#fdf5f5",
       "focus": "#cf142a",
       "paper": "#ffffff",
       "rule": "#e8e4da",
       "signal": "#cf142a",
-      "surface": "#ffffff",
-      "surfaceMuted": "#f4f2ed",
+      "surface": "#f4f2ed",
       "text": "#15130f",
       "textFaint": "#8a8378",
       "textMuted": "#403b34"
     },
     "layout": {
+      "bodyMeasure": "72ch",
       "contentGutter": "32px",
       "contentMeasure": "1180px",
-      "readingMeasure": "72ch"
+      "readingMeasure": "54ch"
     },
     "motion": {
       "interactionDuration": "150ms",
@@ -278,7 +278,7 @@
     "shape": {
       "buttonRadius": "6px",
       "cardRadius": "10px",
-      "controlRadius": "6px"
+      "controlRadius": "4px"
     },
     "typography": {
       "body": "Inter",
@@ -292,11 +292,6 @@
     "color": "#cf142a"
   },
   "themes": {
-    "creamBand": {
-      "paper": "#fdf5f5",
-      "rule": "#e8e4da",
-      "surface": "#ffffff"
-    },
     "dark": {
       "paper": "#16140f",
       "rule": "#2a2620",

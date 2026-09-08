@@ -1019,94 +1019,15 @@ Express this through typography, spacing, neutral surfaces, and helpful language
 The user correction also applies to the saved website brief and implementation plan.
 Existing visual values and website layouts remain unchanged.
 
+## v5.0 — white substrate, red as a 2px rule (2026-09-08)
 
-## v5.0.0 — white substrate, no uppercase, two-treatment buttons, new off-black (2026-09-08)
+The attached design bundle superseded the cream-substrate direction.
+White is now the paper. Cream `#fdf5f5` is a full-bleed callout band only.
+The six-color palette, off-black `#15130f`, one H2 role, filled-plus-outline buttons, and the 1180px frame are locked.
 
-**On the table:** a visual-direction handoff produced in a separate Claude Design
-session (`Color palette and design direction.zip` → `DESIGN-DECISIONS.md` +
-`Homepage.dc.html` / `Product page.dc.html` / `Spec sheet.dc.html` / `Action
-rules.dc.html`), delivered because Claude Design has no direct write access to this
-repository. The live DesignSync tool needs `/design-login` (an interactive session
-this one wasn't) and its own "Send to Claude Code Web" action turned out not to be
-wired up on this account either — so the zip-export-then-integrate path used here was
-the fallback, not an established convention. The handoff
-explicitly labeled itself "v3, September 2026" and said it superseded the
-cream-substrate direction.
+Red is rationed to three uses: the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus.
+No red fills, red buttons, red statistics, uppercase labels, eyebrow headings, arrows, or shadows.
 
-On inspection it conflicted with several rules this repository had already shipped as
-*final* and *tested* in `DESIGN.md` v4.0.2 and reasoned through in this file: cream as
-the primary branded substrate (Turning point 6, "Substrate-agnostic principle"), the
-homepage hero's "editorial link, not product button" CTA philosophy, `.type-h4` and
-table headers as intentionally uppercase, and `#1a1a1a` as the shared non-Ağustos
-identity ink. Per this system's own governance ("a new chromatic house-brand identity
-is a philosophy change... requires updating this specification, `brands.json`,
-tokens, tests, and the decision history together" — and the Authority section: "the
-system is the product of Emre's judgment, not Claude's"), each conflict was surfaced
-directly rather than auto-applied, and resolved one at a time:
-
-1. **Substrate.** White replaces cream as primary (~70% of every surface). Cream
-   demotes to a full-bleed callout/CTA-band tint only, at a new hex (`#fdf5f5`, the
-   logo red at 5% into white) — never a page, never an inset card. **Chosen:** adopt
-   the handoff. This is a direct reversal of Turning point 6's "cream is the paper,
-   white is the fallback" — the reversal is deliberate and explicit, not a drift.
-2. **Case.** No uppercase anywhere — labels, table headers, breadcrumbs, menu items
-   all move to sentence case. **Chosen:** adopt the ban. `.type-h4`'s job (eyebrow +
-   meta + label) is unchanged; only its casing and tracking are.
-3. **Buttons.** The 3-tier `--primary`/`--secondary`/`--quiet` system and the
-   homepage hero's button-free "editorial link only" rule both retire. One 2-tier
-   model (filled black = committing action, outline = the real alternative) applies
-   everywhere, hero included. **Chosen:** adopt the handoff's model. `--quiet` had no
-   home in the new 4-treatment framing (filled button / outline button / text+red-rule
-   link / plain label) — a lower-emphasis action is now a content link, not a third
-   button rank.
-4. **Identity ink.** New off-black `#15130f` replaces `#1a1a1a` everywhere, including
-   as the shared identity ink for Pataraz, PLD Türkiye, IESDesk, and SpecQuick — not
-   just this site's CSS. **Chosen:** adopt it everywhere rather than splitting text/UI
-   ink from brand-mark ink, accepting the cost of regenerating every non-Ağustos
-   brand's exported kit (logos, favicons, social, office templates, guidelines PDFs)
-   via `brand/build.py` + `brand/build_templates.py`, and the Pataraz/Ağustos
-   datasheet PDFs via `brand/build_datasheet.py --pdf`.
-
-Also carried, because the handoff specified them and none conflicted with a named
-decision: content measure 920px → 1180px, gutter 24px → 32px, body measure 54ch →
-72ch (hero deck keeps 54ch on its own token), section rhythm to 64px, control radius
-4px → 6px (buttons, inputs — "6px on controls and small panels"), motion 120ms/
-`ease` → 150ms/`cubic-bezier(0.2,0,0,1)`, and a new `surfaceMuted` (`#f4f2ed`)
-neutral for functional panels the system didn't have a token for yet. The
-homepage-hero eyebrow (`.type-h4` above the headline) was dropped for the same reason
-as the button change — the handoff's "no eyebrow labels above headlines" is a general
-rule, not scoped to marketing pages only, and leaving the hero's own eyebrow
-recommendation in place while banning eyebrows everywhere else would have been an
-inconsistency, not a preserved exception.
-
-**Explicitly left alone:** dark theme (the handoff names its own dark palette as an
-open decision, §10 in `DESIGN-DECISIONS.md`) and the actual page *compositions* shown
-in the `.dc.html` files (three-zone header, permanent-black footer, product
-configurator, print-ready A4 spec sheet) — those are page/component work that this
-system's own "promotion loop" principle (test on a real site first, then promote)
-says doesn't belong here yet. Flagged as follow-up rather than guessed at low
-fidelity or silently dropped.
-
-**Why this matters:** this is the first time a Claude Design handoff reached this
-repository as a finished, "final" spec rather than as a rendered comparison built
-inside this codebase's own exploration process (contrast Turning points 3–4, 19–22,
-where every typography and logotype decision was rendered and judged inside this
-system before being written down). The handoff's own README was explicit that its
-`.dc.html` files are references only ("do not copy their markup or script tags
-directly... recreate these designs in the repo's existing stack"), which is exactly
-what happened: `DESIGN-DECISIONS.md`'s values went into `tokens/design-tokens.json`
-and `tokens/web.css.tmpl`; no markup was copied. Future handoffs arriving this way
-should get the same treatment: read as a proposed spec, diffed against what this
-repository has already tested and reasoned through, and only merged where the
-product owner explicitly says so — not applied wholesale on the strength of being a
-polished document.
-
-**How to apply:** `tokens/design-tokens.json`, `tokens/web.css.tmpl`, and
-`brand/brands.json` are the edit surfaces; `python3 scripts/build_design_system.py`
-regenerated `tokens/agustos.css`, all three web adapters, `ui/agustos.css`,
-`adapters/wordpress/theme.json`, `tokens/resolved.json`,
-`tokens/design-system-handoff.json`, and the `ui/` kit. `VERSION` moved to `5.0.0`
-(major, per this file's own semver policy for philosophy shifts). Full test suite (70
-tests, including a new regression guard that generated CSS never re-emits
-`text-transform: uppercase`) and both `--check` commands (`scripts/
-build_design_system.py` and `scripts/check_office_artifacts.py`) pass clean.
+House-brand identity ink moved from `#1a1a1a` to `#15130f`. Public CSS class names stay.
+Dark theme, CTA repetition, photography, and quote placement remain open.
+Do not invent values for those.
