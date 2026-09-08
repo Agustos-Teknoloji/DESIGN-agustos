@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brands — Ağustos Design System</title>
+<link rel="stylesheet" href="../ui/agustos-fonts.css">
+<link rel="stylesheet" href="../ui/agustos.css">
+<style>
+  .book-nav { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--rule); margin-bottom: var(--space-3xl); }
+  .book-nav a { text-decoration: none; font-weight: 500; color: var(--ink-soft); }
+  .book-nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--signal); text-underline-offset: 4px; }
+  .book-nav .push { margin-left: auto; }
+  .brand-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr)); gap: var(--space-lg); }
+  .lockups { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: var(--space-sm); margin-top: var(--space-md); }
+  .lockups figure { margin: 0; padding: var(--space-md); border: 1px solid var(--rule); border-radius: var(--radius-md); }
+  .lockups img { display: block; width: 100%; height: 3rem; object-fit: contain; object-position: left center; }
+  .lockups .on-ink { background: var(--brand); }
+  .lockups figcaption { margin-top: var(--space-xs); font-size: 12px; color: var(--ink-soft); }
+</style>
+</head>
+<body class="brand-agustos">
+<a class="skip-link" href="#main">Skip to content</a>
+<main id="main" class="container">
+  <nav class="book-nav" aria-label="Standard artifacts">
+    <a href="../DESIGN.md">DESIGN.md</a>
+    <a href="fonts.html">Fonts</a>
+    <a href="colour.html">Colour</a>
+    <a href="web.html">Web</a>
+    <a href="brands.html" aria-current="page">Brands</a>
+    <button class="agustos-button agustos-button--secondary push" type="button" id="theme">Dark theme</button>
+  </nav>
+
+  <p class="type-h4">Standard artifact 5 of 5</p>
+  <h1 class="type-hero-md">Brands</h1>
+  <p class="type-hero-deck">One symbol. Five wordmarks. Ağustos owns red. Every other house brand uses off-black identity ink and the same red for links and focus.</p>
+
+  <section class="agustos-section">
+    <h2 class="type-h2">The lockup</h2>
+    <p class="type-body">Symbol plus lowercase Inter Tight 650 wordmark. No tagline. Three expressions only: positive, negative, mono. If you need a file, take it from <code>brand/exports/</code>. Do not redraw the sun.</p>
+  </section>
+
+  <div class="brand-grid">
+    <article class="agustos-card brand-agustos">
+      <h2 class="type-h3">ağustos</h2>
+      <p class="type-body">Ağustos Teknoloji · agustos.com · identity <code>#cf142a</code></p>
+      <p class="type-footnote">Parent. Lighting agency and distribution. The only red identity.</p>
+      <div class="lockups">
+        <figure><img src="../brand/exports/agustos/lockup/agustos-lockup__positive.svg" alt="ağustos positive lockup"><figcaption>Positive</figcaption></figure>
+        <figure class="on-ink"><img src="../brand/exports/agustos/lockup/agustos-lockup__negative.svg" alt="ağustos negative lockup"><figcaption>Negative</figcaption></figure>
+        <figure><img src="../brand/exports/agustos/lockup/agustos-lockup__mono.svg" alt="ağustos mono lockup"><figcaption>Mono</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="agustos-card brand-pataraz">
+      <h2 class="type-h3">pataraz</h2>
+      <p class="type-body">Pataraz · pataraz.com · identity <code>#15130f</code></p>
+      <p class="type-footnote">Premium luminaires at mid-tier pricing. Full kit including datasheets.</p>
+      <div class="lockups">
+        <figure><img src="../brand/exports/pataraz/lockup/pataraz-lockup__positive.svg" alt="pataraz positive lockup"><figcaption>Positive</figcaption></figure>
+        <figure class="on-ink"><img src="../brand/exports/pataraz/lockup/pataraz-lockup__negative.svg" alt="pataraz negative lockup"><figcaption>Negative</figcaption></figure>
+        <figure><img src="../brand/exports/pataraz/lockup/pataraz-lockup__mono.svg" alt="pataraz mono lockup"><figcaption>Mono</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="agustos-card brand-pld">
+      <h2 class="type-h3">pld türkiye</h2>
+      <p class="type-body">PLD Türkiye · pldturkiye.com · identity <code>#15130f</code></p>
+      <p class="type-footnote">Lighting publication archive. Full kit.</p>
+      <div class="lockups">
+        <figure><img src="../brand/exports/pld/lockup/pld-lockup__positive.svg" alt="pld türkiye positive lockup"><figcaption>Positive</figcaption></figure>
+        <figure class="on-ink"><img src="../brand/exports/pld/lockup/pld-lockup__negative.svg" alt="pld türkiye negative lockup"><figcaption>Negative</figcaption></figure>
+        <figure><img src="../brand/exports/pld/lockup/pld-lockup__mono.svg" alt="pld türkiye mono lockup"><figcaption>Mono</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="agustos-card brand-iesdesk">
+      <h2 class="type-h3">iesdesk</h2>
+      <p class="type-body">IESDesk · iesdesk.com · identity <code>#15130f</code></p>
+      <p class="type-footnote">Software for lighting data. Logos, favicons, and social only.</p>
+      <div class="lockups">
+        <figure><img src="../brand/exports/iesdesk/lockup/iesdesk-lockup__positive.svg" alt="iesdesk positive lockup"><figcaption>Positive</figcaption></figure>
+        <figure class="on-ink"><img src="../brand/exports/iesdesk/lockup/iesdesk-lockup__negative.svg" alt="iesdesk negative lockup"><figcaption>Negative</figcaption></figure>
+        <figure><img src="../brand/exports/iesdesk/lockup/iesdesk-lockup__mono.svg" alt="iesdesk mono lockup"><figcaption>Mono</figcaption></figure>
+      </div>
+    </article>
+
+    <article class="agustos-card brand-specquick">
+      <h2 class="type-h3">specquick</h2>
+      <p class="type-body">SpecQuick · specquick.com · identity <code>#15130f</code></p>
+      <p class="type-footnote">House brand. Logos, favicons, and social only.</p>
+      <div class="lockups">
+        <figure><img src="../brand/exports/specquick/lockup/specquick-lockup__positive.svg" alt="specquick positive lockup"><figcaption>Positive</figcaption></figure>
+        <figure class="on-ink"><img src="../brand/exports/specquick/lockup/specquick-lockup__negative.svg" alt="specquick negative lockup"><figcaption>Negative</figcaption></figure>
+        <figure><img src="../brand/exports/specquick/lockup/specquick-lockup__mono.svg" alt="specquick mono lockup"><figcaption>Mono</figcaption></figure>
+      </div>
+    </article>
+  </div>
+
+  <section class="agustos-section">
+    <h2 class="type-h2">Rules</h2>
+    <ul class="type-list-ul">
+      <li>Put a <code>brand-*</code> class on <code>body</code>. That sets identity ink.</li>
+      <li>Links and focus stay signal red on every brand.</li>
+      <li>Do not invent a fourth logo expression or a white-on-transparent reverse.</li>
+      <li>Novara is a distributed brand, not a house brand. It has no assets here.</li>
+    </ul>
+  </section>
+</main>
+<script>
+  document.getElementById('theme').onclick = function () {
+    var root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  };
+</script>
+</body>
+</html>

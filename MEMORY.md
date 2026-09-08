@@ -1020,6 +1020,21 @@ The user correction also applies to the saved website brief and implementation p
 Existing visual values and website layouts remain unchanged.
 
 
+## Slim handoff zip (2026-09-08)
+
+**On the table:** sharing a handoff zip of this repository made website (and inbound Design)
+work slow, because the receiving agent regenerated CSS, logos, fonts, and Office files before
+it changed a page.
+
+**Chosen:** treat the repository as the factory and `ui/` as the product. Everyday source changes
+run `python3 scripts/build_design_system.py` only. Logos, Office files, fonts, and datasheets
+rebuild only when the user asks. A packer writes `dist/agustos-ui-handoff-v<VERSION>.zip` with
+the kit, lockup SVGs, and `docs/handoff-setup.html`. Website agents copy `ui/` to
+`vendor/agustos-ui/` and stop.
+
+**Rejected:** attaching `tokens/design-system-handoff.json` as the default website handoff.
+That file is for new media. On the web it causes a second, drifting stylesheet.
+
 ## v5.0.0 — white substrate, no uppercase, two-treatment buttons, new off-black (2026-09-08)
 
 **On the table:** a visual-direction handoff produced in a separate Claude Design

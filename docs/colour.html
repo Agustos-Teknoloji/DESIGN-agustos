@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colour — Ağustos Design System</title>
+<link rel="stylesheet" href="../ui/agustos-fonts.css">
+<link rel="stylesheet" href="../ui/agustos.css">
+<style>
+  .book-nav { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--rule); margin-bottom: var(--space-3xl); }
+  .book-nav a { text-decoration: none; font-weight: 500; color: var(--ink-soft); }
+  .book-nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--signal); text-underline-offset: 4px; }
+  .book-nav .push { margin-left: auto; }
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr)); gap: var(--space-md); }
+  .swatch { border: 1px solid var(--rule); border-radius: var(--radius-lg); overflow: hidden; }
+  .swatch i { display: block; height: 4.5rem; }
+  .swatch p { margin: 0; padding: var(--space-sm) var(--space-md) var(--space-md); }
+  .swatch b { display: block; font-weight: 500; }
+  .swatch code { font-size: 12px; }
+</style>
+</head>
+<body class="brand-agustos">
+<a class="skip-link" href="#main">Skip to content</a>
+<main id="main" class="container">
+  <nav class="book-nav" aria-label="Standard artifacts">
+    <a href="../DESIGN.md">DESIGN.md</a>
+    <a href="fonts.html">Fonts</a>
+    <a href="colour.html" aria-current="page">Colour</a>
+    <a href="web.html">Web</a>
+    <a href="brands.html">Brands</a>
+    <button class="agustos-button agustos-button--secondary push" type="button" id="theme">Dark theme</button>
+  </nav>
+
+  <p class="type-h4">Standard artifact 3 of 5</p>
+  <h1 class="type-hero-md">Colour</h1>
+  <p class="type-hero-deck">White paper. Off-black ink. Shared red for action. Identity ink names the brand. Those jobs must not collapse into one token.</p>
+
+  <section class="agustos-section">
+    <h2 class="type-h2">Substrate</h2>
+    <p class="type-body">About 70% of every surface is white. Cream is a full-bleed callout band only. Dark is opt-in, not the default editorial look.</p>
+    <div class="swatches">
+      <div class="swatch"><i style="background:#ffffff;border-bottom:1px solid var(--rule)"></i><p><b>White paper</b><code>--paper #ffffff</code><br>Primary. Pages, UI, spec sheets.</p></div>
+      <div class="swatch"><i style="background:#f4f2ed"></i><p><b>Muted surface</b><code>--surface-muted #f4f2ed</code><br>Key figures, image wells. ~14%.</p></div>
+      <div class="swatch"><i style="background:#fdf5f5"></i><p><b>Cream band</b><code>--paper-cream #fdf5f5</code><br>CTA band only. Never a page.</p></div>
+      <div class="swatch"><i style="background:#16140f"></i><p><b>Dark paper</b><code>--paper-dark #16140f</code><br>Opt-in theme. Toggle above.</p></div>
+    </div>
+  </section>
+
+  <section class="agustos-section">
+    <h2 class="type-h2">Ink</h2>
+    <div class="swatches">
+      <div class="swatch"><i style="background:#15130f"></i><p><b>Ink</b><code>--ink #15130f</code><br>Body text, filled buttons, footer lockup.</p></div>
+      <div class="swatch"><i style="background:#403b34"></i><p><b>Ink soft</b><code>--ink-soft #403b34</code><br>Secondary text, decks, hints.</p></div>
+      <div class="swatch"><i style="background:#8a8378"></i><p><b>Ink faint</b><code>--ink-faint #8a8378</code><br>Placeholders only. Not content.</p></div>
+      <div class="swatch"><i style="background:#e8e4da"></i><p><b>Rule</b><code>--rule #e8e4da</code><br>Hairline separators.</p></div>
+    </div>
+  </section>
+
+  <section class="agustos-section">
+    <h2 class="type-h2">Identity and signal</h2>
+    <p class="type-body">Ağustos identity is red. Every other house brand identity is off-black. Shared signal red is always <code>#cf142a</code> for links, focus, markers, and small emphasis. Never recolor a non-Ağustos logo red. Never fill a button with signal red.</p>
+    <div class="swatches">
+      <div class="swatch"><i style="background:#cf142a"></i><p><b>Signal / Ağustos</b><code>--signal #cf142a</code><br>Action. Also Ağustos identity ink.</p></div>
+      <div class="swatch"><i style="background:#15130f"></i><p><b>House identity</b><code>--brand #15130f</code><br>Pataraz, PLD, IESDesk, SpecQuick.</p></div>
+    </div>
+  </section>
+
+  <section class="agustos-section">
+    <h2 class="type-h2">State</h2>
+    <p class="type-body">Success, warning, danger, and info sit on notices and badges. Dark theme swaps these for higher-contrast variants. Use kit classes. Do not invent hex values.</p>
+    <div class="demo-row" style="display:flex;flex-wrap:wrap;gap:var(--space-sm)">
+      <span class="agustos-badge agustos-badge--success">Success</span>
+      <span class="agustos-badge agustos-badge--warning">Warning</span>
+      <span class="agustos-badge agustos-badge--danger">Danger</span>
+      <span class="agustos-badge agustos-badge--info">Info</span>
+      <span class="agustos-badge agustos-badge--signal">Signal</span>
+    </div>
+  </section>
+
+  <section class="agustos-section">
+    <h2 class="type-h2">Do not</h2>
+    <ul class="type-list-ul">
+      <li>Use cream as the page paper or as an inset rounded card.</li>
+      <li>Mix a cream band and a gray band on the same page.</li>
+      <li>Replace red links with terracotta, olive, or beige.</li>
+      <li>Add shadows, gradients, or a second accent colour.</li>
+      <li>Retype a hex in a consumer project. Use <code>var(--name)</code>.</li>
+    </ul>
+  </section>
+</main>
+<script>
+  document.getElementById('theme').onclick = function () {
+    var root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  };
+</script>
+</body>
+</html>

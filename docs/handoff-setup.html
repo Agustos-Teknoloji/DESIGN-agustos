@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ağustos handoff setup — share the kit, not the factory</title>
+<link rel="stylesheet" href="../ui/agustos-fonts.css">
+<link rel="stylesheet" href="../ui/agustos.css">
+<style>
+  /* Page map only. Not part of the kit. */
+  .map-hero { padding-block: var(--space-3xl) var(--space-xl); }
+  .map-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-lg);
+  }
+  .map-layers {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--space-md);
+  }
+  .map-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    margin-block: var(--space-xs);
+  }
+  .map-bar > b {
+    flex: 0 0 11rem;
+    font-weight: 500;
+  }
+  .map-bar > i {
+    display: block;
+    height: 10px;
+    border-radius: var(--radius-sm);
+    background: var(--ink);
+  }
+  .map-bar.is-kit > i { background: var(--signal); }
+  .map-bar > span { color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  .map-tree {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--mono);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .map-tree code { font-size: 13px; }
+  .map-skip { color: var(--ink-faint); text-decoration: line-through; }
+  .map-keep { font-weight: 600; }
+  @media (max-width: 820px) {
+    .map-compare, .map-layers { grid-template-columns: 1fr; }
+    .map-bar > b { flex-basis: 8rem; }
+  }
+</style>
+</head>
+<body class="brand-agustos">
+<a class="skip-link" href="#main">Skip to content</a>
+<main id="main" class="container">
+
+  <header class="map-hero">
+    <p class="type-h4">Ağustos Design System v5.0.0</p>
+    <h1 class="type-hero-md">Share the kit, not the factory</h1>
+    <p class="type-hero-deck">
+      A full-repository zip makes a coding agent rebuild CSS, logos, fonts, and Office files
+      before it changes a page. The slim zip is 0.8&nbsp;MB. Copy <code class="type-code">ui/</code>
+      and stop.
+    </p>
+    <p class="type-body">
+      For the generate map (change this → these files update), open
+      <a class="type-link" href="what-generates.html">what-generates.html</a>.
+    </p>
+    <div class="hero-actions">
+      <a class="hero-action hero-action--primary" href="#zip">Build the slim zip</a>
+      <a class="hero-action hero-action--secondary" href="#apply">Apply to a website</a>
+    </div>
+  </header>
+
+  <section class="agustos-section" id="sizes">
+    <div class="agustos-section__head">
+      <h2 class="type-h2">What a naive zip actually contains</h2>
+    </div>
+    <p class="type-body">
+      Zipping this repository shares about 18&nbsp;MB and 394 files. Most of that is generated
+      output and history. None of it helps a website agent write markup.
+    </p>
+
+    <div class="map-bar"><b>brand/exports</b><i style="width:100%"></i><span>7.2 MB · 182 generated logos, Office, datasheets</span></div>
+    <div class="map-bar"><b>brand/fonts</b><i style="width:45%"></i><span>3.2 MB · master TTF, factory only</span></div>
+    <div class="map-bar"><b>laz-gunesi-amblem</b><i style="width:45%"></i><span>3.2 MB · PNG and PDF variants of the sun</span></div>
+    <div class="map-bar"><b>artifacts</b><i style="width:22%"></i><span>1.6 MB · frozen specimens, not the kit</span></div>
+    <div class="map-bar is-kit"><b>ui/ kit</b><i style="width:9%"></i><span>0.66 MB · 16 files. This is the zip.</span></div>
+    <div class="map-bar"><b>adapters</b><i style="width:7%"></i><span>0.48 MB · Astro / Rails / WordPress demos</span></div>
+    <div class="map-bar"><b>MEMORY + DESIGN</b><i style="width:2%"></i><span>0.13 MB · 1,100 lines of history an apply agent should not load</span></div>
+  </section>
+
+  <section class="agustos-section" id="reproduced">
+    <div class="agustos-section__head">
+      <h2 class="type-h2">What gets reproduced, and why it is slow</h2>
+    </div>
+    <p class="type-body">
+      Given the factory, an agent does the documented generate step. Those commands recreate
+      files that already exist. Website work cannot start until they finish.
+    </p>
+    <table class="type-table">
+      <thead>
+        <tr><th>Command the agent runs</th><th>What it rebuilds</th><th>Already shipped as</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>python3 scripts/build_design_system.py</code></td>
+          <td>CSS, kit, adapters, handoff JSON</td>
+          <td><code>ui/agustos.css</code> and <code>ui/UI-KIT.md</code></td>
+        </tr>
+        <tr>
+          <td><code>python3 brand/build.py</code></td>
+          <td>182 lockups, favicons, social, guidelines</td>
+          <td><code>brand/exports/&lt;brand&gt;/</code></td>
+        </tr>
+        <tr>
+          <td><code>python3 brand/build_templates.py</code></td>
+          <td>PowerPoint and Word templates</td>
+          <td><code>brand/exports/&lt;brand&gt;/office/</code></td>
+        </tr>
+        <tr>
+          <td><code>./.venv/bin/python scripts/build_ui_fonts.py</code></td>
+          <td>Subset woff2 (needs fonttools)</td>
+          <td><code>ui/fonts/*.woff2</code></td>
+        </tr>
+        <tr>
+          <td>Read <code>DESIGN.md</code> and <code>MEMORY.md</code></td>
+          <td>Re-litigates locked decisions</td>
+          <td>The direction block in <code>ui/UI-KIT.md</code></td>
+        </tr>
+        <tr>
+          <td>Retype hex values from the JSON handoff</td>
+          <td>A second, drifting stylesheet</td>
+          <td>Kit classes and <code>var(--name)</code></td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="agustos-notice agustos-notice--danger">
+      <strong class="agustos-notice__title">Do not regenerate to apply</strong>
+      Consumer repositories must not run this repository's generators.
+      <code>tokens/README.md</code> already names the common mistake: handing an agent
+      <code>design-system-handoff.json</code> for a website makes it re-derive CSS that
+      <code>ui/agustos.css</code> already contains. Two agents deriving separately produce two different buttons.
+    </div>
+  </section>
+
+  <section class="agustos-section" id="layers">
+    <div class="agustos-section__head">
+      <h2 class="type-h2">Four layers. Only the last one travels.</h2>
+    </div>
+    <div class="map-layers">
+      <article class="agustos-card">
+        <p class="type-h4">1. Hand-edit</p>
+        <h3 class="type-h3">Sources</h3>
+        <p class="type-body">Stay in this repository.</p>
+        <ul class="type-list-ul">
+          <li><code>tokens/design-tokens.json</code></li>
+          <li><code>tokens/web.css.tmpl</code></li>
+          <li><code>brand/brands.json</code></li>
+          <li><code>DESIGN.md</code> / <code>MEMORY.md</code></li>
+        </ul>
+      </article>
+      <article class="agustos-card">
+        <p class="type-h4">2. Run here</p>
+        <h3 class="type-h3">Generators</h3>
+        <p class="type-body">Never ship in a zip.</p>
+        <ul class="type-list-ul">
+          <li><code>scripts/build_design_system.py</code></li>
+          <li><code>scripts/build_ui_fonts.py</code></li>
+          <li><code>brand/build.py</code></li>
+          <li><code>brand/build_templates.py</code></li>
+        </ul>
+      </article>
+      <article class="agustos-card">
+        <p class="type-h4">3. Already committed</p>
+        <h3 class="type-h3">Generated</h3>
+        <p class="type-body">Do not rebuild these to apply.</p>
+        <ul class="type-list-ul">
+          <li><code>ui/</code> kit</li>
+          <li><code>tokens/agustos.css</code></li>
+          <li><code>brand/exports/</code></li>
+          <li>Adapter CSS</li>
+        </ul>
+      </article>
+      <article class="agustos-card agustos-card--marked">
+        <p class="type-h4">4. Copy</p>
+        <h3 class="type-h3">Consumer</h3>
+        <p class="type-body">This is the handoff zip.</p>
+        <ul class="type-list-ul">
+          <li><code>ui/</code> → <code>vendor/agustos-ui/</code></li>
+          <li>Lockup SVGs</li>
+          <li><code>UI-KIT.md</code></li>
+          <li><code>check-agustos-ui.py</code></li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="agustos-section" id="zip">
+    <div class="agustos-section__head">
+      <h2 class="type-h2">Slim zip versus whole repository</h2>
+    </div>
+    <div class="map-compare">
+      <article class="agustos-card">
+        <h3 class="type-h3">Do not share</h3>
+        <p class="type-body">Whole-repo zip. About 18&nbsp;MB. Agents regenerate first.</p>
+        <ul class="map-tree">
+          <li class="map-skip">scripts/</li>
+          <li class="map-skip">brand/build.py</li>
+          <li class="map-skip">brand/fonts/</li>
+          <li class="map-skip">brand/exports/office/</li>
+          <li class="map-skip">adapters/</li>
+          <li class="map-skip">artifacts/</li>
+          <li class="map-skip">tests/</li>
+          <li class="map-skip">DESIGN.md</li>
+          <li class="map-skip">MEMORY.md</li>
+          <li class="map-skip">ui/*.tmpl</li>
+        </ul>
+      </article>
+      <article class="agustos-card agustos-card--marked">
+        <h3 class="type-h3">Share this</h3>
+        <p class="type-body">
+          <code>python3 scripts/pack_handoff.py</code>
+          writes <code>dist/agustos-ui-handoff-v5.0.0.zip</code>. About 0.8&nbsp;MB.
+        </p>
+        <ul class="map-tree">
+          <li class="map-keep">README.md</li>
+          <li class="map-keep">START-HERE.html</li>
+          <li class="map-keep">HANDOFF.md</li>
+          <li class="map-keep">VERSION</li>
+          <li class="map-keep">ui/agustos.css</li>
+          <li class="map-keep">ui/agustos-fonts.css</li>
+          <li class="map-keep">ui/fonts/*.woff2</li>
+          <li class="map-keep">ui/UI-KIT.md</li>
+          <li class="map-keep">ui/starter.html</li>
+          <li class="map-keep">ui/check-agustos-ui.py</li>
+          <li class="map-keep">ui/AGENTS-SNIPPET.md</li>
+          <li class="map-keep">logos/*-lockup__*.svg</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <section class="agustos-section" id="apply">
+    <div class="agustos-section__head">
+      <h2 class="type-h2">Apply the zip to a website</h2>
+    </div>
+    <ol class="type-list-ol">
+      <li>Copy <code>ui/</code> to <code>vendor/agustos-ui/</code> in the target repository. Commit it.</li>
+      <li>Paste <code>vendor/agustos-ui/AGENTS-SNIPPET.md</code> into that project's <code>AGENTS.md</code>.</li>
+      <li>Load fonts first, then the stylesheet. Put a <code>brand-*</code> class on <code>&lt;body&gt;</code>.</li>
+      <li>Use kit classes and <code>var(--name)</code>. Open <code>starter.html</code> to see every class once.</li>
+      <li>Run <code>python3 vendor/agustos-ui/check-agustos-ui.py .</code> and make it exit 0.</li>
+    </ol>
+    <pre class="type-code-block"><code>&lt;link rel="stylesheet" href="/vendor/agustos-ui/agustos-fonts.css"&gt;
+&lt;link rel="stylesheet" href="/vendor/agustos-ui/agustos.css"&gt;</code></pre>
+    <p class="type-body">
+      Read <a class="type-link" href="../ui/UI-KIT.md">ui/UI-KIT.md</a> before you write markup.
+      Do not combine this stylesheet with Bootstrap or Tailwind preflight.
+    </p>
+  </section>
+
+  <section class="agustos-section" id="inbound">
+    <div class="agustos-section__head">
+      <h2 class="type-h2">If a Claude Design zip arrives here</h2>
+    </div>
+    <p class="type-body">
+      A Design session cannot write this repository. The zip is a proposed spec, not a merge.
+      Do not copy <code>.dc.html</code> markup. Map values onto the three sources, then generate once.
+    </p>
+    <table class="type-table">
+      <thead>
+        <tr><th>In the Design zip</th><th>Edit here</th><th>Then run</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Color, type, space, radius, motion</td>
+          <td><code>tokens/design-tokens.json</code> and <code>tokens/web.css.tmpl</code></td>
+          <td><code>python3 scripts/build_design_system.py</code></td>
+        </tr>
+        <tr>
+          <td>Identity ink, wordmark, brand roster</td>
+          <td><code>brand/brands.json</code></td>
+          <td>The line above, then <code>brand/build.py</code></td>
+        </tr>
+        <tr>
+          <td>Page compositions in <code>.dc.html</code></td>
+          <td>A real website repository, not this one</td>
+          <td>Nothing here. Promote later if it holds.</td>
+        </tr>
+        <tr>
+          <td>Decision write-up</td>
+          <td><code>DESIGN.md</code> and <code>MEMORY.md</code> after you accept the change</td>
+          <td>Tests and <code>--check</code></td>
+        </tr>
+      </tbody>
+    </table>
+    <p class="type-body">
+      Skip <code>brand/build.py</code> unless identity ink, the symbol, or a wordmark changed.
+      That rebuild is the expensive step (lockups, favicons, Office, datasheets).
+      CSS and the UI kit do not need it.
+    </p>
+  </section>
+
+  <section class="agustos-section" id="when">
+    <div class="agustos-section__head">
+      <h2 class="type-h2">When you should regenerate</h2>
+    </div>
+    <p class="type-body">
+      Only inside this repository, and only after you edit a source. Website application is not
+      that moment.
+    </p>
+    <ul class="type-list-ul">
+      <li>Token, recipe, or kit-template change → <code>python3 scripts/build_design_system.py</code></li>
+      <li>Master font files in <code>brand/fonts/</code> changed → <code>scripts/build_ui_fonts.py</code></li>
+      <li>Identity ink, symbol, or wordmark changed → <code>brand/build.py</code> and templates</li>
+    </ul>
+    <p class="type-footnote">
+      Open this file from the repository:
+      <code>python3 -m http.server 4331 --directory .</code>
+      then visit <code>/docs/handoff-setup.html</code>.
+      Build the slim zip with <code>python3 scripts/pack_handoff.py</code>.
+    </p>
+  </section>
+
+</main>
+</body>
+</html>

@@ -31,10 +31,26 @@ two different buttons.
 
 ## Handoff to another coding system
 
-Give the other system [`design-system-handoff.json`](design-system-handoff.json) when you need one portable, machine-readable file. It contains resolved tokens, brands, the exact embedded Laz Güneşi SVG plus its checksum, recipes, compatibility classes, invariants, forbidden patterns, medium translations, and acceptance checks.
+For a **website**, pack the slim zip and vendor `ui/`. Do not attach this JSON as the primary
+artifact. The JSON makes an agent re-derive CSS that `ui/agustos.css` already contains.
 
-That file is sufficient to establish the interface grammar and preserve the exact symbol. Exported outline lockups remain preferable when available; if an implementation cannot use the embedded SVG or the referenced lockup, it must request the asset rather than approximate it.
+```bash
+python3 scripts/pack_handoff.py
+```
 
-Consumer deployments vendor or attach the handoff file as context. They do not run this repository's generators. Regenerate CSS, Office, and brand exports only when the canonical tokens, brand registry, templates, or symbol change.
+See [`docs/handoff-setup.html`](../docs/handoff-setup.html) for the map.
 
-`resolved.json` remains the compact platform-neutral input for trusted generators such as Word and PowerPoint; the handoff file is the safer prompt/context artifact for a general coding system.
+Give the other system [`design-system-handoff.json`](design-system-handoff.json) only when you need
+one portable file for a **new medium** (slides, native app, print). It contains resolved tokens,
+brands, the exact embedded Laz Güneşi SVG plus its checksum, recipes, compatibility classes,
+invariants, forbidden patterns, medium translations, and acceptance checks.
+
+Exported outline lockups remain preferable when available; if an implementation cannot use the
+embedded SVG or the referenced lockup, it must request the asset rather than approximate it.
+
+Consumer deployments do not run this repository's generators. Regenerate CSS, Office, and brand
+exports only when the canonical tokens, brand registry, templates, or symbol change inside this
+repository.
+
+`resolved.json` remains the compact platform-neutral input for trusted generators such as Word and
+PowerPoint.

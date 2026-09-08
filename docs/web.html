@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Web — Ağustos Design System</title>
+<link rel="stylesheet" href="../ui/agustos-fonts.css">
+<link rel="stylesheet" href="../ui/agustos.css">
+<style>
+  .book-nav { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--rule); margin-bottom: var(--space-xl); }
+  .book-nav a { text-decoration: none; font-weight: 500; color: var(--ink-soft); }
+  .book-nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--signal); text-underline-offset: 4px; }
+  .book-nav .push { margin-left: auto; }
+  .stage { margin: 0 0 var(--space-5xl); border: 1px solid var(--rule); border-radius: var(--radius-lg); overflow: hidden; }
+  .stage__label { margin: 0; padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--rule); background: var(--surface-muted); font-size: 13px; font-weight: 600; }
+  .site-header, .site-footer { background: var(--paper); }
+  .site-header { border-bottom: 1px solid var(--rule); }
+  .site-header__bar, .site-footer__inner { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); min-height: 64px; }
+  .site-header__nav { display: flex; flex-wrap: wrap; gap: var(--space-lg); margin-left: auto; }
+  .site-header__link, .site-footer__link { color: var(--ink-soft); text-decoration: none; font-weight: 500; min-height: var(--control-min); display: inline-flex; align-items: center; }
+  .site-header__link[aria-current="page"] { color: var(--ink); border-bottom: 2px solid var(--signal); }
+  .site-header__cta { margin-left: var(--space-sm); }
+  .lockup { display: flex; align-items: center; text-decoration: none; }
+  .lockup img { height: 22px; width: auto; }
+  .site-footer { border-top: 1px solid var(--rule); padding-block: var(--space-xl); }
+  .site-footer__cols { display: flex; flex-wrap: wrap; gap: var(--space-3xl); margin-left: auto; }
+  .site-footer__list { list-style: none; margin: 0; padding: 0; }
+  .preview-main { padding: var(--space-xl) var(--space-lg) var(--space-3xl); }
+  .finder { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: var(--space-md); align-items: end; }
+  .spec { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--space-xl); }
+  @media (max-width: 720px) { .spec { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body class="brand-pataraz">
+<a class="skip-link" href="#main">Skip to content</a>
+<div class="container">
+  <nav class="book-nav" aria-label="Standard artifacts">
+    <a href="../DESIGN.md">DESIGN.md</a>
+    <a href="fonts.html">Fonts</a>
+    <a href="colour.html">Colour</a>
+    <a href="web.html" aria-current="page">Web</a>
+    <a href="brands.html">Brands</a>
+    <button class="agustos-button agustos-button--secondary push" type="button" id="theme">Dark theme</button>
+  </nav>
+  <p class="type-h4">Standard artifact 4 of 5</p>
+  <h1 class="type-hero-md">Web elements</h1>
+  <p class="type-hero-deck">Header, footer, homepage, listing, finder, product page, and spec sheet. Use the dark theme control to see the same compositions on dark paper. This preview uses the pataraz brand class.</p>
+</div>
+
+<main id="main">
+
+  <section class="container">
+    <p class="stage__label" style="border:1px solid var(--rule);border-radius:var(--radius-md) var(--radius-md) 0 0;">Header</p>
+  </section>
+  <div class="stage" style="border-radius:0 0 var(--radius-lg) var(--radius-lg);margin-inline:max(var(--space-xl), calc(50vw - 590px));">
+    <header class="site-header">
+      <div class="site-header__bar site-frame">
+        <a class="lockup" href="#home"><img src="../brand/exports/pataraz/lockup/pataraz-lockup__positive.svg" alt="pataraz"></a>
+        <nav class="site-header__nav" aria-label="Primary">
+          <a class="site-header__link" href="#home" aria-current="page">Home</a>
+          <a class="site-header__link" href="#listing">Products</a>
+          <a class="site-header__link" href="#finder">Finder</a>
+          <a class="site-header__link" href="#spec">Specs</a>
+        </nav>
+        <a class="agustos-button agustos-button--primary site-header__cta" href="#product">Request pricing</a>
+      </div>
+    </header>
+  </div>
+
+  <section class="container" id="home">
+    <h2 class="type-h2">Homepage</h2>
+    <div class="stage">
+      <div class="preview-main">
+        <h1 class="type-hero-md">Architectural luminaires with clear photometric data.</h1>
+        <p class="type-hero-deck">Pataraz builds specified lighting for interiors that need accurate output, not atmosphere copy.</p>
+        <div class="hero-actions">
+          <a class="agustos-button agustos-button--primary" href="#listing">Browse products</a>
+          <a class="agustos-button agustos-button--secondary" href="#finder">Find a luminaire</a>
+        </div>
+        <p class="hero-trust">PX and PY families · IES files on every sheet · Specified since 2019</p>
+        <div class="agustos-card-grid" style="margin-top:var(--space-3xl)">
+          <article class="agustos-card agustos-card--marked">
+            <h3 class="type-h3">Specification</h3>
+            <p class="type-body">Datasheets, drawings, and polar data in one place.</p>
+          </article>
+          <article class="agustos-card">
+            <h3 class="type-h3">Families</h3>
+            <p class="type-body">Downlights, panels, and tracks that share one grammar.</p>
+          </article>
+          <article class="agustos-card">
+            <h3 class="type-h3">Support</h3>
+            <p class="type-body">Ask for a layout, a substitute, or a lead time.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="listing">
+    <h2 class="type-h2">Product listing</h2>
+    <div class="stage">
+      <div class="preview-main">
+        <h1 class="type-h1">Downlights</h1>
+        <p class="type-body">Three sizes. Same aperture language. Filter in the finder if you already know the wattage.</p>
+        <div class="agustos-card-grid">
+          <article class="agustos-card">
+            <p class="type-h4">PX series</p>
+            <h3 class="type-h3"><a class="type-link" href="#product">PX22</a></h3>
+            <p class="type-body">22 W adjustable downlight. IP20. 2700–4000 K.</p>
+          </article>
+          <article class="agustos-card">
+            <p class="type-h4">PL series</p>
+            <h3 class="type-h3">PL22</h3>
+            <p class="type-body">Fixed downlight. One tunable SKU.</p>
+          </article>
+          <article class="agustos-card">
+            <p class="type-h4">PY series</p>
+            <h3 class="type-h3">PY600600</h3>
+            <p class="type-body">600 × 600 mm panel. Office and education.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="finder">
+    <h2 class="type-h2">Product finder</h2>
+    <div class="stage">
+      <div class="preview-main">
+        <h1 class="type-h1">Find a luminaire</h1>
+        <p class="type-body">Set the constraints you already know. Leave the rest blank.</p>
+        <form class="agustos-fieldset" onsubmit="return false">
+          <div class="finder">
+            <div class="agustos-field">
+              <label class="agustos-label" for="family">Family</label>
+              <select class="agustos-select" id="family">
+                <option>Any</option>
+                <option>PX</option>
+                <option>PL</option>
+                <option>PY</option>
+              </select>
+            </div>
+            <div class="agustos-field">
+              <label class="agustos-label" for="ip">IP rating</label>
+              <select class="agustos-select" id="ip">
+                <option>Any</option>
+                <option>IP20</option>
+                <option>IP44</option>
+                <option>IP54</option>
+              </select>
+            </div>
+            <div class="agustos-field">
+              <label class="agustos-label" for="cct">Colour temperature</label>
+              <select class="agustos-select" id="cct">
+                <option>Any</option>
+                <option>2700 K</option>
+                <option>3000 K</option>
+                <option>4000 K</option>
+              </select>
+            </div>
+            <div class="agustos-field">
+              <label class="agustos-label" for="q">Name or SKU</label>
+              <input class="agustos-input" id="q" type="search" placeholder="PX22">
+            </div>
+          </div>
+          <div class="hero-actions" style="margin-top:var(--space-lg)">
+            <button class="agustos-button agustos-button--primary" type="submit">Show matches</button>
+            <button class="agustos-button agustos-button--secondary" type="reset">Clear</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="product">
+    <h2 class="type-h2">Product page</h2>
+    <div class="stage">
+      <div class="preview-main spec">
+        <div>
+          <p class="type-h4">PX series</p>
+          <h1 class="type-h1">PX22 adjustable downlight</h1>
+          <p class="type-body">A compact adjustable downlight for retail and hospitality ceilings. Photometric files and the A4 sheet sit next to the drawing. Product colour in photography stays factual.</p>
+          <dl class="type-dl">
+            <dt>Power</dt><dd>22 W</dd>
+            <dt>CCT</dt><dd>2700 K, 3000 K, 4000 K</dd>
+            <dt>IP</dt><dd>IP20</dd>
+            <dt>Beam</dt><dd>24°, 36°, 60°</dd>
+          </dl>
+          <div class="hero-actions">
+            <a class="agustos-button agustos-button--primary" href="#spec">Request pricing</a>
+            <a class="agustos-button agustos-button--secondary" href="#spec">Download spec sheet</a>
+          </div>
+        </div>
+        <div class="agustos-card" style="background:var(--surface-muted);min-height:12rem;display:flex;align-items:center;justify-content:center">
+          <p class="type-footnote">Product photograph or drawing. Preserve real finish. No lifestyle crop.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="spec">
+    <h2 class="type-h2">Spec sheet</h2>
+    <div class="stage">
+      <div class="preview-main">
+        <p class="lockup"><img src="../brand/exports/pataraz/lockup/pataraz-lockup__positive.svg" alt="pataraz"></p>
+        <h1 class="type-h1">PX22 · teknik föy</h1>
+        <p class="type-body">Print-ready A4. Labels in Turkish. Values in JetBrains Mono. Signal red only as a section rule.</p>
+        <table class="type-table">
+          <thead><tr><th>Özellik</th><th>Değer</th></tr></thead>
+          <tbody>
+            <tr><td>Güç</td><td>22 W</td></tr>
+            <tr><td>Işık akısı</td><td>2 100 lm</td></tr>
+            <tr><td>CCT</td><td>2700 / 3000 / 4000 K</td></tr>
+            <tr><td>CRI</td><td>Ra &gt; 90</td></tr>
+            <tr><td>IP</td><td>IP20</td></tr>
+            <tr><td>Ömür</td><td>50 000 h L80</td></tr>
+          </tbody>
+        </table>
+        <p class="type-footnote">Full datasheets live under brand/exports/pataraz/datasheet/. Do not invent photometric numbers in a consumer page.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="container">
+    <p class="stage__label" style="border:1px solid var(--rule);border-radius:var(--radius-md) var(--radius-md) 0 0;">Footer</p>
+  </section>
+  <div class="stage" style="border-radius:0 0 var(--radius-lg) var(--radius-lg);margin-inline:max(var(--space-xl), calc(50vw - 590px));">
+    <footer class="site-footer">
+      <div class="site-footer__inner site-frame">
+        <div>
+          <p class="lockup"><img src="../brand/exports/pataraz/lockup/pataraz-lockup__positive.svg" alt="pataraz"></p>
+          <p class="type-footnote">Specified luminaires. Clear data. © 2026</p>
+        </div>
+        <div class="site-footer__cols">
+          <nav aria-label="Products">
+            <p class="type-h4">Products</p>
+            <ul class="site-footer__list">
+              <li><a class="site-footer__link" href="#listing">Downlights</a></li>
+              <li><a class="site-footer__link" href="#listing">Panels</a></li>
+            </ul>
+          </nav>
+          <nav aria-label="Help">
+            <p class="type-h4">Help</p>
+            <ul class="site-footer__list">
+              <li><a class="site-footer__link" href="#finder">Finder</a></li>
+              <li><a class="site-footer__link" href="#spec">Spec sheets</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <section class="container" style="padding-block:var(--space-3xl)">
+    <div class="agustos-notice">
+      <strong class="agustos-notice__title">Dark theme</strong>
+      Use the control in the top bar. Dark inverts paper, ink, and rule. Identity and signal stay the same. Dark is a user preference, not a second brand.
+    </div>
+  </section>
+</main>
+<script>
+  document.getElementById('theme').onclick = function () {
+    var root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  };
+</script>
+</body>
+</html>

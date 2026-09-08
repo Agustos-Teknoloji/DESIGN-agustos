@@ -4,6 +4,18 @@
 **Last updated:** September 8, 2026
 **Status:** Approved design direction; website application follows separately
 
+## Standard artifacts
+
+These five files are the shareable system. Open the HTML in a browser. Read this file before you write markup.
+
+1. **This file (`DESIGN.md`)** — contract for any LLM or implementer: direction, colour, type, brands, principles, and rules.
+2. [`docs/fonts.html`](docs/fonts.html) — families, sizes, weights, Turkish, wordmark rules.
+3. [`docs/colour.html`](docs/colour.html) — substrate, ink, signal, identity, dark theme.
+4. [`docs/web.html`](docs/web.html) — header, footer, homepage, listing, finder, product page, spec sheet. Light and dark.
+5. [`docs/brands.html`](docs/brands.html) — house brands and lockup expressions.
+
+Everything else in this repository is factory: generators, adapters, Office files, and decision history.
+
 ---
 
 ## What this is

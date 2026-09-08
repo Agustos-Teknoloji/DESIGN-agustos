@@ -1,69 +1,69 @@
 # Design application handoff
 
-Date: 2026-09-07
-Design system version: 4.0.2
-Status: Design direction approved. Repository contract updated. Visual application remains pending.
+Date: 2026-09-08
+Design system version: 5.0.0
+Status: Kit is ready. Copy it. Do not regenerate it.
 
-## Objective
+Open these five artifacts first:
 
-Apply Scandinavian restraint filtered through Mediterranean warmth.
-Create minimal, functional, and elegant experiences that feel calm, welcoming, and human.
-Express warmth through clear typography, comfortable spacing, existing neutral surfaces, and helpful language.
+1. `DESIGN.md` — direction, colour, type, brands, principles.
+2. `docs/fonts.html`
+3. `docs/colour.html`
+4. `docs/web.html` — header, footer, homepage, listing, finder, product page, spec sheet. Dark theme included.
+5. `docs/brands.html`
 
-## Completed work
+## What this file is
 
-- Updated the authoritative design rules and contributor guidance.
-- Added the canonical `designDirection` field in `tokens/design-tokens.json`.
-- Published that direction through the generated handoff, resolved registry, and UI kit.
-- Updated Pataraz guidance and the website brief.
-- Preserved existing visual token values, font families, logos, and public CSS classes.
-- Passed 70 tests, generation checks, and Office manifest checks.
+Instructions for applying the existing UI kit to another repository.
+This is not a prompt to rebuild the design system.
 
-The completed work establishes the design contract. It does not redesign existing pages or Office layouts.
-Visual comparisons, new compositions, and visual acceptance checks remain pending.
-The earlier plan in `artifacts/` records exploration. Do not execute it as an outstanding checklist.
-Do not repeat its v4.0.0 release or assume that proposed palette additions were approved.
+## Do not reproduce
 
-## Sources to read
+Do not run `scripts/build_design_system.py`.
+Do not run `brand/build.py`, `brand/build_templates.py`, or `scripts/build_ui_fonts.py`.
+Do not read `DESIGN.md` or `MEMORY.md` to style a website.
+Do not retype token values. Do not redraw the Laz Güneşi.
 
-1. Read `AGENTS.md` in the target repository.
-2. Read this design repository's `ui/UI-KIT.md` for website work.
-3. Read `artifacts/agustos-iskandivvian-website-brief-2026-09-07.md` for the approved website direction.
-4. Read `PATARAZ.md` when the selected brand is Pataraz.
-5. Read `DESIGN.md` and `MEMORY.md` only when proposing changes to shared design decisions.
+Those commands rebuild generated files that already ship in `ui/` and `brand/exports/`.
+A website agent that runs them spends its time on the factory, not on the page.
 
-For another medium, start with `tokens/design-system-handoff.json` and the matching adapter instructions.
+## Share this, not the factory
 
-## Inputs needed for website application
+From this repository:
 
-Confirm the target website repository, brand, and pages or flow to change.
-Inspect its existing content, functionality, and project instructions before asking for details already available there.
-The approved style alone does not identify the target website or its business goal.
+```bash
+python3 scripts/pack_handoff.py
+```
 
-## Remaining website work
+That writes `dist/agustos-ui-handoff-v5.0.0.zip` (about 0.8 MB).
+The zip holds the kit, lockup SVGs, this file, and the HTML map.
+It does not hold generators, adapters, Office files, or decision history.
 
-1. Inspect the target website and capture representative mobile and desktop pages.
-2. Map its content and components to the existing UI kit.
-3. Prepare a representative page that demonstrates the approved direction using real content.
-4. Review that page before extending its composition to the remaining scope.
-5. Implement responsive layouts and preserve working navigation, forms, and product information.
-6. Check font loading, Turkish language handling, keyboard access, contrast, and supported themes.
-7. Run the target project's required tests and `python3 vendor/agustos-ui/check-agustos-ui.py .`.
-8. Report changed pages, verification results, and remaining limitations. Publish only when requested.
+If you zip the whole repository, a coding agent regenerates CSS, logos, fonts, and Office files before it changes a page.
 
-## Implementation boundaries
+If you already opened the slim zip, skip packing. Start at Apply to a website.
 
-Use the existing palette and fonts first. Keep wordmarks lowercase in Inter Tight 650.
-Use the exact Laz Güneşi asset and each brand's registered identity ink.
-Preserve shared red links, focus, and interaction signals.
-Load both the generated stylesheet and fonts. Use kit classes and token variables.
-Consumer repositories must not regenerate this design repository or redeclare its token values.
-Propose shared source changes separately when representative examples demonstrate a repeated need.
-Do not change Office templates or unrelated websites as part of website application.
+## Apply to a website
 
-## Delivery and access
+1. Copy the zip's `ui/` folder to `vendor/agustos-ui/` in the target repository. Commit it.
+2. Paste `vendor/agustos-ui/AGENTS-SNIPPET.md` into that project's `AGENTS.md`.
+3. Load fonts first, then the stylesheet. Put a `brand-*` class on `<body>`.
+4. Use kit classes and `var(--name)`. Compose. Do not restyle kit classes.
+5. Run `python3 vendor/agustos-ui/check-agustos-ui.py .` and make it exit 0.
 
-Use a repository checkout that contains this handoff and the current `VERSION` file.
-Vendor the matching `ui/` folder into the target website repository.
-Use versioned CDN links only after the matching tag is available on the remote repository.
-For an offline transfer, provide the repository folder or an archive with its generated assets and fonts.
+Read `vendor/agustos-ui/UI-KIT.md` before you write markup.
+Open `vendor/agustos-ui/starter.html` to see every class once.
+
+## If a Claude Design zip arrives in this repository
+
+Edit only:
+
+- `tokens/design-tokens.json`
+- `tokens/web.css.tmpl`
+- `brand/brands.json` (only when identity ink, wordmark, or roster changes)
+
+Then run `python3 scripts/build_design_system.py`.
+Do not rebuild logos, Office files, fonts, or datasheets unless asked.
+Do not copy `.dc.html` markup into this repository.
+
+See `docs/handoff-setup.html`.

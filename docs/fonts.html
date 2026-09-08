@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fonts — Ağustos Design System</title>
+<link rel="stylesheet" href="../ui/agustos-fonts.css">
+<link rel="stylesheet" href="../ui/agustos.css">
+<style>
+  .book-nav { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--rule); margin-bottom: var(--space-3xl); }
+  .book-nav a { text-decoration: none; font-weight: 500; color: var(--ink-soft); }
+  .book-nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--signal); text-underline-offset: 4px; }
+  .book-nav .push { margin-left: auto; }
+  .specimen { margin: 0 0 var(--space-xl); padding-bottom: var(--space-xl); border-bottom: 1px solid var(--rule); }
+  .meta { color: var(--ink-soft); font-size: 13px; font-family: var(--mono); }
+</style>
+</head>
+<body class="brand-agustos">
+<a class="skip-link" href="#main">Skip to content</a>
+<main id="main" class="container">
+  <nav class="book-nav" aria-label="Standard artifacts">
+    <a href="../DESIGN.md">DESIGN.md</a>
+    <a href="fonts.html" aria-current="page">Fonts</a>
+    <a href="colour.html">Colour</a>
+    <a href="web.html">Web</a>
+    <a href="brands.html">Brands</a>
+    <button class="agustos-button agustos-button--secondary push" type="button" id="theme">Dark theme</button>
+  </nav>
+
+  <p class="type-h4">Standard artifact 2 of 5</p>
+  <h1 class="type-hero-md">Fonts</h1>
+  <p class="type-hero-deck">Three families. Each has one job. Load the kit fonts before the stylesheet or the page falls back to system sans.</p>
+
+  <section class="agustos-section">
+    <h2 class="type-h2">Inter Tight — display</h2>
+    <p class="type-body">Logotype, hero, headings, labels, table headers, badges, pullquotes. Weight 650 on the wordmark. Weight 300–500 on heroes and headings.</p>
+    <p class="type-hero">Lighting, clearly.</p>
+    <p class="type-h1">Page title at heading one</p>
+    <p class="type-h2">Section title at heading two</p>
+    <p class="type-h3">Subsection in italic Tight</p>
+    <p class="type-h4">Sentence-case label</p>
+    <p class="meta">.type-hero · .type-h1–h4 · wordmark 650</p>
+  </section>
+
+  <section class="agustos-section">
+    <h2 class="type-h2">Inter — body</h2>
+    <p class="type-body">Paragraphs, lists, links, tables, forms. Turkish letters must render: ğüşiöç İĞÜŞÖÇ. Pijamalı hasta yağız şoföre çabucak güvendi.</p>
+    <p class="type-body">A <a class="type-link" href="#main">link</a> uses weight 600 and a 2px red underline. <em>Italic</em> is for terms. <strong>Bold</strong> is for emphasis.</p>
+    <p class="type-footnote">Footnotes and trust lines use this family at 12.5px in ink-soft.</p>
+    <p class="meta">.type-body · .type-hero-deck · .type-footnote</p>
+  </section>
+
+  <section class="agustos-section">
+    <h2 class="type-h2">JetBrains Mono — data</h2>
+    <p class="type-body">Code, hex values, product SKUs, file paths. Tabular figures. Never for headings or wordmarks.</p>
+    <p><code class="type-code">#cf142a</code> · <code class="type-code">pataraz-px22</code></p>
+    <pre class="type-code-block"><code>font-feature-settings: "locl" on, "kern" on, "ss01" on;</code></pre>
+    <p class="meta">.type-code · .type-code-block</p>
+  </section>
+
+  <section class="agustos-section">
+    <h2 class="type-h2">Rules</h2>
+    <ul class="type-list-ul">
+      <li>Wordmarks stay lowercase Inter Tight 650. No tagline on the lockup.</li>
+      <li>Set <code>lang="tr"</code> on Turkish content so <code>locl</code> capitalises İ/ı correctly.</li>
+      <li>No uppercase labels, eyebrows, or headers.</li>
+      <li>Do not add a fourth family. Do not swap Inter Tight for a serif.</li>
+    </ul>
+  </section>
+</main>
+<script>
+  document.getElementById('theme').onclick = function () {
+    var root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  };
+</script>
+</body>
+</html>
