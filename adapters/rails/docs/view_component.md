@@ -17,7 +17,6 @@ Keep ViewComponent props semantic:
 
 ```ruby
 Agustos::HeroComponent.new(
-  eyebrow: "Ağustos",
   title: "Işığın mimariyle buluştuğu yer.",
   deck: "A calm, typographic hero.",
   primary_links: [{ label: "Aydınlatma", href: "/aydinlatma" }]

@@ -10,4 +10,4 @@ The design system itself is platform-neutral. Adapters translate the same tokens
 ## Current Adapters
 
 - `astro/`: Astro reference implementation and typography showcase.
-- `rails/`: Rails monolith skeleton with CSS, helper, layout, and ERB partials.
+- `rails/`: Rails monolith skeleton with v5.0.1 chrome, marketing, and product UI examples.

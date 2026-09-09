@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="<%= agustos_theme_config[:lang] %>">
+<html lang="<%= agustos_theme_config[:lang] %>"<% if agustos_dark? %> data-theme="dark"<% end %>>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,28 +7,39 @@
     <title><%= agustos_page_title %></title>
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
+    <%# Load ui/agustos-fonts.css (or @fontsource) before tokens. Font stacks alone are not faces. %>
     <%= stylesheet_link_tag "agustos/tokens", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "agustos/components", "data-turbo-track": "reload" %>
+    <% if agustos_product_shell? %>
+      <%= stylesheet_link_tag "agustos/product", "data-turbo-track": "reload" %>
+    <% end %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <script>
-      (function () {
-        try {
-          var theme = localStorage.getItem("agustos:theme");
-          if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
-        } catch (e) {}
-      })();
-    </script>
+    <% if agustos_theme_toggle? %>
+      <script>
+        (function () {
+          try {
+            var theme = localStorage.getItem("agustos:theme");
+            if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
+            if (theme === "light") document.documentElement.removeAttribute("data-theme");
+          } catch (e) {}
+        })();
+      </script>
+    <% end %>
   </head>
   <body
     class="<%= agustos_body_class %>"
-    data-controller="agustos-nav agustos-theme"
-    data-action="keydown.esc@window->agustos-nav#close"
+    data-controller="<%= agustos_body_controller %>"
+    <% unless agustos_product_shell? %>data-action="keydown.esc@window->agustos-nav#close"<% end %>
   >
-    <a class="skip-link" href="#main">Skip to content</a>
-    <%= render "agustos/shared/header" %>
-    <main id="main" class="agustos-layout__main" tabindex="-1">
+    <% if agustos_product_shell? %>
       <%= yield %>
-    </main>
-    <%= render "agustos/shared/footer" %>
+    <% else %>
+      <a class="skip-link" href="#main">Skip to content</a>
+      <%= render "agustos/shared/header" %>
+      <main id="main" class="agustos-layout__main" tabindex="-1">
+        <%= yield %>
+      </main>
+      <%= render "agustos/shared/footer" %>
+    <% end %>
   </body>
 </html>

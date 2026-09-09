@@ -16,6 +16,10 @@
           </ul>
         </nav>
       <% end %>
+      <% if agustos_footer_cta %>
+        <%= link_to agustos_value(agustos_footer_cta, :label), agustos_value(agustos_footer_cta, :href),
+          **agustos_link_html_options(agustos_footer_cta, class_name: "agustos-button agustos-button--primary agustos-footer__cta") %>
+      <% end %>
     </div>
   </div>
 </footer>

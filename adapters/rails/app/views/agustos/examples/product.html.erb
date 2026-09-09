@@ -1,0 +1,140 @@
+<%# Product UI. Controller:
+    agustos_theme(
+      brand: :iesdesk,
+      shell: :product,
+      theme: true,
+      title: "IESDesk",
+      description: "Photometric files and reports."
+    )
+%>
+<a class="skip-link" href="#pq-main">Skip to content</a>
+<aside class="pq-side">
+  <div class="pq-side__brand">
+    <%= render "agustos/shared/brand_lockup", href: "/", size: 19 %>
+  </div>
+  <nav class="pq-nav" aria-label="Primary">
+    <a class="pq-nav__item" href="#batches"><span class="pq-nav__glyph" aria-hidden="true">▦</span><span class="pq-nav__label">Batches</span><span class="pq-nav__count">6</span></a>
+    <a class="pq-nav__item" href="#files"><span class="pq-nav__glyph" aria-hidden="true">≣</span><span class="pq-nav__label">Files</span><span class="pq-nav__count">4,218</span></a>
+    <a class="pq-nav__item is-active" href="#validation" aria-current="page"><span class="pq-nav__glyph" aria-hidden="true">◬</span><span class="pq-nav__label">Validation</span><span class="pq-nav__count">157</span></a>
+    <a class="pq-nav__item" href="#exports"><span class="pq-nav__glyph" aria-hidden="true">↧</span><span class="pq-nav__label">Exports</span><span class="pq-nav__count">12</span></a>
+    <a class="pq-nav__item" href="#formats"><span class="pq-nav__glyph" aria-hidden="true">⌗</span><span class="pq-nav__label">Formats</span></a>
+  </nav>
+  <div class="pq-side__foot">
+    <div class="pq-meter" aria-label="Local cache">
+      <div class="pq-meter__head">
+        <span>Local cache</span>
+        <span class="pq-num">1.8 / 4 GB</span>
+      </div>
+      <div class="pq-meter__track"><div class="pq-meter__fill" style="width: 45%"></div></div>
+      <p class="pq-side__note">Files never leave this machine.</p>
+    </div>
+    <button type="button" class="pq-theme" data-action="agustos-theme#toggle" aria-pressed="false">
+      <span aria-hidden="true">☀</span> Light
+    </button>
+  </div>
+</aside>
+
+<div id="pq-main" class="pq-stage">
+  <section class="pq-main">
+    <header class="pq-topbar">
+      <div class="pq-topbar__lead">
+        <div class="pq-crumb">
+          <span>Batches</span>
+          <span class="pq-crumb__sep" aria-hidden="true">/</span>
+          <span class="pq-crumb__here">catalogue-2026-q2</span>
+        </div>
+        <h1 class="type-h1 pq-topbar__title">Validation run</h1>
+      </div>
+      <div class="pq-topbar__actions">
+        <button class="pq-ghost" type="button">Re-run</button>
+        <button class="agustos-button agustos-button--primary" type="button">Export dataset</button>
+      </div>
+    </header>
+
+    <div class="pq-scroll">
+      <div class="pq-progress">
+        <div class="pq-progress__head">
+          <span class="type-h4">Processing complete</span>
+          <span class="pq-num pq-progress__pct">4,218 / 4,218</span>
+        </div>
+        <div class="pq-progress__track"><div class="pq-progress__fill" style="width: 100%"></div></div>
+        <p class="pq-progress__note">Parsed locally in 11.4s · LM-63 + EULUMDAT · units normalized to SI.</p>
+      </div>
+
+      <div class="pq-stats">
+        <div class="pq-stat">
+          <div class="type-h4 pq-stat__label">Files in batch</div>
+          <div class="pq-stat__value pq-num">4,218</div>
+          <div class="pq-stat__sub">IES · LDT</div>
+        </div>
+        <div class="pq-stat pq-stat--featured">
+          <div class="type-h4 pq-stat__label">Valid</div>
+          <div class="pq-stat__value pq-num">4,061</div>
+          <div class="pq-stat__sub">96.3% pass</div>
+        </div>
+        <div class="pq-stat">
+          <div class="type-h4 pq-stat__label">Flagged</div>
+          <div class="pq-stat__value pq-num">157</div>
+          <div class="pq-stat__sub">142 fixable</div>
+        </div>
+        <div class="pq-stat">
+          <div class="type-h4 pq-stat__label">Median efficacy</div>
+          <div class="pq-stat__value pq-num">118</div>
+          <div class="pq-stat__sub">lm / W</div>
+        </div>
+      </div>
+
+      <div class="pq-table-head">
+        <h2 class="type-h2 pq-table-title">Files</h2>
+        <div class="pq-table-tools">
+          <button class="pq-filter is-active" type="button">All</button>
+          <button class="pq-filter" type="button">Flagged</button>
+          <button class="pq-filter" type="button">Errors</button>
+          <a class="type-link pq-report" href="#report">Download report</a>
+        </div>
+      </div>
+
+      <div class="pq-table" role="table" aria-label="Validation results">
+        <div class="pq-tr pq-tr--head" role="row">
+          <span role="columnheader">File</span>
+          <span role="columnheader">Format</span>
+          <span role="columnheader" class="pq-r">Flux (lm)</span>
+          <span role="columnheader" class="pq-r">Efficacy (lm/W)</span>
+          <span role="columnheader" class="pq-r">Beam</span>
+          <span role="columnheader">Status</span>
+        </div>
+        <%
+          [
+            ["osram-kreios-g3-840.ies", "IES", "3,240", "129", "38°", "valid"],
+            ["pataraz-linea-spot-927.ldt", "LDT", "1,180", "112", "24°", "valid"],
+            ["pataraz-run-2700k.ldt", "LDT", "4,860", "121", "—", "valid"],
+            ["erco-optec-spot-30.ies", "IES", "2,010", "—", "30°", "flagged"],
+            ["generic-panel-600x600.ies", "IES", "3,600", "108", "—", "valid"],
+            ["unnamed-export-0042.ldt", "LDT", "—", "—", "—", "error"],
+            ["pataraz-qu0-fixed-930.ies", "IES", "1,540", "124", "15°", "valid"],
+            ["tracklight-batch-legacy.ldt", "LDT", "2,720", "96", "40°", "flagged"]
+          ].each do |file, fmt, flux, eff, beam, status|
+        %>
+          <div class="pq-tr" role="row">
+            <span role="cell" class="pq-file"><code><%= file %></code></span>
+            <span role="cell" class="pq-fmt"><%= fmt %></span>
+            <span role="cell" class="pq-r pq-num"><%= flux %></span>
+            <span role="cell" class="pq-r pq-num"><%= eff %></span>
+            <span role="cell" class="pq-r pq-num"><%= beam %></span>
+            <span role="cell">
+              <% if status == "valid" %>
+                <span class="pq-status pq-status--valid">✓ Valid</span>
+              <% elsif status == "flagged" %>
+                <span class="pq-status pq-status--flag">⚠ Flagged</span>
+              <% elsif status == "error" %>
+                <span class="pq-status pq-status--err">✕ Error</span>
+              <% else %>
+                <span class="pq-status pq-status--skip">– Skipped</span>
+              <% end %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </section>
+</div>

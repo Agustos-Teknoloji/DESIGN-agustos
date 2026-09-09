@@ -51,7 +51,9 @@ module AgustosThemeHelper
     nav: nil,
     cta: UNSET,
     language_switch: nil,
-    theme: true,
+    theme: false,
+    color_scheme: :light,
+    shell: :marketing,
     search: nil,
     footer: nil
   )
@@ -65,6 +67,8 @@ module AgustosThemeHelper
       nav: nav,
       language_switch: language_switch,
       theme: theme,
+      color_scheme: color_scheme&.to_sym,
+      shell: shell&.to_sym,
       search: search,
       footer: footer
     }.compact
@@ -81,21 +85,25 @@ module AgustosThemeHelper
       description: "Typography-first design system.",
       home_href: "/",
       nav: DEFAULT_NAV,
-      cta: { label: "View source", href: "https://github.com/Agustos-Teknoloji/DESIGN-agustos", external: true },
+      cta: { label: "Start a project", href: "/about" },
       language_switch: nil,
-      theme: true,
+      theme: false,
+      color_scheme: :light,
+      shell: :marketing,
       search: nil,
       footer: {
         description: "Ağustos Design System · multi-brand typography and chrome",
-        columns: DEFAULT_FOOTER_COLUMNS
+        columns: DEFAULT_FOOTER_COLUMNS,
+        cta: { label: "Contact", href: "/about" }
       }
     }.merge(@agustos_theme || {})
   end
 
   def agustos_body_class
     config = agustos_theme_config
-    classes = ["agustos-layout", BRAND_CLASSES.fetch(config[:brand], BRAND_CLASSES[:agustos])]
+    classes = [BRAND_CLASSES.fetch(config[:brand], BRAND_CLASSES[:agustos])]
     classes << "paper-white" if config[:substrate] == :white
+    classes << (agustos_product_shell? ? "pq" : "agustos-layout")
     classes.join(" ")
   end
 
@@ -108,8 +116,20 @@ module AgustosThemeHelper
   def agustos_nav_items = agustos_theme_config[:nav] || []
   def agustos_header_cta = agustos_theme_config[:cta]
   def agustos_language_switch = agustos_theme_config[:language_switch]
+  def agustos_theme_toggle? = agustos_theme_config[:theme] == true
+  def agustos_dark? = agustos_theme_config[:color_scheme] == :dark
+  def agustos_product_shell? = agustos_theme_config[:shell] == :product
+  def agustos_header_utility? = agustos_language_switch || agustos_theme_toggle?
+
+  def agustos_body_controller
+    controllers = []
+    controllers << "agustos-nav" unless agustos_product_shell?
+    controllers << "agustos-theme" if agustos_theme_toggle?
+    controllers.join(" ")
+  end
   def agustos_search_config = agustos_theme_config[:search]
   def agustos_footer_config = agustos_theme_config[:footer] || {}
+  def agustos_footer_cta = agustos_value(agustos_footer_config, :cta)
 
   def agustos_value(value, key, default = nil)
     value&.fetch(key, value&.fetch(key.to_s, default))
