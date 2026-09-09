@@ -14,7 +14,8 @@ Keep the experience welcoming and easy to use.
 
 `DESIGN.md` defines the rules. `tokens/design-tokens.json` holds the portable `designDirection` contract.
 The generator publishes this contract in the handoff, resolved registry, and UI kit.
-Version 5.0.0 applies the approved white-substrate palette, type scale, action system, layout measure, and locked dark theme.
+Version 5.0.1 applies the approved white-substrate palette, type scale, action system, layout measure, and locked dark theme.
+CTA repetition, dark shipping, photography, and quote placement are locked.
 Existing class names remain compatible. Numeric token values change.
 
 ## Architecture

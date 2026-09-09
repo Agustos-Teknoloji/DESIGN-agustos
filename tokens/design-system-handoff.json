@@ -110,6 +110,8 @@
       "acceptance": [
         "Pages feel warm, human, and complete through white paper, warm neutrals, clear typography, and helpful language.",
         "Visitors can understand the content and identify the next action quickly.",
+        "The same primary CTA appears in the header, the opening, and at most one closing band.",
+        "Marketing pages remain light without a theme control.",
         "Forms and technical content remain clear, readable, and easy to scan.",
         "Brand identity, keyboard focus, reduced motion, and supported themes remain intact."
       ],
@@ -117,7 +119,11 @@
         "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
         "Red fills, red buttons, red statistics, or red as an element's own colour, except the dark-theme primary CTA",
         "Uppercase labels, eyebrow labels, arrows on buttons, or decorative motion",
-        "Inflated luxury claims or forced friendliness"
+        "Inflated luxury claims or forced friendliness",
+        "A primary button in every section, card, or list",
+        "A theme toggle on marketing chrome",
+        "Lifestyle photography or a photograph behind body text",
+        "Testimonial quotes on marketing pages"
       ],
       "definition": "Scandinavian restraint filtered through Mediterranean warmth.",
       "intent": "Create minimal, functional, and elegant experiences that feel calm, warm, and human.",
@@ -141,7 +147,11 @@
         "Use modest corners and hairline rules. Do not use shadows, gradients, or textures.",
         "Keep text, controls, and technical tables on plain surfaces. Use authentic imagery only when it explains the work.",
         "Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. The one fill exception is the dark-theme primary CTA. Dark theme reuses the same six roles, flipped. Retain registered logos, fonts, and accessible contrast.",
-        "Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings."
+        "Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings.",
+        "Repeat the same primary CTA at most twice in the page body: the opening and one closing cream band. The header may carry it once.",
+        "Ship marketing, catalog, and spec pages on white paper. Reserve dark theme for product UI.",
+        "Introduce photographs in this order: product page, listing thumbnail, then homepage installation. Type-only pages stay complete.",
+        "Use blockquote and pullquote on content pages only. Marketing pages use a compact trust line, not a testimonial."
       ]
     },
     "forbidden": [
@@ -150,6 +160,9 @@
       "Purple gradients, decorative blobs, large uniform radii, or centered generic SaaS feature grids",
       "Giving a non-Ağustos house brand its own chromatic identity color without an explicit governance change",
       "Using signal red as a fill, a button, a statistic, or an element's own colour, except the dark-theme primary CTA",
+      "A primary button in every section, card, or list",
+      "A theme toggle on marketing chrome",
+      "Testimonial quotes on marketing pages",
       "Hard-coding values that already exist in foundations, semantic roles, or recipes"
     ],
     "implementationOrder": [
@@ -166,7 +179,10 @@
       "Use shared signal red only for the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus; never use it to recolor a non-Ağustos logo. The one fill exception is the dark-theme primary CTA.",
       "Default working interfaces to white paper, off-black ink, restrained rules, and small radii. No shadows.",
       "Align primary content to one 1180px frame on the web; preserve the same alignment logic in other media.",
-      "Use calm typographic openings, quiet chrome, sentence case, and purposeful spacing. Do not use uppercase labels or eyebrow headings."
+      "Use calm typographic openings, quiet chrome, sentence case, and purposeful spacing. Do not use uppercase labels or eyebrow headings.",
+      "Repeat the same primary CTA at most twice in the page body: the opening and one closing cream band. The header may carry it once.",
+      "Ship marketing, catalog, and spec pages on white paper. Reserve dark theme for product UI.",
+      "Use blockquote and pullquote on content pages only."
     ],
     "mediums": {
       "document": "Native named styles, generous opening space, exact lockup header, thin signal rule, editable tables.",
@@ -234,6 +250,8 @@
       "acceptance": [
         "Pages feel warm, human, and complete through white paper, warm neutrals, clear typography, and helpful language.",
         "Visitors can understand the content and identify the next action quickly.",
+        "The same primary CTA appears in the header, the opening, and at most one closing band.",
+        "Marketing pages remain light without a theme control.",
         "Forms and technical content remain clear, readable, and easy to scan.",
         "Brand identity, keyboard focus, reduced motion, and supported themes remain intact."
       ],
@@ -241,7 +259,11 @@
         "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
         "Red fills, red buttons, red statistics, or red as an element's own colour, except the dark-theme primary CTA",
         "Uppercase labels, eyebrow labels, arrows on buttons, or decorative motion",
-        "Inflated luxury claims or forced friendliness"
+        "Inflated luxury claims or forced friendliness",
+        "A primary button in every section, card, or list",
+        "A theme toggle on marketing chrome",
+        "Lifestyle photography or a photograph behind body text",
+        "Testimonial quotes on marketing pages"
       ],
       "definition": "Scandinavian restraint filtered through Mediterranean warmth.",
       "intent": "Create minimal, functional, and elegant experiences that feel calm, warm, and human.",
@@ -265,7 +287,11 @@
         "Use modest corners and hairline rules. Do not use shadows, gradients, or textures.",
         "Keep text, controls, and technical tables on plain surfaces. Use authentic imagery only when it explains the work.",
         "Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. The one fill exception is the dark-theme primary CTA. Dark theme reuses the same six roles, flipped. Retain registered logos, fonts, and accessible contrast.",
-        "Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings."
+        "Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings.",
+        "Repeat the same primary CTA at most twice in the page body: the opening and one closing cream band. The header may carry it once.",
+        "Ship marketing, catalog, and spec pages on white paper. Reserve dark theme for product UI.",
+        "Introduce photographs in this order: product page, listing thumbnail, then homepage installation. Type-only pages stay complete.",
+        "Use blockquote and pullquote on content pages only. Marketing pages use a compact trust line, not a testimonial."
       ]
     },
     "foundations": {
@@ -493,7 +519,7 @@
         "surface": "#ffffff"
       }
     },
-    "version": "5.0.0"
+    "version": "5.0.1"
   },
-  "version": "5.0.0"
+  "version": "5.0.1"
 }

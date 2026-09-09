@@ -280,6 +280,9 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
                 "Default working interfaces to white paper, off-black ink, restrained rules, and small radii. No shadows.",
                 "Align primary content to one 1180px frame on the web; preserve the same alignment logic in other media.",
                 "Use calm typographic openings, quiet chrome, sentence case, and purposeful spacing. Do not use uppercase labels or eyebrow headings.",
+                "Repeat the same primary CTA at most twice in the page body: the opening and one closing cream band. The header may carry it once.",
+                "Ship marketing, catalog, and spec pages on white paper. Reserve dark theme for product UI.",
+                "Use blockquote and pullquote on content pages only.",
             ],
             "forbidden": [
                 "Inventing a new logo expression or approximate sun symbol",
@@ -287,6 +290,9 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
                 "Purple gradients, decorative blobs, large uniform radii, or centered generic SaaS feature grids",
                 "Giving a non-Ağustos house brand its own chromatic identity color without an explicit governance change",
                 "Using signal red as a fill, a button, a statistic, or an element's own colour, except the dark-theme primary CTA",
+                "A primary button in every section, card, or list",
+                "A theme toggle on marketing chrome",
+                "Testimonial quotes on marketing pages",
                 "Hard-coding values that already exist in foundations, semantic roles, or recipes",
             ],
             "implementationOrder": [

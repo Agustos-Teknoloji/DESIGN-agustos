@@ -4,16 +4,22 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
-### Fixed
-
-- Load handbook HTML with same-folder stylesheets so the pages render when opened as files.
+## [5.0.1] - 2026-09-08
 
 ### Changed
 
+- Lock CTA repetition: the same primary destination appears in the header, the opening, and at most one closing cream band.
+- Ship marketing, catalog, and spec pages on white paper. Reserve dark theme for product UI, using the locked six-colour flip from v5.0.0.
+- Roll photographs out in this order: product page, listing thumbnail, homepage installation. Type-only pages stay complete.
+- Restrict blockquote and pullquote to content pages. Marketing pages use a compact trust line.
 - Add a slim handoff zip (`scripts/pack_handoff.py`) and an HTML map of the factory versus the kit.
 - Tell website agents to copy `ui/` and stop. Do not zip the whole repository or re-run generators.
 - Everyday source changes refresh the UI kit only. Logos, Office files, fonts, and datasheets wait for an explicit ask.
 - Publish five standard artifacts: `DESIGN.md` plus HTML explainers for fonts, colour, web elements, and brands.
+
+### Fixed
+
+- Load handbook HTML with same-folder stylesheets so the pages render when opened as files.
 
 ## [5.0.0] - 2026-09-08
 

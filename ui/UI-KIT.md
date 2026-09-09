@@ -1,4 +1,4 @@
-# Ağustos UI kit — v5.0.0
+# Ağustos UI kit — v5.0.1
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -19,6 +19,10 @@ Create minimal, functional, and elegant interfaces that feel warm and human.
 - Keep text, controls, and technical tables on plain surfaces. Use authentic imagery only when it explains the work.
 - Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. The one fill exception is the dark-theme primary CTA. Dark theme reuses the same six roles, flipped. Retain registered logos, fonts, and accessible contrast.
 - Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings.
+- Repeat the same primary CTA at most twice in the page body: the opening and one closing cream band. The header may carry it once.
+- Ship marketing, catalog, and spec pages on white paper. Reserve dark theme for product UI.
+- Introduce photographs in this order: product page, listing thumbnail, then homepage installation. Type-only pages stay complete.
+- Use blockquote and pullquote on content pages only. Marketing pages use a compact trust line, not a testimonial.
 
 Avoid:
 
@@ -26,6 +30,10 @@ Avoid:
 - Red fills, red buttons, red statistics, or red as an element's own colour, except the dark-theme primary CTA
 - Uppercase labels, eyebrow labels, arrows on buttons, or decorative motion
 - Inflated luxury claims or forced friendliness
+- A primary button in every section, card, or list
+- A theme toggle on marketing chrome
+- Lifestyle photography or a photograph behind body text
+- Testimonial quotes on marketing pages
 
 ## Install — production
 
@@ -57,11 +65,11 @@ npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-va
 For a throwaway mockup with no build step:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.0/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.0/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.1/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.1/ui/agustos.css">
 ```
 
-**Pin stylesheet URLs to `@v5.0.0`.** Never publish `@main` or `@latest`; upstream changes can restyle your page.
+**Pin stylesheet URLs to `@v5.0.1`.** Never publish `@main` or `@latest`; upstream changes can restyle your page.
 
 ## One warning before you start
 
@@ -96,10 +104,18 @@ Use `lang="tr"` for Turkish content so locale-sensitive capitalization renders c
 |---|---|---|
 | Brand | `brand-agustos` · `brand-pataraz` · `brand-pld` · `brand-iesdesk` · `brand-specquick` | `<body>`, required |
 | Substrate | white paper by default; `paper-white` remains valid | `<body>` |
-| Theme | `data-theme="dark"` (same six colours, flipped) | `<html>` |
+| Theme | `data-theme="dark"` (product UI only; same six colours, flipped) | `<html>` |
 
 Ağustos alone owns red identity ink. Other house brands use off-black `#15130f` or white.
 Shared red (`#cf142a`) is a 2px rule under content links and menu hover/current, plus keyboard focus. Never a fill except the dark primary CTA.
+
+## Page composition
+
+Same primary CTA: header once, opening once, one closing cream band. Not in every section.
+Marketing stays light. Dark is for product UI. No theme toggle on marketing chrome.
+Photographs: product page, then listing, then homepage. Type-only pages stay complete.
+Quotes: content pages only. Marketing uses a compact trust line.
+Form submits are task actions. Footer Contact is separate chrome.
 
 ## Classes
 

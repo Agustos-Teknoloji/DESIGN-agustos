@@ -6,7 +6,7 @@
     "brand-iesdesk",
     "brand-specquick"
   ],
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.0/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.1/ui/",
   "cssClasses": [
     "type-hero",
     "type-hero-md",
@@ -89,6 +89,8 @@
     "acceptance": [
       "Pages feel warm, human, and complete through white paper, warm neutrals, clear typography, and helpful language.",
       "Visitors can understand the content and identify the next action quickly.",
+      "The same primary CTA appears in the header, the opening, and at most one closing band.",
+      "Marketing pages remain light without a theme control.",
       "Forms and technical content remain clear, readable, and easy to scan.",
       "Brand identity, keyboard focus, reduced motion, and supported themes remain intact."
     ],
@@ -96,7 +98,11 @@
       "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
       "Red fills, red buttons, red statistics, or red as an element's own colour, except the dark-theme primary CTA",
       "Uppercase labels, eyebrow labels, arrows on buttons, or decorative motion",
-      "Inflated luxury claims or forced friendliness"
+      "Inflated luxury claims or forced friendliness",
+      "A primary button in every section, card, or list",
+      "A theme toggle on marketing chrome",
+      "Lifestyle photography or a photograph behind body text",
+      "Testimonial quotes on marketing pages"
     ],
     "definition": "Scandinavian restraint filtered through Mediterranean warmth.",
     "intent": "Create minimal, functional, and elegant experiences that feel calm, warm, and human.",
@@ -120,30 +126,34 @@
       "Use modest corners and hairline rules. Do not use shadows, gradients, or textures.",
       "Keep text, controls, and technical tables on plain surfaces. Use authentic imagery only when it explains the work.",
       "Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. The one fill exception is the dark-theme primary CTA. Dark theme reuses the same six roles, flipped. Retain registered logos, fonts, and accessible contrast.",
-      "Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings."
+      "Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings.",
+      "Repeat the same primary CTA at most twice in the page body: the opening and one closing cream band. The header may carry it once.",
+      "Ship marketing, catalog, and spec pages on white paper. Reserve dark theme for product UI.",
+      "Introduce photographs in this order: product page, listing thumbnail, then homepage installation. Type-only pages stay complete.",
+      "Use blockquote and pullquote on content pages only. Marketing pages use a compact trust line, not a testimonial."
     ]
   },
   "entryPoint": "UI-KIT.md",
   "files": {
     "AGENTS-SNIPPET.md": {
       "bytes": 2085,
-      "sha256": "2991c2091c61dc82aaf59577e1d9c45072584073404271fbd89d9ce1874f6c42"
+      "sha256": "7252ed7df53ace6c9c01660eb441dbd3aa33f0cc0955b14d8bb1eec8c61b4023"
     },
     "UI-KIT.md": {
-      "bytes": 7960,
-      "sha256": "1f638381034cebc3daf934da81479ec277d406a89abb2bbaad86b36b811b18bb"
+      "bytes": 9048,
+      "sha256": "605c990814889b43b339e09e89d8b17af3cfaf5728f8dde1720ac3a20a76ddce"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
-      "sha256": "aad1ab9bf1362cf9c3b1a903accc98737f1a26bbf7fc3f53bcbafce4ffd4ebac"
+      "sha256": "1c5d56b7a6210b64557c6a8230631717e9f834bb86bf8305705e5bf97d2ef3d4"
     },
     "agustos.css": {
-      "bytes": 26519,
-      "sha256": "0ac1247a182b4c7c2ed7321330380405518b954dda31c972f6c470675576358d"
+      "bytes": 26551,
+      "sha256": "eae032113b5bde5247f76fc33f3565c81501c15aafd6589a0adec0e13d30e6d1"
     },
     "check-agustos-ui.py": {
       "bytes": 14516,
-      "sha256": "c415883be070fd34d6baa1a5cded227c258352c8cac841e8ea6915d67ac0140b"
+      "sha256": "1150bc539506f5ee7b337868d6870944a91b17bf47c90a6a444dacbfb684d59c"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -167,12 +177,12 @@
     },
     "starter.html": {
       "bytes": 10263,
-      "sha256": "9595cbddd0cffdfe76f556652b5a1ba9bbd4c82cb7e07d93b06a869b22068f38"
+      "sha256": "293436543f2d8ad545e7d4da4515d01f14678e29ca653029555fdb7226f6ac4a"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.0/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.1/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.1/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v5.0.0/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v5.0.1/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "signal": {
     "$source": "Ağustos red is the shared interaction signal across every house brand. It does not recolor non-Ağustos identity marks.",
@@ -184,5 +194,5 @@
     "cream"
   ],
   "system": "Ağustos Design System",
-  "version": "5.0.0"
+  "version": "5.0.1"
 }

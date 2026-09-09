@@ -133,8 +133,13 @@ Apply İskandivvian: Scandinavian restraint filtered through Mediterranean warmt
 Keep product discovery and technical comparison clear, calm, and functional.
 Use comfortable spacing, plain surfaces, and direct explanations to make the experience approachable.
 Use naturally lit installation photographs only when they support product understanding.
+Introduce photographs in this order: product page, listing thumbnail, then homepage.
+Type-only pages stay complete until those photographs exist.
 Preserve product finishes, technical facts, black identity ink, and red interaction signals.
 Use imagery that supports product understanding.
+Keep marketing and catalog pages on white paper. Dark theme is for product UI, not pataraz.com.
+Repeat the same primary CTA at most twice in the page body: the opening and one closing cream band.
+Do not use quote treatments on marketing or product pages.
 
 
 - **Substrate & accent.** White `#ffffff` paper, cream `#fdf5f5` callout bands, ink `#15130f` text, and shared red `#cf142a` used as a 2px rule under content links and menu hover. The symbol remains off-black.
