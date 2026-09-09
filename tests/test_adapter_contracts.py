@@ -54,14 +54,36 @@ class AdapterContractTest(unittest.TestCase):
     def test_rails_helper_defaults_to_white_and_preserves_brand_fallbacks(self):
         helper = (ROOT / "adapters" / "rails" / "app" / "helpers" / "agustos_theme_helper.rb").read_text(encoding="utf-8")
         self.assertIn("substrate: :white", helper)
+        self.assertIn("shell: :marketing", helper)
+        self.assertIn("theme: false", helper)
+        self.assertIn("color_scheme: :light", helper)
         self.assertIn('classes << "paper-white" if config[:substrate] == :white', helper)
         self.assertIn("BRAND_CLASSES.fetch(config[:brand], BRAND_CLASSES[:agustos])", helper)
         self.assertIn("BRAND_WORDMARKS.fetch(agustos_theme_config[:brand], BRAND_WORDMARKS[:agustos])", helper)
 
     def test_rails_layout_uses_header_not_sidebar(self):
         layout = (ROOT / "adapters" / "rails" / "app" / "views" / "layouts" / "agustos.html.erb").read_text(encoding="utf-8")
+        header = (ROOT / "adapters" / "rails" / "app" / "views" / "agustos" / "shared" / "_header.html.erb").read_text(encoding="utf-8")
         self.assertIn('agustos/shared/header', layout)
         self.assertNotIn('agustos/shared/sidebar', layout)
+        self.assertIn("agustos_theme_toggle?", layout)
+        self.assertIn("agustos_product_shell?", layout)
+        self.assertIn("agustos-button agustos-button--primary agustos-header__cta", header)
+
+    def test_rails_product_ui_ports_iesdesk_validation_run(self):
+        page = (ROOT / "adapters" / "rails" / "app" / "views" / "agustos" / "examples" / "product.html.erb").read_text(encoding="utf-8")
+        preview = (ROOT / "adapters" / "rails" / "preview" / "product-ui.html").read_text(encoding="utf-8")
+        css = (ROOT / "adapters" / "rails" / "app" / "assets" / "stylesheets" / "agustos" / "product.css").read_text(encoding="utf-8")
+        self.assertIn("shell: :product", page)
+        self.assertIn("Validation run", page)
+        self.assertIn("Export dataset", page)
+        self.assertIn("pq-side", page)
+        self.assertIn("Validation run", preview)
+        self.assertIn("pq-stat--featured", preview)
+        self.assertNotIn('data-theme="dark"', preview)
+        self.assertIn(".pq-side", css)
+        self.assertNotIn("999px", css)
+        self.assertIn('html[data-theme="dark"] .pq-file code', css)
 
     def test_rails_lockup_contains_exact_eighteen_blades(self):
         lockup = (ROOT / "adapters" / "rails" / "app" / "views" / "agustos" / "shared" / "_brand_lockup.html.erb").read_text(encoding="utf-8")

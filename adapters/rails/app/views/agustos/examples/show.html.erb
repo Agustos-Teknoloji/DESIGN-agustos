@@ -1,21 +1,44 @@
-<article class="agustos-container">
-  <p class="type-h4" style="color: var(--signal); margin-top: 0;">Rails adapter · v3</p>
-  <h1 class="type-hero-md">A typography-first Rails monolith.</h1>
-  <p class="type-hero-deck">
-    Same registry, same rhythm, same publisher mark. Rails owns the application;
-    the design system owns the visual grammar.
-  </p>
+<%# Marketing example. Controller sets agustos_theme without theme: true. %>
+<article>
+  <section class="container agustos-hero-opening" aria-labelledby="hero-title">
+    <h1 id="hero-title" class="type-hero">Light, specified.</h1>
+    <p class="type-hero-deck">
+      Architectural lighting specified, sourced and delivered for projects across
+      Türkiye and the Gulf. Rails owns the application. The kit owns the grammar.
+    </p>
+    <div class="hero-actions">
+      <%= link_to "Start a project", "#close", class: "hero-action hero-action--primary" %>
+      <%= link_to "See specified work", "#practice", class: "hero-action hero-action--secondary" %>
+    </div>
+    <p class="hero-trust">Specified since 2009 · 240+ projects · 11 countries</p>
+  </section>
 
-  <p class="hero-links">
-    <%= link_to "Read the design system", "#", class: "hero-link hero-link--primary" %>
-    <%= link_to "Start a page", "#", class: "hero-link hero-link--secondary" %>
-  </p>
-
-  <hr class="type-divider">
-
-  <h2 class="type-h2">Editorial content</h2>
-  <p class="type-body">
-    Use the same typography tokens inside ERB, Rails partials, ViewComponent,
-    or content-rendered HTML. Brand color remains a signal, not decoration.
-  </p>
+  <section class="container agustos-section" id="practice" aria-labelledby="practice-title">
+    <h2 id="practice-title" class="type-h2">What we do</h2>
+    <div class="agustos-card-grid">
+      <article class="agustos-card agustos-card--marked">
+        <h3 class="type-h3">Lighting design</h3>
+        <p class="type-body">Concept, calculation and specification for architectural and retail interiors.</p>
+      </article>
+      <article class="agustos-card">
+        <h3 class="type-h3">Sourcing</h3>
+        <p class="type-body">European manufacturers, matched to the specification rather than to stock.</p>
+      </article>
+      <article class="agustos-card">
+        <h3 class="type-h3">Supply</h3>
+        <p class="type-body">Held stock, customs and site delivery on the project schedule.</p>
+      </article>
+    </div>
+  </section>
 </article>
+
+<section class="agustos-cta-band" id="close" aria-labelledby="close-title">
+  <div class="container">
+    <h2 id="close-title" class="type-h2">Need a specifier on the project.</h2>
+    <p class="type-hero-deck">Send the brief. We return a specification or a source.</p>
+    <div class="hero-actions">
+      <%= link_to "Start a project", "#close", class: "hero-action hero-action--primary" %>
+      <%= link_to "See specified work", "#practice", class: "hero-action hero-action--secondary" %>
+    </div>
+  </div>
+</section>

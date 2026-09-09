@@ -1,4 +1,4 @@
-# Ağustos Rails Adapter v3.0.0
+# Ağustos Rails Adapter v5.0.1
 
 Plain-ERB, Hotwire-compatible implementation of the Ağustos Design System. The
 adapter matches the Astro topbar/footer grammar without depending on Astro or a
@@ -19,9 +19,12 @@ app/views/agustos/shared/
 app/javascript/controllers/agustos_*_controller.js
 ```
 
-Import the two stylesheets and register the three Stimulus controllers using the
-same mechanism as the host application. The live search option requires Turbo;
-navigation and theme remain ordinary HTML controls enhanced by Stimulus.
+Import `agustos/tokens` and `agustos/components`. Product pages also load
+`agustos/product` when `shell: :product`. Register the Stimulus controllers
+using the same mechanism as the host application. Load fonts first. Copy
+`ui/agustos-fonts.css` and `ui/fonts/` (or install the `@fontsource-variable`
+packages). The live search option requires Turbo. Navigation and theme remain
+ordinary HTML controls enhanced by Stimulus.
 
 Use the layout from a controller:
 
@@ -30,6 +33,14 @@ class ApplicationController < ActionController::Base
   layout "agustos"
 end
 ```
+
+Static previews (no Rails process). Serve from the repository root so font files resolve:
+
+```bash
+python3 -m http.server 4332
+```
+
+Then open `/adapters/rails/preview/marketing.html` and `/adapters/rails/preview/product-ui.html`.
 
 ## Chrome Configuration
 
@@ -46,14 +57,15 @@ before_action do
       { label: "Products", href: products_path },
       { label: "About", href: about_path }
     ],
-    cta: { label: "Contact", href: contact_path },
+    cta: { label: "Request pricing", href: contact_path },
     language_switch: { code: "TR", label: "Türkçe", href: tr_root_path },
     search: { url: search_path, param: :q },
     footer: {
       description: "Pataraz · project-grade lighting",
       columns: [
         { heading: "Company", links: [{ label: "About", href: about_path }] }
-      ]
+      ],
+      cta: { label: "Contact", href: contact_path }
     }
   )
 end
@@ -63,6 +75,32 @@ end
 and `external: true`; external links receive `_blank` plus
 `noopener noreferrer`. Active navigation uses exact matching for `/` and prefix
 matching for nested sections.
+
+Marketing headers do not include a theme toggle. Product UI uses a separate
+app shell (`shell: :product`). It ships on white paper with an opt-in dark
+control in the sidebar:
+
+```ruby
+agustos_theme(
+  brand: :iesdesk,
+  shell: :product,
+  theme: true
+)
+```
+
+## Composition
+
+Name one committing destination per page. That destination may appear in the
+header, the opening, and one closing cream band. Do not put a primary button in
+intervening sections. Footer Contact is separate chrome.
+
+Photographs roll out in this order: product page, listing thumbnail, homepage
+installation. Type-only pages stay complete. Quotes belong on content pages
+only. Marketing uses a compact trust line.
+
+See `app/views/agustos/examples/show.html.erb` for marketing and
+`app/views/agustos/examples/product.html.erb` for the IESDesk validation-run
+product UI. Product UI does not use the marketing header or footer.
 
 ## Turbo Search Contract
 
