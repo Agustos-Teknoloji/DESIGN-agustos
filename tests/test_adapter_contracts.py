@@ -41,6 +41,8 @@ class AdapterContractTest(unittest.TestCase):
         self.assertIn('<header class="site-header">', header)
         self.assertIn("aria-current={isCurrent(item.href) ? 'page' : undefined}", header)
         self.assertIn('class="site-header__bar site-frame"', header)
+        self.assertIn("config.theme === true", header)
+        self.assertIn("agustos-button agustos-button--primary site-header__cta", header)
         self.assertIn("@media (max-width: 1023px)", header)
         self.assertIn("(max-width: 1366px) and (hover: none) and (pointer: coarse)", header)
 

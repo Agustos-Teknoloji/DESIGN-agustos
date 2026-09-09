@@ -18,7 +18,7 @@ const defaults = SEARCH_LABELS[locale];
 const searchConfig = config.search === false ? false : (typeof config.search === 'object' ? config.search : {});
 const searchLabels: SearchLabels = { ...defaults, ...(searchConfig === false ? {} : searchConfig.labels) };
 const searchEnabled = searchConfig !== false;
-const themeEnabled = config.theme !== false;
+const themeEnabled = config.theme === true;
 const hasUtility = Boolean(config.languageSwitch || themeEnabled);
 
 const defaultNav: ChromeLink[] = [
@@ -30,7 +30,7 @@ const defaultNav: ChromeLink[] = [
 const nav = config.nav ?? defaultNav;
 const homeHref = config.homeHref ?? '/';
 const cta = config.cta === undefined
-  ? { href: '/about', label: 'Contact' }
+  ? { href: '/about', label: 'Start a project' }
   : config.cta;
 
 const idSuffix = locale;
@@ -41,7 +41,7 @@ function isCurrent(href: string): boolean {
 ---
 <header class="site-header">
   <div class="site-header__bar site-frame">
-    <BrandLockup brandname={brandname} href={homeHref} size={22} />
+    <BrandLockup brandname={brandname} href={homeHref} size={26} />
 
     <div id="site-header-panel" class="site-header__panel">
       <nav class="site-header__nav" aria-label="Primary">
@@ -63,7 +63,7 @@ function isCurrent(href: string): boolean {
         {cta && (
           <a
             href={cta.href}
-            class="site-header__cta"
+            class="agustos-button agustos-button--primary site-header__cta"
             aria-label={cta.ariaLabel}
             target={cta.external ? '_blank' : undefined}
             rel={cta.external ? 'noopener noreferrer' : undefined}
@@ -72,7 +72,7 @@ function isCurrent(href: string): boolean {
       </div>
     </div>
 
-    <HeaderUtility className="site-header__utility--bar" languageSwitch={config.languageSwitch} theme={themeEnabled} />
+    {hasUtility && <HeaderUtility className="site-header__utility--bar" languageSwitch={config.languageSwitch} theme={themeEnabled} />}
     <button type="button" class="site-header__burger" aria-label="Open navigation" aria-controls="site-header-panel" aria-expanded="false" data-nav-toggle>
       <span class="site-header__burger-bar"></span>
       <span class="site-header__burger-bar"></span>
@@ -125,24 +125,7 @@ function isCurrent(href: string): boolean {
     justify-self: end;
     gap: 22px;
   }
-  .site-header__cta {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 44px;
-    padding: 0 20px;
-    background: var(--ink);
-    border-radius: var(--radius-md);
-    color: var(--paper);
-    font-family: var(--display);
-    font-size: 15px;
-    font-weight: 600;
-    text-decoration: none;
-    white-space: nowrap;
-    transition: background var(--dur) var(--ease);
-  }
-  .site-header__cta:hover { background: var(--ink); }
-  .site-header__cta:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+  .site-header__cta { margin-left: var(--space-sm); }
 
   :global(.site-header__search-group + .site-header__search-group) { margin-top: 0.35rem; padding-top: 0.35rem; border-top: 1px solid var(--rule); }
   :global(.site-header__search-heading) {

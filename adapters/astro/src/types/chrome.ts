@@ -26,6 +26,7 @@ export interface HeaderConfig {
   nav?: ChromeLink[];
   cta?: ChromeLink | null;
   languageSwitch?: LanguageSwitch | null;
+  /** Product UI only. Marketing chrome omits the theme toggle. */
   theme?: boolean;
   search?: boolean | { labels?: Partial<SearchLabels> };
 }
@@ -39,6 +40,8 @@ export interface FooterColumn {
 export interface FooterConfig {
   description?: string;
   columns?: FooterColumn[];
+  /** Separate chrome action. It does not repeat the page primary CTA. */
+  cta?: ChromeLink | null;
 }
 
 export const SEARCH_LABELS: Record<'en' | 'tr', SearchLabels> = {

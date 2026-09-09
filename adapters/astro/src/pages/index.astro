@@ -1,109 +1,154 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getCollection } from 'astro:content';
 
-const posts = (await getCollection('blog', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 5);
-
-const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+const projects = [
+  {
+    kind: 'Cultural',
+    title: 'A museum, relit',
+    body: 'Gallery-grade tunable white and a concealed track system for a restored Ottoman hall.',
+  },
+  {
+    kind: 'Retail',
+    title: 'Flagship, Nişantaşı',
+    body: 'Accent and ambient layers tuned to the merchandise, commissioned on site.',
+  },
+  {
+    kind: 'Workplace',
+    title: 'HQ, Maslak',
+    body: 'Low-glare UGR<19 office field with daylight-linked dimming throughout.',
+  },
+];
 ---
 <BaseLayout
   title="Ağustos Teknoloji — lighting agency and distribution"
-  description="Architectural lighting specified, sourced and delivered for projects across Türkiye and the Gulf."
+  description="Ağustos Teknoloji designs, specifies, and distributes architectural lighting — from the photometric study to the fixture on site."
+  header={{
+    nav: [
+      { href: '#work', label: 'Work' },
+      { href: '/about', label: 'Services' },
+      { href: '#catalogue', label: 'Catalogue' },
+      { href: '/about', label: 'Studio' },
+    ],
+    cta: { href: '/about', label: 'Contact' },
+    languageSwitch: { href: '/about', label: 'Türkçe', code: 'TR', ariaLabel: 'Türkçe' },
+  }}
+  footer={{
+    description: 'Ağustos Teknoloji · architectural lighting, agency & distribution · İstanbul, Türkiye.',
+    columns: [
+      {
+        heading: 'Work',
+        links: [
+          { href: '#work', label: 'Projects' },
+          { href: '/about', label: 'Sectors' },
+          { href: '/about', label: 'Process' },
+        ],
+      },
+      {
+        heading: 'Trade',
+        links: [
+          { href: '#catalogue', label: 'Catalogue' },
+          { href: '/about', label: 'IES files' },
+          { href: '/about', label: 'Become a partner' },
+        ],
+      },
+      {
+        heading: 'Studio',
+        links: [
+          { href: '/about', label: 'About' },
+          { href: '/blog', label: 'Writing' },
+          { href: '/typography', label: 'Typography' },
+          { href: 'https://github.com/Agustos-Teknoloji/DESIGN-agustos/blob/main/DESIGN.md', label: 'Design spec', external: true },
+        ],
+      },
+    ],
+    cta: { href: '/about', label: 'Contact' },
+  }}
 >
   <article>
-    <section class="container hero-opening" aria-labelledby="hero-title">
-      <h1 id="hero-title" class="type-hero">Light, specified.</h1>
-      <p class="type-hero-deck">Architectural lighting specified, sourced and delivered for projects across Türkiye and the Gulf. We work alongside architects and lighting designers, from concept calculation to the luminaire on site.</p>
-      <div class="hero-actions">
-        <a class="hero-action hero-action--primary" href="/about">Start a project</a>
-        <a class="hero-action hero-action--secondary" href="/blog">See specified work</a>
+    <header class="container wk-hero">
+      <h1 class="type-hero-md wk-hero__headline">Light, placed with intent.</h1>
+      <p class="type-hero-deck">Ağustos Teknoloji designs, specifies, and distributes architectural lighting — from the photometric study to the fixture on site.</p>
+      <div class="hero-links">
+        <a class="type-link hero-link hero-link--primary" href="#work">See selected work</a>
+        <a class="type-link hero-link hero-link--primary" href="#catalogue">Browse the catalogue</a>
+        <a class="type-link hero-link hero-link--secondary" href="/about">Talk to the studio</a>
       </div>
-    </section>
+      <p class="hero-trust">2009–2026 · 240+ projects across Türkiye · partner to leading European luminaire makers</p>
+    </header>
 
-    <section class="agustos-band" aria-labelledby="numbers-title">
-      <div class="container agustos-band__inner">
-        <h2 id="numbers-title" class="type-h2">Numbers</h2>
-        <div class="stat-row">
-          <div class="stat-row__item">
-            <div class="stat-row__value">2009</div>
-            <div class="type-h4">Founded</div>
-          </div>
-          <div class="stat-row__item">
-            <div class="stat-row__value">240+</div>
-            <div class="type-h4">Projects delivered</div>
-          </div>
-          <div class="stat-row__item">
-            <div class="stat-row__value">11</div>
-            <div class="type-h4">Countries supplied</div>
-          </div>
-          <div class="stat-row__item">
-            <div class="stat-row__value">38</div>
-            <div class="type-h4">Manufacturers represented</div>
-          </div>
-        </div>
+    <section class="container wk-section" id="work" aria-labelledby="work-title">
+      <div class="wk-section__head">
+        <h2 id="work-title" class="type-h2">Selected work</h2>
+        <a class="type-link" href="#work">All projects</a>
       </div>
-    </section>
-
-    <section class="container agustos-section" aria-labelledby="practice-title">
-      <h2 id="practice-title" class="type-h2">What we do</h2>
       <div class="agustos-card-grid">
-        <article class="agustos-card">
-          <h3 class="type-h3">Lighting design</h3>
-          <p class="type-body">Concept, calculation and specification for architectural and retail interiors.</p>
-        </article>
-        <article class="agustos-card">
-          <h3 class="type-h3">Sourcing</h3>
-          <p class="type-body">European manufacturers, matched to the specification rather than to stock.</p>
-        </article>
-        <article class="agustos-card">
-          <h3 class="type-h3">Supply</h3>
-          <p class="type-body">Held stock, customs and site delivery on the project schedule.</p>
-        </article>
-      </div>
-    </section>
-
-    <section class="container agustos-section" aria-labelledby="writing-title">
-      <div class="agustos-section__head">
-        <h2 id="writing-title" class="type-h2">Recent writing</h2>
-        <a class="type-link" href="/blog">All writing</a>
-      </div>
-      <ul class="post-list">
-        {posts.map((post) => (
-          <li>
-            <a class="agustos-chrome-link" href={`/blog/${post.id}`} lang={post.data.lang}>{post.data.title}</a>
-            <span class="post-list__date type-footnote">{fmt.format(post.data.date)}</span>
-            {post.data.deck && <p class="type-body post-list__deck"><em>{post.data.deck}</em></p>}
-          </li>
+        {projects.map((project, index) => (
+          <article class:list={['agustos-card', { 'agustos-card--marked': index === 0 }]}>
+            <p class="type-h4">{project.kind}</p>
+            <h3 class="type-h3">{project.title}</h3>
+            <p class="type-body">{project.body}</p>
+          </article>
         ))}
-      </ul>
+      </div>
     </section>
   </article>
+
+  <section class="cta-band" id="catalogue" aria-labelledby="band-title">
+    <div class="container cta-band__split">
+      <h2 id="band-title" class="type-h2">One symbol, forever.</h2>
+      <div class="cta-band__aside">
+        <p class="type-body">Every project ships with its photometric study, IES files, and a commissioning report. The work is documented as carefully as it is designed.</p>
+        <div class="hero-actions">
+          <a class="agustos-button agustos-button--primary" href="/about">Request pricing</a>
+          <a class="type-link" href="/about">Download a sample dossier</a>
+        </div>
+      </div>
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
-  .post-list { list-style: none; padding-left: 0; }
-  .post-list li { padding: 1rem 0; border-bottom: 1px solid var(--rule); }
-  .post-list li:last-child { border-bottom: 0; }
-  .post-list__date { display: block; margin-top: 0.25em; }
-  .post-list__deck { margin-top: 0.5em; color: var(--ink-soft); }
-  .hero-opening { padding-top: var(--space-5xl); padding-bottom: var(--space-5xl); }
-  .agustos-band {
+  .wk-hero {
+    padding-top: var(--space-4xl);
+    padding-bottom: var(--space-5xl);
+    border-bottom: 1px solid var(--rule);
+  }
+  .wk-hero__headline { max-width: 18ch; }
+  .wk-hero .type-hero-deck { color: var(--ink-soft); margin: 0; }
+  .wk-section { padding-block: var(--space-5xl); }
+  .wk-section__head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-xl);
+    margin-bottom: var(--space-2xl);
+  }
+  .wk-section__head .type-h2 { margin: 0; }
+  .agustos-card .type-h4,
+  .agustos-card .type-h3,
+  .agustos-card .type-body { margin: 0; }
+  .cta-band {
     background: var(--cream);
     border-top: 1px solid var(--rule);
     border-bottom: 1px solid var(--rule);
   }
-  .agustos-band__inner { padding-block: 32px; }
-  .stat-row { display: flex; flex-wrap: wrap; gap: 8px 32px; margin-top: 20px; }
-  .stat-row__item { flex: 1 1 160px; display: flex; flex-direction: column; gap: 6px; }
-  .stat-row__value {
-    font-family: var(--display);
-    font-size: 36px;
-    font-weight: 400;
-    letter-spacing: -0.03em;
-    font-variant-numeric: tabular-nums;
-    line-height: 1;
-    color: var(--ink);
+  .cta-band .container { padding-block: var(--space-5xl); }
+  .cta-band__split {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: var(--space-3xl);
+    align-items: start;
+  }
+  .cta-band .type-h2 { margin: 0; max-width: 20ch; }
+  .cta-band__aside {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
+    max-width: 46ch;
+  }
+  .cta-band__aside .type-body { margin: 0; color: var(--ink-soft); }
+  .cta-band .hero-actions { margin: 0; }
+  @media (max-width: 760px) {
+    .cta-band__split { grid-template-columns: 1fr; }
   }
 </style>

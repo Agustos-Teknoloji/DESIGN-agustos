@@ -51,7 +51,7 @@ lang: tr
 - `iyi günler` → İngilizce varsayımıyla `IYI GÜNLER` (yanlış)
 - `iyi günler` → `lang="tr"` ile `İYİ GÜNLER` (doğru)
 
-Eyebrow etiketleri, marka isimleri, tablo başlıkları, H4 sınıfı; bunların hepsi büyük harf taşır. Yerel ayarı doğru yapmadığınız sürece her biri sessizce yanlış Türkçe üretir.
+H4 etiketleri cümle halinde kalır; sistem büyük harf etiket kullanmaz. Yine de `text-transform` veya tarayıcı başlıklandırması Türkçe metni büyüttüğünde `lang="tr"` olmadan `i` yanlış `I` olur. Yerel ayarı doğru yapmadığınız sürece hata sessizce üretilir.
 
 ---
 

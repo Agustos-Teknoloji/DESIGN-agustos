@@ -7,7 +7,7 @@ interface Props {
   theme?: boolean;
 }
 
-const { className, languageSwitch, theme = true } = Astro.props;
+const { className, languageSwitch, theme = false } = Astro.props;
 ---
 <div class:list={['site-header__utility', className]}>
   {languageSwitch && (
@@ -17,7 +17,7 @@ const { className, languageSwitch, theme = true } = Astro.props;
       aria-label={languageSwitch.ariaLabel ?? languageSwitch.label}
       target={languageSwitch.external ? '_blank' : undefined}
       rel={languageSwitch.external ? 'noopener noreferrer' : undefined}
-    >{languageSwitch.code}</a>
+    >{languageSwitch.label}</a>
   )}
 
   {theme && (
