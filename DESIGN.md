@@ -1,8 +1,8 @@
 # Ağustos Design System
 
-**Version 5.0.0** · Cross-medium design system for Emre Güneş's brand portfolio
+**Version 5.0.1** · Cross-medium design system for Emre Güneş's brand portfolio
 **Last updated:** September 8, 2026
-**Status:** White-substrate visual direction and locked dark theme applied to the registry, kit, and adapters
+**Status:** White-substrate palette, locked dark theme, and website composition rules applied to the registry, kit, and adapters
 
 ## Standard artifacts
 
@@ -57,6 +57,10 @@ Keep the experience welcoming and easy to use.
 - Use one 1180px alignment frame with 32px gutters. Scale type with `clamp()`. Wrap card rows with flex, not fixed-column grids.
 - Keep forms and technical content easy to scan. Preserve contrast, keyboard focus, and reduced-motion behavior.
 - Use authentic photographs only when they explain people, places, products, or work.
+- Repeat the same primary CTA at most twice in the page body: the opening and one closing cream band. The header may carry it once.
+- Ship marketing, catalog, and spec pages on white paper. Reserve dark theme for product UI.
+- Introduce photographs in this order: product page, listing thumbnail, then homepage installation.
+- Use blockquote and pullquote on content pages only.
 - Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings.
 
 ### Imagery
@@ -66,6 +70,17 @@ Use images when they explain the content.
 Keep text, tables, and controls on plain surfaces.
 Use shadows only when they clarify layering.
 Avoid unrelated lifestyle imagery, inflated luxury claims, excessive whitespace, and forced friendliness.
+
+Type-only pages are complete. A gray well may mark a reserved photo slot.
+Roll photographs out in this order:
+
+1. Product page: one product photograph or drawing. Preserve the real finish. No lifestyle crop.
+2. Listing: the same product crop as a thumbnail, after the product photograph exists.
+3. Homepage: one installation photograph, after listing thumbnails exist, and only when it shows a real place or the work.
+4. About and content pages: people and places that explain the work.
+
+Do not put a photograph behind body text, forms, or tables.
+Do not fill every card with an image.
 
 ### Cross-medium application
 
@@ -81,6 +96,50 @@ Every medium must remain clear and useful.
 The generator publishes it in the handoff, resolved registry, and UI kit.
 Version 5 applies the approved white-substrate palette, type scale, action system, layout measure, and locked dark theme.
 The dark theme reuses the same six colours, flipped. No new hexes.
+Marketing pages stay light. Dark theme is for product UI.
+
+## Website composition
+
+These four rules close the remaining website application questions.
+They apply to every house-brand site.
+
+### Primary CTA
+
+Name one committing destination per page.
+That destination may appear:
+
+1. Once in the header, as chrome.
+2. Once in the opening (hero or page title band).
+3. Once in a closing cream band.
+
+Do not place a primary button in intervening sections, cards, or lists.
+A CTA pair is always filled plus outline. Never two filled buttons in one band.
+Form submits (Show matches, Send) are task actions. They do not count as the page primary.
+Footer Contact is a separate chrome action. It does not repeat the page primary.
+In-prose links with a 2px red rule are not primary CTAs.
+
+### Dark theme
+
+Marketing pages, product catalog pages, and spec sheets ship on white paper.
+They do not include a theme toggle.
+Dark theme is for product UI (IESDesk and similar tools) and honors user preference there.
+Use the locked six-colour flip: paper `#15130f`, surface `#404040`, callout `#ebebeb`, ink `#ffffff`, ink-soft `#8a8378`.
+The primary CTA on dark is filled red. The secondary is filled white.
+The handbook dark control inspects that theme. It is not a marketing pattern.
+Do not design a dark-first marketing page.
+Do not place photography on a dark marketing hero.
+
+### Photography
+
+See Imagery above for the rollout order.
+Product pages earn the first real photograph.
+Until that photograph exists, keep the gray well and ship the page.
+
+### Quotes
+
+`.type-blockquote` and `.type-pullquote` appear on content pages only: articles, interviews, notes, and case studies.
+Marketing, listing, product, and spec pages do not use quote treatments.
+Proof on a marketing page is a compact trust line, not a testimonial.
 
 ## System philosophy
 
@@ -316,6 +375,7 @@ Recommended order:
 Do not make the hero headline itself the call to action. Headline links create an oversized underline and confuse hierarchy: the statement starts behaving like a button. Keep the title as ink-on-paper; put navigation in the action row.
 
 CTA philosophy for the homepage is **filled + outline buttons**. A content link with a 2px red rule is the in-prose action, not the band-level commit. Do not use arrows.
+The same primary destination may appear in the header, the opening, and one closing cream band. Not elsewhere on the page.
 
 Hero component styles are web/component utilities, not typography tokens. Homepage hero actions are the shared button system. `.hero-link` remains available as the in-prose red-ruled link. `.hero-trust` and `.hero-visual` belong to hero sections only:
 
@@ -362,8 +422,8 @@ Actions are links, not generic buttons. In the homepage hero they should not loo
 
 | Token | Size | Family | Notes |
 |---|---|---|---|
-| `.type-blockquote` | 22px / lh 1.35 | Display italic | Border-left 2px ink. `cite` is display, sentence case, ink-faint. |
-| `.type-pullquote` | 26px / lh 1.22 | Display | Borders top + bottom. Opening curly quote in ink. |
+| `.type-blockquote` | 22px / lh 1.35 | Display italic | Border-left 2px ink. `cite` is display, sentence case, ink-faint. Content pages only. |
+| `.type-pullquote` | 26px / lh 1.22 | Display | Borders top + bottom. Opening curly quote in ink. Content pages only. |
 | `.type-list-ol` | 16.5px / lh 1.65 | Body | Markers in ink. |
 | `.type-list-ul` | 16.5px / lh 1.65 | Body | Markers in ink. |
 | `.type-dl` | 16px | Body | dt at 600 weight, dd at 400 weight in ink-soft. |
@@ -637,7 +697,7 @@ Accessibility is part of the design system, not an implementation afterthought. 
 
 - Transitions should be short and functional (150ms, `cubic-bezier(0.2, 0, 0, 1)`).
 - Do not encode meaning in color alone. Links use both weight and underline; active navigation uses position, text, and state, not just color.
-- Dark theme is allowed as an opt-in implementation layer. It must preserve the same six colour roles, flipped: paper, surface, cream/callout, ink, ink-soft, and shared signal.
+- Dark theme is allowed as an opt-in layer for product UI. It must preserve the same six colour roles, flipped: paper, surface, cream/callout, ink, ink-soft, and shared signal. Marketing pages stay light.
 
 ---
 
@@ -673,11 +733,12 @@ Key-figure tiles, image regions, and summary panels.
 
 A single CSS variable swap still flips dark theme. Cream is not a third page substrate.
 
-### Dark `#15130f` (opt-in; locked)
+### Dark `#15130f` (product UI; locked)
 
 Same six colours, flipped. Paper `#15130f`, surface `#404040`, callout band `#ebebeb`, ink `#ffffff`, ink-soft `#8a8378`, red unchanged.
-The primary CTA on a dark hero is filled red. The secondary is filled white.
+The primary CTA on dark is filled red. The secondary is filled white.
 The footer stays off-black in both themes.
+Marketing, catalog, and spec pages stay on white paper. They do not include a theme toggle.
 
 ---
 
@@ -741,7 +802,7 @@ Current non-token utilities:
 | Utility | Role |
 |---|---|
 | `.paper-white` | Compatibility class. White is already the default paper. |
-| `html[data-theme="dark"]` | Optional dark theme. Same six colours, flipped. Paper `#15130f`, surface `#404040`, callout `#ebebeb`, ink `#ffffff`, ink-soft `#8a8378`. Primary CTA is filled red. |
+| `html[data-theme="dark"]` | Product-UI dark theme. Same six colours, flipped. Paper `#15130f`, surface `#404040`, callout `#ebebeb`, ink `#ffffff`, ink-soft `#8a8378`. Primary CTA is filled red. Marketing pages do not set this. |
 | `.site-frame` | Shared site-chrome frame: 1180px content measure plus 32px gutters. |
 | `.container` | The same frame geometry plus default vertical page padding. |
 | `.hero-actions`, `.hero-action*` | Shared button system. Filled black + outline. |
@@ -784,7 +845,8 @@ v3 has one web-chrome pattern, derived from agustos.com production build
 sidebar and separate mobile header are retired.
 
 The header uses a brand lockup, configurable navigation, optional CTA, optional
-language-route link, theme toggle, and search. Desktop search opens a dropdown
+language-route link, and search. Marketing headers do not include a theme toggle.
+Product UI may add a theme control that sets `html[data-theme="dark"]`. Desktop search opens a dropdown
 inside the shared frame. At `1023px` and below, and on touch-first devices up to
 `1366px`, navigation becomes a right-hand drawer while search remains in a
 persistent row below the topbar. Button-like controls are at least 44px. The
@@ -857,7 +919,7 @@ Run this checklist before calling a system change complete:
 3. Test Turkish uppercase with `lang="tr"` on H4/table-header-style text: `başlık`, `i`, and `ışık` must uppercase correctly.
 4. Check cream, white, light gray, and dark substrates.
 5. Check red Ağustos and black house-brand lockups separately; verify shared-red link, focus, and marker behavior under every brand class.
-6. Test keyboard navigation: skip link, header nav, search results, language controls, theme toggle, hero links, and boxed actions.
+6. Test keyboard navigation: skip link, header nav, search results, language controls, hero links, and boxed actions. On product UI, also test the theme control.
 7. Verify the desktop dropdown, responsive search row, drawer/backdrop/Escape behavior, 44px controls, and 16px responsive input.
 8. Verify mobile and desktop widths; text must not overlap, clip, or force horizontal scrolling except inside code blocks and wide tables.
 9. Run `python3 scripts/build_design_system.py --check`; generated hashes must be current.

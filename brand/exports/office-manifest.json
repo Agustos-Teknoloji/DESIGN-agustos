@@ -10,7 +10,7 @@
     "brand/exports/pld/office/pld-letterhead.docx": "209089b0b28c5a590b76c0e267935131d93ef60d9d32897e22dc115871a644bd",
     "brand/exports/pld/office/pld-template.pptx": "eee20dcd1628a5666282c64aedfff7d6b69ab40773845f918dc26aef6a3a87f4"
   },
-  "source_sha256": "f44959fb891e2dc0f68aade39945804338ad2b4edd57aefd62db6f9594dcf929",
+  "source_sha256": "24fbb1ff76d4099383cc2875c3d0067a0589ed6b0df1954b8793d7845de9e4ac",
   "system": "Ağustos Design System",
-  "version": "5.0.0"
+  "version": "5.0.1"
 }

@@ -1,15 +1,15 @@
 # Design application handoff
 
 Date: 2026-09-08
-Design system version: 5.0.0
-Status: White-substrate visual direction and locked dark theme applied. Share the five artifacts. Do not regenerate the factory.
+Design system version: 5.0.1
+Status: White-substrate palette, locked dark theme, and website composition rules applied. Share the five artifacts. Do not regenerate the factory.
 
 Open these five artifacts first:
 
 1. `DESIGN.md` — direction, colour, type, brands, principles.
 2. `docs/fonts.html`
 3. `docs/colour.html`
-4. `docs/web.html` — header, footer, homepage, listing, finder, product page, spec sheet. Dark theme included.
+4. `docs/web.html` — header, footer, homepage, listing, finder, product page, spec sheet, content note. Marketing stays light.
 5. `docs/brands.html`
 
 White paper, light gray `#ebebeb`, cream callout bands. Shared red is a 2px rule, not a fill, except the dark primary CTA.
@@ -36,7 +36,7 @@ From this repository:
 python3 scripts/pack_handoff.py
 ```
 
-That writes `dist/agustos-ui-handoff-v5.0.0.zip`.
+That writes `dist/agustos-ui-handoff-v5.0.1.zip`.
 The zip holds the five artifacts, the kit, and lockup SVGs.
 It does not hold generators, adapters, Office files, or decision history.
 
@@ -50,7 +50,11 @@ If you already opened the slim zip, skip packing. Start at Apply to a website.
 2. Paste `vendor/agustos-ui/AGENTS-SNIPPET.md` into that project's `AGENTS.md`.
 3. Load fonts first, then the stylesheet. Put a `brand-*` class on `<body>`.
 4. Use white paper, cream bands, filled-plus-outline buttons, and one H2 role. Dark theme uses the same six colours, flipped.
-5. Run `python3 vendor/agustos-ui/check-agustos-ui.py .` and make it exit 0.
+5. Repeat the same primary CTA only in the opening and one closing cream band. The header may carry it once.
+6. Keep marketing, catalog, and spec pages light. Do not add a theme toggle there.
+7. Put photographs on product pages first. Leave listing and homepage type-only until those photos exist.
+8. Use quotes on content pages only.
+9. Run `python3 vendor/agustos-ui/check-agustos-ui.py .` and make it exit 0.
 
 Read `DESIGN.md` and `docs/web.html` before you write markup.
 Keep wordmarks lowercase in Inter Tight 650. Do not add red fills, uppercase labels, arrows, or shadows.
@@ -67,9 +71,9 @@ Then run `python3 scripts/build_design_system.py`.
 Do not rebuild logos, Office files, fonts, or datasheets unless asked.
 Do not copy `.dc.html` markup into this repository.
 
-## Open decisions
+## Locked composition
 
-- How often the primary CTA may repeat on one page.
-- Whether dark ships on marketing pages or is reserved for product UI.
-- Photography rollout.
-- Whether the quote treatment appears on content pages only.
+- Same primary CTA: header once, page body at most twice (opening and one closing cream band).
+- Dark theme ships on product UI. Marketing, catalog, and spec pages stay light. Dark uses the locked six-colour flip.
+- Photographs: product page first, then listing thumbnails, then homepage installation. Type-only pages stay complete.
+- Blockquote and pullquote appear on content pages only.

@@ -75,6 +75,7 @@ def rewrite_handbook_html(html: str) -> str:
 
 def rewrite_setup_html(html: str) -> str:
     """Point kit stylesheets at the zip-root ui/ folder."""
+    ver = version()
     return (
         html.replace('href="agustos-fonts.css"', 'href="ui/agustos-fonts.css"')
         .replace('href="agustos.css"', 'href="ui/agustos.css"')
@@ -82,7 +83,7 @@ def rewrite_setup_html(html: str) -> str:
         .replace('href="../ui/agustos.css"', 'href="ui/agustos.css"')
         .replace('href="../ui/UI-KIT.md"', 'href="ui/UI-KIT.md"')
         .replace("python3 scripts/pack_handoff.py", "this zip is already packed")
-        .replace("dist/agustos-ui-handoff-v5.0.0.zip", "the archive you opened")
+        .replace(f"dist/agustos-ui-handoff-v{ver}.zip", "the archive you opened")
     )
 
 

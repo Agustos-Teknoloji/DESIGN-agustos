@@ -1047,3 +1047,31 @@ with those files, the kit, and lockup SVGs.
 
 **Rejected:** attaching `tokens/design-system-handoff.json` as the default website handoff.
 That file is for new media. On the web it causes a second, drifting stylesheet.
+
+## v5.0.1 — CTA, dark shipping, photography, quotes (2026-09-08)
+
+The white-substrate bundle left four website questions open.
+The mockups already implied answers. This pass locks them so a website agent does not invent a fifth pattern.
+
+**Primary CTA.** The mockup used header, hero, contact band, and a separate footer Contact.
+Repeating a filled button in every section fights the restraint rule against repeated calls to action.
+The lock: the same destination appears in the header once, in the opening once, and in one closing cream band.
+Footer Contact stays a different chrome action. Form submits are task actions, not page primaries.
+
+**Dark on marketing.** White paper is the marketing expression.
+Photography, cream bands, and spec sheets are designed for light. Specifiers print sheets.
+A theme glyph on a catalog does not help the specifier's task.
+Dark ships on product UI (IESDesk and similar tools) and honors user preference there.
+The locked palette is the same six colours, flipped. The primary CTA on dark is filled red.
+The handbook toggle inspects that theme. It is not a marketing pattern.
+
+**Photography.** Warmth can come from real photographs, but pages must work type-only.
+Roll out in this order: product page, listing thumbnail, homepage installation.
+Gray wells mark the slot until the photograph exists.
+Rejected: stock lifestyle, a photo in every card, a photo behind body text.
+
+**Quotes.** The mockup already removed testimonials from marketing pages.
+A pullquote on a homepage reads as forced friendliness.
+Blockquote and pullquote stay on content pages (articles, interviews, notes, case studies).
+Marketing proof is a compact trust line.
+

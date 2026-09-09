@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v5.0.0 · GENERATED ASTRO ADAPTER CSS
+/* AĞUSTOS DESIGN SYSTEM v5.0.1 · GENERATED ASTRO ADAPTER CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -105,8 +105,8 @@
   --rule:  var(--rule-white);
 }
 
-/* Dark theme — opt-in via html[data-theme="dark"]. Same six colours, flipped.
-   Footer variables stay off-black. */
+/* Dark theme — product UI via html[data-theme="dark"]. Same six colours, flipped.
+   Marketing pages stay light. Footer variables stay off-black. */
 html[data-theme="dark"] {
   --paper:        #15130f;
   --paper-white:  #15130f;

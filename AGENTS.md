@@ -19,6 +19,7 @@ Create minimal, functional, and elegant experiences that feel calm, warm, and hu
 Use clear hierarchy, comfortable spacing, white paper, cream callout bands, light gray `#ebebeb`, and direct language.
 Keep the experience welcoming and easy to use.
 Preserve registered logos, fonts, rationed red rules, accessibility, and the locked dark theme.
+Repeat the primary CTA only in the opening and one closing band. Keep marketing light. Put quotes on content pages only.
 Read `ui/UI-KIT.md` for website application rules. The generated contract includes this direction.
 
 ## For finished brand assets — look in this order

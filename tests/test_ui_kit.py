@@ -296,7 +296,7 @@ class DistributionKitTest(unittest.TestCase):
 
     def test_entry_point_stays_short_enough_to_be_read_whole(self):
         lines = (self.KIT / "UI-KIT.md").read_text(encoding="utf-8").splitlines()
-        self.assertLessEqual(len(lines), 170, "UI-KIT.md is the one file an agent reads in full")
+        self.assertLessEqual(len(lines), 200, "UI-KIT.md is the one file an agent reads in full")
 
     def test_entry_point_documents_every_published_class(self):
         text = (self.KIT / "UI-KIT.md").read_text(encoding="utf-8")

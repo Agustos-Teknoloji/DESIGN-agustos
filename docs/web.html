@@ -42,6 +42,10 @@ document.addEventListener("error", function (event) {
   .site-footer__cols { display: flex; flex-wrap: wrap; gap: var(--space-3xl); margin-left: auto; }
   .site-footer__list { list-style: none; margin: 0; padding: 0; }
   .preview-main { padding: var(--space-xl) var(--space-lg) var(--space-3xl); }
+  .cta-band { background: var(--cream); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: var(--space-3xl) var(--space-lg); }
+  .cta-band .type-h2 { margin-top: 0; }
+  .photo-well { background: var(--surface); min-height: 8rem; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-md); }
+  .spec .photo-well { min-height: 12rem; }
   .finder { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: var(--space-md); align-items: end; }
   .spec { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--space-xl); }
   @media (max-width: 720px) { .spec { grid-template-columns: 1fr; } }
@@ -60,7 +64,7 @@ document.addEventListener("error", function (event) {
   </nav>
   <p class="type-h4">Standard artifact 4 of 5</p>
   <h1 class="type-hero-md">Web elements</h1>
-  <p class="type-hero-deck">Header, footer, homepage, listing, finder, product page, and spec sheet. Use the dark theme control to see the same compositions on dark paper. This preview uses the pataraz brand class.</p>
+  <p class="type-hero-deck">Header, footer, homepage, listing, finder, product page, spec sheet, and a content note. Marketing compositions stay light. The dark control inspects product UI. This preview uses the pataraz brand class.</p>
 </div>
 
 <main id="main">
@@ -90,8 +94,8 @@ document.addEventListener("error", function (event) {
         <h1 class="type-hero-md">Architectural luminaires with clear photometric data.</h1>
         <p class="type-hero-deck">Pataraz builds specified lighting for interiors that need accurate output, not atmosphere copy.</p>
         <div class="hero-actions">
-          <a class="agustos-button agustos-button--primary" href="#listing">Browse products</a>
-          <a class="agustos-button agustos-button--secondary" href="#finder">Find a luminaire</a>
+          <a class="agustos-button agustos-button--primary" href="#product">Request pricing</a>
+          <a class="agustos-button agustos-button--secondary" href="#listing">Browse products</a>
         </div>
         <p class="hero-trust">PX and PY families · IES files on every sheet · Specified since 2019</p>
         <div class="agustos-card-grid" style="margin-top:var(--space-3xl)">
@@ -109,6 +113,14 @@ document.addEventListener("error", function (event) {
           </article>
         </div>
       </div>
+      <div class="cta-band">
+        <h2 class="type-h2">Need a layout or a price.</h2>
+        <p class="type-hero-deck">Send the project. We return a substitute or a quote.</p>
+        <div class="hero-actions">
+          <a class="agustos-button agustos-button--primary" href="#product">Request pricing</a>
+          <a class="agustos-button agustos-button--secondary" href="#finder">Find a luminaire</a>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -120,16 +132,19 @@ document.addEventListener("error", function (event) {
         <p class="type-body">Three sizes. Same aperture language. Filter in the finder if you already know the wattage.</p>
         <div class="agustos-card-grid">
           <article class="agustos-card">
+            <div class="photo-well"><p class="type-footnote">Thumbnail after the product photo exists.</p></div>
             <p class="type-h4">PX series</p>
             <h3 class="type-h3"><a class="type-link" href="#product">PX22</a></h3>
             <p class="type-body">22 W adjustable downlight. IP20. 2700–4000 K.</p>
           </article>
           <article class="agustos-card">
+            <div class="photo-well"><p class="type-footnote">Same crop. Empty until then.</p></div>
             <p class="type-h4">PL series</p>
             <h3 class="type-h3">PL22</h3>
             <p class="type-body">Fixed downlight. One tunable SKU.</p>
           </article>
           <article class="agustos-card">
+            <div class="photo-well"><p class="type-footnote">No lifestyle crop.</p></div>
             <p class="type-h4">PY series</p>
             <h3 class="type-h3">PY600600</h3>
             <p class="type-body">600 × 600 mm panel. Office and education.</p>
@@ -183,6 +198,7 @@ document.addEventListener("error", function (event) {
             <button class="agustos-button agustos-button--primary" type="submit">Show matches</button>
             <button class="agustos-button agustos-button--secondary" type="reset">Clear</button>
           </div>
+          <p class="type-footnote">Show matches is a form submit. It does not count as the page primary CTA.</p>
         </form>
       </div>
     </div>
@@ -207,9 +223,26 @@ document.addEventListener("error", function (event) {
             <a class="agustos-button agustos-button--secondary" href="#spec">Download spec sheet</a>
           </div>
         </div>
-        <div class="agustos-card" style="background:var(--surface);min-height:12rem;display:flex;align-items:center;justify-content:center">
-          <p class="type-footnote">Product photograph or drawing. Preserve real finish. No lifestyle crop.</p>
+        <div class="photo-well">
+          <p class="type-footnote">Product photograph or drawing. First real photo in the rollout. Preserve real finish. No lifestyle crop.</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container" id="note">
+    <h2 class="type-h2">Content page</h2>
+    <div class="stage">
+      <div class="preview-main">
+        <p class="type-h4">Note</p>
+        <h1 class="type-h1">What a specifier needs on day one</h1>
+        <p class="type-body">Articles, interviews, and case studies may quote a person. Marketing pages do not. The quote treatment stays here.</p>
+        <blockquote class="type-blockquote">
+          Give me the polar file and a drawing I can dimension. Atmosphere copy can wait.
+          <cite>Project lighting designer, Istanbul</cite>
+        </blockquote>
+        <p class="type-pullquote">The product page is the center of gravity.</p>
+        <p class="type-body">A compact trust line on the homepage is not a quote. Do not promote this treatment to the hero.</p>
       </div>
     </div>
   </section>
@@ -260,6 +293,7 @@ document.addEventListener("error", function (event) {
             <ul class="site-footer__list">
               <li><a class="site-footer__link" href="#finder">Finder</a></li>
               <li><a class="site-footer__link" href="#spec">Spec sheets</a></li>
+              <li><a class="site-footer__link" href="#product">Contact</a></li>
             </ul>
           </nav>
           <a class="agustos-button agustos-button--primary" href="#product">Contact</a>
@@ -271,7 +305,7 @@ document.addEventListener("error", function (event) {
   <section class="container" style="padding-block:var(--space-3xl)">
     <div class="agustos-notice">
       <strong class="agustos-notice__title">Dark theme</strong>
-      Use the control in the top bar. Dark reuses the six colours, flipped. Paper is off-black. Ink is white. The primary CTA is filled red. The footer stays off-black.
+      The control in the top bar inspects product UI. Dark reuses the six colours, flipped. Paper is off-black. Ink is white. The primary CTA is filled red. Marketing, catalog, and spec pages stay light and do not ship a theme toggle.
     </div>
   </section>
 </main>

@@ -64,6 +64,15 @@ class DesignSystemGenerationTest(unittest.TestCase):
             self.assertIn(rule, guide)
         self.assertIn(direction["definition"], outputs[ROOT / "ui" / "AGENTS-SNIPPET.md"])
 
+    def test_page_composition_rules_are_published(self):
+        text = " ".join(self.tokens["designDirection"]["principles"])
+        self.assertIn("primary CTA", text)
+        self.assertIn("product UI", text)
+        self.assertIn("content pages only", text)
+        avoid = " ".join(self.tokens["designDirection"]["avoid"])
+        self.assertIn("theme toggle on marketing chrome", avoid)
+        self.assertIn("Testimonial quotes on marketing pages", avoid)
+
     def test_circular_alias_is_rejected(self):
         tokens = copy.deepcopy(self.tokens)
         tokens["cycle"] = {
