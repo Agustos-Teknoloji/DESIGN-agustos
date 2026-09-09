@@ -26,7 +26,7 @@ Read `ui/UI-KIT.md` for website application rules. The generated contract includ
 
 1. **[ASSETS.md](ASSETS.md)** — the canonical index of every asset file, by category. Check here first.
 2. **`brand/exports/<brand>/`** — ready-to-use, per-brand exported files (logos, favicons, social, docs).
-3. **[DESIGN.md](DESIGN.md)** — the rules/spec. **[MEMORY.md](MEMORY.md)** — why decisions were made
+3. **[DESIGN.md](DESIGN.md)** — the rules/spec. **[archive/MEMORY.md](archive/MEMORY.md)** — why decisions were made
    (read before reversing one). **[brand/README.md](brand/README.md)** — how to regenerate or add a brand.
 
 ## Coding-agent workflow — keep context small
@@ -47,7 +47,7 @@ task, then read only the relevant files:
 
 For consumer projects, treat `ui/`, `tokens/design-system-handoff.json`, and files under
 `brand/exports/` as ready-to-use inputs; do not regenerate this repository. A project that builds
-web interfaces needs `ui/UI-KIT.md` and nothing else — it contains the complete interface contract. Read `MEMORY.md` only when changing a source
+web interfaces needs `ui/UI-KIT.md` and nothing else — it contains the complete interface contract. Read `archive/MEMORY.md` only when changing a source
 decision or proposing a reversal. After an everyday source change, run `python3 scripts/build_design_system.py` and the unit tests. Do not run
 `brand/build.py`, `brand/build_templates.py`, `scripts/build_ui_fonts.py`, or `brand/build_datasheet.py` unless the user asks for a full rebuild.
 
