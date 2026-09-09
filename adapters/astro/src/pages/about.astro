@@ -4,10 +4,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 <BaseLayout
   title="About — Ağustos Teknoloji"
   description="The publisher's house, the brand portfolio, and the rules that hold them together."
+  header={{ cta: { href: '/about', label: 'Start a project' } }}
 >
   <article class="container">
     <h1 class="type-h1">From the publisher's house</h1>
-    <p class="type-body"><em>One symbol, five brands, and a typography that survives translation.</em></p>
+    <p class="type-hero-deck">One symbol, five brands, and a typography that survives translation.</p>
 
     <p class="type-body">
       Ağustos is the parent. Beneath it sit a luminaire brand at mid-tier pricing,
@@ -20,19 +21,19 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 
     <dl class="type-dl">
       <dt>Ağustos Teknoloji</dt>
-      <dd>Lighting agency and distribution. Red identity ink <code>#cf142a</code>.</dd>
+      <dd>Lighting agency and distribution. Red identity ink.</dd>
 
       <dt>Pataraz</dt>
-      <dd>Premium luminaire brand at mid-tier pricing. Neutral identity ink <code>#15130f</code>.</dd>
+      <dd>Premium luminaire brand at mid-tier pricing. Off-black identity ink.</dd>
 
       <dt>PLD Türkiye</dt>
-      <dd>Lighting publication archive. Neutral identity ink <code>#15130f</code>.</dd>
+      <dd>Lighting publication archive. Off-black identity ink.</dd>
 
       <dt>IESDesk</dt>
-      <dd>Software for working with lighting data. Neutral identity ink <code>#15130f</code>.</dd>
+      <dd>Software for working with lighting data. Off-black identity ink.</dd>
 
       <dt>SpecQuick</dt>
-      <dd>House brand. Neutral identity ink <code>#15130f</code>.</dd>
+      <dd>House brand. Off-black identity ink.</dd>
     </dl>
 
     <h2 class="type-h2">Six rules</h2>
@@ -47,8 +48,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     </ol>
 
     <p class="type-body">
-      The full specification lives in <a href="https://github.com/" target="_blank" rel="noreferrer">DESIGN.md</a>,
-      with the reasoning recorded in MEMORY.md. This site is its first implementation.
+      The full specification lives in
+      <a href="https://github.com/Agustos-Teknoloji/DESIGN-agustos/blob/main/DESIGN.md">DESIGN.md</a>,
+      with the reasoning recorded in archive/MEMORY.md. This site is its first implementation.
     </p>
   </article>
 </BaseLayout>

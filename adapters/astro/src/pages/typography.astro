@@ -4,27 +4,33 @@ import BrandLockup from '../components/BrandLockup.astro';
 
 // Brand-switcher demo data
 const brands = [
-  { id: 'agustos',   name: 'Ağustos',     hex: '#cf142a' },
-  { id: 'pataraz',   name: 'Pataraz',     hex: '#15130f' },
-  { id: 'pld',       name: 'PLD Türkiye', hex: '#15130f' },
-  { id: 'iesdesk',   name: 'IESDesk',     hex: '#15130f' },
-  { id: 'specquick', name: 'SpecQuick',   hex: '#15130f' },
+  { id: 'agustos',   name: 'Ağustos' },
+  { id: 'pataraz',   name: 'Pataraz' },
+  { id: 'pld',       name: 'PLD Türkiye' },
+  { id: 'iesdesk',   name: 'IESDesk' },
+  { id: 'specquick', name: 'SpecQuick' },
 ] as const;
 
 // Per-brand wordmark mapping (matches BaseLayout's BRAND_WORDMARKS).
 const portfolio = [
-  { brand: 'agustos',   wordmark: 'ağustos',     swatch: '#cf142a' },
-  { brand: 'pataraz',   wordmark: 'pataraz',     swatch: '#15130f' },
-  { brand: 'pld',       wordmark: 'pld türkiye', swatch: '#15130f' },
-  { brand: 'iesdesk',   wordmark: 'iesdesk',     swatch: '#15130f' },
-  { brand: 'specquick', wordmark: 'specquick',   swatch: '#15130f' },
+  { brand: 'agustos',   wordmark: 'ağustos' },
+  { brand: 'pataraz',   wordmark: 'pataraz' },
+  { brand: 'pld',       wordmark: 'pld türkiye' },
+  { brand: 'iesdesk',   wordmark: 'iesdesk' },
+  { brand: 'specquick', wordmark: 'specquick' },
 ] as const;
 ---
 <BaseLayout
-  title="Typography showcase — Ağustos Design System v3"
-  description="Every one of the 24 tokens, exercised on one page."
+  title="Typography showcase — Ağustos Design System v5.0.1"
+  description="Every published type token, exercised on one page."
 >
   <article class="container">
+    <p class="type-h4">Handbook inspect</p>
+    <p class="type-body">This page is a type showcase, not marketing chrome. The control inspects product-UI dark. Marketing pages do not ship a theme toggle.</p>
+    <p>
+      <button class="agustos-button agustos-button--secondary" type="button" id="theme-inspect">Dark theme</button>
+    </p>
+
     {/* ---- Hero showcase ---- */}
     <section style="margin-bottom: 4rem;">
       <p class="type-h4" style="margin-bottom: 1.5rem;">v5 · Hero · type-hero</p>
@@ -47,8 +53,8 @@ const portfolio = [
     <h4 class="type-h4">Brand</h4>
     <div class="switcher" role="tablist" aria-label="Brand">
       {brands.map((b) => (
-        <button data-brand={b.id} type="button" class="switcher__btn">
-          <span class="switcher__swatch" style={`background:${b.hex}`}></span>
+        <button data-brand={b.id} type="button" class={`switcher__btn brand-${b.id}`}>
+          <span class="switcher__swatch"></span>
           <span>{b.name}</span>
         </button>
       ))}
@@ -68,7 +74,7 @@ const portfolio = [
     <div class="portfolio">
       {portfolio.map((p) => (
         <div class={`portfolio__item brand-${p.brand}`}>
-          <div class="portfolio__swatch" style={`background:${p.swatch}`}></div>
+          <div class="portfolio__swatch"></div>
           <div class="portfolio__lockups">
             <div class="portfolio__lockup portfolio__lockup--lg">
               <BrandLockup brandname={p.wordmark} size={36} />
@@ -88,7 +94,7 @@ const portfolio = [
     <h4 class="type-h4">Negative expression</h4>
     <p class="type-body">
       White symbol and wordmark on the registered identity tile (DESIGN.md §"Three expressions"). For favicons,
-      monograms, identity tiles, and hero stamps. The reverse marks use paper white
+      monograms, identity tiles, and hero stamps. The reverse marks use footer ink
       so the tile reads correctly in both light and dark themes.
     </p>
 
@@ -107,7 +113,7 @@ const portfolio = [
     <h1 class="type-h1">H1 — The biggest thing on the page</h1>
     <h2 class="type-h2">H2 — Section break</h2>
     <h3 class="type-h3">H3 — Subsection in italic, by token rule</h3>
-    <h4 class="type-h4">H4 — eyebrow / meta / label</h4>
+    <h4 class="type-h4">H4 — label / meta</h4>
 
     <hr class="type-divider" />
 
@@ -128,7 +134,7 @@ const portfolio = [
     <h4 class="type-h4">Block-level (9) — blockquote</h4>
     <blockquote class="type-blockquote">
       Portability over preference. Every design decision must survive translation across markdown → web → PDF → docx → plain text.
-      <cite>Ağustos Design System v3 · Rule 1</cite>
+      <cite>Ağustos Design System v5.0.1 · Rule 1</cite>
     </blockquote>
 
     <h4 class="type-h4">Pullquote</h4>
@@ -151,9 +157,9 @@ const portfolio = [
     <h4 class="type-h4">Definition list</h4>
     <dl>
       <dt>Substrate</dt>
-      <dd>White <code>#ffffff</code> paper. Cream <code>#fdf5f5</code> for callout bands only.</dd>
+      <dd>White <code>--paper</code>. Cream <code>--cream</code> for callout bands only.</dd>
       <dt>Rule</dt>
-      <dd>Hairline separator. <code>#e8e4da</code> on light surfaces.</dd>
+      <dd>Hairline separator. <code>--rule</code> on light surfaces.</dd>
       <dt>Locale</dt>
       <dd>Turkish content declares <code>lang="tr"</code> and the global <code>font-feature-settings: "locl"</code> handles correct capitalization (i → İ).</dd>
     </dl>
@@ -167,11 +173,8 @@ const portfolio = [
     </figure>
 
     <h4 class="type-h4">Code block</h4>
-    <pre><code>{`/* tokens.css */
-:root {
-  --paper: #ffffff;
-  --ink:   #15130f;
-  --brand: var(--brand-agustos);
+    <pre><code>{`body.brand-agustos.paper-white {
+  /* --brand, --paper, and --ink resolve from the kit. Do not retype a hex. */
 }`}</code></pre>
 
     <h4 class="type-h4">Table</h4>
@@ -180,16 +183,16 @@ const portfolio = [
         <tr>
           <th>Brand</th>
           <th>Colour</th>
-          <th>Hex</th>
+          <th>Token</th>
           <th>Refined</th>
         </tr>
       </thead>
       <tbody>
-        <tr><td>Ağustos</td><td>Red</td><td><code>#cf142a</code></td><td>—</td></tr>
-        <tr><td>Pataraz</td><td>Off-black</td><td><code>#15130f</code></td><td>house neutral</td></tr>
-        <tr><td>PLD Türkiye</td><td>Off-black</td><td><code>#15130f</code></td><td>—</td></tr>
-        <tr><td>IESDesk</td><td>Off-black</td><td><code>#15130f</code></td><td>house neutral</td></tr>
-        <tr><td>SpecQuick</td><td>Off-black</td><td><code>#15130f</code></td><td>house neutral</td></tr>
+        <tr><td>Ağustos</td><td>Red</td><td><code>--brand-agustos</code></td><td>—</td></tr>
+        <tr><td>Pataraz</td><td>Off-black</td><td><code>--brand-pataraz</code></td><td>house neutral</td></tr>
+        <tr><td>PLD Türkiye</td><td>Off-black</td><td><code>--brand-pld</code></td><td>—</td></tr>
+        <tr><td>IESDesk</td><td>Off-black</td><td><code>--brand-iesdesk</code></td><td>house neutral</td></tr>
+        <tr><td>SpecQuick</td><td>Off-black</td><td><code>--brand-specquick</code></td><td>house neutral</td></tr>
       </tbody>
     </table>
 
@@ -225,6 +228,11 @@ const portfolio = [
       body.classList.add(`brand-${brand}`);
     });
   });
+
+  document.getElementById('theme-inspect')?.addEventListener('click', () => {
+    const root = document.documentElement;
+    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  });
 </script>
 
 <style>
@@ -236,7 +244,7 @@ const portfolio = [
     padding: 0.4rem 0.75rem;
     background: transparent;
     border: 1px solid var(--rule);
-    border-radius: 999px;
+    border-radius: var(--radius-md);
     font-family: var(--display);
     font-size: 12px;
     font-weight: 600;
@@ -244,10 +252,11 @@ const portfolio = [
     cursor: pointer;
     transition: border-color 120ms ease;
   }
-  .switcher__btn:hover { border-color: var(--ink-faint); }
+  .switcher__btn:hover { border-color: var(--ink-soft); }
   .switcher__swatch {
-    width: 12px; height: 12px; border-radius: 50%;
-    box-shadow: inset 0 0 0 1px rgba(0,0,0,0.1);
+    width: 12px; height: 12px;
+    border-radius: var(--radius-sm);
+    background: var(--brand);
   }
 
   /* ---- Brand portfolio ---- */
@@ -268,7 +277,8 @@ const portfolio = [
   }
   .portfolio__swatch {
     align-self: stretch;
-    border-radius: 2px;
+    border-radius: var(--radius-sm);
+    background: var(--brand);
   }
   .portfolio__lockups {
     display: flex;
@@ -292,7 +302,7 @@ const portfolio = [
     .portfolio__lockup--sm { grid-column: 3; }
   }
 
-  /* ---- Negative expression: registered identity tiles with cream lockup ---- */
+  /* ---- Negative expression: registered identity tiles with cream/white lockup ---- */
   .portfolio-negative {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -305,12 +315,11 @@ const portfolio = [
     }
   }
   .portfolio-negative__tile {
-    /* Identity tile. The --lockup-color override forces the symbol+wordmark to
-       a fixed cream value so the negative reads correctly in light AND dark themes
-       (var(--paper) would invert in dark mode and break the contrast). */
-    --lockup-color: #fefcf2;
+    /* Identity tile. Footer ink stays white across themes, so the negative
+       lockup keeps contrast when the handbook inspects dark product UI. */
+    --lockup-color: var(--footer-ink);
     background: var(--brand);
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
     padding: 1.25rem 1rem;
     display: flex;
     align-items: center;

@@ -1,6 +1,6 @@
 # Ağustos Astro Adapter
 
-Astro 5 reference implementation for the [Ağustos Design System](../../DESIGN.md).
+Astro 5 reference implementation for the [Ağustos Design System](../../DESIGN.md) v5.0.1.
 
 This adapter is useful for static sites, documentation, marketing pages, and visual QA. It is not the canonical center of the system; shared decisions live in `../../tokens/design-tokens.json` and `DESIGN.md`.
 
@@ -64,12 +64,13 @@ belong to the adapter.
   header={{
     homeHref: '/',
     nav: [{ href: '/products', label: 'Products' }],
-    cta: { href: '/contact', label: 'Contact' },
+    cta: { href: '/contact', label: 'Request pricing' },
     languageSwitch: { href: '/tr', label: 'Türkçe', code: 'TR' },
   }}
   footer={{
     description: 'Pataraz · project-grade lighting',
     columns: [{ heading: 'Company', links: [{ href: '/about', label: 'About' }] }],
+    cta: { href: '/contact', label: 'Contact' },
   }}
 >
   ...
@@ -79,6 +80,10 @@ belong to the adapter.
 Set `searchable={false}` to exclude a page. Blog detail pages should pass
 `searchKind="post"`; other pages default to `"page"`. Set
 `header={{ search: false }}` to remove search from the chrome.
+
+Marketing headers do not include a theme toggle. Product UI may pass
+`header={{ theme: true }}` and, if the page itself is dark,
+`theme="dark"` on `BaseLayout`.
 
 Regenerate the standalone HTML preview from `DESIGN.md`:
 
@@ -115,17 +120,23 @@ Available brand ids:
 - `iesdesk`
 - `specquick`
 
-## Substrates
+## Substrates and theme
 
-White is the reference-site default. Cream remains available for explicitly branded editorial contexts:
+White is the page paper. Cream is a full-bleed callout or CTA band, not a page substrate.
 
 ```astro
-<BaseLayout substrate="cream" title="Branded Editorial Page">
+<section class="cta-band">
   ...
-</BaseLayout>
+</section>
 ```
 
-Dark theme is an opt-in user preference layer through `html[data-theme="dark"]`.
+Dark theme is for product UI through `html[data-theme="dark"]`. Marketing, catalog, and spec pages stay light. They do not ship a theme toggle. The typography showcase includes a handbook inspect control; that is not a marketing pattern.
+
+## Composition
+
+Name one committing destination per page. That destination may appear in the header, the opening, and one closing cream band. Do not put a primary button in intervening sections. Footer Contact is separate chrome.
+
+Photographs roll out in this order: product page, listing thumbnail, homepage installation. Type-only pages stay complete. Quotes belong on content pages only. Marketing uses a compact trust line.
 
 ## Turkish Locale
 
@@ -141,4 +152,4 @@ The design system depends on `lang="tr"` plus `font-feature-settings: "locl"` fo
 
 ## Scope
 
-This adapter demonstrates the v3 type tokens, one-row chrome, shared frame, editorial opening, restrained card groups, and section rhythm. Rails monoliths should use `../rails/` instead of copying Astro components.
+This adapter demonstrates the v5.0.1 type tokens, one-row chrome, shared frame, editorial opening, filled-plus-outline actions, cream closing band, restrained card groups, and section rhythm. Rails monoliths should use `../rails/` instead of copying Astro components.

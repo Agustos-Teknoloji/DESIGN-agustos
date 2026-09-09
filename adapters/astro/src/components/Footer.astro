@@ -10,6 +10,9 @@ interface Props {
 const { brandname = 'ağustos', config = {} } = Astro.props;
 const year = new Date().getFullYear();
 const description = config.description ?? 'Ağustos Design System · multi-brand typography and chrome';
+const cta = config.cta === undefined
+  ? { href: '/about', label: 'Contact' }
+  : config.cta;
 const columns = config.columns ?? [
   {
     heading: 'Explore',
@@ -40,7 +43,6 @@ const columns = config.columns ?? [
     <div class="site-footer__brand">
       <BrandLockup brandname={brandname} expression="mono" size={20} />
       <p class="type-footnote">{description} · &copy; {year}</p>
-      <a class="site-footer__cta" href="/about">Contact</a>
     </div>
 
     <div class="site-footer__cols">
@@ -62,6 +64,15 @@ const columns = config.columns ?? [
           </ul>
         </nav>
       ))}
+      {cta && (
+        <a
+          href={cta.href}
+          class="agustos-button agustos-button--primary site-footer__cta"
+          aria-label={cta.ariaLabel}
+          target={cta.external ? '_blank' : undefined}
+          rel={cta.external ? 'noopener noreferrer' : undefined}
+        >{cta.label}</a>
+      )}
     </div>
   </div>
 </footer>
@@ -69,41 +80,38 @@ const columns = config.columns ?? [
 <style>
   .site-footer {
     margin-top: 4rem;
-    background: var(--ink);
-    color: var(--paper);
-    --lockup-color: var(--paper);
+    background: var(--footer-paper);
+    color: var(--footer-ink);
+    border-top: 0;
+    --lockup-color: var(--footer-ink);
   }
   .site-footer__inner {
     display: flex;
     flex-wrap: wrap;
+    align-items: flex-start;
     gap: 48px;
     padding-block: 56px;
   }
   .site-footer__brand { display: flex; flex-direction: column; gap: 14px; flex: 1 1 220px; max-width: 40ch; }
-  .site-footer__brand .type-footnote { margin: 0; color: color-mix(in srgb, var(--paper) 72%, var(--ink)); }
-  .site-footer__cta {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    align-self: flex-start;
-    min-height: 44px;
-    padding: 0 20px;
-    background: var(--paper);
-    color: var(--ink);
-    border-radius: var(--radius-md);
-    font-family: var(--display);
-    font-size: 15px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: background var(--dur) var(--ease);
+  .site-footer__brand .type-footnote,
+  .site-footer .type-h4,
+  .site-footer__link { color: var(--footer-ink); }
+  .site-footer__brand .type-footnote { margin: 0; }
+  .site-footer__cta { align-self: flex-start; }
+  .site-footer .agustos-button--primary {
+    background: var(--footer-ink);
+    color: var(--footer-paper);
+    border-color: var(--footer-ink);
   }
-  .site-footer__cta:hover { background: var(--rule); color: var(--ink); }
-  .site-footer__cta:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
-  .site-footer__cols { display: flex; flex-wrap: wrap; flex: 1 1 360px; gap: 32px; }
+  .site-footer .agustos-button--primary:hover {
+    background: var(--footer-cta-hover);
+    border-color: var(--footer-cta-hover);
+    color: var(--footer-paper);
+  }
+  .site-footer__cols { display: flex; flex-wrap: wrap; flex: 1 1 360px; gap: 32px; margin-left: auto; }
   .site-footer__col { flex: 1 1 140px; }
-  .site-footer__col-heading { margin: 0 0 12px; color: color-mix(in srgb, var(--paper) 72%, var(--ink)); }
+  .site-footer__col-heading { margin: 0 0 12px; }
   .site-footer__list { display: flex; flex-direction: column; gap: 9px; margin: 0; padding: 0; list-style: none; }
-  .site-footer__link { color: var(--paper); font-family: var(--display); font-size: 15px; font-weight: 500; text-decoration: none; }
-  .site-footer__link:hover { color: var(--paper); }
+  .site-footer__link { font-family: var(--display); font-size: 15px; font-weight: 500; text-decoration: none; }
   .site-footer__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 </style>

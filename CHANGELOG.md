@@ -4,6 +4,13 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+### Changed
+
+- Align the Astro adapter with v5.0.1 composition rules.
+- Marketing chrome omits the theme toggle.
+- Header and footer use kit buttons and footer colour tokens.
+- Recreate the Astro homepage from the marketing site kit: editorial opening, selected-work cards, one cream band, and footer chrome. Hold locked rules: no arrows, no quotes, no marketing theme toggle.
+
 ## [5.0.1] - 2026-09-08
 
 ### Changed

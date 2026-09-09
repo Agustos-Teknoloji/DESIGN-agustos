@@ -33,6 +33,8 @@ test('header search matches the production interaction contract', async () => {
   assert.match(header, /event\.key === 'Enter'/);
   assert.match(header, /event\.key === 'Escape'/);
   assert.match(header, /setAttribute\('data-nav-open', 'true'\)/);
+  assert.match(header, /config\.theme === true/);
+  assert.match(header, /agustos-button agustos-button--primary site-header__cta/);
   assert.match(header, /setAttribute\('data-theme', 'dark'\)/);
   assert.match(header, /header-search-panel-desktop-\$\{idSuffix\}/);
   assert.match(header, /header-search-panel-responsive-\$\{idSuffix\}/);
@@ -50,6 +52,25 @@ test('header and footer use the shared frame and accessible control sizes', asyn
 
   assert.match(header, /site-header__bar site-frame/);
   assert.match(footer, /site-footer__inner site-frame/);
+  assert.match(footer, /var\(--footer-paper\)/);
+  assert.match(footer, /agustos-button agustos-button--primary site-footer__cta/);
   assert.match(search, /outline: 2px solid var\(--signal\)/);
+  assert.match(utility, /theme = false/);
   for (const source of [header, search, utility]) assert.match(source, /44px/);
+});
+
+test('homepage follows locked marketing composition', async () => {
+  const page = await read('src/pages/index.astro');
+  const layout = await read('src/layouts/BaseLayout.astro');
+  const header = await read('src/components/Header.astro');
+  assert.match(page, /Light, placed with intent/);
+  assert.match(page, /cta-band/);
+  assert.match(page, /Request pricing/);
+  assert.match(page, /Selected work/);
+  assert.match(page, /hero-trust/);
+  assert.doesNotMatch(page, /type-blockquote|type-pullquote/);
+  assert.doesNotMatch(page, /→|arrow/);
+  assert.doesNotMatch(page, /data-theme-toggle|setTheme/);
+  assert.match(layout, /header\.theme === true/);
+  assert.match(header, /config\.theme === true/);
 });

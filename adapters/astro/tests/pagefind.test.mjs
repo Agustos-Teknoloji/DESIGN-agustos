@@ -59,6 +59,11 @@ test('built demo renders unique search surfaces and working default chrome', asy
   }
   assert.match(html, /data-pagefind-body/);
   assert.match(html, /data-search-kind="page"/);
-  assert.match(html, /View source/);
-  assert.doesNotMatch(html, /site-header__lang-link/);
+  assert.match(html, /Light, placed with intent/);
+  assert.match(html, /Request pricing/);
+  assert.match(html, /cta-band/);
+  assert.match(html, /Design spec/);
+  assert.match(html, /site-header__lang-link/);
+  assert.doesNotMatch(html, /data-theme-toggle/);
+  assert.doesNotMatch(html, /All projects →/);
 });

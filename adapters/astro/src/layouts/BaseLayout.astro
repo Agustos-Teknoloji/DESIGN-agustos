@@ -1,6 +1,6 @@
 ---
 // Self-hosted fonts via @fontsource. Imported here so every page gets them.
-// v3 stack: Inter Tight (display) + Inter (body) + JetBrains Mono (code).
+// v5 stack: Inter Tight (display) + Inter (body) + JetBrains Mono (code).
 // Variable axes (wght 100–900, italics) cover every weight in the system.
 // Run `npm i @fontsource-variable/inter @fontsource-variable/inter-tight` if not yet installed.
 import '@fontsource-variable/inter-tight/index.css';
@@ -22,8 +22,10 @@ interface Props {
   description?: string;
   /** Brand class — applied on <body> to scope --brand. */
   brand?: Brand;
-  /** Substrate. White is the default paper. */
+  /** Substrate. White is the default paper. Cream is for callout bands, not the page. */
   substrate?: 'cream' | 'white';
+  /** Product UI only. Marketing pages stay light and omit this. */
+  theme?: 'light' | 'dark';
   /** Page language. Default 'en'. Use 'tr' for Turkish content (mandatory per §6). */
   lang?: string;
   /** Site chrome configuration. Defaults exercise the reusable DESIGN demo. */
@@ -55,6 +57,7 @@ const {
   description = 'Published from Emre Güneş’s house — typography-first design.',
   brand = 'agustos',
   substrate = 'white',
+  theme,
   lang = 'en',
   brandname = BRAND_WORDMARKS[brand as Brand] ?? 'ağustos',
   header = {},
@@ -66,6 +69,7 @@ const {
 const brandClass = `brand-${brand}`;
 const substrateClass = substrate === 'white' ? 'paper-white' : '';
 const bodyClass = [brandClass, substrateClass].filter(Boolean).join(' ');
+const themeToggle = header.theme === true;
 const searchAttributes = searchable ? {
   'data-pagefind-body': '',
   'data-search-kind': searchKind,
@@ -74,7 +78,7 @@ const searchAttributes = searchable ? {
 } : {};
 ---
 <!doctype html>
-<html lang={lang}>
+<html lang={lang} data-theme={theme === 'dark' ? 'dark' : undefined}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -85,19 +89,16 @@ const searchAttributes = searchable ? {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    {/*
-      FOUC-prevention: apply the saved theme before the page paints.
-      Without this, a user with dark theme saved would see a brief flash of cream/light
-      before the header script runs. Inline = synchronous, runs before <body>.
-    */}
-    <script is:inline>
-      (function () {
-        try {
-          var theme = localStorage.getItem('agustos:theme');
-          if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-        } catch (e) { /* private mode / disabled storage — fall back to defaults */ }
-      })();
-    </script>
+    {themeToggle && (
+      <script is:inline>
+        (function () {
+          try {
+            var theme = localStorage.getItem('agustos:theme');
+            if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+          } catch (e) { /* private mode / disabled storage — fall back to defaults */ }
+        })();
+      </script>
+    )}
   </head>
   <body class={bodyClass}>
     <a class="skip-link" href="#main">Skip to content</a>
