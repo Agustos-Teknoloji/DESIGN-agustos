@@ -6,7 +6,7 @@ don't re-create something that already exists. If you add or move a brand asset,
 in the same change.
 
 Related: [DESIGN.md](DESIGN.md) is the canonical *specification* (the rules); this file is the
-canonical *asset map* (the files). [MEMORY.md](MEMORY.md) holds the decision history.
+canonical *asset map* (the files). [archive/MEMORY.md](archive/MEMORY.md) holds the decision history.
 
 ---
 

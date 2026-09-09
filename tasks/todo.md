@@ -88,6 +88,61 @@ documents the per-app conversion.
 
 ---
 
+---
+
+# Repo simplification — brand guideline for LLMs (2026-09-09)
+
+**Goal:** Make the root documentation set easy for any LLM to load cold and act on, without
+losing anything. Trigger: too much to read at root, not a correctness complaint.
+
+**Decisions locked (2026-09-09):**
+- Full restructure, not a light trim.
+- Archive `MEMORY.md` out of the default reading path — move it, don't delete or trim it.
+- Merge `PATARAZ.md` + `pataraz-ui-brief.md` into one canonical `PATARAZ.md`.
+- Leave `tokens/`, `brand/`, `adapters/`, `ui/`, generated `docs/*.html`, `artifacts/`, `tasks/`
+  untouched — they are generated outputs or frozen historical snapshots, not the guideline surface.
+
+## Checklist
+- [x] `git mv MEMORY.md archive/MEMORY.md`
+- [x] Update every `MEMORY.md` reference (path only, same read-only-when-reversing rule) in:
+      `AGENTS.md`, `README.md`, `DESIGN.md`, `ASSETS.md`, `PATARAZ.md`, `CLAUDE.md`,
+      `docs/handoff-setup.html`
+- [x] Merge `pataraz-ui-brief.md` into `PATARAZ.md`: keep page templates, component inventory,
+      look principles/anti-patterns, real PL22/PX22 sample content; drop restated color/type/
+      asset-path sections already covered by `PATARAZ.md` and `DESIGN.md`
+- [x] Delete `pataraz-ui-brief.md`; confirm no live (non-archival) references remain
+- [x] Grep root docs + `docs/handoff-setup.html` for stale values against the locked v5.0.1 facts
+      (brand red `#cf142a`, CTA repetition, dark-theme scope, photography order, quote placement)
+      and fix any drift found
+- [x] Spot-check `AGENTS.md` routing table and `README.md` file list still resolve correctly
+
+## Review
+
+Root markdown docs go from 11 files (~3,400 lines) to 8 (~2,900 lines); `archive/` is new.
+
+- `archive/MEMORY.md` — moved out of root, unchanged content. All 6 root-doc pointers plus
+  `docs/handoff-setup.html` updated to the new path; the read-only-when-reversing rule is
+  unchanged, just easier to see is optional now that the file isn't sitting at root.
+- `PATARAZ.md` — merged with `pataraz-ui-brief.md`. Kept: page templates, component inventory,
+  look-principles/anti-patterns, and the real PL22/PX22 sample data (all previously only in the
+  brief). Dropped: the brief's restated color table, type-scale table, and hard-rules list —
+  already covered by `PATARAZ.md` §2 and `DESIGN.md`, per this file's own inheritance rule.
+  `pataraz-ui-brief.md` deleted; nothing else in the repo referenced it except a historical
+  mention in `archive/MEMORY.md` (left as-is).
+- **One real drift caught and fixed:** the brief carried an "optional dark theme (opt-in) for
+  pataraz.com" note from before the site-composition rules were locked in v5.0.1. That
+  contradicts the now-locked rule ("dark theme is for product UI, not pataraz.com") already
+  correct in `PATARAZ.md` and `DESIGN.md`. Dropped from the merged file rather than carried
+  forward.
+- Audited CTA repetition, dark-theme scope, photography order, and quote placement across
+  `AGENTS.md`, `README.md`, `DESIGN.md`, `HANDOFF.md`, `ui/UI-KIT.md`, and the new `PATARAZ.md` —
+  all consistent with the v5.0.1 lock; no other drift found. The known stale `#D11D2B` mentions
+  are all correctly framed as "this is stale, fix it if you see it" warnings, not live usage.
+- Out of scope, untouched as decided: `tokens/`, `brand/`, `adapters/`, `ui/`, the four generated
+  `docs/*.html` explainers, `artifacts/`, `tasks/`.
+
+---
+
 ## Review
 
 **Phase 0 + 1 complete (Ağustos), 2026-06-20.**

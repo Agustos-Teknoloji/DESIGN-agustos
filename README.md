@@ -33,7 +33,7 @@ Hand-edit these sources:
 - `brand/brands.json` — canonical brand identity registry.
 - `tokens/web.css.tmpl` — platform-neutral web behavior and compatibility classes.
 - `DESIGN.md` — human-readable specification and governance.
-- `MEMORY.md` — decision history.
+- `archive/MEMORY.md` — decision history. Read only when changing a source decision or proposing a reversal.
 
 `tokens/design-system-handoff.json` is the generated integration contract. Never hand-edit it.
 
@@ -95,7 +95,7 @@ python3 -m http.server 4330 --directory ui
 ```
 
 To hand the kit to another coding agent, pack the slim zip. Do not zip the whole repository.
-The factory (generators, `DESIGN.md`, `MEMORY.md`, Office files) makes the agent regenerate
+The factory (generators, `DESIGN.md`, `archive/MEMORY.md`, Office files) makes the agent regenerate
 work that `ui/` already contains. See [docs/handoff-setup.html](docs/handoff-setup.html).
 
 ```bash

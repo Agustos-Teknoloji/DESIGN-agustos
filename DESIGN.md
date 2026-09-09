@@ -629,7 +629,7 @@ CSS tokens:
 --body:    'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji";
 ```
 
-Full reasoning for the v2.0 decision in MEMORY.md turning points 19–28.
+Full reasoning for the v2.0 decision in `archive/MEMORY.md` turning points 19–28.
 
 ### Adding a new brand
 
@@ -785,7 +785,7 @@ tokens/design-tokens.json Canonical cross-medium token registry
 brand/brands.json         Canonical brand identity registry
 tokens/web.css.tmpl       Platform-neutral web behavior
 DESIGN.md                 Canonical human-readable specification
-MEMORY.md                 Decision history
+archive/MEMORY.md         Decision history
 scripts/                  Generators and drift checks
 adapters/                 Astro, Rails, and WordPress translations
 brand/                    Office generators and brand assets
@@ -934,7 +934,7 @@ Run this checklist before calling a system change complete:
 The system consists of:
 
 - `DESIGN.md` (this file), canonical specification
-- `MEMORY.md`: decision history and reasoning
+- `archive/MEMORY.md`: decision history and reasoning
 - `tokens/design-tokens.json`: canonical structured registry
 - `brand/brands.json`: canonical brand registry
 - `tokens/web.css.tmpl`: web behavior template
@@ -972,12 +972,12 @@ change.** Consumers pin that tag. `VERSION` participates in the manifest's sourc
 if the rebuild is missed — without that, a version bump would leave every pinned URL in the kit
 stale while `--check` still reported clean.
 
-Each version updates this document and notes the change in MEMORY.md.
+Each version updates this document and notes the change in `archive/MEMORY.md`.
 
 ---
 
 ## Authority
 
-This system was designed by Emre Güneş in dialogue with Claude over the course of one extended design conversation in May 2026. It reflects Emre's editorial sensibility, business priorities, and engineering principles. Decisions documented in MEMORY.md.
+This system was designed by Emre Güneş in dialogue with Claude over the course of one extended design conversation in May 2026. It reflects Emre's editorial sensibility, business priorities, and engineering principles. Decisions documented in `archive/MEMORY.md`.
 
 The system is the product of his judgment, not Claude's. Future changes should be made by him, with reasoning documented.
