@@ -370,7 +370,7 @@
         "wordmark": 650
       },
       "measure": {
-        "body": "72ch",
+        "body": "65ch",
         "content": "1180px",
         "controlMinimum": "44px",
         "gutter": "32px",
@@ -473,7 +473,7 @@
         "textMuted": "#404040"
       },
       "layout": {
-        "bodyMeasure": "72ch",
+        "bodyMeasure": "65ch",
         "contentGutter": "32px",
         "contentMeasure": "1180px",
         "readingMeasure": "54ch"
@@ -519,7 +519,7 @@
         "surface": "#ffffff"
       }
     },
-    "version": "5.0.1"
+    "version": "5.1.0"
   },
-  "version": "5.0.1"
+  "version": "5.1.0"
 }

@@ -1,7 +1,7 @@
 # Design application handoff
 
 Date: 2026-09-08
-Design system version: 5.0.1
+Design system version: 5.1.0
 Status: White-substrate palette, locked dark theme, and website composition rules applied. Share the five artifacts. Do not regenerate the factory.
 
 Open these five artifacts first:
@@ -36,7 +36,7 @@ From this repository:
 python3 scripts/pack_handoff.py
 ```
 
-That writes `dist/agustos-ui-handoff-v5.0.1.zip`.
+That writes `dist/agustos-ui-handoff-v5.1.0.zip`.
 The zip holds the five artifacts, the kit, and lockup SVGs.
 It does not hold generators, adapters, Office files, or decision history.
 

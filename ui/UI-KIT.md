@@ -1,4 +1,4 @@
-# Ağustos UI kit — v5.0.1
+# Ağustos UI kit — v5.1.0
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -65,11 +65,11 @@ npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-va
 For a throwaway mockup with no build step:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.1/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.1/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.1.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.1.0/ui/agustos.css">
 ```
 
-**Pin stylesheet URLs to `@v5.0.1`.** Never publish `@main` or `@latest`; upstream changes can restyle your page.
+**Pin stylesheet URLs to `@v5.1.0`.** Never publish `@main` or `@latest`; upstream changes can restyle your page.
 
 ## One warning before you start
 
@@ -149,6 +149,7 @@ Radii `--radius-sm` (4px) `--radius-md` (6px) `--radius-lg` (10px) — nothing l
 Color `--paper` `--cream` `--surface` `--ink` `--ink-soft` `--ink-faint` `--rule` `--signal` `--brand`
 `--footer-*` `--state-success|warning|danger|info`. Type `--display` `--body` `--mono`.
 Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-content` (1180px).
+Measures `--measure-text` (54ch, hero deck) and `--measure-body` (65ch, long-form prose: posts, policies, profiles).
 
 `ui/kit.json` carries the same list in machine-readable form.
 
@@ -158,7 +159,7 @@ Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-conten
 2. **Brand red is `#cf142a`.** `#D11D2B` is stale — fix it wherever you find it.
 3. **Never restyle a kit class.** Overriding `.agustos-card` breaks every other page. Compose a new class.
 4. **Radii are 4, 6, and 10px.** Nothing rounder. No pills, no blobs, no gradients.
-5. **44px minimum for anything clickable.** `--control-min` exists for this.
+5. **44px minimum for anything clickable.** `--control-min` exists for this. Links inside running text are exempt; `hero-link` carries an invisible 44px hit area, and a card with one stretched link makes the card the target.
 6. **Never redraw the Laz Güneşi symbol.** If you need the logo and do not have the file, request it.
 
 ## Verify before you call it done

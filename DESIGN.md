@@ -1,6 +1,6 @@
 # Ağustos Design System
 
-**Version 5.0.1** · Cross-medium design system for Emre Güneş's brand portfolio
+**Version 5.1.0** · Cross-medium design system for Emre Güneş's brand portfolio
 **Last updated:** September 8, 2026
 **Status:** White-substrate palette, locked dark theme, and website composition rules applied to the registry, kit, and adapters
 
@@ -346,7 +346,7 @@ Each token has exactly one job. When writing content, ask only: which one of the
 | `.type-hero` | clamp(56px, 8.5vw, 104px) / lh 0.95 | 300 | Display | Tracking -0.045em. Margin-bottom 0.5em. Marketing page opening. One per page maximum. |
 | `.type-hero-md` | clamp(40px, 5vw, 60px) / lh 1.0 | 300 | Display | Tracking -0.04em. Product and inner-page titles. |
 
-The hero deck is a separate utility (`.type-hero-deck`), upright body at 20px, max-width 54ch, paired with either hero token. It is a supporting lead, not a quote, so it does not use italic. Do not place an eyebrow above the hero. The headline carries the opening.
+Two measures exist for text: `--measure-text` (54ch) is the hero deck, `--measure-body` (65ch, about 42rem in Inter) is long-form prose such as posts, policies and profiles. The hero deck is a separate utility (`.type-hero-deck`), upright body at 20px, max-width 54ch, paired with either hero token. It is a supporting lead, not a quote, so it does not use italic. Do not place an eyebrow above the hero. The headline carries the opening.
 
 ### Hero element styles
 
@@ -386,7 +386,7 @@ Hero component styles are web/component utilities, not typography tokens. Homepa
 | `.hero-action--primary` | Committing action | Filled off-black. Hover stays black. One per band. On dark, filled red. |
 | `.hero-action--secondary` | Alternative action | Outline. Hover fills black, label turns white. On dark, filled white. |
 | `.hero-links` | In-prose action row | Flex row for red-ruled text links. |
-| `.hero-link` | Content link | Display family, 2px red rule. Hover turns ink red. |
+| `.hero-link` | Content link | Display family, 2px red rule. Hover turns ink red. Carries an invisible 44px hit area (padding with a matching negative margin), so the typographic link meets the target rule without looking like a button. |
 | `.hero-link--primary` | Main in-prose path | Ink text, weight 600. |
 | `.hero-link--secondary` | Secondary in-prose path | Ink-soft text, weight 500. |
 | `.hero-trust` | Trust signal line | Body family, 13.5-14px, line-height 1.5, ink-soft, margin-top 2rem to 3.5rem after actions. Items stay textual and compact. |
@@ -405,6 +405,10 @@ Actions are links, not generic buttons. In the homepage hero they should not loo
 | `.type-h3` | 18px / lh 1.3 | 500, italic | Display | Italic separates categorically from H2. |
 | `.type-h4` | 12.5px | 600, sentence case | Display | Tracking 0.005em. Labels, table headers, breadcrumbs. No uppercase. |
 
+Both hero tokens, `.type-h1` and `.type-h2` set `text-wrap: balance`, so a two-line heading breaks into two even lines instead of a long line and a stub. Browsers without support wrap as before.
+
+Four heading roles are the whole scale. Lists of titles (a blog index, a brand list) do not get a fifth size between H2 and H3; they use body-size links with a footnote line, the same idiom as an article list. v5.1.0 records this after a review found list pages set every title at H2.
+
 ### Body & inline (8)
 
 | Token | Size | Weight | Family | Notes |
@@ -413,6 +417,7 @@ Actions are links, not generic buttons. In the homepage hero they should not loo
 | `em` | inherit | 400, italic | Body | Titles, foreign words, technical terms, deck/byline by role. |
 | `strong` | inherit | 700 | Body | Emphasis, key terms. |
 | `a` | inherit | 600 | Body | Bold + 2px shared-red underline, 3px offset. Primary family interaction expression. |
+| `a:visited` | inherit | 600 | Body | Ink-soft text, same red rule. Set with `:where`, so chrome links styled by class keep their colour and hover still wins. |
 | `code` (inline) | 0.86em | 400 | Mono | Background `rgba(0,0,0,0.05)`, padding 1px 5px. |
 | `sub` | 0.7em | 500 | Body | Vertical-align -0.25em. For chemical formulas (CO₂). |
 | `sup` | 0.7em | 500 | Body | Vertical-align 0.5em. For units (m²), exponents, footnote refs. |
