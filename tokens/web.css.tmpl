@@ -190,6 +190,7 @@ img, svg { max-width: 100%; height: auto; display: block; }
   font-size: {{foundations.fontSize.hero}};
   line-height: 0.95;
   letter-spacing: -0.045em;
+  text-wrap: balance;
   color: var(--ink);
   margin: 0 0 0.5em;
 }
@@ -200,6 +201,7 @@ img, svg { max-width: 100%; height: auto; display: block; }
   font-size: {{foundations.fontSize.heroMedium}};
   line-height: 1;
   letter-spacing: -0.04em;
+  text-wrap: balance;
   color: var(--ink);
   margin: 0 0 0.5em;
 }
@@ -233,6 +235,7 @@ img, svg { max-width: 100%; height: auto; display: block; }
   font-weight: {{foundations.fontWeight.light}};
   line-height: 1;
   letter-spacing: -0.04em;
+  text-wrap: balance;
   margin: 0 0 1em;
   color: var(--ink);
 }
@@ -243,6 +246,7 @@ img, svg { max-width: 100%; height: auto; display: block; }
   font-weight: {{foundations.fontWeight.regular}};
   line-height: 1.02;
   letter-spacing: -0.034em;
+  text-wrap: balance;
   /* margin-top 2.5em ≈ 40px (collapses with prior body's 1em → max wins).
      margin-bottom 1em matches baseline → consistent gap below the heading. */
   margin: 2.5em 0 1em;
@@ -303,6 +307,9 @@ a, .type-link {
   text-underline-offset: 3px;
   transition: color var(--dur) var(--ease);
 }
+/* Visited content links settle to ink-soft. `:where` keeps the rule at element
+   specificity, so class-styled chrome and menu links keep their own colour. */
+a:where(:visited), .type-link:where(:visited) { color: var(--ink-soft); }
 a:hover, .type-link:hover { color: var(--signal); }
 a:focus-visible, .type-link:focus-visible {
   outline: {{foundations.border.signal}} solid var(--signal);
@@ -605,6 +612,10 @@ table th:last-child, table td:last-child { text-align: right; }
   font-family: var(--display);
   font-size: clamp(17px, 1.4vw, 21px);
   line-height: 1.4;
+  /* Invisible hit area: the line box is 1.4em, the target must be 44px.
+     Symmetric padding grows the box; the negative margin keeps the layout. */
+  padding-block: calc((var(--control-min) - 1.4em) / 2);
+  margin-block: calc((1.4em - var(--control-min)) / 2);
 }
 
 .hero-link--primary {

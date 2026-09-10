@@ -1,7 +1,7 @@
 {
   "$schema": "https://design-tokens.github.io/community-group/format/",
   "name": "Ağustos Design System",
-  "version": "5.0.1",
+  "version": "5.1.0",
   "description": "Canonical cross-medium design values. CSS, framework adapters, and Office templates are generated consumers.",
   "meta": {
     "referenceImplementation": "https://agustos.com",
@@ -187,7 +187,7 @@
       "content": { "$value": "1180px", "$description": "Shared content column for page and chrome." },
       "gutter": { "$value": "32px", "$description": "Horizontal frame gutter." },
       "text": { "$value": "54ch", "$description": "Hero supporting copy measure." },
-      "body": { "$value": "72ch", "$description": "Readable long-form measure." },
+      "body": { "$value": "65ch", "$description": "Readable long-form measure. About 42rem in Inter at 16.5px, the content column agustos.com already uses." },
       "wide": { "$value": "1180px", "$description": "Media and data width. Same as the content column." },
       "controlMinimum": { "$value": "44px", "$description": "Minimum button-like target on the shorter axis." }
     },

@@ -4,6 +4,23 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [5.1.0] - 2026-09-10
+
+### Added
+
+- Visited content links settle to ink-soft (`a:where(:visited)`). The `:where` keeps element specificity, so menu and chrome links styled by class keep their colour and hover still turns red.
+- `text-wrap: balance` on both hero tokens, `.type-h1` and `.type-h2`.
+- `.hero-link` carries an invisible 44px hit area (padding with a matching negative margin). The typographic look is unchanged; the target meets hard rule 5.
+
+### Changed
+
+- `--measure-body` is 65ch (was 72ch). 72ch in Inter ran to about 95 characters per line. 65ch is about 42rem at 16.5px, the content column agustos.com already uses, and reads at about 80 characters. `--measure-text` (54ch) stays the hero deck measure; the docs now say which measure is for what.
+- The heading scale stays at four roles. A review asked for a list-title size between H2 and H3; lists of titles use body-size links with a footnote line instead, the article-list idiom. Recorded in DESIGN.md.
+
+### Migration
+
+- Vendor `ui/` at v5.1.0. Replace raw `max-width: 42rem` on prose columns with `var(--measure-body)`.
+
 ### Changed
 
 - Align the Astro adapter with v5.0.1 composition rules.

@@ -177,3 +177,17 @@ not the lockup). Design-system spec now matches the live brand.
 Open / next:
 - Confirm Ağustos **tagline** in `brands.json` (currently TODO).
 - Phase 2 (office templates), Phase 3 (guidelines PDF), Phase 4 (other 3 brands) not started.
+
+---
+
+# v5.1.0 — review follow-ups from agustos.com (2026-09-10)
+
+Source: the 2026-09-09 and 2026-09-10 design reviews of agustos.com, phase 6 of its update plan.
+
+- [x] `a:visited` settles to ink-soft, at element specificity (`:where`), so chrome links keep their colour.
+- [x] `text-wrap: balance` on both hero tokens, `.type-h1`, `.type-h2`.
+- [x] `.hero-link` carries an invisible 44px hit area; hard rule 5 now names the exemptions.
+- [x] `--measure-body` 72ch → 65ch and the docs say which measure is for what.
+- [x] Heading scale stays at four roles; list titles use the article-list idiom. Recorded in DESIGN.md.
+- [x] VERSION 5.1.0, rebuild, tests, `--check`, tag `v5.1.0`.
+- [ ] agustos.com vendors v5.1.0 and replaces raw `42rem` with `var(--measure-body)`.
