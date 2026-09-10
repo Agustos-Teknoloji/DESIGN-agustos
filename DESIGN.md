@@ -1,6 +1,6 @@
 # Ağustos Design System
 
-**Version 5.1.0** · Cross-medium design system for Emre Güneş's brand portfolio
+**Version 5.1.1** · Cross-medium design system for Emre Güneş's brand portfolio
 **Last updated:** September 8, 2026
 **Status:** White-substrate palette, locked dark theme, and website composition rules applied to the registry, kit, and adapters
 

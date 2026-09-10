@@ -190,4 +190,5 @@ Source: the 2026-09-09 and 2026-09-10 design reviews of agustos.com, phase 6 of 
 - [x] `--measure-body` 72ch → 65ch and the docs say which measure is for what.
 - [x] Heading scale stays at four roles; list titles use the article-list idiom. Recorded in DESIGN.md.
 - [x] VERSION 5.1.0, rebuild, tests, `--check`, tag `v5.1.0`.
-- [ ] agustos.com vendors v5.1.0 and replaces raw `42rem` with `var(--measure-body)`.
+- [x] v5.1.1: `check-agustos-ui.py --skip <dir>` so consumers stop hand-patching the generated checker.
+- [ ] agustos.com vendors v5.1.1 and replaces raw `42rem` with `var(--measure-body)`.

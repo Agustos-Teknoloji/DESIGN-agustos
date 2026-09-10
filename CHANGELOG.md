@@ -4,6 +4,12 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [5.1.1] - 2026-09-10
+
+### Added
+
+- `check-agustos-ui.py --skip <dir>` (repeatable) leaves frozen or generated folders out of the scan. agustos.com keeps a stale stylesheet alias for cached pages that must not be edited; consumers no longer have to hand-patch the generated checker to pass.
+
 ## [5.1.0] - 2026-09-10
 
 ### Added

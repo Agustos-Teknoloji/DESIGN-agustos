@@ -7,11 +7,11 @@ Commit it once. Every coding agent that opens that repository afterwards picks u
 the design system without anybody pasting a link again.
 
 ```markdown
-## Design system — Ağustos UI kit (v5.1.0)
+## Design system — Ağustos UI kit (v5.1.1)
 
 This project's UI is the Ağustos Design System. Before you write or change any markup, CSS, or
 component, read `vendor/agustos-ui/UI-KIT.md`. If that file is absent, fetch
-https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v5.1.0/ui/UI-KIT.md and follow it.
+https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v5.1.1/ui/UI-KIT.md and follow it.
 
 Scandinavian restraint filtered through Mediterranean warmth.
 Create calm, functional, and elegant pages through white paper, warm neutrals, clear typography, and helpful language.
@@ -31,11 +31,11 @@ exit 0.
 Replace the first paragraph with the CDN form. Keep the pinned version:
 
 ```markdown
-This project's UI is the Ağustos Design System. Read https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v5.1.0/ui/UI-KIT.md before you write or
+This project's UI is the Ağustos Design System. Read https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v5.1.1/ui/UI-KIT.md before you write or
 change any markup, CSS, or component. Load the kit with these two tags, fonts first:
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.1.0/ui/agustos-fonts.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.1.0/ui/agustos.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.1.1/ui/agustos-fonts.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.1.1/ui/agustos.css">
 ```
 
 Never publish `@main` or `@latest` in a stylesheet URL. An unpinned link restyles the page the
