@@ -1,4 +1,4 @@
-# Ağustos UI kit — v5.1.0
+# Ağustos UI kit — v5.1.1
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -65,11 +65,11 @@ npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-va
 For a throwaway mockup with no build step:
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.1.0/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.1.0/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.1.1/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.1.1/ui/agustos.css">
 ```
 
-**Pin stylesheet URLs to `@v5.1.0`.** Never publish `@main` or `@latest`; upstream changes can restyle your page.
+**Pin stylesheet URLs to `@v5.1.1`.** Never publish `@main` or `@latest`; upstream changes can restyle your page.
 
 ## One warning before you start
 
@@ -170,6 +170,7 @@ python3 vendor/agustos-ui/check-agustos-ui.py .
 
 Fix reported token values, font loading, CDN pins, brand classes, radii, and class overrides.
 Use `--strict` to fail on warnings; use `--json` for structured output. Exit 0 confirms automated checks passed.
+Use `--skip <dir>` (repeatable) for frozen or generated folders the project must not edit, such as a stale-asset alias kept for cached pages. Do not hand-edit the checker; it is regenerated with the kit.
 
 ## Check for a newer kit
 

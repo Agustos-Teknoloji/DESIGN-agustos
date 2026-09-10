@@ -152,6 +152,7 @@ python3 vendor/agustos-ui/check-agustos-ui.py .
 
 Fix reported token values, font loading, CDN pins, brand classes, radii, and class overrides.
 Use `--strict` to fail on warnings; use `--json` for structured output. Exit 0 confirms automated checks passed.
+Use `--skip <dir>` (repeatable) for frozen or generated folders the project must not edit, such as a stale-asset alias kept for cached pages. Do not hand-edit the checker; it is regenerated with the kit.
 
 ## Check for a newer kit
 

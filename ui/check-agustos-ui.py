@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ağustos UI kit compliance checker — v5.1.0
+"""Ağustos UI kit compliance checker — v5.1.1
 
 GENERATED. Do not hand-edit. Regenerate with:
     python3 scripts/build_design_system.py
@@ -22,7 +22,7 @@ import re
 import sys
 from pathlib import Path
 
-KIT_VERSION = "5.1.0"
+KIT_VERSION = "5.1.1"
 REPOSITORY = "Agustos-Teknoloji/DESIGN-agustos"
 LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json"
 
@@ -188,11 +188,11 @@ def near(first: str, second: str) -> int:
     return max(abs(x - y) for x, y in zip(a, b))
 
 
-def scan_files(root: Path):
+def scan_files(root: Path, skip_dirs: frozenset[str] = frozenset(SKIP_DIRS)):
     for path in sorted(root.rglob("*")):
         if not path.is_file() or path.suffix.lower() not in SCAN_SUFFIXES:
             continue
-        if any(part in SKIP_DIRS for part in path.parts):
+        if any(part in skip_dirs for part in path.parts):
             continue
         if path.name in KIT_FILES:
             continue
@@ -202,12 +202,12 @@ def scan_files(root: Path):
             continue
 
 
-def check(root: Path) -> tuple[list, int]:
+def check(root: Path, skip_dirs=()) -> tuple[list, int]:
     findings: list = []
     scanned = 0
     corpus: list = []
 
-    for path, text in scan_files(root):
+    for path, text in scan_files(root, frozenset(SKIP_DIRS) | frozenset(skip_dirs)):
         scanned += 1
         rel = str(path.relative_to(root))
         corpus.append(text)
@@ -340,6 +340,10 @@ def main() -> int:
     parser.add_argument("--strict", action="store_true", help="treat warnings as failures")
     parser.add_argument("--json", action="store_true", dest="as_json", help="machine-readable output")
     parser.add_argument("--update-check", action="store_true", help="ask the CDN for a newer kit")
+    parser.add_argument(
+        "--skip", action="append", default=[], metavar="DIR",
+        help="directory name to leave out of the scan, for frozen or generated files; repeatable",
+    )
     parser.add_argument("--version", action="version", version=f"agustos-ui-kit {KIT_VERSION}")
     args = parser.parse_args()
 
@@ -361,7 +365,7 @@ def main() -> int:
             print(f"  https://github.com/{REPOSITORY}/releases/tag/v{latest}")
         return 0
 
-    findings, scanned = check(root)
+    findings, scanned = check(root, args.skip)
     if scanned == 0:
         # "clean" after scanning nothing is the most dangerous output this tool
         # could produce. Point it at a real project directory.
