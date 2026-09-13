@@ -24,7 +24,7 @@ Argument: a remote folder under `ui_kits/`, for example `ui_kits/website`. If th
    python3 scripts/sync_claude_design.py pull --from <scratchpad>/design-pull --page <page>
    ```
 
-5. Open the pulled page in the Browser pane by file path, `mockups/claude-design/<page>/index.html`, wait for it to render, and take a full-page screenshot. Save it as `mockups/claude-design/<page>/index.png`. If the page cannot render because a CDN script is blocked, say so and skip the screenshot.
+5. Open the pulled page in the Browser pane by file path, `mockups/claude-design/<page>/index.html`, wait for it to render, and take a full-page screenshot. Save it as `mockups/claude-design/<page>/index.png`. If the sandbox blocks a CDN script and the page cannot render, say so and skip the screenshot.
 
 6. Show the user the README status row for the page and the list of files written. Do not commit unless asked.
 

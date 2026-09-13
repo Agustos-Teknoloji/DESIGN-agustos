@@ -1,6 +1,6 @@
 ---
 name: design-push
-description: Push the generated Ağustos UI kit, favicon, and lockups into the Claude Design project "Ağustos" under agustos-ui/. Use after a token, kit, favicon, or logo change is merged. Never writes outside agustos-ui/.
+description: Push the generated Ağustos UI kit, favicon, and lockups into the Claude Design project "Ağustos" under agustos-ui/. Use after you merge a token, kit, favicon, or logo change. Never writes outside agustos-ui/.
 ---
 
 # /design-push
