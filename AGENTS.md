@@ -117,6 +117,13 @@ Novara (outdoor kitchen furniture) is a brand Ağustos **represents/distributes*
 - **NEVER hand-edit anything under `brand/exports/`.** It is all generated. Everyday token and
   kit changes use `python3 scripts/build_design_system.py` only. Run `brand/build.py` and
   `brand/build_templates.py` only when the user asks for a full asset rebuild. Then update `ASSETS.md`.
+- **Office files (letterhead, document template, PowerPoint) only need a rebuild when the
+  Ağustos brand approach itself changes** — identity ink, wordmark, logo, or the document/
+  presentation recipe in `tokens/design-tokens.json`. A website-only token edit never requires
+  one. Even then, **run `brand/build_templates.py` only when the user explicitly asks** — never
+  as a reflex to a CI drift warning. `scripts/check_office_artifacts.py` fingerprints only the
+  Office-relevant fields for this reason; see [archive/MEMORY.md](archive/MEMORY.md) ("Office
+  drift check scoped to brand-approach fields").
 - **Taglines** are defined in `brand/brands.json` (`tagline_en` / `tagline_tr`) but used sparingly and
   **not printed** on artifacts. The lockup is always tagline-free.
 - If you **add, move, or recolor** any brand asset, **update `ASSETS.md` in the same change**.
