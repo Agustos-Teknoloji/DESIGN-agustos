@@ -44,6 +44,7 @@ Remote folder: `agustos-ui/` (the only folder this skill writes)
 
 ## Rules
 
+- Run this skill in the main session. A subagent does not have the DesignSync tool.
 - Never add a path outside `agustos-ui/` to the plan.
 - Never call `register_assets`. The `@dsCard` marker on line 1 of each card is enough.
 - If `DesignSync` reports missing authorization, tell the user to run `/design-login` once in an interactive Claude Code terminal, then stop.

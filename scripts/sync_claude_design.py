@@ -28,9 +28,6 @@ from typing import NamedTuple
 
 
 ROOT = Path(__file__).resolve().parents[1]
-VERSION_FILE = ROOT / "VERSION"
-UI_DIR = ROOT / "ui"
-FAVICON_DIR = ROOT / "laz-gunesi-amblem" / "favicon"
 LOCKUP_GLOB = "*/lockup/*.svg"
 DIST_DIR = ROOT / "dist" / "claude-design"
 
@@ -44,8 +41,8 @@ PROJECT_URL = f"https://claude.ai/design/p/{PROJECT_ID}"
 # --- Bundle -----------------------------------------------------------------
 
 
-def version() -> str:
-    return VERSION_FILE.read_text(encoding="utf-8").strip()
+def version(root: Path = ROOT) -> str:
+    return (root / "VERSION").read_text(encoding="utf-8").strip()
 
 
 def sha256(payload: bytes) -> str:
@@ -229,14 +226,14 @@ class GuardError(RuntimeError):
     """A precondition for a push failed. The message says what to run."""
 
 
-def generated_outputs_are_current(root: Path = ROOT) -> bool:
+def generated_outputs_are_current(root: Path = ROOT) -> tuple[bool, str]:
     result = subprocess.run(
         ["python3", "scripts/build_design_system.py", "--check"],
         cwd=root,
         capture_output=True,
         text=True,
     )
-    return result.returncode == 0
+    return result.returncode == 0, (result.stdout + result.stderr).strip()
 
 
 def ui_is_clean(root: Path = ROOT) -> bool:
@@ -270,14 +267,18 @@ def build_bundle(
     commit=git_commit,
 ) -> Path:
     """Write <destination>/agustos-ui/ from the generated kit. Refuse if the kit is stale or dirty."""
-    if not check(root):
-        raise GuardError(
+    ok, output = check(root)
+    if not ok:
+        message = (
             "Generated outputs are stale. Run `python3 scripts/build_design_system.py` and commit, "
             "then run `python3 scripts/build_design_system.py --check` until it passes."
         )
+        if output:
+            message = f"{message}\n{output}"
+        raise GuardError(message)
     if not clean(root):
         raise GuardError("ui/ has uncommitted changes. Commit or discard them before a push.")
-    ver = version()
+    ver = version(root)
     members = bundle_members(root) + card_members(ver)
     data = manifest(members, version=ver, commit=commit(root))
     payload = (json.dumps(data, indent=2, ensure_ascii=False, sort_keys=True) + "\n").encode("utf-8")
@@ -319,10 +320,12 @@ Pages pulled verbatim from the Claude Design project "Ağustos".
 - Project: {url}
 - Project ID: `{project_id}`
 - Pulled by: `python3 scripts/sync_claude_design.py pull` (see `.claude/skills/design-pull/SKILL.md`)
+- Repository commit at pull: `{commit}`
 
 These files are references, not kit sources. Nothing in `ui/` imports them.
 The shared runtime at this folder's root (`styles.css`, `_ds_bundle.js`, `tokens/`) is
 overwritten on every pull. Each page folder holds the page and an `index.png` screenshot.
+A pull replaces the page folder, except its `index.png`.
 
 ## When you build one of these pages
 
@@ -342,7 +345,7 @@ overwritten on every pull. Each page folder holds the page and an `index.png` sc
 
 def _page_is_allowed(page: str) -> str:
     page = page.strip("/")
-    if not page.startswith(PAGE_PREFIX) or ".." in page.split("/") or page == PAGE_PREFIX.rstrip("/"):
+    if not page.startswith(PAGE_PREFIX) or ".." in page.split("/"):
         raise ValueError(f"page must be a folder under {PAGE_PREFIX}, got {page!r}")
     return page
 
@@ -371,6 +374,7 @@ def update_readme(existing: str | None, page: str, today: str, commit: str) -> s
     return README_TEMPLATE.format(
         url=PROJECT_URL,
         project_id=PROJECT_ID,
+        commit=commit,
         header=STATUS_HEADER,
         divider=STATUS_DIVIDER,
         rows=body,
@@ -407,6 +411,15 @@ def pull(
         page_dir = root / page
         if not page_dir.is_dir():
             raise FileNotFoundError(f"{page} is not a folder in {source}")
+        page_destination = destination / page
+        if page_destination.is_dir():
+            entries = sorted(page_destination.rglob("*"))
+            for path in entries:
+                if path.is_file() and path.name != "index.png":
+                    path.unlink()
+            for path in sorted((p for p in entries if p.is_dir()), key=lambda p: len(p.parts), reverse=True):
+                if path.is_dir() and not any(path.iterdir()):
+                    path.rmdir()
         wanted: list[Path] = [p for p in sorted(page_dir.rglob("*")) if p.is_file()]
         wanted += [root / rel for rel in RUNTIME_PATHS if (root / rel).is_file()]
         for path in wanted:

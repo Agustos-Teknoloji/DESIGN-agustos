@@ -126,6 +126,15 @@ class CardTest(unittest.TestCase):
         for slug in ("agustos", "pataraz", "pld", "iesdesk", "specquick"):
             self.assertIn(f'src="../logos/{slug}-lockup__positive.svg"', text)
 
+    def test_card_bodies_use_only_kit_classes(self):
+        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+        kit_classes = set(kit["cssClasses"])
+        used_classes: set[str] = set()
+        for text in self.texts.values():
+            for value in re.findall(r'class="([^"]+)"', text):
+                used_classes.update(value.split())
+        self.assertEqual(used_classes - kit_classes, set())
+
 
 class BuildTest(unittest.TestCase):
     @classmethod
@@ -133,7 +142,7 @@ class BuildTest(unittest.TestCase):
         cls.sync = load_sync()
 
     def build(self, **overrides):
-        kwargs = dict(check=lambda root: True, clean=lambda root: True, commit=lambda root: "abc1234")
+        kwargs = dict(check=lambda root: (True, ""), clean=lambda root: True, commit=lambda root: "abc1234")
         kwargs.update(overrides)
         temp = tempfile.TemporaryDirectory()
         self.addCleanup(temp.cleanup)
@@ -153,8 +162,9 @@ class BuildTest(unittest.TestCase):
 
     def test_build_refuses_stale_generated_outputs(self):
         with self.assertRaises(self.sync.GuardError) as caught:
-            self.build(check=lambda root: False)
+            self.build(check=lambda root: (False, "docs/agustos.css differs"))
         self.assertIn("build_design_system.py --check", str(caught.exception))
+        self.assertIn("docs/agustos.css differs", str(caught.exception))
 
     def test_build_refuses_a_dirty_ui_folder(self):
         with self.assertRaises(self.sync.GuardError) as caught:
@@ -165,11 +175,12 @@ class BuildTest(unittest.TestCase):
         folder = self.build()
         stray = folder / "cards" / "old.html"
         stray.write_text("stale", encoding="utf-8")
-        self.sync.build_bundle(folder.parent, check=lambda r: True, clean=lambda r: True, commit=lambda r: "abc1234")
+        self.sync.build_bundle(folder.parent, check=lambda r: (True, ""), clean=lambda r: True, commit=lambda r: "abc1234")
         self.assertFalse(stray.exists())
 
     def test_real_guards_run_against_this_repository(self):
-        self.assertTrue(self.sync.generated_outputs_are_current())
+        ok, _output = self.sync.generated_outputs_are_current()
+        self.assertTrue(ok)
         self.assertRegex(self.sync.git_commit(), r"^[0-9a-f]{7,}$")
 
 
@@ -230,6 +241,7 @@ class PullTest(unittest.TestCase):
         self.assertIn("| ui_kits/website | 2026-09-13 | pending | — |", text)
         self.assertIn("Do not copy the Design markup or CSS", text)
         self.assertIn("check-agustos-ui.py", text)
+        self.assertIn("abc1234", text)
 
     def test_second_pull_updates_the_row_and_keeps_implemented_status(self):
         self.run_pull()
@@ -243,6 +255,15 @@ class PullTest(unittest.TestCase):
         text = readme.read_text(encoding="utf-8")
         self.assertIn("| ui_kits/website | 2026-10-01 | implemented | WEBSITE-agustos@1a2b3c4 |", text)
         self.assertEqual(text.count("| ui_kits/website |"), 1)
+
+    def test_second_pull_removes_files_deleted_remotely(self):
+        self.run_pull()
+        (self.remote / "ui_kits" / "website" / "app.jsx").unlink()
+        page_dir = self.dest / "ui_kits" / "website"
+        (page_dir / "index.png").write_bytes(b"fake-png")
+        self.run_pull(today="2026-10-01")
+        self.assertFalse((page_dir / "app.jsx").exists())
+        self.assertTrue((page_dir / "index.png").is_file())
 
     def test_pull_refuses_a_page_outside_ui_kits(self):
         with self.assertRaises(ValueError):
