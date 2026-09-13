@@ -14,7 +14,6 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "brand" / "exports" / "office-manifest.json"
 SOURCE_PATHS = (
-    "tokens/resolved.json",
     "brand/brands.json",
     "brand/build_templates.py",
     "brand/build_presentation.mjs",
@@ -50,6 +49,32 @@ def artifact_paths(root: Path) -> list[Path]:
     ]
 
 
+def _office_relevant_tokens(resolved: dict[str, Any]) -> dict[str, Any]:
+    """The only parts of tokens/resolved.json the Office generators read.
+
+    Word and PowerPoint pull colors, fonts, the shared signal red, and the
+    document/presentation recipes — nothing else. Web-only recipes, themes, and
+    design-direction prose can change without a single pixel of a Word or
+    PowerPoint template changing, so they must not appear in this fingerprint.
+    Hashing the whole file made every website-only token edit look like a
+    brand-approach change and falsely flag the Office artifacts as stale.
+    """
+    foundations = resolved.get("foundations", {})
+    semantic = resolved.get("semantic", {})
+    recipes = resolved.get("recipes", {})
+    return {
+        "foundations": {
+            "color": foundations.get("color"),
+            "fontFamily": foundations.get("fontFamily"),
+        },
+        "semantic": {"color": {"signal": semantic.get("color", {}).get("signal")}},
+        "recipes": {
+            "document": recipes.get("document"),
+            "presentation": recipes.get("presentation"),
+        },
+    }
+
+
 def source_digest(root: Path) -> str:
     digest = hashlib.sha256()
     source_paths = list(SOURCE_PATHS)
@@ -66,6 +91,16 @@ def source_digest(root: Path) -> str:
         digest.update(b"\0")
         digest.update(path.read_bytes())
         digest.update(b"\0")
+
+    resolved_path = root / "tokens" / "resolved.json"
+    if not resolved_path.exists():
+        raise ArtifactError("missing Office source: tokens/resolved.json")
+    resolved = json.loads(resolved_path.read_text(encoding="utf-8"))
+    subset = _office_relevant_tokens(resolved)
+    digest.update(b"tokens/resolved.json:office-subset")
+    digest.update(b"\0")
+    digest.update(json.dumps(subset, sort_keys=True).encode("utf-8"))
+    digest.update(b"\0")
     return digest.hexdigest()
 
 

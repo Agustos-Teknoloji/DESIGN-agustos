@@ -1111,3 +1111,28 @@ the factory); copying Design CSS into `ui/`; editing Design's tokens to match th
 
 **Later, separate approval:** point Design's own `tokens/fonts.css` and `assets/laz-gunesi.svg`
 at the pushed copies.
+
+## Office drift check scoped to brand-approach fields (2026-09-13)
+
+**On the table:** the CI step `scripts/check_office_artifacts.py --check` fingerprinted the
+entire `tokens/resolved.json` file. Word and PowerPoint only read five fields from it — colors,
+fonts, the shared signal red, and the document/presentation recipes — but the fingerprint also
+covered web-only recipes, themes, and design-direction prose. Any website-only token edit
+changed the fingerprint, so CI reported the Office artifacts as stale even though nothing a
+Word or PowerPoint template renders had changed. That false alarm kept nudging agents and the
+user toward running `brand/build_templates.py` for changes that never touched brand identity.
+
+**Chosen:** fingerprint only the fields the Office generators actually read: `foundations.color`,
+`foundations.fontFamily`, `semantic.color.signal`, `recipes.document`, `recipes.presentation`
+(plus `brand/brands.json` and the generator scripts, already scoped correctly). The rule from
+"Slim handoff zip" stands — Office files rebuild only when the user asks — this only fixes the
+signal that was telling people to ask more often than the templates warranted.
+
+**Why it matters:** the drift check should mean "a Word or PowerPoint template would render
+differently," not "any design token changed anywhere." Scoping it that way makes the existing
+"rebuild on request only, and only for a real brand-approach change" rule (identity ink,
+wordmark, logo, or the document/presentation recipe) trustworthy instead of noisy.
+
+**Rejected:** dropping the CI check entirely. It still catches real drift — a changed identity
+color or recipe with a stale committed `.docx`/`.pptx` — it just no longer fires on unrelated
+website work.
