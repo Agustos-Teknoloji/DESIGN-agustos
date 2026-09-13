@@ -5,6 +5,7 @@ from __future__ import annotations
 import importlib.util
 import json
 import re
+import tempfile
 import unittest
 from pathlib import Path
 
@@ -123,6 +124,52 @@ class CardTest(unittest.TestCase):
         text = self.texts["cards/brand-marks.html"]
         for slug in ("agustos", "pataraz", "pld", "iesdesk", "specquick"):
             self.assertIn(f'src="../logos/{slug}-lockup__positive.svg"', text)
+
+
+class BuildTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.sync = load_sync()
+
+    def build(self, **overrides):
+        kwargs = dict(check=lambda root: True, clean=lambda root: True, commit=lambda root: "abc1234")
+        kwargs.update(overrides)
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        return self.sync.build_bundle(Path(temp.name), **kwargs)
+
+    def test_build_writes_kit_cards_and_manifest_under_agustos_ui(self):
+        folder = self.build()
+        self.assertEqual(folder.name, "agustos-ui")
+        self.assertTrue((folder / "agustos.css").is_file())
+        self.assertTrue((folder / "logos" / "agustos-lockup__positive.svg").is_file())
+        self.assertTrue((folder / "favicon" / "favicon.svg").is_file())
+        self.assertTrue((folder / "cards" / "favicon.html").is_file())
+        data = json.loads((folder / "MANIFEST.json").read_text(encoding="utf-8"))
+        self.assertEqual(data["commit"], "abc1234")
+        self.assertIn("cards/favicon.html", data["files"])
+        self.assertIn("agustos.css", data["files"])
+
+    def test_build_refuses_stale_generated_outputs(self):
+        with self.assertRaises(self.sync.GuardError) as caught:
+            self.build(check=lambda root: False)
+        self.assertIn("build_design_system.py --check", str(caught.exception))
+
+    def test_build_refuses_a_dirty_ui_folder(self):
+        with self.assertRaises(self.sync.GuardError) as caught:
+            self.build(clean=lambda root: False)
+        self.assertIn("ui/", str(caught.exception))
+
+    def test_build_replaces_a_previous_bundle(self):
+        folder = self.build()
+        stray = folder / "cards" / "old.html"
+        stray.write_text("stale", encoding="utf-8")
+        self.sync.build_bundle(folder.parent, check=lambda r: True, clean=lambda r: True, commit=lambda r: "abc1234")
+        self.assertFalse(stray.exists())
+
+    def test_real_guards_run_against_this_repository(self):
+        self.assertTrue(self.sync.generated_outputs_are_current())
+        self.assertRegex(self.sync.git_commit(), r"^[0-9a-f]{7,}$")
 
 
 if __name__ == "__main__":

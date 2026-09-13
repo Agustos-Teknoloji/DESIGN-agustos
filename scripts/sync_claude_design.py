@@ -18,6 +18,8 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import shutil
+import subprocess
 from pathlib import Path
 from typing import NamedTuple
 
@@ -217,6 +219,77 @@ def card_members(version: str) -> list[tuple[str, bytes]]:
     return [(f"cards/{card.slug}.html", card_html(card, version).encode("utf-8")) for card in CARDS]
 
 
+# --- Build ------------------------------------------------------------------
+
+
+class GuardError(RuntimeError):
+    """A precondition for a push failed. The message says what to run."""
+
+
+def generated_outputs_are_current(root: Path = ROOT) -> bool:
+    result = subprocess.run(
+        ["python3", "scripts/build_design_system.py", "--check"],
+        cwd=root,
+        capture_output=True,
+        text=True,
+    )
+    return result.returncode == 0
+
+
+def ui_is_clean(root: Path = ROOT) -> bool:
+    result = subprocess.run(
+        ["git", "status", "--porcelain", "--", "ui"],
+        cwd=root,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return result.stdout.strip() == ""
+
+
+def git_commit(root: Path = ROOT) -> str:
+    result = subprocess.run(
+        ["git", "rev-parse", "--short", "HEAD"],
+        cwd=root,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return result.stdout.strip()
+
+
+def build_bundle(
+    destination: Path = DIST_DIR,
+    root: Path = ROOT,
+    *,
+    check=generated_outputs_are_current,
+    clean=ui_is_clean,
+    commit=git_commit,
+) -> Path:
+    """Write <destination>/agustos-ui/ from the generated kit. Refuse if the kit is stale or dirty."""
+    if not check(root):
+        raise GuardError(
+            "Generated outputs are stale. Run `python3 scripts/build_design_system.py` and commit, "
+            "then run `python3 scripts/build_design_system.py --check` until it passes."
+        )
+    if not clean(root):
+        raise GuardError("ui/ has uncommitted changes. Commit or discard them before a push.")
+    ver = version()
+    members = bundle_members(root) + card_members(ver)
+    data = manifest(members, version=ver, commit=commit(root))
+    payload = (json.dumps(data, indent=2, ensure_ascii=False, sort_keys=True) + "\n").encode("utf-8")
+    members.append(("MANIFEST.json", payload))
+
+    folder = destination / REMOTE_PREFIX
+    if folder.exists():
+        shutil.rmtree(folder)
+    for name, content in members:
+        target = folder / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_bytes(content)
+    return folder
+
+
 # --- CLI --------------------------------------------------------------------
 
 
@@ -225,6 +298,9 @@ def main() -> int:
     sub = parser.add_subparsers(dest="command", required=True)
     listing = sub.add_parser("list", help="print the bundle paths and sizes")
     listing.set_defaults(func=cmd_list)
+    build = sub.add_parser("build", help="write dist/claude-design/agustos-ui/ after the guards pass")
+    build.add_argument("-o", "--output", type=Path, default=DIST_DIR, help="destination folder (default: dist/claude-design)")
+    build.set_defaults(func=cmd_build)
     args = parser.parse_args()
     return args.func(args)
 
@@ -234,6 +310,17 @@ def cmd_list(args: argparse.Namespace) -> int:
     for name, payload in members:
         print(f"{len(payload):8}  {REMOTE_PREFIX}/{name}")
     print(f"{len(members)} files")
+    return 0
+
+
+def cmd_build(args: argparse.Namespace) -> int:
+    try:
+        folder = build_bundle(args.output)
+    except GuardError as error:
+        print(f"refused: {error}")
+        return 1
+    count = sum(1 for p in folder.rglob("*") if p.is_file())
+    print(f"wrote {folder.relative_to(ROOT) if folder.is_relative_to(ROOT) else folder} ({count} files)")
     return 0
 
 
