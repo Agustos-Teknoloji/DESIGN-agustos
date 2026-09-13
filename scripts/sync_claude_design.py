@@ -20,6 +20,9 @@ import hashlib
 import json
 import shutil
 import subprocess
+import tempfile
+import zipfile
+from datetime import date
 from pathlib import Path
 from typing import NamedTuple
 
@@ -290,6 +293,134 @@ def build_bundle(
     return folder
 
 
+# --- Pull -------------------------------------------------------------------
+# A Design page is React + JSX loaded by relative paths from the project root.
+# Mirroring the remote layout keeps every link intact. The page is a reference;
+# nothing in the kit imports it.
+
+RUNTIME_PATHS: tuple[str, ...] = (
+    "styles.css",
+    "_ds_bundle.js",
+    "tokens/fonts.css",
+    "tokens/colors.css",
+    "tokens/spacing.css",
+    "tokens/typography.css",
+    "tokens/base.css",
+)
+MOCKUPS_DIR = ROOT / "mockups" / "claude-design"
+PAGE_PREFIX = "ui_kits/"
+STATUS_HEADER = "| Remote path | Pulled | Status | Built in |"
+STATUS_DIVIDER = "|---|---|---|---|"
+
+README_TEMPLATE = """# Claude Design references
+
+Pages pulled verbatim from the Claude Design project "Ağustos".
+
+- Project: {url}
+- Project ID: `{project_id}`
+- Pulled by: `python3 scripts/sync_claude_design.py pull` (see `.claude/skills/design-pull/SKILL.md`)
+
+These files are references, not kit sources. Nothing in `ui/` imports them.
+The shared runtime at this folder's root (`styles.css`, `_ds_bundle.js`, `tokens/`) is
+overwritten on every pull. Each page folder holds the page and an `index.png` screenshot.
+
+## When you build one of these pages
+
+1. Open the page folder and `index.png` beside your editor.
+2. Rebuild the layout in the website repository with `ui/UI-KIT.md` and the kit classes.
+3. Do not copy the Design markup or CSS. The kit is generated from the three sources.
+4. Run `python3 vendor/agustos-ui/check-agustos-ui.py .` until it exits 0.
+5. Change the row below to `implemented` and record the repository and commit.
+
+## Status
+
+{header}
+{divider}
+{rows}
+"""
+
+
+def _page_is_allowed(page: str) -> str:
+    page = page.strip("/")
+    if not page.startswith(PAGE_PREFIX) or ".." in page.split("/") or page == PAGE_PREFIX.rstrip("/"):
+        raise ValueError(f"page must be a folder under {PAGE_PREFIX}, got {page!r}")
+    return page
+
+
+def _status_rows(existing: str | None) -> dict[str, list[str]]:
+    """Parse the status table into {remote path: [path, pulled, status, built in]}."""
+    rows: dict[str, list[str]] = {}
+    if not existing:
+        return rows
+    for line in existing.splitlines():
+        if not line.startswith("| ") or line in (STATUS_HEADER, STATUS_DIVIDER):
+            continue
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if len(cells) == 4 and cells[0].startswith(PAGE_PREFIX):
+            rows[cells[0]] = cells
+    return rows
+
+
+def update_readme(existing: str | None, page: str, today: str, commit: str) -> str:
+    """Add or refresh the page's row. Keep a row's status and 'built in' when it exists."""
+    rows = _status_rows(existing)
+    current = rows.get(page, [page, today, "pending", "—"])
+    current[1] = today
+    rows[page] = current
+    body = "\n".join("| " + " | ".join(cells) + " |" for _, cells in sorted(rows.items()))
+    return README_TEMPLATE.format(
+        url=PROJECT_URL,
+        project_id=PROJECT_ID,
+        header=STATUS_HEADER,
+        divider=STATUS_DIVIDER,
+        rows=body,
+    )
+
+
+def _source_root(source: Path, scratch: Path) -> Path:
+    """A directory as-is, or a zip extracted into scratch. Unwrap a single top-level folder."""
+    if source.is_dir():
+        root = source
+    else:
+        with zipfile.ZipFile(source) as archive:
+            archive.extractall(scratch)
+        root = scratch
+    entries = [p for p in root.iterdir() if not p.name.startswith(".")]
+    if len(entries) == 1 and entries[0].is_dir() and not (root / "styles.css").exists():
+        root = entries[0]
+    return root
+
+
+def pull(
+    source: Path,
+    page: str,
+    destination: Path = MOCKUPS_DIR,
+    *,
+    today: str,
+    commit: str,
+) -> list[Path]:
+    """Copy one page subtree and the shared runtime from source into destination, mirroring paths."""
+    page = _page_is_allowed(page)
+    written: list[Path] = []
+    with tempfile.TemporaryDirectory() as scratch:
+        root = _source_root(source, Path(scratch))
+        page_dir = root / page
+        if not page_dir.is_dir():
+            raise FileNotFoundError(f"{page} is not a folder in {source}")
+        wanted: list[Path] = [p for p in sorted(page_dir.rglob("*")) if p.is_file()]
+        wanted += [root / rel for rel in RUNTIME_PATHS if (root / rel).is_file()]
+        for path in wanted:
+            target = destination / path.relative_to(root)
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_bytes(path.read_bytes())
+            written.append(target)
+    readme = destination / "README.md"
+    existing = readme.read_text(encoding="utf-8") if readme.exists() else None
+    readme.write_text(update_readme(existing, page, today, commit), encoding="utf-8")
+    written.append(readme)
+    return written
+
+
 # --- CLI --------------------------------------------------------------------
 
 
@@ -301,6 +432,10 @@ def main() -> int:
     build = sub.add_parser("build", help="write dist/claude-design/agustos-ui/ after the guards pass")
     build.add_argument("-o", "--output", type=Path, default=DIST_DIR, help="destination folder (default: dist/claude-design)")
     build.set_defaults(func=cmd_build)
+    pulling = sub.add_parser("pull", help="copy one Design page into mockups/claude-design/")
+    pulling.add_argument("--from", dest="source", type=Path, required=True, help="directory or zip that mirrors the Design project layout")
+    pulling.add_argument("--page", required=True, help="remote folder, for example ui_kits/website")
+    pulling.set_defaults(func=cmd_pull)
     args = parser.parse_args()
     return args.func(args)
 
@@ -321,6 +456,18 @@ def cmd_build(args: argparse.Namespace) -> int:
         return 1
     count = sum(1 for p in folder.rglob("*") if p.is_file())
     print(f"wrote {folder.relative_to(ROOT) if folder.is_relative_to(ROOT) else folder} ({count} files)")
+    return 0
+
+
+def cmd_pull(args: argparse.Namespace) -> int:
+    try:
+        written = pull(args.source, args.page, today=date.today().isoformat(), commit=git_commit())
+    except (ValueError, FileNotFoundError) as error:
+        print(f"refused: {error}")
+        return 1
+    for path in written:
+        print(path.relative_to(ROOT).as_posix())
+    print(f"{len(written)} files")
     return 0
 
 

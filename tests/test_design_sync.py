@@ -7,6 +7,7 @@ import json
 import re
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 
 
@@ -170,6 +171,131 @@ class BuildTest(unittest.TestCase):
     def test_real_guards_run_against_this_repository(self):
         self.assertTrue(self.sync.generated_outputs_are_current())
         self.assertRegex(self.sync.git_commit(), r"^[0-9a-f]{7,}$")
+
+
+def fake_remote(folder: Path) -> None:
+    """A tiny copy of the Design project's layout."""
+    (folder / "tokens").mkdir(parents=True)
+    (folder / "ui_kits" / "website").mkdir(parents=True)
+    (folder / "ui_kits" / "iesdesk").mkdir(parents=True)
+    (folder / "styles.css").write_text("@import 'tokens/colors.css';\n", encoding="utf-8")
+    (folder / "_ds_bundle.js").write_text("window.ds = {};\n", encoding="utf-8")
+    for name in ("fonts", "colors", "spacing", "typography", "base"):
+        (folder / "tokens" / f"{name}.css").write_text(f"/* {name} */\n", encoding="utf-8")
+    (folder / "ui_kits" / "website" / "index.html").write_text('<link rel="stylesheet" href="../../styles.css">\n', encoding="utf-8")
+    (folder / "ui_kits" / "website" / "site.css").write_text("body{}\n", encoding="utf-8")
+    (folder / "ui_kits" / "website" / "app.jsx").write_text("// app\n", encoding="utf-8")
+    (folder / "ui_kits" / "iesdesk" / "index.html").write_text("<p>other kit</p>\n", encoding="utf-8")
+    (folder / "readme.md").write_text("Design readme\n", encoding="utf-8")
+
+
+class PullTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.sync = load_sync()
+
+    def setUp(self):
+        temp = tempfile.TemporaryDirectory()
+        self.addCleanup(temp.cleanup)
+        self.temp = Path(temp.name)
+        self.remote = self.temp / "remote"
+        fake_remote(self.remote)
+        self.dest = self.temp / "mockups" / "claude-design"
+
+    def run_pull(self, source=None, page="ui_kits/website", today="2026-09-13", commit="abc1234"):
+        return self.sync.pull(source or self.remote, page, self.dest, today=today, commit=commit)
+
+    def test_pull_mirrors_page_and_runtime_verbatim(self):
+        self.run_pull()
+        self.assertEqual((self.dest / "ui_kits" / "website" / "index.html").read_text(encoding="utf-8"), '<link rel="stylesheet" href="../../styles.css">\n')
+        self.assertTrue((self.dest / "ui_kits" / "website" / "app.jsx").is_file())
+        self.assertTrue((self.dest / "styles.css").is_file())
+        self.assertTrue((self.dest / "_ds_bundle.js").is_file())
+        for name in ("fonts", "colors", "spacing", "typography", "base"):
+            self.assertTrue((self.dest / "tokens" / f"{name}.css").is_file(), name)
+
+    def test_pull_leaves_other_pages_and_design_readme_out(self):
+        self.run_pull()
+        self.assertFalse((self.dest / "ui_kits" / "iesdesk").exists())
+        names = sorted(p.name for p in self.dest.iterdir() if p.is_file())
+        self.assertEqual([n for n in names if n.lower() == "readme.md"], ["README.md"])
+        text = (self.dest / "README.md").read_text(encoding="utf-8")
+        self.assertNotIn("Design readme", text)
+        self.assertIn("Claude Design references", text)
+
+    def test_pull_writes_readme_with_a_pending_row(self):
+        self.run_pull()
+        text = (self.dest / "README.md").read_text(encoding="utf-8")
+        self.assertIn("https://claude.ai/design/p/7fee69d5-01ee-4727-beaf-cb6c5bd923c4", text)
+        self.assertIn("| ui_kits/website | 2026-09-13 | pending | — |", text)
+        self.assertIn("Do not copy the Design markup or CSS", text)
+        self.assertIn("check-agustos-ui.py", text)
+
+    def test_second_pull_updates_the_row_and_keeps_implemented_status(self):
+        self.run_pull()
+        readme = self.dest / "README.md"
+        text = readme.read_text(encoding="utf-8").replace(
+            "| ui_kits/website | 2026-09-13 | pending | — |",
+            "| ui_kits/website | 2026-09-13 | implemented | WEBSITE-agustos@1a2b3c4 |",
+        )
+        readme.write_text(text, encoding="utf-8")
+        self.run_pull(today="2026-10-01")
+        text = readme.read_text(encoding="utf-8")
+        self.assertIn("| ui_kits/website | 2026-10-01 | implemented | WEBSITE-agustos@1a2b3c4 |", text)
+        self.assertEqual(text.count("| ui_kits/website |"), 1)
+
+    def test_pull_refuses_a_page_outside_ui_kits(self):
+        with self.assertRaises(ValueError):
+            self.run_pull(page="components/actions")
+        with self.assertRaises(ValueError):
+            self.run_pull(page="../etc")
+
+    def test_pull_from_zip_matches_pull_from_directory(self):
+        archive = self.temp / "export.zip"
+        with zipfile.ZipFile(archive, "w") as zf:
+            for path in sorted(self.remote.rglob("*")):
+                if path.is_file():
+                    zf.write(path, path.relative_to(self.remote).as_posix())
+        self.run_pull(source=archive)
+        from_zip = sorted(p.relative_to(self.dest).as_posix() for p in self.dest.rglob("*") if p.is_file())
+        other = self.temp / "again"
+        self.sync.pull(self.remote, "ui_kits/website", other, today="2026-09-13", commit="abc1234")
+        from_dir = sorted(p.relative_to(other).as_posix() for p in other.rglob("*") if p.is_file())
+        self.assertEqual(from_zip, from_dir)
+
+    def test_pull_returns_written_paths(self):
+        written = self.run_pull()
+        names = sorted(p.relative_to(self.dest).as_posix() for p in written)
+        self.assertIn("ui_kits/website/index.html", names)
+        self.assertIn("README.md", names)
+
+    def test_pull_from_zip_with_a_wrapper_folder_unwraps_it(self):
+        archive = self.temp / "export-wrapped.zip"
+        with zipfile.ZipFile(archive, "w") as zf:
+            for path in sorted(self.remote.rglob("*")):
+                if path.is_file():
+                    zf.write(path, "Agustos Design System/" + path.relative_to(self.remote).as_posix())
+        self.run_pull(source=archive)
+        self.assertTrue((self.dest / "ui_kits" / "website" / "index.html").is_file())
+        self.assertTrue((self.dest / "styles.css").is_file())
+        self.assertFalse((self.dest / "Agustos Design System").exists())
+
+    def test_pull_refuses_a_page_that_does_not_exist(self):
+        with self.assertRaises(FileNotFoundError):
+            self.run_pull(page="ui_kits/missing")
+        self.assertFalse(self.dest.exists())
+
+    def test_readme_keeps_one_row_per_page_sorted(self):
+        (self.remote / "ui_kits" / "pataraz").mkdir()
+        (self.remote / "ui_kits" / "pataraz" / "index.html").write_text("<p>pataraz</p>\n", encoding="utf-8")
+        self.run_pull(page="ui_kits/website")
+        self.run_pull(page="ui_kits/pataraz", today="2026-09-14")
+        text = (self.dest / "README.md").read_text(encoding="utf-8")
+        rows = [line for line in text.splitlines() if line.startswith("| ui_kits/")]
+        self.assertEqual(rows, [
+            "| ui_kits/pataraz | 2026-09-14 | pending | — |",
+            "| ui_kits/website | 2026-09-13 | pending | — |",
+        ])
 
 
 if __name__ == "__main__":
