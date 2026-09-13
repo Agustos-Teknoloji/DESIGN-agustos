@@ -4,6 +4,8 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [5.2.0] - 2026-09-13
+
 ### Added
 
 - Claude Design sync. `scripts/sync_claude_design.py build` packs the kit, favicon, lockups, and preview cards under `agustos-ui/`; `/design-push` uploads that folder into the Claude Design project "Ağustos". `scripts/sync_claude_design.py pull` and `/design-pull` save a Design page under `mockups/claude-design/` as a reference with a status table. Workflow: `docs/claude-design-sync.html`.

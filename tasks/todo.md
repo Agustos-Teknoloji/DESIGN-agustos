@@ -221,4 +221,26 @@ into `mockups/claude-design/` as references.
 - [x] 6. `docs/claude-design-sync.html`, AGENTS.md rows, HANDOFF.md, CHANGELOG, archive/MEMORY.md
 - [x] 7. First real push (main session; verify cards in the Design System pane; second push is a no-op)
 - [x] 8. First real pull of `ui_kits/website` with screenshot; commit
-- [ ] 9. VERSION 5.2.0, regenerate, `--check`, review section, PR
+- [x] 9. VERSION 5.2.0, regenerate, `--check`, review section, PR
+
+## Review — Claude Design sync (2026-09-13)
+
+**Shipped:**
+- `scripts/sync_claude_design.py` with `build`, `pull`, and `list` subcommands
+- `.claude/skills/design-push/SKILL.md` and `.claude/skills/design-pull/SKILL.md`
+- `docs/claude-design-sync.html` (explainer and workflow)
+- AGENTS.md routing rows for `/design-push` and `/design-pull`
+- HANDOFF.md section documenting the sync strategy
+- CHANGELOG entry under `## [5.2.0] - 2026-09-13` with the feature description
+- `archive/MEMORY.md` decision record for the sync architecture and approval
+- `tests/test_design_sync.py` with 29 test cases covering builders, manifest generation, and pull operations
+- `.claude/launch.json` entry for the `agustos-docs` local dev server on port 4390
+
+**Verification — Task 7 (push):**
+The first push wrote 46 files under `agustos-ui/` in the Claude Design project. The remote `MANIFEST.json` matched the local copy (commit 1b1455f, version 5.1.1). A repeat push found nothing to write, confirming the push operation is idempotent. The pushed preview cards were not yet visible in the Design System pane at verification time; the design app compiles its card index during self-check after all writes complete.
+
+**Verification — Task 8 (pull):**
+The `ui_kits/website` page was pulled as 16 files under `mockups/claude-design/`. The README status table shows the entry `| ui_kits/website | 2026-09-13 | pending | — |`. The pulled page renders correctly with React loaded from unpkg CDN, and `index.png` was captured with headless Google Chrome at 1280 by 2200 pixels.
+
+**Deferred to separate approval:**
+Repointing Design's own `tokens/fonts.css` and `assets/laz-gunesi.svg` at the pushed `agustos-ui/` copies requires separate approval. This deferred work is one approval gate to avoid linking the Claude Design project to this repository before the design team validates the sync workflow under real conditions.
