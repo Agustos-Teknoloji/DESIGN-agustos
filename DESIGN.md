@@ -611,7 +611,7 @@ Every house site uses **one shared favicon**: the bare red Laz Güneşi from `la
 
 Canonical kit: `laz-gunesi-amblem/favicon/` — `favicon.svg` (byte-identical to `master.svg`), `favicon.ico`, `apple-touch-icon.png`, `icon-192.png` / `icon-512.png` + `site.webmanifest`, and `favicon-mono.svg` (same artwork, for in-page use). Copy-paste `<head>` tags and regeneration steps live in that folder's `README.md`.
 
-`brand/exports/<brand>/favicon/` copies the same SVG and regenerates rasters; manifests keep each brand's `theme_color`. Adapter `public/favicon.svg` files are **mirrors** of the canonical; update them in the same change. The full asset map and sync rules are in the repo-root `ASSETS.md`.
+`brand/exports/<brand>/favicon/` copies the same SVG and regenerates rasters; every brand's manifest now shares the same brand-red `theme_color` too, matching the shared tab icon. Adapter `public/favicon.svg` files are **mirrors** of the canonical; update them in the same change. The full asset map and sync rules are in the repo-root `ASSETS.md`.
 
 ### Logotype: Inter Tight 650
 

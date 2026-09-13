@@ -87,7 +87,7 @@ Build one with `--product <key>`, a whole brand with `--brand <slug>`, or all wi
 - **mono** — single ink color on transparent. Print, stamps, engraving.
 
 Favicons are shared: every brand's `favicon/` ships the bare red Laz Güneşi from
-`laz-gunesi-amblem/svg/master.svg`. Manifests keep each brand's `theme_color`.
+`laz-gunesi-amblem/svg/master.svg`, and every manifest's `theme_color` is the same brand red.
 
 The wordmark is baked to vector **outlines**, so every file renders identically with
 no font installed.

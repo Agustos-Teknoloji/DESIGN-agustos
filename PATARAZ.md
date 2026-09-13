@@ -104,7 +104,8 @@ tokens" — do not re-list pixel values here; they have drifted from the live sp
 - **mono** (single ink) — single-color print, engraving.
 - The **favicon is shared** across every house site: the bare red Laz Güneşi from
   `laz-gunesi-amblem/svg/master.svg` (`DESIGN.md` §"Favicon & app icons").
-  Pataraz's export folder ships that same SVG; the manifest `theme_color` stays `#15130f`.
+  Pataraz's export folder ships that same SVG, and its manifest `theme_color` is brand red
+  `#cf142a` too, matching the shared tab icon.
 
 Verify every negative composition for contrast and small-size legibility before shipping.
 
