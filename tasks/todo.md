@@ -218,7 +218,7 @@ into `mockups/claude-design/` as references.
 - [x] 3. `build` command with stale-kit and dirty-tree guards
 - [x] 4. `pull` command, remote-layout mirror, README status table
 - [x] 5. `/design-push` and `/design-pull` skills
-- [ ] 6. `docs/claude-design-sync.html`, AGENTS.md rows, HANDOFF.md, CHANGELOG, archive/MEMORY.md
-- [ ] 7. First real push (main session; verify cards in the Design System pane; second push is a no-op)
-- [ ] 8. First real pull of `ui_kits/website` with screenshot; commit
+- [x] 6. `docs/claude-design-sync.html`, AGENTS.md rows, HANDOFF.md, CHANGELOG, archive/MEMORY.md
+- [x] 7. First real push (main session; verify cards in the Design System pane; second push is a no-op)
+- [x] 8. First real pull of `ui_kits/website` with screenshot; commit
 - [ ] 9. VERSION 5.2.0, regenerate, `--check`, review section, PR
