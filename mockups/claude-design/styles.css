@@ -1,0 +1,9 @@
+/* Ağustos Design System — global entry point.
+   Consumers link THIS file. Keep it @import lines only.
+   v2.1.2 · Type-first multi-brand system for Emre Güneş's portfolio. */
+
+@import url("tokens/fonts.css");
+@import url("tokens/colors.css");
+@import url("tokens/spacing.css");
+@import url("tokens/typography.css");
+@import url("tokens/base.css");

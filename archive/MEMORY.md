@@ -1093,3 +1093,21 @@ tab mark across ağustos / pataraz / pld / iesdesk / specquick. Wordmarks alread
 differentiate the brands; the tab icon does not need to.
 
 **Rejected:** keep per-brand black/red tiles as the browser favicon.
+
+
+## Claude Design sync: one owner per artifact (2026-09-13)
+
+**On the table:** the Claude Design project "Ağustos" (org default) had rebuilt its own CSS,
+Google Fonts stack, and a parametric symbol from an uploaded spec. It said "Version 3.0" while
+the repository was at v5.1.1. Every sync was a person copying files.
+
+**Chosen:** the repository owns the rules and pushes them; Design owns the drawings and is
+pulled. Push writes only `agustos-ui/**` in Design. Pull writes only `mockups/claude-design/**`
+here, mirroring the remote layout so relative links survive. Pulled pages are references with a
+`pending` / `implemented` status; the website repository rebuilds them with the kit.
+
+**Rejected:** a two-way mirror (two sources of truth, and Design's React stack has no place in
+the factory); copying Design CSS into `ui/`; editing Design's tokens to match the repository.
+
+**Later, separate approval:** point Design's own `tokens/fonts.css` and `assets/laz-gunesi.svg`
+at the pushed copies.

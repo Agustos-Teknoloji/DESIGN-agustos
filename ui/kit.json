@@ -6,7 +6,7 @@
     "brand-iesdesk",
     "brand-specquick"
   ],
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.1.1/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.2.0/ui/",
   "cssClasses": [
     "type-hero",
     "type-hero-md",
@@ -137,23 +137,23 @@
   "files": {
     "AGENTS-SNIPPET.md": {
       "bytes": 2085,
-      "sha256": "580738663cebf982c224b51dcf79308ebd13484a8b5e7044465defe7632ad64e"
+      "sha256": "f2275cec8d0a2ecd5ec25322e23546c3f7f0d662bb02aa6a0fb83b7349e56dd9"
     },
     "UI-KIT.md": {
       "bytes": 9517,
-      "sha256": "2fc86d8a77601b1d7375feb12dd6b0bf8c1a5d6ccea8a59e4953e8a81e6199f8"
+      "sha256": "180ce4c0a5db55cfd14d1ab625cd88a3ec60de10ec8ca1fedebcb572c0e5f42c"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
-      "sha256": "eef6e56347d27d1135f72392086276a1d4718e048d70c6731f2d04e082803a4f"
+      "sha256": "87f309d38202766da6b3a80134552e11ca9ab7188449910a1a5ea74597be3660"
     },
     "agustos.css": {
       "bytes": 27138,
-      "sha256": "eff63d4a8c7e5e02f8abce78c10655b0cc4e8170740fc83184de290e3d284667"
+      "sha256": "ffa55d12f5821561d97bbfd93371c90fd3fd03c0b566f4b7f92e588eea48313d"
     },
     "check-agustos-ui.py": {
       "bytes": 14828,
-      "sha256": "d8a3b63a8fa665990cad01b9f6c89e5752e717a8e79391713c7b0c2008e4ef2d"
+      "sha256": "2bfa2fdb7db5df413215329703eae573507da6f1db22bda492e138bea76e64f6"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -177,12 +177,12 @@
     },
     "starter.html": {
       "bytes": 10263,
-      "sha256": "970db5c3e3e9e0c3a32c81d08d5183a84c259571336189e13cc9f1a8189a16a1"
+      "sha256": "7f8bef1ca4a82d3466b019f08775eab2a31c28052501592cd8508445f030f88c"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.1.1/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.1.1/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.2.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.2.0/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v5.1.1/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v5.2.0/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "signal": {
     "$source": "Ağustos red is the shared interaction signal across every house brand. It does not recolor non-Ağustos identity marks.",
@@ -194,5 +194,5 @@
     "cream"
   ],
   "system": "Ağustos Design System",
-  "version": "5.1.1"
+  "version": "5.2.0"
 }

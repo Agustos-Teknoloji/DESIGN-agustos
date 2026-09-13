@@ -59,17 +59,20 @@ If you already opened the slim zip, skip packing. Start at Apply to a website.
 Read `DESIGN.md` and `docs/web.html` before you write markup.
 Keep wordmarks lowercase in Inter Tight 650. Do not add red fills, uppercase labels, arrows, or shadows.
 
-## If a Claude Design zip arrives in this repository
+## If a Claude Design zip or page arrives in this repository
 
-Edit only:
+Run `/design-pull ui_kits/<page>` in Claude Code, or `python3 scripts/sync_claude_design.py pull --from <zip> --page ui_kits/<page>`.
+The page lands under `mockups/claude-design/` as a reference. Read `docs/claude-design-sync.html` for the full workflow.
+
+A Design page is not a merge. If it shows a rule the kit lacks, edit only:
 
 - `tokens/design-tokens.json`
 - `tokens/web.css.tmpl`
 - `brand/brands.json` (only when identity ink, wordmark, or roster changes)
 
-Then run `python3 scripts/build_design_system.py`.
+Then run `python3 scripts/build_design_system.py`, and `/design-push` so Claude Design receives the rule.
 Do not rebuild logos, Office files, fonts, or datasheets unless asked.
-Do not copy `.dc.html` markup into this repository.
+Do not copy Design markup or CSS into `ui/` or `tokens/`.
 
 ## Locked composition
 

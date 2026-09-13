@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ağustos Design Sync — who owns what, and what to do when</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.1.1/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.1.1/ui/agustos.css">
+<link rel="stylesheet" href="agustos-fonts.css">
+<link rel="stylesheet" href="agustos.css">
+<style>
+  /* Page map only. Not part of the kit. */
+  .sync-hero { padding-block: var(--space-3xl) var(--space-xl); }
+  .sync-owners { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-lg); }
+  .sync-figure { margin: 0; display: grid; gap: var(--space-sm); }
+  .sync-figure svg { max-width: 100%; height: auto; display: block; }
+  .sync-figure figcaption { color: var(--ink-soft); }
+  .svg-box { fill: var(--paper); stroke: currentColor; stroke-width: 1.2; }
+  .svg-sub { fill: var(--surface); }
+  .svg-arrow { stroke: currentColor; stroke-width: 1.6; fill: none; }
+  .svg-text { font-family: var(--body); font-size: 13px; fill: currentColor; }
+  .svg-mono { font-family: var(--mono); font-size: 12px; fill: currentColor; }
+  .svg-head { font-family: var(--display); font-size: 17px; font-weight: 500; fill: currentColor; }
+  @media (max-width: 720px) { .sync-owners { grid-template-columns: 1fr; } }
+  #when .type-table td:last-child, #when .type-table th:last-child { text-align: start; }
+</style>
+</head>
+<body class="brand-agustos paper-white">
+<a class="skip-link" href="#main">Skip to content</a>
+<main id="main" class="container">
+
+  <header class="sync-hero">
+    <p class="type-h4">Ağustos Design System</p>
+    <h1 class="type-hero-md">Two places, one rule</h1>
+    <p class="type-hero-deck">
+      The GitHub repository owns the rules. The Claude Design project owns the drawings.
+      Each thing flows in one direction only.
+    </p>
+    <div class="hero-actions">
+      <a class="hero-action hero-action--primary" href="#when">What to do when</a>
+      <a class="hero-action hero-action--secondary" href="#setup">One-time setup</a>
+    </div>
+  </header>
+
+  <section class="agustos-section" id="owners">
+    <div class="agustos-section__head">
+      <h2 class="type-h2">Who owns what</h2>
+    </div>
+    <p class="type-body">Before you touch anything, ask which side owns it. The owner is where you edit. The other side only receives a copy.</p>
+    <div class="sync-owners">
+      <div class="agustos-card">
+        <h3 class="type-h3">DESIGN-agustos, the repository</h3>
+        <ul class="type-list-ul">
+          <li>Colour, type, spacing, radius, motion tokens</li>
+          <li>The generated UI kit: <code class="type-code">ui/agustos.css</code>, fonts, starter page, UI-KIT.md</li>
+          <li>The Laz Güneşi symbol and the shared favicon</li>
+          <li>Every brand lockup</li>
+        </ul>
+        <p class="type-body">Flows repository → Design. Edit it only in the repository.</p>
+      </div>
+      <div class="agustos-card">
+        <h3 class="type-h3">Claude Design, the project</h3>
+        <ul class="type-list-ul">
+          <li>Page compositions: the website pages, the IESDesk dashboard</li>
+          <li>Explorations and variants tried in the chat</li>
+          <li>Its own React components and specimen cards</li>
+        </ul>
+        <p class="type-body">Flows Design → repository, into <code class="type-code">mockups/claude-design/</code> only. Never into the kit.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="agustos-section" id="flows">
+    <div class="agustos-section__head">
+      <h2 class="type-h2">The two flows</h2>
+    </div>
+    <figure class="sync-figure">
+      <svg viewBox="0 0 900 330" role="img" aria-label="The repository pushes the generated kit, favicon and logos into the reserved folder agustos-ui in the Claude Design project. Claude Design pages are pulled into mockups/claude-design in the repository. A pulled page that is later built lives in a website repository.">
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+            <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
+          </marker>
+        </defs>
+        <rect class="svg-box" x="20" y="40" width="300" height="230" rx="10"/>
+        <text class="svg-head" x="40" y="72">DESIGN-agustos</text>
+        <text class="svg-text" x="40" y="92" fill-opacity="0.7">GitHub repository · owns the rules</text>
+        <rect class="svg-sub" x="40" y="110" width="260" height="30" rx="6"/>
+        <text class="svg-mono" x="52" y="130">tokens/ → ui/agustos.css</text>
+        <rect class="svg-sub" x="40" y="148" width="260" height="30" rx="6"/>
+        <text class="svg-mono" x="52" y="168">laz-gunesi-amblem/favicon/</text>
+        <rect class="svg-sub" x="40" y="186" width="260" height="30" rx="6"/>
+        <text class="svg-mono" x="52" y="206">brand/exports/*/lockup/</text>
+        <rect class="svg-sub" x="40" y="224" width="260" height="30" rx="6"/>
+        <text class="svg-mono" x="52" y="244">mockups/claude-design/</text>
+        <rect class="svg-box" x="580" y="40" width="300" height="230" rx="10"/>
+        <text class="svg-head" x="600" y="72">Claude Design</text>
+        <text class="svg-text" x="600" y="92" fill-opacity="0.7">claude.ai project · owns the drawings</text>
+        <rect class="svg-sub" x="600" y="110" width="260" height="30" rx="6"/>
+        <text class="svg-mono" x="612" y="130">agustos-ui/   ← pushed copy</text>
+        <rect class="svg-sub" x="600" y="148" width="260" height="30" rx="6"/>
+        <text class="svg-mono" x="612" y="168">ui_kits/website/</text>
+        <rect class="svg-sub" x="600" y="186" width="260" height="30" rx="6"/>
+        <text class="svg-mono" x="612" y="206">ui_kits/iesdesk/</text>
+        <rect class="svg-sub" x="600" y="224" width="260" height="30" rx="6"/>
+        <text class="svg-mono" x="612" y="244">components/  cards/</text>
+        <path class="svg-arrow" d="M320,125 L580,125" marker-end="url(#arrow)"/>
+        <text class="svg-text" x="450" y="112" text-anchor="middle" font-weight="600">push</text>
+        <text class="svg-text" x="450" y="147" text-anchor="middle" fill-opacity="0.7">kit · favicon · logos</text>
+        <path class="svg-arrow" d="M580,239 L320,239" marker-end="url(#arrow)"/>
+        <text class="svg-text" x="450" y="226" text-anchor="middle" font-weight="600">pull</text>
+        <text class="svg-text" x="450" y="261" text-anchor="middle" fill-opacity="0.7">pages, as references</text>
+        <path class="svg-arrow" d="M170,270 L170,300" marker-end="url(#arrow)" stroke-dasharray="3 3"/>
+        <text class="svg-text" x="185" y="292" fill-opacity="0.7">later: rebuilt with the kit in the website repository</text>
+      </svg>
+      <figcaption class="type-footnote">Push writes only inside <code class="type-code">agustos-ui/</code> in Claude Design. Pull writes only inside <code class="type-code">mockups/claude-design/</code> in the repository.</figcaption>
+    </figure>
+  </section>
+
+  <section class="agustos-section" id="when">
+    <div class="agustos-section__head">
+      <h2 class="type-h2">When this happens, do this</h2>
+    </div>
+    <table class="type-table">
+      <thead><tr><th>When</th><th>Do</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>You changed a token, the CSS template, the favicon, or a logo in the repository</td>
+          <td><ol class="type-list-ol"><li>Run <code class="type-code">python3 scripts/build_design_system.py</code> and merge.</li><li>In Claude Code, run <code class="type-code">/design-push</code>. It builds the bundle, checks nothing is stale, shows the file list, and uploads only what changed.</li></ol></td>
+        </tr>
+        <tr>
+          <td>You made a page in Claude Design that you want to keep for the website</td>
+          <td><ol class="type-list-ol"><li>In Claude Code, run <code class="type-code">/design-pull ui_kits/website</code>.</li><li>The page, its runtime, and a screenshot land in <code class="type-code">mockups/claude-design/</code> with a README row marked pending.</li><li>Commit. The page is a saved reference, not a built page.</li></ol></td>
+        </tr>
+        <tr>
+          <td>It is time to build one of those pages</td>
+          <td><ol class="type-list-ol"><li>Open the website repository, not this one.</li><li>Tell the agent: rebuild the page from <code class="type-code">mockups/claude-design/</code> with <code class="type-code">ui/UI-KIT.md</code> and the kit classes. Do not copy the Design CSS.</li><li>Run <code class="type-code">check-agustos-ui.py</code> until it exits 0.</li><li>Change the README row to implemented and record the repository and commit.</li></ol></td>
+        </tr>
+        <tr>
+          <td>A pulled page shows a rule the kit lacks, for example a new spacing value</td>
+          <td><ol class="type-list-ol"><li>Edit one of the three sources: <code class="type-code">tokens/design-tokens.json</code>, <code class="type-code">tokens/web.css.tmpl</code>, or <code class="type-code">brand/brands.json</code>.</li><li>Regenerate, test, merge.</li><li>Run <code class="type-code">/design-push</code> so Claude Design receives the new rule.</li></ol></td>
+        </tr>
+        <tr>
+          <td>You want to fix a colour or font inside the Claude Design chat</td>
+          <td>Do not. Design holds a copy of the rules. The next push overwrites a fix made there. Make the change in the repository and push it.</td>
+        </tr>
+        <tr>
+          <td>You want to copy a Design page's CSS into the repository</td>
+          <td>Do not. The three sources generate the kit. Pull the page as a reference, and map only the real rule change into a source.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="agustos-section" id="setup">
+    <div class="agustos-section__head">
+      <h2 class="type-h2">One-time setup</h2>
+    </div>
+    <ol class="type-list-ol">
+      <li><strong>Connect Claude Code to Claude Design.</strong> In an interactive Claude Code terminal, type <code class="type-code">/design-login</code> and approve the prompt. Once per Mac.</li>
+      <li><strong>First push.</strong> Run <code class="type-code">/design-push</code>. The first run creates <code class="type-code">agustos-ui/</code> in Claude Design and uploads the whole kit, the favicon, and the logos.</li>
+      <li><strong>First pull.</strong> Run <code class="type-code">/design-pull ui_kits/website</code>. The same command accepts a zip exported from Claude Design.</li>
+    </ol>
+  </section>
+
+  <section class="agustos-section" id="commands">
+    <div class="agustos-section__head">
+      <h2 class="type-h2">Commands at a glance</h2>
+    </div>
+<pre class="type-code-block"><code>/design-login                      once per Mac
+/design-push                       repository → Claude Design (kit, favicon, logos)
+/design-pull ui_kits/website       Claude Design → mockups/claude-design/
+python3 scripts/build_design_system.py --check   must pass before any push</code></pre>
+  </section>
+
+</main>
+</body>
+</html>

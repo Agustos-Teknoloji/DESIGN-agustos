@@ -1,0 +1,8 @@
+/* fonts.css — webfont declarations.
+   SUBSTITUTION: the canonical system self-hosts via @fontsource-variable
+   (inter-tight, inter) + @fontsource (jetbrains-mono). Pending the official
+   font binaries from the repo, we load the exact same families from Google
+   Fonts (Inter Tight + Inter by Rasmus Andersson; JetBrains Mono). Swap these
+   for self-hosted @font-face rules when the binaries are available. */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&family=Inter:ital,wght@0,100..900;1,100..900&family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap");

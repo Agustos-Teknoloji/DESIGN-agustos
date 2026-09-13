@@ -1,0 +1,70 @@
+/* colors.css — v3 (Sept 2026). Six colours, locked. White is the substrate now;
+   cream is retired to a full-bleed callout/CTA band, never the paper. Red is a
+   fixed, universal interaction signal — NOT a per-brand hue — restricted to
+   exactly two places (see base.css / typography.css): the rule under a content
+   link, and the rule revealed under a menu item on hover/current. Only the
+   publisher mark (Ağustos) is red; every other brand's mark is the one
+   off-black. --brand still varies per brand scope, but it now controls the
+   IDENTITY MARK colour only — never the interaction signal. */
+
+:root {
+  /* The six colours. No seventh, no alternate shades. */
+  --white:      #ffffff;
+  --cream:      #fdf5f5;  /* full-bleed callout/CTA band only — never the paper */
+  --gray-light: #ebebeb;  /* functional surfaces: tiles, image regions, panels */
+  --gray-dark:  #404040;  /* secondary text */
+  --off-black:  #15130f;  /* headlines, filled buttons, footer */
+  --red:        #cf142a;  /* fixed signal colour. Same hex everywhere, always */
+
+  /* Support values */
+  --rule:       #e8e4da;  /* hairline separator */
+  --label-faint: #8a8378; /* faint label text */
+
+  /* Substrate — white by default. Swap with .band-cream / .band-surface locally,
+     or html[data-theme="dark"] globally. */
+  --paper:        var(--white);
+  --paper-white:  var(--white);   /* explicit-white alias, e.g. text on a fill */
+  --paper-cream:  var(--cream);   /* full-bleed callout/CTA band background */
+  --surface:      var(--gray-light); /* functional surface: tiles, panels, image regions */
+
+  /* Ink */
+  --ink:        var(--off-black); /* primary text, headlines */
+  --ink-soft:   var(--gray-dark); /* secondary text */
+  --ink-faint:  var(--label-faint); /* small labels */
+
+  /* Brand marks — name + colour is the only axis, and colour is nearly fixed:
+     red is reserved for the publisher (Ağustos); every other brand is the one
+     off-black. Adding a brand is one line, always --off-black unless it's the
+     flagship. */
+  --brand-agustos:   var(--red);
+  --brand-pataraz:   var(--off-black);
+  --brand-pld:       var(--off-black);
+  --brand-iesdesk:   var(--off-black);
+  --brand-specquick: var(--off-black);
+
+  --brand: var(--brand-agustos); /* runtime alias; falls back to the publisher mark */
+}
+
+.brand-agustos   { --brand: var(--brand-agustos); }
+.brand-pataraz   { --brand: var(--brand-pataraz); }
+.brand-pld       { --brand: var(--brand-pld); }
+.brand-iesdesk   { --brand: var(--brand-iesdesk); }
+.brand-specquick { --brand: var(--brand-specquick); }
+
+/* Substrate utilities — local overrides, not the ambient default. */
+.band-cream   { background: var(--paper-cream); }   /* full-bleed callout/CTA band */
+.band-surface { background: var(--surface); }        /* functional tile/panel */
+.paper-white  { --paper: var(--paper-white); }       /* force explicit white */
+
+/* Dark theme — same six colours, flipped roles. No new hexes. Red never adapts.
+   Cream retires; its band role is played by light gray instead. */
+[data-theme="dark"] {
+  --paper:       var(--off-black);
+  --paper-white: var(--off-black);
+  --paper-cream: var(--gray-light); /* callout/CTA band role in dark */
+  --surface:     var(--gray-dark);  /* cards, borders, functional surfaces */
+  --ink:         var(--white);
+  --ink-soft:    var(--label-faint);
+  --ink-faint:   var(--label-faint);
+  --rule:        #33302a;
+}

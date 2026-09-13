@@ -1,0 +1,145 @@
+/* base.css — global element styles, layout primitives, action utilities (v3).
+   White is the substrate; cream/gray bands are local overrides via
+   .band-cream / .band-surface. Red is fixed and restricted to two places:
+   the content-link rule (below) and the plain-label hover/current rule. */
+
+html, body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-feature-settings: "locl" on, "kern" on, "ss01" on;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  margin: 0;
+}
+
+/* locl is mandatory for correct Turkish capitalization on lang="tr" content. */
+
+/* Default body links — the content-link treatment. Fixed red rule, ink at
+   rest, ink turns red on hover. The rule never changes with brand scope. */
+a:not(.lockup):not(.hero-link):not(.plain-label):not([class*="reset"]) {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  background-image: linear-gradient(var(--red), var(--red));
+  background-size: 100% 2px;
+  background-position: 0 calc(100% - 1px);
+  background-repeat: no-repeat;
+  padding-bottom: 3px;
+  transition: color var(--dur) var(--ease);
+}
+a:not(.lockup):not(.hero-link):not(.plain-label):not([class*="reset"]):hover { color: var(--red); }
+
+/* Plain label — navigation: menu, breadcrumb, footer. No rule at rest; the
+   2px red rule is revealed on hover and on the current item only. */
+.plain-label {
+  font-family: var(--display); font-size: 15px; font-weight: 500;
+  color: var(--ink-soft); text-decoration: none; background: none; padding: 0 0 3px;
+  border-bottom: 2px solid transparent;
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.plain-label:hover, .plain-label.is-current { color: var(--ink); border-color: var(--red); }
+
+/* Focus — the one keyboard signal, always red, regardless of brand scope. */
+:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+::selection { background: color-mix(in srgb, var(--red) 16%, transparent); }
+
+/* ── Layout ───────────────────────────────────────────────────────── */
+/* Prose measure — documents and long-form editorial content. */
+.container {
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding: clamp(2.5rem, 7vw, 5rem) var(--container-pad);
+}
+/* Layout column — marketing/product surfaces. 1180px cap, 32px gutters.
+   Full-bleed bands (.band-cream/.band-surface/footer) stretch edge to edge;
+   put a .layout-col inside them to align content to the same column. */
+.layout-col {
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-gutter);
+  box-sizing: border-box;
+}
+
+.skip-link {
+  position: absolute; left: -9999px; top: 0;
+  background: var(--ink); color: var(--paper);
+  padding: 0.75em 1.25em; font-family: var(--display);
+  font-weight: 600; z-index: 100;
+}
+.skip-link:focus { left: 0; }
+
+/* ── Hero composition utilities ───────────────────────────────────── */
+.hero-links {
+  display: flex; flex-wrap: wrap;
+  row-gap: 1rem; column-gap: 1.5rem;
+  margin-top: 2rem;
+}
+.hero-link {
+  font-family: var(--display);
+  font-size: clamp(17px, 1.6vw, 21px);
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-flex; align-items: baseline; gap: 0.4em;
+  background-image: linear-gradient(var(--red), var(--red));
+  background-size: 100% 2px;
+  background-position: 0 calc(100% - 1px);
+  background-repeat: no-repeat;
+  padding-bottom: 3px;
+  transition: gap var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.hero-link::after { content: "\2192"; }
+.hero-link:hover { gap: 0.7em; color: var(--red); }
+.hero-link--primary { color: var(--ink); font-weight: 600; }
+.hero-link--secondary { color: var(--ink-soft); font-weight: 500; }
+.hero-link--primary:hover, .hero-link--secondary:hover { color: var(--red); }
+
+.hero-trust {
+  font-family: var(--body); font-size: 13.75px; line-height: 1.5;
+  color: var(--ink-faint); margin-top: 2.5rem;
+}
+.hero-visual { width: 100%; }
+.hero-visual img { width: 100%; display: block; }
+
+/* Boxed action — filled black or outline. Filled never changes on hover;
+   outline fills black with a white label. No red fill, ever (dark-theme hero
+   primary CTA is the one approved exception — see colors.css / Button.jsx). */
+.hero-action {
+  display: inline-flex; align-items: center; gap: 0.5em;
+  font-family: var(--display); font-weight: 600; font-size: 15px;
+  color: var(--ink); text-decoration: none;
+  border: 1px solid var(--ink); border-radius: var(--radius-md);
+  padding: 0.7em 1.1em; min-height: 44px; box-sizing: border-box;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.hero-action--primary { background: var(--ink); color: var(--paper-white); }
+.hero-action:hover { background: var(--ink); border-color: var(--ink); color: var(--paper-white); }
+
+/* ── Logo lockup ──────────────────────────────────────────────────── */
+.lockup {
+  display: inline-flex; align-items: center; gap: 0.4em;
+  text-decoration: none; background: none; padding: 0;
+  color: var(--brand);
+}
+.lockup__symbol {
+  width: 1.4em; height: 1.4em; flex: none;
+  transform: translateY(0.08em);
+  color: var(--brand);
+}
+.lockup__symbol svg { width: 100%; height: 100%; display: block; fill: currentColor; }
+.lockup__name {
+  font-family: var(--display);
+  font-weight: 650;
+  letter-spacing: 0;
+  text-transform: lowercase;
+  color: var(--brand);
+  font-size: 1em;
+  line-height: 1;
+}
+.lockup--mono, .lockup--mono .lockup__symbol, .lockup--mono .lockup__name { color: var(--ink); }

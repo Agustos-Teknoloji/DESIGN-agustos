@@ -1,0 +1,42 @@
+/* spacing.css — vertical rhythm, page layout, and the spacing scale.
+   Two rhythms at two scales: in-content heading break (2.5em, typographic)
+   and page-level band gap (64px, layout) — kept distinct on purpose. */
+
+:root {
+  /* In-content vertical rhythm (typography.css) */
+  --flow-baseline:  1em;     /* ~16px — between every block element */
+  --flow-section:   2.5em;   /* ~40px — above section markers (H2/H3/H4/pullquote/hr) */
+  --flow-eyebrow:   0.5em;   /* ~8px — H4:first-child label → H1 exception */
+  --flow-hero:      0.5em;   /* hero token bottom margin */
+
+  /* Page layout */
+  --container-max:    1180px; /* content column cap. Full-bleed bands stretch edge to edge */
+  --container-gutter: 32px;
+  --section-gap:      64px;   /* compact rhythm between page-level bands */
+
+  /* Text measure — ch-based so it holds regardless of font-size */
+  --measure:        72ch;    /* body reading column */
+  --measure-deck:   54ch;    /* hero supporting copy */
+  --container-pad:  clamp(1.25rem, 5vw, 4rem);
+
+  /* Component spacing scale (4px base) */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  48px;
+  --space-8:  64px;
+
+  /* Border + radius — two radii only: 6px on controls/small panels, 10px on cards */
+  --rule-weight:    1px;
+  --brand-rule:     2px;     /* link underline, focus weight */
+  --radius-sm:      4px;     /* inline chrome only — code, tags */
+  --radius-md:      6px;     /* controls, small panels */
+  --radius-lg:      10px;    /* cards */
+
+  /* Motion — short and functional */
+  --ease:           cubic-bezier(0.2, 0, 0, 1); /* @kind other */
+  --dur:            150ms; /* @kind other */
+}

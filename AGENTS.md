@@ -39,6 +39,8 @@ task, then read only the relevant files:
 | **Build a UI in another repository** (Astro, WordPress, Rails, plain HTML) | **`DESIGN.md`**, then **`docs/web.html`** | `docs/fonts.html`, `docs/colour.html`, `docs/brands.html`, then `ui/UI-KIT.md` |
 | **See what a source change regenerates** | **`docs/what-generates.html`** | Everyday: `python3 scripts/build_design_system.py`. Full rebuild only if asked. |
 | **Share this system as a zip** | **`docs/handoff-setup.html`** then `python3 scripts/pack_handoff.py` | `HANDOFF.md`. Do not zip the whole repository. |
+| **Push the kit to Claude Design** (after a token, kit, favicon, or logo change) | **`docs/claude-design-sync.html`**, then `/design-push` in Claude Code | `.claude/skills/design-push/SKILL.md` |
+| **Save a Claude Design page as a reference** | `/design-pull ui_kits/website` in Claude Code | `mockups/claude-design/README.md`, `.claude/skills/design-pull/SKILL.md` |
 | Generate this system into a new medium (documents, slides, native app) | `tokens/design-system-handoff.json` | The matching `adapters/<platform>/README.md`, then `DESIGN.md` |
 | Find a logo, favicon, social image, document, or other finished asset | `ASSETS.md` | The matching file under `brand/exports/<brand>/` |
 | Build a Pataraz website or datasheet | `PATARAZ.md` | `DESIGN.md`, then the relevant export or generator README |
