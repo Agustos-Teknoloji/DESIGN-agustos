@@ -23,3 +23,8 @@ overwritten on every pull. Each page folder holds the page and an `index.png` sc
 | Remote path | Pulled | Status | Built in |
 |---|---|---|---|
 | ui_kits/website | 2026-09-13 | pending | — |
+
+## Canvas pages
+
+`canvas/` holds four raw Design Canvas pages (`.dc.html`) pulled by hand, not by
+`scripts/sync_claude_design.py pull` — see [canvas/README.md](canvas/README.md) for why.
