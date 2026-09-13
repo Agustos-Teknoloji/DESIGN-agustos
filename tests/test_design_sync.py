@@ -298,5 +298,25 @@ class PullTest(unittest.TestCase):
         ])
 
 
+class DocsTest(unittest.TestCase):
+    def test_sync_explainer_uses_same_folder_css_like_the_handbook(self):
+        text = (ROOT / "docs" / "claude-design-sync.html").read_text(encoding="utf-8")
+        self.assertIn('href="agustos-fonts.css"', text)
+        self.assertIn('href="agustos.css"', text)
+        self.assertNotIn('href="../ui/agustos.css"', text)
+        self.assertIn("/design-push", text)
+        self.assertIn("/design-pull", text)
+        self.assertIn("mockups/claude-design/", text)
+
+    def test_agents_table_points_at_the_skills(self):
+        text = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
+        self.assertIn("`/design-push`", text)
+        self.assertIn("`/design-pull ui_kits/website`", text)
+
+    def test_handoff_points_zip_arrivals_at_design_pull(self):
+        text = (ROOT / "HANDOFF.md").read_text(encoding="utf-8")
+        self.assertIn("/design-pull", text)
+
+
 if __name__ == "__main__":
     unittest.main()
