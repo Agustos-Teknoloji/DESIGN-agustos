@@ -1,0 +1,175 @@
+/* typography.css — type stacks + the 24 tokens (v3, Sept 2026).
+   Three families, each one job: Inter Tight (display), Inter (body),
+   JetBrains Mono (code). No uppercase anywhere — labels, table headers,
+   breadcrumbs and menu items are sentence case with normal tracking.
+   Red is a fixed signal restricted to two places (content-link rule,
+   menu-hover rule) — it is never a decorative accent on quotes, markers,
+   or footnotes; those use ink instead. */
+
+:root {
+  --display: 'Inter Tight', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* @kind font */
+  --body:    'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji"; /* @kind font */
+  --mono:    'JetBrains Mono', 'SF Mono', Menlo, Consolas, ui-monospace, monospace; /* @kind font */
+}
+
+/* ── Hero (2) — headlines run 300–400 weight, tight negative tracking ──── */
+.type-hero {
+  font-family: var(--display);
+  font-size: clamp(56px, 9vw, 112px);
+  line-height: 0.96;
+  font-weight: 300;
+  letter-spacing: -0.045em;
+  margin: 0 0 0.5em;
+}
+.type-hero-md {
+  font-family: var(--display);
+  font-size: clamp(40px, 6vw, 72px);
+  line-height: 1.02;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  margin: 0 0 0.5em;
+}
+.type-hero-deck {
+  font-family: var(--body);
+  font-size: clamp(18px, 2vw, 20px);
+  line-height: 1.6;
+  font-weight: 400;
+  font-style: normal;
+  color: var(--ink-soft);
+  max-width: var(--measure-deck);
+  margin: 0;
+}
+
+/* ── Headings (4) ─────────────────────────────────────────────────── */
+.type-h1 {
+  font-family: var(--display);
+  font-size: 44px; line-height: 1.08; font-weight: 400;
+  letter-spacing: -0.03em; margin: 0 0 1em;
+}
+.type-h2 {
+  font-family: var(--display);
+  font-size: 24px; line-height: 1.2; font-weight: 400;
+  letter-spacing: -0.016em; margin: 2.5em 0 1em;
+}
+.type-h3 {
+  font-family: var(--display);
+  font-size: 18px; line-height: 1.3; font-weight: 400; font-style: italic;
+  margin: 2.5em 0 1em;
+}
+/* Small label — the role that used to be an uppercase eyebrow. Now sentence
+   case, normal tracking: table headers, breadcrumbs, menu items, meta. No
+   eyebrow-above-headline pattern anymore; the headline carries the opening. */
+.type-h4 {
+  font-family: var(--display);
+  font-size: 13px; font-weight: 600; text-transform: none;
+  letter-spacing: 0; line-height: 1.3; color: var(--ink-faint);
+  margin: 2.5em 0 1em;
+}
+
+.type-h4:first-child { margin-top: 0; }
+.type-h4:first-child + .type-h1 { margin-top: 0.5em; }
+
+/* ── Body & inline (8) ────────────────────────────────────────────── */
+.type-body {
+  font-family: var(--body);
+  font-size: 16.5px; line-height: 1.6; font-weight: 400; margin: 0 0 1em;
+}
+.type-em, em { font-style: italic; }
+.type-strong, strong { font-weight: 700; }
+/* Content link — one of the two places red is allowed: a permanent 2px red
+   rule. Ink at rest; ink turns red on hover, the rule stays. */
+.type-link, .type-body a, .type-body-a {
+  color: var(--ink);
+  font-weight: 600;
+  text-decoration: none;
+  background-image: linear-gradient(var(--red), var(--red));
+  background-size: 100% 2px;
+  background-position: 0 calc(100% - 1px);
+  background-repeat: no-repeat;
+  padding-bottom: 3px;
+  transition: color var(--dur) var(--ease);
+}
+.type-link:hover, .type-body a:hover, .type-body-a:hover { color: var(--red); }
+.type-code, code {
+  font-family: var(--mono);
+  font-size: 0.86em;
+  background: rgba(0,0,0,0.05);
+  padding: 1px 5px;
+  border-radius: var(--radius-sm);
+}
+[data-theme="dark"] code { background: rgba(255,255,255,0.08); }
+.type-sub, sub { font-size: 0.7em; font-weight: 500; vertical-align: -0.25em; }
+.type-sup, sup { font-size: 0.7em; font-weight: 500; vertical-align: 0.5em; }
+.type-s, s { color: var(--ink-faint); }
+
+/* ── Block-level (9) — no decorative red; ink carries emphasis ───────── */
+.type-blockquote {
+  font-family: var(--body);
+  font-size: 18px; line-height: 1.55; font-style: italic;
+  border-left: 2px solid var(--ink);
+  padding: 0.25em 0 0.25em 1.25em;
+  margin: 0 0 1em;
+}
+.type-blockquote cite {
+  display: block;
+  font-family: var(--display); font-style: normal;
+  font-size: 13px; font-weight: 600;
+  color: var(--ink-faint);
+  margin-top: 0.6em;
+}
+.type-pullquote {
+  font-family: var(--display);
+  font-size: 26px; line-height: 1.22; font-weight: 400;
+  border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule);
+  padding: 1em 0; margin: 2.5em 0 1em;
+}
+.type-pullquote::before {
+  content: "\201C"; color: var(--ink); margin-right: 0.05em;
+}
+.type-list-ol, .type-list-ul {
+  font-family: var(--body);
+  font-size: 16.5px; line-height: 1.6;
+  padding-left: 1.5em; margin: 0 0 1em;
+}
+.type-list-ol li::marker, .type-list-ul li::marker { color: var(--ink); }
+.type-dl {
+  font-family: var(--body); font-size: 16px; margin: 0 0 1em;
+}
+.type-dl dt { font-weight: 600; margin-top: 1em; }
+.type-dl dt:first-child { margin-top: 0; }
+.type-dl dd { margin: 0; color: var(--ink-soft); }
+.type-figure { margin: 0 0 1em; }
+.type-figure figcaption {
+  font-family: var(--body); font-size: 13.5px; font-style: italic;
+  color: var(--ink-faint); margin-top: 0.5em;
+}
+.type-code-block {
+  font-family: var(--mono); font-size: 13.5px; line-height: 1.6;
+  background: var(--ink); color: var(--rule);
+  padding: 1em 1.25em; border-radius: var(--radius-md);
+  overflow-x: auto; margin: 0 0 1em;
+}
+.type-table {
+  font-family: var(--body); font-size: 14px;
+  border-collapse: collapse; width: 100%; margin: 0 0 1em;
+  font-variant-numeric: tabular-nums;
+}
+.type-table th {
+  font-family: var(--display); font-weight: 600; font-size: 13px;
+  text-transform: none; letter-spacing: 0;
+  text-align: left; color: var(--ink-faint);
+  border-bottom: 1px solid var(--rule); padding: 0.5em 0.75em;
+}
+.type-table td { padding: 0.5em 0.75em; border-bottom: 1px solid var(--rule); }
+.type-table td:last-child, .type-table th:last-child { text-align: right; }
+.type-divider, hr.type-divider {
+  height: 1px; border: 0; background: var(--rule); margin: 2.5em 0 1em;
+}
+
+/* ── Supporting (1) ───────────────────────────────────────────────── */
+.type-footnote {
+  font-family: var(--body); font-size: 12.5px; line-height: 1.5;
+  color: var(--ink-faint); margin-top: 2.5em;
+  padding-top: 1em; border-top: 1px solid var(--rule);
+}
+.type-footnote sup { color: var(--ink-soft); font-weight: 600; }
