@@ -26,6 +26,18 @@
         "ui"
       ],
       "port": 4330
+    },
+    {
+      "name": "agustos-docs",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": [
+        "-m",
+        "http.server",
+        "4390",
+        "--directory",
+        "."
+      ],
+      "port": 4390
     }
   ]
 }
