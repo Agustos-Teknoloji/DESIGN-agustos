@@ -192,3 +192,33 @@ Source: the 2026-09-09 and 2026-09-10 design reviews of agustos.com, phase 6 of 
 - [x] VERSION 5.1.0, rebuild, tests, `--check`, tag `v5.1.0`.
 - [x] v5.1.1: `check-agustos-ui.py --skip <dir>` so consumers stop hand-patching the generated checker.
 - [ ] agustos.com vendors v5.1.1 and replaces raw `42rem` with `var(--measure-body)`.
+
+---
+
+# Claude Design sync (2026-09-13)
+
+**Goal:** keep DESIGN-agustos and the Claude Design project "Ağustos" in step. The repository
+owns the rules and pushes them into `agustos-ui/`. Design owns the drawings; pages are pulled
+into `mockups/claude-design/` as references.
+
+**Spec:** `docs/superpowers/specs/2026-09-13-claude-design-sync-design.md`
+**Plan:** `docs/superpowers/plans/2026-09-13-claude-design-sync.md`
+**Explainer:** https://claude.ai/code/artifact/98eef1b7-8cb5-41f4-ab45-03aa83b7e97b
+
+**Decisions locked (2026-09-13):**
+- Option B: one owner per artifact type, one direction each. No two-way mirror.
+- Push writes only `agustos-ui/**` remotely. Pull writes only `mockups/claude-design/**` locally.
+- Pages A to D are real website pages to build later. They sit as `pending` references now.
+- Repointing Design's own `tokens/fonts.css` and `assets/laz-gunesi.svg` at the pushed copies
+  is deferred to a separate approval.
+
+## Tasks
+- [ ] 1. Bundle collectors and manifest (`scripts/sync_claude_design.py`, tests)
+- [ ] 2. Preview cards with `@dsCard` markers under `Kit ·` groups
+- [ ] 3. `build` command with stale-kit and dirty-tree guards
+- [ ] 4. `pull` command, remote-layout mirror, README status table
+- [ ] 5. `/design-push` and `/design-pull` skills
+- [ ] 6. `docs/claude-design-sync.html`, AGENTS.md rows, HANDOFF.md, CHANGELOG, archive/MEMORY.md
+- [ ] 7. First real push (main session; verify cards in the Design System pane; second push is a no-op)
+- [ ] 8. First real pull of `ui_kits/website` with screenshot; commit
+- [ ] 9. VERSION 5.2.0, regenerate, `--check`, review section, PR
