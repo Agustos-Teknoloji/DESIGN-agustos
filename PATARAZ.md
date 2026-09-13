@@ -100,10 +100,11 @@ tokens" — do not re-list pixel values here; they have drifted from the live sp
 ### Three expressions & favicon
 
 - **positive** (black marks on light) — default, ~90% of uses.
-- **negative** (cream/white marks on a black tile) — favicons and identity tiles.
+- **negative** (cream/white marks on a black tile) — identity tiles and social avatars.
 - **mono** (single ink) — single-color print, engraving.
-- The **favicon is the negative expression**: white symbol on an off-black `#15130f` tile
-  (`DESIGN.md` §"Three expressions", §"Favicon & app icons").
+- The **favicon is shared** across every house site: the bare red Laz Güneşi from
+  `laz-gunesi-amblem/svg/master.svg` (`DESIGN.md` §"Favicon & app icons").
+  Pataraz's export folder ships that same SVG; the manifest `theme_color` stays `#15130f`.
 
 Verify every negative composition for contrast and small-size legibility before shipping.
 
@@ -119,7 +120,7 @@ For the two shipped products, the real files are:
 |---|---|
 | Logo (positive, black on light) | `brand/exports/pataraz/lockup/pataraz-lockup__positive.svg` |
 | Logo (negative, on black tile) | `brand/exports/pataraz/lockup/pataraz-lockup__negative.svg` |
-| Favicon (white symbol on black) | `brand/exports/pataraz/favicon/favicon.svg` (full set in that dir + `site.webmanifest`) |
+| Favicon (shared red Laz Güneşi) | `brand/exports/pataraz/favicon/favicon.svg` (same as `laz-gunesi-amblem/svg/master.svg`; full set in that dir + `site.webmanifest`) |
 | OG / link preview | `brand/exports/pataraz/social/pataraz-og.png` |
 | PL22 product photo / drawing | `brand/datasheet-assets/pataraz/pl22-urun.jpg` / `pl22-drawing.png` |
 | PX22 product photo / drawing | `brand/datasheet-assets/pataraz/px22-urun.jpg` / `px22-drawing.png` |

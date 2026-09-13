@@ -4,6 +4,10 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+### Changed
+
+- One shared favicon for every house site: the bare red Laz Güneşi (`laz-gunesi-amblem/svg/master.svg`). Replaces per-brand negative-tile favicons. Canonical kit, adapter mirror, and all `brand/exports/<brand>/favicon/` sets updated; social avatars stay per-brand monograms.
+
 ## [5.1.1] - 2026-09-10
 
 ### Added

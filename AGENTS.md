@@ -63,11 +63,10 @@ brand slug into `<brand>` in the path (e.g. `agustos`, `pld`).
 | The logo in a **single ink color** (print, engraving) | `…/lockup/<brand>-lockup__mono.svg` |
 | The logo for **print / business cards** | `…/lockup/<brand>-lockup__positive.pdf` (or `__negative` / `__mono`) |
 | The logo for a **slide / social post** (raster) | `…/lockup/<brand>-lockup__positive.png` (2400px) or `…@800.png` |
-| A **favicon / browser tab / app icon** | `brand/exports/<brand>/favicon/` (full set + `site.webmanifest`) |
+| A **favicon / browser tab / app icon** | `laz-gunesi-amblem/favicon/` (shared across every site; same files also under `brand/exports/<brand>/favicon/`) |
 | A **square profile avatar** | `brand/exports/<brand>/social/<brand>-avatar-1000.png` (or `-400`) |
 | A **link-preview / OG image** (1200×630) | `brand/exports/<brand>/social/<brand>-og.png` |
-| Just the **symbol**, no wordmark | `laz-gunesi-amblem/svg/master.svg` (use the registered identity ink) |
-| The **generic symbol favicon** (not per-brand) | `laz-gunesi-amblem/favicon/favicon.svg` |
+| Just the **symbol**, no wordmark | `laz-gunesi-amblem/svg/master.svg` (also the shared favicon artwork) |
 | **Brand colors as swatches** | `brand/exports/<brand>/swatches/<brand>.ase` (Adobe) · `.clr` (Apple) |
 | A **PowerPoint / Word / Google-compatible** template | `brand/exports/<brand>/office/<brand>-template.pptx` · `-document-template.docx` · `-letterhead.docx` |
 | An **email signature** | `brand/exports/<brand>/email/<brand>-signature.html` |
@@ -84,7 +83,7 @@ brand slug into `<brand>` in the path (e.g. `agustos`, `pld`).
 ## The three logo expressions — pick by background
 
 1. **positive** — registered identity marks on a light/cream background: red for Ağustos, black for every other house brand. This is the default, ~90% of uses.
-2. **negative** — cream/white marks on the identity tile: red for Ağustos, black for every other house brand. Favicons and identity banners.
+2. **negative** — cream/white marks on the identity tile: red for Ağustos, black for every other house brand. Social avatars and identity banners. (Favicons use the shared red `master.svg` instead.)
 3. **mono** — one ink color. Single-color print, stamps, engraving.
 
 There is no fourth expression. Do not invent a white-on-transparent "reverse" logo — `positive` already

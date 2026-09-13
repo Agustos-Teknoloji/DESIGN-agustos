@@ -1075,3 +1075,21 @@ A pullquote on a homepage reads as forced friendliness.
 Blockquote and pullquote stay on content pages (articles, interviews, notes, case studies).
 Marketing proof is a compact trust line.
 
+
+## Shared favicon = master.svg (2026-09-13)
+
+**On the table:** keep per-brand negative-tile favicons (white sun on red/black), or one
+shared tab icon for every house site.
+
+**Chosen:** one favicon everywhere — the bare red Laz Güneşi from
+`laz-gunesi-amblem/svg/master.svg` on a transparent ground. Canonical kit
+`laz-gunesi-amblem/favicon/favicon.svg` is byte-identical to `master.svg`.
+`brand/build.py` writes that same SVG into every `exports/<brand>/favicon/`;
+manifests still carry each brand's `theme_color`. Social avatars stay per-brand
+negative monograms.
+
+**Why reverse turning point 24's tile rule:** the house wants a single recognizable
+tab mark across ağustos / pataraz / pld / iesdesk / specquick. Wordmarks already
+differentiate the brands; the tab icon does not need to.
+
+**Rejected:** keep per-brand black/red tiles as the browser favicon.

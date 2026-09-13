@@ -6,7 +6,7 @@ Reads the keystone registry (brands.json) and the shared symbol
 (laz-gunesi-amblem/svg/master.svg) and emits per-brand, ready-to-hand-off assets:
 
   exports/<brand>/lockup/   symbol + wordmark, 3 expressions x {svg, pdf, png}
-  exports/<brand>/favicon/  favicon.ico/.svg, apple-touch-icon, manifest png, site.webmanifest
+  exports/<brand>/favicon/  shared Laz Güneşi favicon (master.svg) + rasters + site.webmanifest
   exports/<brand>/social/   square avatar (400/1000) + 1200x630 og image
 
 Design choices (see DESIGN.md):
@@ -17,6 +17,8 @@ Design choices (see DESIGN.md):
   - Lockup geometry follows the spec: symbol height = 1.4x wordmark cap height,
     symbol-to-wordmark gap = 0.4x wordmark size, Inter Tight Light, lowercase,
     optical (not geometric) vertical centering for lowercase wordmarks.
+  - Every brand shares one favicon: the bare red Laz Güneşi from master.svg.
+    Social avatars stay per-brand negative monograms.
 
 Usage:
   ../.venv/bin/python build.py                  # every brand in the registry
@@ -253,12 +255,16 @@ def build_brand(slug, brand, reg):
         if name == "positive":
             positive_inner, positive_wh = inner, (W, H)
 
-    # --- Favicons + app icons (negative monogram: cream symbol on brand tile) ---
-    fav_svg = write_svg(fv / "favicon.svg", build_monogram(paper, color))
+    # --- Favicons + app icons (shared: bare red Laz Güneşi from master.svg) ---
+    # One favicon for every house site. Avatars stay per-brand below.
+    master_svg = (ROOT / "laz-gunesi-amblem" / "svg" / "master.svg").read_text(
+        encoding="utf-8"
+    )
+    fav_svg = write_svg(fv / "favicon.svg", master_svg)
     for s in FAVICON_SIZES:
         png_jobs.append((fav_svg, fv / f"favicon-{s}.png", s))
 
-    # --- Social: avatar (same monogram) + OG image ---
+    # --- Social: avatar (negative monogram) + OG image ---
     av_svg = write_svg(so / f"{slug}-avatar.svg", build_monogram(paper, color))
     for s in AVATAR_SIZES:
         png_jobs.append((av_svg, so / f"{slug}-avatar-{s}.png", s))
