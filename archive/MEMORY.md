@@ -1112,6 +1112,28 @@ the factory); copying Design CSS into `ui/`; editing Design's tokens to match th
 **Later, separate approval:** point Design's own `tokens/fonts.css` and `assets/laz-gunesi.svg`
 at the pushed copies.
 
+## Favicon theme_color unified to brand red (2026-09-13)
+
+**On the table:** the "Shared favicon = master.svg" turning point above unified the favicon
+*artwork* to the bare red Laz Güneşi for every house brand, but left each brand's generated
+`site.webmanifest` `theme_color` on its own identity ink (`#15130f` for Pataraz, PLD Türkiye,
+IESDesk, SpecQuick). `theme_color` is what a mobile browser/PWA uses to tint the chrome and
+task-switcher card, so four of five brands still showed a black tint under a red tab icon.
+
+**Chosen:** finish the shared-favicon decision — `brand/build.py` now writes the registry's
+shared signal red (`reg["signal"]["color"]`, `#cf142a`) into every brand's `theme_color`,
+not the per-brand identity color. Every house brand's favicon, including its manifest, is
+now fully shared. This does not touch identity ink anywhere else: lockups, wordmarks, and
+positive/negative/mono marks stay black for house brands.
+
+**Why:** the tab icon and the chrome tint are the same UI signal in a user's eyes; showing
+red on one and black on the other reads as a bug, not a brand distinction the wordmark
+already carries.
+
+**Rejected:** leaving `theme_color` per-brand as a "wordmark-adjacent" identity signal —
+rejected because nothing else about the favicon is per-brand anymore.
+
+
 ## Office drift check scoped to brand-approach fields (2026-09-13)
 
 **On the table:** the CI step `scripts/check_office_artifacts.py --check` fingerprinted the

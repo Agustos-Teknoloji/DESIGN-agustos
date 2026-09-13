@@ -58,7 +58,8 @@ Güneşi (`master.svg`) on a transparent ground. See DESIGN.md §"Favicon & app 
 
 **Canonical favicon = `laz-gunesi-amblem/favicon/favicon.svg`** (byte-identical to
 [`laz-gunesi-amblem/svg/master.svg`](laz-gunesi-amblem/svg/master.svg)). Per-brand folders under
-`brand/exports/<brand>/favicon/` ship that same SVG; only `site.webmanifest` theme colors differ.
+`brand/exports/<brand>/favicon/` ship that same SVG, and every brand's `site.webmanifest`
+now carries the same `theme_color` (`#cf142a`) too — nothing under `favicon/` differs by brand.
 Any other `favicon.svg` in the repo (e.g. an adapter's `public/`) is a **mirror** — when the
 canonical changes, update the mirrors in the same change. Adapter mirror today:
 [`adapters/astro/public/favicon.svg`](adapters/astro/public/favicon.svg).
