@@ -43,7 +43,7 @@ Per brand, under `exports/<brand>/`:
 
 ```
 lockup/      symbol + wordmark — positive / negative / mono, each as svg + pdf + png (2400 & 800px)
-favicon/     favicon.ico, favicon.svg, apple-touch-icon.png, manifest pngs, site.webmanifest
+favicon/     shared Laz Güneşi favicon (master.svg) + rasters + site.webmanifest
 social/      square avatar (400 & 1000px) + 1200x630 og image (svg + png)
 swatches/    <brand>.ase (Adobe) + <brand>.clr (Apple)
 email/       <brand>-signature.html (email-safe, self-contained)
@@ -83,8 +83,11 @@ Build one with `--product <key>`, a whole brand with `--brand <slug>`, or all wi
   gstack `browse` tool; A4 page size is set in the HTML's `@page` rule.
 
 - **positive** — registered identity ink on transparent: red for Ağustos, black for every other house brand. Primary, ~90% of uses.
-- **negative** — cream marks on the identity field: red for Ağustos, black for every other house brand. Banners, identity tiles.
+- **negative** — cream marks on the identity field: red for Ağustos, black for every other house brand. Banners, identity tiles, social avatars.
 - **mono** — single ink color on transparent. Print, stamps, engraving.
+
+Favicons are shared: every brand's `favicon/` ships the bare red Laz Güneşi from
+`laz-gunesi-amblem/svg/master.svg`. Manifests keep each brand's `theme_color`.
 
 The wordmark is baked to vector **outlines**, so every file renders identically with
 no font installed.

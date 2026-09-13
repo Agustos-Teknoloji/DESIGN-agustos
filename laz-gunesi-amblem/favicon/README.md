@@ -1,25 +1,23 @@
 # Favicon & app-icon kit
 
-Web-ready browser/OS icons for the Ağustos brand, derived from the Laz Güneşi symbol
-(`../svg/master.svg`). This is the **negative expression** from DESIGN.md §"Three expressions":
-the white symbol on a brand-red tile — the documented favicon treatment, chosen because a solid
-tile keeps its brand color and silhouette at 16px where the bare symbol's thin blades wash out.
+Web-ready browser/OS icons for every Ağustos house site. Artwork is the bare red
+Laz Güneşi from `../svg/master.svg` — **one shared favicon**, not a per-brand tile.
 
-Brand red: `#cf142a` · Tile corner radius: 20/100 (rounded square).
+Brand red: `#cf142a` · Ground: transparent.
 
 ## What's in the kit
 
 | File | Size | Purpose |
 |---|---|---|
-| `favicon.svg` | vector | **Primary favicon.** Modern browsers. Rounded red tile, white sun, real transparency. |
-| `favicon.ico` | 16/32/48 | Legacy fallback (older browsers, feed readers, crawlers). Square, opaque. |
-| `favicon-32.png` | 32×32 | Optional explicit PNG fallback. Square, opaque. |
-| `favicon-16.png` | 16×16 | Optional explicit PNG fallback. Square, opaque. |
-| `apple-touch-icon.png` | 180×180 | iOS home-screen icon. Full-bleed (iOS applies its own rounded mask). |
-| `icon-192.png` | 192×192 | Android / PWA. Maskable-safe padding. |
-| `icon-512.png` | 512×512 | Android / PWA splash + install. Maskable-safe padding. |
-| `site.webmanifest` | — | PWA manifest. `theme_color` = brand red, `background_color` = cream. |
-| `favicon-mono.svg` | vector | Bare red symbol on transparent. For **in-page** use (next to text/UI), **not** the browser tab. |
+| `favicon.svg` | vector | **Primary favicon.** Byte-identical to `../svg/master.svg`. |
+| `favicon.ico` | 16/32/48 | Legacy fallback (older browsers, feed readers, crawlers). |
+| `favicon-32.png` | 32×32 | Optional explicit PNG fallback. |
+| `favicon-16.png` | 16×16 | Optional explicit PNG fallback. |
+| `apple-touch-icon.png` | 180×180 | iOS home-screen icon. |
+| `icon-192.png` | 192×192 | Android / PWA. |
+| `icon-512.png` | 512×512 | Android / PWA splash + install. |
+| `site.webmanifest` | — | PWA manifest. `theme_color` = brand red. |
+| `favicon-mono.svg` | vector | Same artwork as `favicon.svg`. For in-page use next to text/UI. |
 
 ## Drop into any site `<head>`
 
@@ -38,13 +36,13 @@ subdirectory rather than the web root, adjust the `href`s and the `src` paths in
 
 ## Regenerating
 
-The two SVGs are the source of truth. To rebuild the rasters (macOS):
+`favicon.svg` / `favicon-mono.svg` are copies of `../svg/master.svg`. To rebuild the rasters:
 
-- PNGs: render with `qlmanage -t -s <px>` then normalize size with `sips -z <px> <px>`.
-  Browser/legacy fallbacks (`favicon-*.png`, `favicon.ico`) come from a **full-bleed square**
-  render (opaque — no transparent corners to leak white on dark chrome); Apple/PWA icons come
-  from the same square (the OS rounds them).
-- `.ico`: assemble with Pillow — open the largest PNG as base and `append_images` the smaller
-  ones, so all of 16/32/48 are embedded (Pillow will not upscale a small base).
+1. Copy `../svg/master.svg` over `favicon.svg` and `favicon-mono.svg`.
+2. Render PNGs with the brand kit's resvg helper (`brand/scripts/render_png.mjs`) at 16, 32, 180, 192, and 512.
+3. Build `favicon.ico` with Pillow from a 256px PNG (`sizes` 16/32/48).
+
+`brand/build.py` regenerates every `brand/exports/<brand>/favicon/` from the same master.
+Update adapter `public/favicon.svg` mirrors in the same change.
 
 See the repository root `ASSETS.md` for the canonical-source + mirror rules.

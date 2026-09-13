@@ -600,18 +600,18 @@ The page `<title>` is independent and stays Title Case (e.g. "Ağustos Teknoloji
 ### Three expressions
 
 1. **Positive.** Symbol + wordmark in identity ink on cream/white substrate. Ağustos is red; all other house brands are black. Primary use, 90% of contexts.
-2. **Negative.** Symbol + wordmark in cream/white on the identity tile: red for Ağustos, black for every other house brand. For favicons, monograms, and identity tiles.
+2. **Negative.** Symbol + wordmark in cream/white on the identity tile: red for Ağustos, black for every other house brand. For monograms, social avatars, and identity tiles.
 3. **Mono.** Symbol + wordmark in ink on cream, or cream on ink. Single-color print, stamps, fax-quality.
 
 No fourth expression exists.
 
 ### Favicon & app icons
 
-The favicon uses the **Negative** expression — white Laz Güneşi on the registered identity tile. The tile is red for Ağustos and black for every other house brand. A solid tile preserves a recognizable silhouette at 16px, where the bare symbol's thin blades wash out to a faint ring.
+Every house site uses **one shared favicon**: the bare red Laz Güneşi from `laz-gunesi-amblem/svg/master.svg` on a transparent ground. Brand wordmarks differ; the tab icon does not.
 
-Canonical kit: `laz-gunesi-amblem/favicon/` — `favicon.svg` (rounded tile, modern browsers), `favicon.ico` (legacy, square/opaque), `apple-touch-icon.png` (180px, full-bleed for iOS masking), `icon-192.png` / `icon-512.png` + `site.webmanifest` (PWA), and `favicon-mono.svg` (bare symbol, in-page only). Copy-paste `<head>` tags and regeneration steps live in that folder's `README.md`.
+Canonical kit: `laz-gunesi-amblem/favicon/` — `favicon.svg` (byte-identical to `master.svg`), `favicon.ico`, `apple-touch-icon.png`, `icon-192.png` / `icon-512.png` + `site.webmanifest`, and `favicon-mono.svg` (same artwork, for in-page use). Copy-paste `<head>` tags and regeneration steps live in that folder's `README.md`.
 
-Adapter `public/favicon.svg` files are **mirrors** of the canonical; update them in the same change. The full asset map and sync rules are in the repo-root `ASSETS.md`.
+`brand/exports/<brand>/favicon/` copies the same SVG and regenerates rasters; manifests keep each brand's `theme_color`. Adapter `public/favicon.svg` files are **mirrors** of the canonical; update them in the same change. The full asset map and sync rules are in the repo-root `ASSETS.md`.
 
 ### Logotype: Inter Tight 650
 

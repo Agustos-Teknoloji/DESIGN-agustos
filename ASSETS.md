@@ -47,18 +47,21 @@ Full kit guide: [`laz-gunesi-amblem/README.md`](laz-gunesi-amblem/README.md).
 
 ## Favicon & app icons
 
-Web-ready browser/OS icons. The **negative expression** (white symbol on a red tile) per
-DESIGN.md §"Three expressions" — the documented favicon treatment.
+Web-ready browser/OS icons. **One shared favicon for every house site**: the bare red Laz
+Güneşi (`master.svg`) on a transparent ground. See DESIGN.md §"Favicon & app icons".
 
 | Asset | Path | Use |
 |---|---|---|
-| **Favicon kit** | [`laz-gunesi-amblem/favicon/`](laz-gunesi-amblem/favicon/) | `favicon.svg`, `favicon.ico`, `apple-touch-icon.png`, `icon-192/512.png`, `site.webmanifest`. |
+| **Favicon kit** | [`laz-gunesi-amblem/favicon/`](laz-gunesi-amblem/favicon/) | `favicon.svg` (= `master.svg`), `favicon.ico`, `apple-touch-icon.png`, `icon-192/512.png`, `site.webmanifest`. |
 | `<head>` snippet + guide | [`laz-gunesi-amblem/favicon/README.md`](laz-gunesi-amblem/favicon/README.md) | Copy-paste link tags; regeneration steps. |
-| In-page symbol | [`laz-gunesi-amblem/favicon/favicon-mono.svg`](laz-gunesi-amblem/favicon/favicon-mono.svg) | Bare red symbol on transparent — for UI next to text, **not** the browser tab. |
+| In-page symbol | [`laz-gunesi-amblem/favicon/favicon-mono.svg`](laz-gunesi-amblem/favicon/favicon-mono.svg) | Same artwork as `favicon.svg` — for UI next to text. |
 
-**Canonical favicon = `laz-gunesi-amblem/favicon/favicon.svg`.** Any other `favicon.svg` in the repo
-(e.g. an adapter's `public/`) is a **mirror** — when the canonical changes, update the mirrors in the
-same change. Adapter mirror today: [`adapters/astro/public/favicon.svg`](adapters/astro/public/favicon.svg).
+**Canonical favicon = `laz-gunesi-amblem/favicon/favicon.svg`** (byte-identical to
+[`laz-gunesi-amblem/svg/master.svg`](laz-gunesi-amblem/svg/master.svg)). Per-brand folders under
+`brand/exports/<brand>/favicon/` ship that same SVG; only `site.webmanifest` theme colors differ.
+Any other `favicon.svg` in the repo (e.g. an adapter's `public/`) is a **mirror** — when the
+canonical changes, update the mirrors in the same change. Adapter mirror today:
+[`adapters/astro/public/favicon.svg`](adapters/astro/public/favicon.svg).
 
 ## Typography
 
