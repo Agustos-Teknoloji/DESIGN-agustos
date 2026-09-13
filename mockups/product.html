@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tela 44 — Ağustos</title>
+<link rel="icon" type="image/svg+xml" href="../laz-gunesi-amblem/favicon/favicon.svg">
+<link rel="stylesheet" href="../ui/agustos-fonts.css">
+<link rel="stylesheet" href="../ui/agustos.css">
+<style>
+  /* Page chrome for this standalone page — not part of the kit. Built from
+     mockups/claude-design/canvas/Product page.dc.html, using ui/UI-KIT.md
+     classes and tokens instead of the canvas export's inline styles. */
+  body { margin: 0; }
+
+  .site-header { position: sticky; top: 0; z-index: 20; background: var(--paper); border-bottom: 1px solid var(--rule); }
+  .site-header__bar { max-width: 1180px; margin: 0 auto; padding: 20px 32px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; }
+  .site-header__nav { display: flex; align-items: center; justify-content: center; gap: 26px; }
+  .site-header__end { display: flex; align-items: center; justify-content: flex-end; gap: 18px; }
+
+  .nav-link { font-family: var(--display); font-size: 15px; font-weight: 500; color: var(--ink-soft); text-decoration: none; border-bottom: 2px solid transparent; padding-bottom: 2px; transition: color .15s, border-color .15s; }
+  .nav-link:hover, .nav-link[aria-current="page"] { color: var(--ink); border-bottom-color: var(--signal); }
+  .nav-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+  .icon-link { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--radius-sm); color: var(--ink-soft); }
+  .icon-link:hover { background: var(--rule); color: var(--ink); }
+  .icon-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+  .lockup { display: inline-flex; align-items: center; gap: 0.4em; color: var(--brand); text-decoration: none; }
+  .lockup__symbol { width: 0.98em; height: 0.98em; color: inherit; transform: translateY(0.08em); }
+  .lockup__name { color: inherit; font-family: var(--display); font-size: 20px; font-weight: 650; line-height: 1; text-transform: lowercase; }
+  a.lockup:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+  @media (max-width: 860px) {
+    .site-header__nav { display: none; }
+    .site-header__end .icon-link, .site-header__end > a.nav-link { display: none; }
+  }
+
+  .breadcrumb { max-width: 1180px; margin: 0 auto; padding: 18px 32px 0; display: flex; align-items: center; gap: 8px; font-family: var(--display); font-size: 13px; font-weight: 500; }
+  .breadcrumb a { color: var(--ink-faint); text-decoration: none; }
+  .breadcrumb a:hover { color: var(--ink); }
+  .breadcrumb span[aria-current] { color: var(--ink); }
+  .breadcrumb .sep { color: var(--rule); }
+
+  .product-hero { max-width: 1180px; margin: 0 auto; padding: 28px 32px 56px; display: flex; flex-wrap: wrap; gap: 48px; align-items: flex-start; }
+  .product-gallery { flex: 1 1 420px; min-width: 300px; display: flex; flex-direction: column; gap: 12px; }
+  .product-gallery__main { background: var(--surface); border-radius: var(--radius-lg); aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center; padding: 24px; text-align: center; }
+  .product-gallery__main span { font-family: var(--display); font-size: 12.5px; font-weight: 600; color: var(--ink-faint); }
+  .product-gallery__main small { display: block; font-family: var(--mono); font-weight: 400; font-size: 12px; margin-top: 4px; }
+  .product-gallery__thumbs { display: flex; gap: 12px; }
+  .product-gallery__thumbs div { flex: 1 1 0; background: var(--surface); border-radius: var(--radius-sm); aspect-ratio: 1 / 1; }
+
+  .product-info { flex: 1 1 380px; min-width: 300px; }
+  .product-info .type-hero { margin: 0; }
+  .product-info > p.type-body { max-width: 44ch; margin: var(--space-sm) 0 0; }
+  .product-info .hero-actions { margin-top: var(--space-lg); }
+  .lead-time { font-family: var(--mono); font-size: 13px; color: var(--ink-faint); margin-top: var(--space-sm); }
+
+  .downloads { margin-top: var(--space-xl); padding-top: var(--space-lg); border-top: 1px solid var(--rule); }
+  .downloads__head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; }
+  .downloads__head a { font-family: var(--display); font-size: 14px; font-weight: 600; color: var(--ink); border-bottom: 2px solid var(--signal); padding-bottom: 3px; text-decoration: none; }
+  .download-list { display: flex; flex-direction: column; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius-sm); margin-top: 14px; overflow: hidden; }
+  .download-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; background: var(--paper); padding: 14px 16px; font-family: var(--display); font-size: 15px; color: var(--ink); text-decoration: none; }
+  .download-row:hover { background: var(--surface); }
+  .download-row .meta { font-family: var(--mono); font-size: 12.5px; color: var(--ink-faint); }
+
+  .agustos-section .type-table caption { text-align: left; font-family: var(--display); font-size: 12.5px; font-weight: 600; color: var(--ink-faint); margin-bottom: var(--space-xs); }
+  .spec-tables { display: flex; flex-wrap: wrap; gap: 48px; margin-top: var(--space-lg); }
+  .spec-tables > div { flex: 1 1 380px; min-width: 280px; }
+
+  .configure { display: flex; flex-wrap: wrap; gap: 40px; margin-top: var(--space-lg); align-items: flex-start; }
+  .config-groups { flex: 1 1 420px; min-width: 300px; display: flex; flex-direction: column; gap: 26px; }
+  .config-group__options { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px; }
+  .filters-label { font-family: var(--display); font-size: 12.5px; font-weight: 600; color: var(--ink-faint); }
+
+  .chip { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 0 18px; border-radius: var(--radius-sm); font-family: var(--display); font-size: 14px; font-weight: 600; cursor: pointer; background: var(--paper); color: var(--ink); border: 1px solid var(--rule); transition: background .15s, color .15s, border-color .15s; }
+  .chip:hover { border-color: var(--ink-faint); }
+  .chip[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .chip:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+  .config-summary { flex: 1 1 320px; min-width: 280px; background: var(--surface); border-radius: var(--radius-lg); padding: 28px; }
+  .config-summary__code { font-family: var(--mono); font-size: 26px; font-weight: 500; letter-spacing: -.01em; margin: 16px 0 6px; color: var(--ink); }
+  .config-summary__line { font-size: 14.5px; color: var(--ink-soft); }
+  .config-summary__metrics { display: flex; gap: 28px; margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--rule); }
+  .config-summary__metrics .value { font-family: var(--display); font-size: 24px; font-weight: 400; letter-spacing: -.02em; }
+  .config-summary__actions { display: flex; flex-direction: column; gap: 10px; margin-top: var(--space-lg); }
+  .config-summary__actions .agustos-button { width: 100%; }
+
+  .related-products .agustos-card-grid { margin-top: var(--space-lg); }
+
+  .site-footer { background: var(--ink); color: var(--paper); }
+  .site-footer .lockup { color: var(--paper); }
+  .site-footer__inner { max-width: 1180px; margin: 0 auto; padding: 44px 32px; display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 32px; }
+  .site-footer__tag { font-size: 14px; line-height: 1.55; max-width: 34ch; margin-top: var(--space-xs); opacity: .66; }
+  .site-footer__group-title { font-family: var(--display); font-size: 12.5px; font-weight: 600; margin-bottom: 8px; opacity: .5; }
+  .site-footer a { color: var(--paper); text-decoration: none; }
+  .site-footer a:hover { text-decoration: underline; }
+  .site-footer .agustos-button { margin-left: auto; align-self: flex-start; }
+</style>
+</head>
+<body class="brand-agustos paper-white">
+<a class="skip-link" href="#main">İçeriğe geç</a>
+
+<header class="site-header">
+  <div class="site-header__bar">
+    <a class="lockup" href="products.html" aria-label="ağustos — ana sayfa">
+      <svg class="lockup__symbol" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-hidden="true" focusable="false">
+        <g fill="currentColor" fill-rule="evenodd">
+          <path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/><path d="M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z"/><path d="M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z"/><path d="M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z"/><path d="M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z"/><path d="M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z"/><path d="M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z"/><path d="M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z"/><path d="M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z"/><path d="M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z"/><path d="M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z"/><path d="M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z"/><path d="M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z"/><path d="M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z"/><path d="M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z"/><path d="M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z"/><path d="M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z"/><path d="M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z"/>
+        </g>
+      </svg>
+      <span class="lockup__name">ağustos</span>
+    </a>
+
+    <nav class="site-header__nav" aria-label="Ana menü">
+      <a class="nav-link" href="#work">Work</a>
+      <a class="nav-link" href="products.html" aria-current="page">Products</a>
+      <a class="nav-link" href="#brands">Brands</a>
+    </nav>
+
+    <div class="site-header__end">
+      <a class="icon-link" href="#search" aria-label="Search">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><line x1="15.5" y1="15.5" x2="20" y2="20"></line></svg>
+      </a>
+      <a class="nav-link" href="#lang" lang="tr">Türkçe</a>
+      <a class="agustos-button agustos-button--primary" href="#contact">Contact</a>
+    </div>
+  </div>
+</header>
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <a href="products.html">Products</a>
+  <span class="sep">/</span>
+  <a href="products.html#tela">Recessed</a>
+  <span class="sep">/</span>
+  <span aria-current="page">Tela 44</span>
+</nav>
+
+<main id="main">
+  <div class="product-hero">
+    <div class="product-gallery">
+      <div class="product-gallery__main">
+        <span>Product photograph<br><small>4:3 · to be supplied</small></span>
+      </div>
+      <div class="product-gallery__thumbs">
+        <div></div><div></div><div></div><div></div>
+      </div>
+    </div>
+
+    <div class="product-info">
+      <h1 class="type-hero">Tela 44</h1>
+      <p class="type-body">A 44 mm aperture downlight for ceilings that should read as surface, not as fittings. Fixed and adjustable bodies share one trim, one driver family and one cut-out.</p>
+
+      <div class="hero-actions">
+        <a class="hero-action hero-action--primary" href="#contact">Request pricing</a>
+        <a class="hero-action hero-action--secondary" href="spec-sheet.html">Download spec sheet</a>
+      </div>
+      <p class="lead-time">Lead time 3–4 weeks · held stock on 2700 K / 3000 K</p>
+
+      <div class="downloads">
+        <div class="downloads__head">
+          <span class="filters-label">Downloads</span>
+          <a href="#downloads-all">Download all</a>
+        </div>
+        <div class="download-list">
+          <a class="download-row" href="#"><span>Product images</span><span class="meta">ZIP · 12 MB</span></a>
+          <a class="download-row" href="#"><span>Technical drawing</span><span class="meta">PDF · 340 KB</span></a>
+          <a class="download-row" href="#"><span>IES files, all variants</span><span class="meta">ZIP · 640 KB</span></a>
+          <a class="download-row" href="#"><span>LDT files, all variants</span><span class="meta">ZIP · 610 KB</span></a>
+          <a class="download-row" href="#"><span>BIM &amp; DWG</span><span class="meta">ZIP · 4.1 MB</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <section class="agustos-section" id="specification">
+    <div class="agustos-section__head">
+      <h2 class="type-h2">Specification</h2>
+    </div>
+    <div class="spec-tables">
+      <div>
+        <table class="type-table">
+          <tbody>
+            <tr><th>Aperture</th><td>44 mm</td></tr>
+            <tr><th>Cut-out</th><td>50 mm</td></tr>
+            <tr><th>Recess depth</th><td>92 mm</td></tr>
+            <tr><th>Body</th><td>Die-cast aluminium</td></tr>
+            <tr><th>Finish</th><td>White, black, champagne</td></tr>
+            <tr><th>Trim</th><td>Trimless or 2 mm flange</td></tr>
+            <tr><th>Weight</th><td>0.34 kg</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div>
+        <table class="type-table">
+          <tbody>
+            <tr><th>Light source</th><td>LED module, replaceable</td></tr>
+            <tr><th>CRI</th><td>97, R9 &gt; 90</td></tr>
+            <tr><th>MacAdam</th><td>SDCM 2</td></tr>
+            <tr><th>Driver</th><td>Remote, 220–240 V</td></tr>
+            <tr><th>Dimming</th><td>DALI-2, phase, 0–10 V</td></tr>
+            <tr><th>Protection</th><td>IP20 · IP44 wet variant</td></tr>
+            <tr><th>Warranty</th><td>5 years</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="agustos-section">
+    <div class="agustos-section__head">
+      <h2 class="type-h2">Configure</h2>
+      <p class="type-body">Four choices. The code and the output update as you pick.</p>
+    </div>
+
+    <div class="configure">
+      <div class="config-groups">
+        <div class="config-group" data-group="body">
+          <span class="filters-label">Body</span>
+          <div class="config-group__options">
+            <button type="button" class="chip" data-value="Fixed" aria-pressed="true">Fixed</button>
+            <button type="button" class="chip" data-value="Adjustable" aria-pressed="false">Adjustable 30°</button>
+          </div>
+        </div>
+        <div class="config-group" data-group="beam">
+          <span class="filters-label">Beam angle</span>
+          <div class="config-group__options">
+            <button type="button" class="chip" data-value="15" aria-pressed="false">15° spot</button>
+            <button type="button" class="chip" data-value="25" aria-pressed="true">25° flood</button>
+            <button type="button" class="chip" data-value="38" aria-pressed="false">38° wide</button>
+          </div>
+        </div>
+        <div class="config-group" data-group="cct">
+          <span class="filters-label">Colour temperature</span>
+          <div class="config-group__options">
+            <button type="button" class="chip" data-value="2700" aria-pressed="true">2700 K</button>
+            <button type="button" class="chip" data-value="3000" aria-pressed="false">3000 K</button>
+            <button type="button" class="chip" data-value="4000" aria-pressed="false">4000 K</button>
+          </div>
+        </div>
+        <div class="config-group" data-group="finish">
+          <span class="filters-label">Finish</span>
+          <div class="config-group__options">
+            <button type="button" class="chip" data-value="W" aria-pressed="true">White</button>
+            <button type="button" class="chip" data-value="B" aria-pressed="false">Black</button>
+            <button type="button" class="chip" data-value="C" aria-pressed="false">Champagne</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-summary">
+        <span class="filters-label">Your configuration</span>
+        <div class="config-summary__code" id="order-code">TL44-25-27-W</div>
+        <div class="config-summary__line" id="config-line">Fixed · 25° · 2700 K</div>
+        <div class="config-summary__metrics">
+          <div>
+            <div class="value" id="config-output">680 lm</div>
+            <div class="filters-label">Output</div>
+          </div>
+          <div>
+            <div class="value" id="config-watts">8.1 W</div>
+            <div class="filters-label">Load</div>
+          </div>
+        </div>
+        <div class="config-summary__actions">
+          <a class="agustos-button agustos-button--primary" href="#contact">Add to enquiry</a>
+          <a class="agustos-button agustos-button--secondary" href="spec-sheet.html">Spec sheet for this code</a>
+          <a class="agustos-button agustos-button--secondary" href="#ies">IES file for this code</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="agustos-section related-products" id="enquiry">
+    <div class="agustos-section__head">
+      <h2 class="type-h2">Related products</h2>
+    </div>
+    <div class="agustos-card-grid">
+      <article class="agustos-card">
+        <h3 class="type-h3">Tela 44 · track</h3>
+        <p class="type-body">The same optic on a three-circuit adapter, for retail rollouts.</p>
+      </article>
+      <article class="agustos-card">
+        <h3 class="type-h3">Tela 68</h3>
+        <p class="type-body">Larger aperture for ceilings above 4 m, same trim language.</p>
+      </article>
+      <article class="agustos-card">
+        <h3 class="type-h3">Linea 30</h3>
+        <p class="type-body">Recessed linear on the same driver family and dimming protocols.</p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div>
+      <a class="lockup" href="products.html" aria-label="ağustos">
+        <svg class="lockup__symbol" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-hidden="true" focusable="false">
+          <g fill="currentColor" fill-rule="evenodd">
+            <path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/><path d="M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z"/><path d="M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z"/><path d="M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z"/><path d="M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z"/><path d="M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z"/><path d="M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z"/><path d="M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z"/><path d="M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z"/><path d="M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z"/><path d="M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z"/><path d="M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z"/><path d="M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z"/><path d="M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z"/><path d="M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z"/><path d="M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z"/><path d="M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z"/><path d="M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z"/>
+          </g>
+        </svg>
+        <span class="lockup__name">ağustos</span>
+      </a>
+      <p class="site-footer__tag">Pataraz is distributed by Ağustos Teknoloji · Istanbul, Izmir</p>
+    </div>
+    <div>
+      <div class="site-footer__group-title">This product</div>
+      <p><a href="#specification">Specification</a></p>
+      <p><a href="#enquiry">Photometric files</a></p>
+      <p><a href="spec-sheet.html">Spec sheet (PDF)</a></p>
+    </div>
+    <a class="agustos-button agustos-button--secondary" href="#contact">Contact</a>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    'use strict';
+
+    var state = { body: 'Fixed', beam: '25', cct: '2700', finish: 'W' };
+    var lumens = { '15': 620, '25': 680, '38': 710 };
+    var cctFactor = { '2700': 1, '3000': 1.04, '4000': 1.07 };
+    var watts = { '15': '7.4 W', '25': '8.1 W', '38': '8.6 W' };
+
+    var orderCodeEl = document.getElementById('order-code');
+    var configLineEl = document.getElementById('config-line');
+    var outputEl = document.getElementById('config-output');
+    var wattsEl = document.getElementById('config-watts');
+
+    function render() {
+      var lm = lumens[state.beam];
+      var factor = cctFactor[state.cct] * (state.body === 'Adjustable' ? 0.97 : 1);
+      var output = Math.round((lm * factor) / 10) * 10;
+      orderCodeEl.textContent = 'TL44-' + state.beam + '-' + state.cct.slice(0, 2) + '-' + state.finish;
+      configLineEl.textContent = state.body + ' · ' + state.beam + '° · ' + state.cct + ' K';
+      outputEl.textContent = output + ' lm';
+      wattsEl.textContent = watts[state.beam];
+    }
+
+    document.querySelectorAll('.config-group').forEach(function (group) {
+      var key = group.dataset.group;
+      var chips = group.querySelectorAll('.chip');
+      chips.forEach(function (chip) {
+        chip.addEventListener('click', function () {
+          state[key] = chip.dataset.value;
+          chips.forEach(function (c) { c.setAttribute('aria-pressed', c === chip ? 'true' : 'false'); });
+          render();
+        });
+      });
+    });
+
+    render();
+  })();
+</script>
+
+</body>
+</html>

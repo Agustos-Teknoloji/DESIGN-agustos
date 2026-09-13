@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tela 44 spec sheet — Ağustos</title>
+<link rel="icon" type="image/svg+xml" href="../laz-gunesi-amblem/favicon/favicon.svg">
+<link rel="stylesheet" href="../ui/agustos-fonts.css">
+<link rel="stylesheet" href="../ui/agustos.css">
+<style>
+  /* Page chrome for this standalone page — not part of the kit. Built from
+     mockups/claude-design/canvas/Spec sheet.dc.html, using ui/UI-KIT.md
+     classes and tokens instead of the canvas export's inline styles.
+     A4-proportioned print sheet: no site header/nav/footer, matching the
+     canvas source's own single-document structure. */
+  body { margin: 0; background: var(--surface); }
+
+  .sheet-wrap { max-width: 900px; margin: var(--space-xl) auto; }
+  .back-link { display: block; max-width: 794px; margin: 0 auto var(--space-sm); padding: 0 var(--space-sm); font-family: var(--display); font-size: 13px; font-weight: 600; color: var(--ink-faint); text-decoration: none; }
+  .back-link:hover { color: var(--ink); }
+
+  .sheet { background: var(--paper); width: 100%; max-width: 794px; margin: 0 auto; padding: 44px 48px; box-sizing: border-box; display: flex; flex-direction: column; gap: 22px; border: 1px solid var(--rule); }
+
+  .sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 20px; border-bottom: 1px solid var(--rule); padding-bottom: 16px; }
+  .lockup { display: inline-flex; align-items: center; gap: 0.4em; color: var(--brand); text-decoration: none; }
+  .lockup__symbol { width: 0.98em; height: 0.98em; color: inherit; transform: translateY(0.08em); }
+  .lockup__name { color: inherit; font-family: var(--display); font-size: 17px; font-weight: 650; line-height: 1; text-transform: lowercase; }
+  .sheet-head__meta { font-family: var(--display); font-size: 11.5px; font-weight: 600; color: var(--ink-faint); }
+
+  .sheet-title { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 20px; }
+  .sheet-title .type-hero { margin: 0; font-size: 46px; }
+  .sheet-title__meta { font-family: var(--mono); font-size: 12px; line-height: 1.7; color: var(--ink-soft); text-align: right; }
+
+  .sheet-body { display: flex; gap: 22px; align-items: stretch; }
+  .sheet-media { flex: 1 1 0; display: flex; flex-direction: column; gap: 14px; }
+  .sheet-media__photo, .sheet-media__drawing { background: var(--surface); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; }
+  .sheet-media__photo { height: 200px; }
+  .sheet-media__drawing { height: 150px; }
+  .sheet-media span { font-family: var(--display); font-size: 11.5px; font-weight: 600; color: var(--ink-faint); }
+  .sheet-media p { font-size: 13px; line-height: 1.55; color: var(--ink-soft); margin: 0; }
+
+  .sheet-data { flex: 1 1 0; }
+  .filters-label { font-family: var(--display); font-size: 11.5px; font-weight: 600; color: var(--ink-faint); margin-bottom: 10px; }
+  .sheet-data table.type-table th { font-family: var(--body); font-size: 12.5px; font-weight: 600; color: var(--ink-soft); padding: 7px 12px 7px 0; }
+  .sheet-data table.type-table td { font-size: 12.5px; padding: 7px 0; }
+
+  .sheet-config-strip { display: flex; flex-wrap: wrap; align-items: stretch; gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: var(--radius-sm); margin-top: 10px; overflow: hidden; }
+  .sheet-config-strip > div { background: var(--surface); padding: 14px 18px; }
+  .sheet-config-strip .code { flex: 2 1 220px; }
+  .sheet-config-strip .code .value { font-family: var(--mono); font-size: 20px; font-weight: 500; letter-spacing: -.01em; }
+  .sheet-config-strip .code .desc { font-size: 12.5px; color: var(--ink-soft); margin-top: 4px; }
+  .sheet-config-strip .metric { flex: 1 1 100px; }
+  .sheet-config-strip .metric .value { font-family: var(--display); font-size: 20px; font-weight: 400; letter-spacing: -.02em; }
+  .sheet-config-strip .metric .filters-label { margin: 4px 0 0; }
+  .sheet-config-note { font-family: var(--mono); font-size: 11px; color: var(--ink-faint); margin-top: 8px; }
+
+  .sheet-footer { margin-top: auto; border-top: 1px solid var(--rule); padding-top: 12px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
+
+  @media print {
+    body { background: var(--paper); }
+    .back-link { display: none; }
+    .sheet-wrap { margin: 0; }
+    .sheet { box-shadow: none; max-width: none; }
+  }
+</style>
+</head>
+<body class="brand-agustos paper-white">
+
+<div class="sheet-wrap">
+  <a class="back-link" href="product.html">← Back to Tela 44</a>
+
+  <section class="sheet" aria-label="Tela 44 product specification">
+    <div class="sheet-head">
+      <a class="lockup" href="products.html" aria-label="ağustos">
+        <svg class="lockup__symbol" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-hidden="true" focusable="false">
+          <g fill="currentColor" fill-rule="evenodd">
+            <path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/><path d="M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z"/><path d="M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z"/><path d="M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z"/><path d="M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z"/><path d="M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z"/><path d="M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z"/><path d="M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z"/><path d="M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z"/><path d="M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z"/><path d="M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z"/><path d="M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z"/><path d="M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z"/><path d="M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z"/><path d="M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z"/><path d="M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z"/><path d="M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z"/><path d="M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z"/>
+          </g>
+        </svg>
+        <span class="lockup__name">ağustos</span>
+      </a>
+      <div class="sheet-head__meta">Product specification · 09.2026</div>
+    </div>
+
+    <div class="sheet-title">
+      <h1 class="type-hero">Tela 44</h1>
+      <div class="sheet-title__meta">
+        Order code · TL44<br>
+        Cut-out · 50 mm<br>
+        CRI 97 · UGR &lt;10
+      </div>
+    </div>
+
+    <div class="sheet-body">
+      <div class="sheet-media">
+        <div class="sheet-media__photo"><span>Product photograph</span></div>
+        <div class="sheet-media__drawing"><span>Dimensioned drawing</span></div>
+        <p>A 44 mm aperture downlight for ceilings that should read as surface, not as fittings. Fixed and adjustable bodies share one trim, one driver family and one cut-out.</p>
+      </div>
+
+      <div class="sheet-data">
+        <div class="filters-label">Technical data</div>
+        <table class="type-table">
+          <tbody>
+            <tr><th>Aperture</th><td>44 mm</td></tr>
+            <tr><th>Cut-out</th><td>50 mm</td></tr>
+            <tr><th>Recess depth</th><td>92 mm</td></tr>
+            <tr><th>Body</th><td>Die-cast aluminium</td></tr>
+            <tr><th>Finish</th><td>White, black, champagne</td></tr>
+            <tr><th>Trim</th><td>Trimless or 2 mm flange</td></tr>
+            <tr><th>Light source</th><td>LED module, replaceable</td></tr>
+            <tr><th>CRI</th><td>97, R9 &gt; 90</td></tr>
+            <tr><th>Binning</th><td>SDCM 2</td></tr>
+            <tr><th>Driver</th><td>Remote, 220–240 V</td></tr>
+            <tr><th>Dimming</th><td>DALI-2, phase, 0–10 V</td></tr>
+            <tr><th>Protection</th><td>IP20 · IP44 wet variant</td></tr>
+            <tr><th>Warranty</th><td>5 years</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div>
+      <div class="filters-label">Configuration specified</div>
+      <div class="sheet-config-strip">
+        <div class="code">
+          <div class="value">TL44-25-27-W</div>
+          <div class="desc">Fixed · 25° flood · 2700 K · white</div>
+        </div>
+        <div class="metric">
+          <div class="value">680 lm</div>
+          <div class="filters-label">Output</div>
+        </div>
+        <div class="metric">
+          <div class="value">8.1 W</div>
+          <div class="filters-label">Load</div>
+        </div>
+      </div>
+      <p class="sheet-config-note">Order code · TL44-[beam]-[cct]-[finish] · other configurations at agustos.com/tela44</p>
+    </div>
+
+    <div class="agustos-notice agustos-notice--info">
+      <strong class="agustos-notice__title">IES and LDT files</strong>
+      For all fifteen codes — iesdesk.com/tela44. Lead time 3–4 weeks.
+    </div>
+
+    <div class="sheet-footer">
+      <span>Ağustos Teknoloji · studio@agustos.com · +90 212 000 00 00</span>
+      <span>Data subject to change · rev 2.1 · page 1/1</span>
+    </div>
+  </section>
+</div>
+
+</body>
+</html>

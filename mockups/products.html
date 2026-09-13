@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Products — Ağustos</title>
+<link rel="icon" type="image/svg+xml" href="../laz-gunesi-amblem/favicon/favicon.svg">
+<link rel="stylesheet" href="../ui/agustos-fonts.css">
+<link rel="stylesheet" href="../ui/agustos.css">
+<style>
+  /* Page chrome for this standalone page — not part of the kit. Built from
+     mockups/claude-design/canvas/Products.dc.html, using ui/UI-KIT.md classes
+     and tokens instead of the canvas export's inline styles. */
+  body { margin: 0; }
+
+  .site-header { position: sticky; top: 0; z-index: 20; background: var(--paper); border-bottom: 1px solid var(--rule); }
+  .site-header__bar { max-width: 1180px; margin: 0 auto; padding: 20px 32px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 24px; }
+  .site-header__nav { display: flex; align-items: center; justify-content: center; gap: 26px; }
+  .site-header__end { display: flex; align-items: center; justify-content: flex-end; gap: 18px; }
+
+  .nav-link { font-family: var(--display); font-size: 15px; font-weight: 500; color: var(--ink-soft); text-decoration: none; border-bottom: 2px solid transparent; padding-bottom: 2px; transition: color .15s, border-color .15s; }
+  .nav-link:hover, .nav-link[aria-current="page"] { color: var(--ink); border-bottom-color: var(--signal); }
+  .nav-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+  .icon-link { display: inline-flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: var(--radius-sm); color: var(--ink-soft); }
+  .icon-link:hover { background: var(--rule); color: var(--ink); }
+  .icon-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+  .lockup { display: inline-flex; align-items: center; gap: 0.4em; color: var(--brand); text-decoration: none; }
+  .lockup__symbol { width: 0.98em; height: 0.98em; color: inherit; transform: translateY(0.08em); }
+  .lockup__name { color: inherit; font-family: var(--display); font-size: 20px; font-weight: 650; line-height: 1; text-transform: lowercase; }
+  a.lockup:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+  @media (max-width: 860px) {
+    .site-header__nav { display: none; }
+    .site-header__end .icon-link, .site-header__end > a.nav-link { display: none; }
+  }
+
+  .breadcrumb { max-width: 1180px; margin: 0 auto; padding: 18px 32px 0; display: flex; align-items: center; gap: 8px; font-family: var(--display); font-size: 13px; font-weight: 500; }
+  .breadcrumb span[aria-current] { color: var(--ink); }
+
+  .page-intro { max-width: 1180px; margin: 0 auto; padding: 20px 32px 0; }
+  .page-intro .type-hero { margin: 0; }
+  .page-intro p { max-width: 54ch; margin: var(--space-sm) 0 0; }
+  .quick-links { display: flex; flex-wrap: wrap; gap: 22px; margin-top: var(--space-lg); padding-top: var(--space-md); border-top: 1px solid var(--rule); }
+  .quick-links .nav-link:last-child { margin-left: auto; }
+
+  .series-section { max-width: 1180px; margin: 0 auto; padding: 56px 32px 0; }
+  .series-section__head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 16px; }
+  .series-section__head .type-h2 { margin: 0; }
+  .series-section__note { font-size: 15px; color: var(--ink-soft); max-width: 40ch; }
+
+  .media-placeholder { background: var(--surface); border-radius: var(--radius-md); aspect-ratio: 4 / 3; }
+  .agustos-card .type-h3 { margin: var(--space-sm) 0 0; }
+  .agustos-card p.spec { font-size: 13.5px; color: var(--ink-soft); margin: 4px 0 0; }
+  .agustos-card a.view-link { display: inline-block; margin-top: var(--space-sm); }
+
+  .cream-band { margin-top: 72px; background: var(--cream); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); }
+  .cream-band__inner { max-width: 1180px; margin: 0 auto; padding: 56px 32px; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 32px; }
+  .cream-band__copy { max-width: 46ch; }
+  .cream-band__copy .type-h2 { margin: 0 0 12px; }
+  .cream-band__copy p { margin: 0; }
+
+  .site-footer { background: var(--ink); color: var(--paper); }
+  .site-footer .lockup { color: var(--paper); }
+  .site-footer__inner { max-width: 1180px; margin: 0 auto; padding: 44px 32px; display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 32px; }
+  .site-footer__tag { font-size: 14px; line-height: 1.55; max-width: 34ch; margin-top: var(--space-xs); opacity: .66; }
+  .site-footer__groups { display: flex; flex-wrap: wrap; gap: 48px; font-size: 14px; line-height: 2; }
+  .site-footer__group-title { font-family: var(--display); font-size: 12.5px; font-weight: 600; margin-bottom: 8px; opacity: .5; }
+  .site-footer a { color: var(--paper); text-decoration: none; }
+  .site-footer a:hover { text-decoration: underline; }
+  .site-footer .agustos-button { margin-left: auto; align-self: flex-start; }
+</style>
+</head>
+<body class="brand-agustos paper-white">
+<a class="skip-link" href="#main">İçeriğe geç</a>
+
+<header class="site-header">
+  <div class="site-header__bar">
+    <a class="lockup" href="products.html" aria-label="ağustos — ana sayfa">
+      <svg class="lockup__symbol" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-hidden="true" focusable="false">
+        <g fill="currentColor" fill-rule="evenodd">
+          <path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/><path d="M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z"/><path d="M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z"/><path d="M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z"/><path d="M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z"/><path d="M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z"/><path d="M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z"/><path d="M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z"/><path d="M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z"/><path d="M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z"/><path d="M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z"/><path d="M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z"/><path d="M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z"/><path d="M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z"/><path d="M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z"/><path d="M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z"/><path d="M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z"/><path d="M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z"/>
+        </g>
+      </svg>
+      <span class="lockup__name">ağustos</span>
+    </a>
+
+    <nav class="site-header__nav" aria-label="Ana menü">
+      <a class="nav-link" href="#work">Work</a>
+      <a class="nav-link" href="products.html" aria-current="page">Products</a>
+      <a class="nav-link" href="#brands">Brands</a>
+    </nav>
+
+    <div class="site-header__end">
+      <a class="icon-link" href="#search" aria-label="Search">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"></circle><line x1="15.5" y1="15.5" x2="20" y2="20"></line></svg>
+      </a>
+      <a class="nav-link" href="#lang" lang="tr">Türkçe</a>
+      <a class="agustos-button agustos-button--primary" href="#contact">Contact</a>
+    </div>
+  </div>
+</header>
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <span aria-current="page">Products</span>
+</nav>
+
+<main id="main">
+  <div class="page-intro">
+    <h1 class="type-hero">Products</h1>
+    <p class="type-body">Held stock and specified-to-order luminaires across five series, sourced from thirty-eight European manufacturers and distributed by Ağustos.</p>
+    <div class="quick-links">
+      <a class="nav-link" href="#tela">Tela — recessed</a>
+      <a class="nav-link" href="#linea">Linea — linear</a>
+      <a class="nav-link" href="#arc">Arc — track</a>
+      <a class="nav-link" href="#plane">Plane — surface</a>
+      <a class="nav-link" href="#orbit">Orbit — pendant</a>
+      <a class="nav-link" href="product-finder.html">Find by application →</a>
+    </div>
+  </div>
+
+  <section class="series-section" id="tela">
+    <div class="series-section__head">
+      <h2 class="type-h2">Tela</h2>
+      <p class="series-section__note">Recessed downlights, 44 and 68 mm apertures, trimless or flanged.</p>
+    </div>
+    <div class="agustos-card-grid">
+      <article class="agustos-card">
+        <div class="media-placeholder" aria-hidden="true"></div>
+        <h3 class="type-h3">Tela 44</h3>
+        <p class="spec">Ø44 mm · fixed or adjustable · IP20</p>
+        <a class="view-link" href="product.html">View product</a>
+      </article>
+      <article class="agustos-card">
+        <div class="media-placeholder" aria-hidden="true"></div>
+        <h3 class="type-h3">Tela 68</h3>
+        <p class="spec">Ø68 mm · fixed · IP20</p>
+        <a class="view-link" href="product.html">View product</a>
+      </article>
+      <article class="agustos-card">
+        <div class="media-placeholder" aria-hidden="true"></div>
+        <h3 class="type-h3">Tela 44 wet</h3>
+        <p class="spec">Ø44 mm · fixed · IP44</p>
+        <a class="view-link" href="product.html">View product</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="series-section" id="linea">
+    <div class="series-section__head">
+      <h2 class="type-h2">Linea</h2>
+      <p class="series-section__note">Recessed and surface linear, one driver family throughout.</p>
+    </div>
+    <div class="agustos-card-grid">
+      <article class="agustos-card">
+        <div class="media-placeholder" aria-hidden="true"></div>
+        <h3 class="type-h3">Linea 30</h3>
+        <p class="spec">Recessed · 30 mm profile · IP20</p>
+        <a class="view-link" href="product.html">View product</a>
+      </article>
+      <article class="agustos-card">
+        <div class="media-placeholder" aria-hidden="true"></div>
+        <h3 class="type-h3">Linea 30 surface</h3>
+        <p class="spec">Surface · 30 mm profile · IP20</p>
+        <a class="view-link" href="product.html">View product</a>
+      </article>
+      <article class="agustos-card">
+        <div class="media-placeholder" aria-hidden="true"></div>
+        <h3 class="type-h3">Linea 30 wet</h3>
+        <p class="spec">Recessed · 30 mm profile · IP44</p>
+        <a class="view-link" href="product.html">View product</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="series-section" id="arc">
+    <div class="series-section__head">
+      <h2 class="type-h2">Arc</h2>
+      <p class="series-section__note">Track spots for retail and gallery hang, three-circuit adapter.</p>
+    </div>
+    <div class="agustos-card-grid">
+      <article class="agustos-card">
+        <div class="media-placeholder" aria-hidden="true"></div>
+        <h3 class="type-h3">Arc 12</h3>
+        <p class="spec">Track · 12° / 24° / 36° beam · IP20</p>
+        <a class="view-link" href="product.html">View product</a>
+      </article>
+      <article class="agustos-card">
+        <div class="media-placeholder" aria-hidden="true"></div>
+        <h3 class="type-h3">Arc 18</h3>
+        <p class="spec">Track · 18° / 30° beam · IP20</p>
+        <a class="view-link" href="product.html">View product</a>
+      </article>
+      <article class="agustos-card">
+        <div class="media-placeholder" aria-hidden="true"></div>
+        <h3 class="type-h3">Arc 24</h3>
+        <p class="spec">Track · wall-wash · IP20</p>
+        <a class="view-link" href="product.html">View product</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="series-section" id="plane">
+    <div class="series-section__head">
+      <h2 class="type-h2">Plane</h2>
+      <p class="series-section__note">Surface panels for office and back-of-house ceilings.</p>
+    </div>
+    <div class="agustos-card-grid">
+      <article class="agustos-card">
+        <div class="media-placeholder" aria-hidden="true"></div>
+        <h3 class="type-h3">Plane 60</h3>
+        <p class="spec">600 × 600 mm · IP20</p>
+        <a class="view-link" href="product.html">View product</a>
+      </article>
+      <article class="agustos-card">
+        <div class="media-placeholder" aria-hidden="true"></div>
+        <h3 class="type-h3">Plane 30</h3>
+        <p class="spec">300 × 1200 mm · IP20</p>
+        <a class="view-link" href="product.html">View product</a>
+      </article>
+      <article class="agustos-card">
+        <div class="media-placeholder" aria-hidden="true"></div>
+        <h3 class="type-h3">Plane 120</h3>
+        <p class="spec">1200 × 300 mm · IP44</p>
+        <a class="view-link" href="product.html">View product</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="series-section" id="orbit">
+    <div class="series-section__head">
+      <h2 class="type-h2">Orbit</h2>
+      <p class="series-section__note">Pendants for hospitality and residential dining.</p>
+    </div>
+    <div class="agustos-card-grid">
+      <article class="agustos-card">
+        <div class="media-placeholder" aria-hidden="true"></div>
+        <h3 class="type-h3">Orbit 200</h3>
+        <p class="spec">Ø200 mm · dimmable · IP20</p>
+        <a class="view-link" href="product.html">View product</a>
+      </article>
+      <article class="agustos-card">
+        <div class="media-placeholder" aria-hidden="true"></div>
+        <h3 class="type-h3">Orbit 300</h3>
+        <p class="spec">Ø300 mm · dimmable · IP20</p>
+        <a class="view-link" href="product.html">View product</a>
+      </article>
+      <article class="agustos-card">
+        <div class="media-placeholder" aria-hidden="true"></div>
+        <h3 class="type-h3">Orbit 150</h3>
+        <p class="spec">Ø150 mm · fixed · IP20</p>
+        <a class="view-link" href="product.html">View product</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="cream-band">
+    <div class="cream-band__inner">
+      <div class="cream-band__copy">
+        <h2 class="type-h2">Not sure which series?</h2>
+        <p class="type-body">Send the drawings or use the finder — either way we reply with a shortlist and an indicative budget.</p>
+      </div>
+      <div class="hero-actions">
+        <a class="hero-action hero-action--primary" href="#contact">Contact</a>
+        <a class="hero-action hero-action--secondary" href="product-finder.html">Use the finder</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="site-footer__inner">
+    <div>
+      <a class="lockup" href="products.html" aria-label="ağustos">
+        <svg class="lockup__symbol" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-hidden="true" focusable="false">
+          <g fill="currentColor" fill-rule="evenodd">
+            <path d="M 24.0215 4.2070 C 34.0762 5.8086 48.3340 21.1562 34.5645 38.4922 C 37.3145 23.6016 33.7988 10.1367 24.0215 4.2070 Z"/><path d="M 21.1309 12.1719 C 30.0332 17.1133 38.1816 36.4102 19.3145 47.9922 C 26.9941 34.9414 28.2910 21.0820 21.1309 12.1719 Z"/><path d="M 15.6934 18.6641 C 22.3691 26.3516 23.4238 47.2734 1.7363 51.7031 C 13.4121 42.0625 19.3730 29.4883 15.6934 18.6641 Z"/><path d="M 8.3652 22.9062 C 12.0059 32.4141 5.8418 52.4336 -16.0566 49.1797 C -1.7832 44.1133 8.1191 34.3359 8.3652 22.9062 Z"/><path d="M 0.0254 24.3867 C 0.1934 34.5664 -12.4434 51.2695 -31.9082 40.7187 C -16.7637 40.8437 -4.1152 35.0430 0.0254 24.3867 Z"/><path d="M -8.3184 22.9219 C -11.6387 32.5469 -29.2324 43.9219 -43.9121 27.3516 C -29.7246 32.6484 -15.8535 31.5195 -8.3184 22.9219 Z"/><path d="M -15.6582 18.6953 C -22.0684 26.6016 -42.4902 31.2734 -50.6191 10.6836 C -39.0996 20.5117 -25.6777 24.1953 -15.6582 18.6953 Z"/><path d="M -21.1074 12.2109 C -29.8379 17.4492 -50.6230 14.8555 -51.2207 -7.2734 C -43.7559 5.8984 -32.4043 13.9531 -21.1074 12.2109 Z"/><path d="M -24.0137 4.2539 C -34.0059 6.1914 -52.6543 -3.3555 -45.6426 -24.3516 C -43.1348 -9.4219 -35.2246 2.0312 -24.0137 4.2539 Z"/><path d="M -24.0215 -4.2148 C -34.0762 -5.8125 -48.3301 -21.1602 -34.5605 -38.4961 C -37.3145 -23.6055 -33.7949 -10.1406 -24.0215 -4.2148 Z"/><path d="M -21.1309 -12.1758 C -30.0332 -17.1172 -38.1777 -36.4141 -19.3105 -47.9961 C -26.9902 -34.9453 -28.2871 -21.0859 -21.1309 -12.1758 Z"/><path d="M -15.6934 -18.6680 C -22.3652 -26.3594 -23.4238 -47.2773 -1.7324 -51.7031 C -13.4121 -42.0664 -19.3730 -29.4922 -15.6934 -18.6680 Z"/><path d="M -8.3613 -22.9102 C -12.0059 -32.4180 -5.8418 -52.4336 16.0566 -49.1797 C 1.7832 -44.1172 -8.1191 -34.3398 -8.3613 -22.9102 Z"/><path d="M -0.0254 -24.3867 C -0.1934 -34.5703 12.4434 -51.2695 31.9043 -40.7188 C 16.7637 -40.8477 4.1152 -35.0430 -0.0254 -24.3867 Z"/><path d="M 8.3184 -22.9297 C 11.6387 -32.5547 29.2285 -43.9297 43.9121 -27.3594 C 29.7246 -32.6523 15.8535 -31.5273 8.3184 -22.9297 Z"/><path d="M 15.6582 -18.7031 C 22.0684 -26.6094 42.4902 -31.2813 50.6191 -10.6875 C 39.0996 -20.5195 25.6777 -24.2031 15.6582 -18.7031 Z"/><path d="M 21.1074 -12.2188 C 29.8418 -17.4570 50.6270 -14.8633 51.2207 7.2695 C 43.7559 -5.9063 32.4082 -13.9609 21.1074 -12.2188 Z"/><path d="M 24.0137 -4.2617 C 34.0098 -6.1953 52.6543 3.3477 45.6465 24.3477 C 43.1387 9.4141 35.2285 -2.0352 24.0137 -4.2617 Z"/>
+          </g>
+        </svg>
+        <span class="lockup__name">ağustos</span>
+      </a>
+      <p class="site-footer__tag">Ağustos Teknoloji · lighting agency and distribution · Istanbul, Izmir</p>
+    </div>
+    <div class="site-footer__groups">
+      <div>
+        <div class="site-footer__group-title">Studio</div>
+        <p><a href="#work">Work</a></p>
+        <p><a href="#services">Services</a></p>
+        <p><a href="#contact">Contact</a></p>
+      </div>
+      <div>
+        <div class="site-footer__group-title">Brands</div>
+        <p><a href="#brands">Pataraz</a></p>
+        <p><a href="#brands">PLD Türkiye</a></p>
+        <p><a href="#brands">IESDesk</a></p>
+      </div>
+    </div>
+    <a class="agustos-button agustos-button--secondary" href="#contact">Contact</a>
+  </div>
+</footer>
+
+</body>
+</html>
