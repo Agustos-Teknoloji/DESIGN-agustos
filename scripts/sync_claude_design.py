@@ -19,6 +19,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+from typing import NamedTuple
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -91,6 +92,129 @@ def manifest(members: list[tuple[str, bytes]], version: str, commit: str) -> dic
         "remotePrefix": REMOTE_PREFIX,
         "files": files,
     }
+
+
+# --- Cards ------------------------------------------------------------------
+# Each card is one full HTML document. Line 1 is the @dsCard marker the Design
+# System pane indexes. Cards load the pushed kit by relative path, fonts first.
+
+
+class Card(NamedTuple):
+    slug: str
+    group: str
+    width: int
+    height: int
+    name: str
+    subtitle: str
+    body: str
+
+
+HOUSE_BRANDS = ("agustos", "pataraz", "pld", "iesdesk", "specquick")
+
+CARDS: tuple[Card, ...] = (
+    Card(
+        "type",
+        "Type",
+        700,
+        300,
+        "Type scale",
+        "Inter Tight display · Inter body · JetBrains Mono code",
+        """
+<p class="type-hero-md">Light, placed with intent.</p>
+<h2 class="type-h2">Headings weigh 300 to 400</h2>
+<p class="type-body">Body is Inter at a 65ch measure. <a class="type-link" href="#">A content link</a> carries the red rule. Code is <code class="type-code">JetBrains Mono</code>.</p>
+""",
+    ),
+    Card(
+        "colours",
+        "Colours",
+        700,
+        170,
+        "Six colours",
+        "White paper · cream band · light gray · dark gray · off-black · red",
+        """
+<div class="agustos-card-grid" style="grid-template-columns: repeat(6, 1fr)">
+  <div class="agustos-card" style="background: var(--paper-white)"><p class="type-h4">white</p></div>
+  <div class="agustos-card" style="background: var(--cream)"><p class="type-h4">cream</p></div>
+  <div class="agustos-card" style="background: var(--surface)"><p class="type-h4">light gray</p></div>
+  <div class="agustos-card" style="background: var(--ink-soft); color: var(--paper-white)"><p class="type-h4">dark gray</p></div>
+  <div class="agustos-card" style="background: var(--ink); color: var(--paper-white)"><p class="type-h4">off-black</p></div>
+  <div class="agustos-card" style="background: var(--signal); color: var(--paper-white)"><p class="type-h4">red</p></div>
+</div>
+""",
+    ),
+    Card(
+        "actions",
+        "Actions",
+        700,
+        200,
+        "Action tiers",
+        "Primary · secondary · quiet · content link — one 44px size",
+        """
+<div class="hero-actions">
+  <a class="agustos-button agustos-button--primary" href="#">Request pricing</a>
+  <a class="agustos-button agustos-button--secondary" href="#">See products</a>
+  <a class="agustos-button agustos-button--quiet" href="#">Contact</a>
+</div>
+<p class="type-body">Inline, <a class="type-link" href="#">a content link</a> keeps the red rule.</p>
+""",
+    ),
+    Card(
+        "brand-marks",
+        "Brand",
+        700,
+        260,
+        "House lockups",
+        "One symbol · lowercase wordmark · only ağustos is red",
+        "\n".join(
+            f'<p><img src="../logos/{slug}-lockup__positive.svg" alt="{slug} lockup" style="height: 40px"></p>'
+            for slug in HOUSE_BRANDS
+        ),
+    ),
+    Card(
+        "favicon",
+        "Brand",
+        700,
+        150,
+        "Shared favicon",
+        "One red Laz Güneşi tab icon for every house site",
+        """
+<div class="hero-actions" style="align-items: center">
+  <img src="../favicon/favicon.svg" alt="Laz Güneşi favicon" style="width: 64px; height: 64px">
+  <img src="../favicon/favicon.svg" alt="" style="width: 32px; height: 32px">
+  <img src="../favicon/favicon.svg" alt="" style="width: 16px; height: 16px">
+  <p class="type-body">Canonical file: <code class="type-code">laz-gunesi-amblem/favicon/favicon.svg</code>. Same artwork on every site.</p>
+</div>
+""",
+    ),
+)
+
+
+def card_html(card: Card, version: str) -> str:
+    marker = (
+        f'<!-- @dsCard group="Kit · {card.group}" viewport="{card.width}x{card.height}" '
+        f'name="{card.name}" subtitle="{card.subtitle}" -->'
+    )
+    return f"""{marker}
+<!doctype html>
+<html lang="tr" data-theme="light">
+<head>
+<meta charset="utf-8">
+<title>{card.name} — Ağustos UI kit v{version}</title>
+<link rel="stylesheet" href="../agustos-fonts.css">
+<link rel="stylesheet" href="../agustos.css">
+<style>body {{ margin: 0; padding: 24px 28px; }}</style>
+</head>
+<body class="brand-agustos paper-white">
+{card.body.strip()}
+<p class="type-footnote">Ağustos UI kit v{version} · pushed from the repository. Edit the source there, not here.</p>
+</body>
+</html>
+"""
+
+
+def card_members(version: str) -> list[tuple[str, bytes]]:
+    return [(f"cards/{card.slug}.html", card_html(card, version).encode("utf-8")) for card in CARDS]
 
 
 # --- CLI --------------------------------------------------------------------

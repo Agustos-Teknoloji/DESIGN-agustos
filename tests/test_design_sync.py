@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import re
 import unittest
 from pathlib import Path
 
@@ -86,6 +87,42 @@ class ManifestTest(unittest.TestCase):
     def test_manifest_is_deterministic(self):
         again = self.sync.manifest(self.members, version="9.9.9", commit="abc1234")
         self.assertEqual(json.dumps(self.manifest, sort_keys=True), json.dumps(again, sort_keys=True))
+
+
+class CardTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.sync = load_sync()
+        cls.members = cls.sync.card_members(version="9.9.9")
+        cls.texts = {name: payload.decode("utf-8") for name, payload in cls.members}
+
+    def test_minimum_card_set(self):
+        for slug in ("type", "colours", "actions", "brand-marks", "favicon"):
+            self.assertIn(f"cards/{slug}.html", self.texts)
+
+    def test_line_one_is_a_dscard_marker_with_kit_group(self):
+        marker = re.compile(r'^<!-- @dsCard group="Kit · [^"]+" viewport="\d+x\d+" name="[^"]+" subtitle="[^"]+" -->$')
+        for name, text in self.texts.items():
+            first = text.splitlines()[0]
+            self.assertRegex(first, marker, name)
+
+    def test_cards_load_the_kit_by_relative_path_fonts_first(self):
+        for name, text in self.texts.items():
+            fonts = text.index('href="../agustos-fonts.css"')
+            system = text.index('href="../agustos.css"')
+            self.assertLess(fonts, system, name)
+
+    def test_cards_carry_the_version(self):
+        for name, text in self.texts.items():
+            self.assertIn("v9.9.9", text, name)
+
+    def test_favicon_card_points_at_the_bundled_favicon(self):
+        self.assertIn('src="../favicon/favicon.svg"', self.texts["cards/favicon.html"])
+
+    def test_brand_card_shows_every_house_lockup(self):
+        text = self.texts["cards/brand-marks.html"]
+        for slug in ("agustos", "pataraz", "pld", "iesdesk", "specquick"):
+            self.assertIn(f'src="../logos/{slug}-lockup__positive.svg"', text)
 
 
 if __name__ == "__main__":
