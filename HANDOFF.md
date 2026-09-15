@@ -61,14 +61,16 @@ Keep wordmarks lowercase in Inter Tight 650. Do not add red fills, uppercase lab
 
 ## If a Claude Design zip or page arrives in this repository
 
-Run `/design-pull ui_kits/<page>` in Claude Code, or `python3 scripts/sync_claude_design.py pull --from <zip> --page ui_kits/<page>`.
-The page lands under `mockups/claude-design/` as a reference. Read `docs/claude-design-sync.html` for the full workflow.
+Run `/design-pull <remote path> --target <screen>` in Claude Code, or `python3 scripts/sync_claude_design.py pull --from <zip> --page <remote path> --target <screen>`.
+The page lands under `screens/design/` as a reference for one screen under `screens/`. Read `docs/claude-design-sync.html` for the full workflow.
 
 A Design page is not a merge. If it shows a rule the kit lacks, edit only:
 
 - `tokens/design-tokens.json`
 - `tokens/web.css.tmpl`
 - `brand/brands.json` (only when identity ink, wordmark, or roster changes)
+
+Then rebuild `screens/<target>.html` on kit classes and run `/design-push`.
 
 Then run `python3 scripts/build_design_system.py`, and `/design-push` so Claude Design receives the rule.
 Do not rebuild logos, Office files, fonts, or datasheets unless asked.
