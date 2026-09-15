@@ -1032,7 +1032,7 @@ Body: `Sidebar and topbar with footer, the breadcrumb, and a site-lockup compone
 ### Task 4: The layout layer
 
 **Files:**
-- Modify: `tokens/design-tokens.json` (7 names in `compatibility.cssClasses` after `breadcrumb__link`)
+- Modify: `tokens/design-tokens.json` (9 names in `compatibility.cssClasses` after `breadcrumb__link`)
 - Modify: `tokens/web.css.tmpl` (new section 5c after 5b)
 - Test: `tests/test_ui_kit.py`
 

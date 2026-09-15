@@ -280,13 +280,13 @@ between tasks by the main session.
 ## Checklist
 
 Phase 1 · registry, template, generator
-- [ ] 1. `chrome` per brand in `brand/brands.json`; validated; in `ui/kit.json`
-- [ ] 2. `screens` table in `tokens/design-tokens.json`; validated; derived chrome and theme
-- [ ] 3. both chromes, the lockup, and the breadcrumb in `tokens/web.css.tmpl`
-- [ ] 4. the layout layer (stack, cluster, prose, grid-2/3/4, grid-aside, band, band--cream)
-- [ ] 5. UI-KIT.md: brand chrome table, screens table, one install section; starter renders both chromes
-- [ ] 6. `docs/web.html` generated from the screens table; handoff zip packs `screens/`
-- [ ] 7. the design direction list in DESIGN.md generated between markers
+- [x] 1. `chrome` per brand in `brand/brands.json`; validated; in `ui/kit.json`
+- [x] 2. `screens` table in `tokens/design-tokens.json`; validated; derived chrome and theme
+- [x] 3. both chromes, the lockup, and the breadcrumb in `tokens/web.css.tmpl`
+- [x] 4. the layout layer (stack, cluster, prose, grid-2/3/4, grid-aside, band, band--cream)
+- [x] 5. UI-KIT.md: brand chrome table, screens table, one install section; starter renders both chromes
+- [x] 6. `docs/web.html` generated from the screens table; handoff zip packs `screens/`
+- [x] 7. the design direction list in DESIGN.md generated between markers
 
 Phase 2 · screens
 - [ ] 8. `screens/` with `tests/test_screens.py`, `screens/README.md`, `home.html`
