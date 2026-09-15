@@ -124,6 +124,7 @@ Every class the kit publishes. See `starter.html` for one rendered instance of e
 | Group | Classes |
 |---|---|
 | Frame | `site-frame` `container` `skip-link` |
+| Layout | `stack` `cluster` `prose` `grid-2` `grid-3` `grid-4` `grid-aside` `band` `band--cream` |
 | Headings | `type-hero` `type-hero-md` `type-hero-deck` `type-h1` `type-h2` `type-h3` `type-h4` |
 | Text | `type-body` `type-link` `type-code` `type-blockquote` `type-pullquote` `type-footnote` |
 | Blocks | `type-list-ul` `type-list-ol` `type-dl` `type-figure` `type-code-block` `type-table` `type-divider` |

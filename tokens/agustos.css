@@ -1010,6 +1010,33 @@ html[data-theme="dark"] .site-footer .agustos-button--primary:hover {
   .site-footer__cols { margin-inline-start: 0; }
 }
 
+/* -- 5c. Layout layer ---------------------------------------- */
+
+/* Nine helpers so no page declares its own frame, band, grid, or measure.
+   Composition stays in the markup; rhythm comes from the spacing scale. */
+.stack { display: flex; flex-direction: column; gap: var(--space-md); }
+.stack > * { margin-block: 0; }
+.cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); }
+.prose { max-width: var(--measure-body); }
+.grid-2,
+.grid-3,
+.grid-4 { display: grid; gap: var(--space-lg); }
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.grid-aside { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(0, 3fr); gap: var(--space-2xl); align-items: start; }
+.band { padding-block: var(--space-3xl); }
+.band--cream { background: var(--cream); border-block: 1px solid var(--rule); }
+@media (max-width: 1023px) {
+  .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 759px) {
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .grid-aside { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* -- 6. UI primitives ---------------------------------------- */
 
 /* Product-surface controls. Same grammar as the editorial layer above: hairline

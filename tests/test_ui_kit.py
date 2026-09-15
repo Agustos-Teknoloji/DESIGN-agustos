@@ -490,6 +490,15 @@ class ChromeTest(unittest.TestCase):
         self.assertIn('html[data-theme="dark"] .site-lockup { color: var(--ink); }', self.CSS)
         self.assertIn('html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }', self.CSS)
 
+    def test_layout_layer_is_published(self):
+        declared = TOKENS["compatibility"]["cssClasses"]
+        for name in ("stack", "cluster", "grid-2", "grid-3", "grid-4", "grid-aside", "band", "band--cream", "prose"):
+            self.assertIn(name, declared, name)
+        self.assertIn(".grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }", self.CSS)
+        self.assertIn(".band--cream { background: var(--cream);", self.CSS)
+        self.assertIn(".prose { max-width: var(--measure-body); }", self.CSS)
+        self.assertIn(".grid-aside { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(0, 3fr);", self.CSS)
+
 
 if __name__ == "__main__":
     unittest.main()
