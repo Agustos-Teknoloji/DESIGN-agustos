@@ -216,10 +216,12 @@
     "chrome": {
       "contentMeasure": "1180px",
       "controlMinimum": "44px",
+      "drawerWidth": "min(320px, 86vw)",
       "gap": "32px",
       "gutter": "32px",
       "paddingBlock": "20px",
-      "rule": "1px"
+      "rule": "1px",
+      "sidebarWidth": "240px"
     },
     "dataTable": {
       "cellPaddingBlock": "8px",

@@ -455,5 +455,41 @@ class CheckerTest(unittest.TestCase):
         self.assertNotIn("urllib", source[:before], "urllib is imported lazily, inside fetch_latest")
 
 
+class ChromeTest(unittest.TestCase):
+    CSS = (ROOT / "ui" / "agustos.css").read_text(encoding="utf-8")
+
+    def test_both_chromes_and_the_lockup_are_published(self):
+        declared = TOKENS["compatibility"]["cssClasses"]
+        for name in (
+            "site-lockup", "site-lockup__symbol", "site-lockup__name",
+            "site-sidebar-layout", "site-sidebar", "site-sidebar__nav", "site-sidebar__link",
+            "site-sidebar__group", "site-sidebar__cta", "site-sidebar__utility", "site-sidebar__note",
+            "site-sidebar-bar", "site-sidebar-burger",
+            "site-header", "site-header__bar", "site-header__panel", "site-header__nav",
+            "site-header__link", "site-header__end", "site-header__cta", "site-header__burger",
+            "site-footer", "site-footer__inner", "site-footer__brand", "site-footer__cols",
+            "site-footer__col", "site-footer__col-heading", "site-footer__list", "site-footer__link",
+            "site-footer__cta", "breadcrumb", "breadcrumb__link",
+        ):
+            self.assertIn(name, declared, name)
+
+    def test_drawers_are_native_popovers_and_the_sidebar_is_forced_open_on_desktop(self):
+        self.assertIn(".site-sidebar:not(:popover-open) { display: none; }", self.CSS)
+        self.assertIn(".site-header__panel:popover-open { display: flex; }", self.CSS)
+        self.assertIn("::backdrop", self.CSS)
+        self.assertNotIn("data-nav-open", self.CSS)
+
+    def test_sidebar_width_comes_from_the_chrome_recipe(self):
+        self.assertIn("--sidebar-width: 240px", self.CSS)
+        self.assertIn("padding-inline-start: var(--sidebar-width)", self.CSS)
+
+    def test_footer_primary_button_ignores_the_dark_flip(self):
+        self.assertIn('html[data-theme="dark"] .site-footer .agustos-button--primary', self.CSS)
+
+    def test_house_brand_lockups_turn_white_on_dark_and_agustos_stays_red(self):
+        self.assertIn('html[data-theme="dark"] .site-lockup { color: var(--ink); }', self.CSS)
+        self.assertIn('html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }', self.CSS)
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -85,6 +85,38 @@
     "agustos-card",
     "agustos-card--marked",
     "agustos-chrome-link",
+    "site-lockup",
+    "site-lockup__symbol",
+    "site-lockup__name",
+    "site-sidebar-layout",
+    "site-sidebar",
+    "site-sidebar__nav",
+    "site-sidebar__link",
+    "site-sidebar__group",
+    "site-sidebar__cta",
+    "site-sidebar__utility",
+    "site-sidebar__note",
+    "site-sidebar-bar",
+    "site-sidebar-burger",
+    "site-header",
+    "site-header__bar",
+    "site-header__panel",
+    "site-header__nav",
+    "site-header__link",
+    "site-header__end",
+    "site-header__cta",
+    "site-header__burger",
+    "site-footer",
+    "site-footer__inner",
+    "site-footer__brand",
+    "site-footer__cols",
+    "site-footer__col",
+    "site-footer__col-heading",
+    "site-footer__list",
+    "site-footer__link",
+    "site-footer__cta",
+    "breadcrumb",
+    "breadcrumb__link",
     "agustos-fieldset",
     "agustos-field",
     "agustos-field--invalid",
@@ -172,20 +204,20 @@
       "sha256": "f2275cec8d0a2ecd5ec25322e23546c3f7f0d662bb02aa6a0fb83b7349e56dd9"
     },
     "UI-KIT.md": {
-      "bytes": 9517,
-      "sha256": "180ce4c0a5db55cfd14d1ab625cd88a3ec60de10ec8ca1fedebcb572c0e5f42c"
+      "bytes": 10160,
+      "sha256": "541484f1b52009c5a7a9355f1d124234a27d3e30da48dc2ef28c34afe86837c1"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
       "sha256": "87f309d38202766da6b3a80134552e11ca9ab7188449910a1a5ea74597be3660"
     },
     "agustos.css": {
-      "bytes": 27138,
-      "sha256": "ffa55d12f5821561d97bbfd93371c90fd3fd03c0b566f4b7f92e588eea48313d"
+      "bytes": 37398,
+      "sha256": "0ed9c74152aa45511de3bd48eb145c6f05073ce32b8f2de8a54a3319b1b70048"
     },
     "check-agustos-ui.py": {
-      "bytes": 14828,
-      "sha256": "2bfa2fdb7db5df413215329703eae573507da6f1db22bda492e138bea76e64f6"
+      "bytes": 15616,
+      "sha256": "66f39745358b33f2b06ba062248e1c08029758c01d238e8ab0d81b8f099f6bb3"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,

@@ -130,7 +130,7 @@ Every class the kit publishes. See `starter.html` for one rendered instance of e
 | Hero | `hero-actions` `hero-action` `hero-action--primary` `hero-action--secondary` · `hero-links` `hero-link` `hero-link--primary` `hero-link--secondary` · `hero-trust` `hero-visual` |
 | Sections | `agustos-section` `agustos-section__head` |
 | Cards | `agustos-card-grid` `agustos-card` `agustos-card--marked` |
-| Chrome | `agustos-chrome-link` |
+| Chrome | `agustos-chrome-link` · `site-lockup` `site-lockup__symbol` `site-lockup__name` · `site-sidebar-layout` `site-sidebar` `site-sidebar__nav` `site-sidebar__link` `site-sidebar__group` `site-sidebar__cta` `site-sidebar__utility` `site-sidebar__note` `site-sidebar-bar` `site-sidebar-burger` · `site-header` `site-header__bar` `site-header__panel` `site-header__nav` `site-header__link` `site-header__end` `site-header__cta` `site-header__burger` · `site-footer` `site-footer__inner` `site-footer__brand` `site-footer__cols` `site-footer__col` `site-footer__col-heading` `site-footer__list` `site-footer__link` `site-footer__cta` · `breadcrumb` `breadcrumb__link` |
 | Forms | `agustos-fieldset` `agustos-field` `agustos-field--invalid` · `agustos-label` `agustos-label--required` · `agustos-input` `agustos-textarea` `agustos-select` `agustos-check` `agustos-hint` `agustos-error` |
 | Buttons | `agustos-button` `--primary` `--secondary` `--quiet` |
 | Badges | `agustos-badge` `--success` `--warning` `--danger` `--info` `--signal` |
