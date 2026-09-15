@@ -28,6 +28,9 @@ BRAND_SOURCE = ROOT / "brand" / "brands.json"
 WEB_TEMPLATE = ROOT / "tokens" / "web.css.tmpl"
 SYMBOL_SOURCE = ROOT / "laz-gunesi-amblem" / "svg" / "master.svg"
 VERSION_FILE = ROOT / "VERSION"
+DESIGN_MD = ROOT / "DESIGN.md"
+BLOCK_START = "<!-- generated: designDirection.principles -->"
+BLOCK_END = "<!-- /generated -->"
 UI_DIR = ROOT / "ui"
 UI_FONT_DIR = UI_DIR / "fonts"
 UI_TEMPLATES = (
@@ -131,6 +134,19 @@ def screens_index_html(rows: list[dict[str, Any]]) -> str:
             f'  </section>'
         )
     return "\n\n".join(sections)
+
+
+def design_direction_block(tokens: dict[str, Any]) -> str:
+    return "\n".join(f"- {rule}" for rule in tokens["designDirection"]["principles"])
+
+
+def design_md_with_block(text: str, tokens: dict[str, Any]) -> str:
+    """DESIGN.md with its generated block replaced. The rest of the file is hand-written."""
+    if BLOCK_START not in text or BLOCK_END not in text:
+        raise TokenError("DESIGN.md is missing the generated designDirection markers")
+    start = text.index(BLOCK_START) + len(BLOCK_START)
+    end = text.index(BLOCK_END)
+    return text[:start] + "\n" + design_direction_block(tokens) + "\n" + text[end:]
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -764,6 +780,15 @@ def write_or_check(outputs: dict[Path, str], check: bool) -> int:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content, encoding="utf-8")
         print(f"generated {path.relative_to(ROOT)}")
+    tokens = load_json(TOKEN_SOURCE)
+    current_design = DESIGN_MD.read_text(encoding="utf-8")
+    wanted_design = design_md_with_block(current_design, tokens)
+    if wanted_design != current_design:
+        if check:
+            drift.append("DESIGN.md (generated block)")
+        else:
+            DESIGN_MD.write_text(wanted_design, encoding="utf-8")
+            print("generated DESIGN.md (generated block)")
     if drift:
         print("generated design-system drift:", file=sys.stderr)
         for path in drift:

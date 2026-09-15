@@ -48,20 +48,20 @@ Keep the experience welcoming and easy to use.
 
 ### Apply the direction
 
-- Use white as the paper. Reserve cream `#fdf5f5` for full-bleed callout and CTA bands.
-- Use the six-color palette before proposing additional colors. Do not invent a seventh hex.
-- Preserve Inter Tight, Inter, and JetBrains Mono. Establish hierarchy through readable size, weight, and spacing.
-- Keep wordmarks lowercase at Inter Tight 650. Use the exact Laz Güneşi asset and registered identity ink.
-- Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. The one fill exception is the dark-theme primary CTA.
-- Give each section a clear purpose. Use hairline rules and modest corners. Do not use shadows.
-- Use one 1180px alignment frame with 32px gutters. Scale type with `clamp()`. Wrap card rows with flex, not fixed-column grids.
-- Keep forms and technical content easy to scan. Preserve contrast, keyboard focus, and reduced-motion behavior.
-- Use authentic photographs only when they explain people, places, products, or work.
+<!-- generated: designDirection.principles -->
+- Use white as the paper. Reserve cream for full-bleed callout and CTA bands. The six colours are white #ffffff, cream #fdf5f5, light gray #ebebeb, dark gray #404040, off-black #15130f, and red #cf142a.
+- Express warmth through those grays, cream bands, comfortable spacing, readable typography, and approachable language.
+- Make every section useful. Keep navigation, information, and next actions easy to understand.
+- Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.
+- Use modest corners and hairline rules. Do not use shadows, gradients, or textures.
+- Keep text, controls, and technical tables on plain surfaces. Use authentic imagery only when it explains the work.
+- Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. The one fill exception is the dark-theme primary CTA. Dark theme reuses the same six roles, flipped. Retain registered logos, fonts, and accessible contrast.
+- Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings.
 - Repeat the same primary CTA at most twice in the page body: the opening and one closing cream band. The header may carry it once.
 - Ship marketing, catalog, and spec pages on white paper. Reserve dark theme for product UI.
-- Introduce photographs in this order: product page, listing thumbnail, then homepage installation.
-- Use blockquote and pullquote on content pages only.
-- Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings.
+- Introduce photographs in this order: product page, listing thumbnail, then homepage installation. Type-only pages stay complete.
+- Use blockquote and pullquote on content pages only. Marketing pages use a compact trust line, not a testimonial.
+<!-- /generated -->
 
 ### Imagery
 
@@ -842,6 +842,12 @@ of content plus a 32px gutter on each side. This keeps header, homepage,
 breadcrumbs, page content, and footer aligned without narrowing the readable
 measure. Component-specific utilities may set vertical padding, but should not
 redefine this horizontal geometry.
+
+Composition rules the web template follows:
+
+- Preserve Inter Tight, Inter, and JetBrains Mono. Establish hierarchy through readable size, weight, and spacing.
+- Keep wordmarks lowercase at Inter Tight 650. Use the exact Laz Güneşi asset and registered identity ink.
+- Use one 1180px alignment frame with 32px gutters. Scale type with `clamp()`. Wrap card rows with flex, not fixed-column grids.
 
 ### Site chrome
 

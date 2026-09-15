@@ -305,6 +305,18 @@ class DesignSystemGenerationTest(unittest.TestCase):
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
+    def test_design_md_direction_block_is_generated_and_checked(self):
+        text = (ROOT / "DESIGN.md").read_text(encoding="utf-8")
+        self.assertIn(self.builder.BLOCK_START, text)
+        self.assertIn(self.builder.BLOCK_END, text)
+        self.assertEqual(self.builder.design_md_with_block(text, self.tokens), text, "run the generator")
+        for rule in self.tokens["designDirection"]["principles"]:
+            self.assertIn(f"- {rule}", text)
+        stale = text.replace(self.builder.BLOCK_START, self.builder.BLOCK_START + "\n- a rule that is not in the registry", 1)
+        self.assertNotEqual(self.builder.design_md_with_block(stale, self.tokens), stale)
+        with self.assertRaises(self.builder.TokenError):
+            self.builder.design_md_with_block("no markers here", self.tokens)
+
 
 if __name__ == "__main__":
     unittest.main()
