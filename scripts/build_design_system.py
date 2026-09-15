@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import html
 import json
 import re
 import sys
@@ -34,6 +35,9 @@ UI_TEMPLATES = (
     (UI_DIR / "starter.html.tmpl", UI_DIR / "starter.html"),
     (UI_DIR / "check-agustos-ui.py.tmpl", UI_DIR / "check-agustos-ui.py"),
     (UI_DIR / "AGENTS-SNIPPET.md.tmpl", UI_DIR / "AGENTS-SNIPPET.md"),
+)
+DOC_TEMPLATES = (
+    (ROOT / "docs" / "web.html.tmpl", ROOT / "docs" / "web.html"),
 )
 
 CSS_OUTPUTS = {
@@ -100,6 +104,33 @@ def screen_rows(tokens: dict[str, Any], brands: dict[str, Any]) -> list[dict[str
             "theme": "dark-allowed" if entry["family"] == "product-ui" else "light",
         })
     return rows
+
+
+def screens_index_html(rows: list[dict[str, Any]]) -> str:
+    """One section per screen for docs/web.html: the rules, then a live frame of the file."""
+    sections: list[str] = []
+    for row in rows:
+        title = row["name"].replace("-", " ").capitalize()
+        family = "product UI" if row["family"] == "product-ui" else row["family"]
+        theme = "dark allowed" if row["theme"] == "dark-allowed" else row["theme"]
+        sections.append(
+            f'  <section class="screen" id="screen-{row["name"]}">\n'
+            f'    <h2 class="type-h2">{html.escape(title)}</h2>\n'
+            f'    <p class="type-body">{html.escape(row["purpose"])}</p>\n'
+            f'    <dl class="type-dl screen__rules">\n'
+            f'      <dt>Family</dt><dd>{html.escape(family)}</dd>\n'
+            f'      <dt>Sample brand</dt><dd>{html.escape(row["brand"])}</dd>\n'
+            f'      <dt>Chrome</dt><dd>{html.escape(row["chrome"])}</dd>\n'
+            f'      <dt>Theme</dt><dd>{html.escape(theme)}</dd>\n'
+            f'      <dt>Primary CTA in body</dt><dd>at most {row["primaryCtaMax"]}</dd>\n'
+            f'      <dt>Quotes</dt><dd>{"yes" if row["quotes"] else "no"}</dd>\n'
+            f'      <dt>Photography</dt><dd>{html.escape(row["photo"])}</dd>\n'
+            f'    </dl>\n'
+            f'    <iframe class="screen__frame" src="../screens/{row["file"]}" title="{html.escape(title)} screen" loading="lazy"></iframe>\n'
+            f'    <p class="type-footnote"><a class="type-link" href="../screens/{row["file"]}">Open screens/{row["file"]}</a></p>\n'
+            f'  </section>'
+        )
+    return "\n\n".join(sections)
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -440,6 +471,7 @@ def kit_context(tokens: dict[str, Any], brands: dict[str, Any]) -> dict[str, str
                 for row in screen_rows(tokens, brands)
             ]
         ),
+        "screensIndex": screens_index_html(screen_rows(tokens, brands)),
         "cdnBase": distribution["cdnBase"].format(repository=repository, version=version),
         "rawBase": distribution["rawBase"].format(repository=repository, version=version),
     }
@@ -687,6 +719,8 @@ def expected_outputs() -> dict[Path, str]:
     context["classList"] = checker_class_list(tokens)
     for template, target in UI_TEMPLATES:
         outputs[target] = render_text_template(template, context)
+    for template, target in DOC_TEMPLATES:
+        outputs[target] = render_text_template(template, context)
     outputs[UI_DIR / "kit.json"] = json.dumps(
         ui_kit_json(tokens, brands, context, outputs), ensure_ascii=False, indent=2, sort_keys=True
     ) + "\n"
@@ -700,7 +734,7 @@ def expected_outputs() -> dict[Path, str]:
         + WEB_TEMPLATE.read_bytes()
         + SYMBOL_SOURCE.read_bytes()
         + VERSION_FILE.read_bytes()
-        + b"".join(template.read_bytes() for template, _ in UI_TEMPLATES)
+        + b"".join(template.read_bytes() for template, _ in (*UI_TEMPLATES, *DOC_TEMPLATES))
     ).hexdigest()
     manifest = {
         "system": tokens["name"],

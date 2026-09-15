@@ -1,319 +1,166 @@
 <!doctype html>
+<!-- GENERATED. Do not hand-edit. Source: docs/web.html.tmpl plus the screens table in
+     tokens/design-tokens.json. Run: python3 scripts/build_design_system.py -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Web — Ağustos Design System</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.0/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.0/ui/agustos.css">
 <link rel="stylesheet" href="agustos-fonts.css">
 <link rel="stylesheet" href="agustos.css">
-<script>
-document.addEventListener("error", function (event) {
-  var image = event.target;
-  if (!image || image.tagName !== "IMG") return;
-  var relative = image.getAttribute("src") || "";
-  if (image.dataset.cdn || relative.indexOf("../brand/exports/") !== 0) return;
-  image.dataset.cdn = "1";
-  image.src = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.0.0/" + relative.slice(3);
-}, true);
-</script>
 <style>
+  /* Handbook scaffolding for this page only. Not part of the kit. */
   .book-nav { display: flex; flex-wrap: wrap; gap: 1rem; align-items: center; padding: 1rem 0; border-bottom: 1px solid var(--rule); margin-bottom: var(--space-xl); }
   .book-nav a { text-decoration: none; font-weight: 500; color: var(--ink-soft); }
   .book-nav a[aria-current="page"] { color: var(--ink); text-decoration: underline; text-decoration-color: var(--signal); text-underline-offset: 4px; }
-  .book-nav .push { margin-left: auto; }
-  .stage { margin: 0 0 var(--space-5xl); border: 1px solid var(--rule); border-radius: var(--radius-lg); overflow: hidden; }
-  .stage__label { margin: 0; padding: var(--space-sm) var(--space-md); border-bottom: 1px solid var(--rule); background: var(--surface); font-size: 13px; font-weight: 600; }
-  .site-header, .site-footer { background: var(--paper); }
-  .site-header { border-bottom: 1px solid var(--rule); }
-  .site-header__bar, .site-footer__inner { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-md); min-height: 64px; }
-  .site-header__nav { display: flex; flex-wrap: wrap; gap: var(--space-lg); margin-left: auto; }
-  .site-header__link, .site-footer__link { color: var(--ink-soft); text-decoration: none; font-weight: 500; min-height: var(--control-min); display: inline-flex; align-items: center; }
-  .site-header__link[aria-current="page"] { color: var(--ink); border-bottom: 2px solid var(--signal); }
-  .site-header__cta { margin-left: var(--space-sm); }
-  .lockup { display: flex; align-items: center; text-decoration: none; }
-  .lockup img { height: 22px; width: auto; }
-  .site-footer .lockup img { background: transparent; }
-  .site-footer { background: var(--footer-paper); color: var(--footer-ink); border-top: 0; padding-block: var(--space-xl); }
-  .site-footer .type-h4, .site-footer .type-footnote, .site-footer__link { color: var(--footer-ink); }
-  .site-footer .agustos-button--primary { background: var(--footer-ink); color: var(--footer-paper); border-color: var(--footer-ink); }
-  .site-footer .agustos-button--primary:hover { background: var(--footer-cta-hover); border-color: var(--footer-cta-hover); color: var(--footer-paper); }
-  .site-footer__cols { display: flex; flex-wrap: wrap; gap: var(--space-3xl); margin-left: auto; }
-  .site-footer__list { list-style: none; margin: 0; padding: 0; }
-  .preview-main { padding: var(--space-xl) var(--space-lg) var(--space-3xl); }
-  .cta-band { background: var(--cream); border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding: var(--space-3xl) var(--space-lg); }
-  .cta-band .type-h2 { margin-top: 0; }
-  .photo-well { background: var(--surface); min-height: 8rem; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-md); }
-  .spec .photo-well { min-height: 12rem; }
-  .finder { display: grid; grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr)); gap: var(--space-md); align-items: end; }
-  .spec { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: var(--space-xl); }
-  @media (max-width: 720px) { .spec { grid-template-columns: 1fr; } }
+  .screen { margin: 0 0 var(--space-5xl); }
+  .screen__rules { margin: var(--space-sm) 0 var(--space-md); }
+  .screen__frame { width: 100%; height: 720px; border: 1px solid var(--rule); border-radius: var(--radius-lg); background: var(--paper); }
 </style>
 </head>
-<body class="brand-pataraz">
+<body class="brand-agustos">
 <a class="skip-link" href="#main">Skip to content</a>
-<div class="container">
+<main id="main" class="container">
   <nav class="book-nav" aria-label="Standard artifacts">
     <a href="../DESIGN.md">DESIGN.md</a>
     <a href="fonts.html">Fonts</a>
     <a href="colour.html">Colour</a>
     <a href="web.html" aria-current="page">Web</a>
     <a href="brands.html">Brands</a>
-    <button class="agustos-button agustos-button--secondary push" type="button" id="theme">Dark theme</button>
   </nav>
-  <p class="type-h4">Standard artifact 4 of 5</p>
-  <h1 class="type-hero-md">Web elements</h1>
-  <p class="type-hero-deck">Header, footer, homepage, listing, finder, product page, spec sheet, and a content note. Marketing compositions stay light. The dark control inspects product UI. This preview uses the pataraz brand class.</p>
-</div>
+  <p class="type-h4">Standard artifact 4 of 5 · kit v5.2.0</p>
+  <h1 class="type-hero-md">Web screens</h1>
+  <p class="type-hero-deck">One reference page per screen type, rendered live from <code class="type-code">screens/</code>. Each carries its brand's registered chrome. The rules under each frame come from the screens table in the registry, the same table the kit and the checker read.</p>
+  <p class="type-body">Chrome per brand: agustos sidebar, pataraz topbar, pld topbar, iesdesk sidebar, specquick sidebar. Marketing, catalog, content, and document screens are light. Only product UI allows dark; open the app shell and use its theme control.</p>
 
-<main id="main">
-
-  <section class="container">
-    <p class="stage__label" style="border:1px solid var(--rule);border-radius:var(--radius-md) var(--radius-md) 0 0;">Header</p>
-  </section>
-  <div class="stage" style="border-radius:0 0 var(--radius-lg) var(--radius-lg);margin-inline:max(var(--space-xl), calc(50vw - 590px));">
-    <header class="site-header">
-      <div class="site-header__bar site-frame">
-        <a class="lockup" href="#home"><img src="../brand/exports/pataraz/lockup/pataraz-lockup__positive.svg" alt="pataraz"></a>
-        <nav class="site-header__nav" aria-label="Primary">
-          <a class="site-header__link" href="#home" aria-current="page">Home</a>
-          <a class="site-header__link" href="#listing">Products</a>
-          <a class="site-header__link" href="#finder">Finder</a>
-          <a class="site-header__link" href="#spec">Specs</a>
-        </nav>
-        <a class="agustos-button agustos-button--primary site-header__cta" href="#product">Request pricing</a>
-      </div>
-    </header>
-  </div>
-
-  <section class="container" id="home">
-    <h2 class="type-h2">Homepage</h2>
-    <div class="stage">
-      <div class="preview-main">
-        <h1 class="type-hero-md">Architectural luminaires with clear photometric data.</h1>
-        <p class="type-hero-deck">Pataraz builds specified lighting for interiors that need accurate output, not atmosphere copy.</p>
-        <div class="hero-actions">
-          <a class="agustos-button agustos-button--primary" href="#product">Request pricing</a>
-          <a class="agustos-button agustos-button--secondary" href="#listing">Browse products</a>
-        </div>
-        <p class="hero-trust">PX and PY families · IES files on every sheet · Specified since 2019</p>
-        <div class="agustos-card-grid" style="margin-top:var(--space-3xl)">
-          <article class="agustos-card agustos-card--marked">
-            <h3 class="type-h3">Specification</h3>
-            <p class="type-body">Datasheets, drawings, and polar data in one place.</p>
-          </article>
-          <article class="agustos-card">
-            <h3 class="type-h3">Families</h3>
-            <p class="type-body">Downlights, panels, and tracks that share one grammar.</p>
-          </article>
-          <article class="agustos-card">
-            <h3 class="type-h3">Support</h3>
-            <p class="type-body">Ask for a layout, a substitute, or a lead time.</p>
-          </article>
-        </div>
-      </div>
-      <div class="cta-band">
-        <h2 class="type-h2">Need a layout or a price.</h2>
-        <p class="type-hero-deck">Send the project. We return a substitute or a quote.</p>
-        <div class="hero-actions">
-          <a class="agustos-button agustos-button--primary" href="#product">Request pricing</a>
-          <a class="agustos-button agustos-button--secondary" href="#finder">Find a luminaire</a>
-        </div>
-      </div>
-    </div>
+  <section class="screen" id="screen-home">
+    <h2 class="type-h2">Home</h2>
+    <p class="type-body">The homepage: an editorial opening with inline links and a trust line, the brand and software card sections, and one closing cream band.</p>
+    <dl class="type-dl screen__rules">
+      <dt>Family</dt><dd>marketing</dd>
+      <dt>Sample brand</dt><dd>agustos</dd>
+      <dt>Chrome</dt><dd>sidebar</dd>
+      <dt>Theme</dt><dd>light</dd>
+      <dt>Primary CTA in body</dt><dd>at most 2</dd>
+      <dt>Quotes</dt><dd>no</dd>
+      <dt>Photography</dt><dd>one installation photograph, third in the rollout</dd>
+    </dl>
+    <iframe class="screen__frame" src="../screens/home.html" title="Home screen" loading="lazy"></iframe>
+    <p class="type-footnote"><a class="type-link" href="../screens/home.html">Open screens/home.html</a></p>
   </section>
 
-  <section class="container" id="listing">
-    <h2 class="type-h2">Product listing</h2>
-    <div class="stage">
-      <div class="preview-main">
-        <h1 class="type-h1">Downlights</h1>
-        <p class="type-body">Three sizes. Same aperture language. Filter in the finder if you already know the wattage.</p>
-        <div class="agustos-card-grid">
-          <article class="agustos-card">
-            <div class="photo-well"><p class="type-footnote">Thumbnail after the product photo exists.</p></div>
-            <p class="type-h4">PX series</p>
-            <h3 class="type-h3"><a class="type-link" href="#product">PX22</a></h3>
-            <p class="type-body">22 W adjustable downlight. IP20. 2700–4000 K.</p>
-          </article>
-          <article class="agustos-card">
-            <div class="photo-well"><p class="type-footnote">Same crop. Empty until then.</p></div>
-            <p class="type-h4">PL series</p>
-            <h3 class="type-h3">PL22</h3>
-            <p class="type-body">Fixed downlight. One tunable SKU.</p>
-          </article>
-          <article class="agustos-card">
-            <div class="photo-well"><p class="type-footnote">No lifestyle crop.</p></div>
-            <p class="type-h4">PY series</p>
-            <h3 class="type-h3">PY600600</h3>
-            <p class="type-body">600 × 600 mm panel. Office and education.</p>
-          </article>
-        </div>
-      </div>
-    </div>
+  <section class="screen" id="screen-static">
+    <h2 class="type-h2">Static</h2>
+    <p class="type-body">The static page template: About, privacy, terms, and the KVKK notice. Intro, timeline, and people at a long-form measure.</p>
+    <dl class="type-dl screen__rules">
+      <dt>Family</dt><dd>content</dd>
+      <dt>Sample brand</dt><dd>agustos</dd>
+      <dt>Chrome</dt><dd>sidebar</dd>
+      <dt>Theme</dt><dd>light</dd>
+      <dt>Primary CTA in body</dt><dd>at most 1</dd>
+      <dt>Quotes</dt><dd>yes</dd>
+      <dt>Photography</dt><dd>people and places that explain the work</dd>
+    </dl>
+    <iframe class="screen__frame" src="../screens/static.html" title="Static screen" loading="lazy"></iframe>
+    <p class="type-footnote"><a class="type-link" href="../screens/static.html">Open screens/static.html</a></p>
   </section>
 
-  <section class="container" id="finder">
+  <section class="screen" id="screen-content">
+    <h2 class="type-h2">Content</h2>
+    <p class="type-body">One article or post: title, deck, long-form body at 65ch with headings, lists, a quote, and a footnote.</p>
+    <dl class="type-dl screen__rules">
+      <dt>Family</dt><dd>content</dd>
+      <dt>Sample brand</dt><dd>agustos</dd>
+      <dt>Chrome</dt><dd>sidebar</dd>
+      <dt>Theme</dt><dd>light</dd>
+      <dt>Primary CTA in body</dt><dd>at most 1</dd>
+      <dt>Quotes</dt><dd>yes</dd>
+      <dt>Photography</dt><dd>only when it explains the content</dd>
+    </dl>
+    <iframe class="screen__frame" src="../screens/content.html" title="Content screen" loading="lazy"></iframe>
+    <p class="type-footnote"><a class="type-link" href="../screens/content.html">Open screens/content.html</a></p>
+  </section>
+
+  <section class="screen" id="screen-products">
+    <h2 class="type-h2">Products</h2>
+    <p class="type-body">The product listing: series sections with product cards, quick links, and one closing cream band.</p>
+    <dl class="type-dl screen__rules">
+      <dt>Family</dt><dd>catalog</dd>
+      <dt>Sample brand</dt><dd>pataraz</dd>
+      <dt>Chrome</dt><dd>topbar</dd>
+      <dt>Theme</dt><dd>light</dd>
+      <dt>Primary CTA in body</dt><dd>at most 1</dd>
+      <dt>Quotes</dt><dd>no</dd>
+      <dt>Photography</dt><dd>product thumbnails, second in the rollout</dd>
+    </dl>
+    <iframe class="screen__frame" src="../screens/products.html" title="Products screen" loading="lazy"></iframe>
+    <p class="type-footnote"><a class="type-link" href="../screens/products.html">Open screens/products.html</a></p>
+  </section>
+
+  <section class="screen" id="screen-product-finder">
     <h2 class="type-h2">Product finder</h2>
-    <div class="stage">
-      <div class="preview-main">
-        <h1 class="type-h1">Find a luminaire</h1>
-        <p class="type-body">Set the constraints you already know. Leave the rest blank.</p>
-        <form class="agustos-fieldset" onsubmit="return false">
-          <div class="finder">
-            <div class="agustos-field">
-              <label class="agustos-label" for="family">Family</label>
-              <select class="agustos-select" id="family">
-                <option>Any</option>
-                <option>PX</option>
-                <option>PL</option>
-                <option>PY</option>
-              </select>
-            </div>
-            <div class="agustos-field">
-              <label class="agustos-label" for="ip">IP rating</label>
-              <select class="agustos-select" id="ip">
-                <option>Any</option>
-                <option>IP20</option>
-                <option>IP44</option>
-                <option>IP54</option>
-              </select>
-            </div>
-            <div class="agustos-field">
-              <label class="agustos-label" for="cct">Colour temperature</label>
-              <select class="agustos-select" id="cct">
-                <option>Any</option>
-                <option>2700 K</option>
-                <option>3000 K</option>
-                <option>4000 K</option>
-              </select>
-            </div>
-            <div class="agustos-field">
-              <label class="agustos-label" for="q">Name or SKU</label>
-              <input class="agustos-input" id="q" type="search" placeholder="PX22">
-            </div>
-          </div>
-          <div class="hero-actions" style="margin-top:var(--space-lg)">
-            <button class="agustos-button agustos-button--primary" type="submit">Show matches</button>
-            <button class="agustos-button agustos-button--secondary" type="reset">Clear</button>
-          </div>
-          <p class="type-footnote">Show matches is a form submit. It does not count as the page primary CTA.</p>
-        </form>
-      </div>
-    </div>
+    <p class="type-body">The product finder: a filter column and a result list. Form submits are task actions, not the page primary.</p>
+    <dl class="type-dl screen__rules">
+      <dt>Family</dt><dd>catalog</dd>
+      <dt>Sample brand</dt><dd>pataraz</dd>
+      <dt>Chrome</dt><dd>topbar</dd>
+      <dt>Theme</dt><dd>light</dd>
+      <dt>Primary CTA in body</dt><dd>at most 1</dd>
+      <dt>Quotes</dt><dd>no</dd>
+      <dt>Photography</dt><dd>product thumbnails, second in the rollout</dd>
+    </dl>
+    <iframe class="screen__frame" src="../screens/product-finder.html" title="Product finder screen" loading="lazy"></iframe>
+    <p class="type-footnote"><a class="type-link" href="../screens/product-finder.html">Open screens/product-finder.html</a></p>
   </section>
 
-  <section class="container" id="product">
-    <h2 class="type-h2">Product page</h2>
-    <div class="stage">
-      <div class="preview-main spec">
-        <div>
-          <p class="type-h4">PX series</p>
-          <h1 class="type-h1">PX22 adjustable downlight</h1>
-          <p class="type-body">A compact adjustable downlight for retail and hospitality ceilings. Photometric files and the A4 sheet sit next to the drawing. Product colour in photography stays factual.</p>
-          <dl class="type-dl">
-            <dt>Power</dt><dd>22 W</dd>
-            <dt>CCT</dt><dd>2700 K, 3000 K, 4000 K</dd>
-            <dt>IP</dt><dd>IP20</dd>
-            <dt>Beam</dt><dd>24°, 36°, 60°</dd>
-          </dl>
-          <div class="hero-actions">
-            <a class="agustos-button agustos-button--primary" href="#spec">Request pricing</a>
-            <a class="agustos-button agustos-button--secondary" href="#spec">Download spec sheet</a>
-          </div>
-        </div>
-        <div class="photo-well">
-          <p class="type-footnote">Product photograph or drawing. First real photo in the rollout. Preserve real finish. No lifestyle crop.</p>
-        </div>
-      </div>
-    </div>
+  <section class="screen" id="screen-product">
+    <h2 class="type-h2">Product</h2>
+    <p class="type-body">One luminaire: photograph and drawing, description, grouped specification tables, downloads, and related products.</p>
+    <dl class="type-dl screen__rules">
+      <dt>Family</dt><dd>catalog</dd>
+      <dt>Sample brand</dt><dd>pataraz</dd>
+      <dt>Chrome</dt><dd>topbar</dd>
+      <dt>Theme</dt><dd>light</dd>
+      <dt>Primary CTA in body</dt><dd>at most 2</dd>
+      <dt>Quotes</dt><dd>no</dd>
+      <dt>Photography</dt><dd>product photograph or drawing, first in the rollout</dd>
+    </dl>
+    <iframe class="screen__frame" src="../screens/product.html" title="Product screen" loading="lazy"></iframe>
+    <p class="type-footnote"><a class="type-link" href="../screens/product.html">Open screens/product.html</a></p>
   </section>
 
-  <section class="container" id="note">
-    <h2 class="type-h2">Content page</h2>
-    <div class="stage">
-      <div class="preview-main">
-        <p class="type-h4">Note</p>
-        <h1 class="type-h1">What a specifier needs on day one</h1>
-        <p class="type-body">Articles, interviews, and case studies may quote a person. Marketing pages do not. The quote treatment stays here.</p>
-        <blockquote class="type-blockquote">
-          Give me the polar file and a drawing I can dimension. Atmosphere copy can wait.
-          <cite>Project lighting designer, Istanbul</cite>
-        </blockquote>
-        <p class="type-pullquote">The product page is the center of gravity.</p>
-        <p class="type-body">A compact trust line on the homepage is not a quote. Do not promote this treatment to the hero.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="container" id="spec">
+  <section class="screen" id="screen-spec-sheet">
     <h2 class="type-h2">Spec sheet</h2>
-    <div class="stage">
-      <div class="preview-main">
-        <p class="lockup"><img src="../brand/exports/pataraz/lockup/pataraz-lockup__positive.svg" alt="pataraz"></p>
-        <h1 class="type-h1">PX22 · teknik föy</h1>
-        <p class="type-body">Print-ready A4. Labels in Turkish. Values in JetBrains Mono. Signal red only as a section rule.</p>
-        <table class="type-table">
-          <thead><tr><th>Özellik</th><th>Değer</th></tr></thead>
-          <tbody>
-            <tr><td>Güç</td><td>22 W</td></tr>
-            <tr><td>Işık akısı</td><td>2 100 lm</td></tr>
-            <tr><td>CCT</td><td>2700 / 3000 / 4000 K</td></tr>
-            <tr><td>CRI</td><td>Ra &gt; 90</td></tr>
-            <tr><td>IP</td><td>IP20</td></tr>
-            <tr><td>Ömür</td><td>50 000 h L80</td></tr>
-          </tbody>
-        </table>
-        <p class="type-footnote">Full datasheets live under brand/exports/pataraz/datasheet/. Do not invent photometric numbers in a consumer page.</p>
-      </div>
-    </div>
+    <p class="type-body">The A4 technical datasheet (teknik föy) as a web page: header, photograph and drawing, the five specification groups, revision line.</p>
+    <dl class="type-dl screen__rules">
+      <dt>Family</dt><dd>document</dd>
+      <dt>Sample brand</dt><dd>pataraz</dd>
+      <dt>Chrome</dt><dd>topbar</dd>
+      <dt>Theme</dt><dd>light</dd>
+      <dt>Primary CTA in body</dt><dd>at most 0</dd>
+      <dt>Quotes</dt><dd>no</dd>
+      <dt>Photography</dt><dd>product photograph and dimensioned drawing</dd>
+    </dl>
+    <iframe class="screen__frame" src="../screens/spec-sheet.html" title="Spec sheet screen" loading="lazy"></iframe>
+    <p class="type-footnote"><a class="type-link" href="../screens/spec-sheet.html">Open screens/spec-sheet.html</a></p>
   </section>
 
-  <section class="container">
-    <p class="stage__label" style="border:1px solid var(--rule);border-radius:var(--radius-md) var(--radius-md) 0 0;">Footer</p>
+  <section class="screen" id="screen-app-shell">
+    <h2 class="type-h2">App shell</h2>
+    <p class="type-body">The product-UI frame: sidebar navigation with counts, a page toolbar, stats, and a data table. The theme control lives in the sidebar.</p>
+    <dl class="type-dl screen__rules">
+      <dt>Family</dt><dd>product UI</dd>
+      <dt>Sample brand</dt><dd>iesdesk</dd>
+      <dt>Chrome</dt><dd>sidebar</dd>
+      <dt>Theme</dt><dd>dark allowed</dd>
+      <dt>Primary CTA in body</dt><dd>at most 1</dd>
+      <dt>Quotes</dt><dd>no</dd>
+      <dt>Photography</dt><dd>none</dd>
+    </dl>
+    <iframe class="screen__frame" src="../screens/app-shell.html" title="App shell screen" loading="lazy"></iframe>
+    <p class="type-footnote"><a class="type-link" href="../screens/app-shell.html">Open screens/app-shell.html</a></p>
   </section>
-  <div class="stage" style="border-radius:0 0 var(--radius-lg) var(--radius-lg);margin-inline:max(var(--space-xl), calc(50vw - 590px));">
-    <footer class="site-footer">
-      <div class="site-footer__inner site-frame">
-        <div>
-          <p class="lockup"><img src="../brand/exports/pataraz/lockup/pataraz-lockup__negative.svg" alt="pataraz"></p>
-          <p class="type-footnote">Specified luminaires. Clear data. © 2026</p>
-        </div>
-        <div class="site-footer__cols">
-          <nav aria-label="Products">
-            <p class="type-h4">Products</p>
-            <ul class="site-footer__list">
-              <li><a class="site-footer__link" href="#listing">Downlights</a></li>
-              <li><a class="site-footer__link" href="#listing">Panels</a></li>
-            </ul>
-          </nav>
-          <nav aria-label="Help">
-            <p class="type-h4">Help</p>
-            <ul class="site-footer__list">
-              <li><a class="site-footer__link" href="#finder">Finder</a></li>
-              <li><a class="site-footer__link" href="#spec">Spec sheets</a></li>
-              <li><a class="site-footer__link" href="#product">Contact</a></li>
-            </ul>
-          </nav>
-          <a class="agustos-button agustos-button--primary" href="#product">Contact</a>
-        </div>
-      </div>
-    </footer>
-  </div>
 
-  <section class="container" style="padding-block:var(--space-3xl)">
-    <div class="agustos-notice">
-      <strong class="agustos-notice__title">Dark theme</strong>
-      The control in the top bar inspects product UI. Dark reuses the six colours, flipped. Paper is off-black. Ink is white. The primary CTA is filled red. Marketing, catalog, and spec pages stay light and do not ship a theme toggle.
-    </div>
-  </section>
 </main>
-<script>
-  document.getElementById('theme').onclick = function () {
-    var root = document.documentElement;
-    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-  };
-</script>
 </body>
 </html>

@@ -216,6 +216,19 @@ class DesignSystemGenerationTest(unittest.TestCase):
         self.assertIn("cdn.jsdelivr.net", css)
         self.assertNotIn("url('./fonts/", css)
 
+    def test_web_index_is_generated_from_the_screens_table(self):
+        outputs = self.builder.expected_outputs()
+        text = outputs[ROOT / "docs" / "web.html"]
+        self.assertIn('<!-- GENERATED. Do not hand-edit.', text)
+        for name in ("home", "static", "content", "products", "product-finder", "product", "spec-sheet", "app-shell"):
+            self.assertIn(f'id="screen-{name}"', text)
+            self.assertIn(f'src="../screens/{name}.html"', text)
+        self.assertIn("agustos sidebar, pataraz topbar, pld topbar, iesdesk sidebar, specquick sidebar", text)
+        self.assertIn('href="agustos.css"', text)
+        self.assertNotIn('href="../ui/agustos.css"', text)
+        self.assertNotIn(".site-header {", text)
+        self.assertNotIn("id=\"theme\"", text)
+
     def test_resolved_registry_stays_platform_neutral(self):
         resolved = self.builder.resolve_tree(self.tokens, self.tokens["semantic"])
         self.assertEqual(resolved["color"]["brandMark"], "{brand.color}")

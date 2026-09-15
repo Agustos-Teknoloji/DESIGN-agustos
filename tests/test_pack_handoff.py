@@ -59,16 +59,32 @@ class PackHandoffTest(unittest.TestCase):
 
     def test_standard_artifacts_are_present(self):
         for name in ("DESIGN.md", "fonts.html", "colour.html", "web.html", "brands.html"):
-            self.assertIn(name, self.names, name)
+            self.assertIn(name, self.names)
         html = next(payload for name, payload in self.members if name.endswith("/web.html"))
         text = html.decode("utf-8")
         self.assertIn('href="ui/agustos.css"', text)
-        self.assertIn("src=\"logos/pataraz-lockup__positive.svg\"", text)
+        self.assertIn('src="screens/product.html"', text)
+        self.assertNotIn('src="../screens/', text)
         self.assertNotIn('href="agustos.css"', text.replace('href="ui/agustos.css"', ""))
         html = next(payload for name, payload in self.members if name.endswith("START-HERE.html"))
         text = html.decode("utf-8")
         self.assertIn('href="ui/agustos.css"', text)
         self.assertNotIn('href="../ui/agustos.css"', text)
+
+    @unittest.skipUnless((ROOT / "screens" / "home.html").exists(), "screens land in Tasks 8 to 12")
+    def test_screens_travel_with_the_zip(self):
+        import json
+        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+        for screen in kit["screens"].values():
+            self.assertIn(f"screens/{screen['file']}", self.names, screen["file"])
+        self.assertIn("logos/favicon.svg", self.names)
+        for name, payload in self.members:
+            if "/screens/" in name:
+                text = payload.decode("utf-8")
+                self.assertIn('href="../ui/agustos.css"', text, name)
+                self.assertIn('href="../logos/favicon.svg"', text, name)
+                self.assertNotIn("../laz-gunesi-amblem/", text, name)
+                self.assertNotIn("../brand/datasheet-assets/", text, name)
 
     def test_repo_handbook_uses_same_folder_css(self):
         for name in ("fonts.html", "colour.html", "web.html", "brands.html"):
@@ -81,7 +97,8 @@ class PackHandoffTest(unittest.TestCase):
             destination = Path(temp) / "handoff.zip"
             written = self.packer.write_zip(destination)
             self.assertTrue(zipfile.is_zipfile(written))
-            self.assertLess(written.stat().st_size, 1_200_000)
+            # five woff2 files plus the product photographs the screens reference
+            self.assertLess(written.stat().st_size, 2_500_000)
 
 
 if __name__ == "__main__":
