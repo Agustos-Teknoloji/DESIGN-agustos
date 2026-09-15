@@ -397,7 +397,7 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
     }
 
 
-def kit_context(tokens: dict[str, Any]) -> dict[str, str]:
+def kit_context(tokens: dict[str, Any], brands: dict[str, Any]) -> dict[str, str]:
     """Resolve the `{{ui.*}}` substitutions used by the ui/ text templates."""
     version = VERSION_FILE.read_text(encoding="utf-8").strip()
     if version != tokens["version"]:
@@ -416,6 +416,29 @@ def kit_context(tokens: dict[str, Any]) -> dict[str, str]:
         ),
         "designAvoid": "\n".join(
             f"- {rule}" for rule in tokens["designDirection"]["avoid"]
+        ),
+        "brandTable": "\n".join(
+            ["| Brand | Class | Chrome |", "|---|---|---|"]
+            + [
+                f"| {brand['wordmark']} | `brand-{slug}` | {brand['chrome']} |"
+                for slug, brand in brands["brands"].items()
+            ]
+        ),
+        "brandChromeLine": ", ".join(f"{slug} {brand['chrome']}" for slug, brand in brands["brands"].items()),
+        "screensTable": "\n".join(
+            ["| Screen | Family | Chrome | Theme | Primary CTA in body | Quotes | Photography |", "|---|---|---|---|---|---|---|"]
+            + [
+                "| `{name}` | {family} | {chrome} | {theme} | at most {cta} | {quotes} | {photo} |".format(
+                    name=row["name"],
+                    family="product UI" if row["family"] == "product-ui" else row["family"],
+                    chrome=row["chrome"],
+                    theme="dark allowed" if row["theme"] == "dark-allowed" else row["theme"],
+                    cta=row["primaryCtaMax"],
+                    quotes="yes" if row["quotes"] else "no",
+                    photo=row["photo"],
+                )
+                for row in screen_rows(tokens, brands)
+            ]
         ),
         "cdnBase": distribution["cdnBase"].format(repository=repository, version=version),
         "rawBase": distribution["rawBase"].format(repository=repository, version=version),
@@ -656,7 +679,7 @@ def expected_outputs() -> dict[Path, str]:
     ) + "\n"
 
     # --- ui/ distribution kit -------------------------------------------
-    context = kit_context(tokens)
+    context = kit_context(tokens, brands)
     outputs[UI_DIR / "agustos-fonts.css"] = ui_fonts_css(tokens, context)
     outputs[ROOT / "docs" / "agustos.css"] = outputs[UI_DIR / "agustos.css"]
     outputs[ROOT / "docs" / "agustos-fonts.css"] = docs_fonts_css(tokens, context)

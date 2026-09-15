@@ -210,7 +210,8 @@ class DesignSystemGenerationTest(unittest.TestCase):
         self.assertIn("docs/agustos-fonts.css", relative)
 
     def test_docs_font_css_points_at_ui_fonts_and_cdn(self):
-        css = self.builder.docs_fonts_css(self.tokens, self.builder.kit_context(self.tokens))
+        brands = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))
+        css = self.builder.docs_fonts_css(self.tokens, self.builder.kit_context(self.tokens, brands))
         self.assertIn("url('../ui/fonts/", css)
         self.assertIn("cdn.jsdelivr.net", css)
         self.assertNotIn("url('./fonts/", css)

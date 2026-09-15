@@ -506,6 +506,28 @@ class ChromeTest(unittest.TestCase):
         self.assertIn(".band { padding-block: var(--space-3xl); }", self.CSS)
         self.assertIn("@media (max-width: 759px) {\n  .grid-2,\n  .grid-3,\n  .grid-4,\n  .grid-aside { grid-template-columns: minmax(0, 1fr); }\n}", self.CSS)
 
+    def test_entry_point_carries_the_screens_table_and_brand_chrome(self):
+        text = (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8")
+        self.assertIn("| `product` | catalog | topbar | light | at most 2 | no |", text)
+        self.assertIn("| `app-shell` | product UI | sidebar | dark allowed | at most 1 | no |", text)
+        self.assertIn("| ağustos | `brand-agustos` | sidebar |", text)
+        self.assertIn("| pataraz | `brand-pataraz` | topbar |", text)
+        self.assertIn("The kit is plain CSS. Do not add Tailwind, Bootstrap, or another utility framework.", text)
+        self.assertNotIn("Tailwind preflight", text)
+        for name in ("home", "static", "content", "products", "product-finder", "product", "spec-sheet", "app-shell"):
+            self.assertIn(f"| `{name}` |", text)
+
+    def test_reference_render_uses_the_sidebar_chrome_and_shows_the_topbar(self):
+        text = (ROOT / "ui" / "starter.html").read_text(encoding="utf-8")
+        self.assertIn('class="brand-agustos paper-white site-sidebar-layout"', text)
+        self.assertIn('<aside id="site-sidebar" class="site-sidebar" popover', text)
+        self.assertIn('popovertarget="site-sidebar"', text)
+        self.assertIn('<header class="site-header">', text)
+        self.assertIn('<footer class="site-footer">', text)
+        self.assertIn('class="breadcrumb"', text)
+        for name in ("stack", "cluster", "grid-3", "band band--cream", "type-body prose"):
+            self.assertIn(f'class="{name}"', text)
+
 
 if __name__ == "__main__":
     unittest.main()
