@@ -6,7 +6,7 @@ screen under `screens/`, or for a new screen.
 - Project: https://claude.ai/design/p/7fee69d5-01ee-4727-beaf-cb6c5bd923c4
 - Project ID: `7fee69d5-01ee-4727-beaf-cb6c5bd923c4`
 - Pulled by: `python3 scripts/sync_claude_design.py pull` (see `.claude/skills/design-pull/SKILL.md`)
-- Repository commit at pull: `e3292db`
+- Repository commit at pull: `f6cb871`
 
 These files are references, not kit sources. Nothing in `ui/` or `screens/*.html` imports them.
 A built page keeps its remote folder layout here so its relative links resolve; the shared runtime
@@ -26,4 +26,9 @@ a pull replaces a page folder except its `index.png`. A canvas page (`*.dc.html`
 
 | Reference | Remote path | Pulled | Target screen | Status | Built in |
 |---|---|---|---|---|---|
+| iesdesk | ui_kits/iesdesk | 2026-09-15 | app-shell | pending | — |
 | website | ui_kits/website | 2026-09-13 | home | pending | — |
+| product-finder | uploads/Color palette and design direction (1)/Product Finder.dc.html | 2026-09-15 | product-finder | implemented | DESIGN-agustos@13f7bae |
+| product-page | uploads/Color palette and design direction (1)/Product page.dc.html | 2026-09-15 | product | implemented | DESIGN-agustos@13f7bae |
+| products | uploads/Color palette and design direction (1)/Products.dc.html | 2026-09-15 | products | implemented | DESIGN-agustos@13f7bae |
+| spec-sheet | uploads/Color palette and design direction (1)/Spec sheet.dc.html | 2026-09-15 | spec-sheet | implemented | DESIGN-agustos@13f7bae |

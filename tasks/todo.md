@@ -301,8 +301,8 @@ Phase 3 · adapters
 
 Phase 4 · Design loop
 - [x] 15. screen and chrome cards; pull without the prefix lock; `mockups/claude-design` → `screens/design`
-- [ ] 16. skills and loop docs point at `screens/design` and `--target`
-- [ ] 16b. main session: re-pull the six references through `/design-pull`
+- [x] 16. skills and loop docs point at `screens/design` and `--target`
+- [x] 16b. main session: re-pull the six references through `/design-pull`
 
 Phase 5 · docs and cleanup
 - [ ] 17. DESIGN.md chrome section and layers, AGENTS.md pointer, HANDOFF owns the factory rule, PATARAZ, CHANGELOG, archive entry, root cleanup
