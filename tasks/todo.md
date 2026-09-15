@@ -289,11 +289,11 @@ Phase 1 · registry, template, generator
 - [x] 7. the design direction list in DESIGN.md generated between markers
 
 Phase 2 · screens
-- [ ] 8. `screens/` with `tests/test_screens.py`, `screens/README.md`, `home.html`
-- [ ] 9. `static.html`, `content.html`
-- [ ] 10. `products.html`, `product-finder.html`
-- [ ] 11. `product.html`, `spec-sheet.html`
-- [ ] 12. `app-shell.html`; `mockups/*.html` retired
+- [x] 8. `screens/` with `tests/test_screens.py`, `screens/README.md`, `home.html`
+- [x] 9. `static.html`, `content.html`
+- [x] 10. `products.html`, `product-finder.html`
+- [x] 11. `product.html`, `spec-sheet.html`
+- [x] 12. `app-shell.html`; `mockups/*.html` retired
 
 Phase 3 · adapters
 - [ ] 13. Astro on the kit chrome, popover drawer, no scoped chrome styles
