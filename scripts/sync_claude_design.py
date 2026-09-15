@@ -514,7 +514,10 @@ a pull replaces a page folder except its `index.png`. A canvas page (`*.dc.html`
 
 
 def remote_path(page: str) -> str:
-    """A path inside the Design project. No escapes, no dotfiles, no absolute paths."""
+    """A path inside the Design project. No escapes, no dotfiles, no absolute paths.
+
+    A path with "|" is refused because the status table uses it as a separator.
+    """
     raw = page.strip()
     if not raw or raw.startswith("/"):
         raise ValueError(f"page must be a path inside the Design project, got {page!r}")
@@ -522,6 +525,8 @@ def remote_path(page: str) -> str:
     parts = page.split("/")
     if ".." in parts or any(part.startswith(".") for part in parts):
         raise ValueError(f"page must be a path inside the Design project, got {page!r}")
+    if "|" in page:
+        raise ValueError(f"page must not contain '|', the status table uses it as a separator: {page!r}")
     return page
 
 

@@ -307,6 +307,10 @@ class PullTest(unittest.TestCase):
             with self.assertRaises(ValueError, msg=bad):
                 self.run_pull(page=bad)
 
+    def test_pull_refuses_a_path_with_a_pipe(self):
+        with self.assertRaises(ValueError):
+            self.run_pull(page="uploads/Colour | direction/Products.dc.html")
+
     def test_pull_from_zip_matches_pull_from_directory(self):
         archive = self.temp / "export.zip"
         with zipfile.ZipFile(archive, "w") as zf:
