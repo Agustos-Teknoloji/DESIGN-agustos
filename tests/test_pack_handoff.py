@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 import tempfile
 import unittest
 import zipfile
@@ -11,6 +12,12 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "scripts" / "pack_handoff.py"
+
+
+def _all_screens_exist() -> bool:
+    """True once every screens-table row has landed, not just the first one."""
+    kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+    return all((ROOT / "screens" / row["file"]).exists() for row in kit["screens"].values())
 
 
 def load_packer():
@@ -71,9 +78,8 @@ class PackHandoffTest(unittest.TestCase):
         self.assertIn('href="ui/agustos.css"', text)
         self.assertNotIn('href="../ui/agustos.css"', text)
 
-    @unittest.skipUnless((ROOT / "screens" / "home.html").exists(), "screens land in Tasks 8 to 12")
+    @unittest.skipUnless(_all_screens_exist(), "screens land in Tasks 8 to 12")
     def test_screens_travel_with_the_zip(self):
-        import json
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
         for screen in kit["screens"].values():
             self.assertIn(f"screens/{screen['file']}", self.names, screen["file"])
