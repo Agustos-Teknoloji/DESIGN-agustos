@@ -1158,3 +1158,28 @@ wordmark, logo, or the document/presentation recipe) trustworthy instead of nois
 **Rejected:** dropping the CI check entirely. It still catches real drift — a changed identity
 color or recipe with a stale committed `.docx`/`.pptx` — it just no longer fires on unrelated
 website work.
+
+
+## Vanilla CSS, no Tailwind (2026-09-15)
+
+**On the table:** `PATARAZ.md` named Rails 8 + Tailwind as the pataraz.com build target, and the
+2026-06-30 website spec mapped Tailwind's theme onto the kit variables. At the same time,
+`ui/UI-KIT.md` told consumers never to combine the kit with Tailwind preflight. An agent that
+built pataraz.com would hit that contradiction on day one. Three options were weighed: the
+repository ships and mandates Tailwind (A); the repository stays CSS and each project may add
+Tailwind with preflight off (B); the repository stays CSS and no site uses Tailwind (C).
+
+**Chosen:** C. The design system is plain CSS, in this repository and in every consuming site.
+The kit already styles bare HTML elements and ships a named class vocabulary that
+`check-agustos-ui.py` verifies. Rails 8 defaults to no build step; Astro ships plain CSS;
+WordPress reads the generated `theme.json`. The one gap that tempts a project toward Tailwind
+is layout helpers. The kit will gain a thin layout layer (stack, cluster, grid, band) instead.
+
+**Why it matters:** one stylesheet to maintain, no CSS toolchain per site, and one vocabulary
+the checker can fully verify. Tailwind starts by resetting the page to nothing; the kit starts
+from an on-brand page. A second vocabulary would give agents an unchecked way to break the
+radius, shadow, and colour rules in one line.
+
+**Rejected:** A, because it couples every site to one Tailwind version and adds a Node
+toolchain to the brand repository. B, because it leaves each project with two ways to style,
+and the checker can read only one of them.

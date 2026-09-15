@@ -244,3 +244,34 @@ The `ui_kits/website` page was pulled as 16 files under `mockups/claude-design/`
 
 **Deferred to separate approval:**
 Repointing Design's own `tokens/fonts.css` and `assets/laz-gunesi.svg` at the pushed `agustos-ui/` copies requires separate approval. This deferred work is one approval gate to avoid linking the Claude Design project to this repository before the design team validates the sync workflow under real conditions.
+
+---
+
+# Brand guideline restructure (2026-09-15)
+
+**Goal:** make this repository a brand guideline that an agent or a person reads cold and
+designs from: logo, colour, type, one file per screen type, chrome, light and dark, and a
+working two-way loop with the Claude Design project.
+
+**Source:** `/dhh` review of the repository, 2026-09-15. Six findings, ranked: site chrome is
+not in the kit; there is no single "screen" artifact; the Design pull loop is half a loop; the
+design direction has three hand copies; screen rules are prose the checker cannot read; root nits.
+
+**Decisions locked (2026-09-15):**
+- Plain CSS everywhere. No Tailwind in this repository or in any consuming site. The kit gains
+  a thin layout layer (stack, cluster, grid-2/3/4, band) instead. Recorded in `archive/MEMORY.md`.
+- Sidebar chrome for product UI (the app shell screen). Dark theme is allowed there only.
+- Topbar chrome for every marketing, catalog, content, and spec screen. Confirms the v3.0
+  decision of 2026-07-19; the sidebar stays retired outside the app shell.
+- About is the `static` screen, content family: 65ch body measure, quotes allowed, one reserved
+  people-or-place photo slot as a gray well, type-only at launch, no hero CTA, one closing cream
+  band. The same screen is the template for privacy, terms, and the KVKK notice.
+- Two chromes ship in the kit, sidebar and topbar with footer. Each brand registers one:
+  agustos sidebar, pataraz topbar, pld topbar, iesdesk sidebar, specquick sidebar. agustos.com
+  keeps its live sidebar; the July 2026 topbar record was stale (lesson 3).
+- Registry-driven build (approach A). Screens stay hand-written HTML on kit classes.
+- All three consumers at once, one release: v6.0.0.
+
+**Spec:** `docs/superpowers/specs/2026-09-15-brand-guideline-restructure-design.md` (approved
+section by section on 2026-09-15). **Plan:** pending; written with the writing-plans skill after
+the product owner reviews the spec file. The checklist lands here when the plan exists.

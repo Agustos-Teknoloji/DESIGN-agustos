@@ -18,10 +18,12 @@ points back to the master documents for everything else:
 > genuinely Pataraz-only. If you find a shared rule copied here, delete the copy and link
 > `DESIGN.md` instead.
 
-> **Build target for pataraz.com:** a **Rails 8 + Hotwire (Turbo/Stimulus) + Tailwind** monolith,
-> Turkish-only, SQLite. You don't need the backend to design the UI — design in HTML/CSS
-> (Tailwind), and the markup ports into ERB views directly. Keep it server-rendered and
-> progressively enhanced.
+> **Build target for pataraz.com:** a **Rails 8 + Hotwire (Turbo/Stimulus)** monolith,
+> Turkish-only, SQLite, no CSS build step. Vendor the kit from `ui/` and write plain CSS on
+> top of it. Do not add Tailwind or another utility framework (decided 2026-09-15; see
+> `archive/MEMORY.md`, "Vanilla CSS, no Tailwind"). You do not need the backend to design the
+> UI. Design in HTML with the kit's CSS; the markup ports into ERB views directly. Keep it
+> server-rendered and progressively enhanced.
 
 ---
 
