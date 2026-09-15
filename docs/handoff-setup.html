@@ -152,7 +152,7 @@
 
   <section class="agustos-section" id="layers">
     <div class="agustos-section__head">
-      <h2 class="type-h2">Four layers. Only the last one travels.</h2>
+      <h2 class="type-h2">Four stages. Only the last one travels.</h2>
     </div>
     <div class="map-layers">
       <article class="agustos-card">
@@ -195,6 +195,7 @@
         <ul class="type-list-ul">
           <li><code>ui/</code> → <code>vendor/agustos-ui/</code></li>
           <li>Lockup SVGs</li>
+          <li><code>screens/</code> reference pages</li>
           <li><code>UI-KIT.md</code></li>
           <li><code>check-agustos-ui.py</code></li>
         </ul>
@@ -242,6 +243,7 @@
           <li class="map-keep">ui/check-agustos-ui.py</li>
           <li class="map-keep">ui/AGENTS-SNIPPET.md</li>
           <li class="map-keep">logos/*-lockup__*.svg</li>
+          <li class="map-keep">screens/*.html</li>
         </ul>
       </article>
     </div>
@@ -254,7 +256,7 @@
     <ol class="type-list-ol">
       <li>Copy <code>ui/</code> to <code>vendor/agustos-ui/</code> in the target repository. Commit it.</li>
       <li>Paste <code>vendor/agustos-ui/AGENTS-SNIPPET.md</code> into that project's <code>AGENTS.md</code>.</li>
-      <li>Load fonts first, then the stylesheet. Put a <code>brand-*</code> class on <code>&lt;body&gt;</code>.</li>
+      <li>Load fonts first, then the stylesheet. Put a <code>brand-*</code> class and <code>data-screen</code> on <code>&lt;body&gt;</code>, plus <code>site-sidebar-layout</code> for a sidebar brand. Copy the brand's chrome from the matching screen.</li>
       <li>Use kit classes and <code>var(--name)</code>. Open <code>starter.html</code> to see every class once.</li>
       <li>Run <code>python3 vendor/agustos-ui/check-agustos-ui.py .</code> and make it exit 0.</li>
     </ol>
@@ -262,7 +264,7 @@
 &lt;link rel="stylesheet" href="/vendor/agustos-ui/agustos.css"&gt;</code></pre>
     <p class="type-body">
       Read <a class="type-link" href="../ui/UI-KIT.md">ui/UI-KIT.md</a> before you write markup.
-      Do not combine this stylesheet with Bootstrap or Tailwind preflight.
+      Do not combine this stylesheet with Bootstrap, Tailwind, or any other utility framework.
     </p>
   </section>
 

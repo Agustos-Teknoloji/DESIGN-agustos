@@ -49,7 +49,7 @@
       </p>
       <pre>python3 scripts/build_design_system.py
 python3 scripts/build_design_system.py --check</pre>
-      <p class="type-body">That overwrites the committed UI kit in <code>ui/</code> and the matching CSS.</p>
+      <p class="type-body">That overwrites the committed UI kit in <code>ui/</code>, the matching CSS, <code>docs/web.html</code> (from <code>docs/web.html.tmpl</code> plus the screens table), and the marked block in <code>DESIGN.md</code> (between the <code>designDirection.principles</code> markers only).</p>
     </article>
 
     <article class="agustos-card">
@@ -66,8 +66,8 @@ python3 brand/build_datasheet.py --pdf</pre>
   </div>
 
   <p class="type-footnote" style="margin-top: var(--space-xl)">
-    Do not hand-edit <code>ui/</code> (except <code>*.tmpl</code> and <code>LICENSE</code>) or
-    <code>brand/exports/</code>. The next generate overwrites those files.
+    Do not hand-edit <code>ui/</code> (except <code>*.tmpl</code> and <code>LICENSE</code>),
+    <code>docs/web.html</code>, the marked block in <code>DESIGN.md</code>, or <code>brand/exports/</code>. The next generate overwrites those files.
   </p>
 
 </main>

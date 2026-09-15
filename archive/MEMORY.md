@@ -1183,3 +1183,31 @@ radius, shadow, and colour rules in one line.
 **Rejected:** A, because it couples every site to one Tailwind version and adds a Node
 toolchain to the brand repository. B, because it leaves each project with two ways to style,
 and the checker can read only one of them.
+
+
+## Two chromes, chosen per brand (2026-09-15)
+
+**On the table:** the v3.0 entry above records that agustos.com shipped a one-row topbar in July
+2026 and that the sidebar was retired. A `/dhh` review of the repository on 2026-09-15 built on
+that record and proposed the topbar for every marketing site. The product owner then said the
+live agustos.com sidebar should stay. A probe of the live site the same day showed a fixed
+240px `aside.side-menu` on every page, a sticky mobile header with a drawer, and no footer
+element: the topbar never reached production, or was rolled back. Meanwhile the Pataraz pages
+drawn in Claude Design, and the four mockups built from them, used a topbar, and PATARAZ.md
+puts a filter sidebar on the catalog.
+
+**Chosen:** the kit ships both chromes, and each brand registers one in `brand/brands.json`:
+agustos, iesdesk, and specquick use the sidebar; pataraz and pld use the topbar with the footer.
+One sidebar component serves marketing and the product-UI app shell; dark is a theme switch on
+it. No chrome rule lives outside `tokens/web.css.tmpl`.
+
+**Why it matters:** the flagship's chrome had lived outside the system, and the adapters each
+carried their own copy under their own names. Registering chrome per brand makes agustos.com
+configuration, not an exception, and gives every consumer one place to take the header from.
+
+**Rejected:** treating agustos.com as a local exception outside the kit (its chrome stays
+unchecked and unshared); retiring the topbar (the catalog would stack a nav sidebar beside its
+filter sidebar, and the Design pages would need redrawing).
+
+**Lesson recorded:** `tasks/lessons.md` lesson 3. Before calling a chrome or layout rule
+"already decided", open the live site and probe it.

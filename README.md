@@ -20,12 +20,13 @@ Existing class names remain compatible. Numeric token values change.
 
 ## Architecture
 
-Four layers separate durable decisions from platform syntax:
+Five layers separate durable decisions from platform syntax:
 
 1. **Foundations:** color, typography, spacing, measure, radii, and motion.
 2. **Semantic roles:** paper, surface, ink, muted ink, rule, brand signal, focus, display, body, and data.
 3. **Recipes:** chrome, hero, section opening, editorial link, card, data table, document, and presentation.
-4. **Adapters:** Astro, WordPress, Rails, PowerPoint, and Word/Google Docs.
+4. **Screens:** one reference page per screen type, hand-written on kit classes.
+5. **Adapters:** Astro, WordPress, Rails, PowerPoint, and Word/Google Docs.
 
 Hand-edit these sources:
 
@@ -76,7 +77,7 @@ python3 scripts/check_office_artifacts.py --check
 | `UI-KIT.md` | The entry point. One compact contract, sufficient on its own. |
 | `agustos.css` | The stylesheet. Byte-identical to `tokens/agustos.css` apart from its header. |
 | `agustos-fonts.css` + `fonts/` | Self-hosted Inter Tight, Inter, and JetBrains Mono. **Required** — the stylesheet declares font stacks, not faces. |
-| `starter.html` | Every published class, rendered once. |
+| `starter.html` | Every published class, rendered once, including both chromes and the layout layer. |
 | `kit.json` | The same contract, machine-readable, with file hashes. |
 | `check-agustos-ui.py` | Compliance checker a consuming project runs to prove it complied. |
 | `AGENTS-SNIPPET.md` | The stanza a consuming repository pastes into its own `AGENTS.md`. |
@@ -94,13 +95,7 @@ Preview the kit locally with the `agustos-ui-kit` entry in `.claude/launch.json`
 python3 -m http.server 4330 --directory ui
 ```
 
-To hand the kit to another coding agent, pack the slim zip. Do not zip the whole repository.
-The factory (generators, `DESIGN.md`, `archive/MEMORY.md`, Office files) makes the agent regenerate
-work that `ui/` already contains. See [docs/handoff-setup.html](docs/handoff-setup.html).
-
-```bash
-python3 scripts/pack_handoff.py
-```
+To hand the kit to another coding agent, read [HANDOFF.md](HANDOFF.md) and run `python3 scripts/pack_handoff.py`.
 
 Any change under `ui/` requires a VERSION bump, a rebuild, and a matching `v<VERSION>` git tag in the
 same change. `VERSION` participates in the manifest's source hash, so CI fails if the rebuild is

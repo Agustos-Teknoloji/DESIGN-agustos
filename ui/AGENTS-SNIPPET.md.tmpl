@@ -20,7 +20,7 @@ Preserve registered identity inks, fonts, rationed red rules, and accessible con
 
 Use only its classes and CSS variables. Never retype a token value. Never invent a hex color.
 Never restyle a kit class — compose instead. Brand red is `#cf142a`; `#D11D2B` is stale.
-The `<body>` element must carry a `brand-*` class.
+The `<body>` element must carry a `brand-*` class, `data-screen="<name>"`, and, for a sidebar brand, `site-sidebar-layout`. Build every page from the matching screen in `screens/`.
 
 Before you call UI work done, run `python3 vendor/agustos-ui/check-agustos-ui.py .` and make it
 exit 0.

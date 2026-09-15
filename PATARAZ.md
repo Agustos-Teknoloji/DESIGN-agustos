@@ -138,10 +138,11 @@ a specifier find a product, trust the company, read exact specs, and download th
 ("teknik föy"). The datasheet is the hero asset; the site is its catalog — not e-commerce. Built
 entirely inside the shared system (white substrate, off-black identity ink, rationed red rules).
 
-> A built reference page exists: [`mockups/pataraz-px22.html`](mockups/pataraz-px22.html). Open
-> it and match its visual language — it is the canonical look for the whole site. When designing,
-> start with the **product spec page** against real PX22 data (§5 below); it exercises the spec
-> table, the gallery, and the download, and proves the look before the catalog or home page.
+> A built reference page exists: [`screens/spec-sheet.html`](screens/spec-sheet.html), the web
+> rendering of the datasheet. Open it and match its visual language; it is the canonical look for
+> the whole site. When designing, start with the **product spec page** against real PX22 data
+> (§5 below); it exercises the spec table, the gallery, and the download, and proves the look
+> before the catalog or home page.
 
 ### Information architecture
 
@@ -217,11 +218,11 @@ Component inventory:
 | `DocumentList` | The "Belgeler" list — several typed downloads (PDF / IES / manual / CE), each a tag + name + download. |
 | `ProductCard` | Catalog + series listing tile: image, name, code (mono), key specs. |
 | `FilterSidebar` | Catalog filters → Turbo Frame, URL-reflected. |
-| `Header` / `Footer` / `BrandLockup` | From the design system; neutral Pataraz identity with shared red interactions. |
+| `Header` / `Footer` / `BrandLockup` | Topbar chrome from the kit: `site-header`, `site-footer`, `site-lockup`. Neutral Pataraz identity with shared red interactions. |
 
-> Implementation note: the Astro adapter (`adapters/astro/`) already carries the brand tokens,
-> the `BrandLockup` component, and the favicon mirror — start the site from there rather than
-> re-wiring the system.
+> Implementation note: the reference pages for pataraz.com are `screens/products.html`,
+> `screens/product-finder.html`, `screens/product.html`, and `screens/spec-sheet.html`, on the
+> topbar chrome from the kit. Vendor `ui/` and copy their markup; do not import the Astro adapter.
 
 ---
 

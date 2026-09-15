@@ -31,19 +31,8 @@ two different buttons.
 
 ## Handoff to another coding system
 
-For a **website**, pack the slim zip and vendor `ui/`. Do not attach this JSON as the primary
-artifact. The JSON makes an agent re-derive CSS that `ui/agustos.css` already contains.
-
-```bash
-python3 scripts/pack_handoff.py
-```
-
-See [`docs/handoff-setup.html`](../docs/handoff-setup.html) for the map.
-
-Give the other system [`design-system-handoff.json`](design-system-handoff.json) only when you need
-one portable file for a **new medium** (slides, native app, print). It contains resolved tokens,
-brands, the exact embedded Laz Güneşi SVG plus its checksum, recipes, compatibility classes,
-invariants, forbidden patterns, medium translations, and acceptance checks.
+Read [HANDOFF.md](../HANDOFF.md). In short: a website vendors `ui/` and reads `screens/`; a new
+medium takes `design-system-handoff.json`; nobody re-runs the generators.
 
 Exported outline lockups remain preferable when available; if an implementation cannot use the
 embedded SVG or the referenced lockup, it must request the asset rather than approximate it.
