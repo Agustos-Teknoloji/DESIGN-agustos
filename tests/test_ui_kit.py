@@ -328,6 +328,18 @@ class DistributionKitTest(unittest.TestCase):
         self.assertEqual(kit["brands"]["agustos"]["wordmark"], "ağustos")
         self.assertEqual(kit["brands"]["pataraz"]["color"], "#15130f")
 
+    def test_kit_json_publishes_the_screens_table(self):
+        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+        self.assertEqual(len(kit["screens"]), 8)
+        product = kit["screens"]["product"]
+        self.assertEqual(product["file"], "product.html")
+        self.assertEqual(product["family"], "catalog")
+        self.assertEqual(product["chrome"], "topbar")
+        self.assertEqual(product["theme"], "light")
+        self.assertEqual(product["primaryCtaMax"], 2)
+        self.assertFalse(product["quotes"])
+        self.assertEqual(kit["screens"]["app-shell"]["theme"], "dark-allowed")
+
     def test_kit_json_head_snippet_loads_fonts_before_the_system(self):
         kit = json.loads((self.KIT / "kit.json").read_text(encoding="utf-8"))
         snippet = kit["headSnippet"]

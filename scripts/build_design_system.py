@@ -48,6 +48,9 @@ PLACEHOLDER = re.compile(r"\{\{\s*([a-zA-Z0-9_.-]+)\s*\}\}")
 ALIAS = re.compile(r"^\{([a-zA-Z0-9_.-]+)\}$")
 
 CHROMES = ("sidebar", "topbar")
+SCREEN_FAMILIES = ("marketing", "content", "catalog", "document", "product-ui")
+SCREEN_FIELDS = ("file", "family", "brand", "purpose", "primaryCtaMax", "quotes", "photo")
+SCREEN_FILE = re.compile(r"^[a-z0-9-]+\.html$")
 
 
 class TokenError(ValueError):
@@ -62,6 +65,41 @@ def validate_brands(brands: dict[str, Any]) -> None:
             raise TokenError(
                 f"brand {slug!r} must register chrome as one of {', '.join(CHROMES)}, got {chrome!r}"
             )
+
+
+def screen_entries(tokens: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    """The screens table without its `$` metadata keys."""
+    return {name: entry for name, entry in tokens["screens"].items() if not name.startswith("$")}
+
+
+def validate_screens(tokens: dict[str, Any], brands: dict[str, Any]) -> None:
+    for name, entry in screen_entries(tokens).items():
+        missing = [field for field in SCREEN_FIELDS if field not in entry]
+        if missing:
+            raise TokenError(f"screen {name!r} is missing {', '.join(missing)}")
+        if entry["family"] not in SCREEN_FAMILIES:
+            raise TokenError(f"screen {name!r}: family must be one of {', '.join(SCREEN_FAMILIES)}")
+        if entry["brand"] not in brands["brands"]:
+            raise TokenError(f"screen {name!r}: unknown brand {entry['brand']!r}")
+        if not SCREEN_FILE.match(entry["file"]):
+            raise TokenError(f"screen {name!r}: file must be a lower-case .html name, got {entry['file']!r}")
+        if not isinstance(entry["primaryCtaMax"], int) or isinstance(entry["primaryCtaMax"], bool) or entry["primaryCtaMax"] < 0:
+            raise TokenError(f"screen {name!r}: primaryCtaMax must be a non-negative integer")
+        if not isinstance(entry["quotes"], bool):
+            raise TokenError(f"screen {name!r}: quotes must be true or false")
+
+
+def screen_rows(tokens: dict[str, Any], brands: dict[str, Any]) -> list[dict[str, Any]]:
+    """The table plus the two derived columns. Theme follows family; chrome follows brand."""
+    rows: list[dict[str, Any]] = []
+    for name, entry in screen_entries(tokens).items():
+        rows.append({
+            "name": name,
+            **{field: entry[field] for field in SCREEN_FIELDS},
+            "chrome": brands["brands"][entry["brand"]]["chrome"],
+            "theme": "dark-allowed" if entry["family"] == "product-ui" else "light",
+        })
+    return rows
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -570,6 +608,10 @@ def ui_kit_json(
             }
             for slug, brand in brands["brands"].items()
         },
+        "screens": {
+            row["name"]: {key: value for key, value in row.items() if key != "name"}
+            for row in screen_rows(tokens, brands)
+        },
         "substrates": ["paper", "paper-white", "cream"],
         "darkTheme": 'html[data-theme="dark"]',
         "cssClasses": tokens["compatibility"]["cssClasses"],
@@ -586,6 +628,7 @@ def expected_outputs() -> dict[Path, str]:
     tokens = load_json(TOKEN_SOURCE)
     brands = load_json(BRAND_SOURCE)
     validate_brands(brands)
+    validate_screens(tokens, brands)
     outputs: dict[Path, str] = {}
     for path, label in CSS_OUTPUTS.items():
         outputs[path] = render_web_css(tokens, brands, label)
@@ -600,6 +643,7 @@ def expected_outputs() -> dict[Path, str]:
         "recipes": resolve_tree(tokens, tokens["recipes"]),
         "brands": brands["brands"],
         "signal": brands["signal"],
+        "screens": screen_entries(tokens),
     }
     outputs[ROOT / "tokens" / "resolved.json"] = json.dumps(
         resolved, ensure_ascii=False, indent=2, sort_keys=True

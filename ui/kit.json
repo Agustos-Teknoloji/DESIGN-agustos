@@ -216,6 +216,96 @@
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
   "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v5.2.0/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
+  "screens": {
+    "app-shell": {
+      "brand": "iesdesk",
+      "chrome": "sidebar",
+      "family": "product-ui",
+      "file": "app-shell.html",
+      "photo": "none",
+      "primaryCtaMax": 1,
+      "purpose": "The product-UI frame: sidebar navigation with counts, a page toolbar, stats, and a data table. The theme control lives in the sidebar.",
+      "quotes": false,
+      "theme": "dark-allowed"
+    },
+    "content": {
+      "brand": "agustos",
+      "chrome": "sidebar",
+      "family": "content",
+      "file": "content.html",
+      "photo": "only when it explains the content",
+      "primaryCtaMax": 1,
+      "purpose": "One article or post: title, deck, long-form body at 65ch with headings, lists, a quote, and a footnote.",
+      "quotes": true,
+      "theme": "light"
+    },
+    "home": {
+      "brand": "agustos",
+      "chrome": "sidebar",
+      "family": "marketing",
+      "file": "home.html",
+      "photo": "one installation photograph, third in the rollout",
+      "primaryCtaMax": 2,
+      "purpose": "The homepage: an editorial opening with inline links and a trust line, the brand and software card sections, and one closing cream band.",
+      "quotes": false,
+      "theme": "light"
+    },
+    "product": {
+      "brand": "pataraz",
+      "chrome": "topbar",
+      "family": "catalog",
+      "file": "product.html",
+      "photo": "product photograph or drawing, first in the rollout",
+      "primaryCtaMax": 2,
+      "purpose": "One luminaire: photograph and drawing, description, grouped specification tables, downloads, and related products.",
+      "quotes": false,
+      "theme": "light"
+    },
+    "product-finder": {
+      "brand": "pataraz",
+      "chrome": "topbar",
+      "family": "catalog",
+      "file": "product-finder.html",
+      "photo": "product thumbnails, second in the rollout",
+      "primaryCtaMax": 1,
+      "purpose": "The product finder: a filter column and a result list. Form submits are task actions, not the page primary.",
+      "quotes": false,
+      "theme": "light"
+    },
+    "products": {
+      "brand": "pataraz",
+      "chrome": "topbar",
+      "family": "catalog",
+      "file": "products.html",
+      "photo": "product thumbnails, second in the rollout",
+      "primaryCtaMax": 1,
+      "purpose": "The product listing: series sections with product cards, quick links, and one closing cream band.",
+      "quotes": false,
+      "theme": "light"
+    },
+    "spec-sheet": {
+      "brand": "pataraz",
+      "chrome": "topbar",
+      "family": "document",
+      "file": "spec-sheet.html",
+      "photo": "product photograph and dimensioned drawing",
+      "primaryCtaMax": 0,
+      "purpose": "The A4 technical datasheet (teknik föy) as a web page: header, photograph and drawing, the five specification groups, revision line.",
+      "quotes": false,
+      "theme": "light"
+    },
+    "static": {
+      "brand": "agustos",
+      "chrome": "sidebar",
+      "family": "content",
+      "file": "static.html",
+      "photo": "people and places that explain the work",
+      "primaryCtaMax": 1,
+      "purpose": "The static page template: About, privacy, terms, and the KVKK notice. Intro, timeline, and people at a long-form measure.",
+      "quotes": true,
+      "theme": "light"
+    }
+  },
   "signal": {
     "$source": "Ağustos red is the shared interaction signal across every house brand. It does not recolor non-Ağustos identity marks.",
     "color": "#cf142a"

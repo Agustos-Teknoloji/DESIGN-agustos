@@ -56,6 +56,35 @@ class DesignSystemGenerationTest(unittest.TestCase):
         with self.assertRaises(self.builder.TokenError):
             self.builder.validate_brands(bad)
 
+    def test_screens_table_is_validated_and_derives_chrome_and_theme(self):
+        brands = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))
+        self.builder.validate_screens(self.tokens, brands)
+        rows = {row["name"]: row for row in self.builder.screen_rows(self.tokens, brands)}
+        self.assertEqual(
+            list(rows),
+            ["home", "static", "content", "products", "product-finder", "product", "spec-sheet", "app-shell"],
+        )
+        self.assertEqual(rows["home"]["chrome"], "sidebar")
+        self.assertEqual(rows["product"]["chrome"], "topbar")
+        self.assertEqual(rows["app-shell"]["theme"], "dark-allowed")
+        self.assertEqual(rows["home"]["theme"], "light")
+        self.assertEqual(rows["static"]["quotes"], True)
+        self.assertEqual(rows["spec-sheet"]["primaryCtaMax"], 0)
+        for row in rows.values():
+            self.assertEqual(row["file"], f"{row['name']}.html")
+        bad = copy.deepcopy(self.tokens)
+        bad["screens"]["home"]["family"] = "landing"
+        with self.assertRaises(self.builder.TokenError):
+            self.builder.validate_screens(bad, brands)
+        bad = copy.deepcopy(self.tokens)
+        del bad["screens"]["home"]["photo"]
+        with self.assertRaises(self.builder.TokenError):
+            self.builder.validate_screens(bad, brands)
+        bad = copy.deepcopy(self.tokens)
+        bad["screens"]["home"]["brand"] = "novara"
+        with self.assertRaises(self.builder.TokenError):
+            self.builder.validate_screens(bad, brands)
+
     def test_design_direction_reaches_every_consumer_contract(self):
         tokens = copy.deepcopy(self.tokens)
         tokens["designDirection"]["principles"].append("A new rule must reach every consumer.")

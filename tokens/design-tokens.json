@@ -310,6 +310,81 @@
       "captionSize": { "$value": "12pt" }
     }
   },
+  "screens": {
+    "$description": "One reference composition per page type. Files live under screens/. Theme follows family: product-ui allows dark, every other family is light. Chrome follows the sample brand's registered chrome in brand/brands.json.",
+    "home": {
+      "file": "home.html",
+      "family": "marketing",
+      "brand": "agustos",
+      "purpose": "The homepage: an editorial opening with inline links and a trust line, the brand and software card sections, and one closing cream band.",
+      "primaryCtaMax": 2,
+      "quotes": false,
+      "photo": "one installation photograph, third in the rollout"
+    },
+    "static": {
+      "file": "static.html",
+      "family": "content",
+      "brand": "agustos",
+      "purpose": "The static page template: About, privacy, terms, and the KVKK notice. Intro, timeline, and people at a long-form measure.",
+      "primaryCtaMax": 1,
+      "quotes": true,
+      "photo": "people and places that explain the work"
+    },
+    "content": {
+      "file": "content.html",
+      "family": "content",
+      "brand": "agustos",
+      "purpose": "One article or post: title, deck, long-form body at 65ch with headings, lists, a quote, and a footnote.",
+      "primaryCtaMax": 1,
+      "quotes": true,
+      "photo": "only when it explains the content"
+    },
+    "products": {
+      "file": "products.html",
+      "family": "catalog",
+      "brand": "pataraz",
+      "purpose": "The product listing: series sections with product cards, quick links, and one closing cream band.",
+      "primaryCtaMax": 1,
+      "quotes": false,
+      "photo": "product thumbnails, second in the rollout"
+    },
+    "product-finder": {
+      "file": "product-finder.html",
+      "family": "catalog",
+      "brand": "pataraz",
+      "purpose": "The product finder: a filter column and a result list. Form submits are task actions, not the page primary.",
+      "primaryCtaMax": 1,
+      "quotes": false,
+      "photo": "product thumbnails, second in the rollout"
+    },
+    "product": {
+      "file": "product.html",
+      "family": "catalog",
+      "brand": "pataraz",
+      "purpose": "One luminaire: photograph and drawing, description, grouped specification tables, downloads, and related products.",
+      "primaryCtaMax": 2,
+      "quotes": false,
+      "photo": "product photograph or drawing, first in the rollout"
+    },
+    "spec-sheet": {
+      "file": "spec-sheet.html",
+      "family": "document",
+      "brand": "pataraz",
+      "purpose": "The A4 technical datasheet (teknik föy) as a web page: header, photograph and drawing, the five specification groups, revision line.",
+      "primaryCtaMax": 0,
+      "quotes": false,
+      "photo": "product photograph and dimensioned drawing"
+    },
+    "app-shell": {
+      "file": "app-shell.html",
+      "family": "product-ui",
+      "brand": "iesdesk",
+      "purpose": "The product-UI frame: sidebar navigation with counts, a page toolbar, stats, and a data table. The theme control lives in the sidebar.",
+      "primaryCtaMax": 1,
+      "quotes": false,
+      "photo": "none"
+    }
+  },
   "compatibility": {
     "cssClasses": [
         "type-hero",
