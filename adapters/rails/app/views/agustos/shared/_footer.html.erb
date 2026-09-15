@@ -2,7 +2,7 @@
 <footer class="site-footer">
   <div class="site-footer__inner site-frame">
     <div class="site-footer__brand">
-      <%= render "agustos/shared/brand_lockup", href: nil, size: 20, expression: :mono %>
+      <%= render "agustos/shared/brand_lockup", href: agustos_theme_config[:home_href] %>
       <p class="type-footnote"><%= agustos_value(footer, :description) %> · &copy; <%= Time.current.year %></p>
     </div>
     <div class="site-footer__cols">

@@ -1,5 +1,5 @@
 ---
-import BrandLockup from './BrandLockup.astro';
+import LazGunesi from './LazGunesi.astro';
 import type { FooterConfig } from '../types/chrome';
 
 interface Props {
@@ -41,7 +41,10 @@ const columns = config.columns ?? [
 <footer class="site-footer">
   <div class="site-footer__inner site-frame">
     <div class="site-footer__brand">
-      <BrandLockup brandname={brandname} expression="mono" size={20} />
+      <a class="site-lockup" href="/" aria-label={brandname}>
+        <LazGunesi class="site-lockup__symbol" />
+        <span class="site-lockup__name">{brandname}</span>
+      </a>
       <p class="type-footnote">{description} · &copy; {year}</p>
     </div>
 

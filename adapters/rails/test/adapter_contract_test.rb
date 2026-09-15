@@ -77,10 +77,12 @@ class AdapterContractTest < Minitest::Test
     assert_includes footer, "agustos-button agustos-button--primary site-footer__cta"
     assert_includes utility, "agustos_theme_toggle?"
     css = read("app/assets/stylesheets/agustos/components.css")
-    assert_includes css, "var(--lockup-color, var(--brand))"
+    refute_includes css, "agustos-lockup"
     refute_includes css, ".site-header {"
     refute_includes css, ".site-footer"
-    assert_includes css, 'html[data-theme="dark"] .agustos-lockup'
+    lockup = read("app/views/agustos/shared/_brand_lockup.html.erb")
+    assert_includes lockup, "site-lockup"
+    refute_includes lockup, "agustos-lockup"
   end
 
   def test_search_is_turbo_frame_and_server_partial_driven
@@ -109,9 +111,9 @@ class AdapterContractTest < Minitest::Test
     assert_includes theme, "pq-theme"
   end
 
-  def test_responsive_contract_includes_touch_tablets_and_ios_safe_input
+  def test_responsive_contract_matches_kit_breakpoint_and_ios_safe_input
     css = read("app/assets/stylesheets/agustos/components.css")
-    assert_includes css, "(max-width: 1366px) and (hover: none) and (pointer: coarse)"
+    refute_includes css, "1366"
     assert_includes css, "@media (max-width: 1023px)"
     assert_includes css, "@media (max-width: 480px)"
     assert_match(/search--responsive .*input \{ font-size: 16px; \}/, css)

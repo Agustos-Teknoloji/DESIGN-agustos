@@ -58,6 +58,10 @@ class AdapterContractTest(unittest.TestCase):
         self.assertIn('<footer class="site-footer">', footer)
         self.assertIn('class="site-footer__inner site-frame"', footer)
         self.assertNotIn("<style>", footer)
+        self.assertIn('class="site-lockup"', footer)
+        self.assertNotIn("BrandLockup", footer)
+        kit_css = (ROOT / "ui" / "agustos.css").read_text(encoding="utf-8")
+        self.assertIn(".site-footer .site-lockup", kit_css)
 
     def test_astro_layout_has_no_legacy_sidebar_contract(self):
         layout = (ROOT / "adapters" / "astro" / "src" / "layouts" / "BaseLayout.astro").read_text(encoding="utf-8")
@@ -115,6 +119,8 @@ class AdapterContractTest(unittest.TestCase):
         lockup = (ROOT / "adapters" / "rails" / "app" / "views" / "agustos" / "shared" / "_brand_lockup.html.erb").read_text(encoding="utf-8")
         self.assertEqual(lockup.count("<path"), 18)
         self.assertIn("agustos_wordmark", lockup)
+        self.assertIn("site-lockup", lockup)
+        self.assertNotIn("agustos-lockup", lockup)
 
     def test_wordpress_bootstrap_enqueues_css_and_preserves_body_classes(self):
         functions = (ROOT / "adapters" / "wordpress" / "functions.php.example").read_text(encoding="utf-8")

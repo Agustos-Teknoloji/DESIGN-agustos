@@ -57,6 +57,10 @@ test('header and footer use the shared frame and accessible control sizes', asyn
   assert.match(search, /outline: 2px solid var\(--signal\)/);
   assert.match(utility, /theme = false/);
   for (const source of [search, utility]) assert.match(source, /44px/);
+  assert.match(header, /class="site-lockup"/);
+  assert.match(footer, /class="site-lockup"/);
+  assert.doesNotMatch(header, /BrandLockup/);
+  assert.doesNotMatch(footer, /BrandLockup/);
 });
 
 test('homepage follows locked marketing composition', async () => {

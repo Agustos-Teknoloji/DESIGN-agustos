@@ -4,15 +4,6 @@
 .agustos-layout__main { flex: 1; }
 .agustos-container { width: min(calc(100% - var(--measure-gutter) - var(--measure-gutter)), var(--measure-content)); margin: 0 auto; padding: 4rem 0 6rem; }
 
-.agustos-lockup { display: inline-flex; align-items: center; gap: 0.4em; color: var(--lockup-color, var(--brand)); text-decoration: none; }
-.agustos-lockup--mono { color: var(--lockup-color, var(--ink)); }
-a.agustos-lockup:hover, a.agustos-lockup:focus, a.agustos-lockup:active { text-decoration: none; }
-a.agustos-lockup:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
-.agustos-lockup__symbol { width: 0.98em; height: 0.98em; color: inherit; transform: translateY(0.08em); }
-.agustos-lockup__name { color: inherit; font-family: var(--display); font-size: var(--agustos-lockup-size, 24px); font-weight: 650; line-height: 1; letter-spacing: 0; text-transform: lowercase; }
-
-html[data-theme="dark"] .agustos-lockup { --lockup-color: var(--ink); }
-
 .site-header__utility { display: flex; align-items: center; gap: 0.125rem; }
 .site-header__utility--bar { display: none; margin-left: auto; }
 .site-header__icon-btn, .site-header__search-toggle { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; background: transparent; border: 1px solid transparent; border-radius: var(--radius-sm); color: var(--ink-soft); cursor: pointer; }
@@ -70,7 +61,7 @@ html[data-theme="dark"] .site-header__theme-moon { display: block; }
 .agustos-app__toolbar .agustos-field { flex: 1 1 12rem; }
 .agustos-app__actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
 
-@media (max-width: 1023px), (max-width: 1366px) and (hover: none) and (pointer: coarse) {
+@media (max-width: 1023px) {
   .site-header__utility--bar { display: flex; justify-self: end; }
   .site-header__utility--drawer { display: none; }
   .site-header__search--desktop { display: none; }

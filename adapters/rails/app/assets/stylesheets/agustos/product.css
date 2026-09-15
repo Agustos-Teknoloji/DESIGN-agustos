@@ -30,8 +30,6 @@
   padding: 20px var(--space-xl);
   border-bottom: 1px solid var(--rule);
 }
-html[data-theme="dark"] .pq-side { --lockup-color: var(--ink); }
-
 .pq-nav {
   display: flex;
   flex-direction: column;

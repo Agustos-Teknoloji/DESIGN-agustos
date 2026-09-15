@@ -1,5 +1,5 @@
 ---
-import BrandLockup from './BrandLockup.astro';
+import LazGunesi from './LazGunesi.astro';
 import HeaderSearch from './HeaderSearch.astro';
 import HeaderUtility from './HeaderUtility.astro';
 import { SEARCH_LABELS } from '../types/chrome';
@@ -41,7 +41,10 @@ function isCurrent(href: string): boolean {
 ---
 <header class="site-header">
   <div class="site-header__bar site-frame">
-    <BrandLockup brandname={brandname} href={homeHref} size={26} />
+    <a class="site-lockup" href={homeHref} aria-label={brandname}>
+      <LazGunesi class="site-lockup__symbol" />
+      <span class="site-lockup__name">{brandname}</span>
+    </a>
 
     <div id="site-header-panel" class="site-header__panel" popover>
       <nav class="site-header__nav" aria-label="Primary">
