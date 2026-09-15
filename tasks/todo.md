@@ -309,4 +309,12 @@ Phase 5 · docs and cleanup
 
 Phase 6 · release
 - [x] 18. VERSION 6.0.0, rebuild, checks, visual pass, tag v6.0.0 (not pushed)
-- [ ] 18b. main session: `/design-push`; open the PR to main
+- [x] 18b. main session: `/design-push`; open the PR to main
+
+## Review — brand guideline restructure (2026-09-15)
+
+- Outcome: v6.0.0 on `claude/brand-guideline-repo-9ba5e3`. The annotated tag `v6.0.0` sits on the branch tip and is local only. Pull request #38 is open to `main` without auto-merge. The Design project holds kit v6.0.0 (23 files written, 0 deleted).
+- Verification: 149 unit tests, `--check` current, Office check current, screens checker clean, Astro adapter tests 5 of 5, Rails contract test 10 of 10, handoff zip 1.2 MB, visual pass on every screen, the starter page, the web index, and the Astro homepage at 375, 768, and 1280 px.
+- Final whole-branch review: one Critical (both adapter footers rendered an invisible lockup) and six Important findings, fixed in one wave of four commits and re-reviewed clean.
+- Parked for a later change: `screens/README.md` restates the screens table by hand; `pack_handoff.py` skips a missing asset silently and reads only `pataraz/` images; `pull --target` accepts any name; screen cards ship without product images; the Rails preview `marketing.html` has no burger; the generator's block-end search and duplicate-file check; the static screen has four photo wells against the spec's one reserved slot.
+- Lessons: verify a chrome or layout rule against the live site before you call it decided (lesson 3). The Browser pane injects keys without a key code, so test Escape with the headless browser. A check that greps deleted CSS for custom properties still consumed elsewhere would have caught the lockup defect at Task 13.
