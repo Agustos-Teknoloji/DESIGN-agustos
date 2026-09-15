@@ -43,8 +43,21 @@ class AdapterContractTest(unittest.TestCase):
         self.assertIn('class="site-header__bar site-frame"', header)
         self.assertIn("config.theme === true", header)
         self.assertIn("agustos-button agustos-button--primary site-header__cta", header)
-        self.assertIn("@media (max-width: 1023px)", header)
-        self.assertIn("(max-width: 1366px) and (hover: none) and (pointer: coarse)", header)
+        self.assertIn('class="site-header__panel" popover', header)
+        self.assertIn('popovertarget="site-header-panel"', header)
+        self.assertNotIn("nav-backdrop", header)
+        self.assertNotIn("data-nav-open", header)
+        for selector in (
+            ".site-header {", ".site-header__bar {", ".site-header__nav {", ".site-header__link {",
+            ".site-header__end {", ".site-header__cta {", ".site-header__burger {", ".site-header__panel {",
+        ):
+            self.assertNotIn(selector, header, selector)
+
+    def test_astro_footer_has_no_chrome_styles(self):
+        footer = (ROOT / "adapters" / "astro" / "src" / "components" / "Footer.astro").read_text(encoding="utf-8")
+        self.assertIn('<footer class="site-footer">', footer)
+        self.assertIn('class="site-footer__inner site-frame"', footer)
+        self.assertNotIn("<style>", footer)
 
     def test_astro_layout_has_no_legacy_sidebar_contract(self):
         layout = (ROOT / "adapters" / "astro" / "src" / "layouts" / "BaseLayout.astro").read_text(encoding="utf-8")

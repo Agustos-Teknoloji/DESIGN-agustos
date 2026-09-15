@@ -85,6 +85,10 @@ Marketing headers do not include a theme toggle. Product UI may pass
 `header={{ theme: true }}` and, if the page itself is dark,
 `theme="dark"` on `BaseLayout`.
 
+The header drawer and its backdrop are native popovers styled by the kit. The
+adapter ships no navigation script; the header script handles search and the
+optional theme toggle only.
+
 Regenerate the standalone HTML preview from `DESIGN.md`:
 
 ```bash
