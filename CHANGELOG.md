@@ -35,6 +35,9 @@ All notable changes to the Ağustos Design System are documented in this file.
 - agustos.com: replace `side-menu` and `mobile-header` with `site-sidebar` and `site-sidebar-bar`; put `site-sidebar-layout` on `body`.
 - Put `data-screen="<name>"` on `body`.
 - Remove Tailwind or any other utility framework if present. The kit does not support one.
+- Rails: delete the `agustos-nav` Stimulus controller with its `data-controller`, `data-action` (`keydown.esc`), and backdrop markup. The drawer is a native popover opened by `popovertarget`.
+- Astro: delete the `nav-backdrop` markup, the `data-nav-open` attribute, and the script that toggled it. The drawer is a native popover opened by `popovertarget`.
+- Both adapters: render the lockup with the kit classes `site-lockup`, `site-lockup__symbol`, and `site-lockup__name`. Drop local lockup classes and the `--lockup-color` custom property; the kit colours the footer lockup and the dark theme.
 
 ## [5.2.0] - 2026-09-13
 

@@ -16,7 +16,7 @@ Keep the experience welcoming and easy to use.
 The generator publishes this contract in the handoff, resolved registry, and UI kit.
 Version 6.0.0 ships both site chromes and the layout layer in the kit, one reference screen per page type with real content, and the screens table that every document and card renders from, on top of the v5 white-substrate palette, type scale, action system, and locked dark theme.
 CTA repetition, dark shipping, photography, and quote placement are locked.
-Existing class names remain compatible. Numeric token values change.
+Kit class names from v5 remain compatible. The adapters' local chrome classes are renamed; see the Migration section in `CHANGELOG.md`.
 
 ## Architecture
 

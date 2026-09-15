@@ -173,7 +173,7 @@ Every Turkish content block carries `lang="tr"`. CSS enables `font-feature-setti
 
 ## Architecture and governance
 
-The website redesign contributed a compositional grammar, not merely a handful of CSS values: quiet one-row chrome, one aligned frame, large editorial openings, signal color used selectively, bordered content groups, small radii, short motion, and generous section rhythm.
+The website redesign contributed a compositional grammar, not merely a handful of CSS values: the brand's registered chrome, one aligned frame, large editorial openings, signal color used selectively, bordered content groups, small radii, short motion, and generous section rhythm.
 
 The system separates that grammar into five layers:
 
@@ -854,7 +854,7 @@ Composition rules the web template follows:
 
 - Preserve Inter Tight, Inter, and JetBrains Mono. Establish hierarchy through readable size, weight, and spacing.
 - Keep wordmarks lowercase at Inter Tight 650. Use the exact Laz Güneşi asset and registered identity ink.
-- Use one 1180px alignment frame with 32px gutters. Scale type with `clamp()`. Wrap card rows with flex, not fixed-column grids.
+- Use one 1180px alignment frame with 32px gutters. Scale type with `clamp()`. Lay out card rows with the kit's layout classes (`grid-2`, `grid-3`, `grid-4`, or `cluster`); the grids collapse to one column below 760px. Never declare a page-local grid.
 
 ### Site chrome
 

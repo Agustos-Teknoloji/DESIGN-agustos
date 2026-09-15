@@ -261,8 +261,8 @@ design direction has three hand copies; screen rules are prose the checker canno
 - Plain CSS everywhere. No Tailwind in this repository or in any consuming site. The kit gains
   a thin layout layer (stack, cluster, grid-2/3/4, band) instead. Recorded in `archive/MEMORY.md`.
 - Sidebar chrome for product UI (the app shell screen). Dark theme is allowed there only.
-- Topbar chrome for every marketing, catalog, content, and spec screen. Confirms the v3.0
-  decision of 2026-07-19; the sidebar stays retired outside the app shell.
+- Topbar chrome for pataraz and pld; sidebar chrome for agustos, iesdesk, and specquick, registered
+  per brand in `brand/brands.json`. Supersedes the 2026-07-19 retirement of the sidebar (2026-09-15).
 - About is the `static` screen, content family: 65ch body measure, quotes allowed, one reserved
   people-or-place photo slot as a gray well, type-only at launch, no hero CTA, one closing cream
   band. The same screen is the template for privacy, terms, and the KVKK notice.

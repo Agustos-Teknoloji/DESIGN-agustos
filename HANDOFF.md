@@ -37,7 +37,7 @@ python3 scripts/pack_handoff.py
 ```
 
 That writes `dist/agustos-ui-handoff-v6.0.0.zip`.
-The zip holds the five artifacts, the kit, and lockup SVGs.
+The zip holds the five artifacts, the kit, the screens, and lockup SVGs.
 It does not hold generators, adapters, Office files, or decision history.
 
 If you zip the whole repository, a coding agent regenerates CSS, logos, fonts, and Office files before it changes a page.
