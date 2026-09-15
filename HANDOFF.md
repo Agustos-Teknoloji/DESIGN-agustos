@@ -70,9 +70,8 @@ A Design page is not a merge. If it shows a rule the kit lacks, edit only:
 - `tokens/web.css.tmpl`
 - `brand/brands.json` (only when identity ink, wordmark, or roster changes)
 
-Then rebuild `screens/<target>.html` on kit classes and run `/design-push`.
-
 Then run `python3 scripts/build_design_system.py`, and `/design-push` so Claude Design receives the rule.
+Then rebuild `screens/<target>.html` on kit classes from the reference, flip its row in `screens/design/README.md` to implemented, and run `/design-push` again so the screen card updates.
 Do not rebuild logos, Office files, fonts, or datasheets unless asked.
 Do not copy Design markup or CSS into `ui/` or `tokens/`.
 

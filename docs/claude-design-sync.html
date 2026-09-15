@@ -75,7 +75,7 @@
       <h2 class="type-h2">The two flows</h2>
     </div>
     <figure class="sync-figure">
-      <svg viewBox="0 0 900 330" role="img" aria-label="The repository pushes the generated kit, favicon and logos into the reserved folder agustos-ui in the Claude Design project. Claude Design pages are pulled into screens/design in the repository. A pulled page that is later built lives in a website repository.">
+      <svg viewBox="0 0 900 330" role="img" aria-label="The repository pushes the generated kit, favicon and logos into the reserved folder agustos-ui in the Claude Design project. Claude Design pages are pulled into screens/design in the repository. A pulled page that is later built becomes screens/target.html in this repository.">
         <defs>
           <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
             <path d="M0,0 L10,5 L0,10 z" fill="currentColor"/>
@@ -110,7 +110,7 @@
         <text class="svg-text" x="450" y="226" text-anchor="middle" font-weight="600">pull</text>
         <text class="svg-text" x="450" y="261" text-anchor="middle" fill-opacity="0.7">pages, as references</text>
         <path class="svg-arrow" d="M170,270 L170,300" marker-end="url(#arrow)" stroke-dasharray="3 3"/>
-        <text class="svg-text" x="185" y="292" fill-opacity="0.7">later: rebuilt with the kit in the website repository</text>
+        <text class="svg-text" x="185" y="292" fill-opacity="0.7">later: rebuilt as screens/&lt;target&gt;.html on kit classes</text>
       </svg>
       <figcaption class="type-footnote">Push writes only inside <code class="type-code">agustos-ui/</code> in Claude Design. Pull writes only inside <code class="type-code">screens/design/</code> in the repository.</figcaption>
     </figure>
@@ -137,7 +137,7 @@
         </tr>
         <tr>
           <td>It is time to build one of those pages</td>
-          <td><ol class="type-list-ol"><li>Open the website repository, not this one.</li><li>Rebuild <code class="type-code">screens/&lt;target&gt;.html</code> in this repository on kit classes from the reference. Do not copy the Design CSS.</li><li>Run <code class="type-code">check-agustos-ui.py</code> until it exits 0.</li><li>Change the row to implemented, then run <code class="type-code">/design-push</code> so the screen card updates.</li></ol></td>
+          <td><ol class="type-list-ol"><li>Stay in this repository. The screen lives in <code class="type-code">screens/</code>.</li><li>Rebuild <code class="type-code">screens/&lt;target&gt;.html</code> in this repository on kit classes from the reference. Do not copy the Design CSS.</li><li>Run <code class="type-code">check-agustos-ui.py</code> until it exits 0.</li><li>Change the row to implemented, then run <code class="type-code">/design-push</code> so the screen card updates.</li></ol></td>
         </tr>
         <tr>
           <td>A pulled page shows a rule the kit lacks, for example a new spacing value</td>
@@ -162,7 +162,7 @@
     <ol class="type-list-ol">
       <li><strong>Connect Claude Code to Claude Design.</strong> In an interactive Claude Code terminal, type <code class="type-code">/design-login</code> and approve the prompt. Once per Mac.</li>
       <li><strong>First push.</strong> Run <code class="type-code">/design-push</code>. The first run creates <code class="type-code">agustos-ui/</code> in Claude Design and uploads the whole kit, the favicon, and the logos.</li>
-      <li><strong>First pull.</strong> Run <code class="type-code">/design-pull ui_kits/website</code>. The same command accepts a zip exported from Claude Design.</li>
+      <li><strong>First pull.</strong> Run <code class="type-code">/design-pull ui_kits/website --target home</code>. The same command accepts a zip exported from Claude Design.</li>
     </ol>
   </section>
 
