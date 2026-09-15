@@ -16,7 +16,7 @@ KIT = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
 CLASS_ATTR = re.compile(r'class="([^"]+)"')
 SCRIPT = re.compile(r"<script[^>]*>(.*?)</script>", re.S)
 MAIN = re.compile(r"<main\b.*?</main>", re.S)
-PRIMARY = re.compile(r"\b(?:agustos-button--primary|hero-action--primary)\b")
+PRIMARY = re.compile(r"\b(?:agustos-button--primary|hero-action--primary|hero-link--primary)\b")
 FIRST_BLADE = '<path d="M 24.0215 4.2070'
 
 

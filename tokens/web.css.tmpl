@@ -863,7 +863,7 @@ html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }
   gap: var(--space-xl);
   padding-block: {{recipes.chrome.paddingBlock}};
 }
-.site-header__panel { display: contents; }
+.site-header__panel { display: contents; color: inherit; }
 .site-header__nav { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-xl); }
 .site-header__link {
   display: inline-flex;
@@ -958,7 +958,6 @@ html[data-theme="dark"] .site-footer .agustos-button--primary:hover {
 
 /* --- Drawers below 1024px. Native popovers: light dismiss and Escape are free. --- */
 @media (max-width: 1023px) {
-  html, body { overflow-x: clip; }
   .site-sidebar-layout { padding-inline-start: 0; }
   .site-sidebar-bar {
     position: sticky;
@@ -1010,7 +1009,7 @@ html[data-theme="dark"] .site-footer .agustos-button--primary:hover {
 
 /* -- 5c. Layout layer ---------------------------------------- */
 
-/* Nine helpers so no page declares its own frame, band, grid, or measure.
+/* Ten helpers so no page declares its own frame, band, grid, or measure.
    Composition stays in the markup; rhythm comes from the spacing scale. */
 .stack { display: flex; flex-direction: column; gap: var(--space-md); }
 .stack > * { margin-block: 0; }
@@ -1025,6 +1024,11 @@ html[data-theme="dark"] .site-footer .agustos-button--primary:hover {
 .grid-aside { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(0, 3fr); gap: var(--space-2xl); align-items: start; }
 .band { padding-block: var(--space-3xl); }
 .band--cream { background: var(--cream); border-block: {{foundations.border.hairline}} solid var(--rule); }
+
+/* A table wider than its column scrolls inside this wrapper, never the page. */
+.table-scroll { max-width: 100%; overflow-x: auto; margin: 0 0 1em; }
+.table-scroll > .type-table, .table-scroll > table { margin-bottom: 0; }
+
 @media (max-width: 1023px) {
   .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }

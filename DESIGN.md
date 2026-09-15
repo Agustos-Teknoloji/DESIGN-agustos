@@ -818,7 +818,7 @@ Current non-token utilities:
 | `.site-sidebar*`, `.site-sidebar-bar`, `.site-sidebar-burger`, `.site-sidebar-layout` | The sidebar chrome. Drawer below 1024px. |
 | `.site-header*`, `.site-footer*` | The topbar chrome and its footer. Drawer below 1024px. |
 | `.breadcrumb`, `.breadcrumb__link` | The trail above a page title. |
-| `.stack`, `.cluster`, `.prose`, `.grid-2`, `.grid-3`, `.grid-4`, `.grid-aside`, `.band`, `.band--cream` | The layout layer. No page declares its own frame, band, grid, or measure. |
+| `.stack`, `.cluster`, `.prose`, `.grid-2`, `.grid-3`, `.grid-4`, `.grid-aside`, `.band`, `.band--cream`, `.table-scroll` | The layout layer. No page declares its own frame, band, grid, or measure. |
 
 UI primitives — NEW IN v3.1. Product-surface controls in the same grammar as the editorial layer:
 hairline rules, 4/6px radii, one 2px signal accent per element, 44px targets.

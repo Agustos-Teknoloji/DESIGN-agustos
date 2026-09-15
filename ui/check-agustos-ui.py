@@ -129,6 +129,7 @@ KIT_CLASSES = {
     "grid-aside",
     "band",
     "band--cream",
+    "table-scroll",
     "prose",
     "agustos-fieldset",
     "agustos-field",

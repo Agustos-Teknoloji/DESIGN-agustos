@@ -10,7 +10,7 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 - Both site chromes in the kit: `site-sidebar*` (agustos, iesdesk, specquick) and `site-header*` with `site-footer*` (pataraz, pld), plus `site-lockup*` and `breadcrumb*`. Drawers are native popovers; groups are `details`. No JavaScript.
 - A `chrome` field per brand in `brand/brands.json`, published in `ui/kit.json` and the UI-KIT brand table.
-- The layout layer: `stack`, `cluster`, `prose`, `grid-2`, `grid-3`, `grid-4`, `grid-aside`, `band`, `band--cream`.
+- The layout layer: `stack`, `cluster`, `prose`, `grid-2`, `grid-3`, `grid-4`, `grid-aside`, `band`, `band--cream`, `table-scroll`.
 - `screens/`: one reference page per screen type on kit classes, with real content. The `screens` table in `tokens/design-tokens.json` holds each screen's rules and renders into `ui/UI-KIT.md`, `ui/kit.json`, `docs/web.html`, and the Claude Design cards.
 - `docs/web.html` is generated from the screens table. The handoff zip packs `screens/`.
 - The design direction list in `DESIGN.md` is generated from the registry between two markers.

@@ -125,6 +125,7 @@
     "grid-aside",
     "band",
     "band--cream",
+    "table-scroll",
     "prose",
     "agustos-fieldset",
     "agustos-field",
@@ -213,20 +214,20 @@
       "sha256": "a44124178ee072db680ba4bdcc264ed3517bcc3e3f6fa52a44a70e35507ee7b3"
     },
     "UI-KIT.md": {
-      "bytes": 13084,
-      "sha256": "b8e729d6793c8b55b1c391983d3f6c8e7fdf7fb77d073f3b49c447799a1eed69"
+      "bytes": 13099,
+      "sha256": "c530827e515c61ca032c55ead144d9d2a13d14dc4c2cfdaf830ef840310f7f3a"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
       "sha256": "c950d70ec9c7e06fa4c0dbfb0a24388eb34b9d83be6e84b2fed0ee40537b6dbb"
     },
     "agustos.css": {
-      "bytes": 38576,
-      "sha256": "06f62348b13b1eec4c1bf796ddabd4f470318190f8f551cc0a810218801802aa"
+      "bytes": 38782,
+      "sha256": "798564c45acef9c64930b82959c8f3897428cfb6088e199d47bd1047a2c6dba3"
     },
     "check-agustos-ui.py": {
-      "bytes": 15748,
-      "sha256": "e4877a4d73cb2530601e6d4b9a4c2bb07bdfaaf3f65d0bfb88ac37a46742bffb"
+      "bytes": 15768,
+      "sha256": "16940a9ff9d1d3c1a1f30c4a1c1edf278098121cbfc94040ad042b0350214fd9"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -249,8 +250,8 @@
       "sha256": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
     },
     "starter.html": {
-      "bytes": 27465,
-      "sha256": "eb5fd19959218c5e06ba8b2cc1cc3becf726874f6f8d54dce950817b50b5b863"
+      "bytes": 27515,
+      "sha256": "c1678b93e44dae93c9da20db315a8d212aea9db37683f2c5e484a1f6fe0d4bc7"
     }
   },
   "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.0.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.0.0/ui/agustos.css\">",

@@ -154,7 +154,7 @@ CARDS: tuple[Card, ...] = (
         700,
         200,
         "Action tiers",
-        "Primary · secondary · quiet · content link — one 44px size",
+        "Primary · secondary · quiet · content link. One 44px size",
         """
 <div class="hero-actions">
   <a class="agustos-button agustos-button--primary" href="#">Request pricing</a>
@@ -198,7 +198,7 @@ CARDS: tuple[Card, ...] = (
         1280,
         640,
         "Sidebar chrome",
-        "agustos · iesdesk · specquick — fixed 240px column, drawer below 1024px",
+        "agustos · iesdesk · specquick. Fixed 240px column, drawer below 1024px",
         """
 <header class="site-sidebar-bar">
   <a class="site-lockup" href="/" aria-label="ağustos">
@@ -260,7 +260,7 @@ CARDS: tuple[Card, ...] = (
         1280,
         640,
         "Topbar chrome and footer",
-        "pataraz · pld — sticky one-row header, structured footer, drawer below 1024px",
+        "pataraz · pld. Sticky one-row header, structured footer, drawer below 1024px",
         """
 <header class="site-header">
   <div class="site-header__bar site-frame">
