@@ -296,11 +296,11 @@ Phase 2 · screens
 - [x] 12. `app-shell.html`; `mockups/*.html` retired
 
 Phase 3 · adapters
-- [ ] 13. Astro on the kit chrome, popover drawer, no scoped chrome styles
-- [ ] 14. Rails on the kit names, no nav controller; chrome-ownership test
+- [x] 13. Astro on the kit chrome, popover drawer, no scoped chrome styles
+- [x] 14. Rails on the kit names, no nav controller; chrome-ownership test
 
 Phase 4 · Design loop
-- [ ] 15. screen and chrome cards; pull without the prefix lock; `mockups/claude-design` → `screens/design`
+- [x] 15. screen and chrome cards; pull without the prefix lock; `mockups/claude-design` → `screens/design`
 - [ ] 16. skills and loop docs point at `screens/design` and `--target`
 - [ ] 16b. main session: re-pull the six references through `/design-pull`
 
