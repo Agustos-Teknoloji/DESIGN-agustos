@@ -305,8 +305,8 @@ Phase 4 · Design loop
 - [x] 16b. main session: re-pull the six references through `/design-pull`
 
 Phase 5 · docs and cleanup
-- [ ] 17. DESIGN.md chrome section and layers, AGENTS.md pointer, HANDOFF owns the factory rule, PATARAZ, CHANGELOG, archive entry, root cleanup
+- [x] 17. DESIGN.md chrome section and layers, AGENTS.md pointer, HANDOFF owns the factory rule, PATARAZ, CHANGELOG, archive entry, root cleanup
 
 Phase 6 · release
-- [ ] 18. VERSION 6.0.0, rebuild, checks, visual pass, tag v6.0.0 (not pushed)
+- [x] 18. VERSION 6.0.0, rebuild, checks, visual pass, tag v6.0.0 (not pushed)
 - [ ] 18b. main session: `/design-push`; open the PR to main
