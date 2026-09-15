@@ -29,7 +29,6 @@
   <body
     class="<%= agustos_body_class %>"
     data-controller="<%= agustos_body_controller %>"
-    <% unless agustos_product_shell? %>data-action="keydown.esc@window->agustos-nav#close"<% end %>
   >
     <% if agustos_product_shell? %>
       <%= yield %>

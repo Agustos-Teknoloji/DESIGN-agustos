@@ -30,7 +30,7 @@ class AdapterContractTest < Minitest::Test
     refute harness.agustos_theme_toggle?
     refute harness.agustos_dark?
     refute harness.agustos_product_shell?
-    assert_equal "agustos-nav", harness.agustos_body_controller
+    assert_equal "", harness.agustos_body_controller
     assert_equal %w[Home About Writing Typography], harness.agustos_nav_items.map { |item| item[:label] }
     assert_equal "Start a project", harness.agustos_value(harness.agustos_header_cta, :label)
     assert_equal "Contact", harness.agustos_value(harness.agustos_footer_cta, :label)
@@ -72,16 +72,15 @@ class AdapterContractTest < Minitest::Test
     header = read("app/views/agustos/shared/_header.html.erb")
     footer = read("app/views/agustos/shared/_footer.html.erb")
     utility = read("app/views/agustos/shared/_header_utility.html.erb")
-    assert_includes header, "agustos-button agustos-button--primary agustos-header__cta"
+    assert_includes header, "agustos-button agustos-button--primary site-header__cta"
     assert_includes header, "agustos_header_utility?"
-    assert_includes footer, "agustos-button agustos-button--primary agustos-footer__cta"
+    assert_includes footer, "agustos-button agustos-button--primary site-footer__cta"
     assert_includes utility, "agustos_theme_toggle?"
     css = read("app/assets/stylesheets/agustos/components.css")
-    assert_includes css, "var(--footer-paper)"
     assert_includes css, "var(--lockup-color, var(--brand))"
-    assert_includes css, 'html[data-theme="dark"] .agustos-header'
-    assert_includes css, 'html[data-theme="dark"] .agustos-footer .agustos-button--primary'
-    refute_match(/\.agustos-header__cta \{[^}]*background: var\(--ink\)/, css)
+    refute_includes css, ".site-header {"
+    refute_includes css, ".site-footer"
+    assert_includes css, 'html[data-theme="dark"] .agustos-lockup'
   end
 
   def test_search_is_turbo_frame_and_server_partial_driven

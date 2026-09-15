@@ -116,5 +116,43 @@ class ScreenFileTest(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
 
+class ChromeOwnershipTest(unittest.TestCase):
+    """Chrome is styled once, in tokens/web.css.tmpl. Everything else uses the classes."""
+
+    OWNED = (
+        r"\.site-header\s*[{,]", r"\.site-header\s+[^{\n,]*\{",
+        r"\.site-header__(?:bar|nav|link|end|cta|burger|panel)\b",
+        r"\.site-footer\b", r"\.site-sidebar\b", r"\.site-lockup\b", r"\.breadcrumb\b",
+        r"\.side-menu\b", r"\.agustos-header\b", r"\.agustos-footer\b", r"\.agustos-nav-backdrop\b", r"\.nav-backdrop\b",
+    )
+    GENERATED = {
+        "tokens/agustos.css", "ui/agustos.css", "docs/agustos.css",
+        "adapters/astro/src/styles/tokens.css",
+        "adapters/rails/app/assets/stylesheets/agustos/tokens.css",
+        "adapters/wordpress/assets/css/agustos.css",
+    }
+    SKIP_PARTS = {"node_modules", ".venv", ".astro", "dist", "artifacts", "design", "exports", "templates", "mockups"}
+    STYLE = re.compile(r"<style[^>]*>(.*?)</style>", re.S)
+
+    def css_sources(self):
+        for path in sorted(ROOT.rglob("*")):
+            rel = path.relative_to(ROOT).as_posix()
+            if not path.is_file() or rel in self.GENERATED or rel == "tokens/web.css.tmpl":
+                continue
+            if any(part in self.SKIP_PARTS for part in path.parts) or rel.startswith("."):
+                continue
+            if path.suffix == ".css":
+                yield rel, path.read_text(encoding="utf-8")
+            elif path.suffix in {".astro", ".erb", ".html", ".tmpl"}:
+                for block in self.STYLE.findall(path.read_text(encoding="utf-8")):
+                    yield rel, block
+
+    def test_chrome_rules_live_only_in_the_web_template(self):
+        for rel, css in self.css_sources():
+            for pattern in self.OWNED:
+                with self.subTest(file=rel, pattern=pattern):
+                    self.assertIsNone(re.search(pattern, css), f"{rel} styles a kit chrome selector: {pattern}")
+
+
 if __name__ == "__main__":
     unittest.main()

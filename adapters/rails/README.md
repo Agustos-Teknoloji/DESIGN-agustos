@@ -23,8 +23,9 @@ Import `agustos/tokens` and `agustos/components`. Product pages also load
 `agustos/product` when `shell: :product`. Register the Stimulus controllers
 using the same mechanism as the host application. Load fonts first. Copy
 `ui/agustos-fonts.css` and `ui/fonts/` (or install the `@fontsource-variable`
-packages). The live search option requires Turbo. Navigation and theme remain
-ordinary HTML controls enhanced by Stimulus.
+packages). The live search option requires Turbo. The header drawer is a
+native popover styled by the kit; the adapter ships search and theme
+controllers only.
 
 Use the layout from a controller:
 

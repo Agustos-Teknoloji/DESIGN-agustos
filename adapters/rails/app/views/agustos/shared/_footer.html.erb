@@ -1,24 +1,24 @@
 <% footer = agustos_footer_config %>
-<footer class="agustos-footer">
-  <div class="agustos-footer__inner site-frame">
-    <div class="agustos-footer__brand">
+<footer class="site-footer">
+  <div class="site-footer__inner site-frame">
+    <div class="site-footer__brand">
       <%= render "agustos/shared/brand_lockup", href: nil, size: 20, expression: :mono %>
       <p class="type-footnote"><%= agustos_value(footer, :description) %> · &copy; <%= Time.current.year %></p>
     </div>
-    <div class="agustos-footer__cols">
+    <div class="site-footer__cols">
       <% agustos_value(footer, :columns, []).each do |column| %>
-        <nav class="agustos-footer__col" aria-label="<%= agustos_value(column, :aria_label, agustos_value(column, :heading)) %>">
-          <p class="type-h4 agustos-footer__col-heading"><%= agustos_value(column, :heading) %></p>
-          <ul class="agustos-footer__list">
+        <nav class="site-footer__col" aria-label="<%= agustos_value(column, :aria_label, agustos_value(column, :heading)) %>">
+          <p class="type-h4 site-footer__col-heading"><%= agustos_value(column, :heading) %></p>
+          <ul class="site-footer__list">
             <% agustos_value(column, :links, []).each do |link| %>
-              <li><%= link_to agustos_value(link, :label), agustos_value(link, :href), **agustos_link_html_options(link, class_name: "agustos-footer__link") %></li>
+              <li><%= link_to agustos_value(link, :label), agustos_value(link, :href), **agustos_link_html_options(link, class_name: "site-footer__link") %></li>
             <% end %>
           </ul>
         </nav>
       <% end %>
       <% if agustos_footer_cta %>
         <%= link_to agustos_value(agustos_footer_cta, :label), agustos_value(agustos_footer_cta, :href),
-          **agustos_link_html_options(agustos_footer_cta, class_name: "agustos-button agustos-button--primary agustos-footer__cta") %>
+          **agustos_link_html_options(agustos_footer_cta, class_name: "agustos-button agustos-button--primary site-footer__cta") %>
       <% end %>
     </div>
   </div>
