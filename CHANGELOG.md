@@ -4,6 +4,8 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [6.0.0] - 2026-09-15
+
 ### Added
 
 - Both site chromes in the kit: `site-sidebar*` (agustos, iesdesk, specquick) and `site-header*` with `site-footer*` (pataraz, pld), plus `site-lockup*` and `breadcrumb*`. Drawers are native popovers; groups are `details`. No JavaScript.

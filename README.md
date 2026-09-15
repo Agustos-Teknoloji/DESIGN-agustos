@@ -14,7 +14,7 @@ Keep the experience welcoming and easy to use.
 
 `DESIGN.md` defines the rules. `tokens/design-tokens.json` holds the portable `designDirection` contract.
 The generator publishes this contract in the handoff, resolved registry, and UI kit.
-Version 5.1.0 adds visited links, balanced heading wrap, a 44px hit area on hero links, and a 65ch long-form measure on top of the 5.0 white-substrate palette, type scale, action system, layout measure, and locked dark theme.
+Version 6.0.0 ships both site chromes and the layout layer in the kit, one reference screen per page type with real content, and the screens table that every document and card renders from, on top of the v5 white-substrate palette, type scale, action system, and locked dark theme.
 CTA repetition, dark shipping, photography, and quote placement are locked.
 Existing class names remain compatible. Numeric token values change.
 
