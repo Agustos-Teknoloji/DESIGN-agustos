@@ -14,18 +14,19 @@ Keep the experience welcoming and easy to use.
 
 `DESIGN.md` defines the rules. `tokens/design-tokens.json` holds the portable `designDirection` contract.
 The generator publishes this contract in the handoff, resolved registry, and UI kit.
-Version 5.1.0 adds visited links, balanced heading wrap, a 44px hit area on hero links, and a 65ch long-form measure on top of the 5.0 white-substrate palette, type scale, action system, layout measure, and locked dark theme.
+Version 6.0.0 ships both site chromes and the layout layer in the kit, one reference screen per page type with real content, and the screens table that every document and card renders from, on top of the v5 white-substrate palette, type scale, action system, and locked dark theme.
 CTA repetition, dark shipping, photography, and quote placement are locked.
-Existing class names remain compatible. Numeric token values change.
+Kit class names from v5 remain compatible. The adapters' local chrome classes are renamed; see the Migration section in `CHANGELOG.md`.
 
 ## Architecture
 
-Four layers separate durable decisions from platform syntax:
+Five layers separate durable decisions from platform syntax:
 
 1. **Foundations:** color, typography, spacing, measure, radii, and motion.
 2. **Semantic roles:** paper, surface, ink, muted ink, rule, brand signal, focus, display, body, and data.
 3. **Recipes:** chrome, hero, section opening, editorial link, card, data table, document, and presentation.
-4. **Adapters:** Astro, WordPress, Rails, PowerPoint, and Word/Google Docs.
+4. **Screens:** one reference page per screen type, hand-written on kit classes.
+5. **Adapters:** Astro, WordPress, Rails, PowerPoint, and Word/Google Docs.
 
 Hand-edit these sources:
 
@@ -76,7 +77,7 @@ python3 scripts/check_office_artifacts.py --check
 | `UI-KIT.md` | The entry point. One compact contract, sufficient on its own. |
 | `agustos.css` | The stylesheet. Byte-identical to `tokens/agustos.css` apart from its header. |
 | `agustos-fonts.css` + `fonts/` | Self-hosted Inter Tight, Inter, and JetBrains Mono. **Required** — the stylesheet declares font stacks, not faces. |
-| `starter.html` | Every published class, rendered once. |
+| `starter.html` | Every published class, rendered once, including both chromes and the layout layer. |
 | `kit.json` | The same contract, machine-readable, with file hashes. |
 | `check-agustos-ui.py` | Compliance checker a consuming project runs to prove it complied. |
 | `AGENTS-SNIPPET.md` | The stanza a consuming repository pastes into its own `AGENTS.md`. |
@@ -94,13 +95,7 @@ Preview the kit locally with the `agustos-ui-kit` entry in `.claude/launch.json`
 python3 -m http.server 4330 --directory ui
 ```
 
-To hand the kit to another coding agent, pack the slim zip. Do not zip the whole repository.
-The factory (generators, `DESIGN.md`, `archive/MEMORY.md`, Office files) makes the agent regenerate
-work that `ui/` already contains. See [docs/handoff-setup.html](docs/handoff-setup.html).
-
-```bash
-python3 scripts/pack_handoff.py
-```
+To hand the kit to another coding agent, read [HANDOFF.md](HANDOFF.md) and run `python3 scripts/pack_handoff.py`.
 
 Any change under `ui/` requires a VERSION bump, a rebuild, and a matching `v<VERSION>` git tag in the
 same change. `VERSION` participates in the manifest's source hash, so CI fails if the rebuild is

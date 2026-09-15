@@ -4,6 +4,41 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [6.0.0] - 2026-09-15
+
+### Added
+
+- Both site chromes in the kit: `site-sidebar*` (agustos, iesdesk, specquick) and `site-header*` with `site-footer*` (pataraz, pld), plus `site-lockup*` and `breadcrumb*`. Drawers are native popovers; groups are `details`. No JavaScript.
+- A `chrome` field per brand in `brand/brands.json`, published in `ui/kit.json` and the UI-KIT brand table.
+- The layout layer: `stack`, `cluster`, `prose`, `grid-2`, `grid-3`, `grid-4`, `grid-aside`, `band`, `band--cream`, `table-scroll`.
+- `screens/`: one reference page per screen type on kit classes, with real content. The `screens` table in `tokens/design-tokens.json` holds each screen's rules and renders into `ui/UI-KIT.md`, `ui/kit.json`, `docs/web.html`, and the Claude Design cards.
+- `docs/web.html` is generated from the screens table. The handoff zip packs `screens/`.
+- The design direction list in `DESIGN.md` is generated from the registry between two markers.
+- Claude Design: one card per screen under `Kit · Screens` and two chrome cards; `/design-pull` accepts any page folder or canvas file and records the target screen in `screens/design/README.md`.
+
+### Changed
+
+- `docs/web.html` no longer carries its own chrome rules; the Astro and Rails adapters use the kit chrome and ship no navigation script.
+- `ui/UI-KIT.md`: one install section, the brand chrome table, the screens table, and the rule that the kit is plain CSS with no utility framework.
+- pataraz.com's build target is Rails 8 with plain CSS. Tailwind is not supported anywhere.
+
+### Removed
+
+- `mockups/`: the four built pages became screens; the Claude Design references moved to `screens/design/`.
+- `hero-example.html` (now `artifacts/agustos-hero-example-v3.1.0.html`) and the root `build_template.py`.
+- The Rails `agustos-nav` Stimulus controller and both adapters' backdrop buttons.
+
+### Migration
+
+- Replace local header, footer, and sidebar CSS with the kit chrome classes. No chrome rule may live outside the kit.
+- Rails: rename `agustos-header`, `agustos-footer`, and `agustos-nav-backdrop` to `site-header`, `site-footer`, and the popover backdrop.
+- agustos.com: replace `side-menu` and `mobile-header` with `site-sidebar` and `site-sidebar-bar`; put `site-sidebar-layout` on `body`.
+- Put `data-screen="<name>"` on `body`.
+- Remove Tailwind or any other utility framework if present. The kit does not support one.
+- Rails: delete the `agustos-nav` Stimulus controller with its `data-controller`, `data-action` (`keydown.esc`), and backdrop markup. The drawer is a native popover opened by `popovertarget`.
+- Astro: delete the `nav-backdrop` markup, the `data-nav-open` attribute, and the script that toggled it. The drawer is a native popover opened by `popovertarget`.
+- Both adapters: render the lockup with the kit classes `site-lockup`, `site-lockup__symbol`, and `site-lockup__name`. Drop local lockup classes and the `--lockup-color` custom property; the kit colours the footer lockup and the dark theme.
+
 ## [5.2.0] - 2026-09-13
 
 ### Added

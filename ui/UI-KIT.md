@@ -1,4 +1,4 @@
-# Ağustos UI kit — v5.2.0
+# Ağustos UI kit — v6.0.0
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -35,46 +35,25 @@ Avoid:
 - Lifestyle photography or a photograph behind body text
 - Testimonial quotes on marketing pages
 
-## Install — production
+## Install
 
-Copy these into `vendor/agustos-ui/` in your project and commit them:
+The kit is plain CSS. Do not add Tailwind, Bootstrap, or another utility framework. `agustos.css` styles the whole page, including bare HTML elements, and a second page stylesheet conflicts with it.
 
-    agustos.css
-    agustos-fonts.css
-    fonts/                 (5 woff2 files + 3 OFL.txt — the licenses must travel with them)
-    check-agustos-ui.py
-    UI-KIT.md
-
-Then load the two stylesheets, **fonts first**:
+Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and 3 OFL.txt, which must travel with them), `check-agustos-ui.py`, and `UI-KIT.md` into `vendor/agustos-ui/` and commit them. Then load the two stylesheets, **fonts first**:
 
 ```html
 <link rel="stylesheet" href="/vendor/agustos-ui/agustos-fonts.css">
 <link rel="stylesheet" href="/vendor/agustos-ui/agustos.css">
 ```
 
-Vendoring removes runtime CDN dependencies and supports local bundling.
+npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-**npm projects may skip `agustos-fonts.css`** and install the fonts instead:
-
-```
-npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono
-```
-
-## Install — prototypes only
-
-For a throwaway mockup with no build step:
+Prototypes with no build step may link the CDN copies. **Pin to `@v6.0.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.2.0/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.2.0/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.0.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.0.0/ui/agustos.css">
 ```
-
-**Pin stylesheet URLs to `@v5.2.0`.** Never publish `@main` or `@latest`; upstream changes can restyle your page.
-
-## One warning before you start
-
-`agustos.css` styles the whole page, including bare HTML elements.
-**Do not combine it with Bootstrap, Tailwind preflight, or another page stylesheet.** Their rules can conflict.
 
 ## Page skeleton
 
@@ -87,8 +66,9 @@ For a throwaway mockup with no build step:
   <link rel="stylesheet" href="/vendor/agustos-ui/agustos-fonts.css">
   <link rel="stylesheet" href="/vendor/agustos-ui/agustos.css">
 </head>
-<body class="brand-agustos paper-white">
+<body class="brand-agustos site-sidebar-layout" data-screen="home">
   <a class="skip-link" href="#main">İçeriğe geç</a>
+  <!-- the brand's chrome: see Chrome below -->
   <main id="main" class="container">
     <!-- your page -->
   </main>
@@ -96,26 +76,53 @@ For a throwaway mockup with no build step:
 </html>
 ```
 
-Use `lang="tr"` for Turkish content so locale-sensitive capitalization renders correctly.
+Use `lang="tr"` for Turkish content so locale-sensitive capitalization renders correctly. Put `data-screen="<name>"` on `body` with a name from the screens table.
 
-## Brand, substrate, theme
+## Brand, chrome, theme
+
+Each brand registers one chrome. `agustos` alone owns red identity ink; other house brands use off-black `#15130f` or white. Shared red (`#cf142a`) is a 2px rule under content links and menu hover or current, plus keyboard focus. Never a fill except the dark primary CTA.
+
+| Brand | Class | Chrome |
+|---|---|---|
+| ağustos | `brand-agustos` | sidebar |
+| pataraz | `brand-pataraz` | topbar |
+| pld türkiye | `brand-pld` | topbar |
+| iesdesk | `brand-iesdesk` | sidebar |
+| specquick | `brand-specquick` | sidebar |
 
 | Switch | Values | Where |
 |---|---|---|
-| Brand | `brand-agustos` · `brand-pataraz` · `brand-pld` · `brand-iesdesk` · `brand-specquick` | `<body>`, required |
-| Substrate | white paper by default; `paper-white` remains valid | `<body>` |
+| Brand | one `brand-*` class from the table | `<body>`, required |
+| Chrome | `site-sidebar-layout` on `<body>` for sidebar brands; nothing for topbar brands | `<body>` |
 | Theme | `data-theme="dark"` (product UI only; same six colours, flipped) | `<html>` |
+| Substrate | white paper by default; `paper-white` remains valid | `<body>` |
 
-Ağustos alone owns red identity ink. Other house brands use off-black `#15130f` or white.
-Shared red (`#cf142a`) is a 2px rule under content links and menu hover/current, plus keyboard focus. Never a fill except the dark primary CTA.
+## Chrome
 
-## Page composition
+Both chromes ship. No JavaScript: drawers are native popovers, groups are `details`. Copy the markup from `starter.html`, which renders the sidebar as its own chrome and the topbar and footer inside it.
 
-Same primary CTA: header once, opening once, one closing cream band. Not in every section.
-Marketing stays light. Dark is for product UI. No theme toggle on marketing chrome.
-Photographs: product page, then listing, then homepage. Type-only pages stay complete.
-Quotes: content pages only. Marketing uses a compact trust line.
-Form submits are task actions. Footer Contact is separate chrome.
+- **Sidebar** (`site-sidebar*`): a fixed 240px column with the lockup, `site-sidebar__nav` links, `site-sidebar__group` details for social and legal, one `site-sidebar__cta`, a `site-sidebar__utility` slot for search and language, and a `site-sidebar__note`. Below 1024px a sticky `site-sidebar-bar` with the burger opens it as a drawer.
+- **Topbar** (`site-header*`, `site-footer*`): a sticky one-row header inside a `site-frame` with the lockup, `site-header__nav`, and a `site-header__end` slot for CTA, search, and language; a structured footer with `site-footer__brand` and configurable `site-footer__col` columns. Below 1024px the burger opens `site-header__panel` as a drawer.
+- **Lockup** (`site-lockup`): the exact Laz Güneşi symbol inline plus a lowercase wordmark. Never redraw the symbol; copy it from `starter.html`.
+- The current page carries `aria-current="page"`: a 2px red rule on the left in the sidebar, underneath in the topbar. Every control is 44px.
+- Destinations, copy, and columns are configuration. The kit styles them; it never decides them.
+
+## Screens
+
+One reference page per screen type lives in the source repository under `screens/`, hand-written on these classes. Build any page from the matching screen. Theme follows the family; chrome follows the brand.
+
+| Screen | Family | Chrome | Theme | Primary CTA in body | Quotes | Photography |
+|---|---|---|---|---|---|---|
+| `home` | marketing | sidebar | light | at most 2 | no | one installation photograph, third in the rollout |
+| `static` | content | sidebar | light | at most 1 | yes | people and places that explain the work |
+| `content` | content | sidebar | light | at most 1 | yes | only when it explains the content |
+| `products` | catalog | topbar | light | at most 1 | no | product thumbnails, second in the rollout |
+| `product-finder` | catalog | topbar | light | at most 1 | no | product thumbnails, second in the rollout |
+| `product` | catalog | topbar | light | at most 2 | no | product photograph or drawing, first in the rollout |
+| `spec-sheet` | document | topbar | light | at most 0 | no | product photograph and dimensioned drawing |
+| `app-shell` | product UI | sidebar | dark allowed | at most 1 | no | none |
+
+Form submits are task actions and do not count as the page primary. Footer Contact is separate chrome. Marketing pages use a compact trust line, not a testimonial. Photographs arrive in the rollout order shown; type-only pages stay complete.
 
 ## Classes
 
@@ -124,23 +131,23 @@ Every class the kit publishes. See `starter.html` for one rendered instance of e
 | Group | Classes |
 |---|---|
 | Frame | `site-frame` `container` `skip-link` |
+| Layout | `stack` `cluster` `prose` `grid-2` `grid-3` `grid-4` `grid-aside` `band` `band--cream` `table-scroll` |
 | Headings | `type-hero` `type-hero-md` `type-hero-deck` `type-h1` `type-h2` `type-h3` `type-h4` |
 | Text | `type-body` `type-link` `type-code` `type-blockquote` `type-pullquote` `type-footnote` |
 | Blocks | `type-list-ul` `type-list-ol` `type-dl` `type-figure` `type-code-block` `type-table` `type-divider` |
 | Hero | `hero-actions` `hero-action` `hero-action--primary` `hero-action--secondary` · `hero-links` `hero-link` `hero-link--primary` `hero-link--secondary` · `hero-trust` `hero-visual` |
 | Sections | `agustos-section` `agustos-section__head` |
 | Cards | `agustos-card-grid` `agustos-card` `agustos-card--marked` |
-| Chrome | `agustos-chrome-link` |
+| Chrome | `agustos-chrome-link` · `site-lockup` `site-lockup__symbol` `site-lockup__name` · `site-sidebar-layout` `site-sidebar` `site-sidebar__nav` `site-sidebar__link` `site-sidebar__group` `site-sidebar__cta` `site-sidebar__utility` `site-sidebar__note` `site-sidebar-bar` `site-sidebar-burger` · `site-header` `site-header__bar` `site-header__panel` `site-header__nav` `site-header__link` `site-header__end` `site-header__cta` `site-header__burger` · `site-footer` `site-footer__inner` `site-footer__brand` `site-footer__cols` `site-footer__col` `site-footer__col-heading` `site-footer__list` `site-footer__link` `site-footer__cta` · `breadcrumb` `breadcrumb__link` |
 | Forms | `agustos-fieldset` `agustos-field` `agustos-field--invalid` · `agustos-label` `agustos-label--required` · `agustos-input` `agustos-textarea` `agustos-select` `agustos-check` `agustos-hint` `agustos-error` |
 | Buttons | `agustos-button` `--primary` `--secondary` `--quiet` |
 | Badges | `agustos-badge` `--success` `--warning` `--danger` `--info` `--signal` |
 | Notices | `agustos-notice` `agustos-notice__title` `--success` `--warning` `--danger` `--info` |
 | Tabs | `agustos-tabs` `agustos-tab` `agustos-tabs__panel` |
 
-Bare HTML elements are styled too: `h1`–`h4`, `p`, `a`, `ul`, `ol`, `dl`, `table`,
-`blockquote`, `pre`, `code`, `hr`. Semantic markup gets the right result without classes.
+Bare HTML elements are styled too: `h1`–`h4`, `p`, `a`, `ul`, `ol`, `dl`, `table`, `blockquote`, `pre`, `code`, `hr`. Semantic markup gets the right result without classes.
 
-Compose missing components from `agustos-card`, `agustos-button`, and `type-*` classes. Do not import another component library.
+Compose missing components from `agustos-card`, `agustos-button`, the layout classes, and `type-*`. `prose` caps a text block at the 65ch measure. Do not import another component library.
 
 ## Variables
 
@@ -148,10 +155,10 @@ Use `var(--name)`, never the literal value. Spacing `--space-2xs` … `--space-6
 Radii `--radius-sm` (4px) `--radius-md` (6px) `--radius-lg` (10px) — nothing larger exists.
 Color `--paper` `--cream` `--surface` `--ink` `--ink-soft` `--ink-faint` `--rule` `--signal` `--brand`
 `--footer-*` `--state-success|warning|danger|info`. Type `--display` `--body` `--mono`.
-Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-content` (1180px).
+Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-content` (1180px). Sidebar `--sidebar-width` (240px).
 Measures `--measure-text` (54ch, hero deck) and `--measure-body` (65ch, long-form prose: posts, policies, profiles).
 
-`ui/kit.json` carries the same list in machine-readable form.
+`ui/kit.json` carries the same lists in machine-readable form, plus the brand and screens tables.
 
 ## Hard rules
 
@@ -160,7 +167,8 @@ Measures `--measure-text` (54ch, hero deck) and `--measure-body` (65ch, long-for
 3. **Never restyle a kit class.** Overriding `.agustos-card` breaks every other page. Compose a new class.
 4. **Radii are 4, 6, and 10px.** Nothing rounder. No pills, no blobs, no gradients.
 5. **44px minimum for anything clickable.** `--control-min` exists for this. Links inside running text are exempt; `hero-link` carries an invisible 44px hit area, and a card with one stretched link makes the card the target.
-6. **Never redraw the Laz Güneşi symbol.** If you need the logo and do not have the file, request it.
+6. **Never redraw the Laz Güneşi symbol.** Copy the `site-lockup` markup from `starter.html`.
+7. **Use the brand's registered chrome.** A sidebar brand never gets a topbar page, and the reverse.
 
 ## Verify before you call it done
 
@@ -170,18 +178,14 @@ python3 vendor/agustos-ui/check-agustos-ui.py .
 
 Fix reported token values, font loading, CDN pins, brand classes, radii, and class overrides.
 Use `--strict` to fail on warnings; use `--json` for structured output. Exit 0 confirms automated checks passed.
-Use `--skip <dir>` (repeatable) for frozen or generated folders the project must not edit, such as a stale-asset alias kept for cached pages. Do not hand-edit the checker; it is regenerated with the kit.
-
-## Check for a newer kit
-
-```bash
-python3 vendor/agustos-ui/check-agustos-ui.py --update-check
-```
+Use `--skip <dir>` (repeatable) for frozen or generated folders the project must not edit. Do not hand-edit the checker; it is regenerated with the kit.
+Check for a newer kit with `python3 vendor/agustos-ui/check-agustos-ui.py --update-check`.
 
 ## If you need more than this file
 
 - `kit.json` — the same contract, machine-readable, with file hashes.
-- `starter.html` — every class, rendered once.
+- `starter.html` — every class, rendered once, including both chromes.
+- `screens/` in the source repository — one reference page per screen type.
 - `tokens/design-system-handoff.json` in the source repository — the full cross-medium contract with the embedded symbol.
 
 Source: `Agustos-Teknoloji/DESIGN-agustos` · licensed under `ui/LICENSE`.

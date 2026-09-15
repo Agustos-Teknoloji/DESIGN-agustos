@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import io
+import re
 import zipfile
 from pathlib import Path
 
@@ -19,6 +20,10 @@ UI_DIR = ROOT / "ui"
 LOCKUP_GLOB = "brand/exports/*/lockup/*.svg"
 DOCS_HTML = ROOT / "docs" / "handoff-setup.html"
 HANDOFF = ROOT / "HANDOFF.md"
+SCREENS_DIR = ROOT / "screens"
+FAVICON = ROOT / "laz-gunesi-amblem" / "favicon" / "favicon.svg"
+ASSET_DIR = ROOT / "brand" / "datasheet-assets" / "pataraz"
+ASSET_REF = re.compile(r"\.\./brand/datasheet-assets/pataraz/([A-Za-z0-9._-]+)")
 
 ZIP_README = """# Ağustos UI kit v{version}
 
@@ -27,7 +32,7 @@ Five standard artifacts sit at the root of this zip. Read them before you write 
 1. `DESIGN.md` — contract: direction, colour, type, brands, principles.
 2. `fonts.html` — type families and rules.
 3. `colour.html` — substrate, ink, signal, identity, dark theme.
-4. `web.html` — header, footer, homepage, listing, finder, product page, spec sheet.
+4. `web.html` — one live frame per screen type, with that screen's rules. The pages are in `screens/`.
 5. `brands.html` — house brands and lockup expressions.
 
 Then copy `ui/` to `vendor/agustos-ui/` and commit it.
@@ -70,6 +75,7 @@ def rewrite_handbook_html(html: str) -> str:
     html = html.replace('href="../DESIGN.md"', 'href="DESIGN.md"')
     for slug in ("agustos", "pataraz", "pld", "iesdesk", "specquick"):
         html = html.replace(f"../brand/exports/{slug}/lockup/", "logos/")
+    html = html.replace('src="../screens/', 'src="screens/').replace('href="../screens/', 'href="screens/')
     return html
 
 
@@ -85,6 +91,23 @@ def rewrite_setup_html(html: str) -> str:
         .replace("python3 scripts/pack_handoff.py", "this zip is already packed")
         .replace(f"dist/agustos-ui-handoff-v{ver}.zip", "the archive you opened")
     )
+
+
+def screen_files(root: Path = ROOT) -> list[Path]:
+    return sorted((root / "screens").glob("*.html"))
+
+
+def rewrite_screen_html(html: str) -> str:
+    """Point a screen at the zip's logos/ and assets/ folders. The ui/ path already resolves."""
+    html = html.replace('href="../laz-gunesi-amblem/favicon/favicon.svg"', 'href="../logos/favicon.svg"')
+    return ASSET_REF.sub(r"../assets/\1", html)
+
+
+def referenced_assets(root: Path = ROOT) -> list[Path]:
+    names: set[str] = set()
+    for path in screen_files(root):
+        names.update(ASSET_REF.findall(path.read_text(encoding="utf-8")))
+    return sorted(ASSET_DIR / name for name in names if (ASSET_DIR / name).is_file())
 
 
 def archive_members(root: Path = ROOT) -> list[tuple[str, bytes]]:
@@ -107,6 +130,11 @@ def archive_members(root: Path = ROOT) -> list[tuple[str, bytes]]:
         members.append((f"{prefix}/{path.relative_to(root).as_posix()}", path.read_bytes()))
     for path in lockup_svgs(root):
         members.append((f"{prefix}/logos/{path.name}", path.read_bytes()))
+    members.append((f"{prefix}/logos/favicon.svg", FAVICON.read_bytes()))
+    for path in screen_files(root):
+        members.append((f"{prefix}/screens/{path.name}", rewrite_screen_html(path.read_text(encoding="utf-8")).encode("utf-8")))
+    for path in referenced_assets(root):
+        members.append((f"{prefix}/assets/{path.name}", path.read_bytes()))
     return members
 
 

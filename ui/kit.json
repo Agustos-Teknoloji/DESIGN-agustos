@@ -6,7 +6,39 @@
     "brand-iesdesk",
     "brand-specquick"
   ],
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.2.0/ui/",
+  "brands": {
+    "agustos": {
+      "chrome": "sidebar",
+      "color": "#cf142a",
+      "domain": "agustos.com",
+      "wordmark": "ağustos"
+    },
+    "iesdesk": {
+      "chrome": "sidebar",
+      "color": "#15130f",
+      "domain": "iesdesk.com",
+      "wordmark": "iesdesk"
+    },
+    "pataraz": {
+      "chrome": "topbar",
+      "color": "#15130f",
+      "domain": "pataraz.com",
+      "wordmark": "pataraz"
+    },
+    "pld": {
+      "chrome": "topbar",
+      "color": "#15130f",
+      "domain": "pldturkiye.com",
+      "wordmark": "pld türkiye"
+    },
+    "specquick": {
+      "chrome": "sidebar",
+      "color": "#15130f",
+      "domain": "specquick.com",
+      "wordmark": "specquick"
+    }
+  },
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.0.0/ui/",
   "cssClasses": [
     "type-hero",
     "type-hero-md",
@@ -53,6 +85,48 @@
     "agustos-card",
     "agustos-card--marked",
     "agustos-chrome-link",
+    "site-lockup",
+    "site-lockup__symbol",
+    "site-lockup__name",
+    "site-sidebar-layout",
+    "site-sidebar",
+    "site-sidebar__nav",
+    "site-sidebar__link",
+    "site-sidebar__group",
+    "site-sidebar__cta",
+    "site-sidebar__utility",
+    "site-sidebar__note",
+    "site-sidebar-bar",
+    "site-sidebar-burger",
+    "site-header",
+    "site-header__bar",
+    "site-header__panel",
+    "site-header__nav",
+    "site-header__link",
+    "site-header__end",
+    "site-header__cta",
+    "site-header__burger",
+    "site-footer",
+    "site-footer__inner",
+    "site-footer__brand",
+    "site-footer__cols",
+    "site-footer__col",
+    "site-footer__col-heading",
+    "site-footer__list",
+    "site-footer__link",
+    "site-footer__cta",
+    "breadcrumb",
+    "breadcrumb__link",
+    "stack",
+    "cluster",
+    "grid-2",
+    "grid-3",
+    "grid-4",
+    "grid-aside",
+    "band",
+    "band--cream",
+    "table-scroll",
+    "prose",
     "agustos-fieldset",
     "agustos-field",
     "agustos-field--invalid",
@@ -136,24 +210,24 @@
   "entryPoint": "UI-KIT.md",
   "files": {
     "AGENTS-SNIPPET.md": {
-      "bytes": 2085,
-      "sha256": "f2275cec8d0a2ecd5ec25322e23546c3f7f0d662bb02aa6a0fb83b7349e56dd9"
+      "bytes": 2215,
+      "sha256": "a44124178ee072db680ba4bdcc264ed3517bcc3e3f6fa52a44a70e35507ee7b3"
     },
     "UI-KIT.md": {
-      "bytes": 9517,
-      "sha256": "180ce4c0a5db55cfd14d1ab625cd88a3ec60de10ec8ca1fedebcb572c0e5f42c"
+      "bytes": 13099,
+      "sha256": "c530827e515c61ca032c55ead144d9d2a13d14dc4c2cfdaf830ef840310f7f3a"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
-      "sha256": "87f309d38202766da6b3a80134552e11ca9ab7188449910a1a5ea74597be3660"
+      "sha256": "c950d70ec9c7e06fa4c0dbfb0a24388eb34b9d83be6e84b2fed0ee40537b6dbb"
     },
     "agustos.css": {
-      "bytes": 27138,
-      "sha256": "ffa55d12f5821561d97bbfd93371c90fd3fd03c0b566f4b7f92e588eea48313d"
+      "bytes": 38782,
+      "sha256": "798564c45acef9c64930b82959c8f3897428cfb6088e199d47bd1047a2c6dba3"
     },
     "check-agustos-ui.py": {
-      "bytes": 14828,
-      "sha256": "2bfa2fdb7db5df413215329703eae573507da6f1db22bda492e138bea76e64f6"
+      "bytes": 15768,
+      "sha256": "16940a9ff9d1d3c1a1f30c4a1c1edf278098121cbfc94040ad042b0350214fd9"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -176,14 +250,104 @@
       "sha256": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
     },
     "starter.html": {
-      "bytes": 10263,
-      "sha256": "7f8bef1ca4a82d3466b019f08775eab2a31c28052501592cd8508445f030f88c"
+      "bytes": 27515,
+      "sha256": "c1678b93e44dae93c9da20db315a8d212aea9db37683f2c5e484a1f6fe0d4bc7"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.2.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.2.0/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.0.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.0.0/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v5.2.0/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v6.0.0/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
+  "screens": {
+    "app-shell": {
+      "brand": "iesdesk",
+      "chrome": "sidebar",
+      "family": "product-ui",
+      "file": "app-shell.html",
+      "photo": "none",
+      "primaryCtaMax": 1,
+      "purpose": "The product-UI frame: sidebar navigation with counts, a page toolbar, stats, and a data table. The theme control lives in the sidebar.",
+      "quotes": false,
+      "theme": "dark-allowed"
+    },
+    "content": {
+      "brand": "agustos",
+      "chrome": "sidebar",
+      "family": "content",
+      "file": "content.html",
+      "photo": "only when it explains the content",
+      "primaryCtaMax": 1,
+      "purpose": "One article or post: title, deck, long-form body at 65ch with headings, lists, a quote, and a footnote.",
+      "quotes": true,
+      "theme": "light"
+    },
+    "home": {
+      "brand": "agustos",
+      "chrome": "sidebar",
+      "family": "marketing",
+      "file": "home.html",
+      "photo": "one installation photograph, third in the rollout",
+      "primaryCtaMax": 2,
+      "purpose": "The homepage: an editorial opening with inline links and a trust line, the brand and software card sections, and one closing cream band.",
+      "quotes": false,
+      "theme": "light"
+    },
+    "product": {
+      "brand": "pataraz",
+      "chrome": "topbar",
+      "family": "catalog",
+      "file": "product.html",
+      "photo": "product photograph or drawing, first in the rollout",
+      "primaryCtaMax": 2,
+      "purpose": "One luminaire: photograph and drawing, description, grouped specification tables, downloads, and related products.",
+      "quotes": false,
+      "theme": "light"
+    },
+    "product-finder": {
+      "brand": "pataraz",
+      "chrome": "topbar",
+      "family": "catalog",
+      "file": "product-finder.html",
+      "photo": "product thumbnails, second in the rollout",
+      "primaryCtaMax": 1,
+      "purpose": "The product finder: a filter column and a result list. Form submits are task actions, not the page primary.",
+      "quotes": false,
+      "theme": "light"
+    },
+    "products": {
+      "brand": "pataraz",
+      "chrome": "topbar",
+      "family": "catalog",
+      "file": "products.html",
+      "photo": "product thumbnails, second in the rollout",
+      "primaryCtaMax": 1,
+      "purpose": "The product listing: series sections with product cards, quick links, and one closing cream band.",
+      "quotes": false,
+      "theme": "light"
+    },
+    "spec-sheet": {
+      "brand": "pataraz",
+      "chrome": "topbar",
+      "family": "document",
+      "file": "spec-sheet.html",
+      "photo": "product photograph and dimensioned drawing",
+      "primaryCtaMax": 0,
+      "purpose": "The A4 technical datasheet (teknik föy) as a web page: header, photograph and drawing, the five specification groups, revision line.",
+      "quotes": false,
+      "theme": "light"
+    },
+    "static": {
+      "brand": "agustos",
+      "chrome": "sidebar",
+      "family": "content",
+      "file": "static.html",
+      "photo": "people and places that explain the work",
+      "primaryCtaMax": 1,
+      "purpose": "The static page template: About, privacy, terms, and the KVKK notice. Intro, timeline, and people at a long-form measure.",
+      "quotes": true,
+      "theme": "light"
+    }
+  },
   "signal": {
     "$source": "Ağustos red is the shared interaction signal across every house brand. It does not recolor non-Ağustos identity marks.",
     "color": "#cf142a"
@@ -194,5 +358,5 @@
     "cream"
   ],
   "system": "Ağustos Design System",
-  "version": "5.2.0"
+  "version": "6.0.0"
 }

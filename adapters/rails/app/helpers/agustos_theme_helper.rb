@@ -123,7 +123,6 @@ module AgustosThemeHelper
 
   def agustos_body_controller
     controllers = []
-    controllers << "agustos-nav" unless agustos_product_shell?
     controllers << "agustos-theme" if agustos_theme_toggle?
     controllers.join(" ")
   end

@@ -1,7 +1,7 @@
 {
   "$schema": "https://design-tokens.github.io/community-group/format/",
   "name": "Ağustos Design System",
-  "version": "5.2.0",
+  "version": "6.0.0",
   "description": "Canonical cross-medium design values. CSS, framework adapters, and Office templates are generated consumers.",
   "meta": {
     "referenceImplementation": "https://agustos.com",
@@ -256,7 +256,9 @@
       "controlMinimum": { "$value": "{foundations.measure.controlMinimum}" },
       "paddingBlock": { "$value": "20px" },
       "gap": { "$value": "{foundations.spacing.2xl}" },
-      "rule": { "$value": "{foundations.border.hairline}" }
+      "rule": { "$value": "{foundations.border.hairline}" },
+      "sidebarWidth": {"$value": "240px", "$description": "Fixed sidebar column. Matches agustos.com."},
+      "drawerWidth": {"$value": "min(320px, 86vw)", "$description": "Sidebar and topbar drawers below 1024px."}
     },
     "hero": {
       "paddingBlockStart": { "$value": "clamp(56px, 9vw, 112px)" },
@@ -310,6 +312,81 @@
       "captionSize": { "$value": "12pt" }
     }
   },
+  "screens": {
+    "$description": "One reference composition per page type. Files live under screens/. Theme follows family: product-ui allows dark, every other family is light. Chrome follows the sample brand's registered chrome in brand/brands.json.",
+    "home": {
+      "file": "home.html",
+      "family": "marketing",
+      "brand": "agustos",
+      "purpose": "The homepage: an editorial opening with inline links and a trust line, the brand and software card sections, and one closing cream band.",
+      "primaryCtaMax": 2,
+      "quotes": false,
+      "photo": "one installation photograph, third in the rollout"
+    },
+    "static": {
+      "file": "static.html",
+      "family": "content",
+      "brand": "agustos",
+      "purpose": "The static page template: About, privacy, terms, and the KVKK notice. Intro, timeline, and people at a long-form measure.",
+      "primaryCtaMax": 1,
+      "quotes": true,
+      "photo": "people and places that explain the work"
+    },
+    "content": {
+      "file": "content.html",
+      "family": "content",
+      "brand": "agustos",
+      "purpose": "One article or post: title, deck, long-form body at 65ch with headings, lists, a quote, and a footnote.",
+      "primaryCtaMax": 1,
+      "quotes": true,
+      "photo": "only when it explains the content"
+    },
+    "products": {
+      "file": "products.html",
+      "family": "catalog",
+      "brand": "pataraz",
+      "purpose": "The product listing: series sections with product cards, quick links, and one closing cream band.",
+      "primaryCtaMax": 1,
+      "quotes": false,
+      "photo": "product thumbnails, second in the rollout"
+    },
+    "product-finder": {
+      "file": "product-finder.html",
+      "family": "catalog",
+      "brand": "pataraz",
+      "purpose": "The product finder: a filter column and a result list. Form submits are task actions, not the page primary.",
+      "primaryCtaMax": 1,
+      "quotes": false,
+      "photo": "product thumbnails, second in the rollout"
+    },
+    "product": {
+      "file": "product.html",
+      "family": "catalog",
+      "brand": "pataraz",
+      "purpose": "One luminaire: photograph and drawing, description, grouped specification tables, downloads, and related products.",
+      "primaryCtaMax": 2,
+      "quotes": false,
+      "photo": "product photograph or drawing, first in the rollout"
+    },
+    "spec-sheet": {
+      "file": "spec-sheet.html",
+      "family": "document",
+      "brand": "pataraz",
+      "purpose": "The A4 technical datasheet (teknik föy) as a web page: header, photograph and drawing, the five specification groups, revision line.",
+      "primaryCtaMax": 0,
+      "quotes": false,
+      "photo": "product photograph and dimensioned drawing"
+    },
+    "app-shell": {
+      "file": "app-shell.html",
+      "family": "product-ui",
+      "brand": "iesdesk",
+      "purpose": "The product-UI frame: sidebar navigation with counts, a page toolbar, stats, and a data table. The theme control lives in the sidebar.",
+      "primaryCtaMax": 1,
+      "quotes": false,
+      "photo": "none"
+    }
+  },
   "compatibility": {
     "cssClasses": [
         "type-hero",
@@ -357,6 +434,48 @@
         "agustos-card",
         "agustos-card--marked",
         "agustos-chrome-link",
+        "site-lockup",
+        "site-lockup__symbol",
+        "site-lockup__name",
+        "site-sidebar-layout",
+        "site-sidebar",
+        "site-sidebar__nav",
+        "site-sidebar__link",
+        "site-sidebar__group",
+        "site-sidebar__cta",
+        "site-sidebar__utility",
+        "site-sidebar__note",
+        "site-sidebar-bar",
+        "site-sidebar-burger",
+        "site-header",
+        "site-header__bar",
+        "site-header__panel",
+        "site-header__nav",
+        "site-header__link",
+        "site-header__end",
+        "site-header__cta",
+        "site-header__burger",
+        "site-footer",
+        "site-footer__inner",
+        "site-footer__brand",
+        "site-footer__cols",
+        "site-footer__col",
+        "site-footer__col-heading",
+        "site-footer__list",
+        "site-footer__link",
+        "site-footer__cta",
+        "breadcrumb",
+        "breadcrumb__link",
+        "stack",
+        "cluster",
+        "grid-2",
+        "grid-3",
+        "grid-4",
+        "grid-aside",
+        "band",
+        "band--cream",
+        "table-scroll",
+        "prose",
         "agustos-fieldset",
         "agustos-field",
         "agustos-field--invalid",

@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v5.2.0 · GENERATED WORDPRESS ADAPTER CSS
+/* AĞUSTOS DESIGN SYSTEM v6.0.0 · GENERATED WORDPRESS ADAPTER CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -53,6 +53,7 @@
   --measure-text: 54ch;
   --measure-body: 65ch;
   --control-min: 44px;
+  --sidebar-width: 240px;
 
   /* Named type sizes for adapter chrome and native platform mappings */
   --size-footnote: 12.5px;
@@ -720,6 +721,326 @@ table th:last-child, table td:last-child { text-align: right; }
 }
 .skip-link:focus { left: 1rem; }
 
+/* -- 5b. Site chrome ----------------------------------------- */
+
+/* Two chromes ship. A brand registers one in brand/brands.json (`chrome`):
+   agustos, iesdesk, and specquick use the sidebar; pataraz and pld use the
+   topbar and footer. No JavaScript: drawers are native popovers, groups are
+   <details>. Search and language are slots that adapters fill. */
+
+/* Lockup: the exact symbol plus a lowercase wordmark. currentColor carries
+   the registered identity ink. Dark theme lifts house brands to white;
+   Ağustos stays red. */
+.site-lockup {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4em;
+  min-height: var(--control-min);
+  color: var(--brand);
+  font-family: var(--display);
+  font-size: 20px;
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: 0;
+  text-decoration: none;
+  text-transform: lowercase;
+}
+.site-lockup__symbol { flex: none; width: 1em; height: 1em; }
+.site-lockup__name { color: inherit; }
+.site-lockup:hover { text-decoration: none; }
+.site-lockup:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+html[data-theme="dark"] .site-lockup { color: var(--ink); }
+html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }
+
+/* Burgers: one shape, both drawers. The icon is inline SVG in the markup. */
+.site-sidebar-burger,
+.site-header__burger {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-min);
+  height: var(--control-min);
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+}
+.site-sidebar-burger:hover,
+.site-header__burger:hover { background: var(--rule); }
+.site-sidebar-burger:focus-visible,
+.site-header__burger:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+/* --- Sidebar family --- */
+.site-sidebar-layout { padding-inline-start: var(--sidebar-width); }
+.site-sidebar {
+  position: fixed;
+  inset-block: 0;
+  inset-inline: 0 auto;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  box-sizing: border-box;
+  width: var(--sidebar-width);
+  height: 100dvh;
+  margin: 0;
+  padding: 20px var(--space-lg);
+  overflow-y: auto;
+  border: 0;
+  border-inline-end: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink);
+}
+.site-sidebar__nav { display: flex; flex-direction: column; gap: 2px; }
+.site-sidebar__link {
+  display: flex;
+  align-items: center;
+  min-height: var(--control-min);
+  padding-inline-start: var(--space-sm);
+  border-inline-start: 2px solid transparent;
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.site-sidebar__link:hover,
+.site-sidebar__link[aria-current="page"] {
+  color: var(--ink);
+  border-inline-start-color: var(--signal);
+  text-decoration: none;
+}
+.site-sidebar__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.site-sidebar__group { margin: 0; padding: 0; border: 0; }
+.site-sidebar__group > summary {
+  display: flex;
+  align-items: center;
+  min-height: var(--control-min);
+  padding-inline-start: var(--space-sm);
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 500;
+  list-style: none;
+  cursor: pointer;
+}
+.site-sidebar__group > summary::-webkit-details-marker { display: none; }
+.site-sidebar__group > summary::after {
+  content: "";
+  width: 0.4em;
+  height: 0.4em;
+  margin-inline-start: 0.55em;
+  border-inline-end: 1.5px solid currentColor;
+  border-block-end: 1.5px solid currentColor;
+  transform: translateY(-0.15em) rotate(45deg);
+  transition: transform var(--dur) var(--ease);
+}
+.site-sidebar__group[open] > summary::after { transform: translateY(0.1em) rotate(-135deg); }
+.site-sidebar__group > summary:hover { color: var(--ink); }
+.site-sidebar__group > summary:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.site-sidebar__group > .site-sidebar__link {
+  padding-inline-start: var(--space-xl);
+  font-size: 15.5px;
+}
+.site-sidebar__cta { align-self: flex-start; }
+.site-sidebar__utility { display: flex; flex-wrap: wrap; gap: var(--space-md); margin-block-start: auto; }
+.site-sidebar__note { margin: 0; color: var(--ink-faint); font-size: 12.5px; }
+.site-sidebar-bar { display: none; }
+
+/* --- Topbar family --- */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  border-block-end: 1px solid var(--rule);
+  background: var(--paper);
+}
+.site-header__bar {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--space-xl);
+  padding-block: 20px;
+}
+.site-header__panel { display: contents; color: inherit; }
+.site-header__nav { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-xl); }
+.site-header__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-min);
+  border-block-end: 2px solid transparent;
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.site-header__link:hover,
+.site-header__link[aria-current="page"] {
+  color: var(--ink);
+  border-block-end-color: var(--signal);
+  text-decoration: none;
+}
+.site-header__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.site-header__end { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-lg); }
+.site-header__cta { margin-inline-start: var(--space-sm); }
+
+/* --- Footer. Never follows the theme flip: the footer variables stay off-black. --- */
+.site-footer {
+  margin-block-start: var(--space-5xl);
+  background: var(--footer-paper);
+  color: var(--footer-ink);
+}
+.site-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: var(--space-4xl);
+  padding-block: var(--space-5xl);
+}
+.site-footer__brand { display: flex; flex-direction: column; gap: var(--space-sm); flex: 1 1 220px; max-width: 40ch; }
+.site-footer .site-lockup,
+.site-footer .type-h4,
+.site-footer .type-footnote,
+.site-footer__link { color: var(--footer-ink); }
+.site-footer .type-footnote { margin: 0; }
+.site-footer__cols { display: flex; flex-wrap: wrap; flex: 1 1 360px; gap: var(--space-2xl); margin-inline-start: auto; }
+.site-footer__col { flex: 1 1 140px; }
+.site-footer__col-heading { margin: 0 0 var(--space-sm); }
+.site-footer__list { display: flex; flex-direction: column; gap: 9px; margin: 0; padding: 0; list-style: none; }
+.site-footer__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-min);
+  font-family: var(--display);
+  font-size: 15px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.site-footer__link:hover { text-decoration: underline; text-decoration-color: var(--signal); text-underline-offset: 4px; }
+.site-footer__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.site-footer__cta { align-self: flex-start; }
+.site-footer .agustos-button--primary,
+html[data-theme="dark"] .site-footer .agustos-button--primary {
+  background: var(--footer-ink);
+  color: var(--footer-paper);
+  border-color: var(--footer-ink);
+}
+.site-footer .agustos-button--primary:hover,
+html[data-theme="dark"] .site-footer .agustos-button--primary:hover {
+  background: var(--footer-cta-hover);
+  border-color: var(--footer-cta-hover);
+  color: var(--footer-paper);
+}
+
+/* --- Breadcrumb: the small trail above a page title --- */
+.breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ink-faint);
+  font-family: var(--display);
+  font-size: 13px;
+  font-weight: 500;
+}
+.breadcrumb li { display: inline-flex; align-items: center; min-height: var(--control-min); }
+.breadcrumb li + li::before { content: "/"; margin-inline-end: var(--space-xs); color: var(--ink-faint); }
+.breadcrumb__link { color: var(--ink-faint); text-decoration: none; }
+.breadcrumb__link:hover { color: var(--ink); text-decoration: none; }
+.breadcrumb__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.breadcrumb [aria-current="page"] { color: var(--ink); }
+
+/* --- Drawers below 1024px. Native popovers: light dismiss and Escape are free. --- */
+@media (max-width: 1023px) {
+  .site-sidebar-layout { padding-inline-start: 0; }
+  .site-sidebar-bar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-md);
+    padding: var(--space-xs) var(--space-lg);
+    border-block-end: 1px solid var(--rule);
+    background: var(--paper);
+  }
+  .site-sidebar-burger { display: inline-flex; }
+  .site-sidebar { width: min(320px, 86vw); }
+  .site-sidebar:not(:popover-open) { display: none; }
+  .site-sidebar::backdrop { background: color-mix(in srgb, var(--ink) 32%, transparent); }
+
+  .site-header__bar { gap: var(--space-sm); }
+  .site-header__burger { display: inline-flex; justify-self: end; grid-column: 3; }
+  .site-header__panel {
+    position: fixed;
+    inset: 0 0 0 auto;
+    z-index: 20;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-lg);
+    box-sizing: border-box;
+    width: min(320px, 86vw);
+    height: 100dvh;
+    margin: 0;
+    padding: var(--space-6xl) var(--space-xl) var(--space-xl);
+    overflow-y: auto;
+    border: 0;
+    border-inline-start: 1px solid var(--rule);
+    background: var(--paper);
+    color: var(--ink);
+  }
+  .site-header__panel:popover-open { display: flex; }
+  .site-header__panel::backdrop { background: color-mix(in srgb, var(--ink) 32%, transparent); }
+  .site-header__nav { flex-direction: column; justify-content: flex-start; gap: 2px; }
+  .site-header__end { flex-direction: column; align-items: stretch; gap: var(--space-md); }
+  .site-header__cta { margin-inline-start: 0; justify-content: center; }
+}
+@media (max-width: 760px) {
+  .site-footer__cols { margin-inline-start: 0; }
+}
+
+/* -- 5c. Layout layer ---------------------------------------- */
+
+/* Ten helpers so no page declares its own frame, band, grid, or measure.
+   Composition stays in the markup; rhythm comes from the spacing scale. */
+.stack { display: flex; flex-direction: column; gap: var(--space-md); }
+.stack > * { margin-block: 0; }
+.cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); }
+.prose { max-width: var(--measure-body); }
+.grid-2,
+.grid-3,
+.grid-4 { display: grid; gap: var(--space-lg); }
+.grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.grid-aside { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(0, 3fr); gap: var(--space-2xl); align-items: start; }
+.band { padding-block: var(--space-3xl); }
+.band--cream { background: var(--cream); border-block: 1px solid var(--rule); }
+
+/* A table wider than its column scrolls inside this wrapper, never the page. */
+.table-scroll { max-width: 100%; overflow-x: auto; margin: 0 0 1em; }
+.table-scroll > .type-table, .table-scroll > table { margin-bottom: 0; }
+
+@media (max-width: 1023px) {
+  .grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 759px) {
+  .grid-2,
+  .grid-3,
+  .grid-4,
+  .grid-aside { grid-template-columns: minmax(0, 1fr); }
+}
+
 /* -- 6. UI primitives ---------------------------------------- */
 
 /* Product-surface controls. Same grammar as the editorial layer above: hairline
@@ -1023,6 +1344,9 @@ table th:last-child, table td:last-child { text-align: right; }
   .agustos-textarea,
   .agustos-select,
   .agustos-tab,
+  .site-sidebar__link,
+  .site-header__link,
+  .site-sidebar__group > summary::after,
   .agustos-chrome-link {
     transition: none;
   }

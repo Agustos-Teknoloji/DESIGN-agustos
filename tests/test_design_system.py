@@ -41,6 +41,50 @@ class DesignSystemGenerationTest(unittest.TestCase):
         with self.assertRaisesRegex(self.builder.TokenError, "unknown token path"):
             self.builder.resolve_token(self.tokens, "foundations.color.missing")
 
+    def test_every_brand_registers_a_known_chrome(self):
+        brands = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))
+        self.builder.validate_brands(brands)
+        self.assertEqual(
+            {slug: brand["chrome"] for slug, brand in brands["brands"].items()},
+            {"agustos": "sidebar", "pataraz": "topbar", "pld": "topbar", "iesdesk": "sidebar", "specquick": "sidebar"},
+        )
+        bad = copy.deepcopy(brands)
+        bad["brands"]["pld"]["chrome"] = "drawer"
+        with self.assertRaises(self.builder.TokenError):
+            self.builder.validate_brands(bad)
+        del bad["brands"]["pld"]["chrome"]
+        with self.assertRaises(self.builder.TokenError):
+            self.builder.validate_brands(bad)
+
+    def test_screens_table_is_validated_and_derives_chrome_and_theme(self):
+        brands = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))
+        self.builder.validate_screens(self.tokens, brands)
+        rows = {row["name"]: row for row in self.builder.screen_rows(self.tokens, brands)}
+        self.assertEqual(
+            list(rows),
+            ["home", "static", "content", "products", "product-finder", "product", "spec-sheet", "app-shell"],
+        )
+        self.assertEqual(rows["home"]["chrome"], "sidebar")
+        self.assertEqual(rows["product"]["chrome"], "topbar")
+        self.assertEqual(rows["app-shell"]["theme"], "dark-allowed")
+        self.assertEqual(rows["home"]["theme"], "light")
+        self.assertEqual(rows["static"]["quotes"], True)
+        self.assertEqual(rows["spec-sheet"]["primaryCtaMax"], 0)
+        for row in rows.values():
+            self.assertEqual(row["file"], f"{row['name']}.html")
+        bad = copy.deepcopy(self.tokens)
+        bad["screens"]["home"]["family"] = "landing"
+        with self.assertRaises(self.builder.TokenError):
+            self.builder.validate_screens(bad, brands)
+        bad = copy.deepcopy(self.tokens)
+        del bad["screens"]["home"]["photo"]
+        with self.assertRaises(self.builder.TokenError):
+            self.builder.validate_screens(bad, brands)
+        bad = copy.deepcopy(self.tokens)
+        bad["screens"]["home"]["brand"] = "novara"
+        with self.assertRaises(self.builder.TokenError):
+            self.builder.validate_screens(bad, brands)
+
     def test_design_direction_reaches_every_consumer_contract(self):
         tokens = copy.deepcopy(self.tokens)
         tokens["designDirection"]["principles"].append("A new rule must reach every consumer.")
@@ -166,10 +210,24 @@ class DesignSystemGenerationTest(unittest.TestCase):
         self.assertIn("docs/agustos-fonts.css", relative)
 
     def test_docs_font_css_points_at_ui_fonts_and_cdn(self):
-        css = self.builder.docs_fonts_css(self.tokens, self.builder.kit_context(self.tokens))
+        brands = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))
+        css = self.builder.docs_fonts_css(self.tokens, self.builder.kit_context(self.tokens, brands))
         self.assertIn("url('../ui/fonts/", css)
         self.assertIn("cdn.jsdelivr.net", css)
         self.assertNotIn("url('./fonts/", css)
+
+    def test_web_index_is_generated_from_the_screens_table(self):
+        outputs = self.builder.expected_outputs()
+        text = outputs[ROOT / "docs" / "web.html"]
+        self.assertIn('<!-- GENERATED. Do not hand-edit.', text)
+        for name in ("home", "static", "content", "products", "product-finder", "product", "spec-sheet", "app-shell"):
+            self.assertIn(f'id="screen-{name}"', text)
+            self.assertIn(f'src="../screens/{name}.html"', text)
+        self.assertIn("agustos sidebar, pataraz topbar, pld topbar, iesdesk sidebar, specquick sidebar", text)
+        self.assertIn('href="agustos.css"', text)
+        self.assertNotIn('href="../ui/agustos.css"', text)
+        self.assertNotIn(".site-header {", text)
+        self.assertNotIn("id=\"theme\"", text)
 
     def test_resolved_registry_stays_platform_neutral(self):
         resolved = self.builder.resolve_tree(self.tokens, self.tokens["semantic"])
@@ -246,6 +304,18 @@ class DesignSystemGenerationTest(unittest.TestCase):
             text=True,
         )
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_design_md_direction_block_is_generated_and_checked(self):
+        text = (ROOT / "DESIGN.md").read_text(encoding="utf-8")
+        self.assertIn(self.builder.BLOCK_START, text)
+        self.assertIn(self.builder.BLOCK_END, text)
+        self.assertEqual(self.builder.design_md_with_block(text, self.tokens), text, "run the generator")
+        for rule in self.tokens["designDirection"]["principles"]:
+            self.assertIn(f"- {rule}", text)
+        stale = text.replace(self.builder.BLOCK_START, self.builder.BLOCK_START + "\n- a rule that is not in the registry", 1)
+        self.assertNotEqual(self.builder.design_md_with_block(stale, self.tokens), stale)
+        with self.assertRaises(self.builder.TokenError):
+            self.builder.design_md_with_block("no markers here", self.tokens)
 
 
 if __name__ == "__main__":

@@ -17,3 +17,12 @@ Patterns captured from corrections, to avoid repeating mistakes.
    **Rule:** when an asset has a live production reference, measure the live computed styles first
    (`/browse` → `getComputedStyle` on the real element) and treat the running product as canonical
    when it conflicts with stale specs. Flag the drift so the docs can be reconciled.
+
+3. **Second instance of lesson 2, on chrome this time.** (2026-09-15) `DESIGN.md` §"Site chrome"
+   and the v3.0 record in `archive/MEMORY.md` say agustos.com shipped a one-row topbar in July
+   2026 and retired the sidebar. The live site ships a 240px fixed left sidebar
+   (`aside.side-menu`) on every page, with a sticky mobile header and drawer. The product owner
+   is happy with it. I argued from the stale record until the user corrected me.
+   **Rule:** before recommending any chrome, layout, or component rule as "already decided,"
+   open the live site and probe it. A recorded decision that the live product does not show
+   is a proposal, not a fact.

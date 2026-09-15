@@ -244,3 +244,77 @@ The `ui_kits/website` page was pulled as 16 files under `mockups/claude-design/`
 
 **Deferred to separate approval:**
 Repointing Design's own `tokens/fonts.css` and `assets/laz-gunesi.svg` at the pushed `agustos-ui/` copies requires separate approval. This deferred work is one approval gate to avoid linking the Claude Design project to this repository before the design team validates the sync workflow under real conditions.
+
+---
+
+# Brand guideline restructure (2026-09-15)
+
+**Goal:** make this repository a brand guideline that an agent or a person reads cold and
+designs from: logo, colour, type, one file per screen type, chrome, light and dark, and a
+working two-way loop with the Claude Design project.
+
+**Source:** `/dhh` review of the repository, 2026-09-15. Six findings, ranked: site chrome is
+not in the kit; there is no single "screen" artifact; the Design pull loop is half a loop; the
+design direction has three hand copies; screen rules are prose the checker cannot read; root nits.
+
+**Decisions locked (2026-09-15):**
+- Plain CSS everywhere. No Tailwind in this repository or in any consuming site. The kit gains
+  a thin layout layer (stack, cluster, grid-2/3/4, band) instead. Recorded in `archive/MEMORY.md`.
+- Sidebar chrome for product UI (the app shell screen). Dark theme is allowed there only.
+- Topbar chrome for pataraz and pld; sidebar chrome for agustos, iesdesk, and specquick, registered
+  per brand in `brand/brands.json`. Supersedes the 2026-07-19 retirement of the sidebar (2026-09-15).
+- About is the `static` screen, content family: 65ch body measure, quotes allowed, one reserved
+  people-or-place photo slot as a gray well, type-only at launch, no hero CTA, one closing cream
+  band. The same screen is the template for privacy, terms, and the KVKK notice.
+- Two chromes ship in the kit, sidebar and topbar with footer. Each brand registers one:
+  agustos sidebar, pataraz topbar, pld topbar, iesdesk sidebar, specquick sidebar. agustos.com
+  keeps its live sidebar; the July 2026 topbar record was stale (lesson 3).
+- Registry-driven build (approach A). Screens stay hand-written HTML on kit classes.
+- All three consumers at once, one release: v6.0.0.
+
+**Spec:** `docs/superpowers/specs/2026-09-15-brand-guideline-restructure-design.md` (approved
+section by section on 2026-09-15). **Plan:** `docs/superpowers/plans/2026-09-15-brand-guideline-restructure.md`
+(18 tasks, one branch, one PR, tag v6.0.0 last). Execution: one Sonnet subagent per task, reviewed
+between tasks by the main session.
+
+## Checklist
+
+Phase 1 · registry, template, generator
+- [x] 1. `chrome` per brand in `brand/brands.json`; validated; in `ui/kit.json`
+- [x] 2. `screens` table in `tokens/design-tokens.json`; validated; derived chrome and theme
+- [x] 3. both chromes, the lockup, and the breadcrumb in `tokens/web.css.tmpl`
+- [x] 4. the layout layer (stack, cluster, prose, grid-2/3/4, grid-aside, band, band--cream)
+- [x] 5. UI-KIT.md: brand chrome table, screens table, one install section; starter renders both chromes
+- [x] 6. `docs/web.html` generated from the screens table; handoff zip packs `screens/`
+- [x] 7. the design direction list in DESIGN.md generated between markers
+
+Phase 2 · screens
+- [x] 8. `screens/` with `tests/test_screens.py`, `screens/README.md`, `home.html`
+- [x] 9. `static.html`, `content.html`
+- [x] 10. `products.html`, `product-finder.html`
+- [x] 11. `product.html`, `spec-sheet.html`
+- [x] 12. `app-shell.html`; `mockups/*.html` retired
+
+Phase 3 · adapters
+- [x] 13. Astro on the kit chrome, popover drawer, no scoped chrome styles
+- [x] 14. Rails on the kit names, no nav controller; chrome-ownership test
+
+Phase 4 · Design loop
+- [x] 15. screen and chrome cards; pull without the prefix lock; `mockups/claude-design` → `screens/design`
+- [x] 16. skills and loop docs point at `screens/design` and `--target`
+- [x] 16b. main session: re-pull the six references through `/design-pull`
+
+Phase 5 · docs and cleanup
+- [x] 17. DESIGN.md chrome section and layers, AGENTS.md pointer, HANDOFF owns the factory rule, PATARAZ, CHANGELOG, archive entry, root cleanup
+
+Phase 6 · release
+- [x] 18. VERSION 6.0.0, rebuild, checks, visual pass, tag v6.0.0 (not pushed)
+- [x] 18b. main session: `/design-push`; open the PR to main
+
+## Review — brand guideline restructure (2026-09-15)
+
+- Outcome: v6.0.0 on `claude/brand-guideline-repo-9ba5e3`. The annotated tag `v6.0.0` sits on the branch tip and is local only. Pull request #38 is open to `main` without auto-merge. The Design project holds kit v6.0.0 (23 files written, 0 deleted).
+- Verification: 149 unit tests, `--check` current, Office check current, screens checker clean, Astro adapter tests 5 of 5, Rails contract test 10 of 10, handoff zip 1.2 MB, visual pass on every screen, the starter page, the web index, and the Astro homepage at 375, 768, and 1280 px.
+- Final whole-branch review: one Critical (both adapter footers rendered an invisible lockup) and six Important findings, fixed in one wave of four commits and re-reviewed clean.
+- Parked for a later change: `screens/README.md` restates the screens table by hand; `pack_handoff.py` skips a missing asset silently and reads only `pataraz/` images; `pull --target` accepts any name; screen cards ship without product images; the Rails preview `marketing.html` has no burger; the generator's block-end search and duplicate-file check; the static screen has four photo wells against the spec's one reserved slot.
+- Lessons: verify a chrome or layout rule against the live site before you call it decided (lesson 3). The Browser pane injects keys without a key code, so test Escape with the headless browser. A check that greps deleted CSS for custom properties still consumed elsewhere would have caught the lockup defect at Task 13.

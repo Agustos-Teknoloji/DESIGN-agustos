@@ -15,12 +15,8 @@ re-creating something that already exists.
 ## Design direction
 
 **İskandivvian: Scandinavian restraint filtered through Mediterranean warmth.**
-Create minimal, functional, and elegant experiences that feel calm, warm, and human.
-Use clear hierarchy, comfortable spacing, white paper, cream callout bands, light gray `#ebebeb`, and direct language.
-Keep the experience welcoming and easy to use.
-Preserve registered logos, fonts, rationed red rules, accessibility, and the locked dark theme.
-Repeat the primary CTA only in the opening and one closing band. Keep marketing light. Put quotes on content pages only.
-Read `ui/UI-KIT.md` for website application rules. The generated contract includes this direction.
+The twelve principles, the avoid list, the brand chrome table, and the screens table live in
+`ui/UI-KIT.md`, generated from `tokens/design-tokens.json`. Read that file. Do not restate it.
 
 ## For finished brand assets — look in this order
 
@@ -36,11 +32,12 @@ task, then read only the relevant files:
 
 | Task | Start here | Read next only if needed |
 |---|---|---|
-| **Build a UI in another repository** (Astro, WordPress, Rails, plain HTML) | **`DESIGN.md`**, then **`docs/web.html`** | `docs/fonts.html`, `docs/colour.html`, `docs/brands.html`, then `ui/UI-KIT.md` |
+| **Build a UI in another repository** (Astro, WordPress, Rails, plain HTML) | **`ui/UI-KIT.md`**, then the matching **`screens/<name>.html`** | `docs/web.html` for every screen with its rules, then `DESIGN.md` |
 | **See what a source change regenerates** | **`docs/what-generates.html`** | Everyday: `python3 scripts/build_design_system.py`. Full rebuild only if asked. |
 | **Share this system as a zip** | **`docs/handoff-setup.html`** then `python3 scripts/pack_handoff.py` | `HANDOFF.md`. Do not zip the whole repository. |
-| **Push the kit to Claude Design** (after a token, kit, favicon, or logo change) | **`docs/claude-design-sync.html`**, then `/design-push` in Claude Code | `.claude/skills/design-push/SKILL.md` |
-| **Save a Claude Design page as a reference** | `/design-pull ui_kits/website` in Claude Code | `mockups/claude-design/README.md`, `.claude/skills/design-pull/SKILL.md` |
+| **Push the kit, chrome, and screens to Claude Design** (after a token, kit, favicon, logo, or screen change) | **`docs/claude-design-sync.html`**, then `/design-push` in Claude Code | `.claude/skills/design-push/SKILL.md` |
+| **Save a Claude Design page as a reference for a screen** | `/design-pull <remote path> --target <screen>` in Claude Code | `screens/design/README.md`, `.claude/skills/design-pull/SKILL.md` |
+| **Add or change a screen** (home, static, content, products, product-finder, product, spec-sheet, app-shell) | `screens/<name>.html` and the `screens` table in `tokens/design-tokens.json` | `screens/README.md`, then `python3 scripts/build_design_system.py` and `/design-push` |
 | Generate this system into a new medium (documents, slides, native app) | `tokens/design-system-handoff.json` | The matching `adapters/<platform>/README.md`, then `DESIGN.md` |
 | Find a logo, favicon, social image, document, or other finished asset | `ASSETS.md` | The matching file under `brand/exports/<brand>/` |
 | Build a Pataraz website or datasheet | `PATARAZ.md` | `DESIGN.md`, then the relevant export or generator README |
@@ -114,6 +111,7 @@ Novara (outdoor kitchen furniture) is a brand Ağustos **represents/distributes*
 - **Wordmark = Inter Tight, weight 650, lowercase, registered identity ink.** Never put a tagline or subtitle on the lockup.
 - **One symbol for all brands.** Never redraw it. Use red for Ağustos identity; use black/white for every other house brand.
 - **Signal and identity are separate.** Red rules and focus do not make a non-Ağustos logo red.
+- **Use the brand's registered chrome.** `brand/brands.json` → `chrome`. agustos, iesdesk, and specquick: sidebar. pataraz and pld: topbar with footer. Both live in the kit; never style chrome outside `tokens/web.css.tmpl`.
 - **NEVER hand-edit anything under `brand/exports/`.** It is all generated. Everyday token and
   kit changes use `python3 scripts/build_design_system.py` only. Run `brand/build.py` and
   `brand/build_templates.py` only when the user asks for a full asset rebuild. Then update `ASSETS.md`.

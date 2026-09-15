@@ -1,8 +1,8 @@
 # Ağustos Design System
 
-**Version 5.1.1** · Cross-medium design system for Emre Güneş's brand portfolio
-**Last updated:** September 8, 2026
-**Status:** White-substrate palette, locked dark theme, and website composition rules applied to the registry, kit, and adapters
+**Version 6.0.0** · Cross-medium design system for Emre Güneş's brand portfolio
+**Last updated:** September 15, 2026
+**Status:** Two chromes and the layout layer in the kit, one reference screen per page type, the screens table in the registry, and the Claude Design loop closed.
 
 ## Standard artifacts
 
@@ -11,7 +11,7 @@ These five files are the shareable system. Open the HTML in a browser. Styleshee
 1. **This file (`DESIGN.md`)** — contract for any LLM or implementer: direction, colour, type, brands, principles, and rules.
 2. [`docs/fonts.html`](docs/fonts.html) — families, sizes, weights, Turkish, wordmark rules.
 3. [`docs/colour.html`](docs/colour.html) — substrate, ink, signal, identity, dark theme.
-4. [`docs/web.html`](docs/web.html) — header, footer, homepage, listing, finder, product page, spec sheet. Light and dark.
+4. [`docs/web.html`](docs/web.html) — one live frame per screen type, with that screen's rules. The pages are in `screens/`.
 5. [`docs/brands.html`](docs/brands.html) — house brands and lockup expressions.
 
 Everything else in this repository is factory: generators, adapters, Office files, and decision history.
@@ -48,20 +48,20 @@ Keep the experience welcoming and easy to use.
 
 ### Apply the direction
 
-- Use white as the paper. Reserve cream `#fdf5f5` for full-bleed callout and CTA bands.
-- Use the six-color palette before proposing additional colors. Do not invent a seventh hex.
-- Preserve Inter Tight, Inter, and JetBrains Mono. Establish hierarchy through readable size, weight, and spacing.
-- Keep wordmarks lowercase at Inter Tight 650. Use the exact Laz Güneşi asset and registered identity ink.
-- Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. The one fill exception is the dark-theme primary CTA.
-- Give each section a clear purpose. Use hairline rules and modest corners. Do not use shadows.
-- Use one 1180px alignment frame with 32px gutters. Scale type with `clamp()`. Wrap card rows with flex, not fixed-column grids.
-- Keep forms and technical content easy to scan. Preserve contrast, keyboard focus, and reduced-motion behavior.
-- Use authentic photographs only when they explain people, places, products, or work.
+<!-- generated: designDirection.principles -->
+- Use white as the paper. Reserve cream for full-bleed callout and CTA bands. The six colours are white #ffffff, cream #fdf5f5, light gray #ebebeb, dark gray #404040, off-black #15130f, and red #cf142a.
+- Express warmth through those grays, cream bands, comfortable spacing, readable typography, and approachable language.
+- Make every section useful. Keep navigation, information, and next actions easy to understand.
+- Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.
+- Use modest corners and hairline rules. Do not use shadows, gradients, or textures.
+- Keep text, controls, and technical tables on plain surfaces. Use authentic imagery only when it explains the work.
+- Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. The one fill exception is the dark-theme primary CTA. Dark theme reuses the same six roles, flipped. Retain registered logos, fonts, and accessible contrast.
+- Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings.
 - Repeat the same primary CTA at most twice in the page body: the opening and one closing cream band. The header may carry it once.
 - Ship marketing, catalog, and spec pages on white paper. Reserve dark theme for product UI.
-- Introduce photographs in this order: product page, listing thumbnail, then homepage installation.
-- Use blockquote and pullquote on content pages only.
-- Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings.
+- Introduce photographs in this order: product page, listing thumbnail, then homepage installation. Type-only pages stay complete.
+- Use blockquote and pullquote on content pages only. Marketing pages use a compact trust line, not a testimonial.
+<!-- /generated -->
 
 ### Imagery
 
@@ -171,17 +171,18 @@ Every Turkish content block carries `lang="tr"`. CSS enables `font-feature-setti
 
 ---
 
-## V3 architecture and governance
+## Architecture and governance
 
-The website redesign contributed a compositional grammar, not merely a handful of CSS values: quiet one-row chrome, one aligned frame, large editorial openings, signal color used selectively, bordered content groups, small radii, short motion, and generous section rhythm.
+The website redesign contributed a compositional grammar, not merely a handful of CSS values: the brand's registered chrome, one aligned frame, large editorial openings, signal color used selectively, bordered content groups, small radii, short motion, and generous section rhythm.
 
-V3 separates that grammar into four layers:
+The system separates that grammar into five layers:
 
 | Layer | Owns | Canonical representation |
 |---|---|---|
 | **Foundations** | Color, type, weights, sizes, spacing, measure, borders, radii, motion | `tokens/design-tokens.json` → `foundations` |
 | **Semantic roles** | Paper, surface, ink, muted ink, rule, brand mark, shared signal, focus, display/body/data text | `tokens/design-tokens.json` → `semantic` and `themes` |
 | **Recipes** | Chrome, hero, section opening, editorial link, card, data table, document, presentation | `tokens/design-tokens.json` → `recipes` plus `tokens/web.css.tmpl` where behavior is web-specific |
+| **Screens** | One reference composition per page type, on kit classes | `screens/*.html`, hand-written; their rules in `tokens/design-tokens.json` → `screens` |
 | **Adapters** | Astro, WordPress, Rails, PowerPoint, Word/Google Docs | Generated and framework-specific files under `adapters/` and `brand/` |
 
 The promotion loop is deliberate:
@@ -813,6 +814,11 @@ Current non-token utilities:
 | `.hero-actions`, `.hero-action*` | Shared button system. Filled black + outline. |
 | `.hero-links`, `.hero-link*` | In-prose red-ruled text links. |
 | `.skip-link` | Keyboard accessibility utility for persistent navigation layouts. |
+| `.site-lockup`, `.site-lockup__symbol`, `.site-lockup__name` | The brand lockup: exact symbol plus lowercase wordmark. |
+| `.site-sidebar*`, `.site-sidebar-bar`, `.site-sidebar-burger`, `.site-sidebar-layout` | The sidebar chrome. Drawer below 1024px. |
+| `.site-header*`, `.site-footer*` | The topbar chrome and its footer. Drawer below 1024px. |
+| `.breadcrumb`, `.breadcrumb__link` | The trail above a page title. |
+| `.stack`, `.cluster`, `.prose`, `.grid-2`, `.grid-3`, `.grid-4`, `.grid-aside`, `.band`, `.band--cream`, `.table-scroll` | The layout layer. No page declares its own frame, band, grid, or measure. |
 
 UI primitives — NEW IN v3.1. Product-surface controls in the same grammar as the editorial layer:
 hairline rules, 4/6px radii, one 2px signal accent per element, 44px targets.
@@ -825,10 +831,11 @@ hairline rules, 4/6px radii, one 2px signal accent per element, 44px targets.
 | Notices | `.agustos-notice` `.agustos-notice__title` `--success` `--warning` `--danger` `--info` | The same 2px left-rule grammar as `blockquote` and `.agustos-card--marked`, in ink or state color, not signal red. |
 | Tabs | `.agustos-tabs` `.agustos-tab` `.agustos-tabs__panel` | Active state via `aria-selected="true"` or `.is-active`; a 2px signal underline, the existing current-item marker. |
 
-Deliberately absent, and to stay absent: breadcrumbs, pagination, modals, tooltips, dropdowns,
-toasts, progress bars, accordions, and grid utilities. Breadcrumbs and pagination are chrome and
-belong with `.agustos-chrome-link` in the adapter layer. The rest compose from cards, buttons, and
-the `type-*` classes. This is a restrained editorial system, not a component framework.
+Deliberately absent, and to stay absent: pagination, modals, tooltips, dropdowns, toasts, and
+progress bars. Breadcrumbs, the two chromes, and the layout layer joined the kit in v6.0.0
+because every reference screen needed them. Everything else composes from cards, buttons, the
+layout classes, and the `type-*` classes. This is a restrained editorial system, not a
+component framework.
 
 `--state-*` tokens are substrate-specific as of v3.1: the light values score 2.19-3.11 contrast on
 dark paper, so `html[data-theme="dark"]` overrides all four with `state*Dark` variants that clear
@@ -843,30 +850,41 @@ breadcrumbs, page content, and footer aligned without narrowing the readable
 measure. Component-specific utilities may set vertical padding, but should not
 redefine this horizontal geometry.
 
+Composition rules the web template follows:
+
+- Preserve Inter Tight, Inter, and JetBrains Mono. Establish hierarchy through readable size, weight, and spacing.
+- Keep wordmarks lowercase at Inter Tight 650. Use the exact Laz Güneşi asset and registered identity ink.
+- Use one 1180px alignment frame with 32px gutters. Scale type with `clamp()`. Lay out card rows with the kit's layout classes (`grid-2`, `grid-3`, `grid-4`, or `cluster`); the grids collapse to one column below 760px. Never declare a page-local grid.
+
 ### Site chrome
 
-v3 has one web-chrome pattern, derived from agustos.com production build
-`b559bc2` (2026-07-19): a sticky topbar and a structured footer. The fixed left
-sidebar and separate mobile header are retired.
+The kit ships two chromes. A brand registers one in `brand/brands.json` (`chrome`): agustos,
+iesdesk, and specquick use the sidebar; pataraz and pld use the topbar with the footer. Both
+are generated from `tokens/web.css.tmpl` into every web stylesheet. No chrome rule exists
+anywhere else in this repository; a test enforces it. The kit ships no JavaScript for chrome:
+drawers are native popovers, collapsible groups are `details`.
 
-The header uses a brand lockup, configurable navigation, optional CTA, optional
-language-route link, and search. Marketing headers do not include a theme toggle.
-Product UI may add a theme control that sets `html[data-theme="dark"]`. Desktop search opens a dropdown
-inside the shared frame. At `1023px` and below, and on touch-first devices up to
-`1366px`, navigation becomes a right-hand drawer while search remains in a
-persistent row below the topbar. Button-like controls are at least 44px. The
+The sidebar (`site-sidebar`) is a fixed 240px column, white paper with a hairline rule on the
+right: the lockup, primary links, `details` groups for social and legal, one filled action,
+a utility slot for search and language, and a note. The current page carries a 2px red rule on
+the left of its link. Below 1024px a sticky bar with the lockup and a burger opens the sidebar
+as a drawer. agustos.com ships this chrome on every page; the product-UI app shell reuses it
+with the theme control in the utility slot.
+
+The topbar (`site-header`) is a sticky one-row header inside the shared frame: the lockup,
+primary links, and an end slot for the action, search, and language. The current page carries
+a 2px red rule underneath. Below 1024px the burger opens the panel as a drawer. The footer
+(`site-footer`) is the same frame: the mono lockup and publisher description on the left,
+configurable link columns and a separate contact action on the right; one column at 760px.
+The footer never follows the theme flip.
+
+The lockup (`site-lockup`) is the exact symbol inline plus the lowercase wordmark in the
+registered identity ink. Dark theme lifts house brands to white; Ağustos stays red.
+
+Destinations, copy, and columns are configuration, never brand policy. Search is an adapter
+concern: the Astro reference uses Pagefind inside its own `site-header__search-*` classes; the
+Rails adapter uses a GET form into a Turbo Frame. Every control is at least 44px; the
 responsive search input is 16px to prevent iOS focus zoom.
-
-Search is an adapter concern, not a global token. The Astro reference uses
-Pagefind and indexes only `<main>`, filtered by language and `page`/`post` kind.
-The Rails adapter uses a GET form targeting a Turbo Frame; consuming apps supply
-server-rendered grouped results through the documented partial locals. No JSON
-schema or ActionCable dependency belongs in the design system.
-
-The footer uses the same `.site-frame`: mono lockup and publisher description on
-the left, configurable link columns on the right. It collapses to one outer
-column at `760px`. Header and footer destinations and copy are configuration,
-never hard-coded brand policy.
 
 ### Rails adapter
 
@@ -950,6 +968,7 @@ The system consists of:
 - `brand/build_templates.py` and `brand/build_presentation.mjs`
 - `brand/fonts/` and generated `brand/exports/`
 - `ui/`: generated distribution kit — the entry point for any project consuming this system
+- `screens/`: one reference page per screen type, on kit classes; `screens/design/` holds pulled Claude Design references
 
 ### Generated implementation and drift control
 
@@ -959,7 +978,7 @@ Generated files are committed so consuming projects never couple deployments to 
 
 ## Versioning
 
-This is **v5.0.0**. The major version records the approved design philosophy change. Subsequent changes follow semantic versioning:
+This is **v6.0.0**. The major records the chrome contract: consumers replace their local chrome with the kit's and adopt one name. v5.0.0 recorded the design philosophy change. Subsequent changes follow semantic versioning:
 
 - **Major.** Breaking changes to token names, structural removal, philosophy shifts
 - **Minor.** New tokens, new brand additions, additive-only changes

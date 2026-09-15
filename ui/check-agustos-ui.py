@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ağustos UI kit compliance checker — v5.2.0
+"""Ağustos UI kit compliance checker — v6.0.0
 
 GENERATED. Do not hand-edit. Regenerate with:
     python3 scripts/build_design_system.py
@@ -22,7 +22,7 @@ import re
 import sys
 from pathlib import Path
 
-KIT_VERSION = "5.2.0"
+KIT_VERSION = "6.0.0"
 REPOSITORY = "Agustos-Teknoloji/DESIGN-agustos"
 LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json"
 
@@ -89,6 +89,48 @@ KIT_CLASSES = {
     "agustos-card",
     "agustos-card--marked",
     "agustos-chrome-link",
+    "site-lockup",
+    "site-lockup__symbol",
+    "site-lockup__name",
+    "site-sidebar-layout",
+    "site-sidebar",
+    "site-sidebar__nav",
+    "site-sidebar__link",
+    "site-sidebar__group",
+    "site-sidebar__cta",
+    "site-sidebar__utility",
+    "site-sidebar__note",
+    "site-sidebar-bar",
+    "site-sidebar-burger",
+    "site-header",
+    "site-header__bar",
+    "site-header__panel",
+    "site-header__nav",
+    "site-header__link",
+    "site-header__end",
+    "site-header__cta",
+    "site-header__burger",
+    "site-footer",
+    "site-footer__inner",
+    "site-footer__brand",
+    "site-footer__cols",
+    "site-footer__col",
+    "site-footer__col-heading",
+    "site-footer__list",
+    "site-footer__link",
+    "site-footer__cta",
+    "breadcrumb",
+    "breadcrumb__link",
+    "stack",
+    "cluster",
+    "grid-2",
+    "grid-3",
+    "grid-4",
+    "grid-aside",
+    "band",
+    "band--cream",
+    "table-scroll",
+    "prose",
     "agustos-fieldset",
     "agustos-field",
     "agustos-field--invalid",

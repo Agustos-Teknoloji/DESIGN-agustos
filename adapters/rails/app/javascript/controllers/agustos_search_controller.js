@@ -30,7 +30,7 @@ export default class extends Controller {
   }
 
   navigate(event) {
-    const links = Array.from(this.element.querySelectorAll(".agustos-header__search-result a"))
+    const links = Array.from(this.element.querySelectorAll(".site-header__search-result a"))
     const activeIndex = links.indexOf(document.activeElement)
 
     if (event.key === "Escape") {

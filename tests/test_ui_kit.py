@@ -319,6 +319,27 @@ class DistributionKitTest(unittest.TestCase):
                 self.assertEqual(len(payload), meta["bytes"])
                 self.assertEqual(hashlib.sha256(payload).hexdigest(), meta["sha256"])
 
+    def test_kit_json_registers_each_brand_and_its_chrome(self):
+        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+        self.assertEqual(
+            {slug: entry["chrome"] for slug, entry in kit["brands"].items()},
+            {"agustos": "sidebar", "pataraz": "topbar", "pld": "topbar", "iesdesk": "sidebar", "specquick": "sidebar"},
+        )
+        self.assertEqual(kit["brands"]["agustos"]["wordmark"], "ağustos")
+        self.assertEqual(kit["brands"]["pataraz"]["color"], "#15130f")
+
+    def test_kit_json_publishes_the_screens_table(self):
+        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+        self.assertEqual(len(kit["screens"]), 8)
+        product = kit["screens"]["product"]
+        self.assertEqual(product["file"], "product.html")
+        self.assertEqual(product["family"], "catalog")
+        self.assertEqual(product["chrome"], "topbar")
+        self.assertEqual(product["theme"], "light")
+        self.assertEqual(product["primaryCtaMax"], 2)
+        self.assertFalse(product["quotes"])
+        self.assertEqual(kit["screens"]["app-shell"]["theme"], "dark-allowed")
+
     def test_kit_json_head_snippet_loads_fonts_before_the_system(self):
         kit = json.loads((self.KIT / "kit.json").read_text(encoding="utf-8"))
         snippet = kit["headSnippet"]
@@ -432,6 +453,80 @@ class CheckerTest(unittest.TestCase):
         source = self.CHECKER.read_text(encoding="utf-8")
         before = source.index("def fetch_latest")
         self.assertNotIn("urllib", source[:before], "urllib is imported lazily, inside fetch_latest")
+
+
+class ChromeTest(unittest.TestCase):
+    CSS = (ROOT / "ui" / "agustos.css").read_text(encoding="utf-8")
+
+    def test_both_chromes_and_the_lockup_are_published(self):
+        declared = TOKENS["compatibility"]["cssClasses"]
+        for name in (
+            "site-lockup", "site-lockup__symbol", "site-lockup__name",
+            "site-sidebar-layout", "site-sidebar", "site-sidebar__nav", "site-sidebar__link",
+            "site-sidebar__group", "site-sidebar__cta", "site-sidebar__utility", "site-sidebar__note",
+            "site-sidebar-bar", "site-sidebar-burger",
+            "site-header", "site-header__bar", "site-header__panel", "site-header__nav",
+            "site-header__link", "site-header__end", "site-header__cta", "site-header__burger",
+            "site-footer", "site-footer__inner", "site-footer__brand", "site-footer__cols",
+            "site-footer__col", "site-footer__col-heading", "site-footer__list", "site-footer__link",
+            "site-footer__cta", "breadcrumb", "breadcrumb__link",
+        ):
+            self.assertIn(name, declared, name)
+
+    def test_drawers_are_native_popovers_and_the_sidebar_is_forced_open_on_desktop(self):
+        self.assertIn(".site-sidebar:not(:popover-open) { display: none; }", self.CSS)
+        self.assertIn(".site-header__panel:popover-open { display: flex; }", self.CSS)
+        self.assertIn("::backdrop", self.CSS)
+        self.assertNotIn("data-nav-open", self.CSS)
+
+    def test_sidebar_width_comes_from_the_chrome_recipe(self):
+        self.assertIn("--sidebar-width: 240px", self.CSS)
+        self.assertIn("padding-inline-start: var(--sidebar-width)", self.CSS)
+
+    def test_footer_primary_button_ignores_the_dark_flip(self):
+        self.assertIn('html[data-theme="dark"] .site-footer .agustos-button--primary', self.CSS)
+
+    def test_house_brand_lockups_turn_white_on_dark_and_agustos_stays_red(self):
+        self.assertIn('html[data-theme="dark"] .site-lockup { color: var(--ink); }', self.CSS)
+        self.assertIn('html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }', self.CSS)
+
+    def test_layout_layer_is_published(self):
+        declared = TOKENS["compatibility"]["cssClasses"]
+        for name in ("stack", "cluster", "grid-2", "grid-3", "grid-4", "grid-aside", "band", "band--cream", "prose"):
+            self.assertIn(name, declared, name)
+        self.assertIn(".grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }", self.CSS)
+        self.assertIn(".band--cream { background: var(--cream);", self.CSS)
+        self.assertIn(".prose { max-width: var(--measure-body); }", self.CSS)
+        self.assertIn(".grid-aside { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(0, 3fr);", self.CSS)
+        self.assertIn(".stack { display: flex; flex-direction: column; gap: var(--space-md); }", self.CSS)
+        self.assertIn(".stack > * { margin-block: 0; }", self.CSS)
+        self.assertIn(".cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); }", self.CSS)
+        self.assertIn(".grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }", self.CSS)
+        self.assertIn(".grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }", self.CSS)
+        self.assertIn(".band { padding-block: var(--space-3xl); }", self.CSS)
+        self.assertIn("@media (max-width: 759px) {\n  .grid-2,\n  .grid-3,\n  .grid-4,\n  .grid-aside { grid-template-columns: minmax(0, 1fr); }\n}", self.CSS)
+
+    def test_entry_point_carries_the_screens_table_and_brand_chrome(self):
+        text = (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8")
+        self.assertIn("| `product` | catalog | topbar | light | at most 2 | no |", text)
+        self.assertIn("| `app-shell` | product UI | sidebar | dark allowed | at most 1 | no |", text)
+        self.assertIn("| ağustos | `brand-agustos` | sidebar |", text)
+        self.assertIn("| pataraz | `brand-pataraz` | topbar |", text)
+        self.assertIn("The kit is plain CSS. Do not add Tailwind, Bootstrap, or another utility framework.", text)
+        self.assertNotIn("Tailwind preflight", text)
+        for name in ("home", "static", "content", "products", "product-finder", "product", "spec-sheet", "app-shell"):
+            self.assertIn(f"| `{name}` |", text)
+
+    def test_reference_render_uses_the_sidebar_chrome_and_shows_the_topbar(self):
+        text = (ROOT / "ui" / "starter.html").read_text(encoding="utf-8")
+        self.assertIn('class="brand-agustos paper-white site-sidebar-layout"', text)
+        self.assertIn('<aside id="site-sidebar" class="site-sidebar" popover', text)
+        self.assertIn('popovertarget="site-sidebar"', text)
+        self.assertIn('<header class="site-header">', text)
+        self.assertIn('<footer class="site-footer">', text)
+        self.assertIn('class="breadcrumb"', text)
+        for name in ("stack", "cluster", "grid-3", "band band--cream", "type-body prose"):
+            self.assertIn(f'class="{name}"', text)
 
 
 if __name__ == "__main__":

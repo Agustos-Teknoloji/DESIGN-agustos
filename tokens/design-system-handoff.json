@@ -63,6 +63,48 @@
       "agustos-card",
       "agustos-card--marked",
       "agustos-chrome-link",
+      "site-lockup",
+      "site-lockup__symbol",
+      "site-lockup__name",
+      "site-sidebar-layout",
+      "site-sidebar",
+      "site-sidebar__nav",
+      "site-sidebar__link",
+      "site-sidebar__group",
+      "site-sidebar__cta",
+      "site-sidebar__utility",
+      "site-sidebar__note",
+      "site-sidebar-bar",
+      "site-sidebar-burger",
+      "site-header",
+      "site-header__bar",
+      "site-header__panel",
+      "site-header__nav",
+      "site-header__link",
+      "site-header__end",
+      "site-header__cta",
+      "site-header__burger",
+      "site-footer",
+      "site-footer__inner",
+      "site-footer__brand",
+      "site-footer__cols",
+      "site-footer__col",
+      "site-footer__col-heading",
+      "site-footer__list",
+      "site-footer__link",
+      "site-footer__cta",
+      "breadcrumb",
+      "breadcrumb__link",
+      "stack",
+      "cluster",
+      "grid-2",
+      "grid-3",
+      "grid-4",
+      "grid-aside",
+      "band",
+      "band--cream",
+      "table-scroll",
+      "prose",
       "agustos-fieldset",
       "agustos-field",
       "agustos-field--invalid",
@@ -201,6 +243,7 @@
   "system": {
     "brands": {
       "agustos": {
+        "chrome": "sidebar",
         "color": "#cf142a",
         "domain": "agustos.com",
         "office": true,
@@ -210,6 +253,7 @@
         "wordmark": "ağustos"
       },
       "iesdesk": {
+        "chrome": "sidebar",
         "color": "#15130f",
         "domain": "iesdesk.com",
         "office": false,
@@ -219,6 +263,7 @@
         "wordmark": "iesdesk"
       },
       "pataraz": {
+        "chrome": "topbar",
         "color": "#15130f",
         "domain": "pataraz.com",
         "office": true,
@@ -228,6 +273,7 @@
         "wordmark": "pataraz"
       },
       "pld": {
+        "chrome": "topbar",
         "color": "#15130f",
         "domain": "pldturkiye.com",
         "office": true,
@@ -237,6 +283,7 @@
         "wordmark": "pld türkiye"
       },
       "specquick": {
+        "chrome": "sidebar",
         "color": "#15130f",
         "domain": "specquick.com",
         "office": false,
@@ -411,10 +458,12 @@
       "chrome": {
         "contentMeasure": "1180px",
         "controlMinimum": "44px",
+        "drawerWidth": "min(320px, 86vw)",
         "gap": "32px",
         "gutter": "32px",
         "paddingBlock": "20px",
-        "rule": "1px"
+        "rule": "1px",
+        "sidebarWidth": "240px"
       },
       "dataTable": {
         "cellPaddingBlock": "8px",
@@ -457,6 +506,80 @@
         "headingGap": "12px",
         "paddingBlock": "64px",
         "rule": "1px"
+      }
+    },
+    "screens": {
+      "app-shell": {
+        "brand": "iesdesk",
+        "family": "product-ui",
+        "file": "app-shell.html",
+        "photo": "none",
+        "primaryCtaMax": 1,
+        "purpose": "The product-UI frame: sidebar navigation with counts, a page toolbar, stats, and a data table. The theme control lives in the sidebar.",
+        "quotes": false
+      },
+      "content": {
+        "brand": "agustos",
+        "family": "content",
+        "file": "content.html",
+        "photo": "only when it explains the content",
+        "primaryCtaMax": 1,
+        "purpose": "One article or post: title, deck, long-form body at 65ch with headings, lists, a quote, and a footnote.",
+        "quotes": true
+      },
+      "home": {
+        "brand": "agustos",
+        "family": "marketing",
+        "file": "home.html",
+        "photo": "one installation photograph, third in the rollout",
+        "primaryCtaMax": 2,
+        "purpose": "The homepage: an editorial opening with inline links and a trust line, the brand and software card sections, and one closing cream band.",
+        "quotes": false
+      },
+      "product": {
+        "brand": "pataraz",
+        "family": "catalog",
+        "file": "product.html",
+        "photo": "product photograph or drawing, first in the rollout",
+        "primaryCtaMax": 2,
+        "purpose": "One luminaire: photograph and drawing, description, grouped specification tables, downloads, and related products.",
+        "quotes": false
+      },
+      "product-finder": {
+        "brand": "pataraz",
+        "family": "catalog",
+        "file": "product-finder.html",
+        "photo": "product thumbnails, second in the rollout",
+        "primaryCtaMax": 1,
+        "purpose": "The product finder: a filter column and a result list. Form submits are task actions, not the page primary.",
+        "quotes": false
+      },
+      "products": {
+        "brand": "pataraz",
+        "family": "catalog",
+        "file": "products.html",
+        "photo": "product thumbnails, second in the rollout",
+        "primaryCtaMax": 1,
+        "purpose": "The product listing: series sections with product cards, quick links, and one closing cream band.",
+        "quotes": false
+      },
+      "spec-sheet": {
+        "brand": "pataraz",
+        "family": "document",
+        "file": "spec-sheet.html",
+        "photo": "product photograph and dimensioned drawing",
+        "primaryCtaMax": 0,
+        "purpose": "The A4 technical datasheet (teknik föy) as a web page: header, photograph and drawing, the five specification groups, revision line.",
+        "quotes": false
+      },
+      "static": {
+        "brand": "agustos",
+        "family": "content",
+        "file": "static.html",
+        "photo": "people and places that explain the work",
+        "primaryCtaMax": 1,
+        "purpose": "The static page template: About, privacy, terms, and the KVKK notice. Intro, timeline, and people at a long-form measure.",
+        "quotes": true
       }
     },
     "semantic": {
@@ -519,7 +642,7 @@
         "surface": "#ffffff"
       }
     },
-    "version": "5.2.0"
+    "version": "6.0.0"
   },
-  "version": "5.2.0"
+  "version": "6.0.0"
 }

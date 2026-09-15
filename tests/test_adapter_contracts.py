@@ -43,8 +43,25 @@ class AdapterContractTest(unittest.TestCase):
         self.assertIn('class="site-header__bar site-frame"', header)
         self.assertIn("config.theme === true", header)
         self.assertIn("agustos-button agustos-button--primary site-header__cta", header)
-        self.assertIn("@media (max-width: 1023px)", header)
-        self.assertIn("(max-width: 1366px) and (hover: none) and (pointer: coarse)", header)
+        self.assertIn('class="site-header__panel" popover', header)
+        self.assertIn('popovertarget="site-header-panel"', header)
+        self.assertNotIn("nav-backdrop", header)
+        self.assertNotIn("data-nav-open", header)
+        for selector in (
+            ".site-header {", ".site-header__bar {", ".site-header__nav {", ".site-header__link {",
+            ".site-header__end {", ".site-header__cta {", ".site-header__burger {", ".site-header__panel {",
+        ):
+            self.assertNotIn(selector, header, selector)
+
+    def test_astro_footer_has_no_chrome_styles(self):
+        footer = (ROOT / "adapters" / "astro" / "src" / "components" / "Footer.astro").read_text(encoding="utf-8")
+        self.assertIn('<footer class="site-footer">', footer)
+        self.assertIn('class="site-footer__inner site-frame"', footer)
+        self.assertNotIn("<style>", footer)
+        self.assertIn('class="site-lockup"', footer)
+        self.assertNotIn("BrandLockup", footer)
+        kit_css = (ROOT / "ui" / "agustos.css").read_text(encoding="utf-8")
+        self.assertIn(".site-footer .site-lockup", kit_css)
 
     def test_astro_layout_has_no_legacy_sidebar_contract(self):
         layout = (ROOT / "adapters" / "astro" / "src" / "layouts" / "BaseLayout.astro").read_text(encoding="utf-8")
@@ -63,14 +80,25 @@ class AdapterContractTest(unittest.TestCase):
         self.assertIn("BRAND_CLASSES.fetch(config[:brand], BRAND_CLASSES[:agustos])", helper)
         self.assertIn("BRAND_WORDMARKS.fetch(agustos_theme_config[:brand], BRAND_WORDMARKS[:agustos])", helper)
 
-    def test_rails_layout_uses_header_not_sidebar(self):
+    def test_rails_layout_uses_kit_chrome_without_a_nav_controller(self):
         layout = (ROOT / "adapters" / "rails" / "app" / "views" / "layouts" / "agustos.html.erb").read_text(encoding="utf-8")
         header = (ROOT / "adapters" / "rails" / "app" / "views" / "agustos" / "shared" / "_header.html.erb").read_text(encoding="utf-8")
-        self.assertIn('agustos/shared/header', layout)
-        self.assertNotIn('agustos/shared/sidebar', layout)
+        footer = (ROOT / "adapters" / "rails" / "app" / "views" / "agustos" / "shared" / "_footer.html.erb").read_text(encoding="utf-8")
+        helper = (ROOT / "adapters" / "rails" / "app" / "helpers" / "agustos_theme_helper.rb").read_text(encoding="utf-8")
+        self.assertIn("agustos/shared/header", layout)
+        self.assertNotIn("agustos/shared/sidebar", layout)
+        self.assertNotIn("agustos-nav", layout)
+        self.assertNotIn("agustos-nav", helper)
         self.assertIn("agustos_theme_toggle?", layout)
         self.assertIn("agustos_product_shell?", layout)
-        self.assertIn("agustos-button agustos-button--primary agustos-header__cta", header)
+        self.assertIn('<header class="site-header">', header)
+        self.assertIn("agustos-button agustos-button--primary site-header__cta", header)
+        self.assertIn('popovertarget="site-header-panel"', header)
+        self.assertNotIn("agustos-header", header)
+        self.assertNotIn("agustos-nav-backdrop", header)
+        self.assertIn('<footer class="site-footer">', footer)
+        self.assertNotIn("agustos-footer", footer)
+        self.assertFalse((ROOT / "adapters" / "rails" / "app" / "javascript" / "controllers" / "agustos_nav_controller.js").exists())
 
     def test_rails_product_ui_ports_iesdesk_validation_run(self):
         page = (ROOT / "adapters" / "rails" / "app" / "views" / "agustos" / "examples" / "product.html.erb").read_text(encoding="utf-8")
@@ -91,6 +119,8 @@ class AdapterContractTest(unittest.TestCase):
         lockup = (ROOT / "adapters" / "rails" / "app" / "views" / "agustos" / "shared" / "_brand_lockup.html.erb").read_text(encoding="utf-8")
         self.assertEqual(lockup.count("<path"), 18)
         self.assertIn("agustos_wordmark", lockup)
+        self.assertIn("site-lockup", lockup)
+        self.assertNotIn("agustos-lockup", lockup)
 
     def test_wordpress_bootstrap_enqueues_css_and_preserves_body_classes(self):
         functions = (ROOT / "adapters" / "wordpress" / "functions.php.example").read_text(encoding="utf-8")

@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import html
 import json
 import re
 import sys
@@ -27,6 +28,9 @@ BRAND_SOURCE = ROOT / "brand" / "brands.json"
 WEB_TEMPLATE = ROOT / "tokens" / "web.css.tmpl"
 SYMBOL_SOURCE = ROOT / "laz-gunesi-amblem" / "svg" / "master.svg"
 VERSION_FILE = ROOT / "VERSION"
+DESIGN_MD = ROOT / "DESIGN.md"
+BLOCK_START = "<!-- generated: designDirection.principles -->"
+BLOCK_END = "<!-- /generated -->"
 UI_DIR = ROOT / "ui"
 UI_FONT_DIR = UI_DIR / "fonts"
 UI_TEMPLATES = (
@@ -34,6 +38,9 @@ UI_TEMPLATES = (
     (UI_DIR / "starter.html.tmpl", UI_DIR / "starter.html"),
     (UI_DIR / "check-agustos-ui.py.tmpl", UI_DIR / "check-agustos-ui.py"),
     (UI_DIR / "AGENTS-SNIPPET.md.tmpl", UI_DIR / "AGENTS-SNIPPET.md"),
+)
+DOC_TEMPLATES = (
+    (ROOT / "docs" / "web.html.tmpl", ROOT / "docs" / "web.html"),
 )
 
 CSS_OUTPUTS = {
@@ -47,9 +54,99 @@ CSS_OUTPUTS = {
 PLACEHOLDER = re.compile(r"\{\{\s*([a-zA-Z0-9_.-]+)\s*\}\}")
 ALIAS = re.compile(r"^\{([a-zA-Z0-9_.-]+)\}$")
 
+CHROMES = ("sidebar", "topbar")
+SCREEN_FAMILIES = ("marketing", "content", "catalog", "document", "product-ui")
+SCREEN_FIELDS = ("file", "family", "brand", "purpose", "primaryCtaMax", "quotes", "photo")
+SCREEN_FILE = re.compile(r"^[a-z0-9-]+\.html$")
+
 
 class TokenError(ValueError):
     pass
+
+
+def validate_brands(brands: dict[str, Any]) -> None:
+    """Every brand registers one chrome. The kit ships both; a page uses its brand's."""
+    for slug, brand in brands["brands"].items():
+        chrome = brand.get("chrome")
+        if chrome not in CHROMES:
+            raise TokenError(
+                f"brand {slug!r} must register chrome as one of {', '.join(CHROMES)}, got {chrome!r}"
+            )
+
+
+def screen_entries(tokens: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    """The screens table without its `$` metadata keys."""
+    return {name: entry for name, entry in tokens["screens"].items() if not name.startswith("$")}
+
+
+def validate_screens(tokens: dict[str, Any], brands: dict[str, Any]) -> None:
+    for name, entry in screen_entries(tokens).items():
+        missing = [field for field in SCREEN_FIELDS if field not in entry]
+        if missing:
+            raise TokenError(f"screen {name!r} is missing {', '.join(missing)}")
+        if entry["family"] not in SCREEN_FAMILIES:
+            raise TokenError(f"screen {name!r}: family must be one of {', '.join(SCREEN_FAMILIES)}")
+        if entry["brand"] not in brands["brands"]:
+            raise TokenError(f"screen {name!r}: unknown brand {entry['brand']!r}")
+        if not SCREEN_FILE.match(entry["file"]):
+            raise TokenError(f"screen {name!r}: file must be a lower-case .html name, got {entry['file']!r}")
+        if not isinstance(entry["primaryCtaMax"], int) or isinstance(entry["primaryCtaMax"], bool) or entry["primaryCtaMax"] < 0:
+            raise TokenError(f"screen {name!r}: primaryCtaMax must be a non-negative integer")
+        if not isinstance(entry["quotes"], bool):
+            raise TokenError(f"screen {name!r}: quotes must be true or false")
+
+
+def screen_rows(tokens: dict[str, Any], brands: dict[str, Any]) -> list[dict[str, Any]]:
+    """The table plus the two derived columns. Theme follows family; chrome follows brand."""
+    rows: list[dict[str, Any]] = []
+    for name, entry in screen_entries(tokens).items():
+        rows.append({
+            "name": name,
+            **{field: entry[field] for field in SCREEN_FIELDS},
+            "chrome": brands["brands"][entry["brand"]]["chrome"],
+            "theme": "dark-allowed" if entry["family"] == "product-ui" else "light",
+        })
+    return rows
+
+
+def screens_index_html(rows: list[dict[str, Any]]) -> str:
+    """One section per screen for docs/web.html: the rules, then a live frame of the file."""
+    sections: list[str] = []
+    for row in rows:
+        title = row["name"].replace("-", " ").capitalize()
+        family = "product UI" if row["family"] == "product-ui" else row["family"]
+        theme = "dark allowed" if row["theme"] == "dark-allowed" else row["theme"]
+        sections.append(
+            f'  <section class="screen" id="screen-{row["name"]}">\n'
+            f'    <h2 class="type-h2">{html.escape(title)}</h2>\n'
+            f'    <p class="type-body">{html.escape(row["purpose"])}</p>\n'
+            f'    <dl class="type-dl screen__rules">\n'
+            f'      <dt>Family</dt><dd>{html.escape(family)}</dd>\n'
+            f'      <dt>Sample brand</dt><dd>{html.escape(row["brand"])}</dd>\n'
+            f'      <dt>Chrome</dt><dd>{html.escape(row["chrome"])}</dd>\n'
+            f'      <dt>Theme</dt><dd>{html.escape(theme)}</dd>\n'
+            f'      <dt>Primary CTA in body</dt><dd>at most {row["primaryCtaMax"]}</dd>\n'
+            f'      <dt>Quotes</dt><dd>{"yes" if row["quotes"] else "no"}</dd>\n'
+            f'      <dt>Photography</dt><dd>{html.escape(row["photo"])}</dd>\n'
+            f'    </dl>\n'
+            f'    <iframe class="screen__frame" src="../screens/{row["file"]}" title="{html.escape(title)} screen" loading="lazy"></iframe>\n'
+            f'    <p class="type-footnote"><a class="type-link" href="../screens/{row["file"]}">Open screens/{row["file"]}</a></p>\n'
+            f'  </section>'
+        )
+    return "\n\n".join(sections)
+
+
+def design_direction_block(tokens: dict[str, Any]) -> str:
+    return "\n".join(f"- {rule}" for rule in tokens["designDirection"]["principles"])
+
+
+def design_md_with_block(text: str, tokens: dict[str, Any]) -> str:
+    """DESIGN.md with its generated block replaced. The rest of the file is hand-written."""
+    if BLOCK_START not in text or BLOCK_END not in text:
+        raise TokenError("DESIGN.md is missing the generated designDirection markers")
+    start = text.index(BLOCK_START) + len(BLOCK_START)
+    end = text.index(BLOCK_END)
+    return text[:start] + "\n" + design_direction_block(tokens) + "\n" + text[end:]
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -347,7 +444,7 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
     }
 
 
-def kit_context(tokens: dict[str, Any]) -> dict[str, str]:
+def kit_context(tokens: dict[str, Any], brands: dict[str, Any]) -> dict[str, str]:
     """Resolve the `{{ui.*}}` substitutions used by the ui/ text templates."""
     version = VERSION_FILE.read_text(encoding="utf-8").strip()
     if version != tokens["version"]:
@@ -367,6 +464,30 @@ def kit_context(tokens: dict[str, Any]) -> dict[str, str]:
         "designAvoid": "\n".join(
             f"- {rule}" for rule in tokens["designDirection"]["avoid"]
         ),
+        "brandTable": "\n".join(
+            ["| Brand | Class | Chrome |", "|---|---|---|"]
+            + [
+                f"| {brand['wordmark']} | `brand-{slug}` | {brand['chrome']} |"
+                for slug, brand in brands["brands"].items()
+            ]
+        ),
+        "brandChromeLine": ", ".join(f"{slug} {brand['chrome']}" for slug, brand in brands["brands"].items()),
+        "screensTable": "\n".join(
+            ["| Screen | Family | Chrome | Theme | Primary CTA in body | Quotes | Photography |", "|---|---|---|---|---|---|---|"]
+            + [
+                "| `{name}` | {family} | {chrome} | {theme} | at most {cta} | {quotes} | {photo} |".format(
+                    name=row["name"],
+                    family="product UI" if row["family"] == "product-ui" else row["family"],
+                    chrome=row["chrome"],
+                    theme="dark allowed" if row["theme"] == "dark-allowed" else row["theme"],
+                    cta=row["primaryCtaMax"],
+                    quotes="yes" if row["quotes"] else "no",
+                    photo=row["photo"],
+                )
+                for row in screen_rows(tokens, brands)
+            ]
+        ),
+        "screensIndex": screens_index_html(screen_rows(tokens, brands)),
         "cdnBase": distribution["cdnBase"].format(repository=repository, version=version),
         "rawBase": distribution["rawBase"].format(repository=repository, version=version),
     }
@@ -549,6 +670,19 @@ def ui_kit_json(
         ),
         "signal": brands["signal"],
         "brandClasses": [f"brand-{slug}" for slug in brands["brands"]],
+        "brands": {
+            slug: {
+                "wordmark": brand["wordmark"],
+                "color": brand["color"],
+                "domain": brand["domain"],
+                "chrome": brand["chrome"],
+            }
+            for slug, brand in brands["brands"].items()
+        },
+        "screens": {
+            row["name"]: {key: value for key, value in row.items() if key != "name"}
+            for row in screen_rows(tokens, brands)
+        },
         "substrates": ["paper", "paper-white", "cream"],
         "darkTheme": 'html[data-theme="dark"]',
         "cssClasses": tokens["compatibility"]["cssClasses"],
@@ -564,6 +698,8 @@ def ui_kit_json(
 def expected_outputs() -> dict[Path, str]:
     tokens = load_json(TOKEN_SOURCE)
     brands = load_json(BRAND_SOURCE)
+    validate_brands(brands)
+    validate_screens(tokens, brands)
     outputs: dict[Path, str] = {}
     for path, label in CSS_OUTPUTS.items():
         outputs[path] = render_web_css(tokens, brands, label)
@@ -578,6 +714,7 @@ def expected_outputs() -> dict[Path, str]:
         "recipes": resolve_tree(tokens, tokens["recipes"]),
         "brands": brands["brands"],
         "signal": brands["signal"],
+        "screens": screen_entries(tokens),
     }
     outputs[ROOT / "tokens" / "resolved.json"] = json.dumps(
         resolved, ensure_ascii=False, indent=2, sort_keys=True
@@ -590,13 +727,15 @@ def expected_outputs() -> dict[Path, str]:
     ) + "\n"
 
     # --- ui/ distribution kit -------------------------------------------
-    context = kit_context(tokens)
+    context = kit_context(tokens, brands)
     outputs[UI_DIR / "agustos-fonts.css"] = ui_fonts_css(tokens, context)
     outputs[ROOT / "docs" / "agustos.css"] = outputs[UI_DIR / "agustos.css"]
     outputs[ROOT / "docs" / "agustos-fonts.css"] = docs_fonts_css(tokens, context)
     context["tokenTable"] = checker_token_table(resolved, brands)
     context["classList"] = checker_class_list(tokens)
     for template, target in UI_TEMPLATES:
+        outputs[target] = render_text_template(template, context)
+    for template, target in DOC_TEMPLATES:
         outputs[target] = render_text_template(template, context)
     outputs[UI_DIR / "kit.json"] = json.dumps(
         ui_kit_json(tokens, brands, context, outputs), ensure_ascii=False, indent=2, sort_keys=True
@@ -611,7 +750,7 @@ def expected_outputs() -> dict[Path, str]:
         + WEB_TEMPLATE.read_bytes()
         + SYMBOL_SOURCE.read_bytes()
         + VERSION_FILE.read_bytes()
-        + b"".join(template.read_bytes() for template, _ in UI_TEMPLATES)
+        + b"".join(template.read_bytes() for template, _ in (*UI_TEMPLATES, *DOC_TEMPLATES))
     ).hexdigest()
     manifest = {
         "system": tokens["name"],
@@ -641,6 +780,15 @@ def write_or_check(outputs: dict[Path, str], check: bool) -> int:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content, encoding="utf-8")
         print(f"generated {path.relative_to(ROOT)}")
+    tokens = load_json(TOKEN_SOURCE)
+    current_design = DESIGN_MD.read_text(encoding="utf-8")
+    wanted_design = design_md_with_block(current_design, tokens)
+    if wanted_design != current_design:
+        if check:
+            drift.append("DESIGN.md (generated block)")
+        else:
+            DESIGN_MD.write_text(wanted_design, encoding="utf-8")
+            print("generated DESIGN.md (generated block)")
     if drift:
         print("generated design-system drift:", file=sys.stderr)
         for path in drift:

@@ -1,6 +1,6 @@
 ---
 name: design-push
-description: Push the generated Ağustos UI kit, favicon, and lockups into the Claude Design project "Ağustos" under agustos-ui/. Use after you merge a token, kit, favicon, or logo change. Never writes outside agustos-ui/.
+description: Push the generated Ağustos UI kit, favicon, lockups, and the screen and chrome cards into the Claude Design project "Ağustos" under agustos-ui/. Use after you merge a token, kit, favicon, or logo change. Never writes outside agustos-ui/.
 ---
 
 # /design-push
@@ -40,7 +40,7 @@ Remote folder: `agustos-ui/` (the only folder this skill writes)
 
 8. If the delete list is not empty, call `DesignSync` `delete_files` with the `planId` and the prefixed paths.
 
-9. Report: kit version, commit, files written, files deleted. Remind the user that the cards appear in the Design System pane under the `Kit ·` groups after the project's self-check runs.
+9. Report: kit version, commit, files written, files deleted. Remind the user that the cards appear in the Design System pane under the `Kit ·` groups (Type, Colours, Actions, Brand, Chrome, and one card per screen under Screens) after the project's self-check runs. Product photographs do not travel with a screen card; a broken image marks where one sits.
 
 ## Rules
 

@@ -99,7 +99,7 @@ class CardTest(unittest.TestCase):
         cls.texts = {name: payload.decode("utf-8") for name, payload in cls.members}
 
     def test_minimum_card_set(self):
-        for slug in ("type", "colours", "actions", "brand-marks", "favicon"):
+        for slug in ("type", "colours", "actions", "brand-marks", "favicon", "chrome-sidebar", "chrome-topbar"):
             self.assertIn(f"cards/{slug}.html", self.texts)
 
     def test_line_one_is_a_dscard_marker_with_kit_group(self):
@@ -136,6 +136,39 @@ class CardTest(unittest.TestCase):
         self.assertEqual(used_classes - kit_classes, set())
 
 
+class ScreenCardTest(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.sync = load_sync()
+        cls.members = cls.sync.screen_card_members(version="9.9.9")
+        cls.texts = {name: payload.decode("utf-8") for name, payload in cls.members}
+        cls.kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+
+    def test_one_card_per_screen(self):
+        self.assertEqual(sorted(self.texts), sorted(f"cards/screen-{name}.html" for name in self.kit["screens"]))
+
+    def test_line_one_is_a_screens_group_marker(self):
+        marker = re.compile(r'^<!-- @dsCard group="Kit · Screens" viewport="1280x900" name="[^"]+" subtitle="[^"]+ · (?:sidebar|topbar) · (?:light|dark allowed)" -->$')
+        for name, text in self.texts.items():
+            self.assertRegex(text.splitlines()[0], marker, name)
+
+    def test_cards_point_at_the_bundled_kit_and_favicon(self):
+        for name, text in self.texts.items():
+            self.assertIn('href="../agustos-fonts.css"', text, name)
+            self.assertIn('href="../agustos.css"', text, name)
+            self.assertIn('href="../favicon/favicon.svg"', text, name)
+            self.assertNotIn("../ui/", text, name)
+            self.assertNotIn("../laz-gunesi-amblem/", text, name)
+
+    def test_cards_use_only_kit_classes(self):
+        kit_classes = set(self.kit["cssClasses"])
+        for name, text in self.texts.items():
+            used: set[str] = set()
+            for value in re.findall(r'class="([^"]+)"', text):
+                used.update(value.split())
+            self.assertEqual(used - kit_classes, set(), name)
+
+
 class BuildTest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
@@ -155,6 +188,8 @@ class BuildTest(unittest.TestCase):
         self.assertTrue((folder / "logos" / "agustos-lockup__positive.svg").is_file())
         self.assertTrue((folder / "favicon" / "favicon.svg").is_file())
         self.assertTrue((folder / "cards" / "favicon.html").is_file())
+        self.assertTrue((folder / "cards" / "screen-home.html").is_file())
+        self.assertTrue((folder / "cards" / "chrome-sidebar.html").is_file())
         data = json.loads((folder / "MANIFEST.json").read_text(encoding="utf-8"))
         self.assertEqual(data["commit"], "abc1234")
         self.assertIn("cards/favicon.html", data["files"])
@@ -211,7 +246,7 @@ class PullTest(unittest.TestCase):
         self.temp = Path(temp.name)
         self.remote = self.temp / "remote"
         fake_remote(self.remote)
-        self.dest = self.temp / "mockups" / "claude-design"
+        self.dest = self.temp / "screens" / "design"
 
     def run_pull(self, source=None, page="ui_kits/website", today="2026-09-13", commit="abc1234"):
         return self.sync.pull(source or self.remote, page, self.dest, today=today, commit=commit)
@@ -238,7 +273,7 @@ class PullTest(unittest.TestCase):
         self.run_pull()
         text = (self.dest / "README.md").read_text(encoding="utf-8")
         self.assertIn("https://claude.ai/design/p/7fee69d5-01ee-4727-beaf-cb6c5bd923c4", text)
-        self.assertIn("| ui_kits/website | 2026-09-13 | pending | — |", text)
+        self.assertIn("| website | ui_kits/website | 2026-09-13 | new | pending | — |", text)
         self.assertIn("Do not copy the Design markup or CSS", text)
         self.assertIn("check-agustos-ui.py", text)
         self.assertIn("abc1234", text)
@@ -247,14 +282,14 @@ class PullTest(unittest.TestCase):
         self.run_pull()
         readme = self.dest / "README.md"
         text = readme.read_text(encoding="utf-8").replace(
-            "| ui_kits/website | 2026-09-13 | pending | — |",
-            "| ui_kits/website | 2026-09-13 | implemented | WEBSITE-agustos@1a2b3c4 |",
+            "| website | ui_kits/website | 2026-09-13 | new | pending | — |",
+            "| website | ui_kits/website | 2026-09-13 | home | implemented | WEBSITE-agustos@1a2b3c4 |",
         )
         readme.write_text(text, encoding="utf-8")
         self.run_pull(today="2026-10-01")
         text = readme.read_text(encoding="utf-8")
-        self.assertIn("| ui_kits/website | 2026-10-01 | implemented | WEBSITE-agustos@1a2b3c4 |", text)
-        self.assertEqual(text.count("| ui_kits/website |"), 1)
+        self.assertIn("| website | ui_kits/website | 2026-10-01 | home | implemented | WEBSITE-agustos@1a2b3c4 |", text)
+        self.assertEqual(text.count("| website | ui_kits/website |"), 1)
 
     def test_second_pull_removes_files_deleted_remotely(self):
         self.run_pull()
@@ -265,11 +300,16 @@ class PullTest(unittest.TestCase):
         self.assertFalse((page_dir / "app.jsx").exists())
         self.assertTrue((page_dir / "index.png").is_file())
 
-    def test_pull_refuses_a_page_outside_ui_kits(self):
+    def test_pull_accepts_any_project_path_but_refuses_escapes(self):
+        self.run_pull(page="ui_kits/iesdesk")
+        self.assertTrue((self.dest / "ui_kits" / "iesdesk" / "index.html").is_file())
+        for bad in ("../etc", "/etc/passwd", "ui_kits/../../x", ".git/config", ""):
+            with self.assertRaises(ValueError, msg=bad):
+                self.run_pull(page=bad)
+
+    def test_pull_refuses_a_path_with_a_pipe(self):
         with self.assertRaises(ValueError):
-            self.run_pull(page="components/actions")
-        with self.assertRaises(ValueError):
-            self.run_pull(page="../etc")
+            self.run_pull(page="uploads/Colour | direction/Products.dc.html")
 
     def test_pull_from_zip_matches_pull_from_directory(self):
         archive = self.temp / "export.zip"
@@ -312,11 +352,47 @@ class PullTest(unittest.TestCase):
         self.run_pull(page="ui_kits/website")
         self.run_pull(page="ui_kits/pataraz", today="2026-09-14")
         text = (self.dest / "README.md").read_text(encoding="utf-8")
-        rows = [line for line in text.splitlines() if line.startswith("| ui_kits/")]
+        rows = [line for line in text.splitlines() if line.startswith("| ") and "ui_kits/" in line]
         self.assertEqual(rows, [
-            "| ui_kits/pataraz | 2026-09-14 | pending | — |",
-            "| ui_kits/website | 2026-09-13 | pending | — |",
+            "| pataraz | ui_kits/pataraz | 2026-09-14 | new | pending | — |",
+            "| website | ui_kits/website | 2026-09-13 | new | pending | — |",
         ])
+
+    def test_pull_of_a_canvas_file_lands_under_canvas_without_a_runtime(self):
+        folder = self.remote / "uploads" / "Color palette and design direction (1)"
+        folder.mkdir(parents=True)
+        (folder / "Product page.dc.html").write_text("<div>canvas</div>\n", encoding="utf-8")
+        written = self.run_pull(page="uploads/Color palette and design direction (1)/Product page.dc.html")
+        target = self.dest / "canvas" / "product-page.dc.html"
+        self.assertTrue(target.is_file())
+        self.assertIn(target, written)
+        self.assertFalse((self.dest / "styles.css").exists())
+        text = (self.dest / "README.md").read_text(encoding="utf-8")
+        self.assertIn("| product-page | uploads/Color palette and design direction (1)/Product page.dc.html | 2026-09-13 | new | pending | — |", text)
+
+    def test_pull_records_the_target_screen_and_keeps_it_on_the_next_pull(self):
+        self.sync.pull(self.remote, "ui_kits/website", self.dest, today="2026-09-13", commit="abc1234", target="home")
+        text = (self.dest / "README.md").read_text(encoding="utf-8")
+        self.assertIn("| website | ui_kits/website | 2026-09-13 | home | pending | — |", text)
+        self.run_pull(today="2026-10-01")
+        text = (self.dest / "README.md").read_text(encoding="utf-8")
+        self.assertIn("| website | ui_kits/website | 2026-10-01 | home | pending | — |", text)
+
+    def test_legacy_four_column_rows_migrate(self):
+        self.dest.mkdir(parents=True)
+        (self.dest / "README.md").write_text(
+            "# Claude Design references\n\n## Status\n\n| Remote path | Pulled | Status | Built in |\n|---|---|---|---|\n"
+            "| ui_kits/website | 2026-09-13 | implemented | WEBSITE-agustos@1a2b3c4 |\n",
+            encoding="utf-8",
+        )
+        self.run_pull(today="2026-10-01")
+        text = (self.dest / "README.md").read_text(encoding="utf-8")
+        self.assertIn("| website | ui_kits/website | 2026-10-01 | new | implemented | WEBSITE-agustos@1a2b3c4 |", text)
+
+    def test_reference_slug(self):
+        self.assertEqual(self.sync.reference_slug("ui_kits/website"), "website")
+        self.assertEqual(self.sync.reference_slug("uploads/Color palette (1)/Product Finder.dc.html"), "product-finder")
+        self.assertEqual(self.sync.reference_slug("ui_kits/iesdesk/"), "iesdesk")
 
 
 class DocsTest(unittest.TestCase):
@@ -327,16 +403,22 @@ class DocsTest(unittest.TestCase):
         self.assertNotIn('href="../ui/agustos.css"', text)
         self.assertIn("/design-push", text)
         self.assertIn("/design-pull", text)
-        self.assertIn("mockups/claude-design/", text)
+        self.assertIn("screens/design/", text)
+        self.assertNotIn("mockups/", text)
+        self.assertIn("Kit · Screens", text)
 
     def test_agents_table_points_at_the_skills(self):
         text = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
         self.assertIn("`/design-push`", text)
-        self.assertIn("`/design-pull ui_kits/website`", text)
+        self.assertIn("`/design-pull", text)
+        self.assertIn("--target", text)
+        self.assertNotIn("mockups/", text)
 
     def test_handoff_points_zip_arrivals_at_design_pull(self):
         text = (ROOT / "HANDOFF.md").read_text(encoding="utf-8")
         self.assertIn("/design-pull", text)
+        self.assertIn("screens/design/", text)
+        self.assertNotIn("mockups/", text)
 
 
 if __name__ == "__main__":

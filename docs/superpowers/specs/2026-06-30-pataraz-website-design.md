@@ -2,6 +2,7 @@
 
 **Date:** 2026-06-30
 **Status:** approved design, pending implementation plan
+**Update 2026-09-15:** every Tailwind reference in this spec is superseded. pataraz.com uses plain CSS from the vendored kit with no CSS build step. See `archive/MEMORY.md`, "Vanilla CSS, no Tailwind".
 **Brand spec:** [PATARAZ.md](../../../PATARAZ.md) (positioning, identity, website direction §3, datasheet conventions §4)
 
 ## 1. Goal

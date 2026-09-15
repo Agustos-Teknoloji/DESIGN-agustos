@@ -75,7 +75,7 @@ const { className, languageSwitch, theme = false } = Astro.props;
   .site-header__lang-link:hover { color: var(--ink); border-bottom: 2px solid var(--signal); }
   .site-header__lang-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 
-  @media (max-width: 1023px), (max-width: 1366px) and (hover: none) and (pointer: coarse) {
+  @media (max-width: 1023px) {
     .site-header__utility--bar { display: flex; justify-self: end; }
     .site-header__utility--drawer { display: none; }
   }

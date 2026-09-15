@@ -18,10 +18,12 @@ points back to the master documents for everything else:
 > genuinely Pataraz-only. If you find a shared rule copied here, delete the copy and link
 > `DESIGN.md` instead.
 
-> **Build target for pataraz.com:** a **Rails 8 + Hotwire (Turbo/Stimulus) + Tailwind** monolith,
-> Turkish-only, SQLite. You don't need the backend to design the UI — design in HTML/CSS
-> (Tailwind), and the markup ports into ERB views directly. Keep it server-rendered and
-> progressively enhanced.
+> **Build target for pataraz.com:** a **Rails 8 + Hotwire (Turbo/Stimulus)** monolith,
+> Turkish-only, SQLite, no CSS build step. Vendor the kit from `ui/` and write plain CSS on
+> top of it. Do not add Tailwind or another utility framework (decided 2026-09-15; see
+> `archive/MEMORY.md`, "Vanilla CSS, no Tailwind"). You do not need the backend to design the
+> UI. Design in HTML with the kit's CSS; the markup ports into ERB views directly. Keep it
+> server-rendered and progressively enhanced.
 
 ---
 
@@ -136,10 +138,11 @@ a specifier find a product, trust the company, read exact specs, and download th
 ("teknik föy"). The datasheet is the hero asset; the site is its catalog — not e-commerce. Built
 entirely inside the shared system (white substrate, off-black identity ink, rationed red rules).
 
-> A built reference page exists: [`mockups/pataraz-px22.html`](mockups/pataraz-px22.html). Open
-> it and match its visual language — it is the canonical look for the whole site. When designing,
-> start with the **product spec page** against real PX22 data (§5 below); it exercises the spec
-> table, the gallery, and the download, and proves the look before the catalog or home page.
+> A built reference page exists: [`screens/spec-sheet.html`](screens/spec-sheet.html), the web
+> rendering of the datasheet. Open it and match its visual language; it is the canonical look for
+> the whole site. When designing, start with the **product spec page** against real PX22 data
+> (§5 below); it exercises the spec table, the gallery, and the download, and proves the look
+> before the catalog or home page.
 
 ### Information architecture
 
@@ -215,11 +218,11 @@ Component inventory:
 | `DocumentList` | The "Belgeler" list — several typed downloads (PDF / IES / manual / CE), each a tag + name + download. |
 | `ProductCard` | Catalog + series listing tile: image, name, code (mono), key specs. |
 | `FilterSidebar` | Catalog filters → Turbo Frame, URL-reflected. |
-| `Header` / `Footer` / `BrandLockup` | From the design system; neutral Pataraz identity with shared red interactions. |
+| `Header` / `Footer` / `BrandLockup` | Topbar chrome from the kit: `site-header`, `site-footer`, `site-lockup`. Neutral Pataraz identity with shared red interactions. |
 
-> Implementation note: the Astro adapter (`adapters/astro/`) already carries the brand tokens,
-> the `BrandLockup` component, and the favicon mirror — start the site from there rather than
-> re-wiring the system.
+> Implementation note: the reference pages for pataraz.com are `screens/products.html`,
+> `screens/product-finder.html`, `screens/product.html`, and `screens/spec-sheet.html`, on the
+> topbar chrome from the kit. Vendor `ui/` and copy their markup; do not import the Astro adapter.
 
 ---
 

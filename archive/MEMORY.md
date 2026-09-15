@@ -1158,3 +1158,56 @@ wordmark, logo, or the document/presentation recipe) trustworthy instead of nois
 **Rejected:** dropping the CI check entirely. It still catches real drift — a changed identity
 color or recipe with a stale committed `.docx`/`.pptx` — it just no longer fires on unrelated
 website work.
+
+
+## Vanilla CSS, no Tailwind (2026-09-15)
+
+**On the table:** `PATARAZ.md` named Rails 8 + Tailwind as the pataraz.com build target, and the
+2026-06-30 website spec mapped Tailwind's theme onto the kit variables. At the same time,
+`ui/UI-KIT.md` told consumers never to combine the kit with Tailwind preflight. An agent that
+built pataraz.com would hit that contradiction on day one. Three options were weighed: the
+repository ships and mandates Tailwind (A); the repository stays CSS and each project may add
+Tailwind with preflight off (B); the repository stays CSS and no site uses Tailwind (C).
+
+**Chosen:** C. The design system is plain CSS, in this repository and in every consuming site.
+The kit already styles bare HTML elements and ships a named class vocabulary that
+`check-agustos-ui.py` verifies. Rails 8 defaults to no build step; Astro ships plain CSS;
+WordPress reads the generated `theme.json`. The one gap that tempts a project toward Tailwind
+is layout helpers. The kit will gain a thin layout layer (stack, cluster, grid, band) instead.
+
+**Why it matters:** one stylesheet to maintain, no CSS toolchain per site, and one vocabulary
+the checker can fully verify. Tailwind starts by resetting the page to nothing; the kit starts
+from an on-brand page. A second vocabulary would give agents an unchecked way to break the
+radius, shadow, and colour rules in one line.
+
+**Rejected:** A, because it couples every site to one Tailwind version and adds a Node
+toolchain to the brand repository. B, because it leaves each project with two ways to style,
+and the checker can read only one of them.
+
+
+## Two chromes, chosen per brand (2026-09-15)
+
+**On the table:** the v3.0 entry above records that agustos.com shipped a one-row topbar in July
+2026 and that the sidebar was retired. A `/dhh` review of the repository on 2026-09-15 built on
+that record and proposed the topbar for every marketing site. The product owner then said the
+live agustos.com sidebar should stay. A probe of the live site the same day showed a fixed
+240px `aside.side-menu` on every page, a sticky mobile header with a drawer, and no footer
+element: the topbar never reached production, or was rolled back. Meanwhile the Pataraz pages
+drawn in Claude Design, and the four mockups built from them, used a topbar, and PATARAZ.md
+puts a filter sidebar on the catalog.
+
+**Chosen:** the kit ships both chromes, and each brand registers one in `brand/brands.json`:
+agustos, iesdesk, and specquick use the sidebar; pataraz and pld use the topbar with the footer.
+One sidebar component serves marketing and the product-UI app shell; dark is a theme switch on
+it. No chrome rule lives outside `tokens/web.css.tmpl`.
+
+**Why it matters:** the flagship's chrome had lived outside the system, and the adapters each
+carried their own copy under their own names. Registering chrome per brand makes agustos.com
+configuration, not an exception, and gives every consumer one place to take the header from.
+
+**Rejected:** treating agustos.com as a local exception outside the kit (its chrome stays
+unchecked and unshared); retiring the topbar (the catalog would stack a nav sidebar beside its
+filter sidebar, and the Design pages would need redrawing).
+
+**Lesson recorded:** `tasks/lessons.md` lesson 3. Before calling a chrome or layout rule
+"already decided", open the live site and probe it.
