@@ -47,9 +47,21 @@ CSS_OUTPUTS = {
 PLACEHOLDER = re.compile(r"\{\{\s*([a-zA-Z0-9_.-]+)\s*\}\}")
 ALIAS = re.compile(r"^\{([a-zA-Z0-9_.-]+)\}$")
 
+CHROMES = ("sidebar", "topbar")
+
 
 class TokenError(ValueError):
     pass
+
+
+def validate_brands(brands: dict[str, Any]) -> None:
+    """Every brand registers one chrome. The kit ships both; a page uses its brand's."""
+    for slug, brand in brands["brands"].items():
+        chrome = brand.get("chrome")
+        if chrome not in CHROMES:
+            raise TokenError(
+                f"brand {slug!r} must register chrome as one of {', '.join(CHROMES)}, got {chrome!r}"
+            )
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -549,6 +561,15 @@ def ui_kit_json(
         ),
         "signal": brands["signal"],
         "brandClasses": [f"brand-{slug}" for slug in brands["brands"]],
+        "brands": {
+            slug: {
+                "wordmark": brand["wordmark"],
+                "color": brand["color"],
+                "domain": brand["domain"],
+                "chrome": brand["chrome"],
+            }
+            for slug, brand in brands["brands"].items()
+        },
         "substrates": ["paper", "paper-white", "cream"],
         "darkTheme": 'html[data-theme="dark"]',
         "cssClasses": tokens["compatibility"]["cssClasses"],
@@ -564,6 +585,7 @@ def ui_kit_json(
 def expected_outputs() -> dict[Path, str]:
     tokens = load_json(TOKEN_SOURCE)
     brands = load_json(BRAND_SOURCE)
+    validate_brands(brands)
     outputs: dict[Path, str] = {}
     for path, label in CSS_OUTPUTS.items():
         outputs[path] = render_web_css(tokens, brands, label)

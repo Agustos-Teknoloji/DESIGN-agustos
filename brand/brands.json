@@ -26,6 +26,7 @@
             "color": "#cf142a",
             "title": "Ağustos Teknoloji",
             "domain": "agustos.com",
+            "chrome": "sidebar",
             "office": true,
             "tagline_en": "curated solutions",
       "tagline_tr": "seçkin çözümler"
@@ -35,6 +36,7 @@
             "color": "#15130f",
             "title": "Pataraz",
             "domain": "pataraz.com",
+            "chrome": "topbar",
             "office": true,
       "tagline_en": "",
       "tagline_tr": ""
@@ -44,6 +46,7 @@
             "color": "#15130f",
             "title": "PLD Türkiye",
             "domain": "pldturkiye.com",
+            "chrome": "topbar",
             "office": true,
       "tagline_en": "",
       "tagline_tr": ""
@@ -53,6 +56,7 @@
             "color": "#15130f",
             "title": "IESDesk",
             "domain": "iesdesk.com",
+            "chrome": "sidebar",
             "office": false,
       "tagline_en": "",
       "tagline_tr": ""
@@ -62,6 +66,7 @@
             "color": "#15130f",
             "title": "SpecQuick",
             "domain": "specquick.com",
+            "chrome": "sidebar",
             "office": false,
       "tagline_en": "",
       "tagline_tr": ""

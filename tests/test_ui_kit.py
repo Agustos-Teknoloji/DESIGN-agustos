@@ -319,6 +319,15 @@ class DistributionKitTest(unittest.TestCase):
                 self.assertEqual(len(payload), meta["bytes"])
                 self.assertEqual(hashlib.sha256(payload).hexdigest(), meta["sha256"])
 
+    def test_kit_json_registers_each_brand_and_its_chrome(self):
+        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+        self.assertEqual(
+            {slug: entry["chrome"] for slug, entry in kit["brands"].items()},
+            {"agustos": "sidebar", "pataraz": "topbar", "pld": "topbar", "iesdesk": "sidebar", "specquick": "sidebar"},
+        )
+        self.assertEqual(kit["brands"]["agustos"]["wordmark"], "ağustos")
+        self.assertEqual(kit["brands"]["pataraz"]["color"], "#15130f")
+
     def test_kit_json_head_snippet_loads_fonts_before_the_system(self):
         kit = json.loads((self.KIT / "kit.json").read_text(encoding="utf-8"))
         snippet = kit["headSnippet"]

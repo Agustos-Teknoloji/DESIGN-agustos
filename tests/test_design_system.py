@@ -41,6 +41,21 @@ class DesignSystemGenerationTest(unittest.TestCase):
         with self.assertRaisesRegex(self.builder.TokenError, "unknown token path"):
             self.builder.resolve_token(self.tokens, "foundations.color.missing")
 
+    def test_every_brand_registers_a_known_chrome(self):
+        brands = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))
+        self.builder.validate_brands(brands)
+        self.assertEqual(
+            {slug: brand["chrome"] for slug, brand in brands["brands"].items()},
+            {"agustos": "sidebar", "pataraz": "topbar", "pld": "topbar", "iesdesk": "sidebar", "specquick": "sidebar"},
+        )
+        bad = copy.deepcopy(brands)
+        bad["brands"]["pld"]["chrome"] = "drawer"
+        with self.assertRaises(self.builder.TokenError):
+            self.builder.validate_brands(bad)
+        del bad["brands"]["pld"]["chrome"]
+        with self.assertRaises(self.builder.TokenError):
+            self.builder.validate_brands(bad)
+
     def test_design_direction_reaches_every_consumer_contract(self):
         tokens = copy.deepcopy(self.tokens)
         tokens["designDirection"]["principles"].append("A new rule must reach every consumer.")

@@ -201,6 +201,7 @@
   "system": {
     "brands": {
       "agustos": {
+        "chrome": "sidebar",
         "color": "#cf142a",
         "domain": "agustos.com",
         "office": true,
@@ -210,6 +211,7 @@
         "wordmark": "ağustos"
       },
       "iesdesk": {
+        "chrome": "sidebar",
         "color": "#15130f",
         "domain": "iesdesk.com",
         "office": false,
@@ -219,6 +221,7 @@
         "wordmark": "iesdesk"
       },
       "pataraz": {
+        "chrome": "topbar",
         "color": "#15130f",
         "domain": "pataraz.com",
         "office": true,
@@ -228,6 +231,7 @@
         "wordmark": "pataraz"
       },
       "pld": {
+        "chrome": "topbar",
         "color": "#15130f",
         "domain": "pldturkiye.com",
         "office": true,
@@ -237,6 +241,7 @@
         "wordmark": "pld türkiye"
       },
       "specquick": {
+        "chrome": "sidebar",
         "color": "#15130f",
         "domain": "specquick.com",
         "office": false,

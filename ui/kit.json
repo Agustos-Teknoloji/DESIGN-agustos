@@ -6,6 +6,38 @@
     "brand-iesdesk",
     "brand-specquick"
   ],
+  "brands": {
+    "agustos": {
+      "chrome": "sidebar",
+      "color": "#cf142a",
+      "domain": "agustos.com",
+      "wordmark": "ağustos"
+    },
+    "iesdesk": {
+      "chrome": "sidebar",
+      "color": "#15130f",
+      "domain": "iesdesk.com",
+      "wordmark": "iesdesk"
+    },
+    "pataraz": {
+      "chrome": "topbar",
+      "color": "#15130f",
+      "domain": "pataraz.com",
+      "wordmark": "pataraz"
+    },
+    "pld": {
+      "chrome": "topbar",
+      "color": "#15130f",
+      "domain": "pldturkiye.com",
+      "wordmark": "pld türkiye"
+    },
+    "specquick": {
+      "chrome": "sidebar",
+      "color": "#15130f",
+      "domain": "specquick.com",
+      "wordmark": "specquick"
+    }
+  },
   "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v5.2.0/ui/",
   "cssClasses": [
     "type-hero",
