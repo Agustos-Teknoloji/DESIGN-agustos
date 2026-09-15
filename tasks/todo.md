@@ -273,5 +273,40 @@ design direction has three hand copies; screen rules are prose the checker canno
 - All three consumers at once, one release: v6.0.0.
 
 **Spec:** `docs/superpowers/specs/2026-09-15-brand-guideline-restructure-design.md` (approved
-section by section on 2026-09-15). **Plan:** pending; written with the writing-plans skill after
-the product owner reviews the spec file. The checklist lands here when the plan exists.
+section by section on 2026-09-15). **Plan:** `docs/superpowers/plans/2026-09-15-brand-guideline-restructure.md`
+(18 tasks, one branch, one PR, tag v6.0.0 last). Execution: one Sonnet subagent per task, reviewed
+between tasks by the main session.
+
+## Checklist
+
+Phase 1 · registry, template, generator
+- [ ] 1. `chrome` per brand in `brand/brands.json`; validated; in `ui/kit.json`
+- [ ] 2. `screens` table in `tokens/design-tokens.json`; validated; derived chrome and theme
+- [ ] 3. both chromes, the lockup, and the breadcrumb in `tokens/web.css.tmpl`
+- [ ] 4. the layout layer (stack, cluster, prose, grid-2/3/4, grid-aside, band, band--cream)
+- [ ] 5. UI-KIT.md: brand chrome table, screens table, one install section; starter renders both chromes
+- [ ] 6. `docs/web.html` generated from the screens table; handoff zip packs `screens/`
+- [ ] 7. the design direction list in DESIGN.md generated between markers
+
+Phase 2 · screens
+- [ ] 8. `screens/` with `tests/test_screens.py`, `screens/README.md`, `home.html`
+- [ ] 9. `static.html`, `content.html`
+- [ ] 10. `products.html`, `product-finder.html`
+- [ ] 11. `product.html`, `spec-sheet.html`
+- [ ] 12. `app-shell.html`; `mockups/*.html` retired
+
+Phase 3 · adapters
+- [ ] 13. Astro on the kit chrome, popover drawer, no scoped chrome styles
+- [ ] 14. Rails on the kit names, no nav controller; chrome-ownership test
+
+Phase 4 · Design loop
+- [ ] 15. screen and chrome cards; pull without the prefix lock; `mockups/claude-design` → `screens/design`
+- [ ] 16. skills and loop docs point at `screens/design` and `--target`
+- [ ] 16b. main session: re-pull the six references through `/design-pull`
+
+Phase 5 · docs and cleanup
+- [ ] 17. DESIGN.md chrome section and layers, AGENTS.md pointer, HANDOFF owns the factory rule, PATARAZ, CHANGELOG, archive entry, root cleanup
+
+Phase 6 · release
+- [ ] 18. VERSION 6.0.0, rebuild, checks, visual pass, tag v6.0.0 (not pushed)
+- [ ] 18b. main session: `/design-push`; open the PR to main
