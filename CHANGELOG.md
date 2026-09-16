@@ -4,6 +4,10 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+### Changed
+
+- Claude Design: the project's own token, component, and specimen-card layers were retired on 2026-09-16. Its root `styles.css` now imports the pushed kit, and its `SKILL.md` points at `agustos-ui/UI-KIT.md` and the screen cards. The project owns drawings only (`ui_kits/`, `uploads/`). A verbatim copy of the retired layer is `artifacts/claude-design-own-stack-2026-09-16.zip`.
+
 ## [6.0.0] - 2026-09-15
 
 ### Added

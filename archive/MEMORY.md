@@ -1211,3 +1211,42 @@ filter sidebar, and the Design pages would need redrawing).
 
 **Lesson recorded:** `tasks/lessons.md` lesson 3. Before calling a chrome or layout rule
 "already decided", open the live site and probe it.
+
+## Design's own stack retired (2026-09-16)
+
+**On the table:** the Claude Design project "Ağustos" carried two layers. The repository pushed
+the generated kit into `agustos-ui/`. Beside it sat a hand-built layer from the v3 chat:
+`tokens/*.css`, six React components under `components/`, seventeen specimen cards under
+`cards/`, a `styles.css` that imported those tokens, and a `SKILL.md` and `readme.md` that
+described that layer as the system. Repointing that layer at the pushed copies was deferred on
+2026-09-13 and again on 2026-09-15 because the files were Design-owned. A `/dhh` review of the
+follow-ups plan on 2026-09-16 called it out: those files restate rules, and under the sync
+policy the repository owns rules. Meanwhile the layer had drifted: arrows on hero links, sidebar
+or topbar as a free choice, a 72ch measure, Google Fonts, "Version 3.0". A Design agent read that
+first, so a page drawn in Design came back off-spec.
+
+**Chosen:** delete `tokens/`, `components/`, and `cards/` in the Design project. Rewrite
+`styles.css` as two `@import` lines that load `agustos-ui/agustos-fonts.css` and
+`agustos-ui/agustos.css`. The Design app applies `styles.css` to every drawing and card
+(`_ds_manifest.json` → `globalCssPaths`), so the file stays and points at the kit. Replace
+`SKILL.md` with a five-line pointer at `agustos-ui/UI-KIT.md` and the screen cards, and
+`readme.md` with a short pointer. Forty-three files deleted, three written, under one
+`finalize_plan` that Emre approved. A verbatim copy of the retired layer is
+`artifacts/claude-design-own-stack-2026-09-16.zip`.
+
+**Why it matters:** the loop the repository was built for only closes if the Design side reads
+the same rules. With one stack, a designer sees one card set (`Kit ·`) and one contract
+(`agustos-ui/UI-KIT.md`), and a page drawn in Design starts from a screen card that the
+repository generated.
+
+**Accepted consequence:** `ui_kits/website` and `ui_kits/iesdesk` no longer render in Design.
+They were drawn on the retired stack. Both are pulled with screenshots under `screens/design/`
+and stay `pending` references for the home and app-shell screens.
+
+**Rejected:** a pointer-only `SKILL.md` with the old layer left in place (a designer still sees
+"Type" beside "Kit · Type" and can still reach for the wrong tokens); deleting `styles.css`
+(new drawings would lose their global CSS).
+
+**Boundary after this:** the Design project owns `ui_kits/` and `uploads/`. Everything else that
+states a rule is either under `agustos-ui/` and pushed, or gone. `/design-push` still writes
+`agustos-ui/` only; this retirement was a one-time manual change recorded here.

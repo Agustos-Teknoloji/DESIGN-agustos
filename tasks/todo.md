@@ -363,18 +363,19 @@ in the same change. One branch (`claude/brand-guideline-design-system-d35d8f`), 
 ## Checklist
 
 Move 1 · the Design side reads the kit (blocked on D1)
-- [ ] 1. Draft the five-line `SKILL.md` body (frontmatter kept) and show it to Emre with the
-      exact delete list.
-- [ ] 2. On yes, in the main session: back up the retired layer into
+- [x] 1. Draft the five-line `SKILL.md` body (frontmatter kept) and show it to Emre with the
+      exact delete list. (Approved in chat, 2026-09-16.)
+- [x] 2. On yes, in the main session: back up the retired layer into
       `artifacts/claude-design-own-stack-2026-09-16.zip`, then `finalize_plan` with writes
       `SKILL.md`, `readme.md`, `styles.css` and deletes `tokens/**`, `components/**`,
       `cards/**` (43 paths). Do not touch `_ds_*`, `uploads/`, `ui_kits/`, `assets/`, or
       `agustos-ui/`.
-- [ ] 3. Verify in Design: the Design System pane shows only `Kit ·` groups; a fresh Design chat
-      names `agustos-ui/UI-KIT.md` as its contract.
-- [ ] 4. Record it: `archive/MEMORY.md` entry "Design's own stack retired (2026-09-16)";
-      `docs/claude-design-sync.html` and the sync spec's "Unchanged" note updated; the
-      `claude-design-project` memory note updated.
+- [x] 3. Verify in Design: `list_files` shows no `tokens/`, `components/`, or `cards/`; the new
+      `SKILL.md` reads back. Emre to confirm in the Design UI that the pane shows only `Kit ·`
+      groups and that a fresh Design chat names `agustos-ui/UI-KIT.md`.
+- [x] 4. Record it: `archive/MEMORY.md` entry "Design's own stack retired (2026-09-16)";
+      `docs/claude-design-sync.html` and both sync specs' deferred notes updated; CHANGELOG
+      Unreleased; the `claude-design-project` and `design-sync-workflow` memory notes updated.
 
 Move 2 · the checker enforces the screen rules
 - [ ] 5. `ui/check-agustos-ui.py.tmpl`: read `data-screen` on `<body>`; look up
