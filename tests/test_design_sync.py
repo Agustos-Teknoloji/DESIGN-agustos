@@ -370,6 +370,19 @@ class PullTest(unittest.TestCase):
         text = (self.dest / "README.md").read_text(encoding="utf-8")
         self.assertIn("| product-page | uploads/Color palette and design direction (1)/Product page.dc.html | 2026-09-13 | new | pending | — |", text)
 
+    def test_pull_finds_a_canvas_when_the_source_holds_only_its_uploads_folder(self):
+        """A canvas pulled on its own arrives as <source>/uploads/<chat>/<page>.dc.html and
+        nothing else. The single-folder unwrap must not descend into uploads/ and lose the page."""
+        with tempfile.TemporaryDirectory() as tmp:
+            source = Path(tmp)
+            page = "uploads/Chat (1)/Homepage.dc.html"
+            (source / "uploads" / "Chat (1)").mkdir(parents=True)
+            (source / page).write_text("<x-dc>home</x-dc>", encoding="utf-8")
+            written = self.sync.pull(source, page, self.dest, today="2026-09-16", commit="abc1234", target="home")
+        self.assertEqual([p.name for p in written], ["homepage.dc.html", "README.md"])
+        self.assertEqual((self.dest / "canvas" / "homepage.dc.html").read_text(encoding="utf-8"), "<x-dc>home</x-dc>")
+        self.assertIn("| homepage | uploads/Chat (1)/Homepage.dc.html | 2026-09-16 | home | pending | — |", (self.dest / "README.md").read_text(encoding="utf-8"))
+
     def test_pull_records_the_target_screen_and_keeps_it_on_the_next_pull(self):
         self.sync.pull(self.remote, "ui_kits/website", self.dest, today="2026-09-13", commit="abc1234", target="home")
         text = (self.dest / "README.md").read_text(encoding="utf-8")

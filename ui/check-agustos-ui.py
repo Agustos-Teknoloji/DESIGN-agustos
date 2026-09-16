@@ -166,7 +166,7 @@ KIT_CLASSES = {
 # screen name -> the rules a page under that screen must meet. Injected from the
 # screens table for the same reason as TOKEN_COLORS. A page names its screen with
 # data-screen on <body>; theme "dark-allowed" marks product UI.
-SCREENS = {'app-shell': {'primaryCtaMax': 1, 'quotes': False, 'theme': 'dark-allowed'}, 'content': {'primaryCtaMax': 1, 'quotes': True, 'theme': 'light'}, 'home': {'primaryCtaMax': 2, 'quotes': False, 'theme': 'light'}, 'product': {'primaryCtaMax': 2, 'quotes': False, 'theme': 'light'}, 'product-finder': {'primaryCtaMax': 1, 'quotes': False, 'theme': 'light'}, 'products': {'primaryCtaMax': 1, 'quotes': False, 'theme': 'light'}, 'spec-sheet': {'primaryCtaMax': 0, 'quotes': False, 'theme': 'light'}, 'static': {'primaryCtaMax': 1, 'quotes': True, 'theme': 'light'}}
+SCREENS = {'app-shell': {'primaryCtaMax': 1, 'quotes': False, 'theme': 'dark-allowed'}, 'content': {'primaryCtaMax': 1, 'quotes': True, 'theme': 'light'}, 'content-index': {'primaryCtaMax': 1, 'quotes': False, 'theme': 'light'}, 'home': {'primaryCtaMax': 2, 'quotes': False, 'theme': 'light'}, 'product': {'primaryCtaMax': 2, 'quotes': False, 'theme': 'light'}, 'product-finder': {'primaryCtaMax': 1, 'quotes': False, 'theme': 'light'}, 'products': {'primaryCtaMax': 1, 'quotes': False, 'theme': 'light'}, 'spec-sheet': {'primaryCtaMax': 0, 'quotes': False, 'theme': 'light'}, 'static': {'primaryCtaMax': 1, 'quotes': True, 'theme': 'light'}}
 
 # #15130f and #ffffff are legitimate as identity ink and as paper. Reported at
 # warning level rather than error: too common to fail a build over.

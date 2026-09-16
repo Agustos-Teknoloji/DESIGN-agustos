@@ -330,7 +330,7 @@ class DistributionKitTest(unittest.TestCase):
 
     def test_kit_json_publishes_the_screens_table(self):
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
-        self.assertEqual(len(kit["screens"]), 8)
+        self.assertEqual(len(kit["screens"]), 9)
         product = kit["screens"]["product"]
         self.assertEqual(product["file"], "product.html")
         self.assertEqual(product["family"], "catalog")
@@ -402,7 +402,7 @@ class CheckerTest(unittest.TestCase):
 
     def test_checker_passes_on_the_reference_screens(self):
         """If our own reference pages fail our own checker, everything
-        downstream is noise. The eight screens are what a consuming site looks
+        downstream is noise. The screens are what a consuming site looks
         like; starter.html is a specimen sheet and is skipped by name."""
         import tempfile, shutil
         with tempfile.TemporaryDirectory() as tmp:

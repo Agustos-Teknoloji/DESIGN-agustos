@@ -214,8 +214,8 @@
       "sha256": "a44124178ee072db680ba4bdcc264ed3517bcc3e3f6fa52a44a70e35507ee7b3"
     },
     "UI-KIT.md": {
-      "bytes": 13315,
-      "sha256": "8907923e9f7384cd078f8d3737c5a745fd62f4a332dbc74af557707cf8a665ef"
+      "bytes": 13410,
+      "sha256": "14bd803f6c3d5ceac3651cc7ffb0d74af3e85e7777fc82456843d4a04cd6100a"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
@@ -226,8 +226,8 @@
       "sha256": "798564c45acef9c64930b82959c8f3897428cfb6088e199d47bd1047a2c6dba3"
     },
     "check-agustos-ui.py": {
-      "bytes": 19743,
-      "sha256": "12557832150c6d5bd838e4694c2617766169d6729d957b10e77d118470bae0ba"
+      "bytes": 19817,
+      "sha256": "ead915ce4011797ec2186c0c390515a2b4353c6c174593ad1e02c3908d59e4d1"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -279,6 +279,17 @@
       "primaryCtaMax": 1,
       "purpose": "One article or post: title, deck, long-form body at 65ch with headings, lists, a quote, and a footnote.",
       "quotes": true,
+      "theme": "light"
+    },
+    "content-index": {
+      "brand": "agustos",
+      "chrome": "sidebar",
+      "family": "content",
+      "file": "content-index.html",
+      "photo": "none; titles stay type-only",
+      "primaryCtaMax": 1,
+      "purpose": "The list of posts: one section per year, body-size title links with a footnote line each, newest first. No heading per title.",
+      "quotes": false,
       "theme": "light"
     },
     "home": {

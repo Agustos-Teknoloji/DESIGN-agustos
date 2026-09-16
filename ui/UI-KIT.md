@@ -116,6 +116,7 @@ One reference page per screen type lives in the source repository under `screens
 | `home` | marketing | sidebar | light | at most 2 | no | one installation photograph, third in the rollout |
 | `static` | content | sidebar | light | at most 1 | yes | people and places that explain the work |
 | `content` | content | sidebar | light | at most 1 | yes | only when it explains the content |
+| `content-index` | content | sidebar | light | at most 1 | no | none; titles stay type-only |
 | `products` | catalog | topbar | light | at most 1 | no | product thumbnails, second in the rollout |
 | `product-finder` | catalog | topbar | light | at most 1 | no | product thumbnails, second in the rollout |
 | `product` | catalog | topbar | light | at most 2 | no | product photograph or drawing, first in the rollout |

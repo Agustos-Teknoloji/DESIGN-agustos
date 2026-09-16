@@ -62,7 +62,7 @@ class DesignSystemGenerationTest(unittest.TestCase):
         rows = {row["name"]: row for row in self.builder.screen_rows(self.tokens, brands)}
         self.assertEqual(
             list(rows),
-            ["home", "static", "content", "products", "product-finder", "product", "spec-sheet", "app-shell"],
+            ["home", "static", "content", "content-index", "products", "product-finder", "product", "spec-sheet", "app-shell"],
         )
         self.assertEqual(rows["home"]["chrome"], "sidebar")
         self.assertEqual(rows["product"]["chrome"], "topbar")
@@ -220,7 +220,7 @@ class DesignSystemGenerationTest(unittest.TestCase):
         outputs = self.builder.expected_outputs()
         text = outputs[ROOT / "docs" / "web.html"]
         self.assertIn('<!-- GENERATED. Do not hand-edit.', text)
-        for name in ("home", "static", "content", "products", "product-finder", "product", "spec-sheet", "app-shell"):
+        for name in ("home", "static", "content", "content-index", "products", "product-finder", "product", "spec-sheet", "app-shell"):
             self.assertIn(f'id="screen-{name}"', text)
             self.assertIn(f'src="../screens/{name}.html"', text)
         self.assertIn("agustos sidebar, pataraz topbar, pld topbar, iesdesk sidebar, specquick sidebar", text)

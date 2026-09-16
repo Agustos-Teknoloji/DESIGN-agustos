@@ -394,19 +394,28 @@ Move 2 · the checker enforces the screen rules
       README text, both preview fixtures, and contract-test assertions.
 
 Move 3 · the home reference, the ninth screen, dark in view
-- [ ] 8. Main session: `/design-pull "uploads/Color palette and design direction (1)/Homepage.dc.html" --target home`.
-- [ ] 9. Add the `content-index` row to the `screens` table: family `content`, brand `agustos`,
+- [x] 8. Main session: `/design-pull "uploads/Color palette and design direction (1)/Homepage.dc.html" --target home`.
+      Found and fixed a pull bug on the way: a source holding only `uploads/<chat>/<page>.dc.html`
+      was unwrapped into `uploads/` and the page was lost. Test first, one-condition fix.
+- [x] 9. Add the `content-index` row to the `screens` table: family `content`, brand `agustos`,
       purpose "The list of posts: body-size titles with a footnote line each, newest first",
       `primaryCtaMax` 1, `quotes` false, photo "none; titles stay type-only".
-- [ ] 10. Probe the live agustos.com blog index first (lesson 3), then write
+- [x] 10. Probe the live agustos.com blog index first (lesson 3), then write
       `screens/content-index.html` on kit classes. Checker clean; the row-and-file test passes.
-- [ ] 11. Add the flipped six-swatch row to `docs/colour.html` under "Dark, product UI only".
-      The file is hand-written (not in the generated manifest), so edit it directly.
+      Live structure mirrored: breadcrumb, H1, year jump links, one H2 per year with its count,
+      `type-dl` rows of a body-size title link and a footnote meta line. Trimmed to four years.
+- [x] 11. Already satisfied, no edit: `docs/colour.html` has carried a "Dark theme" section with the
+      six flipped swatches (paper, surface, callout, ink, ink soft, red) and a page-level theme
+      toggle since v5. The gap review missed it because it grepped for `data-theme` markup, which
+      the toggle sets at runtime.
 - [ ] 12. Rebuild, `--check`, tests. VERSION 6.1.0, CHANGELOG, tag `v6.1.0`, `/design-push`
       (nine screen cards). Open the PR to `main`.
 
 ## Waits
 
+- `adapters/astro/src/pages/blog/index.astro` still sets every post title as an H2 inside a
+  scoped `<style>`, against the 5.1.0 list-page rule that `screens/content-index.html` now
+  follows. Rebuild it on `type-dl` and `type-footnote` like the screen.
 - Move DESIGN.md history (tuning history, specificity warning, "what was cut") to `archive/`.
 - `contact` screen, when a real contact page diverges from `static`.
 - Anything else in Design outside the four deleted folders.
