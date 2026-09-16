@@ -11,7 +11,7 @@ class AdapterContractTest < Minitest::Test
 
   def test_helper_exposes_v5_chrome_configuration
     helper = read("app/helpers/agustos_theme_helper.rb")
-    %w[home_href nav cta language_switch theme color_scheme shell search footer].each do |key|
+    %w[home_href nav cta language_switch theme color_scheme shell screen search footer].each do |key|
       assert_includes helper, "#{key}:"
     end
     assert_includes helper, "theme: false"
@@ -30,6 +30,7 @@ class AdapterContractTest < Minitest::Test
     refute harness.agustos_theme_toggle?
     refute harness.agustos_dark?
     refute harness.agustos_product_shell?
+    assert_nil harness.agustos_screen, "a marketing page names its own screen; the checker reports one that does not"
     assert_equal "", harness.agustos_body_controller
     assert_equal %w[Home About Writing Typography], harness.agustos_nav_items.map { |item| item[:label] }
     assert_equal "Start a project", harness.agustos_value(harness.agustos_header_cta, :label)
@@ -51,6 +52,10 @@ class AdapterContractTest < Minitest::Test
     assert_equal :iesdesk, harness.agustos_theme_config[:brand]
     assert_includes harness.agustos_body_class, "pq"
     assert_equal "agustos-theme", harness.agustos_body_controller
+    assert_equal "app-shell", harness.agustos_screen
+
+    harness.agustos_theme(screen: :static)
+    assert_equal "static", harness.agustos_screen
 
     options = harness.agustos_link_html_options({ external: true, aria_label: "Source" }, class_name: "link")
     assert_equal "_blank", options[:target]
@@ -64,6 +69,7 @@ class AdapterContractTest < Minitest::Test
     assert_includes layout, 'render "agustos/shared/footer"'
     assert_includes layout, "agustos_theme_toggle?"
     assert_includes layout, "agustos_product_shell?"
+    assert_includes layout, 'data-screen="<%= agustos_screen %>"'
     refute_includes layout, "sidebar"
     refute_includes read("app/assets/stylesheets/agustos/components.css"), "margin-left: 280px"
   end

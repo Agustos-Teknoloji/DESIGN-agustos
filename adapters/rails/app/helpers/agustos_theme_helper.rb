@@ -54,6 +54,7 @@ module AgustosThemeHelper
     theme: false,
     color_scheme: :light,
     shell: :marketing,
+    screen: nil,
     search: nil,
     footer: nil
   )
@@ -69,6 +70,7 @@ module AgustosThemeHelper
       theme: theme,
       color_scheme: color_scheme&.to_sym,
       shell: shell&.to_sym,
+      screen: screen&.to_s&.tr("_", "-"),
       search: search,
       footer: footer
     }.compact
@@ -90,6 +92,7 @@ module AgustosThemeHelper
       theme: false,
       color_scheme: :light,
       shell: :marketing,
+      screen: nil,
       search: nil,
       footer: {
         description: "Ağustos Design System · multi-brand typography and chrome",
@@ -105,6 +108,15 @@ module AgustosThemeHelper
     classes << "paper-white" if config[:substrate] == :white
     classes << (agustos_product_shell? ? "pq" : "agustos-layout")
     classes.join(" ")
+  end
+
+  # The kit screen this page is, rendered as data-screen on <body>. The kit
+  # checker holds the page to that screen's row (primary CTA limit, quotes,
+  # theme). Product UI defaults to the app shell; a marketing page names its own
+  # (home, static, content, content-index, products, product-finder, product,
+  # spec-sheet) or the checker reports the page.
+  def agustos_screen
+    agustos_theme_config[:screen] || (agustos_product_shell? ? "app-shell" : nil)
   end
 
   def agustos_wordmark

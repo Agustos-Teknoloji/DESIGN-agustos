@@ -22,6 +22,21 @@ test('layout indexes only main content with language and kind filters', async ()
   assert.doesNotMatch(layout, /Sidebar|MobileHeader|layout-with-sidebar/);
 });
 
+test('every page names its screen on <body>', async () => {
+  const layout = await read('src/layouts/BaseLayout.astro');
+  assert.match(layout, /screen\?: string/);
+  assert.match(layout, /<body class=\{bodyClass\} data-screen=\{screen\}>/);
+  for (const [page, screen] of [
+    ['src/pages/index.astro', 'home'],
+    ['src/pages/about.astro', 'static'],
+    ['src/pages/blog/index.astro', 'content-index'],
+    ['src/pages/blog/[...slug].astro', 'content'],
+    ['src/pages/typography.astro', 'content'],
+  ]) {
+    assert.match(await read(page), new RegExp(`screen="${screen}"`), page);
+  }
+});
+
 test('header search matches the production interaction contract', async () => {
   const header = await read('src/components/Header.astro');
   const search = await read('src/components/HeaderSearch.astro');

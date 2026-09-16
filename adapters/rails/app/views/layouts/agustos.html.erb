@@ -28,6 +28,7 @@
   </head>
   <body
     class="<%= agustos_body_class %>"
+    <% if agustos_screen %>data-screen="<%= agustos_screen %>"<% end %>
     data-controller="<%= agustos_body_controller %>"
   >
     <% if agustos_product_shell? %>

@@ -53,6 +53,7 @@ before_action do
     brand: :pataraz,
     lang: :en,
     substrate: :white,
+    screen: :products,
     home_href: root_path,
     nav: [
       { label: "Products", href: products_path },
@@ -72,6 +73,13 @@ before_action do
 end
 ```
 
+`screen` names the kit screen this page is (`home`, `static`, `content`,
+`content-index`, `products`, `product-finder`, `product`, `spec-sheet`,
+`app-shell`) and renders as `data-screen` on `<body>`. The kit checker holds the
+page to that screen's row: primary actions inside `<main>` within the limit,
+quotes only where allowed, `data-theme` only on product UI. Product UI defaults
+to `app-shell`; every marketing page must set its own, or the checker reports it.
+
 `cta`, `language_switch`, and `search` may be `nil`. Links accept `aria_label`
 and `external: true`; external links receive `_blank` plus
 `noopener noreferrer`. Active navigation uses exact matching for `/` and prefix
@@ -85,7 +93,8 @@ control in the sidebar:
 agustos_theme(
   brand: :iesdesk,
   shell: :product,
-  theme: true
+  theme: true,
+  screen: :app_shell
 )
 ```
 

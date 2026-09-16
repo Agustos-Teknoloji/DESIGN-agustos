@@ -18,14 +18,14 @@
     "tokens/design-system-handoff.json": "166f0114e81b877d201e4142b242c1c6a62f1b63f6ed6d3ea6b028c2b5ba5810",
     "tokens/resolved.json": "3528045140bb964505b893bf198bdb6b999b70ac64a7bf4d55a922745cf25698",
     "ui/AGENTS-SNIPPET.md": "a44124178ee072db680ba4bdcc264ed3517bcc3e3f6fa52a44a70e35507ee7b3",
-    "ui/UI-KIT.md": "c530827e515c61ca032c55ead144d9d2a13d14dc4c2cfdaf830ef840310f7f3a",
+    "ui/UI-KIT.md": "8907923e9f7384cd078f8d3737c5a745fd62f4a332dbc74af557707cf8a665ef",
     "ui/agustos-fonts.css": "c950d70ec9c7e06fa4c0dbfb0a24388eb34b9d83be6e84b2fed0ee40537b6dbb",
     "ui/agustos.css": "798564c45acef9c64930b82959c8f3897428cfb6088e199d47bd1047a2c6dba3",
-    "ui/check-agustos-ui.py": "16940a9ff9d1d3c1a1f30c4a1c1edf278098121cbfc94040ad042b0350214fd9",
-    "ui/kit.json": "c4761c26937b1352d0ae2e8722dee4b6af47a861b5e37fb34f26d6cb93ceebf2",
+    "ui/check-agustos-ui.py": "12557832150c6d5bd838e4694c2617766169d6729d957b10e77d118470bae0ba",
+    "ui/kit.json": "acd5fcb12b3fb8e1f819447e6e897628dbaa50d2d51a2cb14165ba49d24558ba",
     "ui/starter.html": "c1678b93e44dae93c9da20db315a8d212aea9db37683f2c5e484a1f6fe0d4bc7"
   },
-  "source_sha256": "8833935099fd30441ccb6713dec1d1a999ff00ca5139704a9cb1cd1b7081ef5b",
+  "source_sha256": "4117839f7f5734e840a615f50b04a44ac28dc66ed841e15e7fab46bee760f76c",
   "system": "Ağustos Design System",
   "version": "6.0.0"
 }

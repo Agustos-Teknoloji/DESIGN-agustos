@@ -378,16 +378,20 @@ Move 1 · the Design side reads the kit (blocked on D1)
       Unreleased; the `claude-design-project` and `design-sync-workflow` memory notes updated.
 
 Move 2 · the checker enforces the screen rules
-- [ ] 5. `ui/check-agustos-ui.py.tmpl`: read `data-screen` on `<body>`; look up
+- [x] 5. `ui/check-agustos-ui.py.tmpl`: read `data-screen` on `<body>`; look up
       `kit.json.screens[name]`; count `agustos-button--primary` and `hero-action--primary`
       inside `<main>` against `primaryCtaMax`; report `type-blockquote` or `type-pullquote`
       when `quotes` is false; report `data-theme` on `<html>` when the family is not
       `product-ui`; a missing or unknown `data-screen` is an error.
-- [ ] 6. Delete `test_primary_cta_limit_and_quote_rule` from `tests/test_screens.py`. Add
+- [x] 6. Delete `test_primary_cta_limit_and_quote_rule` from `tests/test_screens.py`. Add
       checker tests with one fixture page per new rule. `test_checker_scores_the_folder_clean`
       stays as the integration test.
-- [ ] 7. Rebuild; `--check`; tests; `python3 ui/check-agustos-ui.py screens --skip design`
+- [x] 7. Rebuild; `--check`; tests; `python3 ui/check-agustos-ui.py screens --skip design`
       exits 0. Add one line to the UI-KIT "Verify" section naming the screen rules.
+- [x] 7b. Added during Move 2: the reference adapters carry `data-screen` too. Astro gets a
+      `screen` prop (set on all five pages, asserted in `tests/chrome.test.mjs`); Rails gets a
+      `screen:` option with an `app-shell` default for the product shell, the layout attribute,
+      README text, both preview fixtures, and contract-test assertions.
 
 Move 3 · the home reference, the ninth screen, dark in view
 - [ ] 8. Main session: `/design-pull "uploads/Color palette and design direction (1)/Homepage.dc.html" --target home`.

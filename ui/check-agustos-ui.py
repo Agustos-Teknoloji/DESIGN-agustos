@@ -163,6 +163,11 @@ KIT_CLASSES = {
     "agustos-tabs__panel",
 }
 
+# screen name -> the rules a page under that screen must meet. Injected from the
+# screens table for the same reason as TOKEN_COLORS. A page names its screen with
+# data-screen on <body>; theme "dark-allowed" marks product UI.
+SCREENS = {'app-shell': {'primaryCtaMax': 1, 'quotes': False, 'theme': 'dark-allowed'}, 'content': {'primaryCtaMax': 1, 'quotes': True, 'theme': 'light'}, 'home': {'primaryCtaMax': 2, 'quotes': False, 'theme': 'light'}, 'product': {'primaryCtaMax': 2, 'quotes': False, 'theme': 'light'}, 'product-finder': {'primaryCtaMax': 1, 'quotes': False, 'theme': 'light'}, 'products': {'primaryCtaMax': 1, 'quotes': False, 'theme': 'light'}, 'spec-sheet': {'primaryCtaMax': 0, 'quotes': False, 'theme': 'light'}, 'static': {'primaryCtaMax': 1, 'quotes': True, 'theme': 'light'}}
+
 # #15130f and #ffffff are legitimate as identity ink and as paper. Reported at
 # warning level rather than error: too common to fail a build over.
 SOFT_COLORS = {"#15130f", "#ffffff"}
@@ -188,6 +193,16 @@ SKIP_DIRS = {
 }
 
 HEX = re.compile(r"#([0-9a-fA-F]{6})\b")
+# Page files: anything that can carry a <body>. Partials without one are skipped.
+PAGE_SUFFIXES = {".html", ".htm", ".astro", ".erb", ".php", ".liquid", ".vue", ".svelte"}
+COMMENT = re.compile(r"<!--.*?-->", re.S)
+BODY_TAG = re.compile(r"<body\b([^>]*)>", re.I)
+DATA_SCREEN = re.compile(r"""data-screen\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))""", re.I)
+TEMPLATED = re.compile(r"[{<$]")
+MAIN_BLOCK = re.compile(r"<main\b.*?</main>", re.S | re.I)
+PRIMARY_ACTION = re.compile(r"\b(?:agustos-button--primary|hero-action--primary|hero-link--primary)\b")
+QUOTE_CLASS = re.compile(r"\btype-(?:blockquote|pullquote)\b")
+DATA_THEME = re.compile(r"\bdata-theme\s*=")
 RADIUS = re.compile(r"border-radius:\s*([0-9.]+)px")
 GRADIENT = re.compile(r"(linear|radial|conic)-gradient\(")
 BACKGROUND = re.compile(r"background(?:-color)?:\s*([^;{}]+)")
@@ -242,6 +257,62 @@ def scan_files(root: Path, skip_dirs: frozenset[str] = frozenset(SKIP_DIRS)):
             yield path, path.read_text(encoding="utf-8")
         except (UnicodeDecodeError, OSError):
             continue
+
+
+def line_of(text: str, index: int) -> int:
+    return text[:index].count("\n") + 1
+
+
+def check_screen(rel: str, text: str, findings: list) -> None:
+    """The per-screen rules. Comments are stripped first so a header note that
+    mentions <body> or a commented-out button does not count."""
+    page = COMMENT.sub("", text)
+    body = BODY_TAG.search(page)
+    if not body:
+        return
+    body_line = line_of(text, text.find(body.group(0)))
+    attribute = DATA_SCREEN.search(body.group(1))
+    if not attribute:
+        findings.append(Finding(
+            "AG020", "error", rel, body_line,
+            "page names no screen — put data-screen=\"<name>\" on <body>; "
+            "names: " + ", ".join(SCREENS),
+        ))
+        return
+    name = next(group for group in attribute.groups() if group is not None)
+    if TEMPLATED.search(name):
+        return  # a layout fills the name at render time; check the rendered pages
+    rules = SCREENS.get(name)
+    if rules is None:
+        findings.append(Finding(
+            "AG021", "error", rel, body_line,
+            f"unknown screen {name!r} — the screens table knows: " + ", ".join(SCREENS),
+        ))
+        return
+    main = MAIN_BLOCK.search(page)
+    scope = main.group(0) if main else page[body.end():]
+    primaries = len(PRIMARY_ACTION.findall(scope))
+    if primaries > rules["primaryCtaMax"]:
+        findings.append(Finding(
+            "AG022", "error", rel, body_line,
+            f"{primaries} primary actions inside <main>; screen {name!r} allows at most "
+            f"{rules['primaryCtaMax']} — the same destination may repeat in the header and one "
+            f"closing band, not in every section",
+        ))
+    quote = QUOTE_CLASS.search(page)
+    if quote and not rules["quotes"]:
+        findings.append(Finding(
+            "AG023", "error", rel, line_of(text, text.find(quote.group(0))),
+            f"blockquote or pullquote on screen {name!r} — quotes belong on content pages; "
+            f"marketing uses a compact trust line",
+        ))
+    theme = DATA_THEME.search(page)
+    if theme and rules["theme"] != "dark-allowed":
+        findings.append(Finding(
+            "AG024", "error", rel, line_of(text, text.find(theme.group(0))),
+            f"data-theme on screen {name!r} — dark theme is for product UI only; "
+            f"marketing, catalog, and document pages ship light with no theme control",
+        ))
 
 
 def check(root: Path, skip_dirs=()) -> tuple[list, int]:
@@ -329,6 +400,9 @@ def check(root: Path, skip_dirs=()) -> tuple[list, int]:
                         f"unpinned kit URL ('{pin or 'no version'}') — pin it to @v{KIT_VERSION}; "
                         f"an unpinned link restyles this page without review",
                     ))
+
+        if path.suffix.lower() in PAGE_SUFFIXES:
+            check_screen(rel, text, findings)
 
         if path.suffix.lower() in {".css", ".scss", ".sass"}:
             for match in CUSTOM_PROP.finditer(text):

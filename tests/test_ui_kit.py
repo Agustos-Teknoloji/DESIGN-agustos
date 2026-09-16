@@ -400,17 +400,87 @@ class CheckerTest(unittest.TestCase):
             capture_output=True, text=True,
         )
 
-    def test_checker_passes_on_the_reference_render(self):
-        """If our own reference page fails our own checker, everything
-        downstream is noise."""
+    def test_checker_passes_on_the_reference_screens(self):
+        """If our own reference pages fail our own checker, everything
+        downstream is noise. The eight screens are what a consuming site looks
+        like; starter.html is a specimen sheet and is skipped by name."""
         import tempfile, shutil
         with tempfile.TemporaryDirectory() as tmp:
             project = Path(tmp)
-            # starter.html is excluded as a kit file; a consuming project would
-            # name it something of its own.
-            shutil.copyfile(ROOT / "ui" / "starter.html", project / "index.html")
+            for page in sorted((ROOT / "screens").glob("*.html")):
+                shutil.copyfile(page, project / page.name)
             result = self._run(project)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_checker_carries_the_screens_table(self):
+        """The screen rules are baked in like the token table, so a vendored
+        checker cannot disagree with the kit it was cut from."""
+        import importlib.util
+        spec = importlib.util.spec_from_file_location("agustos_checker", self.CHECKER)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+        expected = {
+            name: {"primaryCtaMax": row["primaryCtaMax"], "quotes": row["quotes"], "theme": row["theme"]}
+            for name, row in kit["screens"].items()
+        }
+        self.assertEqual(module.SCREENS, expected)
+
+    SCREEN_PAGE = (
+        '<!doctype html><html lang="tr"{html_attrs}><head>\n'
+        '<link rel="stylesheet" href="/vendor/agustos-ui/agustos-fonts.css">\n'
+        '<link rel="stylesheet" href="/vendor/agustos-ui/agustos.css">\n'
+        '</head><body class="brand-pataraz"{body_attrs}>\n'
+        '<header class="site-header">{chrome}</header>\n'
+        '<main id="main">{main}</main>\n'
+        '</body></html>\n'
+    )
+
+    def _screen_page(self, screen=None, main="", chrome="", html_attrs=""):
+        body_attrs = f' data-screen="{screen}"' if screen is not None else ""
+        return self.SCREEN_PAGE.format(html_attrs=html_attrs, body_attrs=body_attrs, chrome=chrome, main=main)
+
+    def test_checker_enforces_the_screen_rules(self):
+        """Per-screen rules come from the screens table, keyed on data-screen:
+        a page names its screen, the name exists, primaries inside <main> stay
+        within the limit, quotes appear only where the row allows them, and
+        data-theme appears only on product UI."""
+        import tempfile
+        primary = '<a class="agustos-button agustos-button--primary" href="#">Request pricing</a>'
+        quote = '<blockquote class="type-blockquote">Quiet.</blockquote>'
+        pages = {
+            "no-screen.html": self._screen_page(None, main=primary),
+            "unknown.html": self._screen_page("landing", main=primary),
+            "too-many.html": self._screen_page("products", main=primary + primary),
+            "quoted.html": self._screen_page("products", main=primary + quote),
+            "dark.html": self._screen_page("home", main=primary, html_attrs=' data-theme="dark"'),
+            "chrome-primary.html": self._screen_page("products", main=primary, chrome=primary),
+            "fine.html": self._screen_page("app-shell", main=primary, html_attrs=' data-theme="dark"'),
+        }
+        expected = {
+            "no-screen.html": {"AG020"},
+            "unknown.html": {"AG021"},
+            "too-many.html": {"AG022"},
+            "quoted.html": {"AG023"},
+            "dark.html": {"AG024"},
+            "chrome-primary.html": set(),
+            "fine.html": set(),
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp)
+            for name, text in pages.items():
+                (project / name).write_text(text, encoding="utf-8")
+            result = self._run(project, "--json")
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            findings = json.loads(result.stdout)["findings"]
+            by_file: dict[str, set[str]] = {name: set() for name in pages}
+            for finding in findings:
+                if finding["rule"].startswith("AG02"):
+                    by_file[finding["file"]].add(finding["rule"])
+                    self.assertEqual(finding["level"], "error", finding)
+            for name, rules in expected.items():
+                with self.subTest(page=name):
+                    self.assertEqual(by_file[name], rules)
 
     def test_checker_reports_each_rule_on_a_deliberately_bad_project(self):
         import tempfile
