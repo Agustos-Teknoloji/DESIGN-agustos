@@ -4,6 +4,7 @@ One reference page per screen type, hand-written on kit classes only. The rules 
 screen live in the `screens` table in `tokens/design-tokens.json`. `ui/UI-KIT.md`,
 `ui/kit.json`, `docs/web.html`, and the Claude Design cards render from that table.
 
+<!-- generated: screens.table -->
 | Screen | File | Family | Sample brand | Chrome |
 |---|---|---|---|---|
 | home | `home.html` | marketing | agustos | sidebar |
@@ -14,6 +15,7 @@ screen live in the `screens` table in `tokens/design-tokens.json`. `ui/UI-KIT.md
 | product | `product.html` | catalog | pataraz | topbar |
 | spec-sheet | `spec-sheet.html` | document | pataraz | topbar |
 | app-shell | `app-shell.html` | product UI | iesdesk | sidebar |
+<!-- /generated -->
 
 ## Rules
 

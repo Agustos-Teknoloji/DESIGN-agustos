@@ -29,8 +29,10 @@ WEB_TEMPLATE = ROOT / "tokens" / "web.css.tmpl"
 SYMBOL_SOURCE = ROOT / "laz-gunesi-amblem" / "svg" / "master.svg"
 VERSION_FILE = ROOT / "VERSION"
 DESIGN_MD = ROOT / "DESIGN.md"
+SCREENS_README = ROOT / "screens" / "README.md"
 BLOCK_START = "<!-- generated: designDirection.principles -->"
 BLOCK_END = "<!-- /generated -->"
+SCREENS_TABLE_BLOCK_START = "<!-- generated: screens.table -->"
 UI_DIR = ROOT / "ui"
 UI_FONT_DIR = UI_DIR / "fonts"
 UI_TEMPLATES = (
@@ -140,13 +142,48 @@ def design_direction_block(tokens: dict[str, Any]) -> str:
     return "\n".join(f"- {rule}" for rule in tokens["designDirection"]["principles"])
 
 
+def replace_generated_block(text: str, block_start: str, body: str, label: str) -> str:
+    """Replace the content between `block_start` and the next BLOCK_END after it.
+
+    Anchoring the BLOCK_END search to start *after* block_start (rather than searching the
+    whole file from position 0) keeps this correct even once a file carries more than one
+    generated block.
+    """
+    if block_start not in text:
+        raise TokenError(f"{label} is missing the generated block start marker")
+    start = text.index(block_start) + len(block_start)
+    if BLOCK_END not in text[start:]:
+        raise TokenError(f"{label} is missing the generated block end marker")
+    end = start + text[start:].index(BLOCK_END)
+    return text[:start] + "\n" + body + "\n" + text[end:]
+
+
 def design_md_with_block(text: str, tokens: dict[str, Any]) -> str:
     """DESIGN.md with its generated block replaced. The rest of the file is hand-written."""
-    if BLOCK_START not in text or BLOCK_END not in text:
-        raise TokenError("DESIGN.md is missing the generated designDirection markers")
-    start = text.index(BLOCK_START) + len(BLOCK_START)
-    end = text.index(BLOCK_END)
-    return text[:start] + "\n" + design_direction_block(tokens) + "\n" + text[end:]
+    return replace_generated_block(text, BLOCK_START, design_direction_block(tokens), "DESIGN.md")
+
+
+def screens_readme_table(tokens: dict[str, Any], brands: dict[str, Any]) -> str:
+    rows = screen_rows(tokens, brands)
+    header = ["| Screen | File | Family | Sample brand | Chrome |", "|---|---|---|---|---|"]
+    lines = [
+        "| {name} | `{file}` | {family} | {brand} | {chrome} |".format(
+            name=row["name"],
+            file=row["file"],
+            family="product UI" if row["family"] == "product-ui" else row["family"],
+            brand=row["brand"],
+            chrome=row["chrome"],
+        )
+        for row in rows
+    ]
+    return "\n".join(header + lines)
+
+
+def screens_readme_with_block(text: str, tokens: dict[str, Any], brands: dict[str, Any]) -> str:
+    """screens/README.md with its screens table replaced. The rest of the file is hand-written."""
+    return replace_generated_block(
+        text, SCREENS_TABLE_BLOCK_START, screens_readme_table(tokens, brands), "screens/README.md"
+    )
 
 
 def load_json(path: Path) -> dict[str, Any]:
@@ -695,6 +732,17 @@ def ui_kit_json(
     }
 
 
+def set_output(outputs: dict[Path, str], path: Path, content: str) -> None:
+    """Write one generated output, refusing a silent collision with an earlier one this run.
+
+    `outputs` is keyed by destination Path; two generator steps that ever computed the same
+    target would otherwise clobber each other with the dict's plain assignment and no signal.
+    """
+    if path in outputs:
+        raise TokenError(f"two generator steps both target {path.relative_to(ROOT)}")
+    outputs[path] = content
+
+
 def expected_outputs() -> dict[Path, str]:
     tokens = load_json(TOKEN_SOURCE)
     brands = load_json(BRAND_SOURCE)
@@ -702,7 +750,7 @@ def expected_outputs() -> dict[Path, str]:
     validate_screens(tokens, brands)
     outputs: dict[Path, str] = {}
     for path, label in CSS_OUTPUTS.items():
-        outputs[path] = render_web_css(tokens, brands, label)
+        set_output(outputs, path, render_web_css(tokens, brands, label))
 
     resolved = {
         "name": tokens["name"],
@@ -716,30 +764,38 @@ def expected_outputs() -> dict[Path, str]:
         "signal": brands["signal"],
         "screens": screen_entries(tokens),
     }
-    outputs[ROOT / "tokens" / "resolved.json"] = json.dumps(
-        resolved, ensure_ascii=False, indent=2, sort_keys=True
-    ) + "\n"
-    outputs[ROOT / "tokens" / "design-system-handoff.json"] = json.dumps(
-        handoff_contract(resolved, tokens), ensure_ascii=False, indent=2, sort_keys=True
-    ) + "\n"
-    outputs[ROOT / "adapters" / "wordpress" / "theme.json"] = json.dumps(
-        wordpress_theme(tokens, brands), ensure_ascii=False, indent=2
-    ) + "\n"
+    set_output(
+        outputs,
+        ROOT / "tokens" / "resolved.json",
+        json.dumps(resolved, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+    )
+    set_output(
+        outputs,
+        ROOT / "tokens" / "design-system-handoff.json",
+        json.dumps(handoff_contract(resolved, tokens), ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+    )
+    set_output(
+        outputs,
+        ROOT / "adapters" / "wordpress" / "theme.json",
+        json.dumps(wordpress_theme(tokens, brands), ensure_ascii=False, indent=2) + "\n",
+    )
 
     # --- ui/ distribution kit -------------------------------------------
     context = kit_context(tokens, brands)
-    outputs[UI_DIR / "agustos-fonts.css"] = ui_fonts_css(tokens, context)
-    outputs[ROOT / "docs" / "agustos.css"] = outputs[UI_DIR / "agustos.css"]
-    outputs[ROOT / "docs" / "agustos-fonts.css"] = docs_fonts_css(tokens, context)
+    set_output(outputs, UI_DIR / "agustos-fonts.css", ui_fonts_css(tokens, context))
+    set_output(outputs, ROOT / "docs" / "agustos.css", outputs[UI_DIR / "agustos.css"])
+    set_output(outputs, ROOT / "docs" / "agustos-fonts.css", docs_fonts_css(tokens, context))
     context["tokenTable"] = checker_token_table(resolved, brands)
     context["classList"] = checker_class_list(tokens)
     for template, target in UI_TEMPLATES:
-        outputs[target] = render_text_template(template, context)
+        set_output(outputs, target, render_text_template(template, context))
     for template, target in DOC_TEMPLATES:
-        outputs[target] = render_text_template(template, context)
-    outputs[UI_DIR / "kit.json"] = json.dumps(
-        ui_kit_json(tokens, brands, context, outputs), ensure_ascii=False, indent=2, sort_keys=True
-    ) + "\n"
+        set_output(outputs, target, render_text_template(template, context))
+    set_output(
+        outputs,
+        UI_DIR / "kit.json",
+        json.dumps(ui_kit_json(tokens, brands, context, outputs), ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+    )
 
     # VERSION and the ui/ templates belong in the source hash. Without VERSION,
     # bumping the version without rebuilding would leave every pinned URL in the
@@ -762,9 +818,11 @@ def expected_outputs() -> dict[Path, str]:
             for path, content in sorted(outputs.items(), key=lambda item: str(item[0]))
         },
     }
-    outputs[ROOT / "tokens" / "generated-manifest.json"] = json.dumps(
-        manifest, ensure_ascii=False, indent=2, sort_keys=True
-    ) + "\n"
+    set_output(
+        outputs,
+        ROOT / "tokens" / "generated-manifest.json",
+        json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+    )
     return outputs
 
 
@@ -781,6 +839,7 @@ def write_or_check(outputs: dict[Path, str], check: bool) -> int:
         path.write_text(content, encoding="utf-8")
         print(f"generated {path.relative_to(ROOT)}")
     tokens = load_json(TOKEN_SOURCE)
+    brands = load_json(BRAND_SOURCE)
     current_design = DESIGN_MD.read_text(encoding="utf-8")
     wanted_design = design_md_with_block(current_design, tokens)
     if wanted_design != current_design:
@@ -789,6 +848,14 @@ def write_or_check(outputs: dict[Path, str], check: bool) -> int:
         else:
             DESIGN_MD.write_text(wanted_design, encoding="utf-8")
             print("generated DESIGN.md (generated block)")
+    current_screens_readme = SCREENS_README.read_text(encoding="utf-8")
+    wanted_screens_readme = screens_readme_with_block(current_screens_readme, tokens, brands)
+    if wanted_screens_readme != current_screens_readme:
+        if check:
+            drift.append("screens/README.md (generated block)")
+        else:
+            SCREENS_README.write_text(wanted_screens_readme, encoding="utf-8")
+            print("generated screens/README.md (generated block)")
     if drift:
         print("generated design-system drift:", file=sys.stderr)
         for path in drift:

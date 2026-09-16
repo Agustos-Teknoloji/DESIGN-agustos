@@ -15,7 +15,7 @@
       <a class="site-lockup" href="#main" aria-label="ağustos">
         <span class="site-lockup__name">ağustos</span>
       </a>
-      <div class="site-header__panel">
+      <div id="site-header-panel" class="site-header__panel" popover>
         <nav class="site-header__nav" aria-label="Primary">
           <a class="site-header__link is-active" href="#main" aria-current="page">Home</a>
           <a class="site-header__link" href="#practice">About</a>
@@ -25,6 +25,9 @@
           <a class="agustos-button agustos-button--primary site-header__cta" href="#close">Start a project</a>
         </div>
       </div>
+      <button type="button" class="site-header__burger" popovertarget="site-header-panel" aria-label="Open navigation">
+        <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true" focusable="false"><path d="M0 1h18M0 7h18M0 13h18" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
     </div>
   </header>
 

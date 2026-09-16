@@ -69,8 +69,30 @@ def favicon_files(root: Path = ROOT) -> list[Path]:
     return sorted(p for p in folder.iterdir() if p.is_file() and p.name != "README.md")
 
 
+def datasheet_asset_files(root: Path = ROOT) -> list[Path]:
+    """Every product photo/drawing under brand/datasheet-assets/<brand>/, any brand.
+
+    Screen cards (see screen_card_members) flatten these into one assets/ folder, so two
+    brands publishing the same filename would silently overwrite one another there.
+    """
+    folder = root / "brand" / "datasheet-assets"
+    if not folder.is_dir():
+        return []
+    files = sorted(p for p in folder.glob("*/*") if p.is_file())
+    by_name: dict[str, list[Path]] = {}
+    for path in files:
+        by_name.setdefault(path.name, []).append(path)
+    collisions = sorted(name for name, paths in by_name.items() if len(paths) > 1)
+    if collisions:
+        raise ValueError(
+            "datasheet asset filenames collide across brands in the flat assets/ card folder: "
+            + ", ".join(collisions)
+        )
+    return files
+
+
 def bundle_members(root: Path = ROOT) -> list[tuple[str, bytes]]:
-    """(path under agustos-ui/, payload) for the kit, logos, and favicon."""
+    """(path under agustos-ui/, payload) for the kit, logos, favicon, and datasheet assets."""
     members: list[tuple[str, bytes]] = []
     ui_dir = root / "ui"
     for path in kit_files(root):
@@ -79,6 +101,8 @@ def bundle_members(root: Path = ROOT) -> list[tuple[str, bytes]]:
         members.append((f"logos/{path.name}", path.read_bytes()))
     for path in favicon_files(root):
         members.append((f"favicon/{path.name}", path.read_bytes()))
+    for path in datasheet_asset_files(root):
+        members.append((f"assets/{path.name}", path.read_bytes()))
     return members
 
 
@@ -361,6 +385,7 @@ def card_members(version: str) -> list[tuple[str, bytes]]:
 
 
 SCREEN_CARD_VIEWPORT = (1280, 900)
+SCREEN_ASSET_REF = re.compile(r"\.\./brand/datasheet-assets/[A-Za-z0-9._-]+/([A-Za-z0-9._-]+)")
 
 
 def screen_card_members(root: Path = ROOT, version: str | None = None) -> list[tuple[str, bytes]]:
@@ -382,6 +407,7 @@ def screen_card_members(root: Path = ROOT, version: str | None = None) -> list[t
             .replace('href="../ui/agustos.css"', 'href="../agustos.css"')
             .replace('href="../laz-gunesi-amblem/favicon/favicon.svg"', 'href="../favicon/favicon.svg"')
         )
+        html = SCREEN_ASSET_REF.sub(r"../assets/\1", html)
         members.append((f"cards/screen-{name}.html", (marker + "\n" + html).encode("utf-8")))
     return members
 
@@ -609,6 +635,12 @@ def _clear_page_folder(page_destination: Path) -> None:
             path.rmdir()
 
 
+def valid_pull_targets(repo_root: Path = ROOT) -> set[str]:
+    """Screen names a --target may update, from the screens table, plus the literal 'new'."""
+    tokens = json.loads((repo_root / "tokens" / "design-tokens.json").read_text(encoding="utf-8"))
+    return {name for name in tokens["screens"] if not name.startswith("$")} | {"new"}
+
+
 def pull(
     source: Path,
     page: str,
@@ -619,6 +651,10 @@ def pull(
     target: str | None = None,
 ) -> list[Path]:
     """Copy one Design page folder (plus the shared runtime) or one canvas file into destination."""
+    if target is not None and target not in valid_pull_targets():
+        raise ValueError(
+            f"--target {target!r} is not a screen name in tokens/design-tokens.json's screens table, or 'new'"
+        )
     page = remote_path(page)
     written: list[Path] = []
     with tempfile.TemporaryDirectory() as scratch:
