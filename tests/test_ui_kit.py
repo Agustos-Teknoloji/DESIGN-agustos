@@ -415,16 +415,17 @@ class CheckerTest(unittest.TestCase):
     def test_checker_carries_the_screens_table(self):
         """The screen rules are baked in like the token table, so a vendored
         checker cannot disagree with the kit it was cut from."""
-        import importlib.util
-        spec = importlib.util.spec_from_file_location("agustos_checker", self.CHECKER)
-        module = importlib.util.module_from_spec(spec)
-        spec.loader.exec_module(module)
+        # compile + exec, not importlib: an import would write ui/__pycache__/*.pyc,
+        # and the kit-scanning tests would then find "@latest" and the stale red in
+        # the bytecode. The namespace carries __name__ so the main guard stays quiet.
+        namespace: dict = {"__name__": "agustos_checker"}
+        exec(compile(self.CHECKER.read_text(encoding="utf-8"), str(self.CHECKER), "exec"), namespace)
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
         expected = {
             name: {"primaryCtaMax": row["primaryCtaMax"], "quotes": row["quotes"], "theme": row["theme"]}
             for name, row in kit["screens"].items()
         }
-        self.assertEqual(module.SCREENS, expected)
+        self.assertEqual(namespace["SCREENS"], expected)
 
     SCREEN_PAGE = (
         '<!doctype html><html lang="tr"{html_attrs}><head>\n'
