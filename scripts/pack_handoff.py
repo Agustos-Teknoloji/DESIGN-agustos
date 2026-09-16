@@ -22,8 +22,7 @@ DOCS_HTML = ROOT / "docs" / "handoff-setup.html"
 HANDOFF = ROOT / "HANDOFF.md"
 SCREENS_DIR = ROOT / "screens"
 FAVICON = ROOT / "laz-gunesi-amblem" / "favicon" / "favicon.svg"
-ASSET_DIR = ROOT / "brand" / "datasheet-assets" / "pataraz"
-ASSET_REF = re.compile(r"\.\./brand/datasheet-assets/pataraz/([A-Za-z0-9._-]+)")
+ASSET_REF = re.compile(r"\.\./brand/datasheet-assets/([A-Za-z0-9._-]+)/([A-Za-z0-9._-]+)")
 
 ZIP_README = """# Ağustos UI kit v{version}
 
@@ -100,14 +99,34 @@ def screen_files(root: Path = ROOT) -> list[Path]:
 def rewrite_screen_html(html: str) -> str:
     """Point a screen at the zip's logos/ and assets/ folders. The ui/ path already resolves."""
     html = html.replace('href="../laz-gunesi-amblem/favicon/favicon.svg"', 'href="../logos/favicon.svg"')
-    return ASSET_REF.sub(r"../assets/\1", html)
+    return ASSET_REF.sub(r"../assets/\2", html)
 
 
 def referenced_assets(root: Path = ROOT) -> list[Path]:
-    names: set[str] = set()
+    """Every datasheet asset a screen references, from any brand, not just pataraz.
+
+    Raises instead of silently dropping a reference whose file does not exist, so a broken
+    <img> never ships quietly inside the handoff zip.
+    """
+    asset_root = root / "brand" / "datasheet-assets"
+    refs: set[tuple[str, str]] = set()
     for path in screen_files(root):
-        names.update(ASSET_REF.findall(path.read_text(encoding="utf-8")))
-    return sorted(ASSET_DIR / name for name in names if (ASSET_DIR / name).is_file())
+        refs.update(ASSET_REF.findall(path.read_text(encoding="utf-8")))
+    missing = sorted(f"{brand}/{name}" for brand, name in refs if not (asset_root / brand / name).is_file())
+    if missing:
+        raise FileNotFoundError(
+            "screens reference datasheet assets that do not exist: " + ", ".join(missing)
+        )
+    brands_by_name: dict[str, set[str]] = {}
+    for brand, name in refs:
+        brands_by_name.setdefault(name, set()).add(brand)
+    duplicates = sorted(name for name, brands in brands_by_name.items() if len(brands) > 1)
+    if duplicates:
+        raise ValueError(
+            "datasheet asset filenames collide across brands in the flat assets/ zip folder: "
+            + ", ".join(duplicates)
+        )
+    return sorted(asset_root / brand / name for brand, name in refs)
 
 
 def archive_members(root: Path = ROOT) -> list[tuple[str, bytes]]:
