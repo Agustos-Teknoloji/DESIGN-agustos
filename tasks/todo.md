@@ -408,8 +408,29 @@ Move 3 · the home reference, the ninth screen, dark in view
       six flipped swatches (paper, surface, callout, ink, ink soft, red) and a page-level theme
       toggle since v5. The gap review missed it because it grepped for `data-theme` markup, which
       the toggle sets at runtime.
-- [ ] 12. Rebuild, `--check`, tests. VERSION 6.1.0, CHANGELOG, tag `v6.1.0`, `/design-push`
-      (nine screen cards). Open the PR to `main`.
+- [x] 12. Rebuild, `--check`, tests. VERSION 6.1.0, CHANGELOG, tag `v6.1.0`, `/design-push`
+      (nine screen cards). Open the PR to `main`. Done 2026-09-16: tag pushed, Design holds kit
+      v6.1.0 (31 files written, 0 deleted), PR #40 open.
+
+## Review — brand guideline follow-ups (2026-09-16)
+
+- Outcome: v6.1.0 on `claude/brand-guideline-design-system-d35d8f`, tag `v6.1.0` pushed,
+  https://github.com/Agustos-Teknoloji/DESIGN-agustos/pull/40 open to `main`. The Design
+  project runs on the pushed kit alone (its own stack retired, 43 deletes, 3 writes; backup in
+  `artifacts/`) and holds kit v6.1.0 with nine screen cards.
+- Verification: 153 unit tests, `--check` current (18 files), Office check current (9 files, no
+  rebuild), screens checker clean (10 files), Astro chrome tests 6 of 6, Rails contract test 10
+  runs and 171 assertions with Ruby 4.0.6, `content-index` rendered in the preview pane.
+- Found on the way: the pull tool lost a canvas whose source held only its `uploads/` folder
+  (fixed, test first); the colour explainer already showed dark (task 11 closed without an edit);
+  the Astro blog index page contradicts the list-page rule (parked under Waits).
+- Widened once, on purpose: both reference adapters gained `data-screen` (task 7b) so the kit's
+  own demos pass the rule the checker now enforces.
+- Cut by the `/dhh` review and kept cut: the 40-line pointer file, a second theme matrix, a third
+  status value, the double dark frame, the `contact` screen.
+- Lessons: a rule that only a repository test enforces is not a rule a consumer feels; an
+  environment probe (`git`, `python3`) before the first tool call would have saved the Xcode
+  detour; grep for a runtime-set attribute (`data-theme`) is not proof that a doc never shows it.
 
 ## Waits
 
