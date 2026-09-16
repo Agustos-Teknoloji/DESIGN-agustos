@@ -318,3 +318,84 @@ Phase 6 · release
 - Final whole-branch review: one Critical (both adapter footers rendered an invisible lockup) and six Important findings, fixed in one wave of four commits and re-reviewed clean.
 - Parked for a later change: `screens/README.md` restates the screens table by hand; `pack_handoff.py` skips a missing asset silently and reads only `pataraz/` images; `pull --target` accepts any name; screen cards ship without product images; the Rails preview `marketing.html` has no burger; the generator's block-end search and duplicate-file check; the static screen has four photo wells against the spec's one reserved slot.
 - Lessons: verify a chrome or layout rule against the live site before you call it decided (lesson 3). The Browser pane injects keys without a key code, so test Escape with the headless browser. A check that greps deleted CSS for custom properties still consumed elsewhere would have caught the lockup defect at Task 13.
+
+---
+
+# Brand guideline follow-ups (2026-09-16)
+
+**Goal:** close the Claude Design loop so a page drawn in Design comes back on-spec, make the
+consumer checker enforce the per-screen rules, and add the one screen the live sites ship and
+the kit lacks.
+
+**Source:** `/design-consultation` gap review of v6.0.0 on 2026-09-15, cut down by a `/dhh`
+review on 2026-09-16. Of the original eight items, PR #39 closed three (generated
+`screens/README.md` table, validated `--target`, one photo well on the static screen). Three
+were cut as too big or duplicated: a 40-line pointer file, a second theme matrix, a third
+status value. Two wait (below).
+
+**Decisions (2026-09-16):**
+- **Pending, D1.** Delete the Claude Design project's own `tokens/`, `components/`, `cards/`, and
+  `styles.css`. Replace its `SKILL.md` with a five-line pointer at `agustos-ui/`. Those files
+  restate rules, and rules are repository-owned under Option B. This is the one write outside
+  `agustos-ui/`, so it needs Emre's explicit yes before `finalize_plan`. Accepted consequence:
+  `ui_kits/website` and `ui_kits/iesdesk` stop rendering in Design. Both are pulled with
+  screenshots under `screens/design/`.
+- One implementation of the per-screen rules. The consumer checker owns the primary-CTA count,
+  the quote rule, and the theme rule, keyed on `data-screen` and `kit.json.screens`. The
+  repository test that duplicates them is deleted. The test that runs the checker on `screens/`
+  stays. A page without `data-screen` is an error.
+- Dark is shown as one flipped six-swatch row in `docs/colour.html`. No second theme matrix: the
+  screens table already states the theme per screen. No double frame in `docs/web.html`: the
+  app-shell theme control is a click toggle and cannot be set from a URL.
+- `Homepage (Dark).dc.html` is not pulled. It contradicts the locked "no dark marketing" rule.
+  No third status value.
+- `content-index` becomes the ninth screen. agustos.com ships a blog index, and DESIGN.md
+  (5.1.0) already holds its rule: body-size links with a footnote line, no heading per title.
+  `contact` waits. It is a `static` screen with a form until a real page diverges.
+
+**Version:** 6.1.0. A new screen row and new checker rules are additive. Tag and `/design-push`
+in the same change. One branch (`claude/brand-guideline-design-system-d35d8f`), one PR to `main`.
+
+## Checklist
+
+Move 1 · the Design side reads the kit (blocked on D1)
+- [ ] 1. Draft the five-line `SKILL.md` body (frontmatter kept) and show it to Emre with the
+      exact delete list.
+- [ ] 2. On yes, in the main session: `finalize_plan` with writes `SKILL.md` (and `readme.md` if
+      it still says "Version 3.0") and deletes `tokens/**`, `components/**`, `cards/**`,
+      `styles.css`. Do not touch `_ds_*`, `uploads/`, `ui_kits/`, or `agustos-ui/`.
+- [ ] 3. Verify in Design: the Design System pane shows only `Kit ·` groups; a fresh Design chat
+      names `agustos-ui/UI-KIT.md` as its contract.
+- [ ] 4. Record it: `archive/MEMORY.md` entry "Design's own stack retired (2026-09-16)";
+      `docs/claude-design-sync.html` and the sync spec's "Unchanged" note updated; the
+      `claude-design-project` memory note updated.
+
+Move 2 · the checker enforces the screen rules
+- [ ] 5. `ui/check-agustos-ui.py.tmpl`: read `data-screen` on `<body>`; look up
+      `kit.json.screens[name]`; count `agustos-button--primary` and `hero-action--primary`
+      inside `<main>` against `primaryCtaMax`; report `type-blockquote` or `type-pullquote`
+      when `quotes` is false; report `data-theme` on `<html>` when the family is not
+      `product-ui`; a missing or unknown `data-screen` is an error.
+- [ ] 6. Delete `test_primary_cta_limit_and_quote_rule` from `tests/test_screens.py`. Add
+      checker tests with one fixture page per new rule. `test_checker_scores_the_folder_clean`
+      stays as the integration test.
+- [ ] 7. Rebuild; `--check`; tests; `python3 ui/check-agustos-ui.py screens --skip design`
+      exits 0. Add one line to the UI-KIT "Verify" section naming the screen rules.
+
+Move 3 · the home reference, the ninth screen, dark in view
+- [ ] 8. Main session: `/design-pull "uploads/Color palette and design direction (1)/Homepage.dc.html" --target home`.
+- [ ] 9. Add the `content-index` row to the `screens` table: family `content`, brand `agustos`,
+      purpose "The list of posts: body-size titles with a footnote line each, newest first",
+      `primaryCtaMax` 1, `quotes` false, photo "none; titles stay type-only".
+- [ ] 10. Probe the live agustos.com blog index first (lesson 3), then write
+      `screens/content-index.html` on kit classes. Checker clean; the row-and-file test passes.
+- [ ] 11. Add the flipped six-swatch row to `docs/colour.html` under "Dark, product UI only".
+      The file is hand-written (not in the generated manifest), so edit it directly.
+- [ ] 12. Rebuild, `--check`, tests. VERSION 6.1.0, CHANGELOG, tag `v6.1.0`, `/design-push`
+      (nine screen cards). Open the PR to `main`.
+
+## Waits
+
+- Move DESIGN.md history (tuning history, specificity warning, "what was cut") to `archive/`.
+- `contact` screen, when a real contact page diverges from `static`.
+- Anything else in Design outside the four deleted folders.
