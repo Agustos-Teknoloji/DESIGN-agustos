@@ -334,12 +334,16 @@ were cut as too big or duplicated: a 40-line pointer file, a second theme matrix
 status value. Two wait (below).
 
 **Decisions (2026-09-16):**
-- **Pending, D1.** Delete the Claude Design project's own `tokens/`, `components/`, `cards/`, and
-  `styles.css`. Replace its `SKILL.md` with a five-line pointer at `agustos-ui/`. Those files
-  restate rules, and rules are repository-owned under Option B. This is the one write outside
-  `agustos-ui/`, so it needs Emre's explicit yes before `finalize_plan`. Accepted consequence:
-  `ui_kits/website` and `ui_kits/iesdesk` stop rendering in Design. Both are pulled with
-  screenshots under `screens/design/`.
+- **D1, yes (2026-09-16).** Delete the Claude Design project's own `tokens/`, `components/`, and
+  `cards/`. Rewrite `styles.css` as two `@import` lines that load `agustos-ui/agustos-fonts.css`
+  and `agustos-ui/agustos.css`: the Design app applies `styles.css` to every drawing and card
+  (`_ds_manifest.json` → `globalCssPaths`), so deleting it would leave new drawings unstyled.
+  Replace `SKILL.md` with a five-line pointer at `agustos-ui/` and `readme.md` with a short
+  pointer. Those files restate rules, and rules are repository-owned under Option B. This is the
+  one write outside `agustos-ui/`; Emre approved it in chat and in the `finalize_plan` prompt.
+  A verbatim copy of the retired layer is `artifacts/claude-design-own-stack-2026-09-16.zip`.
+  Accepted consequence: `ui_kits/website` and `ui_kits/iesdesk` stop rendering in Design. Both
+  are pulled with screenshots under `screens/design/`.
 - One implementation of the per-screen rules. The consumer checker owns the primary-CTA count,
   the quote rule, and the theme rule, keyed on `data-screen` and `kit.json.screens`. The
   repository test that duplicates them is deleted. The test that runs the checker on `screens/`
@@ -361,9 +365,11 @@ in the same change. One branch (`claude/brand-guideline-design-system-d35d8f`), 
 Move 1 · the Design side reads the kit (blocked on D1)
 - [ ] 1. Draft the five-line `SKILL.md` body (frontmatter kept) and show it to Emre with the
       exact delete list.
-- [ ] 2. On yes, in the main session: `finalize_plan` with writes `SKILL.md` (and `readme.md` if
-      it still says "Version 3.0") and deletes `tokens/**`, `components/**`, `cards/**`,
-      `styles.css`. Do not touch `_ds_*`, `uploads/`, `ui_kits/`, or `agustos-ui/`.
+- [ ] 2. On yes, in the main session: back up the retired layer into
+      `artifacts/claude-design-own-stack-2026-09-16.zip`, then `finalize_plan` with writes
+      `SKILL.md`, `readme.md`, `styles.css` and deletes `tokens/**`, `components/**`,
+      `cards/**` (43 paths). Do not touch `_ds_*`, `uploads/`, `ui_kits/`, `assets/`, or
+      `agustos-ui/`.
 - [ ] 3. Verify in Design: the Design System pane shows only `Kit ·` groups; a fresh Design chat
       names `agustos-ui/UI-KIT.md` as its contract.
 - [ ] 4. Record it: `archive/MEMORY.md` entry "Design's own stack retired (2026-09-16)";
