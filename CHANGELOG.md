@@ -4,6 +4,8 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [6.1.0] - 2026-09-16
+
 ### Added
 
 - Checker rules for the screens table, baked into `check-agustos-ui.py` like the token table. Every page names its screen with `data-screen` on `<body>` (AG020), the name must be a row of the table (AG021), primary actions inside `<main>` stay within the row's limit (AG022), quotes appear only where the row allows them (AG023), and `data-theme` appears only on product UI (AG024). A templated value (an Astro or ERB layout) is skipped; check the rendered pages.

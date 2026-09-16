@@ -1250,3 +1250,24 @@ and stay `pending` references for the home and app-shell screens.
 **Boundary after this:** the Design project owns `ui_kits/` and `uploads/`. Everything else that
 states a rule is either under `agustos-ui/` and pushed, or gone. `/design-push` still writes
 `agustos-ui/` only; this retirement was a one-time manual change recorded here.
+
+## v6.1.0: the checker enforces the screens table (2026-09-16)
+
+**On the table:** v6.0.0 put every screen's rules in the registry, but only this repository's
+own test read them. A consuming site could put three filled buttons on a listing, a pullquote
+on a product page, or a theme toggle on marketing chrome, and `check-agustos-ui.py` exited 0.
+The follow-ups plan (2026-09-16, cut down by a `/dhh` review) chose one implementation over two.
+
+**Chosen:** the screens table is injected into the checker at build time, beside the token
+table. Five error rules keyed on `data-screen`: the page names its screen (AG020), the name is a
+row (AG021), primaries inside `<main>` stay within the row's limit (AG022), quotes only where the
+row allows them (AG023), `data-theme` only on product UI (AG024). The repository test that
+duplicated the count is gone; the test that runs the checker on `screens/` enforces it. Both
+reference adapters carry `data-screen`. `content-index` joins as the ninth screen, built from the
+live agustos.com blog index. Minor bump: additive.
+
+**Why it matters:** "guideline" became "enforced guideline" for pataraz.com and agustos.com, with
+no second rulebook to keep in step.
+
+**Rejected:** a second implementation of the rules in the checker beside the test (two places to
+drift); warning level for a missing `data-screen` (every page is a screen).
