@@ -4,6 +4,26 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [6.1.0] - 2026-09-16
+
+### Added
+
+- Checker rules for the screens table, baked into `check-agustos-ui.py` like the token table. Every page names its screen with `data-screen` on `<body>` (AG020), the name must be a row of the table (AG021), primary actions inside `<main>` stay within the row's limit (AG022), quotes appear only where the row allows them (AG023), and `data-theme` appears only on product UI (AG024). A templated value (an Astro or ERB layout) is skipped; check the rendered pages.
+- The Astro layout takes a `screen` prop and the Rails helper a `screen:` option; both render `data-screen` on `<body>`. Product UI defaults to `app-shell` in Rails; every other page names its own.
+- `content-index`, the ninth screen: the list of posts, one section per year, body-size title links with a footnote line each, no heading per title. Built from the live agustos.com blog index.
+
+### Changed
+
+- Claude Design: the project's own token, component, and specimen-card layers were retired on 2026-09-16. Its root `styles.css` now imports the pushed kit, and its `SKILL.md` points at `agustos-ui/UI-KIT.md` and the screen cards. The project owns drawings only (`ui_kits/`, `uploads/`). A verbatim copy of the retired layer is `artifacts/claude-design-own-stack-2026-09-16.zip`.
+
+### Fixed
+
+- `sync_claude_design.py pull` no longer loses a canvas file when the source directory holds nothing but its `uploads/<chat>/` folder; the single-folder unwrap now applies only when the page lives inside that folder.
+
+### Migration
+
+- Put `data-screen="<name>"` on every page's `<body>`, or the checker exits 1 with AG020. Pages that exceed a screen's primary CTA limit, carry quotes on a non-content screen, or set `data-theme` outside product UI now fail too.
+
 ## [6.0.0] - 2026-09-15
 
 ### Added

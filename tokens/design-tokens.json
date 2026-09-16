@@ -1,7 +1,7 @@
 {
   "$schema": "https://design-tokens.github.io/community-group/format/",
   "name": "Ağustos Design System",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "description": "Canonical cross-medium design values. CSS, framework adapters, and Office templates are generated consumers.",
   "meta": {
     "referenceImplementation": "https://agustos.com",
@@ -340,6 +340,15 @@
       "primaryCtaMax": 1,
       "quotes": true,
       "photo": "only when it explains the content"
+    },
+    "content-index": {
+      "file": "content-index.html",
+      "family": "content",
+      "brand": "agustos",
+      "purpose": "The list of posts: one section per year, body-size title links with a footnote line each, newest first. No heading per title.",
+      "primaryCtaMax": 1,
+      "quotes": false,
+      "photo": "none; titles stay type-only"
     },
     "products": {
       "file": "products.html",

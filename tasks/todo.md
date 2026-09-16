@@ -318,3 +318,125 @@ Phase 6 · release
 - Final whole-branch review: one Critical (both adapter footers rendered an invisible lockup) and six Important findings, fixed in one wave of four commits and re-reviewed clean.
 - Parked for a later change: `screens/README.md` restates the screens table by hand; `pack_handoff.py` skips a missing asset silently and reads only `pataraz/` images; `pull --target` accepts any name; screen cards ship without product images; the Rails preview `marketing.html` has no burger; the generator's block-end search and duplicate-file check; the static screen has four photo wells against the spec's one reserved slot.
 - Lessons: verify a chrome or layout rule against the live site before you call it decided (lesson 3). The Browser pane injects keys without a key code, so test Escape with the headless browser. A check that greps deleted CSS for custom properties still consumed elsewhere would have caught the lockup defect at Task 13.
+
+---
+
+# Brand guideline follow-ups (2026-09-16)
+
+**Goal:** close the Claude Design loop so a page drawn in Design comes back on-spec, make the
+consumer checker enforce the per-screen rules, and add the one screen the live sites ship and
+the kit lacks.
+
+**Source:** `/design-consultation` gap review of v6.0.0 on 2026-09-15, cut down by a `/dhh`
+review on 2026-09-16. Of the original eight items, PR #39 closed three (generated
+`screens/README.md` table, validated `--target`, one photo well on the static screen). Three
+were cut as too big or duplicated: a 40-line pointer file, a second theme matrix, a third
+status value. Two wait (below).
+
+**Decisions (2026-09-16):**
+- **D1, yes (2026-09-16).** Delete the Claude Design project's own `tokens/`, `components/`, and
+  `cards/`. Rewrite `styles.css` as two `@import` lines that load `agustos-ui/agustos-fonts.css`
+  and `agustos-ui/agustos.css`: the Design app applies `styles.css` to every drawing and card
+  (`_ds_manifest.json` → `globalCssPaths`), so deleting it would leave new drawings unstyled.
+  Replace `SKILL.md` with a five-line pointer at `agustos-ui/` and `readme.md` with a short
+  pointer. Those files restate rules, and rules are repository-owned under Option B. This is the
+  one write outside `agustos-ui/`; Emre approved it in chat and in the `finalize_plan` prompt.
+  A verbatim copy of the retired layer is `artifacts/claude-design-own-stack-2026-09-16.zip`.
+  Accepted consequence: `ui_kits/website` and `ui_kits/iesdesk` stop rendering in Design. Both
+  are pulled with screenshots under `screens/design/`.
+- One implementation of the per-screen rules. The consumer checker owns the primary-CTA count,
+  the quote rule, and the theme rule, keyed on `data-screen` and `kit.json.screens`. The
+  repository test that duplicates them is deleted. The test that runs the checker on `screens/`
+  stays. A page without `data-screen` is an error.
+- Dark is shown as one flipped six-swatch row in `docs/colour.html`. No second theme matrix: the
+  screens table already states the theme per screen. No double frame in `docs/web.html`: the
+  app-shell theme control is a click toggle and cannot be set from a URL.
+- `Homepage (Dark).dc.html` is not pulled. It contradicts the locked "no dark marketing" rule.
+  No third status value.
+- `content-index` becomes the ninth screen. agustos.com ships a blog index, and DESIGN.md
+  (5.1.0) already holds its rule: body-size links with a footnote line, no heading per title.
+  `contact` waits. It is a `static` screen with a form until a real page diverges.
+
+**Version:** 6.1.0. A new screen row and new checker rules are additive. Tag and `/design-push`
+in the same change. One branch (`claude/brand-guideline-design-system-d35d8f`), one PR to `main`.
+
+## Checklist
+
+Move 1 · the Design side reads the kit (blocked on D1)
+- [x] 1. Draft the five-line `SKILL.md` body (frontmatter kept) and show it to Emre with the
+      exact delete list. (Approved in chat, 2026-09-16.)
+- [x] 2. On yes, in the main session: back up the retired layer into
+      `artifacts/claude-design-own-stack-2026-09-16.zip`, then `finalize_plan` with writes
+      `SKILL.md`, `readme.md`, `styles.css` and deletes `tokens/**`, `components/**`,
+      `cards/**` (43 paths). Do not touch `_ds_*`, `uploads/`, `ui_kits/`, `assets/`, or
+      `agustos-ui/`.
+- [x] 3. Verify in Design: `list_files` shows no `tokens/`, `components/`, or `cards/`; the new
+      `SKILL.md` reads back. Emre to confirm in the Design UI that the pane shows only `Kit ·`
+      groups and that a fresh Design chat names `agustos-ui/UI-KIT.md`.
+- [x] 4. Record it: `archive/MEMORY.md` entry "Design's own stack retired (2026-09-16)";
+      `docs/claude-design-sync.html` and both sync specs' deferred notes updated; CHANGELOG
+      Unreleased; the `claude-design-project` and `design-sync-workflow` memory notes updated.
+
+Move 2 · the checker enforces the screen rules
+- [x] 5. `ui/check-agustos-ui.py.tmpl`: read `data-screen` on `<body>`; look up
+      `kit.json.screens[name]`; count `agustos-button--primary` and `hero-action--primary`
+      inside `<main>` against `primaryCtaMax`; report `type-blockquote` or `type-pullquote`
+      when `quotes` is false; report `data-theme` on `<html>` when the family is not
+      `product-ui`; a missing or unknown `data-screen` is an error.
+- [x] 6. Delete `test_primary_cta_limit_and_quote_rule` from `tests/test_screens.py`. Add
+      checker tests with one fixture page per new rule. `test_checker_scores_the_folder_clean`
+      stays as the integration test.
+- [x] 7. Rebuild; `--check`; tests; `python3 ui/check-agustos-ui.py screens --skip design`
+      exits 0. Add one line to the UI-KIT "Verify" section naming the screen rules.
+- [x] 7b. Added during Move 2: the reference adapters carry `data-screen` too. Astro gets a
+      `screen` prop (set on all five pages, asserted in `tests/chrome.test.mjs`); Rails gets a
+      `screen:` option with an `app-shell` default for the product shell, the layout attribute,
+      README text, both preview fixtures, and contract-test assertions.
+
+Move 3 · the home reference, the ninth screen, dark in view
+- [x] 8. Main session: `/design-pull "uploads/Color palette and design direction (1)/Homepage.dc.html" --target home`.
+      Found and fixed a pull bug on the way: a source holding only `uploads/<chat>/<page>.dc.html`
+      was unwrapped into `uploads/` and the page was lost. Test first, one-condition fix.
+- [x] 9. Add the `content-index` row to the `screens` table: family `content`, brand `agustos`,
+      purpose "The list of posts: body-size titles with a footnote line each, newest first",
+      `primaryCtaMax` 1, `quotes` false, photo "none; titles stay type-only".
+- [x] 10. Probe the live agustos.com blog index first (lesson 3), then write
+      `screens/content-index.html` on kit classes. Checker clean; the row-and-file test passes.
+      Live structure mirrored: breadcrumb, H1, year jump links, one H2 per year with its count,
+      `type-dl` rows of a body-size title link and a footnote meta line. Trimmed to four years.
+- [x] 11. Already satisfied, no edit: `docs/colour.html` has carried a "Dark theme" section with the
+      six flipped swatches (paper, surface, callout, ink, ink soft, red) and a page-level theme
+      toggle since v5. The gap review missed it because it grepped for `data-theme` markup, which
+      the toggle sets at runtime.
+- [x] 12. Rebuild, `--check`, tests. VERSION 6.1.0, CHANGELOG, tag `v6.1.0`, `/design-push`
+      (nine screen cards). Open the PR to `main`. Done 2026-09-16: tag pushed, Design holds kit
+      v6.1.0 (31 files written, 0 deleted), PR #40 open.
+
+## Review — brand guideline follow-ups (2026-09-16)
+
+- Outcome: v6.1.0 on `claude/brand-guideline-design-system-d35d8f`, tag `v6.1.0` pushed,
+  https://github.com/Agustos-Teknoloji/DESIGN-agustos/pull/40 open to `main`. The Design
+  project runs on the pushed kit alone (its own stack retired, 43 deletes, 3 writes; backup in
+  `artifacts/`) and holds kit v6.1.0 with nine screen cards.
+- Verification: 151 unit tests, `--check` current (18 files), Office check current (9 files, no
+  rebuild), screens checker clean (10 files), Astro chrome tests 6 of 6, Rails contract test 10
+  runs and 171 assertions with Ruby 4.0.6, `content-index` rendered in the preview pane.
+- Found on the way: the pull tool lost a canvas whose source held only its `uploads/` folder
+  (fixed, test first); the colour explainer already showed dark (task 11 closed without an edit);
+  the Astro blog index page contradicts the list-page rule (parked under Waits).
+- Widened once, on purpose: both reference adapters gained `data-screen` (task 7b) so the kit's
+  own demos pass the rule the checker now enforces.
+- Cut by the `/dhh` review and kept cut: the 40-line pointer file, a second theme matrix, a third
+  status value, the double dark frame, the `contact` screen.
+- Lessons: a rule that only a repository test enforces is not a rule a consumer feels; an
+  environment probe (`git`, `python3`) before the first tool call would have saved the Xcode
+  detour; grep for a runtime-set attribute (`data-theme`) is not proof that a doc never shows it.
+
+## Waits
+
+- `adapters/astro/src/pages/blog/index.astro` still sets every post title as an H2 inside a
+  scoped `<style>`, against the 5.1.0 list-page rule that `screens/content-index.html` now
+  follows. Rebuild it on `type-dl` and `type-footnote` like the screen.
+- Move DESIGN.md history (tuning history, specificity warning, "what was cut") to `archive/`.
+- `contact` screen, when a real contact page diverges from `static`.
+- Anything else in Design outside the four deleted folders.

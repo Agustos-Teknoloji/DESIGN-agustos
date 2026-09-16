@@ -66,6 +66,12 @@ The plan never includes a path outside `agustos-ui/`. The tool rejects paths out
 
 Pointing Design's own `tokens/fonts.css` and `assets/laz-gunesi.svg` at the pushed copies. Those are Design-owned files.
 
+> **Closed 2026-09-16.** Design's own `tokens/`, `components/`, and `cards/` were deleted with
+> Emre's approval; root `styles.css` now imports `agustos-ui/agustos-fonts.css` and
+> `agustos-ui/agustos.css`, and root `SKILL.md` points at `agustos-ui/UI-KIT.md`.
+> `assets/laz-gunesi.svg` stays as a Design-owned upload; nothing imports it. Record:
+> `archive/MEMORY.md`, "Design's own stack retired (2026-09-16)".
+
 ## Pull: Design → repository
 
 ### Remote facts (read 2026-09-13 with `list_files` and `get_file`)

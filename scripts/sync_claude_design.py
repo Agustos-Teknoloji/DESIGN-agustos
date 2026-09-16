@@ -609,8 +609,14 @@ def update_readme(existing: str | None, page: str, today: str, commit: str, targ
     )
 
 
-def _source_root(source: Path, scratch: Path) -> Path:
-    """A directory as-is, or a zip extracted into scratch. Unwrap a single top-level folder."""
+def _source_root(source: Path, scratch: Path, page: str) -> Path:
+    """A directory as-is, or a zip extracted into scratch.
+
+    A zip exported from Claude Design wraps the project in one top-level folder; unwrap it.
+    A source that holds only a canvas file arrives as <source>/uploads/<chat>/<page> and its
+    single top-level folder is part of the page path, so unwrap only when the page is not
+    at the root but is inside that folder.
+    """
     if source.is_dir():
         root = source
     else:
@@ -618,7 +624,7 @@ def _source_root(source: Path, scratch: Path) -> Path:
             archive.extractall(scratch)
         root = scratch
     entries = [p for p in root.iterdir() if not p.name.startswith(".")]
-    if len(entries) == 1 and entries[0].is_dir() and not (root / "styles.css").exists():
+    if len(entries) == 1 and entries[0].is_dir() and not (root / page).exists() and (entries[0] / page).exists():
         root = entries[0]
     return root
 
@@ -658,7 +664,7 @@ def pull(
     page = remote_path(page)
     written: list[Path] = []
     with tempfile.TemporaryDirectory() as scratch:
-        root = _source_root(source, Path(scratch))
+        root = _source_root(source, Path(scratch), page)
         if is_canvas(page):
             src = root / page
             if not src.is_file():

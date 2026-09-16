@@ -15,8 +15,6 @@ SCREENS = ROOT / "screens"
 KIT = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
 CLASS_ATTR = re.compile(r'class="([^"]+)"')
 SCRIPT = re.compile(r"<script[^>]*>(.*?)</script>", re.S)
-MAIN = re.compile(r"<main\b.*?</main>", re.S)
-PRIMARY = re.compile(r"\b(?:agustos-button--primary|hero-action--primary|hero-link--primary)\b")
 FIRST_BLADE = '<path d="M 24.0215 4.2070'
 
 
@@ -99,16 +97,9 @@ class ScreenFileTest(unittest.TestCase):
                 else:
                     self.assertEqual(scripts, [])
 
-    def test_primary_cta_limit_and_quote_rule(self):
-        for name, text in self.pages.items():
-            row = KIT["screens"][name]
-            main = MAIN.search(text).group(0)
-            with self.subTest(screen=name):
-                self.assertLessEqual(len(PRIMARY.findall(main)), row["primaryCtaMax"])
-                if not row["quotes"]:
-                    self.assertNotRegex(text, r"type-blockquote|type-pullquote")
-
     def test_checker_scores_the_folder_clean(self):
+        """The checker owns the per-screen rules (primary CTA limit, quotes, theme,
+        keyed on data-screen); this run is what enforces them on the screens."""
         result = subprocess.run(
             [sys.executable, str(ROOT / "ui" / "check-agustos-ui.py"), str(SCREENS), "--skip", "design"],
             capture_output=True, text=True,

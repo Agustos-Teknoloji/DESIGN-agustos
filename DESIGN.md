@@ -1,8 +1,8 @@
 # Ağustos Design System
 
-**Version 6.0.0** · Cross-medium design system for Emre Güneş's brand portfolio
-**Last updated:** September 15, 2026
-**Status:** Two chromes and the layout layer in the kit, one reference screen per page type, the screens table in the registry, and the Claude Design loop closed.
+**Version 6.1.0** · Cross-medium design system for Emre Güneş's brand portfolio
+**Last updated:** September 16, 2026
+**Status:** Two chromes and the layout layer in the kit, one reference screen per page type, the screens table in the registry and enforced by the consumer checker, and the Claude Design loop closed on one stack.
 
 ## Standard artifacts
 
@@ -978,7 +978,7 @@ Generated files are committed so consuming projects never couple deployments to 
 
 ## Versioning
 
-This is **v6.0.0**. The major records the chrome contract: consumers replace their local chrome with the kit's and adopt one name. v5.0.0 recorded the design philosophy change. Subsequent changes follow semantic versioning:
+This is **v6.1.0**. The minor makes the checker enforce the screens table on every page (`data-screen` on `<body>`; primary CTA limit, quotes, and theme per row), adds the `content-index` screen, and gives both reference adapters the `screen` switch. v6.0.0 recorded the chrome contract: consumers replace their local chrome with the kit's and adopt one name. v5.0.0 recorded the design philosophy change. Subsequent changes follow semantic versioning:
 
 - **Major.** Breaking changes to token names, structural removal, philosophy shifts
 - **Minor.** New tokens, new brand additions, additive-only changes

@@ -527,6 +527,15 @@
         "purpose": "One article or post: title, deck, long-form body at 65ch with headings, lists, a quote, and a footnote.",
         "quotes": true
       },
+      "content-index": {
+        "brand": "agustos",
+        "family": "content",
+        "file": "content-index.html",
+        "photo": "none; titles stay type-only",
+        "primaryCtaMax": 1,
+        "purpose": "The list of posts: one section per year, body-size title links with a footnote line each, newest first. No heading per title.",
+        "quotes": false
+      },
       "home": {
         "brand": "agustos",
         "family": "marketing",
@@ -642,7 +651,7 @@
         "surface": "#ffffff"
       }
     },
-    "version": "6.0.0"
+    "version": "6.1.0"
   },
-  "version": "6.0.0"
+  "version": "6.1.0"
 }

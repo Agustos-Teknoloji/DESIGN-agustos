@@ -1,4 +1,4 @@
-# Ağustos UI kit — v6.0.0
+# Ağustos UI kit — v6.1.0
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -48,11 +48,11 @@ Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and
 
 npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-Prototypes with no build step may link the CDN copies. **Pin to `@v6.0.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
+Prototypes with no build step may link the CDN copies. **Pin to `@v6.1.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.0.0/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.0.0/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.1.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.1.0/ui/agustos.css">
 ```
 
 ## Page skeleton
@@ -116,6 +116,7 @@ One reference page per screen type lives in the source repository under `screens
 | `home` | marketing | sidebar | light | at most 2 | no | one installation photograph, third in the rollout |
 | `static` | content | sidebar | light | at most 1 | yes | people and places that explain the work |
 | `content` | content | sidebar | light | at most 1 | yes | only when it explains the content |
+| `content-index` | content | sidebar | light | at most 1 | no | none; titles stay type-only |
 | `products` | catalog | topbar | light | at most 1 | no | product thumbnails, second in the rollout |
 | `product-finder` | catalog | topbar | light | at most 1 | no | product thumbnails, second in the rollout |
 | `product` | catalog | topbar | light | at most 2 | no | product photograph or drawing, first in the rollout |
@@ -177,6 +178,7 @@ python3 vendor/agustos-ui/check-agustos-ui.py .
 ```
 
 Fix reported token values, font loading, CDN pins, brand classes, radii, and class overrides.
+Every page must carry `data-screen="<name>"` on `<body>`; the checker then holds it to that screen's row: primary actions inside `<main>` within the limit, quotes only where allowed, `data-theme` only on product UI.
 Use `--strict` to fail on warnings; use `--json` for structured output. Exit 0 confirms automated checks passed.
 Use `--skip <dir>` (repeatable) for frozen or generated folders the project must not edit. Do not hand-edit the checker; it is regenerated with the kit.
 Check for a newer kit with `python3 vendor/agustos-ui/check-agustos-ui.py --update-check`.

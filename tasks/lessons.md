@@ -26,3 +26,30 @@ Patterns captured from corrections, to avoid repeating mistakes.
    **Rule:** before recommending any chrome, layout, or component rule as "already decided,"
    open the live site and probe it. A recorded decision that the live product does not show
    is a proposal, not a fact.
+
+## Process, continued
+
+4. **"Let's discuss" means prose, not a form.** (2026-09-16) The user asked to discuss what the
+   brand guideline was missing; I answered with a gap analysis and then fired an AskUserQuestion
+   form, which the user rejected. The discussion continued in chat and the decision came in
+   chat. **Rule:** when the user frames a task as a discussion, present findings and a
+   recommendation in prose and end with one or two plain questions. Reach for a decision form
+   only when the user asks for options or the choice is a one-way door.
+
+5. **Run the plan through `/dhh` before presenting it, then boil it down.** (2026-09-16) My
+   eight-item, five-step follow-ups plan survived a `/dhh` review as three moves: two items were
+   the same problem (a stale rule layer beside the kit), one was a second implementation of an
+   existing test, one added a status value for a single row, one framed a doc change that did not
+   work (a double iframe of a click-toggled theme). Three items were already closed by a merged
+   PR I had not re-read. **Rule:** before presenting a plan, re-read main for work that already
+   landed, merge items that share a root cause, and prefer moving an existing implementation over
+   writing a second one. A plan that fits in three moves is usually the right size.
+
+## Environment
+
+6. **Probe the toolchain before the first real command.** (2026-09-16) After a macOS upgrade,
+   `/usr/bin/git` and `/usr/bin/python3` were Xcode shims that failed on a licence prompt, and the
+   first few calls worked before later ones failed. I lost a round of tool calls to it.
+   **Rule:** when a familiar command fails with an unfamiliar error, run one probe for the binary
+   (`which -a`, a direct Command Line Tools path) before retrying or reporting a blocker; the
+   workaround is one environment variable, not a user action.

@@ -28,6 +28,13 @@ interface Props {
   theme?: 'light' | 'dark';
   /** Page language. Default 'en'. Use 'tr' for Turkish content (mandatory per §6). */
   lang?: string;
+  /**
+   * The screen this page is, from the kit's screens table: home, static, content,
+   * content-index, products, product-finder, product, spec-sheet, app-shell.
+   * Rendered as data-screen on <body>; the kit checker holds the page to that
+   * screen's rules (primary CTA limit, quotes, theme).
+   */
+  screen?: string;
   /** Site chrome configuration. Defaults exercise the reusable DESIGN demo. */
   header?: HeaderConfig;
   footer?: FooterConfig;
@@ -59,6 +66,7 @@ const {
   substrate = 'white',
   theme,
   lang = 'en',
+  screen,
   brandname = BRAND_WORDMARKS[brand as Brand] ?? 'ağustos',
   header = {},
   footer = {},
@@ -100,7 +108,7 @@ const searchAttributes = searchable ? {
       </script>
     )}
   </head>
-  <body class={bodyClass}>
+  <body class={bodyClass} data-screen={screen}>
     <a class="skip-link" href="#main">Skip to content</a>
     <Header brandname={brandname} pathname={Astro.url.pathname} lang={lang} config={header} />
     <main id="main" tabindex="-1" {...searchAttributes}>

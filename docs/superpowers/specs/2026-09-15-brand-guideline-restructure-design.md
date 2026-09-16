@@ -359,6 +359,10 @@ untouched.
 Repointing Design's own `tokens/fonts.css` and `assets/laz-gunesi.svg` at the pushed copies
 stays deferred, as recorded on 2026-09-13.
 
+> **Closed 2026-09-16.** Design's own rule layer was retired instead of repointed: `tokens/`,
+> `components/`, and `cards/` deleted, `styles.css` importing the pushed kit, `SKILL.md`
+> pointing at `agustos-ui/UI-KIT.md`. See `archive/MEMORY.md`, "Design's own stack retired".
+
 ## 11. One source for the direction prose
 
 - `tokens/design-tokens.json` `designDirection` stays the source.
@@ -446,7 +450,7 @@ One branch, one pull request to `main`, one commit or a few per phase, the versi
   non-content screen, flag a theme control outside product UI. Needs `data-screen` and
   `kit.json.screens`, both delivered here.
 - Extracting the datasheet `PRODUCTS` dict into `brand/products/*.json`.
-- Repointing Design's own tokens and symbol at the pushed copies.
+- Repointing Design's own tokens and symbol at the pushed copies. (Closed 2026-09-16 by retiring that layer; see §10.5.)
 - The agustos.com and pataraz.com migrations themselves.
 
 ## 15. Acceptance

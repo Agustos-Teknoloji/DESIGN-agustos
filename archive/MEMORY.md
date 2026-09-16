@@ -1211,3 +1211,63 @@ filter sidebar, and the Design pages would need redrawing).
 
 **Lesson recorded:** `tasks/lessons.md` lesson 3. Before calling a chrome or layout rule
 "already decided", open the live site and probe it.
+
+## Design's own stack retired (2026-09-16)
+
+**On the table:** the Claude Design project "Ağustos" carried two layers. The repository pushed
+the generated kit into `agustos-ui/`. Beside it sat a hand-built layer from the v3 chat:
+`tokens/*.css`, six React components under `components/`, seventeen specimen cards under
+`cards/`, a `styles.css` that imported those tokens, and a `SKILL.md` and `readme.md` that
+described that layer as the system. Repointing that layer at the pushed copies was deferred on
+2026-09-13 and again on 2026-09-15 because the files were Design-owned. A `/dhh` review of the
+follow-ups plan on 2026-09-16 called it out: those files restate rules, and under the sync
+policy the repository owns rules. Meanwhile the layer had drifted: arrows on hero links, sidebar
+or topbar as a free choice, a 72ch measure, Google Fonts, "Version 3.0". A Design agent read that
+first, so a page drawn in Design came back off-spec.
+
+**Chosen:** delete `tokens/`, `components/`, and `cards/` in the Design project. Rewrite
+`styles.css` as two `@import` lines that load `agustos-ui/agustos-fonts.css` and
+`agustos-ui/agustos.css`. The Design app applies `styles.css` to every drawing and card
+(`_ds_manifest.json` → `globalCssPaths`), so the file stays and points at the kit. Replace
+`SKILL.md` with a five-line pointer at `agustos-ui/UI-KIT.md` and the screen cards, and
+`readme.md` with a short pointer. Forty-three files deleted, three written, under one
+`finalize_plan` that Emre approved. A verbatim copy of the retired layer is
+`artifacts/claude-design-own-stack-2026-09-16.zip`.
+
+**Why it matters:** the loop the repository was built for only closes if the Design side reads
+the same rules. With one stack, a designer sees one card set (`Kit ·`) and one contract
+(`agustos-ui/UI-KIT.md`), and a page drawn in Design starts from a screen card that the
+repository generated.
+
+**Accepted consequence:** `ui_kits/website` and `ui_kits/iesdesk` no longer render in Design.
+They were drawn on the retired stack. Both are pulled with screenshots under `screens/design/`
+and stay `pending` references for the home and app-shell screens.
+
+**Rejected:** a pointer-only `SKILL.md` with the old layer left in place (a designer still sees
+"Type" beside "Kit · Type" and can still reach for the wrong tokens); deleting `styles.css`
+(new drawings would lose their global CSS).
+
+**Boundary after this:** the Design project owns `ui_kits/` and `uploads/`. Everything else that
+states a rule is either under `agustos-ui/` and pushed, or gone. `/design-push` still writes
+`agustos-ui/` only; this retirement was a one-time manual change recorded here.
+
+## v6.1.0: the checker enforces the screens table (2026-09-16)
+
+**On the table:** v6.0.0 put every screen's rules in the registry, but only this repository's
+own test read them. A consuming site could put three filled buttons on a listing, a pullquote
+on a product page, or a theme toggle on marketing chrome, and `check-agustos-ui.py` exited 0.
+The follow-ups plan (2026-09-16, cut down by a `/dhh` review) chose one implementation over two.
+
+**Chosen:** the screens table is injected into the checker at build time, beside the token
+table. Five error rules keyed on `data-screen`: the page names its screen (AG020), the name is a
+row (AG021), primaries inside `<main>` stay within the row's limit (AG022), quotes only where the
+row allows them (AG023), `data-theme` only on product UI (AG024). The repository test that
+duplicated the count is gone; the test that runs the checker on `screens/` enforces it. Both
+reference adapters carry `data-screen`. `content-index` joins as the ninth screen, built from the
+live agustos.com blog index. Minor bump: additive.
+
+**Why it matters:** "guideline" became "enforced guideline" for pataraz.com and agustos.com, with
+no second rulebook to keep in step.
+
+**Rejected:** a second implementation of the rules in the checker beside the test (two places to
+drift); warning level for a missing `data-screen` (every page is a screen).

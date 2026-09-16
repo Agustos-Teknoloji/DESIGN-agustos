@@ -629,6 +629,20 @@ def verify_fonts(tokens: dict[str, Any]) -> list[str]:
     return problems
 
 
+def checker_screens_rules(tokens: dict[str, Any], brands: dict[str, Any]) -> str:
+    """Python literal mapping screen name -> the rules the checker enforces.
+
+    Injected into ui/check-agustos-ui.py next to the token table: the primary
+    CTA limit and the quote rule from the screens table, and the theme derived
+    from the family.
+    """
+    rules = {
+        row["name"]: {"primaryCtaMax": row["primaryCtaMax"], "quotes": row["quotes"], "theme": row["theme"]}
+        for row in sorted(screen_rows(tokens, brands), key=lambda row: row["name"])
+    }
+    return repr(rules)
+
+
 def checker_token_table(resolved: dict[str, Any], brands: dict[str, Any]) -> str:
     """Python literal mapping hex value -> the CSS variable that owns it.
 
@@ -787,6 +801,7 @@ def expected_outputs() -> dict[Path, str]:
     set_output(outputs, ROOT / "docs" / "agustos-fonts.css", docs_fonts_css(tokens, context))
     context["tokenTable"] = checker_token_table(resolved, brands)
     context["classList"] = checker_class_list(tokens)
+    context["screensRules"] = checker_screens_rules(tokens, brands)
     for template, target in UI_TEMPLATES:
         set_output(outputs, target, render_text_template(template, context))
     for template, target in DOC_TEMPLATES:

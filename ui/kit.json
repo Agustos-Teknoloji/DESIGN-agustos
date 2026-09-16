@@ -38,7 +38,7 @@
       "wordmark": "specquick"
     }
   },
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.0.0/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.1.0/ui/",
   "cssClasses": [
     "type-hero",
     "type-hero-md",
@@ -211,23 +211,23 @@
   "files": {
     "AGENTS-SNIPPET.md": {
       "bytes": 2215,
-      "sha256": "a44124178ee072db680ba4bdcc264ed3517bcc3e3f6fa52a44a70e35507ee7b3"
+      "sha256": "ca6298adc43ab506a490bc41bf9ad9eeb321b83de48dbc9297b25fdb5801a426"
     },
     "UI-KIT.md": {
-      "bytes": 13099,
-      "sha256": "c530827e515c61ca032c55ead144d9d2a13d14dc4c2cfdaf830ef840310f7f3a"
+      "bytes": 13410,
+      "sha256": "29b3026013ec20b51875331161c01e17547734a7b8babad587d6702255c8b972"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
-      "sha256": "c950d70ec9c7e06fa4c0dbfb0a24388eb34b9d83be6e84b2fed0ee40537b6dbb"
+      "sha256": "51443bd11f065f95f381678039f361e52bf6bddebfc9c00fc0a725a74725ecd5"
     },
     "agustos.css": {
       "bytes": 38782,
-      "sha256": "798564c45acef9c64930b82959c8f3897428cfb6088e199d47bd1047a2c6dba3"
+      "sha256": "6fe050b5bc56e451fff1b4af3f50b5aacd3071ea8a1cfd00a0affb30fb3be24d"
     },
     "check-agustos-ui.py": {
-      "bytes": 15768,
-      "sha256": "16940a9ff9d1d3c1a1f30c4a1c1edf278098121cbfc94040ad042b0350214fd9"
+      "bytes": 19817,
+      "sha256": "613f183a49da00cb085477b3d6186d8fe5bf4b635613f99ecd162429520839c1"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -251,12 +251,12 @@
     },
     "starter.html": {
       "bytes": 27515,
-      "sha256": "c1678b93e44dae93c9da20db315a8d212aea9db37683f2c5e484a1f6fe0d4bc7"
+      "sha256": "04a47362da8cd1c027c2132ffcb6e8d6b13bc1e6ddc0cc78ee4e3921a8aae1a5"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.0.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.0.0/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.1.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.1.0/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v6.0.0/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v6.1.0/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "screens": {
     "app-shell": {
@@ -279,6 +279,17 @@
       "primaryCtaMax": 1,
       "purpose": "One article or post: title, deck, long-form body at 65ch with headings, lists, a quote, and a footnote.",
       "quotes": true,
+      "theme": "light"
+    },
+    "content-index": {
+      "brand": "agustos",
+      "chrome": "sidebar",
+      "family": "content",
+      "file": "content-index.html",
+      "photo": "none; titles stay type-only",
+      "primaryCtaMax": 1,
+      "purpose": "The list of posts: one section per year, body-size title links with a footnote line each, newest first. No heading per title.",
+      "quotes": false,
       "theme": "light"
     },
     "home": {
@@ -358,5 +369,5 @@
     "cream"
   ],
   "system": "Ağustos Design System",
-  "version": "6.0.0"
+  "version": "6.1.0"
 }
