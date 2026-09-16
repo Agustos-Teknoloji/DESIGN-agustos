@@ -418,7 +418,7 @@ Move 3 · the home reference, the ninth screen, dark in view
   https://github.com/Agustos-Teknoloji/DESIGN-agustos/pull/40 open to `main`. The Design
   project runs on the pushed kit alone (its own stack retired, 43 deletes, 3 writes; backup in
   `artifacts/`) and holds kit v6.1.0 with nine screen cards.
-- Verification: 153 unit tests, `--check` current (18 files), Office check current (9 files, no
+- Verification: 151 unit tests, `--check` current (18 files), Office check current (9 files, no
   rebuild), screens checker clean (10 files), Astro chrome tests 6 of 6, Rails contract test 10
   runs and 171 assertions with Ruby 4.0.6, `content-index` rendered in the preview pane.
 - Found on the way: the pull tool lost a canvas whose source held only its `uploads/` folder
