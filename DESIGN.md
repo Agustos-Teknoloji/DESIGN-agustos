@@ -511,7 +511,7 @@ This bug was present from v1.0 through the early v2.0 spacing iterations, all th
 
 The baseline went 16px (v1.x) → 24px → 32px → 40px → **16px (current)**. The first three bumps were silently nullified by the specificity bug above; the value the page was actually rendering was 0px between most elements. Once the bug was fixed (specificity raised to `article.editorial >`), the 40px baseline finally took effect, and read as too generous. Settled at 16px baseline + 40px section break as the simplest expressive system: 1em flow rhythm, 2.5em chapter mark, 0.5em eyebrow exception.
 
-Captured as Principle 1 in `CONTEXT/ops/working-principles-claude.md` ("Consistency before local optimization") and Principle 2 ("Verify the rendered output, not the written CSS"), and now also as a CSS specificity warning here, so future-me doesn't regress.
+Captured as Principle 1 in `CONTEXT/ops/principles/agent-rules.md` Part B ("Consistency before local optimization") and Principle 2 ("Verify the running result, not the source"), and now also as a CSS specificity warning here, so future-me doesn't regress.
 
 **What was removed in v2.0**
 
