@@ -4,6 +4,14 @@ Entry point for any AI tool (Claude, Cursor, Copilot, Codex, etc.). Goal: get yo
 **smallest authoritative set of files fast**, and stop you from loading the whole repository or
 re-creating something that already exists.
 
+## Engineering baseline (Ağustos ops)
+
+This repo follows the fleet rules in `~/vaults/business/CONTEXT/ops/`. Start at `ops/AGENTS.md`, then read this app's row in `ops/fleet.md`.
+
+- Role: this repo is the source of the house-kit frontend tier. Apps vendor a tagged release. See `ops/decisions/frontend.md`.
+- If a rule in this repo conflicts with ops, stop and ask Emre. Record an approved exception in `ops/fleet.md`.
+- When Emre states a rule "from now on" or "for all apps", write it into ops in the same session. See `ops/playbooks/lesson-intake.md`.
+
 ## 30-second model
 
 - One company, several brands: **ağustos** (parent), **pataraz**, **pld türkiye**, **iesdesk**, **specquick**.
