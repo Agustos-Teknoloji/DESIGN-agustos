@@ -1,4 +1,5 @@
 # Design System Memory
+Frozen 2026-09-24. New decisions go to [MEMORY.md](../MEMORY.md).
 
 **Companion to DESIGN.md** · How the system arrived at its current form
 **Conversation date:** May 8, 2026
