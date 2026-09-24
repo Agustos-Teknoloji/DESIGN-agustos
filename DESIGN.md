@@ -185,15 +185,7 @@ The system separates that grammar into five layers:
 | **Screens** | One reference composition per page type, on kit classes | `screens/*.html`, hand-written; their rules in `tokens/design-tokens.json` → `screens` |
 | **Adapters** | Astro, WordPress, Rails, PowerPoint, Word/Google Docs | Generated and framework-specific files under `adapters/` and `brand/` |
 
-The promotion loop is deliberate:
-
-1. Test a new pattern on a real site with real content.
-2. Confirm it is reusable and consistent with the identity principles.
-3. Express the durable decision as a foundation, semantic role, or recipe here.
-4. Regenerate adapters and artifacts.
-5. Run drift, platform, and visual QA before release.
-
-A web header does not become a Word header verbatim. Each adapter inherits alignment, hierarchy, type, signal color, and spacing logic, then translates them into the native conventions of its medium.
+The factory side (the promotion loop, the generators and the drift checks) is in `ARCHITECTURE.md` in the source repository.
 
 ---
 
@@ -784,20 +776,7 @@ Future-you may wonder why these don't exist. They were considered and rejected.
 
 ### Repository architecture
 
-This repository is the canonical design-system source. Framework-specific implementations are adapters.
-
-```txt
-tokens/design-tokens.json Canonical cross-medium token registry
-brand/brands.json         Canonical brand identity registry
-tokens/web.css.tmpl       Platform-neutral web behavior
-DESIGN.md                 Canonical human-readable specification
-archive/MEMORY.md         Decision history
-scripts/                  Generators and drift checks
-adapters/                 Astro, Rails, and WordPress translations
-brand/                    Office generators and brand assets
-```
-
-The system should not depend on Astro. Astro is useful for static sites, documentation, and visual QA. Rails apps should consume the Rails adapter or copy the platform-neutral tokens directly.
+The repository layout, the hand-edited sources and the generated outputs are in `ARCHITECTURE.md` in the source repository. Consumers integrate through the `ui/` kit or `tokens/design-system-handoff.json`, and never run the generators or repair a generated file by hand. The system does not depend on Astro. Rails apps use the Rails adapter or copy the platform-neutral tokens directly.
 
 ### Web utilities
 
@@ -945,34 +924,7 @@ Run this checklist before calling a system change complete:
 6. Test keyboard navigation: skip link, header nav, search results, language controls, hero links, and boxed actions. On product UI, also test the theme control.
 7. Verify the desktop dropdown, responsive search row, drawer/backdrop/Escape behavior, 44px controls, and 16px responsive input.
 8. Verify mobile and desktop widths; text must not overlap, clip, or force horizontal scrolling except inside code blocks and wide tables.
-9. Run `python3 scripts/build_design_system.py --check`; generated hashes must be current.
-10. If Office export changed, render every DOCX page and PPTX slide, run the Google Docs title sanitizer, and run overflow checks.
-11. Run `python3 -m unittest discover -s tests`; the class list, contrast, font, and checker tests must pass.
-12. If `ui/` changed, bump `VERSION`, rebuild, and tag `v<VERSION>` in the same change. Serve `ui/` and confirm the woff2 files actually load and Inter Tight actually renders — a stack alone is not proof.
-
----
-
-## Files in this system
-
-The system consists of:
-
-- `DESIGN.md` (this file), canonical specification
-- `archive/MEMORY.md`: decision history and reasoning
-- `tokens/design-tokens.json`: canonical structured registry
-- `brand/brands.json`: canonical brand registry
-- `tokens/web.css.tmpl`: web behavior template
-- `tokens/resolved.json`: generated cross-medium values for downstream generators
-- `tokens/design-system-handoff.json`: generated single-file contract for coding systems
-- `tokens/agustos.css`: generated portable CSS
-- `adapters/astro/`, `adapters/rails/`, `adapters/wordpress/`
-- `brand/build_templates.py` and `brand/build_presentation.mjs`
-- `brand/fonts/` and generated `brand/exports/`
-- `ui/`: generated distribution kit — the entry point for any project consuming this system
-- `screens/`: one reference page per screen type, on kit classes; `screens/design/` holds pulled Claude Design references
-
-### Generated implementation and drift control
-
-Generated files are committed so consuming projects never couple deployments to this repository. The normal cross-system integration is one file: `tokens/design-system-handoff.json`. Vendor or attach it as context; consumer builds do not run these generators. `scripts/build_design_system.py` and the Office/brand builders run only when canonical sources change, and drift checks verify those checked-in outputs. Never repair a generated adapter or Office artifact by hand; repair the source and regenerate.
+The factory checks (generators, Office exports and a `ui/` release) are in `ARCHITECTURE.md`, section "Testing", in the source repository.
 
 ---
 
