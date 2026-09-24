@@ -1,8 +1,6 @@
 # Ağustos Design System
 
 **Version 6.1.0** · Cross-medium design system for Emre Güneş's brand portfolio
-**Last updated:** September 16, 2026
-**Status:** Two chromes and the layout layer in the kit, one reference screen per page type, the screens table in the registry and enforced by the consumer checker, and the Claude Design loop closed on one stack.
 
 ## Standard artifacts
 
@@ -493,24 +491,7 @@ These values sit *inside* a block, not *between* blocks, so they don't follow th
 | `table cells padding` | `0.5em 0.75em` | Standard table cell breathing |
 | `hero action margin-top` | `1.5rem` | Action row sits close to the deck but is visually separate from the statement. |
 
-**⚠ Specificity warning for editorial-scope rules**
-
-When a parent element scopes its children's flow spacing via adjacent-sibling selectors (e.g., `.editorial > * + *`), that selector's specificity is `(0,1,0)`: the **same** as a token rule like `.t-h1` or `.t-deck`. If the token rules declare `margin: 0` (as they do, to be reset-friendly), they will **override** the scope rule whenever they're declared later in the source. The fix is to raise the scope selector's specificity, for the editorial scope, use `article.editorial > * + *` (`(0,1,1)`) instead of `.editorial > * + *`. The same applies anywhere a "container scope" is applying flow margins to children whose token rules also touch margin.
-
-This bug was present from v1.0 through the early v2.0 spacing iterations, all the "bumps" to the baseline rule were silently overridden by token resets. Verify any new flow-spacing rule renders the value you set by inspecting computed styles, not by trusting the CSS reads correctly.
-
-**Tuning history**
-
-The baseline went 16px (v1.x) → 24px → 32px → 40px → **16px (current)**. The first three bumps were silently nullified by the specificity bug above; the value the page was actually rendering was 0px between most elements. Once the bug was fixed (specificity raised to `article.editorial >`), the 40px baseline finally took effect, and read as too generous. Settled at 16px baseline + 40px section break as the simplest expressive system: 1em flow rhythm, 2.5em chapter mark, 0.5em eyebrow exception.
-
-Captured as Principle 1 in `CONTEXT/ops/principles/agent-rules.md` Part B ("Consistency before local optimization") and Principle 2 ("Verify the running result, not the source"), and now also as a CSS specificity warning here, so future-me doesn't regress.
-
-**What was removed in v2.0**
-
-- The `H1 + .t-deck` adjacent-sibling rule (deck now flows at baseline 24px).
-- The `.t-deck + .t-body` adjacent-sibling rule (body flows at baseline).
-- The heading-hugs-first-paragraph pattern across H2/H3/H4 (first paragraph flows at baseline).
-- Asymmetric heading margins (huge top, tight bottom).
+**Flow spacing specificity.** Scope flow spacing with `article.editorial > * + *` (specificity 0,1,1), not `.editorial > * + *` (0,1,0). Token rules reset `margin` at 0,1,0, so a later token rule overrides a scope rule of equal specificity. Check the computed style of every new flow-spacing rule.
 
 If a specific page needs different spacing, scope it locally, don't loosen the tokens.
 
@@ -612,10 +593,6 @@ The wordmark uses **Inter Tight** (Rasmus Andersson. SIL OFL 1.1). Tighter, more
 
 Inter Tight is the wordmark face. It is also the system display face, the same family powers heroes, headings, eyebrows, UI labels, and table headers. This consolidation is intentional: in v2.0 the wordmark and the surrounding chrome are drawn from the same family, so the lockup integrates with its context rather than asserting itself as a separate face.
 
-Why Inter Tight: after seven prior iterations (Fraunces semi-bold, Fraunces slim+WONK, Space Grotesk Light, Manrope ExtraLight, IBM Plex Sans Light, Tenor Sans Regular, Plus Jakarta Sans Light), a final round comparison evaluated Plus Jakarta 300/200, Hanken Grotesk 300, Geist 300, and Inter Tight 300 alongside a system-pairing decision (retire Newsreader for Inter as body). Inter Tight won on three axes: best-in-class Turkish `ğ` rendering, paired-skeleton harmony with Inter for body, and a "tight" axis that earns the *slick* descriptor without going couture-thin. The system-level question, retire Newsreader, was decided in favor of consolidation: one paired family, simpler to maintain, more rigorous register from logo to caption.
-
-Why 650: a May 2026 bold-weight reconsideration compared the current Inter Tight 300 lockup against Inter Tight 650/730, Hanken Grotesk 700, Plus Jakarta Sans 700, and Bricolage Grotesque 700 in desktop header, mobile header, document, dark, and brand-family contexts. Inter Tight 650 solved the small-size quietness of the Light lockup while preserving the current system, neutral tracking, and portfolio-wide calm. Inter Tight 730 was legible but close to too assertive; Bricolage 700 was more memorable but less system-neutral.
-
 The Turkish `ğ` in Inter Tight is humanist; the breve integrates with the letter body. Inter has gold-standard Latin Extended coverage. `ğ`, `İ`, `ı`, `ş`, `ç`, `ö`, `ü` all draw correctly without locale tricks.
 
 Self-hosted via `@fontsource-variable/inter-tight` (logotype + display) and `@fontsource-variable/inter` (body). System-font fallback on both, so any context where web fonts don't load (email, embedded UI, slow networks) degrades cleanly to the user's native UI font.
@@ -627,7 +604,7 @@ CSS tokens:
 --body:    'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji";
 ```
 
-Full reasoning for the v2.0 decision in `archive/MEMORY.md` turning points 19–28.
+The full reasoning for the logotype is in `archive/MEMORY.md`, "Turning point 19" to "Turning point 23", and in the section moved from this file.
 
 ### Adding a new brand
 
@@ -748,27 +725,6 @@ Color has two separate jobs and they must never collapse into one token:
 2. **Interaction signal (`signal` / `--signal`).** Always red `#cf142a` across every brand. Use it only for the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus.
 
 A new chromatic house-brand identity is a philosophy change, not a routine registry choice. It requires updating this specification, `brand/brands.json`, tokens, tests, and the decision history together.
-
----
-
-## What was cut, and why
-
-Future-you may wonder why these don't exist. They were considered and rejected.
-
-| Cut | Reason |
-|---|---|
-| ~~`.type-display-xl` (64px)~~; *brought back in v2.0 as `.type-hero` and `.type-hero-md`* | v1.x argued layout creates presence above what type alone provides. v2.0 reversed that for landing/brand pages where the hero *is* the layout. Hero exists at two scales (big and medium); H1 still does page-title duty inside articles. |
-| `.type-display` (48px) | Sat between Display-XL and H1 with no clear job. H1 absorbs chapter and cover. |
-| `.type-eyebrow` (small uppercase signal color) | H4 absorbs eyebrow. Shared red appears as an eyebrow accent **only above hero tokens**; elsewhere, H4 stays ink-soft unless a local semantic role explicitly earns the signal. |
-| `.type-deck` (italic sub-headline) | Solved by `.type-hero-deck` utility for hero contexts; otherwise use normal body or `*italic*` only when the copy is genuinely editorial emphasis. |
-| `.type-byline` (italic 14px) | Editorial italic body does the job. Inline within prose if helpful. |
-| `.type-sc` (small caps for brand names) | Editorial flourish, not a system primitive. Brand names render fine in regular case. |
-| `.type-small` (generic secondary) | If it's secondary, it's a footnote. No middle tier. |
-| `.type-meta` (UI labels) | H4 absorbs meta. One token, one job, across all label-like contexts. |
-| `.type-caption` (figure caption) | Lives inside `.type-figure` as `figcaption`. Not addressable; inherent. |
-| `strong em` (bold italic) | Rarely the right choice. If something needs strongest emphasis, bold or italic alone is sufficient. |
-| Universal yellow highlight (`<mark>`) | Non-portable across markdown environments. The system uses link treatment for emphasized terms instead. |
-| Strong-em as separate token | Bold or italic alone covers all needed emphasis levels. |
 
 ---
 
@@ -948,12 +904,12 @@ change.** Consumers pin that tag. `VERSION` participates in the manifest's sourc
 if the rebuild is missed — without that, a version bump would leave every pinned URL in the kit
 stale while `--check` still reported clean.
 
-Each version updates this document and notes the change in `archive/MEMORY.md`.
+Each version updates this document, lists its changes in `CHANGELOG.md`, and records its decisions in `MEMORY.md`.
 
 ---
 
 ## Authority
 
-This system was designed by Emre Güneş in dialogue with Claude over the course of one extended design conversation in May 2026. It reflects Emre's editorial sensibility, business priorities, and engineering principles. Decisions documented in `archive/MEMORY.md`.
+This system was designed by Emre Güneş in dialogue with Claude over the course of one extended design conversation in May 2026. It reflects Emre's editorial sensibility, business priorities, and engineering principles. Decisions are documented in `MEMORY.md`, and the history before 2026-09-24 in `archive/MEMORY.md`.
 
 The system is the product of his judgment, not Claude's. Future changes should be made by him, with reasoning documented.
