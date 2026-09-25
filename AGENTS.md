@@ -3,10 +3,10 @@
 This repository is the source of the Ağustos design system: the token registry, the `ui/` kit that apps vendor, its checker, and the brand assets of every house brand.
 agustos.com is the reference implementation; this repository is authoritative. Use the router, and read only the files that your task needs.
 
-## Ops baseline (generated from CONTEXT/ops/fleet.md, do not edit by hand)
+## Ops baseline (generated from CONTEXT-agustos/ops/fleet.md, do not edit by hand)
 - Role: source of the house-kit tier. Apps vendor a tagged release.
 - CI: GitHub Actions
-- Fleet rules: `ops/AGENTS.md` in the `CONTEXT-agustos` repo (`~/vaults/business/CONTEXT` on Emre's Mac)
+- Fleet rules: `ops/AGENTS.md` in the `CONTEXT-agustos` repo (`~/vaults/business/PROJECTS/CONTEXT-agustos` on Emre's Mac)
 - If a local rule conflicts with ops, stop and ask Emre.
 
 ## Source priority

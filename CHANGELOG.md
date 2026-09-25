@@ -6,6 +6,7 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ### Changed
 
+- Docs: the ops baseline block in `AGENTS.md` names the new path of the CONTEXT-agustos checkout, `~/vaults/business/PROJECTS/CONTEXT-agustos` (2026-09-25).
 - Docs: adopt the fleet root doc set. `AGENTS.md` follows the fleet shape: the ops baseline block, a source priority, a router, rules and a Traps section. `CLAUDE.md` is one line, `@AGENTS.md`. New `ARCHITECTURE.md` with a Testing section, new `MEMORY.md` with date-slug IDs, and new `TODO.md`. `archive/MEMORY.md` is frozen. The factory-only sections and the history leave `DESIGN.md`; the consumer contract stays. `HANDOFF.md`, `ASSETS.md` and `PATARAZ.md` stay at the root.
 - Backfill, 2026-09-16 (PR #39): the seven parked review items from PR #38 closed. The generator writes the `screens/README.md` table, anchors its block-end search to each block, and refuses two steps that write one path. The handoff zip and the Claude Design screen cards carry every brand's datasheet assets and fail on a missing one. `/design-pull --target` checks the screens table. The Rails preview has its burger again, and the static screen has one photo well.
 - Backfill, 2026-09-09: `MEMORY.md` moved to `archive/MEMORY.md` with no content change, and `pataraz-ui-brief.md` merged into `PATARAZ.md`. The root docs went from 11 files to 8.
