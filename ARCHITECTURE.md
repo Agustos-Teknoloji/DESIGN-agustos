@@ -41,7 +41,7 @@ Two build paths exist:
 1. Everyday: `python3 scripts/build_design_system.py` writes `ui/`, the token CSS, the adapter CSS, the handoff JSON and the generated blocks.
 2. Full rebuild, only when Emre asks: `brand/build.py`, `brand/build_templates.py`, `scripts/build_ui_fonts.py` and `brand/build_datasheet.py`. [README.md](README.md) lists the commands.
 
-Generated files are committed, so consumer deployments never depend on this repository. Each generator has a `--check` mode, and CI fails on a stale file. `VERSION` is part of the manifest source hash, so a change under `ui/` without a rebuild fails CI. `scripts/check_office_artifacts.py` fingerprints only the fields that the Office generators read (MEMORY.md, 2026-09-13 office-rebuild-on-request).
+Generated files are committed, so consumer deployments never depend on this repository. Each generator has a `--check` mode, and the local gate fails on a stale file. `VERSION` is part of the manifest source hash, so a change under `ui/` without a rebuild fails the gate. `scripts/check_office_artifacts.py` fingerprints only the fields that the Office generators read (MEMORY.md, 2026-09-13 office-rebuild-on-request).
 
 ## Promotion loop
 
@@ -69,7 +69,7 @@ This repository owns the rules. `/design-push` writes only `agustos-ui/**` in th
 
 Test the generators, the published kit contract and the adapters. The kit is a public API: a class that `compatibility.cssClasses` lists must exist in the generated CSS, and every text color token must pass contrast on every substrate.
 
-The CI definition is [.github/workflows/design-system.yml](.github/workflows/design-system.yml). It runs on every pull request and on every push to `main`. Run its three steps locally before you push:
+The local gate is [scripts/ci.sh](scripts/ci.sh). It is the one list of checks, and it runs three steps in order:
 
 ```bash
 python3 scripts/build_design_system.py --check
@@ -77,7 +77,9 @@ python3 scripts/check_office_artifacts.py --check
 python3 -m unittest discover -s tests
 ```
 
-CI uses Python 3.12. The macOS system Python is 3.9, so run the steps with `mise exec python@3.12 -- python3 ...` to match CI.
+The pre-push hook, [.githooks/pre-push](.githooks/pre-push), runs the gate on every push except tag pushes and branch deletions. A failed gate refuses the push. Run `bin/setup` once in each clone to activate the hook. The repository has no GitHub Actions (MEMORY.md, 2026-09-25 no-github-actions).
+
+The gate uses Python 3.12 or newer. The macOS system Python is 3.9, so the gate falls back to the `python@3.12` install of mise. Set `PYTHON` to choose another interpreter.
 
 Suites:
 
@@ -86,7 +88,7 @@ Suites:
 | `tests/test_design_system.py` | The registry, token resolution, the screens table, the generated outputs and their drift, the handoff contract, and the generated block in `DESIGN.md` |
 | `tests/test_ui_kit.py` | The `ui/` kit: the published class list, contrast, fonts and the checker |
 | `tests/test_screens.py` | One reference page per row of the screens table, on kit classes only; runs the checker on `screens/` |
-| `tests/test_adapter_contracts.py` | The Astro, Rails and WordPress adapter sources, the CI workflow, and the handoff JSON against the kit contract |
+| `tests/test_adapter_contracts.py` | The Astro, Rails and WordPress adapter sources, the local gate and its hook, and the handoff JSON against the kit contract |
 | `tests/test_office_artifacts.py` | The Word and PowerPoint contract and the Office fingerprint |
 | `tests/test_pack_handoff.py` | The handoff zip: what it holds and what it leaves out |
 | `tests/test_design_sync.py` | The Claude Design push and pull, and the docs that route to them |
@@ -100,5 +102,5 @@ Before you call a system change done, also do these factory checks. The visual c
 
 Known gaps:
 
-- CI does not run the Astro or Rails adapter tests. Run them locally when you change an adapter.
+- The local gate does not run the Astro or Rails adapter tests. Run them locally when you change an adapter.
 - No test renders the Office files. The render check above is manual.

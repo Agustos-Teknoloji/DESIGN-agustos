@@ -2,7 +2,7 @@
 """Subset the master variable fonts into web woff2 for the ui/ distribution kit.
 
 This script is deliberately NOT part of scripts/build_design_system.py. It needs
-fonttools[woff2], which CI does not install, and the generated binaries change
+fonttools[woff2], which the local gate does not need, and the generated binaries change
 only when the master fonts change. Same posture as brand/build.py: run it when
 the sources move, then commit the output.
 

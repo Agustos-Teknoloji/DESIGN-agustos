@@ -22,6 +22,9 @@ The layers, the hand-edited sources, the generated outputs and the tests are in 
 
 ## Generate and verify
 
+Run `bin/setup` once in each new clone. It activates the pre-push hook in `.githooks/`.
+The hook runs `scripts/ci.sh`, the local gate, and refuses a push that fails it.
+
 After an everyday source change, refresh the kit. Do not rebuild logos, Office files, or fonts
 unless someone asks.
 
@@ -30,6 +33,8 @@ python3 scripts/build_design_system.py
 python3 scripts/build_design_system.py --check
 python3 -m unittest discover -s tests
 ```
+
+Run `scripts/ci.sh` to run the full gate by hand.
 
 The five standard artifacts are [DESIGN.md](DESIGN.md), [docs/fonts.html](docs/fonts.html), [docs/colour.html](docs/colour.html), [docs/web.html](docs/web.html), and [docs/brands.html](docs/brands.html).
 
@@ -78,8 +83,8 @@ python3 -m http.server 4330 --directory ui
 To hand the kit to another coding agent, read [HANDOFF.md](HANDOFF.md) and run `python3 scripts/pack_handoff.py`.
 
 Any change under `ui/` requires a VERSION bump, a rebuild, and a matching `v<VERSION>` git tag in the
-same change. `VERSION` participates in the manifest's source hash, so CI fails if the rebuild is
-missed.
+same change. `VERSION` participates in the manifest's source hash, so the local gate (`scripts/ci.sh`) fails
+if the rebuild is missed.
 
 ## Adapters
 

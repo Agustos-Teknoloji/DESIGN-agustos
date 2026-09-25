@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+# Pre-push hook. Refuses the push if scripts/ci.sh fails.
+#
+# bin/setup activates it with `git config core.hooksPath .githooks`.
+#
+# The hook skips:
+#   - tag pushes (refs/tags/*), because a tag changes no file;
+#   - branch deletions (local SHA is all zeros), because there is nothing to check.
+#
+# Every other push runs the gate, on every branch. A broken branch blocks
+# its pull request anyway, so the hook fails early. The gate takes about 1s.
+
+set -euo pipefail
+
+remote="${1:-}"
+
+zero='0000000000000000000000000000000000000000'
+needs_check=0
+
+# Refs arrive on stdin: <local_ref> <local_sha> <remote_ref> <remote_sha>
+while read -r local_ref local_sha _remote_ref _remote_sha; do
+  if [ "$local_sha" = "$zero" ]; then
+    continue
+  fi
+  case "$local_ref" in
+    refs/tags/*) continue ;;
+  esac
+  needs_check=1
+done
+
+if [ "$needs_check" -eq 0 ]; then
+  exit 0
+fi
+
+cd "$(git rev-parse --show-toplevel)"
+
+echo "pre-push: running scripts/ci.sh"
+if scripts/ci.sh >/dev/null 2>&1; then
+  echo "pre-push: scripts/ci.sh passed"
+  exit 0
+fi
+
+echo "pre-push: scripts/ci.sh FAILED. Push refused."
+echo ""
+echo "Running scripts/ci.sh again to show the failure:"
+echo "-----------------------------------------------"
+scripts/ci.sh || true
+echo "-----------------------------------------------"
+echo ""
+echo "Fix the failure, then push again to $remote."
+exit 1

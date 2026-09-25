@@ -5,7 +5,7 @@ agustos.com is the reference implementation; this repository is authoritative. U
 
 ## Ops baseline (generated from CONTEXT-agustos/ops/fleet.md, do not edit by hand)
 - Role: source of the house-kit tier. Apps vendor a tagged release.
-- CI: GitHub Actions
+- CI: pre-push hook
 - Fleet rules: `ops/AGENTS.md` in the `CONTEXT-agustos` repo (`~/vaults/business/PROJECTS/CONTEXT-agustos` on Emre's Mac)
 - If a local rule conflicts with ops, stop and ask Emre.
 
@@ -26,7 +26,7 @@ A measured live site beats any doc on what ships. Flag the drift, and fix the do
 | Task | Start here | Read next only if needed |
 |---|---|---|
 | Set up, generate and verify | [README.md](README.md) | [ARCHITECTURE.md](ARCHITECTURE.md) |
-| Understand the structure, or write and run tests | [ARCHITECTURE.md](ARCHITECTURE.md) | `.github/workflows/design-system.yml` |
+| Understand the structure, or write and run tests | [ARCHITECTURE.md](ARCHITECTURE.md) | `scripts/ci.sh`, the local gate that the pre-push hook runs |
 | **Build a UI in another repository** (Astro, WordPress, Rails, plain HTML) | **[ui/UI-KIT.md](ui/UI-KIT.md)**, then the matching `screens/<name>.html` | [docs/web.html](docs/web.html) for every screen with its rules, then [DESIGN.md](DESIGN.md) |
 | Change tokens or web recipes | `tokens/design-tokens.json` and `tokens/web.css.tmpl` | [docs/what-generates.html](docs/what-generates.html) for what a change regenerates |
 | Add or change a screen (home, static, content, content-index, products, product-finder, product, spec-sheet, app-shell) | `screens/<name>.html` and the `screens` table in `tokens/design-tokens.json` | [screens/README.md](screens/README.md), then the build and `/design-push` |
@@ -110,9 +110,10 @@ Novara (outdoor kitchen furniture) is a brand that Ağustos **represents and dis
 - Keep signal and identity separate. Red rules and focus never make a non-Ağustos logo red.
 - Use the brand's registered chrome from `brand/brands.json` (`chrome`). Style chrome only in `tokens/web.css.tmpl`.
 - Edit `tokens/design-tokens.json` or `tokens/web.css.tmpl`, then run `python3 scripts/build_design_system.py`. Never hand-edit generated CSS, `theme.json`, `tokens/resolved.json` or anything under `brand/exports/`.
-- After an everyday source change, run the build, `python3 scripts/build_design_system.py --check` and the unit tests. Run `--check` before every handoff.
+- Run `bin/setup` once in each new clone. It activates the pre-push hook in `.githooks/`, which runs `scripts/ci.sh` before every push.
+- After an everyday source change, run the build, then `scripts/ci.sh`: the `--check` steps and the unit tests. Run `--check` before every handoff.
 - Run `brand/build.py`, `brand/build_templates.py`, `scripts/build_ui_fonts.py` or `brand/build_datasheet.py` only when the user asks for a full rebuild. Then update `ASSETS.md`.
-- Rebuild the Office files (letterhead, document template, PowerPoint) only when Emre asks, and only after the Ağustos brand approach changed: identity ink, wordmark, logo, or the document or presentation recipe. A website-only token edit never needs one. Never rebuild them as a reflex to a CI drift warning. See [MEMORY.md](MEMORY.md), office-rebuild-on-request.
+- Rebuild the Office files (letterhead, document template, PowerPoint) only when Emre asks, and only after the Ağustos brand approach changed: identity ink, wordmark, logo, or the document or presentation recipe. A website-only token edit never needs one. Never rebuild them as a reflex to a drift warning from the local gate. See [MEMORY.md](MEMORY.md), office-rebuild-on-request.
 - Keep taglines in `brand/brands.json` (`tagline_en`, `tagline_tr`). Use them sparingly, and never print them on an artifact.
 - Update `ASSETS.md` in the same change when you add, move or recolor a brand asset.
 - Give any change under `ui/` a `VERSION` bump, a rebuild, a `v<VERSION>` tag and a `/design-push`, all in the same change. Consumers pin the tag.
