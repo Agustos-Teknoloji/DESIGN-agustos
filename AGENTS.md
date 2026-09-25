@@ -122,7 +122,7 @@ Novara (outdoor kitchen furniture) is a brand that Ağustos **represents and dis
 - For consumer projects, treat `ui/`, `tokens/design-system-handoff.json` and `brand/exports/` as ready-to-use inputs. A project that builds web interfaces needs `ui/UI-KIT.md` and nothing else. A consumer never regenerates this repository.
 - Do not load or paste the whole repository into context. Find the task in the router, then read only its files.
 - Write each new decision in `MEMORY.md` with a date-slug ID. Read `archive/MEMORY.md` only before you change a source decision or propose a reversal.
-- Write the plan for a task under `## Now` in `TODO.md`. Keep 5 items at most under `## Next`.
+- Write the plan for a task under `## Now` in `TODO.md`. Keep 20 items at most under `## Next`.
 - Record shipped work in `CHANGELOG.md` with additive lines.
 
 ## Traps
