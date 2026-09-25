@@ -104,7 +104,7 @@ The Astro token file is generated alongside every other web adapter:
 src/styles/tokens.css
 ```
 
-Run `python3 scripts/build_design_system.py` from the repository root. CI uses `--check` to reject drift.
+Run `python3 scripts/build_design_system.py` from the repository root. The local gate, `scripts/ci.sh`, uses `--check` to reject drift.
 
 ## Brands
 

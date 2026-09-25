@@ -136,11 +136,19 @@ class AdapterContractTest(unittest.TestCase):
         self.assertFalse(theme["settings"]["typography"]["customFontSize"])
         self.assertEqual(theme["settings"]["layout"], {"contentSize": "1180px", "wideSize": "1180px"})
 
-    def test_ci_enforces_web_office_and_unit_contracts(self):
-        workflow = (ROOT / ".github" / "workflows" / "design-system.yml").read_text(encoding="utf-8")
-        self.assertIn("scripts/build_design_system.py --check", workflow)
-        self.assertIn("scripts/check_office_artifacts.py --check", workflow)
-        self.assertIn("unittest discover -s tests", workflow)
+    def test_local_gate_enforces_web_office_and_unit_contracts(self):
+        gate = (ROOT / "scripts" / "ci.sh").read_text(encoding="utf-8")
+        steps = (
+            "scripts/build_design_system.py --check",
+            "scripts/check_office_artifacts.py --check",
+            "-m unittest discover -s tests",
+        )
+        for step in steps:
+            self.assertIn(step, gate)
+        positions = [gate.find(step) for step in steps]
+        self.assertEqual(positions, sorted(positions), "scripts/ci.sh must run its steps in this order")
+        hook = (ROOT / ".githooks" / "pre-push").read_text(encoding="utf-8")
+        self.assertRegex(hook, r"(?m)^\s*(?:if\s+!?\s*)?scripts/ci\.sh\b", "the pre-push hook must run scripts/ci.sh")
 
     def test_single_file_handoff_contains_tokens_rules_and_brand_registry(self):
         handoff = json.loads((ROOT / "tokens" / "design-system-handoff.json").read_text(encoding="utf-8"))

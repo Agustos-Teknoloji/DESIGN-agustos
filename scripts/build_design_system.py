@@ -7,7 +7,7 @@ The hand-edited inputs are:
   - tokens/web.css.tmpl       (platform-neutral web behavior)
 
 Generated files are committed so consumer repositories can vendor them without
-depending on this repository at deploy time. Use --check in CI to reject drift.
+depending on this repository at deploy time. scripts/ci.sh runs --check to reject drift.
 """
 
 from __future__ import annotations
@@ -609,7 +609,7 @@ def font_digests() -> dict[str, str]:
     """Hash the committed woff2 binaries so --check covers them.
 
     Deliberately hashing rather than regenerating: subsetting needs
-    fonttools[woff2], which CI does not install. See scripts/build_ui_fonts.py.
+    fonttools[woff2], which the local gate does not need. See scripts/build_ui_fonts.py.
     """
     digests: dict[str, str] = {}
     for path in sorted(UI_FONT_DIR.glob("*.woff2")):
