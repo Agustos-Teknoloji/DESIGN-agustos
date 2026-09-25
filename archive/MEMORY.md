@@ -1,4 +1,5 @@
 # Design System Memory
+Frozen 2026-09-24. New decisions go to [MEMORY.md](../MEMORY.md).
 
 **Companion to DESIGN.md** · How the system arrived at its current form
 **Conversation date:** May 8, 2026
@@ -1271,3 +1272,53 @@ no second rulebook to keep in step.
 
 **Rejected:** a second implementation of the rules in the checker beside the test (two places to
 drift); warning level for a missing `data-screen` (every page is a screen).
+
+## Moved from DESIGN.md (2026-09-24)
+
+The root doc set migration moved these history and rationale blocks out of `DESIGN.md` without a content change. `DESIGN.md` keeps the rules they produced.
+
+### Vertical rhythm: specificity warning, tuning history, and what was removed in v2.0
+
+**⚠ Specificity warning for editorial-scope rules**
+
+When a parent element scopes its children's flow spacing via adjacent-sibling selectors (e.g., `.editorial > * + *`), that selector's specificity is `(0,1,0)`: the **same** as a token rule like `.t-h1` or `.t-deck`. If the token rules declare `margin: 0` (as they do, to be reset-friendly), they will **override** the scope rule whenever they're declared later in the source. The fix is to raise the scope selector's specificity, for the editorial scope, use `article.editorial > * + *` (`(0,1,1)`) instead of `.editorial > * + *`. The same applies anywhere a "container scope" is applying flow margins to children whose token rules also touch margin.
+
+This bug was present from v1.0 through the early v2.0 spacing iterations, all the "bumps" to the baseline rule were silently overridden by token resets. Verify any new flow-spacing rule renders the value you set by inspecting computed styles, not by trusting the CSS reads correctly.
+
+**Tuning history**
+
+The baseline went 16px (v1.x) → 24px → 32px → 40px → **16px (current)**. The first three bumps were silently nullified by the specificity bug above; the value the page was actually rendering was 0px between most elements. Once the bug was fixed (specificity raised to `article.editorial >`), the 40px baseline finally took effect, and read as too generous. Settled at 16px baseline + 40px section break as the simplest expressive system: 1em flow rhythm, 2.5em chapter mark, 0.5em eyebrow exception.
+
+Captured as Principle 1 in `CONTEXT/ops/principles/agent-rules.md` Part B ("Consistency before local optimization") and Principle 2 ("Verify the running result, not the source"), and now also as a CSS specificity warning here, so future-me doesn't regress.
+
+**What was removed in v2.0**
+
+- The `H1 + .t-deck` adjacent-sibling rule (deck now flows at baseline 24px).
+- The `.t-deck + .t-body` adjacent-sibling rule (body flows at baseline).
+- The heading-hugs-first-paragraph pattern across H2/H3/H4 (first paragraph flows at baseline).
+- Asymmetric heading margins (huge top, tight bottom).
+
+### Logotype: why Inter Tight, and why 650
+
+Why Inter Tight: after seven prior iterations (Fraunces semi-bold, Fraunces slim+WONK, Space Grotesk Light, Manrope ExtraLight, IBM Plex Sans Light, Tenor Sans Regular, Plus Jakarta Sans Light), a final round comparison evaluated Plus Jakarta 300/200, Hanken Grotesk 300, Geist 300, and Inter Tight 300 alongside a system-pairing decision (retire Newsreader for Inter as body). Inter Tight won on three axes: best-in-class Turkish `ğ` rendering, paired-skeleton harmony with Inter for body, and a "tight" axis that earns the *slick* descriptor without going couture-thin. The system-level question, retire Newsreader, was decided in favor of consolidation: one paired family, simpler to maintain, more rigorous register from logo to caption.
+
+Why 650: a May 2026 bold-weight reconsideration compared the current Inter Tight 300 lockup against Inter Tight 650/730, Hanken Grotesk 700, Plus Jakarta Sans 700, and Bricolage Grotesque 700 in desktop header, mobile header, document, dark, and brand-family contexts. Inter Tight 650 solved the small-size quietness of the Light lockup while preserving the current system, neutral tracking, and portfolio-wide calm. Inter Tight 730 was legible but close to too assertive; Bricolage 700 was more memorable but less system-neutral.
+
+### What was cut, and why
+
+Future-you may wonder why these don't exist. They were considered and rejected.
+
+| Cut | Reason |
+|---|---|
+| ~~`.type-display-xl` (64px)~~; *brought back in v2.0 as `.type-hero` and `.type-hero-md`* | v1.x argued layout creates presence above what type alone provides. v2.0 reversed that for landing/brand pages where the hero *is* the layout. Hero exists at two scales (big and medium); H1 still does page-title duty inside articles. |
+| `.type-display` (48px) | Sat between Display-XL and H1 with no clear job. H1 absorbs chapter and cover. |
+| `.type-eyebrow` (small uppercase signal color) | H4 absorbs eyebrow. Shared red appears as an eyebrow accent **only above hero tokens**; elsewhere, H4 stays ink-soft unless a local semantic role explicitly earns the signal. |
+| `.type-deck` (italic sub-headline) | Solved by `.type-hero-deck` utility for hero contexts; otherwise use normal body or `*italic*` only when the copy is genuinely editorial emphasis. |
+| `.type-byline` (italic 14px) | Editorial italic body does the job. Inline within prose if helpful. |
+| `.type-sc` (small caps for brand names) | Editorial flourish, not a system primitive. Brand names render fine in regular case. |
+| `.type-small` (generic secondary) | If it's secondary, it's a footnote. No middle tier. |
+| `.type-meta` (UI labels) | H4 absorbs meta. One token, one job, across all label-like contexts. |
+| `.type-caption` (figure caption) | Lives inside `.type-figure` as `figcaption`. Not addressable; inherent. |
+| `strong em` (bold italic) | Rarely the right choice. If something needs strongest emphasis, bold or italic alone is sufficient. |
+| Universal yellow highlight (`<mark>`) | Non-portable across markdown environments. The system uses link treatment for emphasized terms instead. |
+| Strong-em as separate token | Bold or italic alone covers all needed emphasis levels. |

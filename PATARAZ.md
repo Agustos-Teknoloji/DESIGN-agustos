@@ -10,7 +10,7 @@ points back to the master documents for everything else:
 
 - **[DESIGN.md](DESIGN.md)** — the canonical specification (the rules). The master.
 - **[ASSETS.md](ASSETS.md)** — where every Pataraz asset file lives.
-- **[archive/MEMORY.md](archive/MEMORY.md)** — why decisions were made (read before reversing one).
+- **[MEMORY.md](MEMORY.md)** — why decisions were made (read before reversing one).
 - **[AGENTS.md](AGENTS.md)** — the task → file router for AI tools.
 
 > **Inheritance rule.** When a *shared* rule changes, it changes in `DESIGN.md` and Pataraz
@@ -21,7 +21,7 @@ points back to the master documents for everything else:
 > **Build target for pataraz.com:** a **Rails 8 + Hotwire (Turbo/Stimulus)** monolith,
 > Turkish-only, SQLite, no CSS build step. Vendor the kit from `ui/` and write plain CSS on
 > top of it. Do not add Tailwind or another utility framework (decided 2026-09-15; see
-> `archive/MEMORY.md`, "Vanilla CSS, no Tailwind"). You do not need the backend to design the
+> `MEMORY.md`, `2026-09-15 vanilla-css-no-tailwind`). You do not need the backend to design the
 > UI. Design in HTML with the kit's CSS; the markup ports into ERB views directly. Keep it
 > server-rendered and progressively enhanced.
 
@@ -96,8 +96,7 @@ Shared, unchanged: **Inter Tight** (display, headings, UI, and the wordmark), **
 copy), **JetBrains Mono** (all numerics, units, codes, and spec values — the credibility signal:
 lumens, watts, kelvin, dimensions, and product codes set in mono so they align in columns and
 read as data). Full scale and exact sizes/weights live in `DESIGN.md` §"Typography and content
-tokens" — do not re-list pixel values here; they have drifted from the live spec before (see
-`tasks/lessons.md`).
+tokens" — do not re-list pixel values here; they have drifted from the live spec before.
 
 ### Three expressions & favicon
 

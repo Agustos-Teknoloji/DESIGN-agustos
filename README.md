@@ -14,32 +14,11 @@ Keep the experience welcoming and easy to use.
 
 `DESIGN.md` defines the rules. `tokens/design-tokens.json` holds the portable `designDirection` contract.
 The generator publishes this contract in the handoff, resolved registry, and UI kit.
-Version 6.0.0 ships both site chromes and the layout layer in the kit, one reference screen per page type with real content, and the screens table that every document and card renders from, on top of the v5 white-substrate palette, type scale, action system, and locked dark theme.
-Version 6.1.0 makes the checker enforce that table on every page through `data-screen`, adds the `content-index` screen, and retires the Claude Design project's own rule layer behind the pushed kit.
-CTA repetition, dark shipping, photography, and quote placement are locked.
-Kit class names from v5 remain compatible. The adapters' local chrome classes are renamed; see the Migration section in `CHANGELOG.md`.
+The current release is in `VERSION`. [CHANGELOG.md](CHANGELOG.md) lists what each release changed, with a Migration section for each major version.
 
 ## Architecture
 
-Five layers separate durable decisions from platform syntax:
-
-1. **Foundations:** color, typography, spacing, measure, radii, and motion.
-2. **Semantic roles:** paper, surface, ink, muted ink, rule, brand signal, focus, display, body, and data.
-3. **Recipes:** chrome, hero, section opening, editorial link, card, data table, document, and presentation.
-4. **Screens:** one reference page per screen type, hand-written on kit classes.
-5. **Adapters:** Astro, WordPress, Rails, PowerPoint, and Word/Google Docs.
-
-Hand-edit these sources:
-
-- `tokens/design-tokens.json` — canonical cross-medium design registry.
-- `brand/brands.json` — canonical brand identity registry.
-- `tokens/web.css.tmpl` — platform-neutral web behavior and compatibility classes.
-- `DESIGN.md` — human-readable specification and governance.
-- `archive/MEMORY.md` — decision history. Read only when changing a source decision or proposing a reversal.
-
-`tokens/design-system-handoff.json` is the generated integration contract. Never hand-edit it.
-
-Everything under `brand/exports/` and all generated token/adapter files are outputs. Consumer deployments use the checked-in handoff or adapter; they never regenerate this repository's artifacts.
+The layers, the hand-edited sources, the generated outputs and the tests are in [ARCHITECTURE.md](ARCHITECTURE.md).
 
 ## Generate and verify
 
