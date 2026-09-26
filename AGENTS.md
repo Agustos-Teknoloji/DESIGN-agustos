@@ -7,6 +7,7 @@ agustos.com is the reference implementation; this repository is authoritative. U
 - Role: source of the house-kit tier. Apps vendor a tagged release.
 - CI: pre-push hook
 - Fleet rules: `ops/AGENTS.md` in the `CONTEXT-agustos` repo (`~/vaults/business/PROJECTS/CONTEXT-agustos` on Emre's Mac)
+- Writing: `standards/technical.md` in the `SKILL-writing` repo (Claude Code plugin `agustos-writing`)
 - If a local rule conflicts with ops, stop and ask Emre.
 
 ## Source priority
