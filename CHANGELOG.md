@@ -4,6 +4,12 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [6.2.1] - 2026-09-27
+
+### Changed
+
+- The `memregunes` brand uses sidebar chrome. Its seven Turkish menu labels do not fit a topbar at 1024px.
+
 ## [6.2.0] - 2026-09-27
 
 ### Added
