@@ -113,7 +113,7 @@ Novara (outdoor kitchen furniture) is a brand that Ağustos **represents and dis
 - Edit `tokens/design-tokens.json` or `tokens/web.css.tmpl`, then run `python3 scripts/build_design_system.py`. Never hand-edit generated CSS, `theme.json`, `tokens/resolved.json` or anything under `brand/exports/`.
 - Run `bin/setup` once in each new clone. It activates the pre-push hook in `.githooks/`, which runs `scripts/ci.sh` before every push.
 - After an everyday source change, run the build, then `scripts/ci.sh`: the `--check` steps and the unit tests. Run `--check` before every handoff.
-- Run `brand/build.py`, `brand/build_templates.py`, `scripts/build_ui_fonts.py` or `brand/build_datasheet.py` only when the user asks for a full rebuild. Then update `ASSETS.md`.
+- Run `brand/build.py`, `brand/build_templates.py`, `brand/build_guidelines.py`, `scripts/build_ui_fonts.py` or `brand/build_datasheet.py` only when the user asks for a full rebuild. Then update `ASSETS.md`.
 - Rebuild the Office files (letterhead, document template, PowerPoint) only when Emre asks, and only after the Ağustos brand approach changed: identity ink, wordmark, logo, or the document or presentation recipe. A website-only token edit never needs one. Never rebuild them as a reflex to a drift warning from the local gate. See [MEMORY.md](MEMORY.md), office-rebuild-on-request.
 - Keep taglines in `brand/brands.json` (`tagline_en`, `tagline_tr`). Use them sparingly, and never print them on an artifact.
 - Update `ASSETS.md` in the same change when you add, move or recolor a brand asset.

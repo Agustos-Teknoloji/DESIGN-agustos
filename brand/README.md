@@ -31,9 +31,11 @@ cd brand && npm install
 # 2. working documents — office, swatches, email, guidelines source
 python3 ../scripts/build_design_system.py
 ../.venv/bin/python build_templates.py --brand agustos
-# then render the guidelines PDF (one browse command — see templates/README.md)
 
-# 3. product datasheet ("teknik föy") — lighting spec sheet, A4, renders its own PDF
+# 3. brand guidelines: 11-page A4 PDF, rendered through browse
+python3 build_guidelines.py --brand agustos --pdf  # std-lib only; omit --brand for all
+
+# 4. product datasheet ("teknik föy") — lighting spec sheet, A4, renders its own PDF
 python3 build_datasheet.py --brand agustos --pdf   # std-lib only; no venv needed
 ```
 
@@ -48,7 +50,7 @@ social/      square avatar (400 & 1000px) + 1200x630 og image (svg + png)
 swatches/    <brand>.ase (Adobe) + <brand>.clr (Apple)
 email/       <brand>-signature.html (email-safe, self-contained)
 office/      <brand>-letterhead.docx + <brand>-document-template.docx + <brand>-template.pptx
-guidelines/  <brand>-brand-guidelines.html + .pdf (4-page shareable)
+guidelines/  <brand>-brand-guidelines.html + .pdf (11-page shareable)
 datasheet/   <product-key>.html + .pdf  (one A4 "teknik föy" per product, e.g. pataraz-px22)
 ```
 
@@ -117,7 +119,7 @@ expressions automatically. ~10 minutes.
 ## Status
 
 - ✅ `agustos` — full kit generated and reviewed: logos, favicons, social, swatches,
-  email signature, Office templates (PPTX/DOCX), and 4-page guidelines PDF.
+  email signature, Office templates (PPTX/DOCX), and 11-page guidelines PDF.
 - ✅ `pataraz`, `pld` — full kit generated: logos, favicons, social, swatches,
   email signature, Office templates, and guidelines. `pataraz` also ships datasheets.
 - ✅ `iesdesk`, `specquick` — logos, favicons, and social generated (documents deferred,

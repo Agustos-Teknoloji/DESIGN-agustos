@@ -8,7 +8,7 @@ Sibling to build.py (which makes the visual logo assets). This generates the
   exports/<brand>/swatches/    <brand>.ase (Adobe) + <brand>.clr (Apple)
   exports/<brand>/email/       <brand>-signature.html (email-safe, self-contained)
   exports/<brand>/office/      <brand>-letterhead.docx + <brand>-document-template.docx + <brand>-template.pptx
-  exports/<brand>/guidelines/  <brand>-brand-guidelines.html (rendered to PDF by browse)
+  exports/<brand>/guidelines/  <brand>-brand-guidelines.html (through build_guidelines.py)
 
 Run after build.py (it reuses the generated lockup PNGs).
 
@@ -27,6 +27,8 @@ import sys
 from pathlib import Path
 
 from PIL import Image
+
+import build_guidelines
 
 BRAND_DIR = Path(__file__).resolve().parent
 ROOT = BRAND_DIR.parent
@@ -310,130 +312,10 @@ def gen_pptx(slug, out: Path):
 
 
 # ----------------------------------------------------------------------------
-# Brand guidelines (HTML — rendered to PDF by browse)
-# ----------------------------------------------------------------------------
-
-def gen_guidelines_html(slug, brand, reg, design, out: Path, lk_dir: Path, fav_dir: Path):
-    color = brand["color"]
-    signal = design["semantic"]["color"]["signal"]
-    colors = design["foundations"]["color"]
-    title, domain = brand["title"], brand.get("domain", "")
-    fonts = BRAND_DIR / "fonts"
-    pal = palette(brand, reg, design)
-    sw = "".join(
-        f'<div class="sw"><div class="chip" style="background:{hx};'
-        f'{"border:1px solid " + colors["ruleCream"] + ";" if hx.lower() in (colors["paperCream"].lower(), colors["paperWhite"].lower()) else ""}"></div>'
-        f'<div class="swn">{name}</div><div class="swh">{hx.upper()}</div></div>'
-        for name, hx in pal
-    )
-    # file:// URLs to the bundled fonts so the PDF renders in real brand type.
-    it = (fonts / "inter-tight" / "InterTight[wght].ttf").as_uri()
-    inr = (fonts / "inter" / "Inter[opsz,wght].ttf").as_uri()
-    pos = (lk_dir / f"{slug}-lockup__positive.svg").as_uri()
-    neg = (lk_dir / f"{slug}-lockup__negative.svg").as_uri()
-    mono = (lk_dir / f"{slug}-lockup__mono.svg").as_uri()
-    fav = (fav_dir / "favicon.svg").as_uri()
-
-    ink = colors["ink"]
-    soft = colors["inkSoft"]
-    faint = colors["inkFaint"]
-    paper = colors["paperWhite"]
-    rule = colors["ruleCream"]
-    html = f"""<!doctype html><html><head><meta charset="utf-8"><style>
-@font-face {{ font-family:'IT'; src:url('{it}'); }}
-@font-face {{ font-family:'IN'; src:url('{inr}'); }}
-@page {{ size:A4; margin:0; }}
-* {{ box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }}
-body {{ margin:0; font-family:'IN',sans-serif; color:{ink}; background:{paper}; }}
-.page {{ width:210mm; min-height:297mm; padding:22mm 20mm; page-break-after:always; position:relative; }}
-.page:last-child {{ page-break-after:auto; }}
-h1 {{ font-family:'IT'; font-weight:650; font-size:46px; letter-spacing:-0.03em; margin:0 0 6px; }}
-h2 {{ font-family:'IT'; font-weight:600; font-size:13px; letter-spacing:0.005em; color:{faint}; margin:34px 0 14px; }}
-p {{ font-size:13.5px; line-height:1.65; max-width:62ch; color:{soft}; }}
-.cover-mark {{ width:230px; margin:48mm 0 10mm; }}
-.eyebrow {{ font-family:'IT'; font-weight:600; font-size:12px; letter-spacing:0.005em; color:{faint}; }}
-.foot {{ position:absolute; bottom:14mm; left:20mm; right:20mm; font-size:10px; color:{faint}; border-top:1px solid {rule}; padding-top:6px; display:flex; justify-content:space-between; }}
-.row {{ display:flex; gap:18px; flex-wrap:wrap; align-items:flex-end; }}
-.card {{ border:1px solid {rule}; border-radius:6px; padding:18px; }}
-.card.dark {{ background:{color}; border-color:{color}; }}
-.card img {{ height:38px; display:block; }}
-.lbl {{ font-family:'IT'; font-weight:600; font-size:10px; letter-spacing:0.005em; color:{faint}; margin-top:12px; }}
-.swatches {{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }}
-.chip {{ height:64px; border-radius:6px; }}
-.swn {{ font-family:'IT'; font-weight:650; font-size:12px; margin-top:8px; }}
-.swh {{ font-size:11px; color:{faint}; font-variant-numeric:tabular-nums; }}
-.type-it {{ font-family:'IT'; }}
-.spec {{ font-size:32px; }}
-.do {{ color:#1f6b4a; font-weight:bold; }} .dont {{ color:#b42318; font-weight:bold; }}
-ul.rules {{ font-size:12.5px; line-height:1.7; color:{soft}; padding-left:18px; }}
-.clearbox {{ display:inline-block; border:1px dashed {signal}; padding:14px; }}
-.clearbox img {{ height:46px; display:block; }}
-</style></head><body>
-
-<section class="page">
-  <div class="eyebrow">Brand Guidelines</div>
-  <img class="cover-mark" src="{pos}">
-  <h1>{title}</h1>
-  <div class="foot"><span>{domain}</span><span>v1 · generated from the Ağustos Design System</span></div>
-</section>
-
-<section class="page">
-  <div class="eyebrow">01</div><h1>The logo</h1>
-  <p>The mark is the Laz Güneşi symbol locked up with the wordmark. Three expressions cover every
-     surface. Use the positive form first — it works on white and dark backgrounds alike.</p>
-  <div class="row" style="margin-top:18px;">
-    <div class="card"><img src="{pos}"><div class="lbl">Positive — primary</div></div>
-    <div class="card dark"><img src="{neg}"><div class="lbl" style="color:rgba(255,255,255,.7)">Negative — on brand</div></div>
-    <div class="card"><img src="{mono}"><div class="lbl">Mono — single colour</div></div>
-  </div>
-  <h2>Clear space &amp; minimum size</h2>
-  <p>Keep clear space around the lockup equal to the symbol height. Never place type or edges inside it.
-     Minimum size: 24px tall on screen, 8mm in print, so the wordmark stays legible.</p>
-  <div class="clearbox"><img src="{pos}"></div>
-  <div class="foot"><span>{title} — Brand Guidelines</span><span>{domain}</span></div>
-</section>
-
-<section class="page">
-  <div class="eyebrow">02</div><h1>Colour</h1>
-  <p>Identity ink names the brand: Ağustos is red; every other house brand is off-black and white.
-     Shared Ağustos red is a 2px rule under content links and menu hover, plus keyboard focus.</p>
-  <div class="swatches" style="margin-top:18px;">{sw}</div>
-  <h2>Do &amp; don't</h2>
-  <ul class="rules">
-    <li><span class="do">Do</span> set the wordmark in Inter Tight Semibold, lowercase, in the registered identity ink.</li>
-    <li><span class="dont">Don't</span> recolour the symbol, stretch the lockup, or add a tagline beside it.</li>
-    <li><span class="do">Do</span> use shared red for interaction and emphasis; <span class="dont">don't</span> recolour a non-Ağustos logo red.</li>
-  </ul>
-  <div class="foot"><span>{title} — Brand Guidelines</span><span>{domain}</span></div>
-</section>
-
-<section class="page">
-  <div class="eyebrow">03</div><h1>Typography</h1>
-  <p>Two families, one skeleton. Inter Tight for display and the wordmark; Inter for body. JetBrains Mono for code and data.</p>
-  <div style="margin-top:22px;">
-    <div class="type-it spec" style="font-weight:650;">Inter Tight Semibold</div>
-    <div class="lbl">Display · wordmark · headings</div>
-  </div>
-  <div style="margin-top:26px;">
-    <div class="spec">Inter — body text</div>
-    <div class="lbl">Paragraphs · captions · tables</div>
-  </div>
-  <p style="margin-top:30px;">The Turkish locale is first-class: <span class="type-it" style="font-weight:650;">ağustos</span>,
-     <span class="type-it" style="font-weight:650;">İstanbul</span>, <span class="type-it" style="font-weight:650;">ışık</span> —
-     the dotted/dotless i and the ğ breve all render correctly.</p>
-  <div class="foot"><span>{title} — Brand Guidelines</span><span>{domain}</span></div>
-</section>
-
-</body></html>"""
-    out.write_text(html, encoding="utf-8")
-
-
-# ----------------------------------------------------------------------------
 
 def build_brand(slug, brand, reg, design):
     base = BRAND_DIR / "exports" / slug
     lk = base / "lockup"
-    fav = base / "favicon"
     pos_png = lk / f"{slug}-lockup__positive.png"
     if not pos_png.exists():
         raise SystemExit(f"missing {pos_png} — run build.py --brand {slug} first")
@@ -441,7 +323,6 @@ def build_brand(slug, brand, reg, design):
     sw_dir = base / "swatches"; sw_dir.mkdir(parents=True, exist_ok=True)
     em_dir = base / "email"; em_dir.mkdir(parents=True, exist_ok=True)
     of_dir = base / "office"; of_dir.mkdir(parents=True, exist_ok=True)
-    gl_dir = base / "guidelines"; gl_dir.mkdir(parents=True, exist_ok=True)
 
     pal = palette(brand, reg, design)
     write_ase(pal, sw_dir / f"{slug}.ase")
@@ -453,7 +334,7 @@ def build_brand(slug, brand, reg, design):
     gen_document_docx(slug, brand, design, of_dir / f"{slug}-letterhead.docx", pos_png, letterhead=True)
     gen_document_docx(slug, brand, design, of_dir / f"{slug}-document-template.docx", pos_png)
     gen_pptx(slug, of_dir / f"{slug}-template.pptx")
-    gen_guidelines_html(slug, brand, reg, design, gl_dir / f"{slug}-brand-guidelines.html", lk, fav)
+    build_guidelines.build_brand(slug, brand, reg, design)
 
     n = sum(1 for _ in base.rglob("*") if _.is_file())
     print(f"  ✓ {slug}: office + extras done ({n} files total in exports/{slug})")
@@ -489,7 +370,7 @@ def main():
             cwd=ROOT,
             check=True,
         )
-    print("Done. (Render guidelines HTML -> PDF with browse; see templates/README.md)")
+    print("Done. (Render the guidelines PDF with: python3 brand/build_guidelines.py --pdf)")
 
 
 if __name__ == "__main__":
