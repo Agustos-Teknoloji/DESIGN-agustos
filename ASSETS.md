@@ -100,7 +100,8 @@ scripts; never hand-edit `exports/`.
 |---|---|
 | Registry (keystone, source of truth) | [`brand/brands.json`](brand/brands.json) |
 | Engine — logos / favicons / social | [`brand/build.py`](brand/build.py) |
-| Engine — office / swatches / email / guidelines | [`brand/build_templates.py`](brand/build_templates.py) |
+| Engine — office / swatches / email | [`brand/build_templates.py`](brand/build_templates.py) |
+| Engine — brand guidelines (11-page A4 PDF) | [`brand/build_guidelines.py`](brand/build_guidelines.py) |
 | Engine — editable PowerPoint / Google Slides import | [`brand/build_presentation.mjs`](brand/build_presentation.mjs) |
 | Office artifact drift manifest (9 files, generated) | [`brand/exports/office-manifest.json`](brand/exports/office-manifest.json) |
 | Engine — product datasheet (lighting "teknik föy") | [`brand/build_datasheet.py`](brand/build_datasheet.py) |
@@ -109,7 +110,7 @@ scripts; never hand-edit `exports/`.
 
 Each `exports/<brand>/` holds: `lockup/` (positive/negative/mono × svg·pdf·png), `favicon/`,
 `social/`, `swatches/` (.ase/.clr), `email/` (signature), `office/` (editable PPTX, letterhead DOCX, styled document DOCX),
-`guidelines/` (4-page PDF), and `datasheet/` (A4 lighting product sheets, html + pdf). Full
+`guidelines/` (11-page PDF), and `datasheet/` (A4 lighting product sheets, html + pdf). Full
 kits: `agustos`, `pataraz`, `pld`; `iesdesk` and `specquick` have logos only. The `datasheet/` folder holds
 one sheet per product — real Pataraz luminaires (`pataraz-pl22`, `pataraz-px22`, and the
 PY series `pataraz-py300600` / `pataraz-py600600` / `pataraz-py6001200`) and an `agustos`

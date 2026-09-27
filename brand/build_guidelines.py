@@ -1,0 +1,415 @@
+#!/usr/bin/env python3
+"""
+Ağustos brand kit: brand guidelines (A4 PDF, 11 pages, English).
+
+Writes exports/<brand>/guidelines/<brand>-brand-guidelines.html from brands.json and
+tokens/resolved.json. With --pdf it also renders the PDF through the gstack browse tool.
+Every value comes from the registry; the page states nothing the system does not record.
+
+Run after build.py (it reuses the generated lockups).
+
+  python3 brand/build_guidelines.py [--brand <slug>] [--pdf]
+"""
+
+from __future__ import annotations
+
+import argparse
+import base64
+import html
+import json
+import re
+import subprocess
+from pathlib import Path
+
+BRAND_DIR = Path(__file__).resolve().parent
+ROOT = BRAND_DIR.parent
+REGISTRY = BRAND_DIR / "brands.json"
+TOKENS = ROOT / "tokens" / "resolved.json"
+SYMBOL = ROOT / "laz-gunesi-amblem" / "svg" / "master.svg"
+BROWSE = Path.home() / ".claude/skills/gstack/browse/dist/browse"
+
+# Page titles, in order. The cover and back cover have no title.
+SECTIONS = [
+    "Introduction",
+    "The symbol",
+    "The logo",
+    "Clear space and minimum size",
+    "Logo misuse",
+    "Colour",
+    "Typography",
+    "Which file to use",
+]
+
+
+def hexrgb(h: str) -> tuple[int, int, int]:
+    h = h.lstrip("#")
+    return tuple(int(h[i:i + 2], 16) for i in (0, 2, 4))
+
+
+def tinted(path: Path, color: str) -> str:
+    """The SVG as a data URI, with every fill set to one colour. The symbol and lockups use one fill."""
+    svg = re.sub(r'fill="#[0-9a-fA-F]{3,6}"', f'fill="{color}"', path.read_text(encoding="utf-8"))
+    return "data:image/svg+xml;base64," + base64.b64encode(svg.encode()).decode()
+
+
+def tr_upper(text: str) -> str:
+    """Turkish capitals: the dotted i becomes İ, not I."""
+    return text.replace("i", "İ").upper()
+
+
+def six_colours(colors: dict, signal: str) -> list[tuple[str, str, str]]:
+    """The locked six-colour palette: name, value, role."""
+    return [
+        ("White", colors["paperWhite"], "Paper for every page and screen."),
+        ("Cream", colors["paperCream"], "Full-width callout and closing bands only."),
+        ("Light gray", colors["paperGray"], "Quiet surfaces and panels."),
+        ("Dark gray", colors["inkSoft"], "Secondary text."),
+        ("Off-black", colors["ink"], "Body text and headings."),
+        ("Red", signal, "Signal: 2px link rule, current menu item, keyboard focus."),
+    ]
+
+
+def intro_html(title: str, is_parent: bool, family: list[str]) -> str:
+    if is_parent:
+        others = [f for f in family if f != title]
+        opening = f"{title} is the parent company of {', '.join(others[:-1])} and {others[-1]}."
+    else:
+        opening = f"{title} is part of the Ağustos family: {', '.join(family[:-1])} and {family[-1]}."
+    return f"""
+  <p>{opening}
+     Every brand shares one symbol, the Laz Güneşi, an 18-blade sun. Ağustos alone uses red.
+     The other brands use black or white, and their wordmark tells them apart.</p>
+  <p>Our design direction is İskandivvian: Scandinavian restraint filtered through Mediterranean
+     warmth. In practice, that means white paper, few colours, clear type and plain language.
+     Every element must be useful. Nothing is there for decoration.</p>
+  <p>This guide covers the basics: the logo, colour, type and the right file for each job.
+     Use it when you make anything that carries the {title} name.</p>"""
+
+
+def gen_guidelines_html(slug: str, brand: dict, reg: dict, design: dict, out: Path,
+                        lk_dir: Path, version: str) -> None:
+    colors = design["foundations"]["color"]
+    signal = design["semantic"]["color"]["signal"]
+    radius = design["foundations"]["radius"]["medium"]
+    identity = brand["color"]
+    is_red = identity.lower() == signal.lower()
+    title = html.escape(brand["title"])
+    wordmark = html.escape(brand["wordmark"])
+    domain = html.escape(brand.get("domain", ""))
+    family = [html.escape(b["title"]) for b in reg["brands"].values()]
+    family_html = '<h2>The family</h2><table class="files">' + "".join(
+        f'<tr><td><span class="wm" style="font-size:17px;color:{b["color"]};">{html.escape(b["wordmark"])}</span></td>'
+        f'<td>{html.escape(b["title"])}</td><td class="path">{html.escape(b.get("domain", ""))}</td></tr>'
+        for b in reg["brands"].values()
+    ) + "</table>"
+
+    ink, soft, faint = colors["ink"], colors["inkSoft"], colors["inkFaint"]
+    paper, cream, gray, rule = colors["paperWhite"], colors["paperCream"], colors["paperGray"], colors["ruleCream"]
+    danger = colors["stateDanger"]
+    # The wrong colour in the recolour example: red for a black brand, blue for Ağustos.
+    wrong = colors["stateInfo"] if is_red else signal
+
+    fonts = BRAND_DIR / "fonts"
+    f_it = (fonts / "inter-tight" / "InterTight[wght].ttf").as_uri()
+    f_in = (fonts / "inter" / "Inter[opsz,wght].ttf").as_uri()
+    f_mo = (fonts / "jetbrains-mono" / "JetBrainsMono[wght].ttf").as_uri()
+    pos = (lk_dir / f"{slug}-lockup__positive.svg").as_uri()
+    neg = (lk_dir / f"{slug}-lockup__negative.svg").as_uri()
+    mono = (lk_dir / f"{slug}-lockup__mono.svg").as_uri()
+    sym = tinted(SYMBOL, identity)
+
+    def page(head: str, content: str) -> str:
+        num = SECTIONS.index(head) + 1  # section 1 is on page 3
+        return (f'<section class="page"><h1><span class="n">{num}</span>{head}</h1>{content}'
+                f'<div class="foot"><span>{title} brand guidelines</span><span>{num + 2}</span></div></section>')
+
+    contents = "".join(
+        f'<li><span>{i + 1}&nbsp;&nbsp;{s}</span><span class="pg">{i + 3}</span></li>'
+        for i, s in enumerate(SECTIONS)
+    )
+
+    usage = [
+        ("Positive", pos, paper, "Default. Light backgrounds, about 90% of uses."),
+        ("Negative", neg, identity, "On the identity colour, dark colours and photographs."),
+        ("Mono", mono, paper, "One ink only: stamps, engraving, single-colour print."),
+    ]
+    usage_html = "".join(
+        f'<div class="card"><div class="stage" style="background:{bg};">'
+        f'<img src="{src}" style="max-height:44px;max-width:86%;"></div>'
+        f'<div class="cap"><b>{name}</b><br>{text}</div></div>'
+        for name, src, bg, text in usage
+    )
+
+    misuse = [
+        ("Do not stretch or squash the logo.",
+         f'<img src="{pos}" style="height:34px;transform:scaleX(1.45);">'),
+        ("Do not recolour the logo.",
+         f'<img src="{tinted(lk_dir / f"{slug}-lockup__positive.svg", wrong)}" style="height:34px;">'),
+        ("Do not rotate the logo.",
+         f'<img src="{pos}" style="height:34px;transform:rotate(-14deg);">'),
+        ("Do not set the wordmark in capitals.",
+         f'<span class="lock"><img src="{sym}" style="height:30px;">'
+         f'<span class="wm" style="color:{identity};">{tr_upper(wordmark)}</span></span>'),
+        ("Do not add a tagline or other text.",
+         f'<span class="lock-col"><img src="{pos}" style="height:30px;">'
+         f'<span class="tag">Tagline text</span></span>'),
+        ("Do not add shadows or effects.",
+         f'<img src="{pos}" style="height:34px;filter:drop-shadow(3px 4px 3px {faint});">'),
+    ]
+    misuse_html = "".join(
+        f'<div class="card"><div class="stage">{art}</div><div class="cap"><span class="no">Don\'t</span> {text.removeprefix("Do not ")}</div></div>'
+        for text, art in misuse
+    )
+
+    ident_text = (
+        f"The {title} identity colour is red, {identity.upper()}. Only the Ağustos logo is red. "
+        f"Red fills a surface in one place only: the identity tile behind the negative logo."
+        if is_red else
+        f"The {title} identity colour is off-black, {identity.upper()}. Red belongs to Ağustos. "
+        f"Never make the {title} logo red."
+    )
+    swatches = "".join(
+        f'<div class="sw"><div class="chip" style="background:{hx};"></div>'
+        f'<div class="swn">{name}</div>'
+        f'<div class="swv">HEX {hx.upper()}<br>RGB {" ".join(str(c) for c in hexrgb(hx))}</div>'
+        f'<div class="swr">{role}</div></div>'
+        for name, hx, role in six_colours(colors, signal)
+    )
+
+    files = [
+        ("Logo for a website or app", "lockup/…-lockup__positive.svg"),
+        ("Logo on a dark or photo background", "lockup/…-lockup__negative.svg"),
+        ("Logo in one ink", "lockup/…-lockup__mono.svg"),
+        ("Logo for print", "lockup/…-lockup__positive.pdf"),
+        ("Logo for slides or social posts", "lockup/…-lockup__positive.png"),
+        ("Favicon or app icon", "favicon/favicon.svg"),
+        ("Profile picture", "social/…-avatar-1000.png"),
+        ("Link preview image", "social/…-og.png"),
+        ("Colour swatches", "swatches/….ase (Adobe), ….clr (Apple)"),
+        ("Presentation", "office/…-template.pptx"),
+        ("Letter or document", "office/…-letterhead.docx, …-document-template.docx"),
+        ("Email signature", "email/…-signature.html"),
+    ]
+    files_html = "".join(
+        f"<tr><td>{need}</td><td class='path'>{path.replace('…', slug)}</td></tr>"
+        for need, path in files
+    )
+
+    doc = f"""<!doctype html><html lang="en"><head><meta charset="utf-8">
+<title>{title} brand guidelines</title><style>
+@font-face {{ font-family:'Inter Tight'; src:url('{f_it}'); font-weight:100 900; }}
+@font-face {{ font-family:'Inter'; src:url('{f_in}'); font-weight:100 900; }}
+@font-face {{ font-family:'JetBrains Mono'; src:url('{f_mo}'); font-weight:100 900; }}
+@page {{ size:A4; margin:0; }}
+* {{ box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }}
+body {{ margin:0; font-family:'Inter',sans-serif; color:{ink}; background:{paper}; }}
+.page {{ width:210mm; height:297mm; padding:24mm 20mm 26mm; page-break-after:always; position:relative; overflow:hidden; }}
+.page:last-child {{ page-break-after:auto; }}
+h1 {{ font-family:'Inter Tight'; font-weight:650; font-size:38px; letter-spacing:-0.02em; line-height:1.1; margin:0 0 18px; }}
+h1 .n {{ color:{faint}; margin-right:14px; font-variant-numeric:tabular-nums; }}
+h2 {{ font-family:'Inter Tight'; font-weight:600; font-size:17px; margin:30px 0 10px; }}
+p {{ font-size:13px; line-height:1.65; max-width:64ch; color:{soft}; margin:0 0 12px; }}
+.foot {{ position:absolute; bottom:12mm; left:20mm; right:20mm; font-size:9.5px; color:{faint};
+         border-top:1px solid {rule}; padding-top:6px; display:flex; justify-content:space-between; }}
+.grid3 {{ display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:20px; }}
+.grid2 {{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:20px; }}
+.card {{ border:1px solid {rule}; border-radius:{radius}; overflow:hidden; }}
+.stage {{ height:120px; display:flex; align-items:center; justify-content:center; background:{paper}; }}
+.cap {{ font-size:11px; line-height:1.5; color:{soft}; padding:10px 12px; border-top:1px solid {rule}; }}
+.cap b {{ font-family:'Inter Tight'; font-weight:600; color:{ink}; font-size:12px; }}
+.no {{ font-weight:700; color:{danger}; }}
+.lock {{ display:inline-flex; align-items:center; gap:9px; }}
+.lock-col {{ display:inline-flex; flex-direction:column; align-items:flex-start; gap:4px; }}
+.wm {{ font-family:'Inter Tight'; font-weight:650; font-size:26px; line-height:1; }}
+.tag {{ font-size:12px; color:{soft}; padding-left:40px; }}
+
+/* cover and back cover */
+.cover {{ display:flex; flex-direction:column; }}
+.cover img {{ height:64px; align-self:flex-start; margin-top:70mm; }}
+.cover .t {{ font-family:'Inter Tight'; font-weight:650; font-size:54px; letter-spacing:-0.025em; margin:34mm 0 6px; }}
+.cover .s {{ font-size:15px; color:{soft}; }}
+.back {{ background:{identity}; display:flex; align-items:center; justify-content:center; }}
+.back img {{ height:60px; }}
+.back .foot {{ border-color:rgba(255,255,255,.25); color:rgba(255,255,255,.75); }}
+
+/* contents */
+ol.toc {{ list-style:none; padding:0; margin:26px 0 0; max-width:120mm; }}
+ol.toc li {{ display:flex; justify-content:space-between; font-size:15px; padding:11px 0; border-bottom:1px solid {rule}; }}
+ol.toc .pg {{ color:{faint}; font-variant-numeric:tabular-nums; }}
+
+/* symbol */
+.symbol-hero {{ display:flex; gap:22px; align-items:center; margin:26px 0 8px; }}
+.symbol-hero .big {{ padding:30px; border:1px solid {rule}; border-radius:{radius}; }}
+.symbol-sizes {{ display:flex; gap:26px; align-items:flex-end; margin-top:20px; }}
+.symbol-sizes div {{ font-size:10px; color:{faint}; text-align:center; }}
+
+/* clear space */
+.clear {{ display:inline-block; position:relative; padding:56px; border:1px dashed {faint}; margin-top:18px; }}
+.clear img {{ height:56px; display:block; outline:1px solid {rule}; }}
+.clear .x {{ position:absolute; font-size:11px; color:{faint}; font-family:'JetBrains Mono'; }}
+.minrow {{ display:flex; gap:40px; align-items:flex-end; margin-top:16px; }}
+.minrow div {{ font-size:11px; color:{soft}; }}
+
+/* colour */
+.ident {{ display:flex; gap:18px; align-items:center; margin:20px 0 6px; }}
+.ident .chip {{ width:120px; height:78px; }}
+.swatches {{ display:grid; grid-template-columns:repeat(3,1fr); gap:16px 14px; margin-top:12px; }}
+.chip {{ height:60px; border-radius:{radius}; border:1px solid {rule}; }}
+.swn {{ font-family:'Inter Tight'; font-weight:650; font-size:13px; margin-top:8px; }}
+.swv {{ font-family:'JetBrains Mono'; font-size:10px; color:{soft}; line-height:1.6; margin-top:2px; }}
+.swr {{ font-size:10.5px; color:{faint}; line-height:1.45; margin-top:4px; }}
+.note {{ background:{cream}; border-radius:{radius}; padding:12px 14px; font-size:11.5px; color:{soft}; margin-top:18px; line-height:1.55; }}
+
+/* type */
+.spec {{ border-top:1px solid {rule}; padding:14px 0; display:grid; grid-template-columns:44mm 1fr; gap:12px; align-items:baseline; }}
+.spec .k {{ font-size:10.5px; color:{faint}; line-height:1.5; }}
+.spec .k b {{ font-family:'Inter Tight'; font-weight:600; color:{ink}; font-size:12px; display:block; }}
+
+/* files */
+table.files {{ width:100%; border-collapse:collapse; margin-top:18px; font-size:11.5px; }}
+table.files td {{ padding:8px 0; border-bottom:1px solid {rule}; vertical-align:top; color:{soft}; }}
+table.files td.path {{ font-family:'JetBrains Mono'; font-size:10px; color:{ink}; padding-left:14px; }}
+</style></head><body>
+
+<section class="page cover">
+  <img src="{pos}" alt="{wordmark}">
+  <div class="t">Brand guidelines</div>
+  <div class="s">{title}</div>
+  <div class="foot"><span>{domain}</span><span>Ağustos Design System {version}</span></div>
+</section>
+
+<section class="page">
+  <h1>Contents</h1>
+  <ol class="toc">{contents}</ol>
+  <div class="foot"><span>{title} brand guidelines</span><span>2</span></div>
+</section>
+
+{page("Introduction", intro_html(title, slug == "agustos", family) + family_html)}
+
+{page("The symbol", f'''
+  <p>The Laz Güneşi is an 18-blade sun. Every brand in the family uses this one symbol.
+     Use the supplied artwork only. Never redraw, simplify or rearrange the blades.</p>
+  <div class="symbol-hero"><div class="big"><img src="{sym}" style="height:150px;"></div></div>
+  <h2>Colour of the symbol</h2>
+  <p>In the {title} logo, the symbol is {"red" if is_red else "off-black"}, like the wordmark.
+     On a dark background, it is white. The symbol can stand alone as a favicon or app icon.</p>
+  <div class="symbol-sizes">
+    <div><img src="{sym}" style="height:64px;"><br>64px</div>
+    <div><img src="{sym}" style="height:32px;"><br>32px</div>
+    <div><img src="{sym}" style="height:16px;"><br>16px, smallest</div>
+  </div>''')}
+
+{page("The logo", f'''
+  <p>The logo is the symbol with the wordmark "{wordmark}", set in Inter Tight at weight 650,
+     always lowercase. The two parts are one unit. Do not move them apart or use the
+     wordmark without the symbol.</p>
+  <h2>Three versions</h2>
+  <p>Pick the version by the background. There is no fourth version.</p>
+  <div class="grid3">{usage_html}</div>''')}
+
+{page("Clear space and minimum size", f'''
+  <p>Keep an empty area around the logo. Its width, x, is equal to the height of the symbol.
+     No text, image or page edge can go into this area.</p>
+  <div class="clear"><img src="{pos}">
+    <span class="x" style="top:20px;left:50%;">x</span>
+    <span class="x" style="bottom:20px;left:50%;">x</span>
+    <span class="x" style="left:24px;top:50%;">x</span>
+    <span class="x" style="right:24px;top:50%;">x</span>
+  </div>
+  <h2>Minimum size</h2>
+  <p>Below these heights, the wordmark is hard to read. For smaller spaces, use the symbol alone.</p>
+  <div class="minrow">
+    <div><img src="{pos}" style="height:24px;display:block;margin-bottom:8px;">On screen: 24px tall</div>
+    <div><img src="{pos}" style="height:8mm;display:block;margin-bottom:8px;">In print: 8mm tall</div>
+  </div>''')}
+
+{page("Logo misuse", f'''
+  <p>The logo works only when it looks the same everywhere. These are the most common mistakes.</p>
+  <div class="grid2">{misuse_html}</div>''')}
+
+{page("Colour", f'''
+  <p>{ident_text}</p>
+  <div class="ident"><div class="chip" style="background:{identity};"></div>
+    <div><div class="swn">Identity colour</div>
+    <div class="swv">HEX {identity.upper()}<br>RGB {" ".join(str(c) for c in hexrgb(identity))}</div></div></div>
+  <h2>The six colours</h2>
+  <p>Every house brand uses the same six colours. White is the paper. In layouts, red is a signal, not a fill.</p>
+  <div class="swatches">{swatches}</div>
+  <div class="note">For print, match these colours against a printer proof. CMYK and Pantone values
+     are not registered yet. Do not convert the screen values yourself.</div>''')}
+
+{page("Typography", f'''
+  <p>Three typefaces, all free and open source. Install them before you edit any template.
+     Write headings in sentence case. Do not use all-capital labels.</p>
+  <div style="margin-top:20px;">
+  <div class="spec"><div class="k"><b>Inter Tight 650</b>Wordmark, display, headings</div>
+    <div style="font-family:'Inter Tight';font-weight:650;font-size:36px;letter-spacing:-0.02em;">Light for architecture</div></div>
+  <div class="spec"><div class="k"><b>Inter Tight 600</b>Subheadings</div>
+    <div style="font-family:'Inter Tight';font-weight:600;font-size:18px;">Product range and specifications</div></div>
+  <div class="spec"><div class="k"><b>Inter 400</b>Body text, captions, tables</div>
+    <div style="font-size:13px;line-height:1.65;color:{soft};">Body text is set at a comfortable size with generous line spacing.
+      Keep lines short enough to read in one pass.</div></div>
+  <div class="spec"><div class="k"><b>JetBrains Mono</b>Codes, file names, data</div>
+    <div style="font-family:'JetBrains Mono';font-size:13px;">PX22-3000K-24D · 1200 lm</div></div>
+  <div class="spec"><div class="k"><b>Turkish</b>Every face supports it</div>
+    <div style="font-family:'Inter Tight';font-weight:650;font-size:20px;">ağustos · İstanbul · ışık · Güneş</div></div>
+  </div>''')}
+
+{page("Which file to use", f'''
+  <p>Use the finished files. Do not redraw the logo or copy it from a website or a PDF.
+     Every file below is in the {title} brand kit, in the folder named in the right column.</p>
+  <table class="files">{files_html}</table>
+  <p style="margin-top:16px;">Fonts: Inter Tight, Inter and JetBrains Mono, with their licences, are in the fonts folder of the kit.</p>''')}
+
+<section class="page back">
+  <img src="{neg}" alt="{wordmark}">
+  <div class="foot"><span>{domain}</span><span>11</span></div>
+</section>
+
+</body></html>"""
+    out.write_text(doc, encoding="utf-8")
+
+
+def render_pdf(html_path: Path, pdf: Path) -> None:
+    if not BROWSE.exists():
+        raise SystemExit(f"browse tool not found at {BROWSE}; cannot render {pdf.name}")
+    subprocess.run([str(BROWSE), "goto", html_path.resolve().as_uri()], check=True, capture_output=True)
+    subprocess.run([str(BROWSE), "pdf", str(pdf), "--prefer-css-page-size", "--print-background"],
+                   check=True, capture_output=True)
+    print(f"    rendered {pdf.relative_to(ROOT)}")
+
+
+def build_brand(slug: str, brand: dict, reg: dict, design: dict, want_pdf: bool = False) -> Path:
+    base = BRAND_DIR / "exports" / slug
+    lk = base / "lockup"
+    if not (lk / f"{slug}-lockup__positive.svg").exists():
+        raise SystemExit(f"missing lockups for {slug}; run build.py --brand {slug} first")
+    gl = base / "guidelines"
+    gl.mkdir(parents=True, exist_ok=True)
+    version = (ROOT / "VERSION").read_text(encoding="utf-8").strip()
+    out = gl / f"{slug}-brand-guidelines.html"
+    gen_guidelines_html(slug, brand, reg, design, out, lk, version)
+    print(f"    wrote {out.relative_to(ROOT)}")
+    if want_pdf:
+        render_pdf(out, out.with_suffix(".pdf"))
+    return out
+
+
+def main() -> None:
+    reg = json.loads(REGISTRY.read_text(encoding="utf-8"))
+    design = json.loads(TOKENS.read_text(encoding="utf-8"))
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--brand")
+    ap.add_argument("--pdf", action="store_true", help="also render the PDF through browse")
+    args = ap.parse_args()
+    brands = reg["brands"]
+    if args.brand and args.brand not in brands:
+        raise SystemExit(f"unknown brand '{args.brand}'")
+    # Guidelines ship with the full kit, the same brands as the Office files.
+    targets = [args.brand] if args.brand else [s for s, b in brands.items() if b.get("office", False)]
+    for slug in targets:
+        build_brand(slug, brands[slug], reg, design, args.pdf)
+
+
+if __name__ == "__main__":
+    main()

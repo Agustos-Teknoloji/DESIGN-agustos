@@ -13,7 +13,7 @@ exports/<brand>/office/<brand>-document-template.docx  Styled Word/Google Docs d
 exports/<brand>/swatches/<brand>.ase              Adobe swatches (Illustrator/Photoshop/InDesign/Affinity)
 exports/<brand>/swatches/<brand>.clr              Apple color list (macOS system color picker)
 exports/<brand>/email/<brand>-signature.html      Email-safe signature (self-contained)
-exports/<brand>/guidelines/<brand>-brand-guidelines.pdf   Shareable 4-page guidelines
+exports/<brand>/guidelines/<brand>-brand-guidelines.pdf   Shareable 11-page guidelines
 ```
 
 ## Use the Office files across native applications
@@ -44,17 +44,17 @@ client's signature editor (Apple Mail, Gmail, Outlook all accept pasted HTML). R
 
 ## Regenerating the guidelines PDF
 
-The PDF is rendered from `<brand>-brand-guidelines.html` (which embeds the bundled
-fonts and the generated lockups). To rebuild after an edit:
+`brand/build_guidelines.py` writes `<brand>-brand-guidelines.html` and, with `--pdf`,
+renders the PDF through the gstack browse tool. The HTML embeds the bundled fonts and the
+generated lockups. Run it from the repo root:
 
 ```bash
-# from the repo root, using the gstack browse tool:
-B="$HOME/.claude/skills/gstack/browse/dist/browse"
-$B goto "file://$(pwd)/brand/exports/agustos/guidelines/agustos-brand-guidelines.html"
-$B pdf brand/exports/agustos/guidelines/agustos-brand-guidelines.pdf --prefer-css-page-size --print-background
+python3 brand/build_guidelines.py --pdf                  # agustos, pataraz, pld
+python3 brand/build_guidelines.py --brand pataraz --pdf  # one brand
 ```
 
-(Any headless-Chrome "print to PDF" works; A4 page size is set in the HTML's `@page` rule.)
+The script does not touch the Office files. Every value comes from `brands.json` and
+`tokens/resolved.json`, so a registry change needs only a new run.
 
 ## Maintenance
 

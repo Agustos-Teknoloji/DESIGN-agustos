@@ -4,6 +4,10 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+### Added
+
+- Brand guidelines: an 11-page A4 PDF for agustos, pataraz and pld, in English. Pages: cover, contents, introduction with the brand family, symbol, logo, clear space and minimum size, logo misuse, colour, typography, which file to use, and back cover. `brand/build_guidelines.py` writes the HTML and, with `--pdf`, renders the PDF. It replaces the 4-page PDF and its manual render step. `tests/test_guidelines.py` checks the 11 sections, registry-only colours, and no em dash, uppercase or eyebrow label (2026-09-27).
+
 ### Changed
 
 - CI: the local gate replaces GitHub Actions. `scripts/ci.sh` runs the three checks of the removed workflow, and `.githooks/pre-push` runs it before every push. Run `bin/setup` once per clone to activate the hook (2026-09-25).
