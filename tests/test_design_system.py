@@ -52,7 +52,7 @@ class DesignSystemGenerationTest(unittest.TestCase):
                 "pld": "topbar",
                 "iesdesk": "sidebar",
                 "specquick": "sidebar",
-                "memregunes": "topbar",
+                "memregunes": "sidebar",
             },
         )
         bad = copy.deepcopy(brands)

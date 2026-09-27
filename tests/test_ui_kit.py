@@ -329,7 +329,7 @@ class DistributionKitTest(unittest.TestCase):
                 "pld": "topbar",
                 "iesdesk": "sidebar",
                 "specquick": "sidebar",
-                "memregunes": "topbar",
+                "memregunes": "sidebar",
             },
         )
         self.assertEqual(kit["brands"]["agustos"]["wordmark"], "ağustos")
@@ -608,14 +608,14 @@ class ChromeTest(unittest.TestCase):
 
 
 class MemregunesBrandTest(unittest.TestCase):
-    """The personal brand of Emre Güneş is a registered topbar brand."""
+    """The personal brand of Emre Güneş is a registered sidebar brand."""
 
     def test_registry_entry(self):
         brands = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))["brands"]
         entry = brands["memregunes"]
         self.assertEqual(entry["wordmark"], "emre güneş")
         self.assertEqual(entry["color"], "#15130f")
-        self.assertEqual(entry["chrome"], "topbar")
+        self.assertEqual(entry["chrome"], "sidebar")
         self.assertEqual(entry["domain"], "memregunes.com")
 
     def test_generated_outputs_carry_the_brand(self):
@@ -624,7 +624,7 @@ class MemregunesBrandTest(unittest.TestCase):
         self.assertIn("--brand-memregunes:", css)
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
         self.assertIn("brand-memregunes", kit["brandClasses"])
-        self.assertEqual(kit["brands"]["memregunes"]["chrome"], "topbar")
+        self.assertEqual(kit["brands"]["memregunes"]["chrome"], "sidebar")
 
     def test_checker_brand_list_is_generated(self):
         template = (ROOT / "ui" / "check-agustos-ui.py.tmpl").read_text(encoding="utf-8")

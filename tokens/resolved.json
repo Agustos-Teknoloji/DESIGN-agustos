@@ -21,7 +21,7 @@
       "wordmark": "iesdesk"
     },
     "memregunes": {
-      "chrome": "topbar",
+      "chrome": "sidebar",
       "color": "#15130f",
       "domain": "memregunes.com",
       "office": false,
@@ -419,5 +419,5 @@
       "surface": "#ffffff"
     }
   },
-  "version": "6.2.0"
+  "version": "6.2.1"
 }
