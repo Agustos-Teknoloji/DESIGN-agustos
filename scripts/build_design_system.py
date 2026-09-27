@@ -509,6 +509,7 @@ def kit_context(tokens: dict[str, Any], brands: dict[str, Any]) -> dict[str, str
             ]
         ),
         "brandChromeLine": ", ".join(f"{slug} {brand['chrome']}" for slug, brand in brands["brands"].items()),
+        "brandClasses": repr(tuple(f"brand-{slug}" for slug in brands["brands"])),
         "screensTable": "\n".join(
             ["| Screen | Family | Chrome | Theme | Primary CTA in body | Quotes | Photography |", "|---|---|---|---|---|---|---|"]
             + [

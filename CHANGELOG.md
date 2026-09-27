@@ -4,14 +4,18 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [6.2.0] - 2026-09-27
+
 ### Added
 
+- Add the `memregunes` brand: the personal site of Emre Güneş at memregunes.com. Wordmark "emre güneş", neutral ink, topbar chrome.
 - Brand guidelines: an 11-page A4 PDF for agustos, pataraz and pld, in English. Pages: cover, contents, introduction with the brand family, symbol, logo, clear space and minimum size, logo misuse, colour, typography, which file to use, and back cover. `brand/build_guidelines.py` writes the HTML and, with `--pdf`, renders the PDF. It replaces the 4-page PDF and its manual render step. `tests/test_guidelines.py` checks the 11 sections, registry-only colours, and no em dash, uppercase or eyebrow label (2026-09-27).
 
 ### Changed
 
+- Generate the brand list of `check-agustos-ui.py` from `brand/brands.json`. A new brand no longer needs a hand edit in the checker.
+- Allow a portrait of Emre Güneş on the home and about pages of the `memregunes` brand.
 - Docs: `AGENTS.md` asks the agent to check with Emre before it rebuilds the brand guidelines PDFs after a big brand change (2026-09-27).
-
 - CI: the local gate replaces GitHub Actions. `scripts/ci.sh` runs the three checks of the removed workflow, and `.githooks/pre-push` runs it before every push. Run `bin/setup` once per clone to activate the hook (2026-09-25).
 - Docs: the ops baseline block in `AGENTS.md` names the new path of the CONTEXT-agustos checkout, `~/vaults/business/PROJECTS/CONTEXT-agustos` (2026-09-25).
 - Docs: adopt the fleet root doc set. `AGENTS.md` follows the fleet shape: the ops baseline block, a source priority, a router, rules and a Traps section. `CLAUDE.md` is one line, `@AGENTS.md`. New `ARCHITECTURE.md` with a Testing section, new `MEMORY.md` with date-slug IDs, and new `TODO.md`. `archive/MEMORY.md` is frozen. The factory-only sections and the history leave `DESIGN.md`; the consumer contract stays. `HANDOFF.md`, `ASSETS.md` and `PATARAZ.md` stay at the root.

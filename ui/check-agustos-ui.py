@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ağustos UI kit compliance checker — v6.1.0
+"""Ağustos UI kit compliance checker — v6.2.0
 
 GENERATED. Do not hand-edit. Regenerate with:
     python3 scripts/build_design_system.py
@@ -22,7 +22,7 @@ import re
 import sys
 from pathlib import Path
 
-KIT_VERSION = "6.1.0"
+KIT_VERSION = "6.2.0"
 REPOSITORY = "Agustos-Teknoloji/DESIGN-agustos"
 LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json"
 
@@ -72,6 +72,7 @@ KIT_CLASSES = {
     "brand-pld",
     "brand-iesdesk",
     "brand-specquick",
+    "brand-memregunes",
     "paper-white",
     "hero-links",
     "hero-link",
@@ -174,7 +175,7 @@ SOFT_COLORS = {"#15130f", "#ffffff"}
 
 STALE_RED = "#d11d2b"
 SIGNAL_RED = "#cf142a"
-BRAND_CLASSES = ("brand-agustos", "brand-pataraz", "brand-pld", "brand-iesdesk", "brand-specquick")
+BRAND_CLASSES = ('brand-agustos', 'brand-pataraz', 'brand-pld', 'brand-iesdesk', 'brand-specquick', 'brand-memregunes')
 
 # The kit's own files. agustos.css declares the tokens, and the docs quote them
 # on purpose — policing either produces noise, not findings.

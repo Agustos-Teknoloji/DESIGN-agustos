@@ -70,6 +70,16 @@
             "office": false,
       "tagline_en": "",
       "tagline_tr": ""
+    },
+    "memregunes": {
+      "wordmark": "emre güneş",
+      "color": "#15130f",
+      "title": "Emre Güneş",
+      "domain": "memregunes.com",
+      "chrome": "topbar",
+      "office": false,
+      "tagline_en": "",
+      "tagline_tr": ""
     }
   }
 }

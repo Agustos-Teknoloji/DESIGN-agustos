@@ -616,6 +616,8 @@ The full reasoning for the logotype is in `archive/MEMORY.md`, "Turning point 19
 
 Total time: ~10 minutes per brand. No new design work.
 
+**Personal brand exception.** The `memregunes` brand is the personal site of Emre Güneş. Its home and about pages may show a portrait of him, because on a personal site the person is the work. Every other photography rule applies.
+
 ---
 
 ## Turkish locale handling

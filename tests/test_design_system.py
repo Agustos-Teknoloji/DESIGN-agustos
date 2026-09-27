@@ -46,7 +46,14 @@ class DesignSystemGenerationTest(unittest.TestCase):
         self.builder.validate_brands(brands)
         self.assertEqual(
             {slug: brand["chrome"] for slug, brand in brands["brands"].items()},
-            {"agustos": "sidebar", "pataraz": "topbar", "pld": "topbar", "iesdesk": "sidebar", "specquick": "sidebar"},
+            {
+                "agustos": "sidebar",
+                "pataraz": "topbar",
+                "pld": "topbar",
+                "iesdesk": "sidebar",
+                "specquick": "sidebar",
+                "memregunes": "topbar",
+            },
         )
         bad = copy.deepcopy(brands)
         bad["brands"]["pld"]["chrome"] = "drawer"

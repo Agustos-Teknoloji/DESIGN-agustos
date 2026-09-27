@@ -20,6 +20,16 @@
       "title": "IESDesk",
       "wordmark": "iesdesk"
     },
+    "memregunes": {
+      "chrome": "topbar",
+      "color": "#15130f",
+      "domain": "memregunes.com",
+      "office": false,
+      "tagline_en": "",
+      "tagline_tr": "",
+      "title": "Emre Güneş",
+      "wordmark": "emre güneş"
+    },
     "pataraz": {
       "chrome": "topbar",
       "color": "#15130f",
@@ -409,5 +419,5 @@
       "surface": "#ffffff"
     }
   },
-  "version": "6.1.0"
+  "version": "6.2.0"
 }
