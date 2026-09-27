@@ -2,6 +2,17 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
+## [6.2.0] - 2026-09-27
+
+### Added
+
+- Add the `memregunes` brand: the personal site of Emre Güneş at memregunes.com. Wordmark "emre güneş", neutral ink, topbar chrome.
+
+### Changed
+
+- Generate the brand list of `check-agustos-ui.py` from `brand/brands.json`. A new brand no longer needs a hand edit in the checker.
+- Allow a portrait of Emre Güneş on the home and about pages of the `memregunes` brand.
+
 ## Unreleased
 
 ### Added

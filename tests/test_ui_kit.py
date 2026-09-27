@@ -323,7 +323,14 @@ class DistributionKitTest(unittest.TestCase):
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
         self.assertEqual(
             {slug: entry["chrome"] for slug, entry in kit["brands"].items()},
-            {"agustos": "sidebar", "pataraz": "topbar", "pld": "topbar", "iesdesk": "sidebar", "specquick": "sidebar"},
+            {
+                "agustos": "sidebar",
+                "pataraz": "topbar",
+                "pld": "topbar",
+                "iesdesk": "sidebar",
+                "specquick": "sidebar",
+                "memregunes": "topbar",
+            },
         )
         self.assertEqual(kit["brands"]["agustos"]["wordmark"], "ağustos")
         self.assertEqual(kit["brands"]["pataraz"]["color"], "#15130f")
@@ -598,6 +605,32 @@ class ChromeTest(unittest.TestCase):
         self.assertIn('class="breadcrumb"', text)
         for name in ("stack", "cluster", "grid-3", "band band--cream", "type-body prose"):
             self.assertIn(f'class="{name}"', text)
+
+
+class MemregunesBrandTest(unittest.TestCase):
+    """The personal brand of Emre Güneş is a registered topbar brand."""
+
+    def test_registry_entry(self):
+        brands = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))["brands"]
+        entry = brands["memregunes"]
+        self.assertEqual(entry["wordmark"], "emre güneş")
+        self.assertEqual(entry["color"], "#15130f")
+        self.assertEqual(entry["chrome"], "topbar")
+        self.assertEqual(entry["domain"], "memregunes.com")
+
+    def test_generated_outputs_carry_the_brand(self):
+        css = (ROOT / "ui" / "agustos.css").read_text(encoding="utf-8")
+        self.assertIn(".brand-memregunes", css)
+        self.assertIn("--brand-memregunes:", css)
+        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+        self.assertIn("brand-memregunes", kit["brandClasses"])
+        self.assertEqual(kit["brands"]["memregunes"]["chrome"], "topbar")
+
+    def test_checker_brand_list_is_generated(self):
+        template = (ROOT / "ui" / "check-agustos-ui.py.tmpl").read_text(encoding="utf-8")
+        self.assertIn("BRAND_CLASSES = {{ui.brandClasses}}", template)
+        checker = (ROOT / "ui" / "check-agustos-ui.py").read_text(encoding="utf-8")
+        self.assertIn("'brand-memregunes'", checker)
 
 
 if __name__ == "__main__":

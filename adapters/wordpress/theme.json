@@ -81,6 +81,11 @@
           "slug": "brand-specquick",
           "name": "SpecQuick",
           "color": "#15130f"
+        },
+        {
+          "slug": "brand-memregunes",
+          "name": "Emre Güneş",
+          "color": "#15130f"
         }
       ]
     },
