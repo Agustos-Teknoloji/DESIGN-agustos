@@ -42,6 +42,10 @@ KIT_CLASSES = {{ui.classList}}
 # data-screen on <body>; theme "dark-allowed" marks product UI.
 SCREENS = {{ui.screensRules}}
 
+# brand class -> screen name -> the rules that brand overrides on that screen.
+# Injected from "screenOverrides" in brand/brands.json, for the same reason as SCREENS.
+BRAND_SCREEN_RULES = {{ui.brandScreenRules}}
+
 # #15130f and #ffffff are legitimate as identity ink and as paper. Reported at
 # warning level rather than error: too common to fail a build over.
 SOFT_COLORS = {"#15130f", "#ffffff"}
@@ -76,6 +80,7 @@ COMMENT = re.compile(r"<!--.*?-->", re.S)
 BODY_TAG = re.compile(r"<body\b([^>]*)>", re.I)
 REDIRECT = re.compile(r"<meta\b[^>]*http-equiv\s*=\s*[\"']?refresh", re.I)
 DATA_SCREEN = re.compile(r"""data-screen\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))""", re.I)
+BODY_CLASS = re.compile(r"""\bclass\s*=\s*(?:"([^"]*)"|'([^']*)')""", re.I)
 TEMPLATED = re.compile(r"[{<$]")
 MAIN_BLOCK = re.compile(r"<main\b.*?</main>", re.S | re.I)
 PRIMARY_ACTION = re.compile(r"\b(?:agustos-button--primary|hero-action--primary|hero-link--primary)\b")
@@ -171,6 +176,10 @@ def check_screen(rel: str, text: str, findings: list) -> None:
             f"unknown screen {name!r} — the screens table knows: " + ", ".join(SCREENS),
         ))
         return
+    body_class = BODY_CLASS.search(body.group(1))
+    classes = next(g for g in body_class.groups() if g is not None).split() if body_class else []
+    for brand in classes:
+        rules = {**rules, **BRAND_SCREEN_RULES.get(brand, {}).get(name, {})}
     main = MAIN_BLOCK.search(page)
     scope = main.group(0) if main else page[body.end():]
     primaries = len(PRIMARY_ACTION.findall(scope))

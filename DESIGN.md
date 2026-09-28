@@ -616,7 +616,7 @@ The full reasoning for the logotype is in `archive/MEMORY.md`, "Turning point 19
 
 Total time: ~10 minutes per brand. No new design work.
 
-**Personal brand exception.** The `memregunes` brand is the personal site of Emre Güneş. Its home and about pages may show a portrait of him, because on a personal site the person is the work. Every other photography rule applies.
+**Personal brand exception.** The `memregunes` brand is the personal site of Emre Güneş. On a personal site, the person is the work. Its home and about pages may show photographs of him. One is a portrait. Another shows him at work, such as on stage at a lighting event. Its home page may also show up to three recommendations as quotes. Each quote names the writer, the role and the company. `screenOverrides` in `brand/brands.json` carries the quote rule, and the checker reads it. Every other photography and quote rule applies.
 
 ---
 
