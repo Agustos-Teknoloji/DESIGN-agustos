@@ -8,7 +8,7 @@ Decision log. One record per decision: what, why, what was rejected, and "reopen
 
 ## 2026-09-28 memregunes-home-quotes
 
-The `memregunes` brand may show recommendations as quotes on its `home` screen, and photographs of Emre Güneş (a portrait, and one of him at work, such as on stage). A new registry field, `screenOverrides`, carries the quote rule, so the checker enforces the exception instead of a doc line only. Why: Emre approved a Home in five parts on 2026-09-28, and Part 4 shows named recommendations. On a personal site, the person is the proof. Rejected: a trust line on Home with the quotes on About only, because the approved Home puts named proof before the last screen. Also rejected: quotes without the `type-blockquote` class, which passes the checker and breaks the rule in secret. Reopen only if: the kit adds a personal-site screen. Archive: none.
+The `memregunes` brand may show recommendations as quotes on its `home` screen. It may also show photographs of Emre Güneş: a portrait, and one of him at work, such as on stage. A new registry field, `screenOverrides`, carries the quote rule, so the checker enforces the exception instead of a doc line only. Why: Emre approved a Home in five parts on 2026-09-28, and Part 4 shows named recommendations. On a personal site, the person is the proof. Rejected: a trust line on Home with the quotes on About only, because the approved Home puts named proof before the last screen. Also rejected: quotes without the `type-blockquote` class, which passes the checker and breaks the rule in secret. Reopen only if: the kit adds a personal-site screen. Archive: none.
 
 ## 2026-09-27 memregunes-brand
 
