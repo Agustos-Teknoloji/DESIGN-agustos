@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ağustos UI kit compliance checker — v6.2.3
+"""Ağustos UI kit compliance checker — v6.2.4
 
 GENERATED. Do not hand-edit. Regenerate with:
     python3 scripts/build_design_system.py
@@ -27,7 +27,7 @@ import re
 import sys
 from pathlib import Path
 
-KIT_VERSION = "6.2.3"
+KIT_VERSION = "6.2.4"
 REPOSITORY = "Agustos-Teknoloji/DESIGN-agustos"
 LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json"
 

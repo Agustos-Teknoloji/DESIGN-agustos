@@ -4,6 +4,12 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [6.2.4] - 2026-09-28
+
+### Changed
+
+- The `memregunes` Home may show a small photo of each recommendation writer who gives permission.
+
 ## [6.2.3] - 2026-09-28
 
 ### Changed
