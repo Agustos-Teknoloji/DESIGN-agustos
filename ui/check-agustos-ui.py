@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ağustos UI kit compliance checker — v6.2.2
+"""Ağustos UI kit compliance checker — v6.2.3
 
 GENERATED. Do not hand-edit. Regenerate with:
     python3 scripts/build_design_system.py
@@ -27,7 +27,7 @@ import re
 import sys
 from pathlib import Path
 
-KIT_VERSION = "6.2.2"
+KIT_VERSION = "6.2.3"
 REPOSITORY = "Agustos-Teknoloji/DESIGN-agustos"
 LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json"
 
@@ -174,6 +174,10 @@ KIT_CLASSES = {
 # data-screen on <body>; theme "dark-allowed" marks product UI.
 SCREENS = {'app-shell': {'primaryCtaMax': 1, 'quotes': False, 'theme': 'dark-allowed'}, 'content': {'primaryCtaMax': 1, 'quotes': True, 'theme': 'light'}, 'content-index': {'primaryCtaMax': 1, 'quotes': False, 'theme': 'light'}, 'home': {'primaryCtaMax': 2, 'quotes': False, 'theme': 'light'}, 'product': {'primaryCtaMax': 2, 'quotes': False, 'theme': 'light'}, 'product-finder': {'primaryCtaMax': 1, 'quotes': False, 'theme': 'light'}, 'products': {'primaryCtaMax': 1, 'quotes': False, 'theme': 'light'}, 'spec-sheet': {'primaryCtaMax': 0, 'quotes': False, 'theme': 'light'}, 'static': {'primaryCtaMax': 1, 'quotes': True, 'theme': 'light'}}
 
+# brand class -> screen name -> the rules that brand overrides on that screen.
+# Injected from "screenOverrides" in brand/brands.json, for the same reason as SCREENS.
+BRAND_SCREEN_RULES = {'brand-memregunes': {'home': {'quotes': True}}}
+
 # #15130f and #ffffff are legitimate as identity ink and as paper. Reported at
 # warning level rather than error: too common to fail a build over.
 SOFT_COLORS = {"#15130f", "#ffffff"}
@@ -208,6 +212,7 @@ COMMENT = re.compile(r"<!--.*?-->", re.S)
 BODY_TAG = re.compile(r"<body\b([^>]*)>", re.I)
 REDIRECT = re.compile(r"<meta\b[^>]*http-equiv\s*=\s*[\"']?refresh", re.I)
 DATA_SCREEN = re.compile(r"""data-screen\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))""", re.I)
+BODY_CLASS = re.compile(r"""\bclass\s*=\s*(?:"([^"]*)"|'([^']*)')""", re.I)
 TEMPLATED = re.compile(r"[{<$]")
 MAIN_BLOCK = re.compile(r"<main\b.*?</main>", re.S | re.I)
 PRIMARY_ACTION = re.compile(r"\b(?:agustos-button--primary|hero-action--primary|hero-link--primary)\b")
@@ -303,6 +308,10 @@ def check_screen(rel: str, text: str, findings: list) -> None:
             f"unknown screen {name!r} — the screens table knows: " + ", ".join(SCREENS),
         ))
         return
+    body_class = BODY_CLASS.search(body.group(1))
+    classes = next(g for g in body_class.groups() if g is not None).split() if body_class else []
+    for brand in classes:
+        rules = {**rules, **BRAND_SCREEN_RULES.get(brand, {}).get(name, {})}
     main = MAIN_BLOCK.search(page)
     scope = main.group(0) if main else page[body.end():]
     primaries = len(PRIMARY_ACTION.findall(scope))

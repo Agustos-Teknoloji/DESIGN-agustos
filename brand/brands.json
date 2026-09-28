@@ -79,7 +79,8 @@
       "chrome": "sidebar",
       "office": false,
       "tagline_en": "",
-      "tagline_tr": ""
+      "tagline_tr": "",
+      "screenOverrides": { "home": { "quotes": true } }
     }
   }
 }

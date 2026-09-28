@@ -1,4 +1,4 @@
-# Ağustos UI kit — v6.2.2
+# Ağustos UI kit — v6.2.3
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -48,11 +48,11 @@ Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and
 
 npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-Prototypes with no build step may link the CDN copies. **Pin to `@v6.2.2`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
+Prototypes with no build step may link the CDN copies. **Pin to `@v6.2.3`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.2.2/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.2.2/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.2.3/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.2.3/ui/agustos.css">
 ```
 
 ## Page skeleton
@@ -125,6 +125,8 @@ One reference page per screen type lives in the source repository under `screens
 | `app-shell` | product UI | sidebar | dark allowed | at most 1 | no | none |
 
 Form submits are task actions and do not count as the page primary. Footer Contact is separate chrome. Marketing pages use a compact trust line, not a testimonial. Photographs arrive in the rollout order shown; type-only pages stay complete.
+
+Brand exceptions live in `screenOverrides` in the brand registry, and the checker applies them. Today: `brand-memregunes` may show quotes on `home`, and photographs of Emre Güneş on `home` and `static`.
 
 ## Classes
 

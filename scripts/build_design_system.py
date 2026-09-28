@@ -98,6 +98,26 @@ def validate_screens(tokens: dict[str, Any], brands: dict[str, Any]) -> None:
             raise TokenError(f"screen {name!r}: quotes must be true or false")
 
 
+SCREEN_OVERRIDE_RULES = ("primaryCtaMax", "quotes")
+
+
+def validate_brand_screen_overrides(tokens: dict[str, Any], brands: dict[str, Any]) -> None:
+    """A brand may relax or tighten a screen rule. It names a known screen and a known rule."""
+    screens = screen_entries(tokens)
+    for slug, brand in brands["brands"].items():
+        for screen, rules in brand.get("screenOverrides", {}).items():
+            if screen not in screens:
+                raise TokenError(f"brand {slug!r}: screenOverrides names unknown screen {screen!r}")
+            unknown = sorted(set(rules) - set(SCREEN_OVERRIDE_RULES))
+            if unknown:
+                raise TokenError(f"brand {slug!r}: screenOverrides for {screen!r} has unknown rules {', '.join(unknown)}")
+            if "quotes" in rules and not isinstance(rules["quotes"], bool):
+                raise TokenError(f"brand {slug!r}: screenOverrides quotes must be true or false")
+            cta = rules.get("primaryCtaMax", 0)
+            if not isinstance(cta, int) or isinstance(cta, bool) or cta < 0:
+                raise TokenError(f"brand {slug!r}: screenOverrides primaryCtaMax must be a non-negative integer")
+
+
 def screen_rows(tokens: dict[str, Any], brands: dict[str, Any]) -> list[dict[str, Any]]:
     """The table plus the two derived columns. Theme follows family; chrome follows brand."""
     rows: list[dict[str, Any]] = []
@@ -644,6 +664,16 @@ def checker_screens_rules(tokens: dict[str, Any], brands: dict[str, Any]) -> str
     return repr(rules)
 
 
+def checker_brand_screen_rules(brands: dict[str, Any]) -> str:
+    """Python literal mapping brand class -> screen -> the rules that brand overrides."""
+    rules = {
+        f"brand-{slug}": brand["screenOverrides"]
+        for slug, brand in sorted(brands["brands"].items())
+        if brand.get("screenOverrides")
+    }
+    return repr(rules)
+
+
 def checker_token_table(resolved: dict[str, Any], brands: dict[str, Any]) -> str:
     """Python literal mapping hex value -> the CSS variable that owns it.
 
@@ -728,6 +758,7 @@ def ui_kit_json(
                 "color": brand["color"],
                 "domain": brand["domain"],
                 "chrome": brand["chrome"],
+                **({"screenOverrides": brand["screenOverrides"]} if brand.get("screenOverrides") else {}),
             }
             for slug, brand in brands["brands"].items()
         },
@@ -763,6 +794,7 @@ def expected_outputs() -> dict[Path, str]:
     brands = load_json(BRAND_SOURCE)
     validate_brands(brands)
     validate_screens(tokens, brands)
+    validate_brand_screen_overrides(tokens, brands)
     outputs: dict[Path, str] = {}
     for path, label in CSS_OUTPUTS.items():
         set_output(outputs, path, render_web_css(tokens, brands, label))
@@ -803,6 +835,7 @@ def expected_outputs() -> dict[Path, str]:
     context["tokenTable"] = checker_token_table(resolved, brands)
     context["classList"] = checker_class_list(tokens)
     context["screensRules"] = checker_screens_rules(tokens, brands)
+    context["brandScreenRules"] = checker_brand_screen_rules(brands)
     for template, target in UI_TEMPLATES:
         set_output(outputs, target, render_text_template(template, context))
     for template, target in DOC_TEMPLATES:

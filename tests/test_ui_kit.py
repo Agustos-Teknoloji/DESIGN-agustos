@@ -438,15 +438,17 @@ class CheckerTest(unittest.TestCase):
         '<!doctype html><html lang="tr"{html_attrs}><head>\n'
         '<link rel="stylesheet" href="/vendor/agustos-ui/agustos-fonts.css">\n'
         '<link rel="stylesheet" href="/vendor/agustos-ui/agustos.css">\n'
-        '</head><body class="brand-pataraz"{body_attrs}>\n'
+        '</head><body class="brand-{brand}"{body_attrs}>\n'
         '<header class="site-header">{chrome}</header>\n'
         '<main id="main">{main}</main>\n'
         '</body></html>\n'
     )
 
-    def _screen_page(self, screen=None, main="", chrome="", html_attrs=""):
+    def _screen_page(self, screen=None, main="", chrome="", html_attrs="", brand="pataraz"):
         body_attrs = f' data-screen="{screen}"' if screen is not None else ""
-        return self.SCREEN_PAGE.format(html_attrs=html_attrs, body_attrs=body_attrs, chrome=chrome, main=main)
+        return self.SCREEN_PAGE.format(
+            html_attrs=html_attrs, body_attrs=body_attrs, chrome=chrome, main=main, brand=brand,
+        )
 
     def test_checker_enforces_the_screen_rules(self):
         """Per-screen rules come from the screens table, keyed on data-screen:
@@ -489,6 +491,58 @@ class CheckerTest(unittest.TestCase):
             for name, rules in expected.items():
                 with self.subTest(page=name):
                     self.assertEqual(by_file[name], rules)
+
+    def test_checker_carries_the_brand_screen_overrides(self):
+        """The brand overrides are baked in like SCREENS, from the registry."""
+        namespace: dict = {"__name__": "agustos_checker"}
+        exec(compile(self.CHECKER.read_text(encoding="utf-8"), str(self.CHECKER), "exec"), namespace)
+        brands = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))["brands"]
+        expected = {
+            f"brand-{slug}": brand["screenOverrides"]
+            for slug, brand in brands.items() if brand.get("screenOverrides")
+        }
+        self.assertEqual(namespace["BRAND_SCREEN_RULES"], expected)
+        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+        self.assertEqual(kit["brands"]["memregunes"]["screenOverrides"], {"home": {"quotes": True}})
+
+    def test_a_brand_override_allows_quotes_on_its_home_only(self):
+        """brand-memregunes may quote on home. Another brand may not, and
+        memregunes may not quote on a screen its override does not name."""
+        import tempfile
+        quote = '<blockquote class="type-blockquote">Quiet.</blockquote>'
+        pages = {
+            "memregunes-home.html": self._screen_page("home", main=quote, brand="memregunes"),
+            "pataraz-home.html": self._screen_page("home", main=quote, brand="pataraz"),
+            "memregunes-index.html": self._screen_page("content-index", main=quote, brand="memregunes"),
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp)
+            for name, text in pages.items():
+                (project / name).write_text(text, encoding="utf-8")
+            result = self._run(project, "--json")
+            findings = json.loads(result.stdout)["findings"]
+            quoted = {f["file"] for f in findings if f["rule"] == "AG023"}
+            self.assertEqual(quoted, {"pataraz-home.html", "memregunes-index.html"})
+
+    def test_screens_only_allows_quotes_on_the_rendered_memregunes_home(self):
+        """The brand override applies to --screens-only too: a build's rendered
+        memregunes home page with a blockquote reports no AG023."""
+        import tempfile
+        quote = '<blockquote class="type-blockquote">Quiet.</blockquote>'
+        rendered = (
+            '<!doctype html><html lang="en"><head>'
+            '<link rel="stylesheet" href="/_astro/index.3f9a1c.css"></head>'
+            '<body class="brand-memregunes site-sidebar-layout" data-screen="home">'
+            f'<main id="main">{quote}</main></body></html>'
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            build = Path(tmp) / "dist"
+            build.mkdir()
+            (build / "index.html").write_text(rendered, encoding="utf-8")
+            result = self._run(build, "--screens-only", "--json")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            findings = json.loads(result.stdout)["findings"]
+            self.assertEqual([f for f in findings if f["rule"] == "AG023"], [])
 
     def test_skip_dirs_match_below_the_scan_root_only(self):
         """A project that lives in a folder named dist, build or vendor must
@@ -684,6 +738,7 @@ class MemregunesBrandTest(unittest.TestCase):
         self.assertEqual(entry["color"], "#15130f")
         self.assertEqual(entry["chrome"], "sidebar")
         self.assertEqual(entry["domain"], "memregunes.com")
+        self.assertEqual(entry["screenOverrides"], {"home": {"quotes": True}})
 
     def test_generated_outputs_carry_the_brand(self):
         css = (ROOT / "ui" / "agustos.css").read_text(encoding="utf-8")

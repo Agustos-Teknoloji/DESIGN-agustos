@@ -25,6 +25,11 @@
       "color": "#15130f",
       "domain": "memregunes.com",
       "office": false,
+      "screenOverrides": {
+        "home": {
+          "quotes": true
+        }
+      },
       "tagline_en": "",
       "tagline_tr": "",
       "title": "Emre Güneş",
@@ -419,5 +424,5 @@
       "surface": "#ffffff"
     }
   },
-  "version": "6.2.2"
+  "version": "6.2.3"
 }

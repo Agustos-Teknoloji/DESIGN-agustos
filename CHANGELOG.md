@@ -4,6 +4,13 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [6.2.3] - 2026-09-28
+
+### Changed
+
+- A brand can override a screen rule with `screenOverrides` in `brand/brands.json`. The generator validates it, and the checker applies it to pages that carry the brand class.
+- The `memregunes` Home may show up to three recommendations as quotes, and photographs of Emre Güneş: a portrait and a photograph of him at work.
+
 ## [6.2.2] - 2026-09-28
 
 ### Added
