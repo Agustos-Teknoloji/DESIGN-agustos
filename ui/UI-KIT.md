@@ -1,4 +1,4 @@
-# Ağustos UI kit — v6.2.1
+# Ağustos UI kit — v6.2.2
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -48,11 +48,11 @@ Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and
 
 npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-Prototypes with no build step may link the CDN copies. **Pin to `@v6.2.1`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
+Prototypes with no build step may link the CDN copies. **Pin to `@v6.2.2`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.2.1/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.2.1/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.2.2/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.2.2/ui/agustos.css">
 ```
 
 ## Page skeleton
@@ -180,6 +180,7 @@ python3 vendor/agustos-ui/check-agustos-ui.py .
 
 Fix reported token values, font loading, CDN pins, brand classes, radii, and class overrides.
 Every page must carry `data-screen="<name>"` on `<body>`; the checker then holds it to that screen's row: primary actions inside `<main>` within the limit, quotes only where allowed, `data-theme` only on product UI.
+If a layout fills `data-screen` at render time (Astro, ERB), the source scan skips those rules. Build the site, then run `python3 vendor/agustos-ui/check-agustos-ui.py dist --screens-only` on the output folder.
 Use `--strict` to fail on warnings; use `--json` for structured output. Exit 0 confirms automated checks passed.
 Use `--skip <dir>` (repeatable) for frozen or generated folders the project must not edit. Do not hand-edit the checker; it is regenerated with the kit.
 Check for a newer kit with `python3 vendor/agustos-ui/check-agustos-ui.py --update-check`.
