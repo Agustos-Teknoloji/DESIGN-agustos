@@ -8,6 +8,11 @@ Run it from the root of a project that uses the kit:
 
     python3 check-agustos-ui.py .
 
+On a site whose layout fills data-screen at render time (Astro, ERB), build the
+site, then check the rendered pages for the screen rules:
+
+    python3 check-agustos-ui.py dist --screens-only
+
 Standard library only, Python 3.9+. It reads files; it never writes them, and it
 makes no network call unless you pass --update-check.
 
@@ -61,11 +66,15 @@ SKIP_DIRS = {
     "vendor", "__pycache__", ".venv", "venv", "coverage",
 }
 
+# --screens-only reads built output: rendered pages, nothing else.
+RENDERED_SUFFIXES = {".html", ".htm"}
+
 HEX = re.compile(r"#([0-9a-fA-F]{6})\b")
 # Page files: anything that can carry a <body>. Partials without one are skipped.
 PAGE_SUFFIXES = {".html", ".htm", ".astro", ".erb", ".php", ".liquid", ".vue", ".svelte"}
 COMMENT = re.compile(r"<!--.*?-->", re.S)
 BODY_TAG = re.compile(r"<body\b([^>]*)>", re.I)
+REDIRECT = re.compile(r"<meta\b[^>]*http-equiv\s*=\s*[\"']?refresh", re.I)
 DATA_SCREEN = re.compile(r"""data-screen\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))""", re.I)
 TEMPLATED = re.compile(r"[{<$]")
 MAIN_BLOCK = re.compile(r"<main\b.*?</main>", re.S | re.I)
@@ -114,11 +123,13 @@ def near(first: str, second: str) -> int:
     return max(abs(x - y) for x, y in zip(a, b))
 
 
-def scan_files(root: Path, skip_dirs: frozenset[str] = frozenset(SKIP_DIRS)):
+def scan_files(root: Path, skip_dirs: frozenset[str] = frozenset(SKIP_DIRS), suffixes=SCAN_SUFFIXES):
     for path in sorted(root.rglob("*")):
-        if not path.is_file() or path.suffix.lower() not in SCAN_SUFFIXES:
+        if not path.is_file() or path.suffix.lower() not in suffixes:
             continue
-        if any(part in skip_dirs for part in path.parts):
+        # Folders below the root only: a project that lives in a folder named
+        # dist or build is still scanned.
+        if any(part in skip_dirs for part in path.relative_to(root).parent.parts):
             continue
         if path.name in KIT_FILES:
             continue
@@ -139,6 +150,8 @@ def check_screen(rel: str, text: str, findings: list) -> None:
     body = BODY_TAG.search(page)
     if not body:
         return
+    if REDIRECT.search(page[:body.start()]):
+        return  # a redirect stub, such as the one Astro writes, is not a screen
     body_line = line_of(text, text.find(body.group(0)))
     attribute = DATA_SCREEN.search(body.group(1))
     if not attribute:
@@ -184,14 +197,18 @@ def check_screen(rel: str, text: str, findings: list) -> None:
         ))
 
 
-def check(root: Path, skip_dirs=()) -> tuple[list, int]:
+def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
     findings: list = []
     scanned = 0
     corpus: list = []
+    suffixes = RENDERED_SUFFIXES if screens_only else SCAN_SUFFIXES
 
-    for path, text in scan_files(root, frozenset(SKIP_DIRS) | frozenset(skip_dirs)):
+    for path, text in scan_files(root, frozenset(SKIP_DIRS) | frozenset(skip_dirs), suffixes):
         scanned += 1
         rel = str(path.relative_to(root))
+        if screens_only:
+            check_screen(rel, text, findings)
+            continue
         corpus.append(text)
         lines = text.splitlines()
 
@@ -291,6 +308,11 @@ def check(root: Path, skip_dirs=()) -> tuple[list, int]:
                     ))
                     break
 
+    if screens_only:
+        # Built output bundles the kit under hashed names, so the project-wide
+        # rules below would report false findings. The source scan covers them.
+        return findings, scanned
+
     blob = "\n".join(corpus)
 
     if scanned and "agustos.css" not in blob:
@@ -329,6 +351,10 @@ def main() -> int:
         "--skip", action="append", default=[], metavar="DIR",
         help="directory name to leave out of the scan, for frozen or generated files; repeatable",
     )
+    parser.add_argument(
+        "--screens-only", action="store_true",
+        help="run only the screen rules, on the rendered .html pages of a built site (such as dist/)",
+    )
     parser.add_argument("--version", action="version", version=f"agustos-ui-kit {KIT_VERSION}")
     args = parser.parse_args()
 
@@ -350,11 +376,15 @@ def main() -> int:
             print(f"  https://github.com/{REPOSITORY}/releases/tag/v{latest}")
         return 0
 
-    findings, scanned = check(root, args.skip)
+    findings, scanned = check(root, args.skip, args.screens_only)
     if scanned == 0:
         # "clean" after scanning nothing is the most dangerous output this tool
         # could produce. Point it at a real project directory.
-        print(f"no scannable files under {root} — nothing was checked", file=sys.stderr)
+        if args.screens_only:
+            print(f"no rendered .html pages under {root}, so nothing was checked. "
+                  f"Build the site first", file=sys.stderr)
+        else:
+            print(f"no scannable files under {root} — nothing was checked", file=sys.stderr)
         return 2
     errors = [f for f in findings if f.level == "error"]
     warnings = [f for f in findings if f.level == "warn"]

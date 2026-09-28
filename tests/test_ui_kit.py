@@ -490,6 +490,73 @@ class CheckerTest(unittest.TestCase):
                 with self.subTest(page=name):
                     self.assertEqual(by_file[name], rules)
 
+    def test_skip_dirs_match_below_the_scan_root_only(self):
+        """A project that lives in a folder named dist, build or vendor must
+        still be scanned. Only folders below the root are skipped."""
+        import tempfile
+        page = self._screen_page("products", main="<p>Catalog</p>")
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp) / "dist"
+            (project / "node_modules").mkdir(parents=True)
+            (project / "index.html").write_text(page, encoding="utf-8")
+            (project / "node_modules" / "bad.html").write_text(
+                self._screen_page("landing"), encoding="utf-8")
+            result = self._run(project, "--json")
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertEqual(json.loads(result.stdout)["filesScanned"], 1)
+
+    def test_screens_only_checks_the_rendered_pages_of_a_build(self):
+        """An Astro layout fills data-screen at render time, so the source scan
+        skips the screen rules. --screens-only runs them on the built HTML and
+        nothing else: the kit CSS is bundled under hashed names in _astro/, so
+        the project-wide rules would report false findings there."""
+        import tempfile
+        primary = '<a class="agustos-button agustos-button--primary" href="#">Request pricing</a>'
+        rendered = (
+            '<!doctype html><html lang="en"><head>'
+            '<link rel="stylesheet" href="/_astro/index.3f9a1c.css"></head>'
+            '<body class="brand-memregunes site-sidebar-layout" data-screen="{screen}">'
+            '<main id="main">{main}</main></body></html>'
+        )
+        redirect = (
+            '<!doctype html><title>Redirecting to: /about/</title>'
+            '<meta http-equiv="refresh" content="0;url=/about/">'
+            '<body><a href="/about/">Redirecting to <code>/about/</code></a></body>'
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            build = Path(tmp) / "dist"
+            (build / "_astro").mkdir(parents=True)
+            (build / "tr").mkdir()
+            (build / "_astro" / "index.3f9a1c.css").write_text(
+                ".hero { color: #cf142a; }", encoding="utf-8")
+            (build / "index.html").write_text(
+                rendered.format(screen="home", main=primary), encoding="utf-8")
+            (build / "tr" / "index.html").write_text(
+                rendered.format(screen="products", main=primary + primary), encoding="utf-8")
+            (build / "old-about.html").write_text(redirect, encoding="utf-8")
+
+            result = self._run(build, "--screens-only", "--json")
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            report = json.loads(result.stdout)
+            self.assertEqual(report["filesScanned"], 3)
+            self.assertEqual(
+                [(f["rule"], f["file"]) for f in report["findings"]],
+                [("AG022", str(Path("tr") / "index.html"))],
+            )
+
+            (build / "tr" / "index.html").write_text(
+                rendered.format(screen="products", main=primary), encoding="utf-8")
+            self.assertEqual(self._run(build, "--screens-only").returncode, 0)
+
+    def test_screens_only_refuses_to_report_clean_without_rendered_pages(self):
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            (Path(tmp) / "Layout.astro").write_text(
+                "<body data-screen={screen}><slot /></body>", encoding="utf-8")
+            result = self._run(Path(tmp), "--screens-only")
+            self.assertEqual(result.returncode, 2)
+            self.assertIn("nothing was checked", result.stderr)
+
     def test_checker_reports_each_rule_on_a_deliberately_bad_project(self):
         import tempfile
         bad_html = (

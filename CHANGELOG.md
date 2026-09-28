@@ -4,6 +4,17 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [6.2.2] - 2026-09-28
+
+### Added
+
+- `check-agustos-ui.py --screens-only` runs only the screen rules (AG020 to AG024) on the rendered `.html` pages of a built site. An Astro or ERB layout fills `data-screen` at render time, so the source scan skips those rules. Run `check-agustos-ui.py dist --screens-only` after the build. `UI-KIT.md` documents the step.
+
+### Fixed
+
+- The checker matches the skipped folders (`SKIP_DIRS` and `--skip`) only below the scan root. Before, it matched every folder of the absolute path, so `check-agustos-ui.py dist` scanned no file, and neither did a project inside a folder named `dist`, `build` or `vendor`.
+- The screen rules skip a redirect stub, a page with `<meta http-equiv="refresh">`. Astro writes one for each redirect, and a redirect is not a screen.
+
 ## [6.2.1] - 2026-09-27
 
 ### Changed
