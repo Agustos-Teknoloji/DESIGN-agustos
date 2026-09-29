@@ -9,7 +9,7 @@ Card and breadcrumb targets (2026-09-29, branch `feat/card-breadcrumb-targets`).
 - [x] Checker AG013 warns when a card has links but none sits in a heading.
 - [x] Tests, build, `scripts/ci.sh`, browser check on home, products, product-finder, product.
 - [x] Release: VERSION 6.4.0, CHANGELOG, MEMORY, UI-KIT hard rule 5 wording.
-- [ ] Tag `v6.4.0`, open the PR, and run `/design-push`.
+- [x] Tag `v6.4.0`, open PR #56, and run `/design-push` (2026-09-29).
 
 ## Next
 
