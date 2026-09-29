@@ -4,6 +4,16 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [6.6.1] - 2026-09-29
+
+### Fixed
+
+- Below 1024px, an in-page anchor on a sidebar page lands below the sticky `site-sidebar-bar`. The bar covered the target, so a link such as `#y2010` showed only the line under the heading. The kit sets `scroll-padding-top` on `html` only when the page has the bar, so topbar pages and desktop do not change.
+
+### Added
+
+- `--sidebar-bar-height` (61px): the 44px target, 8px above and below, and the 1px rule. The bar and the scroll offset both read it.
+
 ## [6.6.0] - 2026-09-29
 
 ### Fixed

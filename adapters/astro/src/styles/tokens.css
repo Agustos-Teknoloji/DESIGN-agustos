@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v6.6.0 · GENERATED ASTRO ADAPTER CSS
+/* AĞUSTOS DESIGN SYSTEM v6.6.1 · GENERATED ASTRO ADAPTER CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -54,6 +54,9 @@
   --measure-body: 65ch;
   --control-min: 44px;
   --sidebar-width: 240px;
+  /* The sticky bar below 1024px: a 44px target, 8px above and below, and the rule.
+     The bar and the anchor scroll offset both read it. */
+  --sidebar-bar-height: calc(var(--control-min) + 2 * var(--space-xs) + 1px);
 
   /* Named type sizes for adapter chrome and native platform mappings */
   --size-footnote: 12.5px;
@@ -1017,6 +1020,8 @@ html[data-theme="dark"] .site-footer .agustos-button--primary:hover {
 
 /* --- Drawers below 1024px. Native popovers: light dismiss and Escape are free. --- */
 @media (max-width: 1023px) {
+  /* An in-page anchor lands below the sticky bar, not under it. Topbar pages have no bar. */
+  html:has(.site-sidebar-bar) { scroll-padding-top: var(--sidebar-bar-height); }
   .site-sidebar-layout { padding-inline-start: 0; }
   .site-sidebar-bar {
     position: sticky;
@@ -1026,7 +1031,8 @@ html[data-theme="dark"] .site-footer .agustos-button--primary:hover {
     align-items: center;
     justify-content: space-between;
     gap: var(--space-md);
-    padding: var(--space-xs) var(--space-lg);
+    min-height: var(--sidebar-bar-height);
+    padding: 0 var(--space-lg);
     border-block-end: 1px solid var(--rule);
     background: var(--paper);
   }
