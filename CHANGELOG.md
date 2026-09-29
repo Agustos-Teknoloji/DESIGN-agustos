@@ -4,6 +4,21 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [6.3.0] - 2026-09-29
+
+### Fixed
+
+- A heading that opens a card, a section or a band has no top margin. Flex items and padded boxes never collapse margins, so the 2.5em section-break margin stacked on the card gap and the section padding: every card opened with a 45px empty band, and every section heading carried 130px above the section padding. The home screen is 525px shorter.
+- Content text uses `--ink-soft` (10.4:1), not `--ink-faint` (3.75:1): breadcrumbs, table headers, form labels, `.type-h4`, blockquote citations and the sidebar note. `--ink-faint` stays on non-content marks only, and its token description says so.
+- In the dark theme, `.band--cream` keeps its text dark. Before, band text was white on light gray at 1.19:1.
+- `.agustos-chrome-link` centres its text in its 44px box, so the topbar language link aligns with the menu.
+- The block after `.type-hero-deck` gets the 1em baseline gap. Hero links and actions keep their own margin.
+- Sidebar link labels sit 8px from their count badges.
+- Inline code uses the 4px radius token, not a literal 3px.
+- The command boxes on `docs/what-generates.html` are readable.
+- The product screen puts the series descriptor after the H1, not above it. `DESIGN.md` drops the Tier 3 eyebrow exception.
+- `DESIGN.md` and the hand-written handbook pages name the current version. `tests/test_version_labels.py` keeps them in step with `VERSION`.
+
 ## [6.2.4] - 2026-09-28
 
 ### Changed

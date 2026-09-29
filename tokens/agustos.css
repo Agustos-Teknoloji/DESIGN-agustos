@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v6.2.4 · GENERATED CANONICAL PLATFORM-NEUTRAL CSS
+/* AĞUSTOS DESIGN SYSTEM v6.3.0 · GENERATED CANONICAL PLATFORM-NEUTRAL CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -133,6 +133,14 @@ html[data-theme="dark"] .type-code {
   background: rgba(255, 255, 255, 0.07);
 }
 
+/* The dark callout band is light gray. Scope the light ink roles back inside
+   it, or its text renders white on light gray at 1.19:1. */
+html[data-theme="dark"] .band--cream {
+  --ink:      #15130f;
+  --ink-soft: #404040;
+  color: var(--ink);
+}
+
 /* Dark hero: black is not available as a fill. Primary is filled red —
    the one approved deviation. Secondary is filled white. */
 html[data-theme="dark"] .hero-action--primary,
@@ -223,6 +231,11 @@ img, svg { max-width: 100%; height: auto; display: block; }
   max-width: 54ch;
   margin: 0;
 }
+/* The deck has no bottom margin, so the block after it would sit flush.
+   Hero links and actions carry their own top margin. */
+.type-hero-deck + :not(.hero-links, .hero-actions) {
+  margin-top: 1em;
+}
 
 /* --- Headings (4) --- */
 
@@ -277,7 +290,7 @@ img, svg { max-width: 100%; height: auto; display: block; }
   letter-spacing: 0.005em;
   text-transform: none;
   margin: 2.5em 0 1em;
-  color: var(--ink-faint);
+  color: var(--ink-soft);
 }
 
 /* --- Body & inline (8) --- */
@@ -326,7 +339,7 @@ code, .type-code {
   font-size: 0.86em;
   background: rgba(0, 0, 0, 0.05);
   padding: 1px 5px;
-  border-radius: 3px;
+  border-radius: var(--radius-sm);
 }
 
 sub, .type-sub {
@@ -374,7 +387,7 @@ s, del, .type-strike {
   font-style: normal;
   text-transform: none;
   letter-spacing: 0.005em;
-  color: var(--ink-faint);
+  color: var(--ink-soft);
 }
 
 .type-pullquote {
@@ -479,7 +492,7 @@ s, del, .type-strike {
   font-weight: 600;
   text-transform: none;
   letter-spacing: 0.005em;
-  color: var(--ink-faint);
+  color: var(--ink-soft);
   text-align: left;
   padding: 0.5em 0.75em;
   border-bottom: 1px solid var(--rule);
@@ -692,7 +705,17 @@ table th:last-child, table td:last-child { text-align: right; }
   border-left: 2px solid var(--ink);
 }
 
+/* Flex items and padded boxes never collapse margins. A heading's 2.5em
+   section-break margin would stack on the card gap or the section padding
+   and leave an empty band above the title. The container owns that space. */
+.agustos-card > *,
+:is(.agustos-card, .agustos-section, .band) :is(h1, h2, h3, h4, .type-h1, .type-h2, .type-h3, .type-h4):first-child {
+  margin-top: 0;
+}
+
 .agustos-chrome-link {
+  display: inline-flex;
+  align-items: center;
   min-height: var(--control-min);
   color: var(--ink-soft);
   font-family: var(--display);
@@ -799,6 +822,7 @@ html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }
 .site-sidebar__link {
   display: flex;
   align-items: center;
+  gap: var(--space-xs);
   min-height: var(--control-min);
   padding-inline-start: var(--space-sm);
   border-inline-start: 2px solid transparent;
@@ -849,7 +873,7 @@ html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }
 }
 .site-sidebar__cta { align-self: flex-start; }
 .site-sidebar__utility { display: flex; flex-wrap: wrap; gap: var(--space-md); margin-block-start: auto; }
-.site-sidebar__note { margin: 0; color: var(--ink-faint); font-size: 12.5px; }
+.site-sidebar__note { margin: 0; color: var(--ink-soft); font-size: 12.5px; }
 .site-sidebar-bar { display: none; }
 
 /* --- Topbar family --- */
@@ -948,14 +972,14 @@ html[data-theme="dark"] .site-footer .agustos-button--primary:hover {
   margin: 0;
   padding: 0;
   list-style: none;
-  color: var(--ink-faint);
+  color: var(--ink-soft);
   font-family: var(--display);
   font-size: 13px;
   font-weight: 500;
 }
 .breadcrumb li { display: inline-flex; align-items: center; min-height: var(--control-min); }
 .breadcrumb li + li::before { content: "/"; margin-inline-end: var(--space-xs); color: var(--ink-faint); }
-.breadcrumb__link { color: var(--ink-faint); text-decoration: none; }
+.breadcrumb__link { color: var(--ink-soft); text-decoration: none; }
 .breadcrumb__link:hover { color: var(--ink); text-decoration: none; }
 .breadcrumb__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 .breadcrumb [aria-current="page"] { color: var(--ink); }
@@ -1078,7 +1102,7 @@ html[data-theme="dark"] .site-footer .agustos-button--primary:hover {
   line-height: 1.4;
   letter-spacing: 0.005em;
   text-transform: none;
-  color: var(--ink-faint);
+  color: var(--ink-soft);
 }
 
 .agustos-label--required::after {

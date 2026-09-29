@@ -1,6 +1,6 @@
 # Ağustos Design System
 
-**Version 6.1.0** · Cross-medium design system for Emre Güneş's brand portfolio
+**Version 6.3.0** · Cross-medium design system for Emre Güneş's brand portfolio
 
 ## Standard artifacts
 
@@ -193,7 +193,7 @@ Three families. Each with one job. No overlap. As of v2.0 the system runs on a s
 
 ### Inter Tight (Display)
 
-Designed by Rasmus Andersson, the same designer as Inter, as a tighter, more compressed sibling for display use. Variable wght axis 100–900 with italics. Shares Inter's skeleton, so the pair harmonizes by construction. Used for the **logotype, hero tokens, all headings (H1–H4), eyebrows, UI labels, table headers, badges, dashboard numerals, pullquotes**, and any "designed" surface.
+Designed by Rasmus Andersson, the same designer as Inter, as a tighter, more compressed sibling for display use. Variable wght axis 100–900 with italics. Shares Inter's skeleton, so the pair harmonizes by construction. Used for the **logotype, hero tokens, all headings (H1–H4), UI labels, table headers, badges, dashboard numerals, pullquotes**, and any "designed" surface.
 
 **Fallback stack:**
 
@@ -434,9 +434,9 @@ Four heading roles are the whole scale. Lists of titles (a blog index, a brand l
 |---|---|---|---|
 | `.type-footnote` | 12.5px | Body | Ink-soft. `sup` markers in ink, weight 600. |
 
-### Vertical rhythm: three tiers, no exceptions
+### Vertical rhythm: two tiers, no exceptions
 
-The system uses **one consistent rhythm** with one structural exception. Visual hierarchy comes from heading size and weight, not from inconsistent spacing. Earlier versions tried "headings hug their content" (asymmetric tops and bottoms, intro-block special cases, deck-after-H1 rules) and the result was a page with five different gap sizes. v2.0 reverts to the simpler logic: every element flows at the same distance from the previous one; section markers get extra room above; one explicit eyebrow exception.
+The system uses **one consistent rhythm**. Visual hierarchy comes from heading size and weight, not from inconsistent spacing. Earlier versions tried "headings hug their content" (asymmetric tops and bottoms, intro-block special cases, deck-after-H1 rules) and the result was a page with five different gap sizes. v2.0 reverts to the simpler logic: every element flows at the same distance from the previous one, and section markers get extra room above.
 
 **Tier 1, Baseline (1em ≈ 16px below every block element)**
 
@@ -470,9 +470,9 @@ A single shared `margin-top: 2.5em` for every element that visually marks a sect
 
 CSS adjacent vertical margins collapse to the larger value (per CSS spec), so a heading with `margin-top: 2.5em` follows a paragraph with `margin-bottom: 1em` at the heading's 2.5em, a clean section break without double-counting margins.
 
-**Tier 3, Eyebrow exception (≈ 8px, editorial scope only)**
+**No eyebrow tier.** Do not place a label above a heading. Put metadata below the heading it describes, for example as `.type-hero-deck` after the H1.
 
-`.type-h4:first-child` (used as a label for `.type-h1`) collapses its margin-top to zero and the H1 gets `margin-top: 8px`. The eyebrow is a caption for the title, not a section marker. This is the **only** explicit exception in the system.
+**Containers own their edges.** A heading that opens a card, a section or a band has no top margin. Flex items and padded boxes never collapse margins, so the Tier 2 margin would stack on the container's gap or padding.
 
 **Internal (intra-block) spacing, not part of the rhythm**
 
@@ -507,7 +507,7 @@ Every token maps to a standard markdown primitive. The system survives the round
 | `# Title` | H1 | First H1 is the page title |
 | `## Section` | H2 | |
 | `### Subsection` | H3 | Italic by token rule |
-| `#### Label` | H4 | Uppercase eyebrow/meta |
+| `#### Label` | H4 | Sentence-case label or meta, below its heading |
 | `**bold**` | strong | |
 | `*italic*` or `_italic_` | em | |
 | `[text](url)` | a | Bold + brand underline |
@@ -591,7 +591,7 @@ Canonical kit: `laz-gunesi-amblem/favicon/` — `favicon.svg` (byte-identical to
 
 The wordmark uses **Inter Tight** (Rasmus Andersson. SIL OFL 1.1). Tighter, more compressed sibling of Inter, designed by the same hand and sharing the same skeleton. Variable `wght` axis 100–900 with italics. Used at **650** for the lockup.
 
-Inter Tight is the wordmark face. It is also the system display face, the same family powers heroes, headings, eyebrows, UI labels, and table headers. This consolidation is intentional: in v2.0 the wordmark and the surrounding chrome are drawn from the same family, so the lockup integrates with its context rather than asserting itself as a separate face.
+Inter Tight is the wordmark face. It is also the system display face, the same family powers heroes, headings, UI labels, and table headers. This consolidation is intentional: in v2.0 the wordmark and the surrounding chrome are drawn from the same family, so the lockup integrates with its context rather than asserting itself as a separate face.
 
 The Turkish `ğ` in Inter Tight is humanist; the breve integrates with the letter body. Inter has gold-standard Latin Extended coverage. `ğ`, `İ`, `ı`, `ş`, `ç`, `ö`, `ü` all draw correctly without locale tricks.
 
@@ -648,7 +648,7 @@ lang: tr
 ---
 ```
 
-**Why this matters:** without `lang="tr"`, CSS `text-transform: uppercase` converts lowercase `i` to dotless `I` instead of dotted `İ`. This silently produces wrong Turkish in any uppercase styling, eyebrows, brand names, table headers, H4 labels. With the rule applied, Turkish capitalization renders correctly everywhere.
+**Why this matters:** without `lang="tr"`, CSS `text-transform: uppercase` converts lowercase `i` to dotless `I` instead of dotted `İ`. This silently produces wrong Turkish in any uppercase styling, brand names, table headers, H4 labels. With the rule applied, Turkish capitalization renders correctly everywhere.
 
 ---
 
@@ -888,7 +888,7 @@ The factory checks (generators, Office exports and a `ui/` release) are in `ARCH
 
 ## Versioning
 
-This is **v6.1.0**. The minor makes the checker enforce the screens table on every page (`data-screen` on `<body>`; primary CTA limit, quotes, and theme per row), adds the `content-index` screen, and gives both reference adapters the `screen` switch. v6.0.0 recorded the chrome contract: consumers replace their local chrome with the kit's and adopt one name. v5.0.0 recorded the design philosophy change. Subsequent changes follow semantic versioning:
+This is **v6.3.0**. The minor tightens the rhythm: a heading that opens a card, a section or a band no longer adds its section-break margin, and content text moves from `--ink-faint` to `--ink-soft` to pass contrast. v6.2 added brand `screenOverrides`. v6.1.0 made the checker enforce the screens table on every page (`data-screen` on `<body>`; primary CTA limit, quotes, and theme per row), added the `content-index` screen, and gave both reference adapters the `screen` switch. v6.0.0 recorded the chrome contract: consumers replace their local chrome with the kit's and adopt one name. v5.0.0 recorded the design philosophy change. Subsequent changes follow semantic versioning:
 
 - **Major.** Breaking changes to token names, structural removal, philosophy shifts
 - **Minor.** New tokens, new brand additions, additive-only changes
