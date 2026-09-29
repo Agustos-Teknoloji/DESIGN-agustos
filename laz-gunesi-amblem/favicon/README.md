@@ -48,8 +48,11 @@ Never edit these files by hand. From `brand/`:
 ```
 
 That rebuilds this folder and every `brand/exports/<brand>/favicon/`, and writes no other
-export. The tile is the master viewBox grown to 1/0.9 of its size, so the blades span about
-80% of the tile: legible at 16px and inside the maskable safe zone.
+export. Tab icons (`favicon.svg`, the PNGs up to 64px, `favicon.ico`) use a tight crop: the
+tile is the master viewBox at 1/1.05 of its size, so the blades span about 94% of it and still
+read at 16px. Large icons (the apple-touch icon, the manifest icons, 180px and up) keep the
+master viewBox at 1/0.9, so the blades span about 81% and sit inside the maskable safe zone.
+Only the tile changes; the symbol paths stay verbatim.
 Update adapter `public/favicon.svg` mirrors in the same change.
 
 See the repository root `ASSETS.md` for the canonical-source + mirror rules.

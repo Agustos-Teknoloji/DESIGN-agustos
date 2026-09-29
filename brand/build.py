@@ -55,9 +55,16 @@ REGISTRY = BRAND_DIR / "brands.json"
 LOCKUP_PNG_W = 2400          # retina master
 LOCKUP_PNG_W_SMALL = 800     # web-friendly
 FAVICON_SIZES = [16, 32, 48, 64, 180, 192, 256, 512]
-# The master viewBox fills 90% of the favicon tile. The blades then span about 80% of
-# it: a clear white margin that still reads at 16px, inside the maskable safe zone.
+# Large icons (home screen, app manifest): the master viewBox fills 90% of the tile, so
+# the blades span about 81% of it, inside the maskable safe zone.
 FAVICON_TILE_RATIO = 0.9
+# Tab icons (favicon.svg, the PNGs up to 64px, the .ico): a tighter crop. The master
+# viewBox is 105% of the tile and the blades span about 94% of it, so the 18 thin
+# blades still read at 16px (Emre, 2026-09-29: "crop"). The blades reach 51.7 units
+# from the centre and the tile edge sits at 55.2, so nothing is clipped. The symbol
+# itself is never redrawn or scaled; only the tile around it shrinks.
+FAVICON_TAB_TILE_RATIO = 1.05
+FAVICON_TAB_SIZES = [16, 32, 48, 64]
 CANONICAL_FAVICON_DIR = ROOT / "laz-gunesi-amblem" / "favicon"
 AVATAR_SIZES = [1000, 400]
 OG_W, OG_H = 1200, 630
@@ -186,12 +193,12 @@ def build_monogram(mark_color, tile_color, size=512.0, radius_ratio=0.0, symbol_
             f'width="{size}" height="{size}" role="img">{bg}{sym}</svg>')
 
 
-def build_favicon_svg(mark_color, tile_color):
+def build_favicon_svg(mark_color, tile_color, tile_ratio=FAVICON_TILE_RATIO):
     """The favicon: a `tile_color` square with the master.svg paths, verbatim and
-    unscaled, filled in `mark_color`. The tile grows the master viewBox around its
-    centre, so the symbol geometry is never redrawn or transformed."""
+    unscaled, filled in `mark_color`. The tile is the master viewBox resized around its
+    centre by `tile_ratio`, so the symbol geometry is never redrawn or transformed."""
     minx, miny, w, h = SYMBOL_VB
-    side = w / FAVICON_TILE_RATIO
+    side = w / tile_ratio
     x0 = minx + w / 2 - side / 2
     y0 = miny + h / 2 - side / 2
     body = "\n    ".join(f'<path d="{d}"/>' for d in SYMBOL_PATHS)
@@ -256,17 +263,27 @@ def write_json(path: Path, data: dict):
 # Favicons (white tile, identity-ink symbol)
 # ----------------------------------------------------------------------------
 
-def favicon_svg_for(brand, reg):
-    return build_favicon_svg(brand["color"], reg["substrate"]["paper_white"])
+def favicon_svg_for(brand, reg, tile_ratio=FAVICON_TAB_TILE_RATIO):
+    """The tab crop by default: favicon.svg is what a browser tab shows."""
+    return build_favicon_svg(brand["color"], reg["substrate"]["paper_white"], tile_ratio)
 
 
 def build_favicons(slug, brand, reg):
     """exports/<brand>/favicon/: svg, PNG sizes, .ico, apple-touch icon, manifest.
+    Tab sizes use the tight crop; the large icons keep the maskable margin.
     Writes nothing outside that folder."""
     fv = BRAND_DIR / "exports" / slug / "favicon"
     fav_svg = write_svg(fv / "favicon.svg", favicon_svg_for(brand, reg))
-    render_pngs([(fav_svg, fv / f"favicon-{s}.png", s) for s in FAVICON_SIZES])
-    write_ico(fv / "favicon-256.png", fv / "favicon.ico")
+    with tempfile.TemporaryDirectory() as tmp:
+        large_svg = write_svg(Path(tmp) / "favicon-large.svg",
+                              favicon_svg_for(brand, reg, FAVICON_TILE_RATIO))
+        ico_src = Path(tmp) / "favicon-ico-256.png"
+        render_pngs(
+            [(fav_svg if s in FAVICON_TAB_SIZES else large_svg, fv / f"favicon-{s}.png", s)
+             for s in FAVICON_SIZES]
+            + [(fav_svg, ico_src, 256)]
+        )
+        write_ico(ico_src, fv / "favicon.ico")
     Image.open(fv / "favicon-180.png").save(fv / "apple-touch-icon.png")
     write_json(fv / "site.webmanifest", {
         "name": brand.get("title", slug),
@@ -290,13 +307,15 @@ def build_canonical_favicon(reg):
     (out / "favicon-mono.svg").write_bytes(
         (ROOT / "laz-gunesi-amblem" / "svg" / "master.svg").read_bytes())
     with tempfile.TemporaryDirectory() as tmp:
+        large_svg = write_svg(Path(tmp) / "favicon-large.svg",
+                              favicon_svg_for(brand, reg, FAVICON_TILE_RATIO))
         ico_src = Path(tmp) / "favicon-256.png"
         render_pngs([
             (fav_svg, out / "favicon-16.png", 16),
             (fav_svg, out / "favicon-32.png", 32),
-            (fav_svg, out / "apple-touch-icon.png", 180),
-            (fav_svg, out / "icon-192.png", 192),
-            (fav_svg, out / "icon-512.png", 512),
+            (large_svg, out / "apple-touch-icon.png", 180),
+            (large_svg, out / "icon-192.png", 192),
+            (large_svg, out / "icon-512.png", 512),
             (fav_svg, ico_src, 256),
         ])
         write_ico(ico_src, out / "favicon.ico", sizes=(16, 32, 48))

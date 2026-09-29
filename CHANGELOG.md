@@ -20,7 +20,7 @@ A conventional reset of the website layer. Identity (symbol, wordmarks, six colo
 - Cards: 12px radius, the card gap owns the spacing, titles carry no underline, and the border darkens on hover.
 - Buttons are black everywhere. The dark-theme red primary CTA is gone; the dark primary inverts to white.
 - Logos answer hover: the Ağustos logo turns black, every other house-brand logo turns red.
-- Favicons are per brand: a white tile with the red Laz Güneşi for Ağustos and the black one for every other brand.
+- Favicons are per brand: a white tile with the red Laz Güneşi for Ağustos and the black one for every other brand. Tab icons crop the tile tight (the sun fills about 94%) so the blades read at 16px; the large home-screen icons keep the maskable margin.
 - The checker guards identity with errors and taste with warnings. AG024 (`data-theme` outside product UI) is a warning. AG010 allows radii up to 12px.
 - `UI-KIT.md`: nine house rules replace the twelve principles, and the brand table shows each logo's ink and hover ink.
 - `scripts/check_office_artifacts.py` fingerprints only the brand fields the Office generators read. The Office files did not change.

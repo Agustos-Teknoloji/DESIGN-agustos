@@ -20,7 +20,7 @@ The checker guards identity with errors and taste with warnings. Errors remain f
 
 ## 2026-09-29 per-brand-favicons
 
-Each brand's favicon is a white tile with the Laz Güneşi: red for Ağustos, black for every other house brand. Why: Emre asked for favicons that match the logo inks, with a white ground so the mark reads on any tab colour. Reverses 2026-09-13 shared-favicon. Only the favicon files and the guidelines PDFs were regenerated; lockups, social images, swatches, email signatures and Office files were not (Emre, 2026-09-29: "rebuild only guideline for now"). Reopen only if a brand gets its own registered symbol.
+Each brand's favicon is a white tile with the Laz Güneşi: red for Ağustos, black for every other house brand. Why: Emre asked for favicons that match the logo inks, with a white ground so the mark reads on any tab colour. Tab icons (the SVG, the PNGs up to 64px, the .ico) crop the tile tight, so the sun fills about 94% of it and its 18 thin blades still read at 16px; the large home-screen and manifest icons keep the 81% maskable margin (Emre, 2026-09-29: "crop"). Rejected: heavier blades at small sizes, which redraws the symbol. Reverses 2026-09-13 shared-favicon. Only the favicon files and the guidelines PDFs were regenerated; lockups, social images, swatches, email signatures and Office files were not (Emre, 2026-09-29: "rebuild only guideline for now"). Reopen only if a brand gets its own registered symbol.
 
 ## 2026-09-29 office-fingerprint-brand-subset
 
