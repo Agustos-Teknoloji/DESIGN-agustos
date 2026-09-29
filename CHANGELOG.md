@@ -4,6 +4,18 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [6.6.0] - 2026-09-29
+
+### Fixed
+
+- Bare `h1`, `h2`, `h3`, `h4` and `p` share the rules of `.type-h1` to `.type-h4` and `.type-body`. `UI-KIT.md` promised that bare elements are styled, but only lists, tables, links, code, quotes and rules were. Markdown and CMS output rendered its headings and paragraphs in browser defaults.
+- Footnotes and form hints lose a 12.5px top margin that came from the browser default for `p`. A form hint now sits 4px under its field, the field's own gap.
+- The Astro adapter blog post page drops its hand-written heading and paragraph rules. They restated the kit with stale values, such as an 18px italic H3.
+
+### Added
+
+- `tests/test_bare_elements.py` reads the promise in `UI-KIT.md` and fails when a named element does not share the rule of its class.
+
 ## [6.5.0] - 2026-09-29
 
 ### Changed
