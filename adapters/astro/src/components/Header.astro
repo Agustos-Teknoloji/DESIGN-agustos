@@ -2,7 +2,7 @@
 import LazGunesi from './LazGunesi.astro';
 import HeaderSearch from './HeaderSearch.astro';
 import HeaderUtility from './HeaderUtility.astro';
-import { SEARCH_LABELS } from '../types/chrome';
+import { CHROME_LABELS, SEARCH_LABELS, splitNav } from '../types/chrome';
 import type { ChromeLink, HeaderConfig, SearchLabels } from '../types/chrome';
 
 interface Props {
@@ -28,6 +28,10 @@ const defaultNav: ChromeLink[] = [
   { href: '/typography', label: 'Typography' },
 ];
 const nav = config.nav ?? defaultNav;
+// At most five top-menu items: a longer nav keeps four and moves the rest under More.
+const [menuItems, moreItems] = splitNav(nav);
+const labels = CHROME_LABELS[locale];
+const moreLabel = config.moreLabel ?? labels.more;
 const homeHref = config.homeHref ?? '/';
 const cta = config.cta === undefined
   ? { href: '/about', label: 'Start a project' }
@@ -35,6 +39,7 @@ const cta = config.cta === undefined
 
 const idSuffix = locale;
 function isCurrent(href: string): boolean {
+  if (href.startsWith('#')) return false;
   if (href === '/') return pathname === '/';
   return pathname === href || pathname.startsWith(`${href}/`);
 }
@@ -47,17 +52,36 @@ function isCurrent(href: string): boolean {
     </a>
 
     <div id="site-header-panel" class="site-header__panel" popover>
-      <nav class="site-header__nav" aria-label="Primary">
-        {nav.map((item) => (
+      <nav class="site-header__nav" aria-label={labels.nav}>
+        {menuItems.map((item) => (
           <a
             href={item.href}
-            class:list={['site-header__link', { 'is-active': isCurrent(item.href) }]}
+            class="site-header__link"
             aria-current={isCurrent(item.href) ? 'page' : undefined}
             aria-label={item.ariaLabel}
+            hreflang={item.hreflang}
             target={item.external ? '_blank' : undefined}
             rel={item.external ? 'noopener noreferrer' : undefined}
           >{item.label}</a>
         ))}
+        {moreItems.length > 0 && (
+          <details class="site-header__more">
+            <summary class="site-header__link">{moreLabel}</summary>
+            <div class="site-header__more-menu">
+              {moreItems.map((item) => (
+                <a
+                  href={item.href}
+                  class="site-header__more-link"
+                  aria-current={isCurrent(item.href) ? 'page' : undefined}
+                  aria-label={item.ariaLabel}
+                  hreflang={item.hreflang}
+                  target={item.external ? '_blank' : undefined}
+                  rel={item.external ? 'noopener noreferrer' : undefined}
+                >{item.label}</a>
+              ))}
+            </div>
+          </details>
+        )}
       </nav>
 
       <div class="site-header__end">
@@ -76,7 +100,7 @@ function isCurrent(href: string): boolean {
     </div>
 
     {hasUtility && <HeaderUtility className="site-header__utility--bar" languageSwitch={config.languageSwitch} theme={themeEnabled} />}
-    <button type="button" class="site-header__burger" popovertarget="site-header-panel" aria-label="Open navigation">
+    <button type="button" class="site-header__burger" popovertarget="site-header-panel" aria-label={labels.openMenu}>
       <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true" focusable="false"><path d="M0 1h18M0 7h18M0 13h18" stroke="currentColor" stroke-width="1.5"/></svg>
     </button>
   </div>
@@ -108,7 +132,7 @@ function isCurrent(href: string): boolean {
   :global(.site-header__search-result a:focus-visible) { outline: 0; background: var(--rule); color: var(--ink); }
   :global(.site-header__search-result-title) { display: block; font-family: var(--display); font-size: 14px; font-weight: 600; line-height: 1.25; }
   :global(.site-header__search-result-excerpt) { display: block; max-width: 70ch; margin-top: 0.3rem; color: var(--ink-faint); font-family: var(--body); font-size: 12.5px; line-height: 1.45; }
-  :global(.site-header__search-result-excerpt mark) { padding: 0 0.1em; background: color-mix(in srgb, var(--signal) 18%, transparent); color: var(--ink); }
+  :global(.site-header__search-result-excerpt mark) { padding: 0 0.1em; background: var(--surface); color: var(--ink); }
 </style>
 
 <script>

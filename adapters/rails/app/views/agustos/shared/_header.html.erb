@@ -1,15 +1,22 @@
+<% menu_items, more_items = agustos_nav_split %>
 <header class="site-header">
   <div class="site-header__bar site-frame">
     <%= render "agustos/shared/brand_lockup", href: agustos_theme_config[:home_href] %>
 
     <div id="site-header-panel" class="site-header__panel" popover>
-      <nav class="site-header__nav" aria-label="Primary">
-        <% agustos_nav_items.each do |item| %>
-          <% href = agustos_value(item, :href) %>
-          <% active = agustos_nav_active?(href) %>
-          <% options = agustos_link_html_options(item, class_name: "site-header__link#{' is-active' if active}") %>
-          <% options[:aria] = (options[:aria] || {}).merge(current: "page") if active %>
-          <%= link_to agustos_value(item, :label), href, **options %>
+      <nav class="site-header__nav" aria-label="<%= agustos_chrome_labels[:nav] %>">
+        <% menu_items.each do |item| %>
+          <%= link_to agustos_value(item, :label), agustos_value(item, :href), **agustos_nav_link_options(item, class_name: "site-header__link") %>
+        <% end %>
+        <% if more_items.any? %>
+          <details class="site-header__more">
+            <summary class="site-header__link"><%= agustos_more_label %></summary>
+            <div class="site-header__more-menu">
+              <% more_items.each do |item| %>
+                <%= link_to agustos_value(item, :label), agustos_value(item, :href), **agustos_nav_link_options(item, class_name: "site-header__more-link") %>
+              <% end %>
+            </div>
+          </details>
         <% end %>
       </nav>
 
@@ -36,7 +43,7 @@
         <%= render "agustos/shared/header_utility" %>
       </div>
     <% end %>
-    <button type="button" class="site-header__burger" popovertarget="site-header-panel" aria-label="Open navigation">
+    <button type="button" class="site-header__burger" popovertarget="site-header-panel" aria-label="<%= agustos_chrome_labels[:open_menu] %>">
       <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true" focusable="false"><path d="M0 1h18M0 7h18M0 13h18" stroke="currentColor" stroke-width="1.5"/></svg>
     </button>
   </div>

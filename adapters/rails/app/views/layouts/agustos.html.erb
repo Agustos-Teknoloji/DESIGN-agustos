@@ -10,9 +10,6 @@
     <%# Load ui/agustos-fonts.css (or @fontsource) before tokens. Font stacks alone are not faces. %>
     <%= stylesheet_link_tag "agustos/tokens", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "agustos/components", "data-turbo-track": "reload" %>
-    <% if agustos_product_shell? %>
-      <%= stylesheet_link_tag "agustos/product", "data-turbo-track": "reload" %>
-    <% end %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <% if agustos_theme_toggle? %>
       <script>
@@ -26,15 +23,21 @@
       </script>
     <% end %>
   </head>
+  <%# data-screen comes first: the kit checker reads the body tag only up to its first closing bracket. %>
   <body
+    data-screen="<%= agustos_screen %>"
     class="<%= agustos_body_class %>"
-    <% if agustos_screen %>data-screen="<%= agustos_screen %>"<% end %>
     data-controller="<%= agustos_body_controller %>"
   >
+    <a class="skip-link" href="#main"><%= agustos_chrome_labels[:skip] %></a>
     <% if agustos_product_shell? %>
-      <%= yield %>
+      <%# Product UI: the sidebar. Chrome follows the screen family, not the brand. %>
+      <%= render "agustos/shared/sidebar" %>
+      <main id="main" tabindex="-1">
+        <%= yield %>
+      </main>
     <% else %>
-      <a class="skip-link" href="#main">Skip to content</a>
+      <%# Websites: the top menu and the footer. %>
       <%= render "agustos/shared/header" %>
       <main id="main" class="agustos-layout__main" tabindex="-1">
         <%= yield %>

@@ -13,6 +13,7 @@ import '@fontsource/jetbrains-mono/500.css';
 import '../styles/tokens.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { CHROME_LABELS } from '../types/chrome';
 import type { FooterConfig, HeaderConfig } from '../types/chrome';
 
 type Brand = 'agustos' | 'pataraz' | 'pld' | 'iesdesk' | 'specquick';
@@ -20,7 +21,7 @@ type Brand = 'agustos' | 'pataraz' | 'pld' | 'iesdesk' | 'specquick';
 interface Props {
   title: string;
   description?: string;
-  /** Brand class — applied on <body> to scope --brand. */
+  /** Brand class, applied on the body element to scope --brand. Brands do not pick chrome. */
   brand?: Brand;
   /** Substrate. White is the default paper. Cream is for callout bands, not the page. */
   substrate?: 'cream' | 'white';
@@ -31,11 +32,15 @@ interface Props {
   /**
    * The screen this page is, from the kit's screens table: home, static, content,
    * content-index, products, product-finder, product, spec-sheet, app-shell.
-   * Rendered as data-screen on <body>; the kit checker holds the page to that
+   * Rendered as data-screen on the body element; the kit checker holds the page to that
    * screen's rules (primary CTA limit, quotes, theme).
    */
   screen?: string;
-  /** Site chrome configuration. Defaults exercise the reusable DESIGN demo. */
+  /**
+   * Website chrome: the top menu and the footer, for every brand. Chrome follows
+   * the screen family, not the brand; this layout never renders the sidebar,
+   * which belongs to product UI. Defaults exercise the reusable DESIGN demo.
+   */
   header?: HeaderConfig;
   footer?: FooterConfig;
   /** Include this page's <main> in the Pagefind index. */
@@ -109,12 +114,12 @@ const searchAttributes = searchable ? {
     )}
   </head>
   <body class={bodyClass} data-screen={screen}>
-    <a class="skip-link" href="#main">Skip to content</a>
+    <a class="skip-link" href="#main">{CHROME_LABELS[lang === 'tr' ? 'tr' : 'en'].skip}</a>
     <Header brandname={brandname} pathname={Astro.url.pathname} lang={lang} config={header} />
     <main id="main" tabindex="-1" {...searchAttributes}>
       <slot />
     </main>
-    <Footer brandname={brandname} config={footer} />
+    <Footer brandname={brandname} homeHref={header.homeHref ?? '/'} lang={lang} config={footer} />
   </body>
 </html>
 

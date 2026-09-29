@@ -1,44 +1,67 @@
-<%# Marketing example. Controller sets agustos_theme(screen: :home) without theme: true. %>
-<article>
-  <section class="container agustos-hero-opening" aria-labelledby="hero-title">
-    <h1 id="hero-title" class="type-hero">Light, specified.</h1>
-    <p class="type-hero-deck">
-      Architectural lighting specified, sourced and delivered for projects across
-      Türkiye and the Gulf. Rails owns the application. The kit owns the grammar.
-    </p>
-    <div class="hero-actions">
-      <%= link_to "Start a project", "#close", class: "hero-action hero-action--primary" %>
-      <%= link_to "See specified work", "#practice", class: "hero-action hero-action--secondary" %>
-    </div>
-    <p class="hero-trust">Specified since 2009 · 240+ projects · 11 countries</p>
-  </section>
+<%# Marketing example (screen: home), after screens/home.html. The layout renders
+    the top menu and the footer. Controller:
+    agustos_theme(
+      screen: :home,
+      lang: :en,
+      nav: [
+        { label: "Lighting", href: "/lighting" },
+        { label: "Consulting", href: "/consulting" },
+        { label: "Writing", href: "/blog" },
+        { label: "About", href: "/about" },
+        { label: "Past brands", href: "/past-brands" },
+        { label: "Careers", href: "/careers" }
+      ],                                  # six items: the first four plus "More"
+      cta: { label: "Contact", href: "/contact" },
+      footer: {
+        note: "© Ağustos Teknoloji, 1996–2026",
+        links: [
+          { label: "LinkedIn", href: "https://www.linkedin.com/company/agustostek/", external: true },
+          { label: "Privacy", href: "/privacy" },
+          { label: "Türkçe", href: "/tr", hreflang: "tr" }
+        ]
+      }
+    )
+    No theme toggle: websites ship light. %>
+<section class="container" aria-labelledby="hero-title">
+  <h1 id="hero-title" class="type-hero">Light, <mark class="type-highlight">specified</mark>.</h1>
+  <p class="type-hero-deck">
+    Architectural lighting specified, sourced and delivered for projects across
+    Türkiye and the Gulf. Rails owns the application. The kit owns the grammar.
+  </p>
+  <div class="hero-actions">
+    <%= link_to "Start a project", "#close", class: "agustos-button agustos-button--primary" %>
+    <%= link_to "See specified work", "#practice", class: "agustos-button agustos-button--secondary" %>
+  </div>
+  <p class="hero-trust">Specified since 2009 · 240+ projects · 11 countries</p>
+</section>
 
-  <section class="container agustos-section" id="practice" aria-labelledby="practice-title">
+<section class="site-frame agustos-section" id="practice" aria-labelledby="practice-title">
+  <div class="agustos-section__head">
     <h2 id="practice-title" class="type-h2">What we do</h2>
-    <div class="agustos-card-grid">
-      <article class="agustos-card agustos-card--marked">
-        <h3 class="type-h3">Lighting design</h3>
-        <p class="type-body">Concept, calculation and specification for architectural and retail interiors.</p>
-      </article>
-      <article class="agustos-card">
-        <h3 class="type-h3">Sourcing</h3>
-        <p class="type-body">European manufacturers, matched to the specification rather than to stock.</p>
-      </article>
-      <article class="agustos-card">
-        <h3 class="type-h3">Supply</h3>
-        <p class="type-body">Held stock, customs and site delivery on the project schedule.</p>
-      </article>
-    </div>
-  </section>
-</article>
+  </div>
+  <div class="grid-3">
+    <article class="agustos-card agustos-card--marked">
+      <h3 class="type-h3">Lighting design</h3>
+      <p class="type-body">Concept, calculation and specification for architectural and retail interiors.</p>
+    </article>
+    <article class="agustos-card">
+      <h3 class="type-h3">Sourcing</h3>
+      <p class="type-body">European manufacturers, matched to the specification rather than to stock.</p>
+    </article>
+    <article class="agustos-card">
+      <h3 class="type-h3">Supply</h3>
+      <p class="type-body">Held stock, customs and site delivery on the project schedule.</p>
+    </article>
+  </div>
+</section>
 
-<section class="agustos-cta-band" id="close" aria-labelledby="close-title">
-  <div class="container">
-    <h2 id="close-title" class="type-h2">Need a specifier on the project.</h2>
-    <p class="type-hero-deck">Send the brief. We return a specification or a source.</p>
+<section class="band band--cream" id="close" aria-labelledby="close-title">
+  <div class="site-frame">
+    <h2 id="close-title" class="type-h2">Need a specifier on the project?</h2>
+    <p class="type-body prose">Send the brief. We return a specification or a source.</p>
     <div class="hero-actions">
-      <%= link_to "Start a project", "#close", class: "hero-action hero-action--primary" %>
-      <%= link_to "See specified work", "#practice", class: "hero-action hero-action--secondary" %>
+      <%= link_to "Start a project", "/contact", class: "agustos-button agustos-button--primary" %>
+      <%= link_to "About us", "/about", class: "agustos-button agustos-button--quiet" %>
     </div>
   </div>
 </section>

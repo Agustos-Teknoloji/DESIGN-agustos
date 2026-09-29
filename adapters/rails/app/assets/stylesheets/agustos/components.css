@@ -1,4 +1,5 @@
-/* Ağustos Design System v6.0.0 — Rails adapter: search, utility, and example-page rules. Chrome comes from the kit. */
+/* Ağustos Design System v7.0.0 — Rails adapter: search, utility, and app toolbar rules. Chrome, the hero and the
+   closing band come from the kit: top menu and footer for websites, sidebar for product UI. */
 
 .agustos-layout { display: flex; flex-direction: column; min-height: 100dvh; }
 .agustos-layout__main { flex: 1; }
@@ -42,15 +43,6 @@ html[data-theme="dark"] .site-header__theme-moon { display: block; }
 .site-header__search-result a:hover, .site-header__search-result a:focus-visible { outline: 0; background: var(--rule); color: var(--ink); }
 .site-header__search-result-title { display: block; font-family: var(--display); font-size: 14px; font-weight: 600; line-height: 1.25; }
 .site-header__search-result-excerpt { display: block; margin-top: 0.3rem; color: var(--ink-faint); font-size: 12.5px; line-height: 1.45; }
-
-.agustos-cta-band {
-  background: var(--cream);
-  border-top: 1px solid var(--rule);
-  border-bottom: 1px solid var(--rule);
-  padding-block: var(--space-3xl);
-}
-.agustos-cta-band .type-h2 { margin-top: 0; }
-.agustos-hero-opening { padding-top: var(--space-5xl); padding-bottom: var(--space-5xl); }
 
 .agustos-app__toolbar {
   display: flex;

@@ -1,81 +1,53 @@
 ---
+// Websites only. The lockup, one footnote line, and one row of links for
+// social, legal, and language. No column headings, no repeat of the top menu,
+// no button. The kit styles the footer lockup in the brand's identity ink.
 import LazGunesi from './LazGunesi.astro';
-import type { FooterConfig } from '../types/chrome';
+import { CHROME_LABELS } from '../types/chrome';
+import type { ChromeLink, FooterConfig } from '../types/chrome';
 
 interface Props {
   brandname?: string;
+  homeHref?: string;
+  lang?: string;
   config?: FooterConfig;
 }
 
-const { brandname = 'ağustos', config = {} } = Astro.props;
-const year = new Date().getFullYear();
-const description = config.description ?? 'Ağustos Design System · multi-brand typography and chrome';
-const cta = config.cta === undefined
-  ? { href: '/about', label: 'Contact' }
-  : config.cta;
-const columns = config.columns ?? [
-  {
-    heading: 'Explore',
-    links: [
-      { href: '/', label: 'Home' },
-      { href: '/about', label: 'About' },
-    ],
-  },
-  {
-    heading: 'Content',
-    links: [
-      { href: '/blog', label: 'Writing' },
-      { href: '/typography', label: 'Typography' },
-    ],
-  },
-  {
-    heading: 'Repository',
-    links: [
-      { href: 'https://github.com/Agustos-Teknoloji/DESIGN-agustos', label: 'Source', external: true },
-      { href: 'https://github.com/Agustos-Teknoloji/DESIGN-agustos/blob/main/DESIGN.md', label: 'Design spec', external: true },
-      { href: 'https://github.com/Agustos-Teknoloji/DESIGN-agustos/blob/main/ASSETS.md', label: 'Asset index', external: true },
-    ],
-  },
+const { brandname = 'ağustos', homeHref = '/', lang = 'en', config = {} } = Astro.props;
+const labels = CHROME_LABELS[lang === 'tr' ? 'tr' : 'en'];
+const note = config.note ?? `Ağustos Design System · © ${new Date().getFullYear()}`;
+const links: ChromeLink[] = config.links ?? [
+  { href: 'https://github.com/Agustos-Teknoloji/DESIGN-agustos', label: 'Source', external: true },
+  { href: 'https://github.com/Agustos-Teknoloji/DESIGN-agustos/blob/main/DESIGN.md', label: 'Design spec', external: true },
+  { href: 'https://github.com/Agustos-Teknoloji/DESIGN-agustos/blob/main/ASSETS.md', label: 'Asset index', external: true },
 ];
 ---
 <footer class="site-footer">
   <div class="site-footer__inner site-frame">
     <div class="site-footer__brand">
-      <a class="site-lockup" href="/" aria-label={brandname}>
+      <a class="site-lockup" href={homeHref} aria-label={brandname}>
         <LazGunesi class="site-lockup__symbol" />
         <span class="site-lockup__name">{brandname}</span>
       </a>
-      <p class="type-footnote">{description} · &copy; {year}</p>
+      {note && <p class="type-footnote">{note}</p>}
     </div>
-
-    <div class="site-footer__cols">
-      {columns.map((column) => (
-        <nav class="site-footer__col" aria-label={column.ariaLabel ?? column.heading}>
-          <p class="type-h4 site-footer__col-heading">{column.heading}</p>
-          <ul class="site-footer__list">
-            {column.links.map((link) => (
-              <li>
-                <a
-                  href={link.href}
-                  class="site-footer__link"
-                  aria-label={link.ariaLabel}
-                  target={link.external ? '_blank' : undefined}
-                  rel={link.external ? 'noopener noreferrer' : undefined}
-                >{link.label}</a>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      ))}
-      {cta && (
-        <a
-          href={cta.href}
-          class="agustos-button agustos-button--primary site-footer__cta"
-          aria-label={cta.ariaLabel}
-          target={cta.external ? '_blank' : undefined}
-          rel={cta.external ? 'noopener noreferrer' : undefined}
-        >{cta.label}</a>
-      )}
-    </div>
+    {links.length > 0 && (
+      <nav aria-label={config.ariaLabel ?? labels.footer}>
+        <ul class="site-footer__links">
+          {links.map((link) => (
+            <li>
+              <a
+                class="site-footer__link"
+                href={link.href}
+                aria-label={link.ariaLabel}
+                hreflang={link.hreflang}
+                target={link.external ? '_blank' : undefined}
+                rel={link.external ? 'noopener noreferrer' : undefined}
+              >{link.label}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    )}
   </div>
 </footer>
