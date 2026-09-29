@@ -47,19 +47,22 @@ Full kit guide: [`laz-gunesi-amblem/README.md`](laz-gunesi-amblem/README.md).
 
 ## Favicon & app icons
 
-Web-ready browser/OS icons. **One shared favicon for every house site**: the bare red Laz
-Güneşi (`master.svg`) on a transparent ground. See DESIGN.md §"Favicon & app icons".
+Web-ready browser/OS icons. **Every favicon is a white tile carrying the Laz Güneşi in the
+brand's identity ink**: red `#cf142a` for Ağustos, black `#15130f` for every other house brand
+(MEMORY.md 2026-09-29 per-brand-favicons). The symbol paths are `master.svg`, verbatim.
 
 | Asset | Path | Use |
 |---|---|---|
-| **Favicon kit** | [`laz-gunesi-amblem/favicon/`](laz-gunesi-amblem/favicon/) | `favicon.svg` (= `master.svg`), `favicon.ico`, `apple-touch-icon.png`, `icon-192/512.png`, `site.webmanifest`. |
+| **Favicon kit (Ağustos, canonical)** | [`laz-gunesi-amblem/favicon/`](laz-gunesi-amblem/favicon/) | `favicon.svg` (red sun on white tile), `favicon.ico`, `favicon-16/32.png`, `apple-touch-icon.png`, `icon-192/512.png`, `site.webmanifest`. |
+| **Favicon kit (per brand)** | `brand/exports/<brand>/favicon/` | Same tile; black sun for every brand except `agustos`. `favicon.svg`, `favicon.ico`, `favicon-16…512.png`, `apple-touch-icon.png`, `site.webmanifest`. Also generated for `memregunes`. |
 | `<head>` snippet + guide | [`laz-gunesi-amblem/favicon/README.md`](laz-gunesi-amblem/favicon/README.md) | Copy-paste link tags; regeneration steps. |
-| In-page symbol | [`laz-gunesi-amblem/favicon/favicon-mono.svg`](laz-gunesi-amblem/favicon/favicon-mono.svg) | Same artwork as `favicon.svg` — for UI next to text. |
+| In-page symbol | [`laz-gunesi-amblem/favicon/favicon-mono.svg`](laz-gunesi-amblem/favicon/favicon-mono.svg) | The bare symbol (= `master.svg`, no tile), for UI next to text. Not a tab icon. |
 
-**Canonical favicon = `laz-gunesi-amblem/favicon/favicon.svg`** (byte-identical to
-[`laz-gunesi-amblem/svg/master.svg`](laz-gunesi-amblem/svg/master.svg)). Per-brand folders under
-`brand/exports/<brand>/favicon/` ship that same SVG, and every brand's `site.webmanifest`
-now carries the same `theme_color` (`#cf142a`) too — nothing under `favicon/` differs by brand.
+**Canonical favicon = `laz-gunesi-amblem/favicon/favicon.svg`**, the Ağustos favicon. It is
+byte-identical to `brand/exports/agustos/favicon/favicon.svg`. A site for any other brand uses
+its own `brand/exports/<brand>/favicon/`. Each brand's `site.webmanifest` sets `theme_color` to
+the brand's identity ink and `background_color` to white. All of it comes from
+`brand/build.py --favicons`, which writes no other export.
 Any other `favicon.svg` in the repo (e.g. an adapter's `public/`) is a **mirror** — when the
 canonical changes, update the mirrors in the same change. Adapter mirror today:
 [`adapters/astro/public/favicon.svg`](adapters/astro/public/favicon.svg).
@@ -149,7 +152,7 @@ Generated. What another repository consumes to build an interface. Never hand-ed
 ## Sync rules (don't let assets drift)
 
 1. **Tokens** are generated into adapter copies — run `python3 scripts/build_design_system.py`; `--check` rejects drift.
-2. **Favicon** canonical lives in `laz-gunesi-amblem/favicon/`; adapter `public/` copies are mirrors.
+2. **Favicon** canonical (Ağustos) lives in `laz-gunesi-amblem/favicon/`, per-brand kits in `brand/exports/<brand>/favicon/`; adapter `public/` copies are mirrors.
 3. **This index** must be updated whenever a brand asset is added, moved, or recolored.
 4. **`ui/` is generated** — edit the `.tmpl` sources, never the outputs. `ui/fonts/` regenerates
    separately via `scripts/build_ui_fonts.py`, and only when the masters in `brand/fonts/` change.

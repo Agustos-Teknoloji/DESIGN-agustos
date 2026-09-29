@@ -182,7 +182,7 @@ def gen_guidelines_html(slug: str, brand: dict, reg: dict, design: dict, out: Pa
         ("Logo in one ink", "lockup/…-lockup__mono.svg"),
         ("Logo for print", "lockup/…-lockup__positive.pdf"),
         ("Logo for slides or social posts", "lockup/…-lockup__positive.png"),
-        ("Favicon or app icon", "favicon/favicon.svg"),
+        ("Favicon or app icon (symbol on a white tile)", "favicon/favicon.svg"),
         ("Profile picture", "social/…-avatar-1000.png"),
         ("Link preview image", "social/…-og.png"),
         ("Colour swatches", "swatches/….ase (Adobe), ….clr (Apple)"),
@@ -292,7 +292,8 @@ table.files td.path {{ font-family:'JetBrains Mono'; font-size:10px; color:{ink}
   <div class="symbol-hero"><div class="big"><img src="{sym}" style="height:150px;"></div></div>
   <h2>Colour of the symbol</h2>
   <p>In the {title} logo, the symbol is {"red" if is_red else "off-black"}, like the wordmark.
-     On a dark background, it is white. The symbol can stand alone as a favicon or app icon.</p>
+     On a dark background, it is white. As a favicon or app icon, the symbol stands alone,
+     {"red" if is_red else "off-black"} on a white square tile.</p>
   <div class="symbol-sizes">
     <div><img src="{sym}" style="height:64px;"><br>64px</div>
     <div><img src="{sym}" style="height:32px;"><br>32px</div>

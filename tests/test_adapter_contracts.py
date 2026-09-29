@@ -314,7 +314,7 @@ class AdapterContractTest(unittest.TestCase):
                         self.assertNotIn(old_color, svg)
 
     def test_brand_favicons_are_a_white_tile_with_the_identity_ink_symbol(self):
-        """MEMORY.md 2026-09-29 favicon-white-tile: red sun for Ağustos, #15130f for the rest."""
+        """MEMORY.md 2026-09-29 per-brand-favicons: red sun for Ağustos, #15130f for the rest."""
         registry = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))
         white = registry["substrate"]["paper_white"].lower()
         master = (ROOT / "laz-gunesi-amblem" / "svg" / "master.svg").read_text(encoding="utf-8")

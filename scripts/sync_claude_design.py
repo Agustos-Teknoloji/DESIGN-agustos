@@ -205,14 +205,14 @@ CARDS: tuple[Card, ...] = (
         "Brand",
         700,
         150,
-        "Shared favicon",
-        "One red Laz Güneşi tab icon for every house site",
+        "Brand favicons",
+        "White tile · red sun for Ağustos, black sun for every other brand",
         """
 <div class="hero-actions" style="align-items: center">
   <img src="../favicon/favicon.svg" alt="Laz Güneşi favicon" style="width: 64px; height: 64px">
   <img src="../favicon/favicon.svg" alt="" style="width: 32px; height: 32px">
   <img src="../favicon/favicon.svg" alt="" style="width: 16px; height: 16px">
-  <p class="type-body">Canonical file: <code class="type-code">laz-gunesi-amblem/favicon/favicon.svg</code>. Same artwork on every site.</p>
+  <p class="type-body">The Ağustos favicon: <code class="type-code">laz-gunesi-amblem/favicon/favicon.svg</code>. Every other brand uses the same white tile with the black sun, from <code class="type-code">brand/exports/&lt;brand&gt;/favicon/</code>.</p>
 </div>
 """,
     ),
