@@ -2,16 +2,14 @@
 
 ## Now
 
-Middle type step and trust line (2026-09-29, branch `claude/37signals-design-philosophy-aaff31`). Release v6.5.0. Emre chose a global upright H3.
+Bare element styles (2026-09-29, branch `fix/bare-element-styles`). Release v6.6.0. Emre asked for the best method.
 
-- [x] H3 becomes the middle step: `fontSize.h3` 18px to 22px in `tokens/design-tokens.json`. In `tokens/web.css.tmpl`, `.type-h3` drops `font-style: italic`, keeps weight 500, and sets line-height 1.25 and letter-spacing -0.015em.
-- [x] Trust line: `.hero-trust` uses `{{foundations.fontSize.bodyCompact}}` (15.5px), not a hand-typed 13.5px.
-- [x] Docs: update the `.type-h3` row, the Markdown mapping row ("Italic by token rule") and the two `.hero-trust` rows in `DESIGN.md` (hand-written, outside the generated block). Change the specimen text in `docs/fonts.html` ("Subsection in italic Tight").
-- [x] Leave alone: `screens/design/` (pulled references), the Office templates (`heading3Size` is their own recipe), and the guidelines PDFs (they do not show the type scale).
-- [x] Build, `--check`, `scripts/ci.sh`, and `check-agustos-ui.py screens --skip design`.
-- [x] Browser check at 1440px and 375px: home, content, static, products, product-finder. Card titles, content subsections and the trust line. Confirm no card title wraps badly at 22px.
-- [x] Record: `MEMORY.md` entry `2026-09-29 h3-upright-middle-step` (amends archive "Turning point 10": the italic was needed when H2 was small; size now separates H2 from H3). `CHANGELOG.md` for 6.5.0.
-- [x] Release: VERSION 6.5.0, tag `v6.5.0` on `dc1a763`, open PR #57, and run `/design-push` (2026-09-29).
+- [x] Pair bare `h1` to `h4` and `p` with their `.type-*` rules in `tokens/web.css.tmpl`.
+- [x] Compare every element on the nine screens and `ui/starter.html`, old CSS against new, at 1440px and 375px.
+- [x] Remove the stale heading and paragraph rules from `adapters/astro/src/pages/blog/[...slug].astro`.
+- [x] Add `tests/test_bare_elements.py`: it fails on v6.5.0 and passes now.
+- [x] Record: `MEMORY.md` entry `2026-09-29 bare-elements-share-class-rules`, `CHANGELOG.md` for 6.6.0.
+- [ ] Release: VERSION 6.6.0, build, `scripts/ci.sh`, tag `v6.6.0`, open the PR, and run `/design-push`.
 
 ## Next
 

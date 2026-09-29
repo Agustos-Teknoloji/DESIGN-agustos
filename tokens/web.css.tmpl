@@ -245,7 +245,7 @@ img, svg { max-width: 100%; height: auto; display: block; }
    (3) Visual hierarchy comes from heading size and weight, not graduated spacing.
    See DESIGN.md §"Vertical rhythm" for the rationale. */
 
-.type-h1 {
+h1, .type-h1 {
   font-family: var(--display);
   font-size: {{foundations.fontSize.h1}};
   font-weight: {{foundations.fontWeight.light}};
@@ -256,7 +256,7 @@ img, svg { max-width: 100%; height: auto; display: block; }
   color: var(--ink);
 }
 
-.type-h2 {
+h2, .type-h2 {
   font-family: var(--display);
   font-size: {{foundations.fontSize.h2}};
   font-weight: {{foundations.fontWeight.regular}};
@@ -269,7 +269,7 @@ img, svg { max-width: 100%; height: auto; display: block; }
   color: var(--ink);
 }
 
-.type-h3 {
+h3, .type-h3 {
   font-family: var(--display);
   font-size: {{foundations.fontSize.h3}};
   font-weight: {{foundations.fontWeight.medium}};
@@ -279,7 +279,7 @@ img, svg { max-width: 100%; height: auto; display: block; }
   color: var(--ink);
 }
 
-.type-h4 {
+h4, .type-h4 {
   font-family: var(--display);
   font-size: {{foundations.fontSize.h4}};
   font-weight: {{foundations.fontWeight.semibold}};
@@ -292,7 +292,7 @@ img, svg { max-width: 100%; height: auto; display: block; }
 
 /* --- Body & inline (8) --- */
 
-.type-body {
+p, .type-body {
   font-family: var(--body);
   font-size: {{foundations.fontSize.body}};
   font-weight: {{foundations.fontWeight.regular}};
