@@ -2,21 +2,6 @@
 
 ## Now
 
-Design review fixes (2026-09-29, branch `claude/repo-design-review-dc3da5`). One commit per fix; kit release v6.3.0 at the end.
-
-- [x] FINDING-001: reset heading top margins inside `.agustos-card` and `.agustos-section__head` (flex containers never collapse margins).
-- [x] FINDING-002: move content text (breadcrumbs, table headers, labels, legends, `.type-h4`, `cite`, sidebar note) from `--ink-faint` to `--ink-soft`.
-- [x] FINDING-003: give the `pre` boxes on `docs/what-generates.html` ink text.
-- [x] FINDING-004: rescope ink inside `.band--cream` in dark theme so band text stays dark.
-- [x] FINDING-005: move the product descriptor below the H1 in `screens/product.html`; remove the eyebrow exception from `DESIGN.md`.
-- [x] FINDING-006: centre `.agustos-chrome-link` text in its 44px box.
-- [x] FINDING-008: align version labels in `DESIGN.md` and the docs with `VERSION`.
-- [x] FINDING-009: add the baseline gap after `.type-hero-deck` when a paragraph follows.
-- [x] FINDING-011: add a gap between sidebar link labels and their badges.
-- [x] FINDING-012: use `var(--radius-sm)` for inline code.
-- [x] Release: VERSION 6.3.0, build, `scripts/ci.sh`, CHANGELOG, MEMORY.
-- [x] Tag `v6.3.0`, open PR #54, and run `/design-push` (Emre, 2026-09-29).
-
 ## Next
 
 - Design review 2026-09-29, open decisions for Emre:
