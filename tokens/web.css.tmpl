@@ -229,6 +229,11 @@ img, svg { max-width: 100%; height: auto; display: block; }
   max-width: {{foundations.measure.text}};
   margin: 0;
 }
+/* The deck has no bottom margin, so the block after it would sit flush.
+   Hero links and actions carry their own top margin. */
+.type-hero-deck + :not(.hero-links, .hero-actions) {
+  margin-top: 1em;
+}
 
 /* --- Headings (4) --- */
 
