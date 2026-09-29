@@ -15,7 +15,7 @@ Design review fixes (2026-09-29, branch `claude/repo-design-review-dc3da5`). One
 - [x] FINDING-011: add a gap between sidebar link labels and their badges.
 - [x] FINDING-012: use `var(--radius-sm)` for inline code.
 - [x] Release: VERSION 6.3.0, build, `scripts/ci.sh`, CHANGELOG, MEMORY.
-- [ ] Tag `v6.3.0` and run `/design-push` after Emre says yes.
+- [x] Tag `v6.3.0`, open PR #54, and run `/design-push` (Emre, 2026-09-29).
 
 ## Next
 
