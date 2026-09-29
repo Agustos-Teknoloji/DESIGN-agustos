@@ -10,11 +10,13 @@ v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva
 - [x] Build: chrome from the screen family; checker keeps identity errors, taste rules warn, AG022 and AG023 removed, AG025 and AG026 added.
 - [x] Screens: eight website screens on the top menu and the simple footer; home shows the highlighter; listings use the H1.
 - [x] Starter and Claude Design chrome cards on the v7 chrome.
-- [ ] Adapters (Astro, Rails, WordPress): v7 chrome, footer links API, More menu.
-- [ ] Per-brand favicons and the guidelines PDFs.
-- [ ] Hand-written docs: DESIGN.md, docs/*.html, README, ARCHITECTURE.
-- [ ] `AGENTS.md`, `ASSETS.md`.
-- [ ] Gate green, visual check, commit, push, tag `v7.0.0`, draft PR, `/design-push`.
+- [x] Adapters (Astro, Rails, WordPress): v7 chrome, footer links API, More menu.
+- [x] Per-brand favicons (tight crop at tab sizes, Emre: "crop") and the guidelines PDFs.
+- [x] Hand-written docs: DESIGN.md, docs/*.html, README, ARCHITECTURE, HANDOFF, PATARAZ.
+- [x] `AGENTS.md`, `ASSETS.md`.
+- [x] Gate green, visual check, commit, push, draft PR #60.
+- [ ] Tag `v7.0.0` on GitHub. The cloud session could not push tags; create it on the merge commit (GitHub → Releases → Draft a new release → tag `v7.0.0`), or run `git tag -a v7.0.0 && git push origin v7.0.0` locally.
+- [ ] `/design-push` from an interactive Claude Code session. The cloud session has no Claude Design authorization.
 - [ ] Rollout: agustos.com and iesdesk.com pin v7.0.0 first; memregunes.com and pldturkiye.com later.
 
 ## Next
