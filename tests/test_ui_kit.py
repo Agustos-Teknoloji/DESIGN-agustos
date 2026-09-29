@@ -682,6 +682,16 @@ class ChromeTest(unittest.TestCase):
         self.assertIn("--sidebar-width: 240px", self.CSS)
         self.assertIn("padding-inline-start: var(--sidebar-width)", self.CSS)
 
+    def test_anchor_lands_below_the_sticky_sidebar_bar(self):
+        # The bar and the scroll offset read one variable, built from tokens.
+        self.assertIn("--sidebar-bar-height: calc(var(--control-min) + 2 * var(--space-xs) + 1px);", self.CSS)
+        self.assertIn("min-height: var(--sidebar-bar-height);", self.CSS)
+        rule = "html:has(.site-sidebar-bar) { scroll-padding-top: var(--sidebar-bar-height); }"
+        self.assertEqual(self.CSS.count("scroll-padding-top"), 1, "only sidebar pages get the offset")
+        # Only below 1024px, where the bar is sticky. Desktop has no bar.
+        drawers = self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor")
+        self.assertIn(rule, self.CSS[drawers:self.CSS.index("\n}\n", drawers)])
+
     def test_footer_primary_button_ignores_the_dark_flip(self):
         self.assertIn('html[data-theme="dark"] .site-footer .agustos-button--primary', self.CSS)
 

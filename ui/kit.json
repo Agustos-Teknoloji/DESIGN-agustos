@@ -50,7 +50,7 @@
       "wordmark": "specquick"
     }
   },
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.6.0/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.6.1/ui/",
   "cssClasses": [
     "type-hero",
     "type-hero-md",
@@ -224,23 +224,23 @@
   "files": {
     "AGENTS-SNIPPET.md": {
       "bytes": 2215,
-      "sha256": "0394d1a2ed7ecd2309432d4845983ff5598a58c2ad3f8cdd8e84e23786c1b2f9"
+      "sha256": "1f2b194de1ab7b61fac3b93b61a5d3fe6ea35b219c5ea6013857e835a0d9422c"
     },
     "UI-KIT.md": {
-      "bytes": 14094,
-      "sha256": "f2f53c85105226a0b7a94e560f0ed5c0e86069701559e91aeb62401d6b91deb5"
+      "bytes": 14232,
+      "sha256": "7cfee836bbe4d4f00f677145aa44e9e9a3d7ba87423a931a96fbad206fbf210d"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
-      "sha256": "8402607aa89c373e69cd5ce3c6b1da59475a1f22f82dcba4fbb43138fcaf8117"
+      "sha256": "afb806d3faa8688eb1091125d9bdec27f1d356520c336f76b72d8fa60ed06634"
     },
     "agustos.css": {
-      "bytes": 40728,
-      "sha256": "57395b8008ee378b9708dbb224b0ab0ba7a582f9312fa161071a958522905473"
+      "bytes": 41153,
+      "sha256": "c836c10e76750fcf44af71f08b52a99e98c7470bc151a6f39e23ff711e386de1"
     },
     "check-agustos-ui.py": {
       "bytes": 24377,
-      "sha256": "a1647db8ca871ac31432a779057b86bfc9d5fadd34f9e4c35de071cf7aeb7faa"
+      "sha256": "717d812e9435853b6cfab7ecaf4feb8d55b2cbaa16dab73f210d8b3c19be17b0"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -264,12 +264,12 @@
     },
     "starter.html": {
       "bytes": 27515,
-      "sha256": "aa79f46b8b6a41e9de2b7987c7360a1d0897ff554b54c2b1cf30050681448edd"
+      "sha256": "3c62c42743c1d4fcae01736386f3ca951e3a8ebf1742f790fc33b4e6b6e4cdf7"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.6.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.6.0/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.6.1/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.6.1/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v6.6.0/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v6.6.1/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "screens": {
     "app-shell": {
@@ -382,5 +382,5 @@
     "cream"
   ],
   "system": "Ağustos Design System",
-  "version": "6.6.0"
+  "version": "6.6.1"
 }

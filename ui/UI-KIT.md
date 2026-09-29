@@ -1,4 +1,4 @@
-# Ağustos UI kit — v6.6.0
+# Ağustos UI kit — v6.6.1
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -48,11 +48,11 @@ Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and
 
 npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-Prototypes with no build step may link the CDN copies. **Pin to `@v6.6.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
+Prototypes with no build step may link the CDN copies. **Pin to `@v6.6.1`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.6.0/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.6.0/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.6.1/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.6.1/ui/agustos.css">
 ```
 
 ## Page skeleton
@@ -159,7 +159,7 @@ Use `var(--name)`, never the literal value. Spacing `--space-2xs` … `--space-6
 Radii `--radius-sm` (4px) `--radius-md` (6px) `--radius-lg` (10px) — nothing larger exists.
 Color `--paper` `--cream` `--surface` `--ink` `--ink-soft` `--ink-faint` `--rule` `--signal` `--brand`
 `--footer-*` `--state-success|warning|danger|info`. Type `--display` `--body` `--mono`.
-Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-content` (1180px). Sidebar `--sidebar-width` (240px).
+Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-content` (1180px). Sidebar `--sidebar-width` (240px) and `--sidebar-bar-height` (61px, the sticky bar below 1024px; the kit sets it as `scroll-padding-top`, so an anchor lands below the bar).
 Measures `--measure-text` (54ch, hero deck) and `--measure-body` (65ch, long-form prose: posts, policies, profiles).
 
 `ui/kit.json` carries the same lists in machine-readable form, plus the brand and screens tables.

@@ -1,6 +1,6 @@
 # Ağustos Design System
 
-**Version 6.6.0** · Cross-medium design system for Emre Güneş's brand portfolio
+**Version 6.6.1** · Cross-medium design system for Emre Güneş's brand portfolio
 
 ## Standard artifacts
 
@@ -889,7 +889,7 @@ The factory checks (generators, Office exports and a `ui/` release) are in `ARCH
 
 ## Versioning
 
-This is **v6.6.0**. The minor styles bare `h1` to `h4` and `p` with their `.type-*` rules, so Markdown and CMS output matches the kit without classes. v6.5.0 gave the type scale its middle step: H3 is 22px and upright, and the hero trust line uses the 15.5px `bodyCompact` size. v6.4.0 made cards and breadcrumbs 44px targets: a card's heading link stretches over the card, and the checker warns (AG013) when it cannot. v6.3.0 tightened the rhythm: a heading that opens a card, a section or a band lost its section-break margin, and content text moved from `--ink-faint` to `--ink-soft` to pass contrast. v6.2 added brand `screenOverrides`. v6.1.0 made the checker enforce the screens table on every page (`data-screen` on `<body>`; primary CTA limit, quotes, and theme per row), added the `content-index` screen, and gave both reference adapters the `screen` switch. v6.0.0 recorded the chrome contract: consumers replace their local chrome with the kit's and adopt one name. v5.0.0 recorded the design philosophy change. Subsequent changes follow semantic versioning:
+This is **v6.6.1**. The patch keeps an in-page anchor below the sticky sidebar bar on phones. v6.6.0 styled bare `h1` to `h4` and `p` with their `.type-*` rules, so Markdown and CMS output matches the kit without classes. v6.5.0 gave the type scale its middle step: H3 is 22px and upright, and the hero trust line uses the 15.5px `bodyCompact` size. v6.4.0 made cards and breadcrumbs 44px targets: a card's heading link stretches over the card, and the checker warns (AG013) when it cannot. v6.3.0 tightened the rhythm: a heading that opens a card, a section or a band lost its section-break margin, and content text moved from `--ink-faint` to `--ink-soft` to pass contrast. v6.2 added brand `screenOverrides`. v6.1.0 made the checker enforce the screens table on every page (`data-screen` on `<body>`; primary CTA limit, quotes, and theme per row), added the `content-index` screen, and gave both reference adapters the `screen` switch. v6.0.0 recorded the chrome contract: consumers replace their local chrome with the kit's and adopt one name. v5.0.0 recorded the design philosophy change. Subsequent changes follow semantic versioning:
 
 - **Major.** Breaking changes to token names, structural removal, philosophy shifts
 - **Minor.** New tokens, new brand additions, additive-only changes
