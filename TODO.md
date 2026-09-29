@@ -9,7 +9,7 @@ Bare element styles (2026-09-29, branch `fix/bare-element-styles`). Release v6.6
 - [x] Remove the stale heading and paragraph rules from `adapters/astro/src/pages/blog/[...slug].astro`.
 - [x] Add `tests/test_bare_elements.py`: it fails on v6.5.0 and passes now.
 - [x] Record: `MEMORY.md` entry `2026-09-29 bare-elements-share-class-rules`, `CHANGELOG.md` for 6.6.0.
-- [ ] Release: VERSION 6.6.0, build, `scripts/ci.sh`, tag `v6.6.0`, open the PR, and run `/design-push`.
+- [x] Release: VERSION 6.6.0, build, `scripts/ci.sh`, tag `v6.6.0` on `e56ce3c`, open PR #58, and run `/design-push` (2026-09-29).
 
 ## Next
 
