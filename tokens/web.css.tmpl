@@ -52,6 +52,9 @@
   --measure-body: {{foundations.measure.body}};
   --control-min: {{foundations.measure.controlMinimum}};
   --sidebar-width: {{recipes.chrome.sidebarWidth}};
+  /* The sticky bar below 1024px: a 44px target, 8px above and below, and the rule.
+     The bar and the anchor scroll offset both read it. */
+  --sidebar-bar-height: calc(var(--control-min) + 2 * var(--space-xs) + {{recipes.chrome.rule}});
 
   /* The one section spacing: sections, the closing band, and the gap after the hero. */
   --section-space: {{recipes.section.paddingBlock}};
@@ -225,7 +228,7 @@ img, svg { max-width: 100%; height: auto; display: block; }
    (3) Visual hierarchy comes from heading size and weight, not graduated spacing.
    See DESIGN.md §"Vertical rhythm" for the rationale. */
 
-.type-h1 {
+h1, .type-h1 {
   font-family: var(--display);
   font-size: {{foundations.fontSize.h1}};
   font-weight: {{foundations.fontWeight.light}};
@@ -236,7 +239,7 @@ img, svg { max-width: 100%; height: auto; display: block; }
   color: var(--ink);
 }
 
-.type-h2 {
+h2, .type-h2 {
   font-family: var(--display);
   font-size: {{foundations.fontSize.h2}};
   font-weight: {{foundations.fontWeight.regular}};
@@ -249,7 +252,7 @@ img, svg { max-width: 100%; height: auto; display: block; }
   color: var(--ink);
 }
 
-.type-h3 {
+h3, .type-h3 {
   font-family: var(--display);
   font-size: {{foundations.fontSize.h3}};
   font-weight: {{foundations.fontWeight.medium}};
@@ -259,7 +262,7 @@ img, svg { max-width: 100%; height: auto; display: block; }
   color: var(--ink);
 }
 
-.type-h4 {
+h4, .type-h4 {
   font-family: var(--display);
   font-size: {{foundations.fontSize.h4}};
   font-weight: {{foundations.fontWeight.semibold}};
@@ -272,7 +275,7 @@ img, svg { max-width: 100%; height: auto; display: block; }
 
 /* --- Body & inline (8) --- */
 
-.type-body {
+p, .type-body {
   font-family: var(--body);
   font-size: {{foundations.fontSize.body}};
   font-weight: {{foundations.fontWeight.regular}};
@@ -1060,6 +1063,8 @@ html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }
 
 /* --- Drawers below 1024px. Native popovers: light dismiss and Escape are free. --- */
 @media (max-width: 1023px) {
+  /* An in-page anchor lands below the sticky bar, not under it. Topbar pages have no bar. */
+  html:has(.site-sidebar-bar) { scroll-padding-top: var(--sidebar-bar-height); }
   .site-sidebar-layout { padding-inline-start: 0; }
   .site-sidebar-bar {
     position: sticky;
@@ -1069,7 +1074,8 @@ html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }
     align-items: center;
     justify-content: space-between;
     gap: var(--space-md);
-    padding: var(--space-xs) var(--space-lg);
+    min-height: var(--sidebar-bar-height);
+    padding: 0 var(--space-lg);
     border-block-end: {{recipes.chrome.rule}} solid var(--rule);
     background: var(--paper);
   }

@@ -41,6 +41,28 @@ A conventional reset of the website layer. Identity (symbol, wordmarks, six colo
 
 - Brand guidelines PDFs and favicon files only. Lockups, social images, swatches, email signatures and Office files were not rebuilt.
 
+## [6.6.1] - 2026-09-29
+
+### Fixed
+
+- Below 1024px, an in-page anchor on a sidebar page lands below the sticky `site-sidebar-bar`. The bar covered the target, so a link such as `#y2010` showed only the line under the heading. The kit sets `scroll-padding-top` on `html` only when the page has the bar, so topbar pages and desktop do not change.
+
+### Added
+
+- `--sidebar-bar-height` (61px): the 44px target, 8px above and below, and the 1px rule. The bar and the scroll offset both read it.
+
+## [6.6.0] - 2026-09-29
+
+### Fixed
+
+- Bare `h1`, `h2`, `h3`, `h4` and `p` share the rules of `.type-h1` to `.type-h4` and `.type-body`. `UI-KIT.md` promised that bare elements are styled, but only lists, tables, links, code, quotes and rules were. Markdown and CMS output rendered its headings and paragraphs in browser defaults.
+- Footnotes and form hints lose a 12.5px top margin that came from the browser default for `p`. A form hint now sits 4px under its field, the field's own gap.
+- The Astro adapter blog post page drops its hand-written heading and paragraph rules. They restated the kit with stale values, such as an 18px italic H3.
+
+### Added
+
+- `tests/test_bare_elements.py` reads the promise in `UI-KIT.md` and fails when a named element does not share the rule of its class.
+
 ## [6.5.0] - 2026-09-29
 
 ### Changed
