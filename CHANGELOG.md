@@ -4,6 +4,17 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [6.4.0] - 2026-09-29
+
+### Added
+
+- A link placed directly in a card's `h2`, `h3` or `h4` stretches over the card, so the whole card is the 44px target, as hard rule 5 requires. Other links in the card sit above the stretch and keep their own destination. Where `:has()` works, the focus ring goes around the card.
+- The checker warns (AG013) when a card has links but none sits in its heading, because that card cannot become a target.
+
+### Fixed
+
+- Breadcrumb links fill their 44px list item. They were 21px tall. The layout does not move.
+
 ## [6.3.0] - 2026-09-29
 
 ### Fixed

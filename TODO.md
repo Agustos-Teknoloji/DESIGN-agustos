@@ -4,11 +4,12 @@
 
 Card and breadcrumb targets (2026-09-29, branch `feat/card-breadcrumb-targets`). Release v6.4.0.
 
-- [ ] Breadcrumb links fill their 44px list item.
-- [ ] A card whose heading holds a link becomes a whole-card target (stretched link). Other links in the card stay clickable. Focus ring on the card.
-- [ ] Checker AG025 warns when a card has links but none sits in a heading.
-- [ ] Tests, build, `scripts/ci.sh`, browser check on home, products, product-finder, product.
-- [ ] Release: VERSION 6.4.0, CHANGELOG, MEMORY, UI-KIT hard rule 5 wording, tag, PR, `/design-push`.
+- [x] Breadcrumb links fill their 44px list item.
+- [x] A card whose heading holds a link becomes a whole-card target (stretched link). Other links in the card stay clickable. Focus ring on the card.
+- [x] Checker AG013 warns when a card has links but none sits in a heading.
+- [x] Tests, build, `scripts/ci.sh`, browser check on home, products, product-finder, product.
+- [x] Release: VERSION 6.4.0, CHANGELOG, MEMORY, UI-KIT hard rule 5 wording.
+- [ ] Tag `v6.4.0`, open the PR, and run `/design-push`.
 
 ## Next
 
