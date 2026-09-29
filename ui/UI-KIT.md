@@ -1,4 +1,4 @@
-# Ağustos UI kit — v6.3.0
+# Ağustos UI kit — v6.4.0
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -48,11 +48,11 @@ Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and
 
 npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-Prototypes with no build step may link the CDN copies. **Pin to `@v6.3.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
+Prototypes with no build step may link the CDN copies. **Pin to `@v6.4.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.3.0/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.3.0/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.4.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.4.0/ui/agustos.css">
 ```
 
 ## Page skeleton
@@ -170,7 +170,7 @@ Measures `--measure-text` (54ch, hero deck) and `--measure-body` (65ch, long-for
 2. **Brand red is `#cf142a`.** `#D11D2B` is stale — fix it wherever you find it.
 3. **Never restyle a kit class.** Overriding `.agustos-card` breaks every other page. Compose a new class.
 4. **Radii are 4, 6, and 10px.** Nothing rounder. No pills, no blobs, no gradients.
-5. **44px minimum for anything clickable.** `--control-min` exists for this. Links inside running text are exempt; `hero-link` carries an invisible 44px hit area, and a card with one stretched link makes the card the target.
+5. **44px minimum for anything clickable.** `--control-min` exists for this. Links inside running text are exempt; `hero-link` carries an invisible 44px hit area. Put a card's main link directly in its `h2`, `h3` or `h4`: the kit stretches that link over the card, so the whole card is the target. The checker warns (AG013) when a card's links all sit outside a heading.
 6. **Never redraw the Laz Güneşi symbol.** Copy the `site-lockup` markup from `starter.html`.
 7. **Use the brand's registered chrome.** A sidebar brand never gets a topbar page, and the reverse.
 

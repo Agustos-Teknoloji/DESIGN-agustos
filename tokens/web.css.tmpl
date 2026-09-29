@@ -689,6 +689,7 @@ table th:last-child, table td:last-child { text-align: right; }
 }
 
 .agustos-card {
+  position: relative;
   display: flex;
   flex-direction: column;
   gap: {{recipes.card.gap}};
@@ -709,6 +710,30 @@ table th:last-child, table td:last-child { text-align: right; }
 .agustos-card > *,
 :is(.agustos-card, .agustos-section, .band) :is(h1, h2, h3, h4, .type-h1, .type-h2, .type-h3, .type-h4):first-child {
   margin-top: 0;
+}
+
+/* Hard rule 5: a card whose heading holds a link is the target. The link
+   stretches over the card, so keyboard and screen-reader users still meet one
+   link. Other links in the card sit above the stretch and stay clickable. */
+.agustos-card :is(h2, h3, h4) > a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+.agustos-card a:not(:is(h2, h3, h4) > a) {
+  position: relative;
+  z-index: 1;
+}
+/* The whole card is the target, so the focus ring goes around the card.
+   Without :has() the link keeps its own ring. */
+@supports selector(:has(a)) {
+  .agustos-card:has(:is(h2, h3, h4) > a:focus-visible) {
+    outline: {{foundations.border.signal}} solid var(--signal);
+    outline-offset: 2px;
+  }
+  .agustos-card :is(h2, h3, h4) > a:focus-visible {
+    outline: none;
+  }
 }
 
 .agustos-chrome-link {
@@ -977,7 +1002,14 @@ html[data-theme="dark"] .site-footer .agustos-button--primary:hover {
 }
 .breadcrumb li { display: inline-flex; align-items: center; min-height: var(--control-min); }
 .breadcrumb li + li::before { content: "/"; margin-inline-end: var(--space-xs); color: var(--ink-faint); }
-.breadcrumb__link { color: var(--ink-soft); text-decoration: none; }
+/* The list item is 44px tall; the link fills it, so the target is 44px too. */
+.breadcrumb__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--control-min);
+  color: var(--ink-soft);
+  text-decoration: none;
+}
 .breadcrumb__link:hover { color: var(--ink); text-decoration: none; }
 .breadcrumb__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 .breadcrumb [aria-current="page"] { color: var(--ink); }

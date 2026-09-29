@@ -2,10 +2,18 @@
 
 ## Now
 
+Card and breadcrumb targets (2026-09-29, branch `feat/card-breadcrumb-targets`). Release v6.4.0.
+
+- [x] Breadcrumb links fill their 44px list item.
+- [x] A card whose heading holds a link becomes a whole-card target (stretched link). Other links in the card stay clickable. Focus ring on the card.
+- [x] Checker AG013 warns when a card has links but none sits in a heading.
+- [x] Tests, build, `scripts/ci.sh`, browser check on home, products, product-finder, product.
+- [x] Release: VERSION 6.4.0, CHANGELOG, MEMORY, UI-KIT hard rule 5 wording.
+- [x] Tag `v6.4.0`, open PR #56, and run `/design-push` (2026-09-29).
+
 ## Next
 
 - Design review 2026-09-29, open decisions for Emre:
-  - Card and breadcrumb targets: the kit says a card with one link makes the card the target, but no stretched-link rule exists, and breadcrumb anchors are 21px tall. Add both to the kit and the checker.
   - Labels above headings remain on `screens/product-finder.html` (series above each card title), `screens/static.html` (role above each name) and `screens/content.html` (date above the H1). Decide whether a dateline is allowed, then move the rest below their headings.
   - App shell: the four stat cards do not need to be cards, and the marked one puts a 2px border on a rounded card. Try a `grid-4` of ruled figures.
   - App shell tabs have no tab semantics or arrow-key handling. Wire them up or use plain filter links.
