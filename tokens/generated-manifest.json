@@ -7,25 +7,25 @@
     "ui/fonts/jetbrains-mono-variable.woff2": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
   },
   "outputs": {
-    "adapters/astro/src/styles/tokens.css": "645c3f961362c418aa319a18b877b8d25bdcc8d11d1e6fd90f8d038f21327e8f",
-    "adapters/rails/app/assets/stylesheets/agustos/tokens.css": "f1690011b6a38badab99fb87278de0ab33883164d1652ff79f4657f9cbd10cd9",
-    "adapters/wordpress/assets/css/agustos.css": "241ab0188f983796619e7e24b3c93c9d3fa0f97d0d4bde7f4a15a3c7dd4d6e2d",
+    "adapters/astro/src/styles/tokens.css": "07eb27b3fbd91808c859b548fc21cd4b3b70156866eabac50746632ea0645832",
+    "adapters/rails/app/assets/stylesheets/agustos/tokens.css": "b591aad61eba8bde0b5d9f4437005e92db4bdafd3b44dc61f6915ac3900e0632",
+    "adapters/wordpress/assets/css/agustos.css": "2df16df14b60710e9407e8658cca93889a3e1ae6d74a95381f4e70e6b7cb50b8",
     "adapters/wordpress/theme.json": "6ad03c01922188d386342ea6c612ac3f56dfcb69434d4c38f9e02e7dd8b78f28",
     "docs/agustos-fonts.css": "0516def586b2fadf7d2020c72af7a58087434c65faf27cdb33d5f1c7b8a2cbc8",
-    "docs/agustos.css": "a45f6aac3a1e3c0caafeb3763317cd25f2ffb592661e2efae4d8f1902876c00f",
+    "docs/agustos.css": "ddf84e19722dd8dc13c8c57da3b39a9e5118eba684840efb568d95a1891abf50",
     "docs/web.html": "a43e4a56d9ecea110a32d81fce3b19eb96f75ed3576f271294d565de2ef2c2b9",
-    "tokens/agustos.css": "c70283b873debf819b490129b8b5c572bbda7c5934974686bac6d32dfaa97184",
+    "tokens/agustos.css": "cdba3e337c6749f113825d37670e6e74ccda15952d753e0f39ead5a282057632",
     "tokens/design-system-handoff.json": "fcd98aa99215937c82fc8e34cf4ad5c4ff4a671a990803135ba302a399f1824a",
     "tokens/resolved.json": "ae62e4604dff7a2f67b43f21e748f75989951f3511fa828cdf005b77b5099eaf",
     "ui/AGENTS-SNIPPET.md": "609ba3fee0dfba0a8dfafd825e34e8c238c74852f2c618e162a7aea9cb5768a3",
     "ui/UI-KIT.md": "fb7bc16f13742f4c2bf4039a147c2bae5f33920ef8d130b1c7ef78b399607650",
     "ui/agustos-fonts.css": "5f574a71297c4506ee4b353c77dfab97457a92ba0ab0b3d1c5c0fc9d80f29c5d",
-    "ui/agustos.css": "a45f6aac3a1e3c0caafeb3763317cd25f2ffb592661e2efae4d8f1902876c00f",
+    "ui/agustos.css": "ddf84e19722dd8dc13c8c57da3b39a9e5118eba684840efb568d95a1891abf50",
     "ui/check-agustos-ui.py": "55708f3f33964f959e5125ac626ea5a9e497b4bfab513c11ef0cc97f2353e687",
-    "ui/kit.json": "78c555bb695c6bc8d77faa36002d3d30df172184c070ffe2b2b9640961ebad6e",
+    "ui/kit.json": "d3cc35176dbfb9ebf657ad4db4f09cbca883157bca9ce2bc5cd0d67ed61a4c91",
     "ui/starter.html": "1be51a222eafb6f1e15722a978f3ccaf971a9408a14ad4c8a23dd043aaaa45d3"
   },
-  "source_sha256": "4b1ec5fb157bc88a59296337fbca364fdf9926b728614200c17295011f1c803a",
+  "source_sha256": "6555bdba4aec4b8f395e10345ddc6aafe9c101b1d7f9f538dc36bb3f6f18f5eb",
   "system": "Ağustos Design System",
   "version": "6.2.4"
 }
