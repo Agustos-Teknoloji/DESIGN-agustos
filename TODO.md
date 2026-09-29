@@ -11,7 +11,7 @@ Middle type step and trust line (2026-09-29, branch `claude/37signals-design-phi
 - [x] Build, `--check`, `scripts/ci.sh`, and `check-agustos-ui.py screens --skip design`.
 - [x] Browser check at 1440px and 375px: home, content, static, products, product-finder. Card titles, content subsections and the trust line. Confirm no card title wraps badly at 22px.
 - [x] Record: `MEMORY.md` entry `2026-09-29 h3-upright-middle-step` (amends archive "Turning point 10": the italic was needed when H2 was small; size now separates H2 from H3). `CHANGELOG.md` for 6.5.0.
-- [ ] Release: VERSION 6.5.0, tag `v6.5.0`, open the PR, and run `/design-push`.
+- [x] Release: VERSION 6.5.0, tag `v6.5.0` on `dc1a763`, open PR #57, and run `/design-push` (2026-09-29).
 
 ## Next
 
