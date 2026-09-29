@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fonts — Ağustos Design System</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.5.0/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.5.0/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.0/ui/agustos.css">
 <link rel="stylesheet" href="agustos-fonts.css">
 <link rel="stylesheet" href="agustos.css">
 <style>
@@ -35,21 +35,23 @@
 
   <section class="agustos-section">
     <h2 class="type-h2">Inter Tight — display</h2>
-    <p class="type-body">Logotype, hero, headings, labels, table headers, badges, pullquotes. Weight 650 on the wordmark. Weight 300–500 on heroes and headings.</p>
-    <p class="type-hero">Lighting, clearly.</p>
+    <p class="type-body">Logotype, hero, headings, labels, table headers, badges, pullquotes. Headings are thin: 300 on the hero and H1, 400 on H2, 500 on H3, 600 on H4. The wordmark alone uses 650.</p>
+    <p class="type-hero">Lighting, <mark class="type-highlight">clearly</mark>.</p>
     <p class="type-h1">Page title at heading one</p>
     <p class="type-h2">Section title at heading two</p>
     <p class="type-h3">Subsection in upright Tight</p>
     <p class="type-h4">Sentence-case label</p>
-    <p class="meta">.type-hero · .type-h1–h4 · wordmark 650</p>
+    <p class="meta">.type-hero 89px/300 · .type-h1 55px/300 · .type-h2 43px/400 · .type-h3 21px/500 · .type-h4 13px/600 · wordmark 650</p>
+    <p class="type-body">The hero carries the page's one highlighter stroke: <code>&lt;mark class="type-highlight"&gt;</code> around one to four words of the main headline. Never on links, buttons, numbers, or body text.</p>
   </section>
 
   <section class="agustos-section">
     <h2 class="type-h2">Inter — body</h2>
     <p class="type-body">Paragraphs, lists, links, tables, forms. Turkish letters must render: ğüşiöç İĞÜŞÖÇ. Pijamalı hasta yağız şoföre çabucak güvendi.</p>
-    <p class="type-body">A <a class="type-link" href="#main">link</a> uses weight 600 and a 2px red underline. <em>Italic</em> is for terms. <strong>Bold</strong> is for emphasis.</p>
-    <p class="type-footnote">Footnotes and trust lines use this family at 12.5px in ink-soft.</p>
-    <p class="meta">.type-body · .type-hero-deck · .type-footnote</p>
+    <p class="type-body">A <a class="type-link" href="#main">link</a> uses weight 600 and a 2px red underline. Underline is for links only. <em>Italic</em> marks names of publications and projects, foreign terms, and quoted phrases. <strong>Bold</strong> (600) marks a fact the reader scans for, at most once per paragraph.</p>
+    <p class="type-hero-deck">The hero deck is upright body at 21px in ink-soft.</p>
+    <p class="type-footnote">Footnotes use this family at 13px in ink-soft. The hero trust line uses 15.5px.</p>
+    <p class="meta">.type-body 16.5px · .type-hero-deck 21px · .hero-trust 15.5px · .type-footnote 13px</p>
   </section>
 
   <section class="agustos-section">
@@ -61,11 +63,17 @@
   </section>
 
   <section class="agustos-section">
+    <h2 class="type-h2">One golden scale</h2>
+    <p class="type-body">Every size is the 16.5px body times 1.272 per step, so every second step is the golden ratio: 13, 16.5, 21, 27, 34, 43, 55, 70, 89px. Headings shrink one or two steps on small screens. The 15.5px UI size for menus, buttons, and the trust line is the one size off the scale.</p>
+    <p class="meta">Four weights: 300 · 400 · 500 · 600. Wordmark 650.</p>
+  </section>
+  <section class="agustos-section">
     <h2 class="type-h2">Rules</h2>
     <ul class="type-list-ul">
       <li>Wordmarks stay lowercase Inter Tight 650. No tagline on the lockup.</li>
       <li>Set <code>lang="tr"</code> on Turkish content so <code>locl</code> capitalises İ/ı correctly.</li>
-      <li>No uppercase labels, eyebrows, or headers.</li>
+      <li>No uppercase labels, eyebrows, headers, or coloured text.</li>
+      <li>One highlighter stroke per page, on the main headline only.</li>
       <li>Do not add a fourth family. Do not swap Inter Tight for a serif.</li>
     </ul>
   </section>

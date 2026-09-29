@@ -110,7 +110,7 @@
 }
 
 /* Dark theme — product UI via html[data-theme="dark"]. Same six colours, flipped.
-   Marketing pages stay light. Footer variables stay off-black. */
+   Marketing pages stay light. The footer stays light. */
 html[data-theme="dark"] {
   --paper:        {{foundations.color.paperDark}};
   --paper-white:  {{foundations.color.paperDark}};
@@ -468,7 +468,7 @@ s, del, .type-strike {
   background: var(--ink);
   color: var(--rule);
   padding: 1em 1.25em;
-  border-radius: 4px;
+  border-radius: var(--radius-md);
   overflow-x: auto;
   /* Content block — 1em baseline rhythm. */
   margin: 0 0 1em;

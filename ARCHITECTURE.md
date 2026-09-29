@@ -10,7 +10,7 @@ The system has five layers: foundations, semantic roles, recipes, screens and ad
 
 ```txt
 tokens/design-tokens.json Canonical cross-medium token registry, including the screens table
-brand/brands.json         Canonical brand identity registry, including the chrome per brand
+brand/brands.json         Canonical brand identity registry: wordmark, identity ink, domain
 tokens/web.css.tmpl       Platform-neutral web behavior and compatibility classes
 ui/*.tmpl                 Templates for UI-KIT.md, starter.html, the checker and the AGENTS snippet
 screens/*.html            One reference page per screen type, on kit classes

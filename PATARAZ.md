@@ -76,7 +76,7 @@ section only notes the Pataraz application.
 
 - **Pataraz identity ink is off-black `#15130f`.** The positive lockup is off-black on white;
   the negative lockup is cream/white on a black tile.
-- **Shared interaction signal is Ağustos red `#cf142a`.** Content links and menu hover use a 2px red rule. Red never recolors the Pataraz logo.
+- **Shared interaction signal is Ağustos red `#cf142a`.** Content links and menu hover use a 2px red rule. The Pataraz logo is black at rest and turns red on hover, on the web only. Buttons are black.
 - Pataraz blue is retired. `#1a24cc` and the older `#0000FF` are historical values, not active tokens.
 - White paper `#ffffff`, cream bands `#fdf5f5`, and off-black ink `#15130f` are shared (`DESIGN.md` §"Substrate strategy"). Every other role token (surface, muted ink, rule) is the shared system value — see `DESIGN.md` §"Generated web variables"; do not re-list them here.
 
@@ -103,10 +103,8 @@ tokens" — do not re-list pixel values here; they have drifted from the live sp
 - **positive** (black marks on light) — default, ~90% of uses.
 - **negative** (cream/white marks on a black tile) — identity tiles and social avatars.
 - **mono** (single ink) — single-color print, engraving.
-- The **favicon is shared** across every house site: the bare red Laz Güneşi from
-  `laz-gunesi-amblem/svg/master.svg` (`DESIGN.md` §"Favicon & app icons").
-  Pataraz's export folder ships that same SVG, and its manifest `theme_color` is brand red
-  `#cf142a` too, matching the shared tab icon.
+- The **favicon** is a white tile with the black Laz Güneşi (`DESIGN.md` §"Favicon & app icons").
+  Pataraz's export folder ships it, and its manifest `theme_color` is the identity ink `#15130f`.
 
 Verify every negative composition for contrast and small-size legibility before shipping.
 
@@ -122,7 +120,7 @@ For the two shipped products, the real files are:
 |---|---|
 | Logo (positive, black on light) | `brand/exports/pataraz/lockup/pataraz-lockup__positive.svg` |
 | Logo (negative, on black tile) | `brand/exports/pataraz/lockup/pataraz-lockup__negative.svg` |
-| Favicon (shared red Laz Güneşi) | `brand/exports/pataraz/favicon/favicon.svg` (same as `laz-gunesi-amblem/svg/master.svg`; full set in that dir + `site.webmanifest`) |
+| Favicon (black Laz Güneşi on a white tile) | `brand/exports/pataraz/favicon/favicon.svg` (full set in that dir + `site.webmanifest`) |
 | OG / link preview | `brand/exports/pataraz/social/pataraz-og.png` |
 | PL22 product photo / drawing | `brand/datasheet-assets/pataraz/pl22-urun.jpg` / `pl22-drawing.png` |
 | PX22 product photo / drawing | `brand/datasheet-assets/pataraz/px22-urun.jpg` / `px22-drawing.png` |
@@ -169,8 +167,8 @@ Introduce photographs in this order: product page, listing thumbnail, then homep
 Type-only pages stay complete until those photographs exist.
 Preserve product finishes, technical facts, black identity ink, and red interaction signals.
 Keep marketing and catalog pages on white paper. Dark theme is for product UI, not pataraz.com.
-Repeat the same primary CTA at most twice in the page body: the opening and one closing cream band.
-Do not use quote treatments on marketing or product pages.
+Name one primary destination: the header, the opening, and one closing pale red band carry it.
+Keep quote treatments for content pages, not marketing or product pages.
 
 **Do**
 - Lead with the product and its defining numbers.
@@ -202,7 +200,7 @@ Component notes:
 - **Catalog.** Filter sidebar (series, mount type, CCT range) applies instantly via Turbo Frame —
   no full reload, filters reflect in the URL, and it works without JS. Product grid uses calm
   cards: photo, name + code (mono), series, 2–3 key specs.
-- **Typography & lockup** per `DESIGN.md`; favicon is the negative-on-black set in
+- **Typography & lockup** per `DESIGN.md`; favicon is the black sun on a white tile in
   `brand/exports/pataraz/favicon/` (with `site.webmanifest`).
 - **Accessibility & Turkish locale** are non-negotiable — follow `DESIGN.md`
   §"Accessibility requirements" and §"Turkish locale handling".
@@ -217,11 +215,11 @@ Component inventory:
 | `DocumentList` | The "Belgeler" list — several typed downloads (PDF / IES / manual / CE), each a tag + name + download. |
 | `ProductCard` | Catalog + series listing tile: image, name, code (mono), key specs. |
 | `FilterSidebar` | Catalog filters → Turbo Frame, URL-reflected. |
-| `Header` / `Footer` / `BrandLockup` | Topbar chrome from the kit: `site-header`, `site-footer`, `site-lockup`. Neutral Pataraz identity with shared red interactions. |
+| `Header` / `Footer` / `BrandLockup` | Top menu and footer from the kit: `site-header`, `site-footer`, `site-lockup`. Five menu items at most, the rest under More. Neutral Pataraz identity with shared red interactions. |
 
 > Implementation note: the reference pages for pataraz.com are `screens/products.html`,
 > `screens/product-finder.html`, `screens/product.html`, and `screens/spec-sheet.html`, on the
-> topbar chrome from the kit. Vendor `ui/` and copy their markup; do not import the Astro adapter.
+> top menu and footer from the kit. Vendor `ui/` and copy their markup; do not import the Astro adapter.
 
 ---
 

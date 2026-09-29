@@ -185,7 +185,7 @@
         {
           "slug": "footnote",
           "name": "Footnote",
-          "size": "12.5px"
+          "size": "13px"
         },
         {
           "slug": "body-compact",
@@ -200,36 +200,35 @@
         {
           "slug": "heading-3",
           "name": "Heading 3",
-          "size": "22px"
+          "size": "21px"
         },
         {
           "slug": "heading-2",
           "name": "Heading 2",
-          "size": "clamp(34px, 4.4vw, 52px)"
+          "size": "clamp(34px, 3.4vw, 43px)"
         },
         {
           "slug": "heading-1",
           "name": "Heading 1",
-          "size": "clamp(40px, 5vw, 60px)"
+          "size": "clamp(43px, 4.6vw, 55px)"
         },
         {
           "slug": "hero-medium",
           "name": "Hero Medium",
-          "size": "clamp(40px, 5vw, 60px)"
+          "size": "clamp(43px, 4.6vw, 55px)"
         },
         {
           "slug": "hero",
           "name": "Hero",
-          "size": "clamp(56px, 8.5vw, 104px)"
+          "size": "clamp(55px, 7vw, 89px)"
         }
       ]
     },
     "custom": {
       "agustos": {
         "radius": {
-          "small": "4px",
           "medium": "6px",
-          "large": "10px"
+          "large": "12px"
         },
         "motion": {
           "duration": "150ms",
