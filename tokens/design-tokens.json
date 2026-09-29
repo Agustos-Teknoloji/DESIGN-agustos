@@ -102,7 +102,7 @@
       "paperGray": { "$value": "#ebebeb", "$description": "Functional surfaces: key-figure tiles, image regions, and summary panels." },
       "ink": { "$value": "#15130f", "$description": "Headlines, filled buttons, footer, and house-brand identity ink." },
       "inkSoft": { "$value": "#404040", "$description": "Secondary text." },
-      "inkFaint": { "$value": "#8a8378", "$description": "Small labels and quiet metadata. Support value, not a seventh palette colour." },
+      "inkFaint": { "$value": "#8a8378", "$description": "Non-content marks only: placeholders, disabled state, separators. It scores 3.75:1 on white, below the 4.5:1 text floor. Support value, not a seventh palette colour." },
       "ruleCream": { "$value": "#e8e4da", "$description": "Hairline rule on light surfaces. Support value, not a seventh palette colour." },
       "ruleWhite": { "$value": "#e8e4da", "$description": "Hairline rule alias kept for compatibility." },
       "paperDark": { "$value": "#15130f", "$description": "Dark paper. Reuses off-black. No new hex." },
