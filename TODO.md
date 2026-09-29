@@ -8,7 +8,7 @@ Sidebar bar anchor offset (2026-09-29, branch `fix/sidebar-bar-anchor-offset`). 
 - [x] Test: the variable is built from tokens, and the topbar and desktop get no scroll padding.
 - [x] Verify in a browser at 375px (anchor lands below the bar), at 1440px (no change) and on a topbar screen (no change).
 - [x] Record: `MEMORY.md` entry `2026-09-29 sidebar-bar-scroll-padding`, `CHANGELOG.md` for 6.6.1, `UI-KIT.md` variable list.
-- [ ] Release: VERSION 6.6.1, build, `scripts/ci.sh`, tag `v6.6.1`, PR, `/design-push`.
+- [x] Release: VERSION 6.6.1, build, `scripts/ci.sh`, tag `v6.6.1` on `05c80c8`, open PR #59, and run `/design-push` (2026-09-29).
 
 ## Next
 
