@@ -692,6 +692,14 @@ table th:last-child, table td:last-child { text-align: right; }
   border-left: 2px solid var(--ink);
 }
 
+/* Flex items and padded boxes never collapse margins. A heading's 2.5em
+   section-break margin would stack on the card gap or the section padding
+   and leave an empty band above the title. The container owns that space. */
+.agustos-card > *,
+:is(.agustos-card, .agustos-section, .band) :is(h1, h2, h3, h4, .type-h1, .type-h2, .type-h3, .type-h4):first-child {
+  margin-top: 0;
+}
+
 .agustos-chrome-link {
   min-height: var(--control-min);
   color: var(--ink-soft);
