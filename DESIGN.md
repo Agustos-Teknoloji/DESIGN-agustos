@@ -1,6 +1,6 @@
 # Ağustos Design System
 
-**Version 6.4.0** · Cross-medium design system for Emre Güneş's brand portfolio
+**Version 6.5.0** · Cross-medium design system for Emre Güneş's brand portfolio
 
 ## Standard artifacts
 
@@ -349,7 +349,7 @@ The HERO section is a page-opening composition, not a new token family. It combi
 | **Supporting Copy** | `.type-hero-deck` | Recommended | One supporting lead, 1-2 sentences, max-width 54ch, upright body, ink-soft. Explains the promise; does not repeat the headline. |
 | **Primary CTA** | `.hero-action.hero-action--primary` inside `.hero-actions` | Optional | The committing action. Filled black button, 44px, no arrow. One per band. |
 | **Secondary CTA** | `.hero-action.hero-action--secondary` inside `.hero-actions` | Optional | The real alternative. Outline button that fills black on hover. A CTA pair is always filled + outline. |
-| **Trust Signals** | `.hero-trust` | Optional | Compact proof line below the actions: year range, client count, geography, partner names, standards, warranty, press, or certification. Body family at 13.5-14px, ink-soft. No badges, pills, or logo-wall treatment in the hero. |
+| **Trust Signals** | `.hero-trust` | Optional | Compact proof line below the actions: year range, client count, geography, partner names, standards, warranty, press, or certification. Body family at 15.5px (`bodyCompact`), ink-soft. No badges, pills, or logo-wall treatment in the hero. |
 | **Hero Visual** | `.hero-visual` | Optional | Actual product, place, object, state, screenshot, diagram, render, or media. On the homepage, keep it below or after the text-led first viewport unless the visual is the product itself. Avoid decorative-only gradients, abstract logo collages, or framed visual cards that compete with the headline. |
 
 Optional `.type-body` summary may sit between Supporting Copy and CTAs only when the page needs a second level of explanation. Do not add an eyebrow above the headline.
@@ -380,7 +380,7 @@ Hero component styles are web/component utilities, not typography tokens. Homepa
 | `.hero-link` | Content link | Display family, 2px red rule. Hover turns ink red. Carries an invisible 44px hit area (padding with a matching negative margin), so the typographic link meets the target rule without looking like a button. |
 | `.hero-link--primary` | Main in-prose path | Ink text, weight 600. |
 | `.hero-link--secondary` | Secondary in-prose path | Ink-soft text, weight 500. |
-| `.hero-trust` | Trust signal line | Body family, 13.5-14px, line-height 1.5, ink-soft, margin-top 2rem to 3.5rem after actions. Items stay textual and compact. |
+| `.hero-trust` | Trust signal line | Body family, 15.5px (`bodyCompact`), line-height 1.5, ink-soft, margin-top 2rem to 3.5rem after actions. Items stay textual and compact. |
 | `.hero-visual` | Visual plane | Media container for the hero image/render/screenshot/diagram. Full-width within its layout column, no decorative card chrome, caption through `.type-figure` when needed. |
 
 Actions are links, not generic buttons. In the homepage hero they should not look button-like: the action is part of the typographic composition. In lower sections, boxed links can appear when the surrounding layout needs clearer tap targets.
@@ -393,7 +393,7 @@ Actions are links, not generic buttons. In the homepage hero they should not loo
 |---|---|---|---|---|
 | `.type-h1` | clamp(40px, 5vw, 60px) / lh 1.0 | 300 | Display | Tracking -0.04em. Page and product title. |
 | `.type-h2` | clamp(34px, 4.4vw, 52px) / lh 1.02 | 400 | Display | Tracking -0.034em. One H2 role on marketing and product pages. |
-| `.type-h3` | 18px / lh 1.3 | 500, italic | Display | Italic separates categorically from H2. |
+| `.type-h3` | 22px / lh 1.25 | 500, upright | Display | The middle step between body and H2. Size separates it from H2. |
 | `.type-h4` | 12.5px | 600, sentence case | Display | Tracking 0.005em. Labels, table headers, breadcrumbs. No uppercase. |
 
 Both hero tokens, `.type-h1` and `.type-h2` set `text-wrap: balance`, so a two-line heading breaks into two even lines instead of a long line and a stub. Browsers without support wrap as before.
@@ -506,7 +506,7 @@ Every token maps to a standard markdown primitive. The system survives the round
 | (template-only, not markdown) | `.type-hero` / `.type-hero-md` | Hero tokens live in page templates, not markdown. Markdown bodies start at H1. |
 | `# Title` | H1 | First H1 is the page title |
 | `## Section` | H2 | |
-| `### Subsection` | H3 | Italic by token rule |
+| `### Subsection` | H3 | Upright, 22px |
 | `#### Label` | H4 | Sentence-case label or meta, below its heading |
 | `**bold**` | strong | |
 | `*italic*` or `_italic_` | em | |
@@ -889,7 +889,7 @@ The factory checks (generators, Office exports and a `ui/` release) are in `ARCH
 
 ## Versioning
 
-This is **v6.4.0**. The minor makes cards and breadcrumbs 44px targets: a card's heading link stretches over the card, and the checker warns (AG013) when it cannot. v6.3.0 tightened the rhythm: a heading that opens a card, a section or a band lost its section-break margin, and content text moved from `--ink-faint` to `--ink-soft` to pass contrast. v6.2 added brand `screenOverrides`. v6.1.0 made the checker enforce the screens table on every page (`data-screen` on `<body>`; primary CTA limit, quotes, and theme per row), added the `content-index` screen, and gave both reference adapters the `screen` switch. v6.0.0 recorded the chrome contract: consumers replace their local chrome with the kit's and adopt one name. v5.0.0 recorded the design philosophy change. Subsequent changes follow semantic versioning:
+This is **v6.5.0**. The minor gives the type scale its middle step: H3 is 22px and upright, and the hero trust line uses the 15.5px `bodyCompact` size. v6.4.0 made cards and breadcrumbs 44px targets: a card's heading link stretches over the card, and the checker warns (AG013) when it cannot. v6.3.0 tightened the rhythm: a heading that opens a card, a section or a band lost its section-break margin, and content text moved from `--ink-faint` to `--ink-soft` to pass contrast. v6.2 added brand `screenOverrides`. v6.1.0 made the checker enforce the screens table on every page (`data-screen` on `<body>`; primary CTA limit, quotes, and theme per row), added the `content-index` screen, and gave both reference adapters the `screen` switch. v6.0.0 recorded the chrome contract: consumers replace their local chrome with the kit's and adopt one name. v5.0.0 recorded the design philosophy change. Subsequent changes follow semantic versioning:
 
 - **Major.** Breaking changes to token names, structural removal, philosophy shifts
 - **Minor.** New tokens, new brand additions, additive-only changes
