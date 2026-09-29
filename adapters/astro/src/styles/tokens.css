@@ -709,6 +709,8 @@ table th:last-child, table td:last-child { text-align: right; }
 }
 
 .agustos-chrome-link {
+  display: inline-flex;
+  align-items: center;
   min-height: var(--control-min);
   color: var(--ink-soft);
   font-family: var(--display);
