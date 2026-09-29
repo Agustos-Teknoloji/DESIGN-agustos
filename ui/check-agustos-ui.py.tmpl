@@ -25,6 +25,7 @@ import argparse
 import json
 import re
 import sys
+from html.parser import HTMLParser
 from pathlib import Path
 
 KIT_VERSION = "{{ui.version}}"
@@ -146,6 +147,70 @@ def scan_files(root: Path, skip_dirs: frozenset[str] = frozenset(SKIP_DIRS), suf
 
 def line_of(text: str, index: int) -> int:
     return text[:index].count("\n") + 1
+
+
+# The kit stretches a link that is a direct child of one of these headings
+# over its card, so the card becomes the 44px target.
+CARD_HEADINGS = {"h2", "h3", "h4"}
+VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
+
+
+class CardScan(HTMLParser):
+    """Finds every .agustos-card that has links but none in its heading."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.stack: list = []     # open tags as [name, card]; card is a dict or None
+        self.stranded: list = []  # start lines of those cards
+
+    def handle_starttag(self, tag, attrs):
+        if tag in VOID_TAGS:
+            return
+        classes = (dict(attrs).get("class") or "").split()
+        if tag == "a":
+            card = next((entry[1] for entry in reversed(self.stack) if entry[1]), None)
+            if card:
+                card["links"] += 1
+                if self.stack[-1][0] in CARD_HEADINGS:
+                    card["heading_link"] = True
+        card = {"line": self.getpos()[0], "links": 0, "heading_link": False} if "agustos-card" in classes else None
+        self.stack.append([tag, card])
+
+    def handle_startendtag(self, tag, attrs):
+        pass  # a self-closing tag holds nothing
+
+    def handle_endtag(self, tag):
+        for index in range(len(self.stack) - 1, -1, -1):
+            if self.stack[index][0] == tag:
+                self._settle(self.stack[index:])
+                del self.stack[index:]
+                return
+
+    def finish(self) -> list:
+        self.close()
+        self._settle(self.stack)
+        self.stack = []
+        return sorted(self.stranded)
+
+    def _settle(self, entries) -> None:
+        for _name, card in entries:
+            if card and card["links"] and not card["heading_link"]:
+                self.stranded.append(card["line"])
+
+
+def check_cards(rel: str, text: str, findings: list) -> None:
+    scan = CardScan()
+    try:
+        scan.feed(text)
+        lines = scan.finish()
+    except Exception:
+        return  # a template the parser cannot read; the other rules still run
+    for number in lines:
+        findings.append(Finding(
+            "AG013", "warn", rel, number,
+            "card has links but none sits in its heading — put the card's main link "
+            "directly in an h2, h3 or h4 so the whole card becomes the 44px target",
+        ))
 
 
 def check_screen(rel: str, text: str, findings: list) -> None:
@@ -298,6 +363,7 @@ def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
 
         if path.suffix.lower() in PAGE_SUFFIXES:
             check_screen(rel, text, findings)
+            check_cards(rel, text, findings)
 
         if path.suffix.lower() in {".css", ".scss", ".sass"}:
             for match in CUSTOM_PROP.finditer(text):

@@ -235,12 +235,12 @@
       "sha256": "7207658f331310b96724fd194ba7c5ab9b55b1d62a1b15afd04022206be03fb7"
     },
     "agustos.css": {
-      "bytes": 39782,
-      "sha256": "12e51666bfb6d681138b12df704d594865d7d4fca502e6c036d16a336469b6a0"
+      "bytes": 40730,
+      "sha256": "64e382d2d0d1ab23b2a5f92bbff82b81d15d96ec460f68e5f522be238dc5f3d7"
     },
     "check-agustos-ui.py": {
-      "bytes": 21885,
-      "sha256": "c96ce67767efd5f1c10bf023e5f5d4a59ce7e53069f2a29d9b2871a460343885"
+      "bytes": 24377,
+      "sha256": "fbc58913fb0987f13c56df89b3b21300eb0cacf26ae72275601649af445dbf0f"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
