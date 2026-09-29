@@ -2,14 +2,16 @@
 
 ## Now
 
-Card and breadcrumb targets (2026-09-29, branch `feat/card-breadcrumb-targets`). Release v6.4.0.
+Middle type step and trust line (2026-09-29, branch `claude/37signals-design-philosophy-aaff31`). Release v6.5.0. Emre chose a global upright H3.
 
-- [x] Breadcrumb links fill their 44px list item.
-- [x] A card whose heading holds a link becomes a whole-card target (stretched link). Other links in the card stay clickable. Focus ring on the card.
-- [x] Checker AG013 warns when a card has links but none sits in a heading.
-- [x] Tests, build, `scripts/ci.sh`, browser check on home, products, product-finder, product.
-- [x] Release: VERSION 6.4.0, CHANGELOG, MEMORY, UI-KIT hard rule 5 wording.
-- [x] Tag `v6.4.0`, open PR #56, and run `/design-push` (2026-09-29).
+- [x] H3 becomes the middle step: `fontSize.h3` 18px to 22px in `tokens/design-tokens.json`. In `tokens/web.css.tmpl`, `.type-h3` drops `font-style: italic`, keeps weight 500, and sets line-height 1.25 and letter-spacing -0.015em.
+- [x] Trust line: `.hero-trust` uses `{{foundations.fontSize.bodyCompact}}` (15.5px), not a hand-typed 13.5px.
+- [x] Docs: update the `.type-h3` row, the Markdown mapping row ("Italic by token rule") and the two `.hero-trust` rows in `DESIGN.md` (hand-written, outside the generated block). Change the specimen text in `docs/fonts.html` ("Subsection in italic Tight").
+- [x] Leave alone: `screens/design/` (pulled references), the Office templates (`heading3Size` is their own recipe), and the guidelines PDFs (they do not show the type scale).
+- [x] Build, `--check`, `scripts/ci.sh`, and `check-agustos-ui.py screens --skip design`.
+- [x] Browser check at 1440px and 375px: home, content, static, products, product-finder. Card titles, content subsections and the trust line. Confirm no card title wraps badly at 22px.
+- [x] Record: `MEMORY.md` entry `2026-09-29 h3-upright-middle-step` (amends archive "Turning point 10": the italic was needed when H2 was small; size now separates H2 from H3). `CHANGELOG.md` for 6.5.0.
+- [ ] Release: VERSION 6.5.0, tag `v6.5.0`, open the PR, and run `/design-push`.
 
 ## Next
 

@@ -4,6 +4,13 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [6.5.0] - 2026-09-29
+
+### Changed
+
+- H3 is the middle step of the type scale: 22px, upright, weight 500. It was 18px italic, so card titles read as small print between 16.5px body text and the 34px to 52px H2. Every H3 changes: card titles, content subsections and the WordPress "Heading 3" size.
+- The hero trust line uses the 15.5px `bodyCompact` size, not a hand-typed 13.5px. The proof line was the smallest text on the page.
+
 ## [6.4.0] - 2026-09-29
 
 ### Added

@@ -418,7 +418,7 @@
         "footnote": "12.5px",
         "h1": "clamp(40px, 5vw, 60px)",
         "h2": "clamp(34px, 4.4vw, 52px)",
-        "h3": "18px",
+        "h3": "22px",
         "h4": "12.5px",
         "hero": "clamp(56px, 8.5vw, 104px)",
         "heroDeck": "20px",
@@ -667,7 +667,7 @@
         "surface": "#ffffff"
       }
     },
-    "version": "6.4.0"
+    "version": "6.5.0"
   },
-  "version": "6.4.0"
+  "version": "6.5.0"
 }
