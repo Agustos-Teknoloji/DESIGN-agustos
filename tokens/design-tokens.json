@@ -1,7 +1,7 @@
 {
   "$schema": "https://design-tokens.github.io/community-group/format/",
   "name": "Ağustos Design System",
-  "version": "6.5.0",
+  "version": "7.0.0",
   "description": "Canonical cross-medium design values. CSS, framework adapters, and Office templates are generated consumers.",
   "meta": {
     "referenceImplementation": "https://agustos.com",
@@ -25,34 +25,31 @@
       "quietly confident"
     ],
     "principles": [
-      "Use white as the paper. Reserve cream for full-bleed callout and CTA bands. The six colours are white #ffffff, cream #fdf5f5, light gray #ebebeb, dark gray #404040, off-black #15130f, and red #cf142a.",
-      "Express warmth through those grays, cream bands, comfortable spacing, readable typography, and approachable language.",
-      "Make every section useful. Keep navigation, information, and next actions easy to understand.",
-      "Use clear hierarchy and one alignment frame. Let spacing explain relationships without hiding useful content.",
-      "Use modest corners and hairline rules. Do not use shadows, gradients, or textures.",
-      "Keep text, controls, and technical tables on plain surfaces. Use authentic imagery only when it explains the work.",
-      "Ration red to the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus. The one fill exception is the dark-theme primary CTA. Dark theme reuses the same six roles, flipped. Retain registered logos, fonts, and accessible contrast.",
-      "Write direct, helpful copy in sentence case. Do not use uppercase labels or eyebrow headings.",
-      "Repeat the same primary CTA at most twice in the page body: the opening and one closing cream band. The header may carry it once.",
-      "Ship marketing, catalog, and spec pages on white paper. Reserve dark theme for product UI.",
-      "Introduce photographs in this order: product page, listing thumbnail, then homepage installation. Type-only pages stay complete.",
-      "Use blockquote and pullquote on content pages only. Marketing pages use a compact trust line, not a testimonial."
+      "Use six colours: white #ffffff as the paper, pale red #fdf5f5 for the closing band, light gray #ebebeb for functional surfaces, dark gray #404040 for secondary text, off-black #15130f for text and buttons, and red #cf142a. Two support values serve only hairlines (#e8e4da) and faint marks (#8a8378). A new value needs a deleted one.",
+      "Set type on one golden scale: the 16.5px body times 1.272 per step, so every second step is the golden ratio (13, 16.5, 21, 27, 34, 43, 55, 70, 89px). Headings are thin: hero 89px light, H1 55px light, H2 43px regular, H3 21px medium. Use four weights (300, 400, 500, 600). The wordmark alone uses 650.",
+      "Use two radii, 6px for controls and 12px for cards, and one section spacing. Do not use gradients or textures. The only shadow sits under a menu that floats above the page.",
+      "Red is identity and signal, never action: the logo, the 2px link and menu rule, keyboard focus, and one highlighter stroke per page. Buttons are black. The Ağustos logo is red and turns black on hover; every other house brand's logo is black and turns red on hover.",
+      "Use the highlighter once per page, on one to four words of the main headline. Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.",
+      "Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar. Websites ship light; dark theme is for product UI.",
+      "Copy a screen; do not design a page. Open with a headline, a deck, two buttons, and a trust line. Close with one pale red band.",
+      "Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not use uppercase labels, eyebrow headings, or coloured text.",
+      "When unsure, do the conventional thing. Collect design tweaks and release the kit once a month; fix real defects at once."
     ],
     "avoid": [
-      "Ornamental Mediterranean motifs or unrelated lifestyle imagery",
-      "Red fills, red buttons, red statistics, or red as an element's own colour, except the dark-theme primary CTA",
+      "Red buttons, red statistics, red fills, or red text. The logo and the one highlighter stroke are the only red areas",
+      "More than one highlighter stroke on a page",
       "Uppercase labels, eyebrow labels, arrows on buttons, or decorative motion",
       "Inflated luxury claims or forced friendliness",
       "A primary button in every section, card, or list",
-      "A theme toggle on marketing chrome",
-      "Lifestyle photography or a photograph behind body text",
-      "Testimonial quotes on marketing pages"
+      "A sidebar on a website, or more than five items in its top menu",
+      "A theme toggle on a website",
+      "Lifestyle photography or a photograph behind body text"
     ],
     "acceptance": [
-      "Pages feel warm, human, and complete through white paper, warm neutrals, clear typography, and helpful language.",
+      "Pages feel calm, warm, and complete through white paper, thin headings on one scale, and helpful language.",
       "Visitors can understand the content and identify the next action quickly.",
-      "The same primary CTA appears in the header, the opening, and at most one closing band.",
-      "Marketing pages remain light without a theme control.",
+      "Red appears only as identity and signal: the logo, link and menu rules, focus, and at most one highlighter stroke.",
+      "Websites remain light without a theme control, and their top menu fits in five items.",
       "Forms and technical content remain clear, readable, and easy to scan.",
       "Brand identity, keyboard focus, reduced motion, and supported themes remain intact."
     ]
@@ -134,21 +131,21 @@
       "regular": { "$value": 400 },
       "medium": { "$value": 500 },
       "semibold": { "$value": 600 },
-      "wordmark": { "$value": 650 },
-      "bold": { "$value": 700 }
+      "wordmark": { "$value": 650, "$description": "The lockup wordmark only." }
     },
     "fontSize": {
       "$type": "dimension",
-      "hero": { "$value": "clamp(56px, 8.5vw, 104px)" },
-      "heroMedium": { "$value": "clamp(40px, 5vw, 60px)" },
-      "heroDeck": { "$value": "20px" },
-      "h1": { "$value": "clamp(40px, 5vw, 60px)" },
-      "h2": { "$value": "clamp(34px, 4.4vw, 52px)" },
-      "h3": { "$value": "22px" },
-      "h4": { "$value": "12.5px" },
+      "$description": "One golden scale: 16.5px times 1.272 (the square root of the golden ratio) per step, so every second step is 1.618. Steps: 13, 16.5, 21, 27, 34, 43, 55, 70, 89px. Headings shrink one or two steps on small screens. bodyCompact is the one UI size off the scale, for menus, buttons, and captions.",
+      "hero": { "$value": "clamp(55px, 7vw, 89px)" },
+      "heroMedium": { "$value": "{foundations.fontSize.h1}", "$description": "Alias of h1, kept for compatibility." },
+      "heroDeck": { "$value": "21px" },
+      "h1": { "$value": "clamp(43px, 4.6vw, 55px)" },
+      "h2": { "$value": "clamp(34px, 3.4vw, 43px)" },
+      "h3": { "$value": "21px" },
+      "h4": { "$value": "13px" },
       "body": { "$value": "16.5px" },
       "bodyCompact": { "$value": "15.5px" },
-      "footnote": { "$value": "12.5px" }
+      "footnote": { "$value": "13px" }
     },
     "spacing": {
       "$type": "dimension",
@@ -167,9 +164,8 @@
     },
     "radius": {
       "$type": "dimension",
-      "small": { "$value": "4px" },
-      "medium": { "$value": "6px" },
-      "large": { "$value": "10px" }
+      "medium": { "$value": "6px", "$description": "Controls: buttons, inputs, badges, menu items." },
+      "large": { "$value": "12px", "$description": "Cards, bands with corners, and floating menus." }
     },
     "duration": {
       "$type": "duration",
@@ -224,7 +220,7 @@
       "bodyMeasure": { "$value": "{foundations.measure.body}" }
     },
     "shape": {
-      "controlRadius": { "$value": "{foundations.radius.small}" },
+      "controlRadius": { "$value": "{foundations.radius.medium}" },
       "buttonRadius": { "$value": "{foundations.radius.medium}" },
       "cardRadius": { "$value": "{foundations.radius.large}" }
     },
@@ -254,28 +250,27 @@
       "contentMeasure": { "$value": "{semantic.layout.contentMeasure}" },
       "gutter": { "$value": "{semantic.layout.contentGutter}" },
       "controlMinimum": { "$value": "{foundations.measure.controlMinimum}" },
-      "paddingBlock": { "$value": "20px" },
-      "gap": { "$value": "{foundations.spacing.2xl}" },
+      "paddingBlock": { "$value": "10px" },
+      "gap": { "$value": "28px", "$description": "Between top-menu items." },
       "rule": { "$value": "{foundations.border.hairline}" },
       "sidebarWidth": {"$value": "240px", "$description": "Fixed sidebar column. Matches agustos.com."},
       "drawerWidth": {"$value": "min(320px, 86vw)", "$description": "Sidebar and topbar drawers below 1024px."}
     },
     "hero": {
       "paddingBlockStart": { "$value": "clamp(56px, 9vw, 112px)" },
-      "paddingBlockEnd": { "$value": "clamp(48px, 6vw, 80px)" },
-      "headline": { "$value": "heroMedium" },
+      "paddingBlockEnd": { "$value": "clamp(8px, 1.5vw, 16px)", "$description": "Small on purpose: the first section below brings the section spacing." },
+      "headline": { "$value": "hero" },
       "deckMeasure": { "$value": "{semantic.layout.readingMeasure}" },
-      "actionGap": { "$value": "{foundations.spacing.xl}" }
+      "actionGap": { "$value": "{foundations.spacing.sm}" }
     },
     "section": {
-      "paddingBlock": { "$value": "64px" },
-      "headingGap": { "$value": "{foundations.spacing.sm}" },
-      "rule": { "$value": "{foundations.border.hairline}" }
+      "paddingBlock": { "$value": "clamp(72px, 9vw, 104px)", "$description": "The one section spacing. Sections, the closing band, and the gap after the hero all use it." },
+      "headingGap": { "$value": "{foundations.spacing.sm}" }
     },
     "card": {
       "surface": { "$value": "{semantic.color.surface}" },
       "padding": { "$value": "{foundations.spacing.xl}" },
-      "gap": { "$value": "14px" },
+      "gap": { "$value": "{foundations.spacing.sm}" },
       "gridGap": { "$value": "{foundations.spacing.lg}" },
       "radius": { "$value": "{semantic.shape.cardRadius}" },
       "border": { "$value": "{foundations.border.hairline}" },
@@ -313,14 +308,12 @@
     }
   },
   "screens": {
-    "$description": "One reference composition per page type. Files live under screens/. Theme follows family: product-ui allows dark, every other family is light. Chrome follows the sample brand's registered chrome in brand/brands.json.",
+    "$description": "One reference composition per page type. Files live under screens/. Theme follows family: product-ui allows dark, every other family is light. Chrome follows family too: product-ui uses the sidebar, every other family uses the top menu and the footer.",
     "home": {
       "file": "home.html",
       "family": "marketing",
       "brand": "agustos",
-      "purpose": "The homepage: an editorial opening with inline links and a trust line, the brand and software card sections, and one closing cream band.",
-      "primaryCtaMax": 2,
-      "quotes": false,
+      "purpose": "The homepage: a thin headline with one highlighter stroke, a deck, two buttons and a trust line, then the brand and software card sections, and one closing pale red band.",
       "photo": "one installation photograph, third in the rollout"
     },
     "static": {
@@ -328,8 +321,6 @@
       "family": "content",
       "brand": "agustos",
       "purpose": "The static page template: About, privacy, terms, and the KVKK notice. Intro, timeline, and people at a long-form measure.",
-      "primaryCtaMax": 1,
-      "quotes": true,
       "photo": "people and places that explain the work"
     },
     "content": {
@@ -337,8 +328,6 @@
       "family": "content",
       "brand": "agustos",
       "purpose": "One article or post: title, deck, long-form body at 65ch with headings, lists, a quote, and a footnote.",
-      "primaryCtaMax": 1,
-      "quotes": true,
       "photo": "only when it explains the content"
     },
     "content-index": {
@@ -346,17 +335,13 @@
       "family": "content",
       "brand": "agustos",
       "purpose": "The list of posts: one section per year, body-size title links with a footnote line each, newest first. No heading per title.",
-      "primaryCtaMax": 1,
-      "quotes": false,
       "photo": "none; titles stay type-only"
     },
     "products": {
       "file": "products.html",
       "family": "catalog",
       "brand": "pataraz",
-      "purpose": "The product listing: series sections with product cards, quick links, and one closing cream band.",
-      "primaryCtaMax": 1,
-      "quotes": false,
+      "purpose": "The product listing: an H1 page title, series sections with product cards, quick links, and one closing pale red band.",
       "photo": "product thumbnails, second in the rollout"
     },
     "product-finder": {
@@ -364,8 +349,6 @@
       "family": "catalog",
       "brand": "pataraz",
       "purpose": "The product finder: a filter column and a result list. Form submits are task actions, not the page primary.",
-      "primaryCtaMax": 1,
-      "quotes": false,
       "photo": "product thumbnails, second in the rollout"
     },
     "product": {
@@ -373,8 +356,6 @@
       "family": "catalog",
       "brand": "pataraz",
       "purpose": "One luminaire: photograph and drawing, description, grouped specification tables, downloads, and related products.",
-      "primaryCtaMax": 2,
-      "quotes": false,
       "photo": "product photograph or drawing, first in the rollout"
     },
     "spec-sheet": {
@@ -382,8 +363,6 @@
       "family": "document",
       "brand": "pataraz",
       "purpose": "The A4 technical datasheet (teknik föy) as a web page: header, photograph and drawing, the five specification groups, revision line.",
-      "primaryCtaMax": 0,
-      "quotes": false,
       "photo": "product photograph and dimensioned drawing"
     },
     "app-shell": {
@@ -391,8 +370,6 @@
       "family": "product-ui",
       "brand": "iesdesk",
       "purpose": "The product-UI frame: sidebar navigation with counts, a page toolbar, stats, and a data table. The theme control lives in the sidebar.",
-      "primaryCtaMax": 1,
-      "quotes": false,
       "photo": "none"
     }
   },
@@ -418,6 +395,7 @@
         "type-table",
         "type-divider",
         "type-footnote",
+        "type-highlight",
         "site-frame",
         "container",
         "skip-link",
@@ -428,14 +406,7 @@
         "brand-specquick",
         "brand-memregunes",
         "paper-white",
-        "hero-links",
-        "hero-link",
-        "hero-link--primary",
-        "hero-link--secondary",
         "hero-actions",
-        "hero-action",
-        "hero-action--primary",
-        "hero-action--secondary",
         "hero-trust",
         "hero-visual",
         "agustos-section",
@@ -462,18 +433,17 @@
         "site-header__panel",
         "site-header__nav",
         "site-header__link",
+        "site-header__more",
+        "site-header__more-menu",
+        "site-header__more-link",
         "site-header__end",
         "site-header__cta",
         "site-header__burger",
         "site-footer",
         "site-footer__inner",
         "site-footer__brand",
-        "site-footer__cols",
-        "site-footer__col",
-        "site-footer__col-heading",
-        "site-footer__list",
+        "site-footer__links",
         "site-footer__link",
-        "site-footer__cta",
         "breadcrumb",
         "breadcrumb__link",
         "stack",

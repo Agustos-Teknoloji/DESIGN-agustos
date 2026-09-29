@@ -14,7 +14,6 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "brand" / "exports" / "office-manifest.json"
 SOURCE_PATHS = (
-    "brand/brands.json",
     "brand/build_templates.py",
     "brand/build_presentation.mjs",
     "brand/package.json",
@@ -75,6 +74,20 @@ def _office_relevant_tokens(resolved: dict[str, Any]) -> dict[str, Any]:
     }
 
 
+# The brand fields brand/build_templates.py reads. The web chrome, taglines and
+# the other registry notes never reach a Word or PowerPoint file, so a change to
+# them must not mark the Office artifacts stale (same reasoning as the tokens).
+OFFICE_BRAND_FIELDS = ("wordmark", "color", "title", "domain", "office")
+
+
+def _office_relevant_brands(registry: dict[str, Any]) -> dict[str, Any]:
+    """The only parts of brand/brands.json the Office generators read."""
+    return {
+        slug: {field: brand.get(field) for field in OFFICE_BRAND_FIELDS}
+        for slug, brand in sorted(registry["brands"].items())
+    }
+
+
 def source_digest(root: Path) -> str:
     digest = hashlib.sha256()
     source_paths = list(SOURCE_PATHS)
@@ -92,6 +105,11 @@ def source_digest(root: Path) -> str:
         digest.update(path.read_bytes())
         digest.update(b"\0")
 
+    registry = json.loads((root / "brand" / "brands.json").read_text(encoding="utf-8"))
+    digest.update(b"brand/brands.json:office-subset")
+    digest.update(b"\0")
+    digest.update(json.dumps(_office_relevant_brands(registry), sort_keys=True).encode("utf-8"))
+    digest.update(b"\0")
     resolved_path = root / "tokens" / "resolved.json"
     if not resolved_path.exists():
         raise ArtifactError("missing Office source: tokens/resolved.json")

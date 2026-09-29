@@ -41,27 +41,24 @@ class DesignSystemGenerationTest(unittest.TestCase):
         with self.assertRaisesRegex(self.builder.TokenError, "unknown token path"):
             self.builder.resolve_token(self.tokens, "foundations.color.missing")
 
-    def test_every_brand_registers_a_known_chrome(self):
+    def test_brands_no_longer_register_chrome(self):
+        """v7.0.0: chrome follows the screen family, so a brand that registers one is stale."""
         brands = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))
         self.builder.validate_brands(brands)
-        self.assertEqual(
-            {slug: brand["chrome"] for slug, brand in brands["brands"].items()},
-            {
-                "agustos": "sidebar",
-                "pataraz": "topbar",
-                "pld": "topbar",
-                "iesdesk": "sidebar",
-                "specquick": "sidebar",
-                "memregunes": "sidebar",
-            },
-        )
-        bad = copy.deepcopy(brands)
-        bad["brands"]["pld"]["chrome"] = "drawer"
-        with self.assertRaises(self.builder.TokenError):
-            self.builder.validate_brands(bad)
-        del bad["brands"]["pld"]["chrome"]
-        with self.assertRaises(self.builder.TokenError):
-            self.builder.validate_brands(bad)
+        for slug, brand in brands["brands"].items():
+            with self.subTest(brand=slug):
+                self.assertNotIn("chrome", brand)
+                self.assertNotIn("screenOverrides", brand)
+        for field, value in (("chrome", "sidebar"), ("screenOverrides", {"home": {"quotes": True}})):
+            bad = copy.deepcopy(brands)
+            bad["brands"]["pld"][field] = value
+            with self.assertRaises(self.builder.TokenError):
+                self.builder.validate_brands(bad)
+
+    def test_chrome_follows_the_family(self):
+        self.assertEqual(self.builder.chrome_for("product-ui"), "sidebar")
+        for family in ("marketing", "content", "catalog", "document"):
+            self.assertEqual(self.builder.chrome_for(family), "topbar")
 
     def test_screens_table_is_validated_and_derives_chrome_and_theme(self):
         brands = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))
@@ -71,12 +68,13 @@ class DesignSystemGenerationTest(unittest.TestCase):
             list(rows),
             ["home", "static", "content", "content-index", "products", "product-finder", "product", "spec-sheet", "app-shell"],
         )
-        self.assertEqual(rows["home"]["chrome"], "sidebar")
+        self.assertEqual(rows["home"]["chrome"], "topbar")
         self.assertEqual(rows["product"]["chrome"], "topbar")
+        self.assertEqual(rows["app-shell"]["chrome"], "sidebar")
         self.assertEqual(rows["app-shell"]["theme"], "dark-allowed")
         self.assertEqual(rows["home"]["theme"], "light")
-        self.assertEqual(rows["static"]["quotes"], True)
-        self.assertEqual(rows["spec-sheet"]["primaryCtaMax"], 0)
+        self.assertNotIn("quotes", rows["static"])
+        self.assertNotIn("primaryCtaMax", rows["spec-sheet"])
         for row in rows.values():
             self.assertEqual(row["file"], f"{row['name']}.html")
         bad = copy.deepcopy(self.tokens)
@@ -86,6 +84,10 @@ class DesignSystemGenerationTest(unittest.TestCase):
         bad = copy.deepcopy(self.tokens)
         del bad["screens"]["home"]["photo"]
         with self.assertRaises(self.builder.TokenError):
+            self.builder.validate_screens(bad, brands)
+        bad = copy.deepcopy(self.tokens)
+        bad["screens"]["home"]["primaryCtaMax"] = 2
+        with self.assertRaisesRegex(self.builder.TokenError, "retired"):
             self.builder.validate_screens(bad, brands)
         bad = copy.deepcopy(self.tokens)
         bad["screens"]["home"]["brand"] = "novara"
@@ -117,12 +119,14 @@ class DesignSystemGenerationTest(unittest.TestCase):
 
     def test_page_composition_rules_are_published(self):
         text = " ".join(self.tokens["designDirection"]["principles"])
-        self.assertIn("primary CTA", text)
+        self.assertIn("two buttons", text)
         self.assertIn("product UI", text)
-        self.assertIn("content pages only", text)
+        self.assertIn("highlighter once per page", text)
+        self.assertIn("at most five items", text)
+        self.assertIn("golden", text)
         avoid = " ".join(self.tokens["designDirection"]["avoid"])
-        self.assertIn("theme toggle on marketing chrome", avoid)
-        self.assertIn("Testimonial quotes on marketing pages", avoid)
+        self.assertIn("theme toggle on a website", avoid)
+        self.assertIn("More than one highlighter stroke", avoid)
 
     def test_circular_alias_is_rejected(self):
         tokens = copy.deepcopy(self.tokens)
@@ -230,7 +234,7 @@ class DesignSystemGenerationTest(unittest.TestCase):
         for name in ("home", "static", "content", "content-index", "products", "product-finder", "product", "spec-sheet", "app-shell"):
             self.assertIn(f'id="screen-{name}"', text)
             self.assertIn(f'src="../screens/{name}.html"', text)
-        self.assertIn("agustos sidebar, pataraz topbar, pld topbar, iesdesk sidebar, specquick sidebar", text)
+        self.assertIn("websites use the top menu and the footer, product UI uses the sidebar", text)
         self.assertIn('href="agustos.css"', text)
         self.assertNotIn('href="../ui/agustos.css"', text)
         self.assertNotIn(".site-header {", text)

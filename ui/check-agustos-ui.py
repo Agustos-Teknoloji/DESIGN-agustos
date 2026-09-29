@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ağustos UI kit compliance checker — v6.5.0
+"""Ağustos UI kit compliance checker — v7.0.0
 
 GENERATED. Do not hand-edit. Regenerate with:
     python3 scripts/build_design_system.py
@@ -28,7 +28,7 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 
-KIT_VERSION = "6.5.0"
+KIT_VERSION = "7.0.0"
 REPOSITORY = "Agustos-Teknoloji/DESIGN-agustos"
 LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json"
 
@@ -70,6 +70,7 @@ KIT_CLASSES = {
     "type-table",
     "type-divider",
     "type-footnote",
+    "type-highlight",
     "site-frame",
     "container",
     "skip-link",
@@ -80,14 +81,7 @@ KIT_CLASSES = {
     "brand-specquick",
     "brand-memregunes",
     "paper-white",
-    "hero-links",
-    "hero-link",
-    "hero-link--primary",
-    "hero-link--secondary",
     "hero-actions",
-    "hero-action",
-    "hero-action--primary",
-    "hero-action--secondary",
     "hero-trust",
     "hero-visual",
     "agustos-section",
@@ -114,18 +108,17 @@ KIT_CLASSES = {
     "site-header__panel",
     "site-header__nav",
     "site-header__link",
+    "site-header__more",
+    "site-header__more-menu",
+    "site-header__more-link",
     "site-header__end",
     "site-header__cta",
     "site-header__burger",
     "site-footer",
     "site-footer__inner",
     "site-footer__brand",
-    "site-footer__cols",
-    "site-footer__col",
-    "site-footer__col-heading",
-    "site-footer__list",
+    "site-footer__links",
     "site-footer__link",
-    "site-footer__cta",
     "breadcrumb",
     "breadcrumb__link",
     "stack",
@@ -170,14 +163,11 @@ KIT_CLASSES = {
     "agustos-tabs__panel",
 }
 
-# screen name -> the rules a page under that screen must meet. Injected from the
+# screen name -> the rules a page under that screen should meet. Injected from the
 # screens table for the same reason as TOKEN_COLORS. A page names its screen with
-# data-screen on <body>; theme "dark-allowed" marks product UI.
-SCREENS = {'app-shell': {'primaryCtaMax': 1, 'quotes': False, 'theme': 'dark-allowed'}, 'content': {'primaryCtaMax': 1, 'quotes': True, 'theme': 'light'}, 'content-index': {'primaryCtaMax': 1, 'quotes': False, 'theme': 'light'}, 'home': {'primaryCtaMax': 2, 'quotes': False, 'theme': 'light'}, 'product': {'primaryCtaMax': 2, 'quotes': False, 'theme': 'light'}, 'product-finder': {'primaryCtaMax': 1, 'quotes': False, 'theme': 'light'}, 'products': {'primaryCtaMax': 1, 'quotes': False, 'theme': 'light'}, 'spec-sheet': {'primaryCtaMax': 0, 'quotes': False, 'theme': 'light'}, 'static': {'primaryCtaMax': 1, 'quotes': True, 'theme': 'light'}}
-
-# brand class -> screen name -> the rules that brand overrides on that screen.
-# Injected from "screenOverrides" in brand/brands.json, for the same reason as SCREENS.
-BRAND_SCREEN_RULES = {'brand-memregunes': {'home': {'quotes': True}}}
+# data-screen on <body>; theme "dark-allowed" and chrome "sidebar" mark product UI.
+# The checker guards identity with errors. Taste rules only warn.
+SCREENS = {'app-shell': {'theme': 'dark-allowed', 'chrome': 'sidebar'}, 'content': {'theme': 'light', 'chrome': 'topbar'}, 'content-index': {'theme': 'light', 'chrome': 'topbar'}, 'home': {'theme': 'light', 'chrome': 'topbar'}, 'product': {'theme': 'light', 'chrome': 'topbar'}, 'product-finder': {'theme': 'light', 'chrome': 'topbar'}, 'products': {'theme': 'light', 'chrome': 'topbar'}, 'spec-sheet': {'theme': 'light', 'chrome': 'topbar'}, 'static': {'theme': 'light', 'chrome': 'topbar'}}
 
 # #15130f and #ffffff are legitimate as identity ink and as paper. Reported at
 # warning level rather than error: too common to fail a build over.
@@ -216,8 +206,8 @@ DATA_SCREEN = re.compile(r"""data-screen\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))
 BODY_CLASS = re.compile(r"""\bclass\s*=\s*(?:"([^"]*)"|'([^']*)')""", re.I)
 TEMPLATED = re.compile(r"[{<$]")
 MAIN_BLOCK = re.compile(r"<main\b.*?</main>", re.S | re.I)
-PRIMARY_ACTION = re.compile(r"\b(?:agustos-button--primary|hero-action--primary|hero-link--primary)\b")
-QUOTE_CLASS = re.compile(r"\btype-(?:blockquote|pullquote)\b")
+HIGHLIGHT = re.compile(r"\btype-highlight\b")
+SIDEBAR = re.compile(r"\bsite-sidebar\b")
 DATA_THEME = re.compile(r"\bdata-theme\s*=")
 RADIUS = re.compile(r"border-radius:\s*([0-9.]+)px")
 GRADIENT = re.compile(r"(linear|radial|conic)-gradient\(")
@@ -373,31 +363,23 @@ def check_screen(rel: str, text: str, findings: list) -> None:
             f"unknown screen {name!r} — the screens table knows: " + ", ".join(SCREENS),
         ))
         return
-    body_class = BODY_CLASS.search(body.group(1))
-    classes = next(g for g in body_class.groups() if g is not None).split() if body_class else []
-    for brand in classes:
-        rules = {**rules, **BRAND_SCREEN_RULES.get(brand, {}).get(name, {})}
-    main = MAIN_BLOCK.search(page)
-    scope = main.group(0) if main else page[body.end():]
-    primaries = len(PRIMARY_ACTION.findall(scope))
-    if primaries > rules["primaryCtaMax"]:
+    highlights = HIGHLIGHT.findall(page)
+    if len(highlights) > 1:
         findings.append(Finding(
-            "AG022", "error", rel, body_line,
-            f"{primaries} primary actions inside <main>; screen {name!r} allows at most "
-            f"{rules['primaryCtaMax']} — the same destination may repeat in the header and one "
-            f"closing band, not in every section",
+            "AG025", "warn", rel, line_of(text, text.find(highlights[1])),
+            f"{len(highlights)} highlighter strokes on one page — use one, on a few words "
+            f"of the main headline",
         ))
-    quote = QUOTE_CLASS.search(page)
-    if quote and not rules["quotes"]:
+    sidebar = SIDEBAR.search(page)
+    if sidebar and rules["chrome"] != "sidebar":
         findings.append(Finding(
-            "AG023", "error", rel, line_of(text, text.find(quote.group(0))),
-            f"blockquote or pullquote on screen {name!r} — quotes belong on content pages; "
-            f"marketing uses a compact trust line",
+            "AG026", "warn", rel, line_of(text, text.find(sidebar.group(0))),
+            f"sidebar on screen {name!r} — websites use the top menu; the sidebar is for product UI",
         ))
     theme = DATA_THEME.search(page)
     if theme and rules["theme"] != "dark-allowed":
         findings.append(Finding(
-            "AG024", "error", rel, line_of(text, text.find(theme.group(0))),
+            "AG024", "warn", rel, line_of(text, text.find(theme.group(0))),
             f"data-theme on screen {name!r} — dark theme is for product UI only; "
             f"marketing, catalog, and document pages ship light with no theme control",
         ))
@@ -458,10 +440,10 @@ def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
                             break
 
             for match in (() if prose else RADIUS.finditer(line)):
-                if float(match.group(1)) > 10:
+                if float(match.group(1)) > 12:
                     findings.append(Finding(
                         "AG010", "warn", rel, number,
-                        f"border-radius: {match.group(1)}px exceeds the 10px system maximum",
+                        f"border-radius: {match.group(1)}px exceeds the 12px system maximum",
                     ))
 
             if GRADIENT.search(line) and not prose and not HAIRLINE_GRID.search(line):
@@ -480,8 +462,8 @@ def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
                     continue  # a marker dot or rule bar — what signal red is for
                 findings.append(Finding(
                     "AG011", "warn", rel, number,
-                    "signal red is for links, focus, markers and small emphasis — "
-                    "not a background",
+                    "signal red is for the logo, links, focus, markers and the one highlighter — "
+                    "not a background or a button",
                 ))
 
             for match in JSDELIVR.finditer(line):

@@ -4,6 +4,43 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [7.0.0] - 2026-09-29
+
+A conventional reset of the website layer. Identity (symbol, wordmarks, six colours, fonts) and the engine stay. Consuming sites pin `v7.0.0` when they are ready: agustos.com and iesdesk.com first, memregunes.com and pldturkiye.com later.
+
+### Changed
+
+- Chrome follows the screen family, not the brand: every website uses the top menu and the footer; product UI alone uses the sidebar. `chrome` leaves `brand/brands.json`, and the build rejects it.
+- The top menu holds at most five items. The rest go under one More menu, `site-header__more` (native `<details>`), which opens inline in the phone drawer.
+- The footer is light and small: the lockup and one line, then one row of social, legal and language links. No column headings, no repeat of the top menu, no button.
+- Type sits on one golden scale (16.5px × 1.272 per step): 13, 16.5, 21, 27, 34, 43, 55, 70, 89px. Hero 89px thin, H1 55px thin, H2 43px, H3 21px, H4 and footnote 13px, hero deck 21px. Bold is 600.
+- Two radii: 6px for controls, 12px for cards and floating menus. `--radius-sm` is an alias of `--radius-md`.
+- One section spacing, `--section-space` (72px to 104px), for sections, the closing band and the gap after the hero. Sections lose their dividing rule.
+- The hero opens with two buttons: one primary, one secondary. Product listing pages use the 55px H1, not the hero.
+- Cards: 12px radius, the card gap owns the spacing, titles carry no underline, and the border darkens on hover.
+- Buttons are black everywhere. The dark-theme red primary CTA is gone; the dark primary inverts to white.
+- Logos answer hover: the Ağustos logo turns black, every other house-brand logo turns red.
+- Favicons are per brand: a white tile with the red Laz Güneşi for Ağustos and the black one for every other brand.
+- The checker guards identity with errors and taste with warnings. AG024 (`data-theme` outside product UI) is a warning. AG010 allows radii up to 12px.
+- `UI-KIT.md`: nine house rules replace the twelve principles, and the brand table shows each logo's ink and hover ink.
+- `scripts/check_office_artifacts.py` fingerprints only the brand fields the Office generators read. The Office files did not change.
+
+### Added
+
+- `type-highlight`: one red highlighter stroke per page, on one to four words of the main headline, on every brand.
+- Checker warnings AG025 (more than one highlighter) and AG026 (a sidebar on a website).
+
+### Removed
+
+- `hero-links`, `hero-link`, `hero-link--primary`, `hero-link--secondary`, `hero-action`, `hero-action--primary`, `hero-action--secondary`. Use `hero-actions` with `agustos-button`.
+- `site-footer__cols`, `site-footer__col`, `site-footer__col-heading`, `site-footer__list`, `site-footer__cta`. Use `site-footer__links`.
+- Checker rules AG022 (primary-CTA count) and AG023 (quotes), the screens-table fields `primaryCtaMax` and `quotes`, and brand `screenOverrides`.
+- The `bold` (700) and `small` (4px) radius tokens.
+
+### Rebuilt
+
+- Brand guidelines PDFs and favicon files only. Lockups, social images, swatches, email signatures and Office files were not rebuilt.
+
 ## [6.5.0] - 2026-09-29
 
 ### Changed

@@ -2,16 +2,20 @@
 
 ## Now
 
-Middle type step and trust line (2026-09-29, branch `claude/37signals-design-philosophy-aaff31`). Release v6.5.0. Emre chose a global upright H3.
+v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva`). Emre approved each part from the live preview and asked for it to ship without further approvals. Plan and facts: MEMORY.md 2026-09-29 v7-conventional-reset and the five records after it.
 
-- [x] H3 becomes the middle step: `fontSize.h3` 18px to 22px in `tokens/design-tokens.json`. In `tokens/web.css.tmpl`, `.type-h3` drops `font-style: italic`, keeps weight 500, and sets line-height 1.25 and letter-spacing -0.015em.
-- [x] Trust line: `.hero-trust` uses `{{foundations.fontSize.bodyCompact}}` (15.5px), not a hand-typed 13.5px.
-- [x] Docs: update the `.type-h3` row, the Markdown mapping row ("Italic by token rule") and the two `.hero-trust` rows in `DESIGN.md` (hand-written, outside the generated block). Change the specimen text in `docs/fonts.html` ("Subsection in italic Tight").
-- [x] Leave alone: `screens/design/` (pulled references), the Office templates (`heading3Size` is their own recipe), and the guidelines PDFs (they do not show the type scale).
-- [x] Build, `--check`, `scripts/ci.sh`, and `check-agustos-ui.py screens --skip design`.
-- [x] Browser check at 1440px and 375px: home, content, static, products, product-finder. Card titles, content subsections and the trust line. Confirm no card title wraps badly at 22px.
-- [x] Record: `MEMORY.md` entry `2026-09-29 h3-upright-middle-step` (amends archive "Turning point 10": the italic was needed when H2 was small; size now separates H2 from H3). `CHANGELOG.md` for 6.5.0.
-- [x] Release: VERSION 6.5.0, tag `v6.5.0` on `dc1a763`, open PR #57, and run `/design-push` (2026-09-29).
+- [x] Registry: golden type scale, four weights, two radii, one section spacing, nine house rules, screens table without `primaryCtaMax` and `quotes`, class list.
+- [x] `brand/brands.json`: drop `chrome` and `screenOverrides`. Office fingerprint narrowed to the fields Office reads; manifest rewritten, Office files unchanged.
+- [x] `tokens/web.css.tmpl`: top menu with More, light one-row footer, two-button hero, section rhythm, cards, pale red band, black buttons, logo hover, highlighter, bold 600.
+- [x] Build: chrome from the screen family; checker keeps identity errors, taste rules warn, AG022 and AG023 removed, AG025 and AG026 added.
+- [x] Screens: eight website screens on the top menu and the simple footer; home shows the highlighter; listings use the H1.
+- [x] Starter and Claude Design chrome cards on the v7 chrome.
+- [ ] Adapters (Astro, Rails, WordPress): v7 chrome, footer links API, More menu.
+- [ ] Per-brand favicons and the guidelines PDFs.
+- [ ] Hand-written docs: DESIGN.md, docs/*.html, README, ARCHITECTURE.
+- [ ] `AGENTS.md`, `ASSETS.md`.
+- [ ] Gate green, visual check, commit, push, tag `v7.0.0`, draft PR, `/design-push`.
+- [ ] Rollout: agustos.com and iesdesk.com pin v7.0.0 first; memregunes.com and pldturkiye.com later.
 
 ## Next
 
