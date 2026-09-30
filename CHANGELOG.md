@@ -2,6 +2,21 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
+## [7.2.0] - 2026-09-30
+
+One reading column for content pages. On a 1440px screen the privacy page of iesdesk.com showed its text on the left 654px of a 1244px frame and nothing on the right, because `.prose` capped each paragraph while the column kept the full frame. The kit's own static screen did the same. Consuming sites moving from `v7.1.0` add `container--reading` next to `container` on each content page (About, privacy, terms, an article, a list of posts); nothing else in their markup changes.
+
+### Added
+
+- `.container--reading`: the whole column of a content page at the 65ch body measure plus the gutters, in the center of the frame. The line length stays the same (654px at 1440px); the empty space splits evenly on both sides.
+- The screens table gains a derived Column: `reading` for the content family (`static`, `content`, `content-index`), `frame` for every other family. `UI-KIT.md`, `kit.json` and `docs/web.html` show it.
+- Checker warning AG028: a full-width `container` on a content screen.
+
+### Changed
+
+- `screens/static.html`, `screens/content.html` and `screens/content-index.html`, and the Astro About, post and post-list pages, use the reading column. The Astro typography showcase keeps the frame.
+- `DESIGN.md` states the line-length rule: 45 to 75 characters, 65ch in the kit, 80 as the WCAG 1.4.8 ceiling. Cap the column, not each paragraph.
+
 ## [7.1.0] - 2026-09-30
 
 Chrome fixes from a best-practice audit of the top menu, the product sidebar and the footer against WCAG 2.2 and the WAI-ARIA disclosure pattern, each measured in Chromium. Consuming sites moving from `v7.0.x` add the drawer close button, `lang` on language links, and one `<script src="/vendor/agustos-ui/agustos-chrome.js" defer>`; nothing else in their markup changes.

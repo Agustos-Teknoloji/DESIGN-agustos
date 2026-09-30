@@ -2,6 +2,13 @@
 
 ## Now
 
+Reading column (v7.2.0, 2026-09-30, branch `claude/kit-7.2.0-reading-column`). Emre chose option B (a release of its own) and 7.2.0. Record: MEMORY.md 2026-09-30 reading-column.
+
+- [x] `.container--reading`, the derived Column in the screens table, checker AG028, screens, Astro pages, docs, tests, `VERSION` 7.2.0, CHANGELOG.
+- [ ] Build, gate, browser check at 1440 and 390px; commit, push, PR. The tag and `/design-push` follow the merge.
+- [ ] Bump iesdesk.com (privacy, terms, About, Contact) and agustos.com content pages to v7.2.0.
+- [ ] The header search draft (`claude/kit-7.2-search-recipe`) renames itself to 7.3.0 when it rebases.
+
 Chrome audit and v7.1.0 (2026-09-30, branch `claude/affectionate-ride-f41zre`). The audit checked the top menu, the sidebar and the footer against WCAG 2.2, the WAI-ARIA disclosure-navigation pattern and common B2B conventions; a Chromium probe measured every finding. Emre decided D1 to D3 on 2026-09-30. Record: MEMORY.md 2026-09-30 chrome-best-practice-fixes.
 
 Release A, defects, plus the approved tweaks B1 and B4 (v7.1.0):

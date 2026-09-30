@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.1.0 · GENERATED WORDPRESS ADAPTER CSS
+/* AĞUSTOS DESIGN SYSTEM v7.2.0 · GENERATED WORDPRESS ADAPTER CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -567,6 +567,13 @@ table th:last-child, table td:last-child { text-align: right; }
    brings the one section spacing. */
 .container {
   padding-block: clamp(56px, 9vw, 112px) clamp(8px, 1.5vw, 16px);
+}
+
+/* A reading page (the content screens: About, privacy, terms, an article, a list
+   of posts). The whole column sits at the body measure in the center of the
+   frame, so a wide screen never shows text on one half and nothing on the other. */
+.container--reading {
+  max-width: calc(var(--measure-body) + 2 * var(--measure-gutter));
 }
 
 /* Two buttons: one primary, one secondary. */

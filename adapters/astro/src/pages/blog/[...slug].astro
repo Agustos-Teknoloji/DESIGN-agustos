@@ -22,7 +22,7 @@ const fmt = new Intl.DateTimeFormat(post.data.lang === 'tr' ? 'tr-TR' : 'en-GB',
   lang={post.data.lang}
   searchKind="post"
 >
-  <article class="container" lang={post.data.lang}>
+  <article class="container container--reading" lang={post.data.lang}>
     <header class="post-header">
       <p class="type-h4">{fmt.format(post.data.date)}</p>
       <h1 class="type-h1">{post.data.title}</h1>

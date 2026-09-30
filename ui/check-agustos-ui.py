@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ağustos UI kit compliance checker — v7.1.0
+"""Ağustos UI kit compliance checker — v7.2.0
 
 GENERATED. Do not hand-edit. Regenerate with:
     python3 scripts/build_design_system.py
@@ -28,7 +28,7 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 
-KIT_VERSION = "7.1.0"
+KIT_VERSION = "7.2.0"
 REPOSITORY = "Agustos-Teknoloji/DESIGN-agustos"
 LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json"
 
@@ -73,6 +73,7 @@ KIT_CLASSES = {
     "type-highlight",
     "site-frame",
     "container",
+    "container--reading",
     "skip-link",
     "brand-agustos",
     "brand-pataraz",
@@ -175,7 +176,7 @@ KIT_CLASSES = {
 # screens table for the same reason as TOKEN_COLORS. A page names its screen with
 # data-screen on <body>; theme "dark-allowed" and chrome "sidebar" mark product UI.
 # The checker guards identity with errors. Taste rules only warn.
-SCREENS = {'app-shell': {'theme': 'dark-allowed', 'chrome': 'sidebar'}, 'content': {'theme': 'light', 'chrome': 'topbar'}, 'content-index': {'theme': 'light', 'chrome': 'topbar'}, 'home': {'theme': 'light', 'chrome': 'topbar'}, 'product': {'theme': 'light', 'chrome': 'topbar'}, 'product-finder': {'theme': 'light', 'chrome': 'topbar'}, 'products': {'theme': 'light', 'chrome': 'topbar'}, 'spec-sheet': {'theme': 'light', 'chrome': 'topbar'}, 'static': {'theme': 'light', 'chrome': 'topbar'}}
+SCREENS = {'app-shell': {'theme': 'dark-allowed', 'chrome': 'sidebar', 'column': 'frame'}, 'content': {'theme': 'light', 'chrome': 'topbar', 'column': 'reading'}, 'content-index': {'theme': 'light', 'chrome': 'topbar', 'column': 'reading'}, 'home': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame'}, 'product': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame'}, 'product-finder': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame'}, 'products': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame'}, 'spec-sheet': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame'}, 'static': {'theme': 'light', 'chrome': 'topbar', 'column': 'reading'}}
 
 # #15130f and #ffffff are legitimate as identity ink and as paper. Reported at
 # warning level rather than error: too common to fail a build over.
@@ -221,6 +222,7 @@ SIDEBAR = re.compile(r"\bsite-sidebar\b")
 TOP_MENU_ITEM = re.compile(r"""class=["'][^"']*\bsite-header__link\b""")
 TOP_MENU_LIMIT = 5
 DATA_THEME = re.compile(r"\bdata-theme\s*=")
+CLASS_ATTRIBUTE = re.compile(r"""\bclass\s*=\s*(?:"([^"]*)"|'([^']*)')""", re.I)
 RADIUS = re.compile(r"border-radius:\s*([0-9.]+)px")
 GRADIENT = re.compile(r"(linear|radial|conic)-gradient\(")
 BACKGROUND = re.compile(r"background(?:-color)?:\s*([^;{}]+)")
@@ -396,6 +398,16 @@ def check_screen(rel: str, text: str, findings: list) -> None:
             f"{len(menu_items)} top-menu items — keep at most {TOP_MENU_LIMIT}, the More toggle "
             f"included; put the rest in one site-header__more",
         ))
+    if rules["column"] == "reading":
+        for match in CLASS_ATTRIBUTE.finditer(page):
+            names = (match.group(1) or match.group(2) or "").split()
+            if "container" in names and "container--reading" not in names:
+                findings.append(Finding(
+                    "AG028", "warn", rel, line_of(text, text.find(match.group(0))),
+                    f"full-width container on screen {name!r}: a content page reads in one "
+                    f"centered column: add container--reading",
+                ))
+                break
     theme = DATA_THEME.search(page)
     if theme and rules["theme"] != "dark-allowed":
         findings.append(Finding(
