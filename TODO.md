@@ -2,13 +2,6 @@
 
 ## Now
 
-Handoff to the local session (2026-09-30). The cloud session `session_01KTbSaMSnQEkUPkdH2JBqyL` ("Menu design system audit") shipped v7.1.0 and moves to Emre's Mac with `claude --teleport session_01KTbSaMSnQEkUPkdH2JBqyL`. Its cloud network blocked `assets.agustos.com` and `cache.ruby-lang.org`, so these steps wait for the Mac:
-
-- [ ] agustos.com, PR #157 (`WEBSITE-agustos`, branch `claude/kit-v7.0.1`): apply `agustos-com-kit-v7.1.0.patch` (Emre's `~/Downloads`; commit "Move to the Ağustos UI kit v7.1.0", tree `676c4d7`) with `git am`, then push. The pre-push hook runs `npm run build`; use Node 22 and `SHARP_IGNORE_GLOBAL_LIBVIPS=1`. If the patch is lost, rebuild it: `vendor/agustos-ui/` from tag v7.1.0 `ui/` without `*.tmpl`, the adapter's v7.1.0 chrome components (the Header imports `agustos-chrome.js` from `vendor/`, because `.gitignore` excludes `src/scripts/`), and the footer site map in `src/lib/chrome.ts`. Then check the Cloudflare preview. Emre merges: the merge deploys production.
-- [ ] iesdesk, PR #274 (`APP-iesdesk`, branch `claude/kit-v7.0.1`, commit `e4dbaf6`): run `mise exec -- bin/ci` with Ruby 4.0.7 (the Rails suite has not run on the v7.1.0 commit). Its last step, `gh signoff`, posts the green status and needs `gh extension install basecamp/gh-signoff` once. The importmap audit needs network.
-- [ ] `/design-push` for v7.1.0, on `main` in this repository (the SessionStart hook asks for it).
-- [ ] Optional, for later cloud sessions: add `assets.agustos.com` and `cache.ruby-lang.org` to the cloud environment's Custom allowed domains (with the defaults).
-
 Chrome audit and v7.1.0 (2026-09-30, branch `claude/affectionate-ride-f41zre`). The audit checked the top menu, the sidebar and the footer against WCAG 2.2, the WAI-ARIA disclosure-navigation pattern and common B2B conventions; a Chromium probe measured every finding. Emre decided D1 to D3 on 2026-09-30. Record: MEMORY.md 2026-09-30 chrome-best-practice-fixes.
 
 Release A, defects, plus the approved tweaks B1 and B4 (v7.1.0):
@@ -24,7 +17,7 @@ Release A, defects, plus the approved tweaks B1 and B4 (v7.1.0):
 - [x] B1. Hover is a 1px gray rule; the 2px red rule marks the current page alone (D2, option C).
 - [x] B4. Chrome links use the registered 15.5px `bodyCompact` size.
 - [x] A9. Starter, screens (a sidebar group in `app-shell`), adapters, tests, `VERSION` 7.1.0, `CHANGELOG.md`, `MEMORY.md`, build, gate, browser check.
-- [ ] `/design-push` for v7.1.0: runs by itself in the next local Claude Code session on `main`.
+- [x] `/design-push` for v7.1.0 (2026-09-30, from Emre's Mac).
 - [x] Guidelines PDFs rebuilt (Emre said yes, 2026-09-30): the states table shows the gray menu hover and the footer rows; 13 pages.
 
 Footer and sitemap (v7.1.0), and the next chrome release (B2):
@@ -44,7 +37,7 @@ v7.0.2 patch (2026-09-30, branch `claude/new-kit-worktrees-a927f9`). The agustos
 - [x] Tests for both; `VERSION` 7.0.2, CHANGELOG, MEMORY; build and gate green.
 - [x] Commit, push, PR #65. The tag and `/design-push` follow the merge.
 - [x] Bump agustos.com (PR #157) and iesdesk.com (PR #274) to v7.0.2; the agustos.com focus rule is gone. Its scroll script stays for the phone search row (see Next).
-- [ ] Bump both PRs to v7.1.0 (Emre, 2026-09-30): iesdesk #274 pushed (`e4dbaf6`); agustos.com #157 committed but not pushed. See the handoff above.
+- [x] Both sites run kit v7.1.0 (2026-09-30): agustos.com #157 is live, iesdesk #274 merged and passed `bin/ci` in release #277.
 
 v7.0.1 interactive states (2026-09-30, branch `claude/rails-html-template-kbacva`). Emre approved the fix, the white Ağustos logo hover on dark, and the guidelines rebuild. Record: MEMORY.md 2026-09-30 states-table-contract.
 
