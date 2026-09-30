@@ -1,10 +1,11 @@
 ---
 // Websites only. The lockup, one footnote line, and one row of links for
-// social, legal, and language. No column headings, no repeat of the top menu,
-// no button. The kit styles the footer lockup in the brand's identity ink.
+// social, legal, and language. No button. `address` and `groups` add the
+// optional site map above that row. The kit styles the footer lockup in the
+// brand's identity ink.
 import LazGunesi from './LazGunesi.astro';
 import { CHROME_LABELS } from '../types/chrome';
-import type { ChromeLink, FooterConfig } from '../types/chrome';
+import type { ChromeLink, FooterConfig, FooterGroup } from '../types/chrome';
 
 interface Props {
   brandname?: string;
@@ -21,14 +22,56 @@ const links: ChromeLink[] = config.links ?? [
   { href: 'https://github.com/Agustos-Teknoloji/DESIGN-agustos/blob/main/DESIGN.md', label: 'Design spec', external: true },
   { href: 'https://github.com/Agustos-Teknoloji/DESIGN-agustos/blob/main/ASSETS.md', label: 'Asset index', external: true },
 ];
+const address: string[] = config.address ?? [];
+const groups: FooterGroup[] = config.groups ?? [];
+const hasMap = address.length > 0 || groups.length > 0;
 ---
 <footer class="site-footer">
+  {hasMap && (
+    <div class="site-footer__map site-frame">
+      <div class="site-footer__contact">
+        <a class="site-lockup" href={homeHref} aria-label={brandname}>
+          <LazGunesi class="site-lockup__symbol" />
+          <span class="site-lockup__name">{brandname}</span>
+        </a>
+        {address.length > 0 && (
+          <address>{address.map((line, index) => (<>{index > 0 && <br />}{line}</>))}</address>
+        )}
+      </div>
+      {groups.length > 0 && (
+        <nav class="site-footer__groups" aria-label={labels.siteMap}>
+          {groups.map((group) => (
+            <div class="site-footer__group">
+              <h2 class="site-footer__group-title">{group.title}</h2>
+              <ul class="site-footer__group-links">
+                {group.links.map((link) => (
+                  <li>
+                    <a
+                      class="site-footer__link"
+                      href={link.href}
+                      aria-label={link.ariaLabel}
+                      hreflang={link.hreflang}
+                      lang={link.hreflang}
+                      target={link.external ? '_blank' : undefined}
+                      rel={link.external ? 'noopener noreferrer' : undefined}
+                    >{link.label}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </nav>
+      )}
+    </div>
+  )}
   <div class="site-footer__inner site-frame">
     <div class="site-footer__brand">
-      <a class="site-lockup" href={homeHref} aria-label={brandname}>
-        <LazGunesi class="site-lockup__symbol" />
-        <span class="site-lockup__name">{brandname}</span>
-      </a>
+      {!hasMap && (
+        <a class="site-lockup" href={homeHref} aria-label={brandname}>
+          <LazGunesi class="site-lockup__symbol" />
+          <span class="site-lockup__name">{brandname}</span>
+        </a>
+      )}
       {note && <p class="type-footnote">{note}</p>}
     </div>
     {links.length > 0 && (

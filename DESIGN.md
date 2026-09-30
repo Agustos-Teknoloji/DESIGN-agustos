@@ -842,10 +842,22 @@ in the footer.
 
 The footer (`site-footer`) is light and small: white paper under a hairline, in the same frame.
 `site-footer__brand` holds the lockup and one `type-footnote` line. One `site-footer__links`
-list holds a single row of `site-footer__link` items for social, legal, and language. No column
-headings, no repeat of the top menu, no button: the top menu and the closing band carry the
-action. `--footer-paper` is white and `--footer-ink` off-black, and neither follows the theme
-flip. v7.0.0 retired `site-footer__cols`, `__col`, `__col-heading`, `__list`, and `__cta`.
+list holds a single row of `site-footer__link` items for social, legal, and language. No button:
+the top menu and the closing band carry the action. `--footer-paper` is white and `--footer-ink`
+off-black, and neither follows the theme flip. v7.0.0 retired `site-footer__cols`, `__col`,
+`__col-heading`, `__list`, and `__cta`.
+
+**Site map (optional, v7.1.0).** Above the bottom row, `site-footer__map` holds
+`site-footer__contact` (the lockup and an `address`: the legal name and the registered address)
+and one `site-footer__groups` nav of at most three `site-footer__group`s. Each group is a
+sentence-case `site-footer__group-title` over at most five `site-footer__link`s in
+`site-footer__group-links`: the pages people look for, such as the represented brands, not every
+page. Below 760px the groups sit two across. The bottom row then holds the footnote (with the
+MERSİS number on a Turkish company site) and the legal, social and language links, including the
+company-information page that TTK 1524 asks of a capital company. Footer links help visitors and
+page discovery; the search-engine work belongs to `sitemap.xml`, which every site publishes and
+registers in Google Search Console (Astro `@astrojs/sitemap`, WordPress core `wp-sitemap.xml`,
+Rails `sitemap_generator`).
 
 The sidebar (`site-sidebar`), product UI only, is a fixed 240px column, white paper with a
 hairline rule on the right: the lockup, primary links, `details` groups, one action, a utility

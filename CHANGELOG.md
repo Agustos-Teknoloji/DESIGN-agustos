@@ -28,12 +28,16 @@ Chrome fixes from a best-practice audit of the top menu, the product sidebar and
 - A menu hover darkens the ink over a 1px gray rule (`--ink-faint`, 3.75:1 light, 4.95:1 dark); the 2px red rule marks the current page alone. Top menu, sidebar and chrome links (Emre chose option C from a preview, 2026-09-30). The `states` table gains the hover-rule row.
 - Top-menu, sidebar and chrome links use the registered `bodyCompact` size (15.5px) instead of a literal 15px.
 - The kit uses JavaScript only when it is the logical choice. `UI-KIT.md`, `DESIGN.md` and the CSS comments no longer say "No JavaScript".
+- The footer may repeat top-menu pages in its site map; the one-row rule and "no column headings" are gone. No button still.
 
 ### Added
 
 - `ui/agustos-chrome.js`, the kit's first script (about 15 lines, optional): it closes More. Without it More still opens and closes on click. The build copies it into the Astro (`src/scripts/`), Rails (`app/javascript/agustos/chrome.js`) and WordPress (`assets/js/`) adapters; the Astro header imports it, and the WordPress example enqueues it.
 - Checker warning AG027: more than five top-menu items, the More toggle included.
 - `screens/app-shell.html` shows a sidebar group, so the group has a reference instance.
+- An optional footer site map: `site-footer__map`, `__contact` (the lockup and an `address`), `__groups`, `__group`, `__group-title` and `__group-links`; at most three groups of at most five links. The Ağustos screens and the starter show it with the company's registered name, address and MERSİS number; the Pataraz screens keep the plain footer. The Astro and Rails footers take `address` and `groups`. Emre approved it from a preview (2026-09-30).
+- `sitemap.xml` guidance for every site, per adapter.
+- Brand guidelines PDFs rebuilt for agustos, pataraz and pld (Emre, 2026-09-30): the Colour in use page shows the gray menu hover and the footer rows. Still 13 A4 pages. Rendered with Playwright's Chromium, with the same CSS page size and print backgrounds as the browse tool, because a cloud session has no browse tool.
 
 ## [7.0.1] - 2026-09-30
 

@@ -110,7 +110,10 @@ custom header.
 `links` is one flat list for social, legal, and language, each with `label`,
 `href`, and optional `external`, `aria_label`, and `hreflang`; `aria_label` on
 the footer hash names its nav (default "Alt menü" / "Footer"). The footer has
-no column headings, no repeat of the top menu, and no button. v7 removed
+no button. The optional site map (v7.1.0) sits above the row: `address` is the
+lines of the contact block (legal name and address), and `groups` is at most
+three `{ title:, links: [] }` of at most five links each. With a site map the
+lockup moves into the contact block. v7 removed
 `description`, `columns`, and the footer `cta`; move a footer description into
 `note` and flatten column links into `links`, keeping only social, legal, and
 language destinations.

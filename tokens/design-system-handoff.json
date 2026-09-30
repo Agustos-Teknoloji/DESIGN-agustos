@@ -89,6 +89,12 @@
       "site-footer__brand",
       "site-footer__links",
       "site-footer__link",
+      "site-footer__map",
+      "site-footer__contact",
+      "site-footer__groups",
+      "site-footer__group",
+      "site-footer__group-title",
+      "site-footer__group-links",
       "breadcrumb",
       "breadcrumb__link",
       "stack",
@@ -832,6 +838,38 @@
           "ratio": 18.55
         },
         "state": "hover"
+      },
+      {
+        "dark": {
+          "background": "#ffffff",
+          "foreground": "#15130f",
+          "ratio": 18.55
+        },
+        "element": "Footer group title",
+        "floor": 4.5,
+        "kind": "text",
+        "light": {
+          "background": "#ffffff",
+          "foreground": "#15130f",
+          "ratio": 18.55
+        },
+        "state": "rest"
+      },
+      {
+        "dark": {
+          "background": "#ffffff",
+          "foreground": "#404040",
+          "ratio": 10.37
+        },
+        "element": "Footer contact block",
+        "floor": 4.5,
+        "kind": "text",
+        "light": {
+          "background": "#ffffff",
+          "foreground": "#404040",
+          "ratio": 10.37
+        },
+        "state": "rest"
       },
       {
         "dark": {

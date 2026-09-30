@@ -23,8 +23,8 @@ module AgustosThemeHelper
     { label: "Typography", href: "/typography" }
   ].freeze
 
-  # The footer is one row of links for social, legal and language. It never
-  # repeats the top menu and never holds a button.
+  # The footer's bottom row of links for social, legal and language. It never
+  # holds a button. footer: { address:, groups: } adds the optional site map.
   DEFAULT_FOOTER_LINKS = [
     { label: "Source", href: "https://github.com/Agustos-Teknoloji/DESIGN-agustos", external: true },
     { label: "Design spec", href: "https://github.com/Agustos-Teknoloji/DESIGN-agustos/blob/main/DESIGN.md", external: true },
@@ -36,8 +36,8 @@ module AgustosThemeHelper
   NAV_LIMIT = 5
 
   CHROME_LABELS = {
-    en: { more: "More", skip: "Skip to content", nav: "Main menu", footer: "Footer", sidebar: "Application menu", sections: "Sections", open_menu: "Open menu", close_menu: "Close menu", theme: "Dark theme" },
-    tr: { more: "Daha fazla", skip: "İçeriğe geç", nav: "Ana menü", footer: "Alt menü", sidebar: "Uygulama menüsü", sections: "Bölümler", open_menu: "Menüyü aç", close_menu: "Menüyü kapat", theme: "Koyu tema" }
+    en: { more: "More", skip: "Skip to content", nav: "Main menu", footer: "Footer", sidebar: "Application menu", sections: "Sections", open_menu: "Open menu", close_menu: "Close menu", site_map: "Site map", theme: "Dark theme" },
+    tr: { more: "Daha fazla", skip: "İçeriğe geç", nav: "Ana menü", footer: "Alt menü", sidebar: "Uygulama menüsü", sections: "Bölümler", open_menu: "Menüyü aç", close_menu: "Menüyü kapat", site_map: "Site haritası", theme: "Koyu tema" }
   }.freeze
 
   SEARCH_LABELS = {
@@ -152,6 +152,11 @@ module AgustosThemeHelper
   def agustos_footer_config = agustos_theme_config[:footer] || {}
   def agustos_footer_note = agustos_value(agustos_footer_config, :note)
   def agustos_footer_links = agustos_value(agustos_footer_config, :links, []) || []
+  # The optional site map: address lines, and at most three groups of
+  # { title:, links: [] } with at most five links each.
+  def agustos_footer_address = agustos_value(agustos_footer_config, :address, []) || []
+  def agustos_footer_groups = agustos_value(agustos_footer_config, :groups, []) || []
+  def agustos_footer_map? = agustos_footer_address.any? || agustos_footer_groups.any?
   def agustos_footer_aria_label = agustos_value(agustos_footer_config, :aria_label) || agustos_chrome_labels[:footer]
   def agustos_sidebar_config = agustos_theme_config[:sidebar] || {}
   def agustos_sidebar_items = agustos_value(agustos_sidebar_config, :nav, []) || []

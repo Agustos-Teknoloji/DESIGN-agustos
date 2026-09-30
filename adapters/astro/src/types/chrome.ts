@@ -39,12 +39,22 @@ export interface HeaderConfig {
   search?: boolean | { labels?: Partial<SearchLabels> };
 }
 
+/** One group of the optional footer site map: a sentence-case title over at most five links. */
+export interface FooterGroup {
+  title: string;
+  links: ChromeLink[];
+}
+
 /**
- * The footer is light and small: the lockup, one footnote line, and one row of
- * links for social, legal, and language. No column headings, no repeat of the
- * top menu, no button.
+ * The footer is light: the lockup, one footnote line, and one row of links for
+ * social, legal, and language. No button. An optional site map sits above that
+ * row: the lockup with an address block, and at most three short groups.
  */
 export interface FooterConfig {
+  /** Lines of the contact block, for example the legal name and the address. */
+  address?: string[];
+  /** At most three groups of at most five links: the pages people look for, not every page. */
+  groups?: FooterGroup[];
   /** The one footnote line under the lockup, for example '© Ağustos Teknoloji, 1996–2026'. */
   note?: string;
   links?: ChromeLink[];
@@ -61,9 +71,9 @@ export function splitNav<T>(items: T[]): [T[], T[]] {
   return [items.slice(0, NAV_LIMIT - 1), items.slice(NAV_LIMIT - 1)];
 }
 
-export const CHROME_LABELS: Record<'en' | 'tr', { more: string; skip: string; nav: string; footer: string; openMenu: string; closeMenu: string }> = {
-  en: { more: 'More', skip: 'Skip to content', nav: 'Main menu', footer: 'Footer', openMenu: 'Open menu', closeMenu: 'Close menu' },
-  tr: { more: 'Daha fazla', skip: 'İçeriğe geç', nav: 'Ana menü', footer: 'Alt menü', openMenu: 'Menüyü aç', closeMenu: 'Menüyü kapat' },
+export const CHROME_LABELS: Record<'en' | 'tr', { more: string; skip: string; nav: string; footer: string; openMenu: string; closeMenu: string; siteMap: string }> = {
+  en: { more: 'More', skip: 'Skip to content', nav: 'Main menu', footer: 'Footer', openMenu: 'Open menu', closeMenu: 'Close menu', siteMap: 'Site map' },
+  tr: { more: 'Daha fazla', skip: 'İçeriğe geç', nav: 'Ana menü', footer: 'Alt menü', openMenu: 'Menüyü aç', closeMenu: 'Menüyü kapat', siteMap: 'Site haritası' },
 };
 
 export const SEARCH_LABELS: Record<'en' | 'tr', SearchLabels> = {

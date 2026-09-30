@@ -112,6 +112,12 @@
     "site-footer__brand",
     "site-footer__links",
     "site-footer__link",
+    "site-footer__map",
+    "site-footer__contact",
+    "site-footer__groups",
+    "site-footer__group",
+    "site-footer__group-title",
+    "site-footer__group-links",
     "breadcrumb",
     "breadcrumb__link",
     "stack",
@@ -208,8 +214,8 @@
       "sha256": "a1b82ad4e8791a35cf13f743ced0ac22d2fddb873ec710d9c15b153c8a2e371e"
     },
     "UI-KIT.md": {
-      "bytes": 16798,
-      "sha256": "824b7732b375692bfad6b2c12ff2e1975eb87e38a46c74b547ca0ed1b18326cb"
+      "bytes": 17286,
+      "sha256": "16b4f521e61fc48fded2ec22fcb9e7e40f2d33061ef4e00938eb654684681683"
     },
     "agustos-chrome.js": {
       "bytes": 1367,
@@ -220,12 +226,12 @@
       "sha256": "bdfaaedbd5e50ecf8ab4ba3af04d997808f6f5af08344ac3ba51a84fc4977c4e"
     },
     "agustos.css": {
-      "bytes": 50176,
-      "sha256": "260c2928e6fe552ac1173ffb921e997f6fda91306e4c4a0aa94c7b42b43b4770"
+      "bytes": 51968,
+      "sha256": "cf623e859f7dfb12404dcadbe434a203009c701cb03d233212eda131e7684a23"
     },
     "check-agustos-ui.py": {
-      "bytes": 24119,
-      "sha256": "9f880de06c90ec15566200d25f699352fa922dea87396991ebfaa6c5461765ce"
+      "bytes": 24288,
+      "sha256": "b786419fe6b41e47a2287eaf977ee15d29c51ad38d8c175afb40f12d0a36c347"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -248,8 +254,8 @@
       "sha256": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
     },
     "starter.html": {
-      "bytes": 20198,
-      "sha256": "53128532bcb7752f90ab9aae1cb591aa26d39f3526b63b1b7f6c3af5f3a94fa7"
+      "bytes": 22467,
+      "sha256": "54d3bd210fee0d1c5afa87f42470e506d719e939598cbf216fa5c57011701b49"
     }
   },
   "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.1.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.1.0/ui/agustos.css\">",
@@ -567,6 +573,38 @@
         "ratio": 18.55
       },
       "state": "hover"
+    },
+    {
+      "dark": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "element": "Footer group title",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#ffffff",
+        "foreground": "#404040",
+        "ratio": 10.37
+      },
+      "element": "Footer contact block",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#404040",
+        "ratio": 10.37
+      },
+      "state": "rest"
     },
     {
       "dark": {

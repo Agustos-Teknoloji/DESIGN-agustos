@@ -108,9 +108,12 @@ the one header button; `languageSwitch` and search sit in `site-header__end`.
 **Footer.** `note` is the one `type-footnote` line under the lockup. `links` is
 one flat list of `{ href, label, external?, ariaLabel?, hreflang? }` for social,
 legal, and language, rendered as one row of `site-footer__link` items;
-`ariaLabel` names the footer nav (default "Alt menü" / "Footer"). There are no
-columns, no repeat of the top menu, and no footer button: `description`,
-`columns`, and the footer `cta` were removed in v7.
+`ariaLabel` names the footer nav (default "Alt menü" / "Footer"). The optional
+site map (v7.1.0) sits above that row: `address` is the lines of the contact
+block (legal name and address), and `groups` is at most three
+`{ title, links }` of at most five links each, the pages people look for. With
+a site map the lockup moves into the contact block. There is no footer button;
+`description`, `columns`, and the footer `cta` were removed in v7.
 
 External links (`external: true`) open in a new tab with `noopener noreferrer`.
 

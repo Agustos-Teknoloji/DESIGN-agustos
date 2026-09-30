@@ -18,13 +18,14 @@ Release A, defects, plus the approved tweaks B1 and B4 (v7.1.0):
 - [x] B4. Chrome links use the registered 15.5px `bodyCompact` size.
 - [x] A9. Starter, screens (a sidebar group in `app-shell`), adapters, tests, `VERSION` 7.1.0, `CHANGELOG.md`, `MEMORY.md`, build, gate, browser check.
 - [ ] `/design-push` for v7.1.0: runs by itself in the next local Claude Code session on `main`.
-- [ ] Ask Emre whether to rebuild the guidelines PDFs: their states table still shows the red menu hover.
+- [x] Guidelines PDFs rebuilt (Emre said yes, 2026-09-30): the states table shows the gray menu hover and the footer rows; 13 pages.
 
-Next chrome release (B2, B3, B5):
+Footer and sitemap (v7.1.0), and the next chrome release (B2):
 
 - [ ] B2. The kit has no search or language control. Astro and Rails each style their own `site-header__search*` and `site-header__lang-link`, about 35 rules each at off-scale 11, 12.5 and 14px. Move one recipe into `tokens/web.css.tmpl` and delete the adapter copies.
-- [ ] B3. Footer as a compact site map (Emre, 2026-09-30: yes, with the Ağustos details). Add an optional `<address class="site-footer__contact">` block with the legal name, address, phone and email, and up to three short link columns (at most five links each, sentence-case titles, 44px targets, two across on phones). The bottom row keeps legal, social and language links. Turkish capital companies also publish a company-information page ("Bilgi toplumu hizmetleri", TTK 1524; confirm with legal) and a cookie policy. This amends the 2026-09-29 v7-conventional-reset footer rule (no column headings, no repeat of the top menu), so record the change in `MEMORY.md`. Waits on the official company details from Emre.
-- [ ] B5. Every site publishes `sitemap.xml` and is registered in Google Search Console. Document the one line for each adapter (Astro `@astrojs/sitemap`, the WordPress core sitemap, Rails `sitemap_generator`). The sitemap does the search-engine work, and the footer serves visitors.
+- [x] B3. Footer site map (v7.1.0): the contact block from the İTO registry facts and three groups on the Ağustos screens and the starter; Astro and Rails take `address` and `groups`. Record: MEMORY.md 2026-09-30 footer-site-map.
+- [x] B5. `sitemap.xml` guidance per adapter in `DESIGN.md` and the adapter READMEs. Astro already ships `@astrojs/sitemap`.
+- [ ] Emre: confirm the footer's public phone and email, if the footer should show them; the registry documents give none. Publish the "Bilgi toplumu hizmetleri" page on agustos.com (confirm its contents with the legal advisor).
 
 Not recommended, because they add weight against the house rules: a mega menu, a header that hides on scroll, a sidebar that collapses to an icon rail, and a back-to-top button.
 
