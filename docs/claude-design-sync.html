@@ -125,7 +125,7 @@
       <tbody>
         <tr>
           <td>You changed a token, the CSS template, the favicon, or a logo in the repository</td>
-          <td><ol class="type-list-ol"><li>Run <code class="type-code">python3 scripts/build_design_system.py</code> and merge.</li><li>In Claude Code, run <code class="type-code">/design-push</code>. It builds the bundle, checks nothing is stale, shows the file list, and uploads only what changed.</li></ol></td>
+          <td><ol class="type-list-ol"><li>Run <code class="type-code">python3 scripts/build_design_system.py</code> and merge.</li><li>Nothing else. The next Claude Code session you open in this repository on your Mac, on <code class="type-code">main</code>, pulls the latest <code class="type-code">main</code> and runs <code class="type-code">/design-push</code> by itself. A feature branch never pushes. It builds the bundle, checks nothing is stale, shows the file list for your approval, and uploads only what changed. A release made in a cloud session waits for that local session.</li></ol></td>
         </tr>
         <tr>
           <td>You changed a screen under <code class="type-code">screens/</code></td>
@@ -161,7 +161,7 @@
     </div>
     <ol class="type-list-ol">
       <li><strong>Connect Claude Code to Claude Design.</strong> In an interactive Claude Code terminal, type <code class="type-code">/design-login</code> and approve the prompt. Once per Mac.</li>
-      <li><strong>First push.</strong> Run <code class="type-code">/design-push</code>. The first run creates <code class="type-code">agustos-ui/</code> in Claude Design and uploads the whole kit, the favicon, and the logos.</li>
+      <li><strong>First push.</strong> Open Claude Code in this repository. A session-start check sees that this Mac never pushed, and runs <code class="type-code">/design-push</code>. The first run creates <code class="type-code">agustos-ui/</code> in Claude Design and uploads the whole kit, the favicon, and the logos.</li>
       <li><strong>First pull.</strong> Run <code class="type-code">/design-pull ui_kits/website --target home</code>. The same command accepts a zip exported from Claude Design.</li>
     </ol>
   </section>
@@ -171,7 +171,8 @@
       <h2 class="type-h2">Commands at a glance</h2>
     </div>
 <pre class="type-code-block"><code>/design-login                      once per Mac
-/design-push                       repository → Claude Design (kit, favicon, logos)
+/design-push                       repository → Claude Design (kit, favicon, logos); runs by itself at local session start when due
+python3 scripts/sync_claude_design.py status     is a push due from this Mac?
 /design-pull &lt;path&gt; --target &lt;screen&gt;   Claude Design → screens/design/
 python3 scripts/build_design_system.py --check   must pass before any push</code></pre>
   </section>

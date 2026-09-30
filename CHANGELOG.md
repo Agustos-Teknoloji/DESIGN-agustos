@@ -7,6 +7,7 @@ All notable changes to the Ağustos Design System are documented in this file.
 ### Added
 
 - `.github/workflows/tag-release.yml` and `scripts/release_tags.py`: each release is tagged `v<VERSION>` on its merge when it reaches `main`, from a local or a cloud session alike. The first run tags `v7.0.0` and `v7.0.1`, which a cloud session could not push.
+- `/design-push` runs by itself at the start of a local Claude Code session on `main` (after a fast-forward pull) when that machine has not pushed the current bundle: a SessionStart hook in `.claude/settings.json` runs `scripts/sync_claude_design.py status --hook`, and the skill records each push with `mark-pushed`. Cloud sessions skip the check.
 
 ## [7.0.1] - 2026-09-30
 

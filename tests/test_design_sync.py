@@ -4,11 +4,15 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import os
 import re
+import subprocess
+import sys
 import tempfile
 import unittest
 import zipfile
 from pathlib import Path
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -237,6 +241,105 @@ def fake_remote(folder: Path) -> None:
     (folder / "ui_kits" / "website" / "app.jsx").write_text("// app\n", encoding="utf-8")
     (folder / "ui_kits" / "iesdesk" / "index.html").write_text("<p>other kit</p>\n", encoding="utf-8")
     (folder / "readme.md").write_text("Design readme\n", encoding="utf-8")
+
+
+class PushStateTest(unittest.TestCase):
+    """A local session pushes on its own when this machine never pushed the current bundle."""
+
+    def setUp(self):
+        # A fresh module per test, pointed at a temporary state file, never at .git/.
+        self.sync = load_sync()
+        self.tmp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.tmp.cleanup)
+        self.state = Path(self.tmp.name) / "claude-design-pushed.json"
+        self.dist = Path(self.tmp.name) / "dist"
+        self.sync.push_state_path = lambda root=None: self.state
+
+    def _bundle(self, version="9.9.9", commit="abc1234", files=None):
+        folder = self.dist / self.sync.REMOTE_PREFIX
+        folder.mkdir(parents=True, exist_ok=True)
+        data = {"version": version, "commit": commit, "files": files or {"a.css": {"bytes": 1, "sha256": "00"}}}
+        (folder / "MANIFEST.json").write_text(json.dumps(data), encoding="utf-8")
+        return data
+
+    def test_a_machine_that_never_pushed_is_due(self):
+        due, version = self.sync.push_due()
+        self.assertTrue(due)
+        self.assertEqual(version, (ROOT / "VERSION").read_text(encoding="utf-8").strip())
+
+    def test_mark_pushed_makes_the_current_bundle_current(self):
+        folder = self.sync.build_bundle(self.dist, check=lambda root: (True, ""), clean=lambda root: True)
+        self.assertTrue((folder / "MANIFEST.json").exists())
+        self.sync.mark_pushed(bundle=self.dist)
+        self.assertEqual(self.sync.push_due(), (False, (ROOT / "VERSION").read_text(encoding="utf-8").strip()))
+
+    def test_the_fingerprint_ignores_the_commit_and_follows_the_files(self):
+        first = self._bundle(commit="aaaaaaa")
+        second = dict(first, commit="bbbbbbb")
+        changed = dict(first, files={"a.css": {"bytes": 1, "sha256": "11"}})
+        self.assertEqual(self.sync.fingerprint(first), self.sync.fingerprint(second))
+        self.assertNotEqual(self.sync.fingerprint(first), self.sync.fingerprint(changed))
+
+    def test_a_stale_or_broken_record_is_due(self):
+        self.state.write_text(json.dumps({"fingerprint": "old"}), encoding="utf-8")
+        self.assertTrue(self.sync.push_due()[0])
+        self.state.write_text("not json", encoding="utf-8")
+        self.assertTrue(self.sync.push_due()[0])
+
+    def test_mark_pushed_refuses_without_a_built_bundle(self):
+        with self.assertRaisesRegex(self.sync.GuardError, "build"):
+            self.sync.mark_pushed(bundle=self.dist)
+
+    def test_the_real_state_file_lives_inside_git(self):
+        path = load_sync().push_state_path()
+        self.assertIn(".git", path.parts)
+        self.assertEqual(path.name, "claude-design-pushed.json")
+
+
+class SessionStartHookTest(unittest.TestCase):
+    SETTINGS = json.loads((ROOT / ".claude" / "settings.json").read_text(encoding="utf-8"))
+
+    def _run(self, remote: str) -> subprocess.CompletedProcess:
+        env = dict(os.environ, CLAUDE_CODE_REMOTE=remote)
+        return subprocess.run(
+            [sys.executable, str(SCRIPT), "status", "--hook"], cwd=ROOT, env=env, capture_output=True, text=True
+        )
+
+    def test_the_hook_runs_the_status_check_at_startup(self):
+        (entry,) = self.SETTINGS["hooks"]["SessionStart"]
+        self.assertEqual(entry["matcher"], "startup")
+        self.assertIn("sync_claude_design.py\" status --hook", entry["hooks"][0]["command"])
+
+    def test_a_cloud_session_stays_silent(self):
+        result = self._run("true")
+        self.assertEqual((result.returncode, result.stdout), (0, ""))
+
+    def test_a_local_session_on_main_that_is_due_is_asked_to_pull_and_push(self):
+        sync = load_sync()
+        if sync.current_branch() != "main" or not sync.push_due()[0]:
+            self.skipTest("needs main and a push due on this machine")
+        result = self._run("")
+        self.assertEqual(result.returncode, 0)
+        self.assertIn("git pull --ff-only origin main`, then /design-push", result.stdout)
+
+    def test_a_feature_branch_never_pushes(self):
+        """Claude Design mirrors released main: a branch's unmerged kit must not reach it."""
+        sync = load_sync()
+        sync.current_branch = lambda root=None: "feature"
+        sync.push_due = lambda root=None: (True, "9.9.9")
+        args = sync.argparse.Namespace(hook=True)
+        with mock.patch.dict(os.environ, {"CLAUDE_CODE_REMOTE": ""}), mock.patch("builtins.print") as printed:
+            self.assertEqual(sync.cmd_status(args), 0)
+        printed.assert_not_called()
+
+    def test_main_when_due_prints_the_instruction(self):
+        sync = load_sync()
+        sync.current_branch = lambda root=None: "main"
+        sync.push_due = lambda root=None: (True, "9.9.9")
+        args = sync.argparse.Namespace(hook=True)
+        with mock.patch.dict(os.environ, {"CLAUDE_CODE_REMOTE": ""}), mock.patch("builtins.print") as printed:
+            self.assertEqual(sync.cmd_status(args), 0)
+        self.assertIn("kit v9.9.9", printed.call_args.args[0])
 
 
 class PullTest(unittest.TestCase):

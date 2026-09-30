@@ -57,7 +57,7 @@ A web header does not become a Word header verbatim. Each adapter keeps the alig
 
 ## Claude Design boundary
 
-This repository owns the rules. `/design-push` writes only `agustos-ui/**` in the Claude Design project. `/design-pull` writes only `screens/design/**` here, each page for a named target screen. The skills are `.claude/skills/design-push/SKILL.md` and `.claude/skills/design-pull/SKILL.md`, and `scripts/sync_claude_design.py` does the work.
+This repository owns the rules. `/design-push` writes only `agustos-ui/**` in the Claude Design project. `/design-pull` writes only `screens/design/**` here, each page for a named target screen. The skills are `.claude/skills/design-push/SKILL.md` and `.claude/skills/design-pull/SKILL.md`, and `scripts/sync_claude_design.py` does the work. A SessionStart hook in `.claude/settings.json` runs `sync_claude_design.py status --hook` in every local session and, on `main`, asks for a fast-forward pull and `/design-push` when this machine has not pushed the current bundle; the record lives in `.git/claude-design-pushed.json`.
 
 ## Forbidden
 

@@ -26,7 +26,7 @@ Remote folder: `agustos-ui/` (the only folder this skill writes)
    - **writes**: every path in the manifest, plus `MANIFEST.json`. The tool uploads by content, so uploading an unchanged file is safe. To keep pushes small, first `get_file` the remote `agustos-ui/MANIFEST.json` if it exists, and drop every path whose `sha256` matches. If it does not exist, upload everything.
    - **deletes**: every remote path under `agustos-ui/` that is not in the manifest and is not `MANIFEST.json`.
 
-5. If both lists are empty, tell the user "Nothing to push. The Design project already holds kit v<version>." and stop.
+5. If both lists are empty, run `python3 scripts/sync_claude_design.py mark-pushed`, tell the user "Nothing to push. The Design project already holds kit v<version>." and stop.
 
 6. Show the user the counts and the delete list, then call `DesignSync` `finalize_plan` with:
    - `projectId`: the project ID
@@ -40,9 +40,13 @@ Remote folder: `agustos-ui/` (the only folder this skill writes)
 
 8. If the delete list is not empty, call `DesignSync` `delete_files` with the `planId` and the prefixed paths.
 
-9. Report: kit version, commit, files written, files deleted. Remind the user that the cards appear in the Design System pane under the `Kit ·` groups (Type, Colours, Actions, Brand, Chrome, and one card per screen under Screens) after the project's self-check runs. Product photographs do not travel with a screen card; a broken image marks where one sits.
+9. Run `python3 scripts/sync_claude_design.py mark-pushed`, so the session-start check stops asking for this bundle. Run it only after every write and delete succeeded.
+
+10. Report: kit version, commit, files written, files deleted. Remind the user that the cards appear in the Design System pane under the `Kit ·` groups (Type, Colours, Actions, Brand, Chrome, and one card per screen under Screens) after the project's self-check runs. Product photographs do not travel with a screen card; a broken image marks where one sits.
 
 ## Rules
+
+- A local session runs this skill on its own. The SessionStart hook in `.claude/settings.json` runs `scripts/sync_claude_design.py status --hook`, and on `main` it asks for a fast-forward pull and a push when this machine never pushed the current bundle. A feature branch never pushes. Cloud sessions skip the check: they cannot hold Design authorization.
 
 - Run this skill in the main session. A subagent does not have the DesignSync tool.
 - Never add a path outside `agustos-ui/` to the plan.
