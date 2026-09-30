@@ -2,6 +2,12 @@
 
 ## Now
 
+Reading line (v7.3.1, 2026-09-30, branch `claude/kit-7.2.1-reading-line`). Emre chose the left edge with a free side zone and one line shared with the footer. Record: MEMORY.md 2026-09-30 reading-line.
+
+- [x] `--measure-body` 41rem; `.container--reading > *`; footer site map on the same line with the `--space-xl` gap, stacked below 1280px; AG028 text; docs; tests; `VERSION` 7.3.1.
+- [ ] Build, gate, browser check at 1440, 1280, 1024 and 390px; PR; merge. The tag and `/design-push` follow.
+- [ ] Vendor v7.3.1 into iesdesk.com and agustos.com.
+
 Kit v7.3.0: one search and language recipe (B2), 2026-09-30, branch `claude/kit-7.2-search-recipe`. Emre approved the order (company page, then this, then the memregunes.com and pldturkiye.com rollout on v7.3.0).
 
 - [x] Move the header search, the language link, the icon button and the utility slot from the Astro and Rails adapters into `tokens/web.css.tmpl`; delete the adapter copies.

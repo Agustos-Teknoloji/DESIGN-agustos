@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.3.0 · GENERATED DISTRIBUTION KIT CSS
+/* AĞUSTOS DESIGN SYSTEM v7.3.1 · GENERATED DISTRIBUTION KIT CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -51,7 +51,7 @@
   --measure-content: 1180px;
   --measure-gutter: 32px;
   --measure-text: 54ch;
-  --measure-body: 65ch;
+  --measure-body: 41rem;
   --control-min: 44px;
   --sidebar-width: 240px;
   /* The sticky bar below 1024px: a 44px target, 8px above and below, and the rule.
@@ -572,10 +572,11 @@ table th:last-child, table td:last-child { text-align: right; }
 }
 
 /* A reading page (the content screens: About, privacy, terms, an article, a list
-   of posts). The whole column sits at the body measure in the center of the
-   frame, so a wide screen never shows text on one half and nothing on the other. */
-.container--reading {
-  max-width: calc(var(--measure-body) + 2 * var(--measure-gutter));
+   of posts). The frame keeps its left edge, and each block stops at the reading
+   line. The side zone to the right of the line stays free for a side column,
+   and the footer site map uses the same line. */
+.container--reading > * {
+  max-width: var(--measure-body);
 }
 
 /* Two buttons: one primary, one secondary. */
@@ -1296,10 +1297,13 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
    company's contact block, then at most three short groups of links in one
    nav. The bottom row keeps the footnote and the legal, social and language
    links. Group titles are sentence case, never uppercase labels. */
+/* The contact block ends on the reading line, and the groups fill the side
+   zone, with the same gap as between the groups. Below 1280px the side zone
+   cannot hold three groups, so the groups move under the contact block. */
 .site-footer__map {
   display: grid;
-  grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
-  gap: var(--space-2xl) var(--space-4xl);
+  grid-template-columns: minmax(0, var(--measure-body)) minmax(0, 1fr);
+  gap: var(--space-2xl) var(--space-xl);
   padding-block: var(--space-4xl) var(--space-xl);
 }
 .site-footer__contact { display: flex; flex-direction: column; align-items: flex-start; gap: var(--space-md); }
@@ -1335,8 +1339,11 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
   inset-inline: 32px;
   border-block-start: 1px solid var(--rule);
 }
+@media (max-width: 1279px) {
+  .site-footer__map { grid-template-columns: minmax(0, 1fr); }
+}
 @media (max-width: 759px) {
-  .site-footer__map { grid-template-columns: minmax(0, 1fr); padding-block-start: var(--space-3xl); }
+  .site-footer__map { padding-block-start: var(--space-3xl); }
 }
 
 /* --- Breadcrumb: the small trail above a page title --- */

@@ -2,6 +2,17 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
+## [7.3.1] - 2026-09-30
+
+One reading line for every region. v7.2.0 put the text of a content page in the center of the frame, so on agustos.com the logo and the breadcrumbs started at 130px and the text at 393px: two left edges on one page. Emre compared the published layouts (Apple centers; GOV.UK, NN/g and 37signals keep the text on the left edge, GOV.UK and NN/g with a side column) and chose the left edge with a free side zone. Consuming sites change no markup.
+
+### Changed
+
+- `--measure-body` is 41rem (656px, about 75 characters of Inter at 16.5px) instead of 65ch. A `rem` line sits in the same place in every element; `ch` followed the font size of each element.
+- `.container--reading` keeps the frame's left edge, and each block inside it stops at the reading line. The side zone to the right stays free for a side column.
+- The footer site map splits on the same line: the contact block ends on it, and the groups fill the side zone after a `--space-xl` gap, the same gap as between the groups. Below 1280px the groups move under the contact block, because the side zone cannot hold three groups.
+- Checker AG028 names the reading line instead of a centered column.
+
 ## [7.3.0] - 2026-09-30
 
 One header search and language recipe in the kit (B2). Emre approved it from a before/after preview. Consuming sites load no search or language styles of their own; the Astro and Rails adapters drop theirs.

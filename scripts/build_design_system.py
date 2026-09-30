@@ -90,7 +90,7 @@ def chrome_for(family: str) -> str:
 
 
 def column_for(family: str) -> str:
-    """A content page reads in one centered column at the body measure. Every other family uses the frame."""
+    """A content page stops its text at the reading line on the left edge of the frame. Every other family uses the frame."""
     return "reading" if family == "content" else "frame"
 
 

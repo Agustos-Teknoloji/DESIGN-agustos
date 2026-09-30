@@ -85,7 +85,7 @@ Chrome follows the screen family, not the brand: every website uses the top menu
 
 ## Screens
 
-One reference page per screen type lives in the source repository under `screens/`, hand-written on these classes. Build any page from the matching screen. Theme, chrome and column follow the family. **Column:** a content page (About, privacy, terms, an article, a list of posts) reads in one centered column at the 65ch measure, `<div class="container container--reading">`, and its title, deck, headings and text share that left edge. Every other page uses the full frame and caps a text block with `prose`. Cap the column, not each paragraph; the checker warns on a full-width `container` on a content screen (AG028).
+One reference page per screen type lives in the source repository under `screens/`, hand-written on these classes. Build any page from the matching screen. Theme, chrome and column follow the family. **Column:** a content page (About, privacy, terms, an article, a list of posts) uses `<div class="container container--reading">`: its title, deck, headings and text start on the frame's left edge and stop at the reading line (`--measure-body`, 41rem, about 75 characters). The side zone to the right stays free for a side column, and the footer site map splits on the same line. Every other page uses the full frame and caps a text block with `prose`. Cap the column, not each paragraph; the checker warns on a full-width `container` on a content screen (AG028).
 
 {{ui.screensTable}}
 
@@ -122,7 +122,7 @@ Every class the kit publishes. See `starter.html` for one rendered instance of e
 
 Bare HTML elements are styled too: `h1`–`h4`, `p`, `a`, `ul`, `ol`, `dl`, `table`, `blockquote`, `pre`, `code`, `hr`. Semantic markup gets the right result without classes.
 
-Compose missing components from `agustos-card`, `agustos-button`, the layout classes, and `type-*`. `prose` caps a text block at the 65ch measure on a full-frame page; `container--reading` caps the whole column of a content page. Do not import another component library.
+Compose missing components from `agustos-card`, `agustos-button`, the layout classes, and `type-*`. `prose` caps a text block at the reading line on a full-frame page; `container--reading` caps the whole column of a content page. Do not import another component library.
 
 ## Variables
 
@@ -131,7 +131,7 @@ Radii `--radius-md` (6px, controls) and `--radius-lg` (12px, cards). `--radius-s
 Color `--paper` `--cream` `--surface` `--ink` `--ink-soft` `--ink-faint` `--rule` `--signal` `--brand`
 `--footer-*` `--state-success|warning|danger|info`. Type `--display` `--body` `--mono`; sizes follow one golden scale (13, 16.5, 21, 27, 34, 43, 55, 70, 89px). Section spacing `--section-space`.
 Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-content` (1180px). Product sidebar `--sidebar-width` (240px) and `--sidebar-bar-height` (61px, the sticky bar below 1024px; the kit sets it as `scroll-padding-top`, so an anchor lands below the bar).
-Measures `--measure-text` (54ch, hero deck) and `--measure-body` (65ch, long-form prose: posts, policies, profiles).
+Measures `--measure-text` (54ch, hero deck) and `--measure-body` (41rem, the reading line: long-form prose, and the split of a content page and the footer site map).
 
 `ui/kit.json` carries the same lists in machine-readable form, plus the brand and screens tables.
 

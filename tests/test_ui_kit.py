@@ -820,7 +820,13 @@ class ChromeTest(unittest.TestCase):
         self.assertIn(".grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }", self.CSS)
         self.assertIn(".band--cream { background: var(--cream);", self.CSS)
         self.assertIn(".prose { max-width: var(--measure-body); }", self.CSS)
-        self.assertIn(".container--reading {\n  max-width: calc(var(--measure-body) + 2 * var(--measure-gutter));\n}", self.CSS)
+        # v7.3.1: one reading line in rem. The text of a content page and the
+        # footer contact block end on it; the side zone starts after --space-xl.
+        self.assertIn("--measure-body: 41rem;", self.CSS)
+        self.assertIn(".container--reading > * {\n  max-width: var(--measure-body);\n}", self.CSS)
+        self.assertNotIn("calc(var(--measure-body) + 2 * var(--measure-gutter))", self.CSS)
+        self.assertIn("grid-template-columns: minmax(0, var(--measure-body)) minmax(0, 1fr);\n  gap: var(--space-2xl) var(--space-xl);", self.CSS)
+        self.assertIn("@media (max-width: 1279px) {\n  .site-footer__map { grid-template-columns: minmax(0, 1fr); }\n}", self.CSS)
         self.assertIn(".grid-aside { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(0, 3fr);", self.CSS)
         self.assertIn(".stack { display: flex; flex-direction: column; gap: var(--space-md); }", self.CSS)
         self.assertIn(".stack > * { margin-block: 0; }", self.CSS)

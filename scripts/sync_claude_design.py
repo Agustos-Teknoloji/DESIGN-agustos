@@ -158,7 +158,7 @@ CARDS: tuple[Card, ...] = (
         """
 <p class="type-hero-md">Light, placed with intent.</p>
 <h2 class="type-h2">Headings weigh 300 to 400</h2>
-<p class="type-body">Body is Inter at a 65ch measure. <a class="type-link" href="#">A content link</a> carries the red rule. Code is <code class="type-code">JetBrains Mono</code>.</p>
+<p class="type-body">Body is Inter at a 41rem reading line. <a class="type-link" href="#">A content link</a> carries the red rule. Code is <code class="type-code">JetBrains Mono</code>.</p>
 """,
     ),
     Card(
