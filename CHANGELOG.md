@@ -2,6 +2,24 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
+## [7.2.0] - 2026-09-30
+
+One header search and language recipe in the kit (B2). Emre approved it from a before/after preview. Consuming sites load no search or language styles of their own; the Astro and Rails adapters drop theirs.
+
+### Fixed
+
+- Search text (status, group headings, result excerpts) and the language link use `--ink-soft` (10.37:1). They used `--ink-faint` (3.75:1), below the 4.5:1 text floor.
+- The search input is 16px at every width. It was 14px on desktop, off the type scale.
+- Below 1024px an in-page anchor lands below the whole header: `--site-header-search-height` (61px) adds the search row to the offset (126px on agustos.com). A site can drop a local offset script.
+- The Astro icon button no longer draws a red rule on hover; it uses the gray tile, like the Rails one and the burger.
+- Search result links use the regular weight; the bare link weight made the excerpts bold.
+
+### Changed
+
+- `tokens/web.css.tmpl` styles `site-header__search*`, `site-header__lang-link`, `site-header__utility*`, `site-header__icon-btn` and the theme icons. Sizes sit on the scale, spacing comes from `--space-*`, and the panel floats on the menu shadow and the 12px radius.
+- The language link reads like the other chrome links: `bodyCompact`, medium weight, a 1px gray rule on hover.
+- The Rails no-script search uses `agustos-input` and `agustos-button`.
+
 ## [7.1.0] - 2026-09-30
 
 Chrome fixes from a best-practice audit of the top menu, the product sidebar and the footer against WCAG 2.2 and the WAI-ARIA disclosure pattern, each measured in Chromium. Consuming sites moving from `v7.0.x` add the drawer close button, `lang` on language links, and one `<script src="/vendor/agustos-ui/agustos-chrome.js" defer>`; nothing else in their markup changes.

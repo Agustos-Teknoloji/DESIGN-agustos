@@ -4,11 +4,11 @@
 
 Kit v7.2.0: one search and language recipe (B2), 2026-09-30, branch `claude/kit-7.2-search-recipe`. Emre approved the order (company page, then this, then the memregunes.com and pldturkiye.com rollout on v7.2.0).
 
-- [ ] Move the header search, the language link, the icon button and the utility slot from the Astro and Rails adapters into `tokens/web.css.tmpl`; delete the adapter copies.
-- [ ] Fix while moving: text in `--ink-soft`, not `--ink-faint` (3.75:1 fails the 4.5:1 floor); the icon button hover is the gray tile, not a red rule; the search input is 16px everywhere; sizes on the scale (13, 15.5, 16px); spacing from `--space-*`; the panel floats on the one menu shadow and the 12px radius.
-- [ ] Phone anchor offset: below 1024px, `scroll-padding-top` adds the 61px search row when a page has one (the header is 126px on agustos.com); agustos.com then drops its local script.
-- [ ] Registry classes and states rows; checker; tests; docs.
-- [ ] Before/after preview for Emre (monthly-release rule), then `VERSION` 7.2.0, CHANGELOG, MEMORY, build, gate, PR, `/design-push`.
+- [x] Move the header search, the language link, the icon button and the utility slot from the Astro and Rails adapters into `tokens/web.css.tmpl`; delete the adapter copies.
+- [x] Fix while moving: text in `--ink-soft`, not `--ink-faint` (3.75:1 fails the 4.5:1 floor); the icon button hover is the gray tile, not a red rule; the search input is 16px everywhere; sizes on the scale (13, 15.5, 16px); spacing from `--space-*`; the panel floats on the one menu shadow and the 12px radius.
+- [x] Phone anchor offset: below 1024px, `scroll-padding-top` adds the 61px search row when a page has one (the header is 126px on agustos.com); agustos.com then drops its local script.
+- [x] Registry classes and states rows; checker; tests; docs.
+- [x] Before/after preview for Emre (monthly-release rule), then `VERSION` 7.2.0, CHANGELOG, MEMORY, build, gate, PR, `/design-push`.
 
 Chrome audit and v7.1.0 (2026-09-30, branch `claude/affectionate-ride-f41zre`). The audit checked the top menu, the sidebar and the footer against WCAG 2.2, the WAI-ARIA disclosure-navigation pattern and common B2B conventions; a Chromium probe measured every finding. Emre decided D1 to D3 on 2026-09-30. Record: MEMORY.md 2026-09-30 chrome-best-practice-fixes.
 
@@ -30,7 +30,7 @@ Release A, defects, plus the approved tweaks B1 and B4 (v7.1.0):
 
 Footer and sitemap (v7.1.0), and the next chrome release (B2):
 
-- [ ] B2. The kit has no search or language control. Astro and Rails each style their own `site-header__search*` and `site-header__lang-link`, about 35 rules each at off-scale 11, 12.5 and 14px. Move one recipe into `tokens/web.css.tmpl` and delete the adapter copies.
+- [x] B2 (v7.2.0). The kit has no search or language control. Astro and Rails each style their own `site-header__search*` and `site-header__lang-link`, about 35 rules each at off-scale 11, 12.5 and 14px. Move one recipe into `tokens/web.css.tmpl` and delete the adapter copies.
 - [x] B3. Footer site map (v7.1.0): the contact block from the İTO registry facts and three groups on the Ağustos screens and the starter; Astro and Rails take `address` and `groups`. Record: MEMORY.md 2026-09-30 footer-site-map.
 - [x] B5. `sitemap.xml` guidance per adapter in `DESIGN.md` and the adapter READMEs. Astro already ships `@astrojs/sitemap`.
 - [x] Footer phone and email (Emre, 2026-09-30): +90 850 885 1996, agustos@agustos.com.
@@ -85,6 +85,6 @@ v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva
   - Handbook pages carry no chrome, copy `.book-nav` into each page, use their own 720px and 820px breakpoints, and `docs/handoff-setup.html` fills a bar with red.
   - Breakpoints 759px, 760px and 1023px have no token. Add one set to the registry.
 
-- Phone search row: below 1024px the Astro adapter's `site-header__search-row` sits under the top menu at all times, so the header is 126px on agustos.com, and the v7.0.2 anchor offset (`--site-header-height`, 65px) covers the menu bar only. Anchors and focused elements land under the search row. Give the row a height from tokens and add it to the offset where the row exists, for example `html:has(.site-header__search-row)` below 1024px, in the Astro and Rails adapters. Then agustos.com can drop the scroll script in `src/layouts/BaseLayout.astro`. Reopens MEMORY.md 2026-09-30 topbar-anchor-offset ("an open search row must also offset anchors").
+- agustos.com: move to kit v7.2.0 and delete its local anchor-offset script in `BaseLayout.astro`; the kit offset now covers the phone search row.
 - Register printer-matched CMYK and Pantone values for the six colours and the identity inks in `brand/brands.json`, then show them on the colour page of `brand/build_guidelines.py`. Ask the printer for a proof first; do not convert the screen values.
 - Rebuild `adapters/astro/src/pages/blog/index.astro` on `type-dl` and `type-footnote`, like `screens/content-index.html`. Remove its scoped `<style>` block and the H2 for each post title, which break the list-page rule.
