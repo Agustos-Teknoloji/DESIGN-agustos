@@ -2,6 +2,17 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
+## [7.4.0] - 2026-09-30
+
+The "On this page" list, the first side column. Emre chose the pages, the behaviour and the phone layout on 2026-09-30 and approved the reader view from a live preview on iesdesk.com/privacy. Consuming sites add the markup to a long legal page; nothing else changes.
+
+### Added
+
+- `agustos-contents` with `__toggle`, `__title`, `__list` and `__link`: a `details` disclosure of the page's main sections, a direct child of `container--reading`. Below 1280px it is one folded line under the page opening. At 1280px and wider it sits in the side zone, open, and stays in view (`position: sticky` on `::details-content`); a tall list scrolls inside itself. It needs no script. A browser without `::details-content` keeps the folded line.
+- `.container--reading` is `position: relative`.
+- Checker warning AG031: an `agustos-contents` that is not a direct child of `container--reading`.
+- `starter.html` shows one instance.
+
 ## [7.3.3] - 2026-09-30
 
 A patch from the 2026-09-30 design review. Emre chose the three defects plus the quick wins in one release. Consuming sites load `agustos-chrome.js` on every page with the chrome, and drop the `href` from any disabled link.

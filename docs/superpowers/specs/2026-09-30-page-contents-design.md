@@ -60,7 +60,7 @@ He approved the reader view from a live preview on iesdesk.com/privacy, and the 
 ```html
 <details class="agustos-contents">
   <summary class="agustos-contents__toggle">On this page</summary>
-  <nav class="agustos-contents__nav" aria-label="On this page">
+  <nav aria-label="On this page">
     <p class="agustos-contents__title">On this page</p>
     <ol class="agustos-contents__list">
       <li><a class="agustos-contents__link" href="#controller">Who is responsible</a></li>
@@ -91,7 +91,7 @@ He approved the reader view from a live preview on iesdesk.com/privacy, and the 
 
 ### Other kit deliverables
 
-- `tokens/design-tokens.json`: register the six classes: `agustos-contents`, `__toggle`, `__nav`, `__title`, `__list` and `__link`.
+- `tokens/design-tokens.json`: register the five classes: `agustos-contents`, `__toggle`, `__title`, `__list` and `__link`. The `nav` element has no class, because it needs no style of its own.
 - `ui/UI-KIT.md.tmpl`: one line in the Column paragraph and the new classes in the Layout row. `UI-KIT.md` stays at 200 lines or fewer.
 - `DESIGN.md`: the component in the layout table, and a note that it is a disclosure, not one of the absent dropdowns.
 - `ui/starter.html.tmpl`: one rendered instance.

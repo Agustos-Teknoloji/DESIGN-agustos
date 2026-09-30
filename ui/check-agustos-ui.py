@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ağustos UI kit compliance checker — v7.3.3
+"""Ağustos UI kit compliance checker — v7.4.0
 
 GENERATED. Do not hand-edit. Regenerate with:
     python3 scripts/build_design_system.py
@@ -28,7 +28,7 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 
-KIT_VERSION = "7.3.3"
+KIT_VERSION = "7.4.0"
 REPOSITORY = "Agustos-Teknoloji/DESIGN-agustos"
 LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json"
 
@@ -196,6 +196,11 @@ KIT_CLASSES = {
     "agustos-tabs",
     "agustos-tab",
     "agustos-tabs__panel",
+    "agustos-contents",
+    "agustos-contents__toggle",
+    "agustos-contents__title",
+    "agustos-contents__list",
+    "agustos-contents__link",
 }
 
 # screen name -> the rules a page under that screen should meet. Injected from the
@@ -363,6 +368,33 @@ class CardScan(HTMLParser):
                 self.stranded.append(card["line"])
 
 
+class ContentsScan(HTMLParser):
+    """Finds each .agustos-contents whose parent is not .container--reading. The
+    list takes the side zone from that parent, so anywhere else it lands wrong."""
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.stack: list = []      # open tags as (name, classes)
+        self.misplaced: list = []  # start lines of misplaced lists
+
+    def handle_starttag(self, tag, attrs):
+        if tag in VOID_TAGS:
+            return
+        classes = (dict(attrs).get("class") or "").split()
+        if "agustos-contents" in classes and not (self.stack and "container--reading" in self.stack[-1][1]):
+            self.misplaced.append(self.getpos()[0])
+        self.stack.append((tag, classes))
+
+    def handle_startendtag(self, tag, attrs):
+        pass  # a self-closing tag holds nothing
+
+    def handle_endtag(self, tag):
+        for index in range(len(self.stack) - 1, -1, -1):
+            if self.stack[index][0] == tag:
+                del self.stack[index:]
+                return
+
+
 def check_cards(rel: str, text: str, findings: list) -> None:
     scan = CardScan()
     try:
@@ -437,6 +469,18 @@ def check_screen(rel: str, text: str, findings: list) -> None:
                     f"text at the reading line: add container--reading",
                 ))
                 break
+    contents = ContentsScan()
+    try:
+        contents.feed(text)
+        contents.close()
+    except Exception:
+        contents.misplaced = []  # a template the parser cannot read; the other rules still run
+    for number in contents.misplaced:
+        findings.append(Finding(
+            "AG031", "warn", rel, number,
+            "agustos-contents is not a direct child of container--reading: put the list "
+            "directly in the page's reading container, so it can take the side zone",
+        ))
     theme = DATA_THEME.search(page)
     if theme and rules["theme"] != "dark-allowed":
         findings.append(Finding(

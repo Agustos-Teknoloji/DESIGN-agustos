@@ -2,6 +2,14 @@
 
 ## Now
 
+"On this page" list (v7.4.0, 2026-09-30, branch `claude/page-contents-spec`). Record: MEMORY.md 2026-09-30 page-contents. Plan: docs/superpowers/plans/2026-09-30-page-contents.md.
+
+- [x] Component, AG031, docs, starter, `VERSION` 7.4.0.
+- [ ] PR, merge, tag `v7.4.0`. `/design-push` follows in the next local session on `main`.
+- [ ] iesdesk.com: privacy notice and beta terms.
+- [ ] agustos.com: privacy policy, Turkish and English.
+
+
 Kit v7.3.3: design review defects and quick wins (2026-09-30, branch `claude/design-system-review-5d869b`). Emre chose option B: the three defects plus the quick wins in one patch. Record: MEMORY.md 2026-09-30 review-patch.
 
 - [x] A1. An open drawer (`site-header__panel`, `site-sidebar`) closes when keyboard focus leaves it (`ui/agustos-chrome.js`); the app shell loads the script.

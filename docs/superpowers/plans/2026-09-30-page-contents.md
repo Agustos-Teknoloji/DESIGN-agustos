@@ -13,7 +13,7 @@
 ## Global Constraints
 
 - Kit version: `7.4.0` (from `7.3.3`). A new class is a minor version.
-- Class names, exactly: `agustos-contents`, `agustos-contents__toggle`, `agustos-contents__nav`, `agustos-contents__title`, `agustos-contents__list`, `agustos-contents__link`.
+- Class names, exactly: `agustos-contents`, `agustos-contents__toggle`, `agustos-contents__title`, `agustos-contents__list`, `agustos-contents__link`.
 - Labels: "On this page" (English), "Bu sayfada" (Turkish).
 - Breakpoint: `min-width: 1280px` for the side zone. The footer already stacks at `max-width: 1279px`.
 - No script in the kit component or on either site. IESDesk JavaScript rules do not change.
@@ -59,8 +59,8 @@ Add to class `ChromeTest` in `tests/test_ui_kit.py`:
         """v7.4.0: the On this page list. A folded line below 1280px; at 1280px
         and wider it is open in the side zone and stays in view. No script."""
         declared = TOKENS["compatibility"]["cssClasses"]
-        for name in ("agustos-contents", "agustos-contents__toggle", "agustos-contents__nav",
-                     "agustos-contents__title", "agustos-contents__list", "agustos-contents__link"):
+        for name in ("agustos-contents", "agustos-contents__toggle", "agustos-contents__title",
+                     "agustos-contents__list", "agustos-contents__link"):
             self.assertIn(name, declared, name)
         self.assertIn(".container--reading {\n  position: relative;\n}", self.CSS)
         self.assertIn(".agustos-contents__title {\n  display: none;", self.CSS)
@@ -85,7 +85,6 @@ In `tokens/design-tokens.json`, replace `"agustos-tabs__panel"` in the `cssClass
         "agustos-tabs__panel",
         "agustos-contents",
         "agustos-contents__toggle",
-        "agustos-contents__nav",
         "agustos-contents__title",
         "agustos-contents__list",
         "agustos-contents__link"
@@ -323,7 +322,7 @@ In `ui/starter.html.tmpl`, after the closing `</div>` of `<div class="agustos-ta
     <div class="container--reading">
       <details class="agustos-contents">
         <summary class="agustos-contents__toggle">On this page</summary>
-        <nav class="agustos-contents__nav" aria-label="On this page">
+        <nav aria-label="On this page">
           <p class="agustos-contents__title">On this page</p>
           <ol class="agustos-contents__list">
             <li><a class="agustos-contents__link" href="#forms">Forms</a></li>
@@ -340,7 +339,7 @@ In `ui/starter.html.tmpl`, after the closing `</div>` of `<div class="agustos-ta
 In `ui/UI-KIT.md.tmpl`, change the Tabs row to:
 
 ```markdown
-| Tabs, contents | `agustos-tabs` `agustos-tab` `agustos-tabs__panel` · `agustos-contents` `__toggle` `__nav` `__title` `__list` `__link` |
+| Tabs, contents | `agustos-tabs` `agustos-tab` `agustos-tabs__panel` · `agustos-contents` `__toggle` `__title` `__list` `__link` |
 ```
 
 At the end of the Column paragraph (line 88, same line), append:
@@ -385,7 +384,7 @@ The "On this page" list, the first side column. Emre chose the pages, the behavi
 
 ### Added
 
-- `agustos-contents` with `__toggle`, `__nav`, `__title`, `__list` and `__link`: a `details` disclosure of the page's main sections, a direct child of `container--reading`. Below 1280px it is one folded line under the page opening. At 1280px and wider it sits in the side zone, open, and stays in view (`position: sticky` on `::details-content`); a tall list scrolls inside itself. It needs no script. A browser without `::details-content` keeps the folded line.
+- `agustos-contents` with `__toggle`, `__title`, `__list` and `__link`: a `details` disclosure of the page's main sections, a direct child of `container--reading`. Below 1280px it is one folded line under the page opening. At 1280px and wider it sits in the side zone, open, and stays in view (`position: sticky` on `::details-content`); a tall list scrolls inside itself. It needs no script. A browser without `::details-content` keeps the folded line.
 - `.container--reading` is `position: relative`.
 - Checker warning AG031: an `agustos-contents` that is not a direct child of `container--reading`.
 - `starter.html` shows one instance.
@@ -557,7 +556,7 @@ Expected: FAIL, `Expected exactly 1 element matching "div.container--reading > d
     renders it as a direct child of .container--reading, after its opening. %>
 <details class="agustos-contents">
   <summary class="agustos-contents__toggle">On this page</summary>
-  <nav class="agustos-contents__nav" aria-label="On this page">
+  <nav aria-label="On this page">
     <p class="agustos-contents__title">On this page</p>
     <ol class="agustos-contents__list">
       <% items.each do |id, label| %>
@@ -823,7 +822,7 @@ const title = lang === 'tr' ? 'Bu sayfada' : 'On this page';
 ---
 <details class="agustos-contents">
   <summary class="agustos-contents__toggle">{title}</summary>
-  <nav class="agustos-contents__nav" aria-label={title}>
+  <nav aria-label={title}>
     <p class="agustos-contents__title">{title}</p>
     <ol class="agustos-contents__list">
       {items.map(({ id, label }) => (

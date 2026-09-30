@@ -537,7 +537,9 @@ class CheckerTest(unittest.TestCase):
         Taste rules only warn: data-theme outside product UI (AG024), more than
         one highlighter (AG025), a sidebar on a website (AG026), more than five
         top-menu items (AG027, the More toggle counts, its items do not), a
-        full-width container on a content screen (AG028, v7.2.0). Button counts
+        full-width container on a content screen (AG028, v7.2.0), an
+        `agustos-contents` that is not a direct child of `container--reading`
+        (AG031, v7.4.0). Button counts
         and quotes are no longer checked (v7.0.0)."""
         import tempfile
         primary = '<a class="agustos-button agustos-button--primary" href="#">Request pricing</a>'
@@ -563,6 +565,8 @@ class CheckerTest(unittest.TestCase):
             "wide-policy.html": (self._screen_page("static", main='<div class="container"><h1>Gizlilik</h1></div>'), {"AG028": "warn"}),
             "reading-policy.html": (self._screen_page("static", main="<article class='container container--reading'><h1>Gizlilik</h1></article>"), {}),
             "wide-home.html": (self._screen_page("home", main='<section class="container"><h1>Işık</h1></section>'), {}),
+            "contents-nested.html": (self._screen_page("static", main='<div class="container container--reading"><div><details class="agustos-contents"></details></div></div>'), {"AG031": "warn"}),
+            "contents-direct.html": (self._screen_page("static", main='<div class="container container--reading"><details class="agustos-contents"></details></div>'), {}),
         }
         with tempfile.TemporaryDirectory() as tmp:
             project = Path(tmp)
@@ -573,7 +577,7 @@ class CheckerTest(unittest.TestCase):
             findings = json.loads(result.stdout)["findings"]
             by_file: dict[str, dict[str, str]] = {name: {} for name in pages}
             for finding in findings:
-                if finding["rule"].startswith("AG02"):
+                if finding["rule"].startswith(("AG02", "AG031")):
                     by_file[finding["file"]][finding["rule"]] = finding["level"]
             for name, (_, expected) in pages.items():
                 with self.subTest(page=name):
@@ -993,6 +997,22 @@ class ChromeTest(unittest.TestCase):
         self.assertIn('html[data-theme="dark"] :where(.site-lockup) { color: var(--ink); }', self.CSS)
         self.assertIn('html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand); }', self.CSS)
 
+    def test_contents_list_is_published(self):
+        """v7.4.0: the On this page list. A folded line below 1280px; at 1280px
+        and wider it is open in the side zone and stays in view. No script."""
+        declared = TOKENS["compatibility"]["cssClasses"]
+        for name in ("agustos-contents", "agustos-contents__toggle", "agustos-contents__title",
+                     "agustos-contents__list", "agustos-contents__link"):
+            self.assertIn(name, declared, name)
+        self.assertIn(".container--reading {\n  position: relative;\n}", self.CSS)
+        self.assertIn(".agustos-contents__title {\n  display: none;", self.CSS)
+        self.assertIn("min-height: var(--control-min);\n  padding-inline-start: var(--space-md);", self.CSS)
+        self.assertIn("@media (min-width: 1280px) {\n  .agustos-contents {\n    position: absolute;", self.CSS)
+        self.assertIn("inset-inline-start: calc(var(--measure-gutter) + var(--measure-body) + var(--space-xl));", self.CSS)
+        self.assertIn("@supports selector(::details-content) {", self.CSS)
+        self.assertIn("    .agustos-contents::details-content {\n      display: block;\n      content-visibility: visible;\n      position: sticky;", self.CSS)
+        self.assertIn("max-block-size: calc(100vh - var(--site-header-height) - 2 * var(--space-xl));", self.CSS)
+
     def test_layout_layer_is_published(self):
         declared = TOKENS["compatibility"]["cssClasses"]
         for name in ("stack", "cluster", "grid-2", "grid-3", "grid-4", "grid-aside", "band", "band--cream", "prose"):
@@ -1042,6 +1062,8 @@ class ChromeTest(unittest.TestCase):
         self.assertIn('class="breadcrumb"', text)
         for name in ("stack", "cluster", "grid-3", "band band--cream", "type-body prose"):
             self.assertIn(f'class="{name}"', text)
+        self.assertIn('<details class="agustos-contents">', text)
+        self.assertIn('<a class="agustos-contents__link" href="#contents-demo-data">', text)
 
 
 class MemregunesBrandTest(unittest.TestCase):
