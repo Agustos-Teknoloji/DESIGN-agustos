@@ -1,7 +1,7 @@
 {
   "$schema": "https://design-tokens.github.io/community-group/format/",
   "name": "Ağustos Design System",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "Canonical cross-medium design values. CSS, framework adapters, and Office templates are generated consumers.",
   "meta": {
     "referenceImplementation": "https://agustos.com",
@@ -32,7 +32,7 @@
       "Use the highlighter once per page, on one to four words of the main headline. Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.",
       "Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar. Websites ship light; dark theme is for product UI.",
       "Copy a screen; do not design a page. Open with a headline, a deck, two buttons, and a trust line. Close with one pale red band.",
-      "Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not use uppercase labels, eyebrow headings, or coloured text.",
+      "Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not combine them, and do not use uppercase labels, eyebrow headings, or coloured text.",
       "When unsure, do the conventional thing. Collect design tweaks and release the kit once a month; fix real defects at once."
     ],
     "avoid": [
@@ -99,7 +99,7 @@
       "paperGray": { "$value": "#ebebeb", "$description": "Functional surfaces: key-figure tiles, image regions, and summary panels." },
       "ink": { "$value": "#15130f", "$description": "Headlines, filled buttons, footer, and house-brand identity ink." },
       "inkSoft": { "$value": "#404040", "$description": "Secondary text." },
-      "inkFaint": { "$value": "#8a8378", "$description": "Non-content marks only: placeholders, disabled state, separators. It scores 3.75:1 on white, below the 4.5:1 text floor. Support value, not a seventh palette colour." },
+      "inkFaint": { "$value": "#8a8378", "$description": "Non-content marks only: form field borders, disabled state, separators. It scores 3.75:1 on white, below the 4.5:1 text floor. Support value, not a seventh palette colour." },
       "ruleCream": { "$value": "#e8e4da", "$description": "Hairline rule on light surfaces. Support value, not a seventh palette colour." },
       "ruleWhite": { "$value": "#e8e4da", "$description": "Hairline rule alias kept for compatibility." },
       "paperDark": { "$value": "#15130f", "$description": "Dark paper. Reuses off-black. No new hex." },
@@ -244,6 +244,38 @@
       "textFaint": { "$value": "{foundations.color.inkFaintDark}" },
       "rule": { "$value": "{foundations.color.ruleDark}" }
     }
+  },
+  "states": {
+    "$description": "Every interactive state in both themes, as foreground and background keys from foundations.color. The build rejects a pair below its floor: text 4.5:1, graphics (borders, logos, focus) 3:1; disabled controls are exempt. Red stays the signal: in the dark theme a hover dims the ink instead of turning it red. Pressed buttons move 1px down. Disabled controls are gray and do not react. tokens/web.css.tmpl implements these rows.",
+    "rows": [
+      { "element": "Body text", "state": "rest", "kind": "text", "light": ["ink", "paperWhite"], "dark": ["inkDark", "paperDark"] },
+      { "element": "Secondary text", "state": "rest", "kind": "text", "light": ["inkSoft", "paperWhite"], "dark": ["inkSoftDark", "paperDark"] },
+      { "element": "Content link (2px red rule)", "state": "rest", "kind": "text", "light": ["ink", "paperWhite"], "dark": ["inkDark", "paperDark"] },
+      { "element": "Content link, quiet button", "state": "hover, pressed", "kind": "text", "light": ["signalRed", "paperWhite"], "dark": ["inkSoftDark", "paperDark"] },
+      { "element": "Primary button", "state": "rest, pressed", "kind": "text", "light": ["paperWhite", "ink"], "dark": ["paperDark", "inkDark"] },
+      { "element": "Primary button", "state": "hover", "kind": "text", "light": ["paperWhite", "inkSoft"], "dark": ["paperDark", "inkSoftDark"] },
+      { "element": "Secondary button", "state": "rest, hover", "kind": "text", "light": ["ink", "paperWhite"], "dark": ["inkDark", "paperDark"] },
+      { "element": "Secondary button", "state": "pressed", "kind": "text", "light": ["ink", "paperGray"], "dark": ["inkDark", "surfaceDark"] },
+      { "element": "Menu item, tab", "state": "rest", "kind": "text", "light": ["inkSoft", "paperWhite"], "dark": ["inkSoftDark", "paperDark"] },
+      { "element": "Menu item, tab (2px red rule)", "state": "hover, current", "kind": "text", "light": ["ink", "paperWhite"], "dark": ["inkDark", "paperDark"] },
+      { "element": "More menu item", "state": "hover, current", "kind": "text", "light": ["ink", "paperGray"], "dark": ["inkDark", "surfaceDark"] },
+      { "element": "Footer link (the footer stays light)", "state": "rest", "kind": "text", "light": ["inkSoft", "paperWhite"], "dark": ["inkSoft", "paperWhite"] },
+      { "element": "Footer link (2px red rule)", "state": "hover", "kind": "text", "light": ["ink", "paperWhite"], "dark": ["ink", "paperWhite"] },
+      { "element": "Closing band text", "state": "rest", "kind": "text", "light": ["ink", "paperCream"], "dark": ["ink", "creamDark"] },
+      { "element": "Form field placeholder", "state": "rest", "kind": "text", "light": ["inkSoft", "paperWhite"], "dark": ["inkSoftDark", "paperDark"] },
+      { "element": "Form field border", "state": "rest", "kind": "graphic", "light": ["inkFaint", "paperWhite"], "dark": ["inkFaintDark", "paperDark"] },
+      { "element": "Form field border", "state": "hover, focus", "kind": "graphic", "light": ["ink", "paperWhite"], "dark": ["inkDark", "paperDark"] },
+      { "element": "Keyboard focus ring", "state": "focus", "kind": "graphic", "light": ["signalRed", "paperWhite"], "dark": ["signalRed", "paperDark"] },
+      { "element": "Ağustos logo", "state": "rest", "kind": "graphic", "light": ["signalRed", "paperWhite"], "dark": ["signalRed", "paperDark"] },
+      { "element": "Ağustos logo", "state": "hover", "kind": "graphic", "light": ["ink", "paperWhite"], "dark": ["inkDark", "paperDark"] },
+      { "element": "House-brand logo", "state": "rest", "kind": "graphic", "light": ["ink", "paperWhite"], "dark": ["inkDark", "paperDark"] },
+      { "element": "House-brand logo", "state": "hover", "kind": "graphic", "light": ["signalRed", "paperWhite"], "dark": ["signalRed", "paperDark"] },
+      { "element": "Success badge", "state": "rest", "kind": "text", "light": ["stateSuccess", "paperWhite"], "dark": ["stateSuccessDark", "paperDark"] },
+      { "element": "Warning badge", "state": "rest", "kind": "text", "light": ["stateWarning", "paperWhite"], "dark": ["stateWarningDark", "paperDark"] },
+      { "element": "Danger badge", "state": "rest", "kind": "text", "light": ["stateDanger", "paperWhite"], "dark": ["stateDangerDark", "paperDark"] },
+      { "element": "Info badge", "state": "rest", "kind": "text", "light": ["stateInfo", "paperWhite"], "dark": ["stateInfoDark", "paperDark"] },
+      { "element": "Disabled button or field", "state": "disabled", "kind": "exempt", "light": ["inkFaint", "paperWhite"], "dark": ["inkFaintDark", "paperDark"] }
+    ]
   },
   "recipes": {
     "chrome": {

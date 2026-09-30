@@ -39,7 +39,7 @@
       "wordmark": "specquick"
     }
   },
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.0/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.1/ui/",
   "cssClasses": [
     "type-hero",
     "type-hero-md",
@@ -195,7 +195,7 @@
       "Use the highlighter once per page, on one to four words of the main headline. Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.",
       "Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar. Websites ship light; dark theme is for product UI.",
       "Copy a screen; do not design a page. Open with a headline, a deck, two buttons, and a trust line. Close with one pale red band.",
-      "Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not use uppercase labels, eyebrow headings, or coloured text.",
+      "Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not combine them, and do not use uppercase labels, eyebrow headings, or coloured text.",
       "When unsure, do the conventional thing. Collect design tweaks and release the kit once a month; fix real defects at once."
     ]
   },
@@ -203,23 +203,23 @@
   "files": {
     "AGENTS-SNIPPET.md": {
       "bytes": 2215,
-      "sha256": "fe2a71c29b043aceaae4c6f184fa46cace0fd0d59ae9d725f756f734117196d2"
+      "sha256": "74ec272645b803d9f01756fa511367f3d38f3f24098771ffd7b4c1c2d4b85f39"
     },
     "UI-KIT.md": {
-      "bytes": 15644,
-      "sha256": "12312c96986e120baa18971f70d4952f875b7f8d5008694b3ada6c9afa2c227b"
+      "bytes": 16247,
+      "sha256": "c7d34697c6f4f7866894b1d7f8d775958fdd56d23b10c521c3f794cbcf4b198f"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
-      "sha256": "30b0b127f2bf595cc4e72d4811c3b24c1841b3782acd9899f08a6891cdd97b71"
+      "sha256": "b994b859efc9a7dab91cc2afe98876dcb54f8e6fc3f762c2e530734a879861b9"
     },
     "agustos.css": {
-      "bytes": 43856,
-      "sha256": "d308507f67bf83ec204877c5eed712f540618d32864085a6c349949a566dd2c7"
+      "bytes": 46302,
+      "sha256": "1ab91c1f42e5e9772b729585cea24face88786d9eafbab67ff9caa57f4ef2f3f"
     },
     "check-agustos-ui.py": {
       "bytes": 23380,
-      "sha256": "f11e261b93dace622a6f21c4699f01992f1f8b14ff2db26c5bd1da31f5dcf1e4"
+      "sha256": "a8053e39af65dd88be67fa126c2d7dc63bc55c71ffc478ff40479c520454e5b3"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -243,12 +243,12 @@
     },
     "starter.html": {
       "bytes": 19810,
-      "sha256": "a7ec07d070d97d66d290e9e4f4085984ce57417d3eae3798d7cc310676ad823c"
+      "sha256": "0984ac7a3714e53051b27be68af1e14d268d87528afd8acdaa0fd5ba1f5eaed0"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.0/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.1/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.1/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.0.0/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.0.1/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "screens": {
     "app-shell": {
@@ -337,11 +337,445 @@
     "$source": "Ağustos red is the shared interaction signal across every house brand. It recolors a non-Ağustos identity mark only on hover (v7.0.0).",
     "color": "#cf142a"
   },
+  "states": [
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#ffffff",
+        "ratio": 18.55
+      },
+      "element": "Body text",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#8a8378",
+        "ratio": 4.95
+      },
+      "element": "Secondary text",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#404040",
+        "ratio": 10.37
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#ffffff",
+        "ratio": 18.55
+      },
+      "element": "Content link (2px red rule)",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#8a8378",
+        "ratio": 4.95
+      },
+      "element": "Content link, quiet button",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#cf142a",
+        "ratio": 5.55
+      },
+      "state": "hover, pressed"
+    },
+    {
+      "dark": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "element": "Primary button",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#15130f",
+        "foreground": "#ffffff",
+        "ratio": 18.55
+      },
+      "state": "rest, pressed"
+    },
+    {
+      "dark": {
+        "background": "#8a8378",
+        "foreground": "#15130f",
+        "ratio": 4.95
+      },
+      "element": "Primary button",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#404040",
+        "foreground": "#ffffff",
+        "ratio": 10.37
+      },
+      "state": "hover"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#ffffff",
+        "ratio": 18.55
+      },
+      "element": "Secondary button",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "state": "rest, hover"
+    },
+    {
+      "dark": {
+        "background": "#404040",
+        "foreground": "#ffffff",
+        "ratio": 10.37
+      },
+      "element": "Secondary button",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ebebeb",
+        "foreground": "#15130f",
+        "ratio": 15.56
+      },
+      "state": "pressed"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#8a8378",
+        "ratio": 4.95
+      },
+      "element": "Menu item, tab",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#404040",
+        "ratio": 10.37
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#ffffff",
+        "ratio": 18.55
+      },
+      "element": "Menu item, tab (2px red rule)",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "state": "hover, current"
+    },
+    {
+      "dark": {
+        "background": "#404040",
+        "foreground": "#ffffff",
+        "ratio": 10.37
+      },
+      "element": "More menu item",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ebebeb",
+        "foreground": "#15130f",
+        "ratio": 15.56
+      },
+      "state": "hover, current"
+    },
+    {
+      "dark": {
+        "background": "#ffffff",
+        "foreground": "#404040",
+        "ratio": 10.37
+      },
+      "element": "Footer link (the footer stays light)",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#404040",
+        "ratio": 10.37
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "element": "Footer link (2px red rule)",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "state": "hover"
+    },
+    {
+      "dark": {
+        "background": "#ebebeb",
+        "foreground": "#15130f",
+        "ratio": 15.56
+      },
+      "element": "Closing band text",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#fdf5f5",
+        "foreground": "#15130f",
+        "ratio": 17.28
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#8a8378",
+        "ratio": 4.95
+      },
+      "element": "Form field placeholder",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#404040",
+        "ratio": 10.37
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#8a8378",
+        "ratio": 4.95
+      },
+      "element": "Form field border",
+      "floor": 3.0,
+      "kind": "graphic",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#8a8378",
+        "ratio": 3.75
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#ffffff",
+        "ratio": 18.55
+      },
+      "element": "Form field border",
+      "floor": 3.0,
+      "kind": "graphic",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "state": "hover, focus"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#cf142a",
+        "ratio": 3.35
+      },
+      "element": "Keyboard focus ring",
+      "floor": 3.0,
+      "kind": "graphic",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#cf142a",
+        "ratio": 5.55
+      },
+      "state": "focus"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#cf142a",
+        "ratio": 3.35
+      },
+      "element": "Ağustos logo",
+      "floor": 3.0,
+      "kind": "graphic",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#cf142a",
+        "ratio": 5.55
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#ffffff",
+        "ratio": 18.55
+      },
+      "element": "Ağustos logo",
+      "floor": 3.0,
+      "kind": "graphic",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "state": "hover"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#ffffff",
+        "ratio": 18.55
+      },
+      "element": "House-brand logo",
+      "floor": 3.0,
+      "kind": "graphic",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#cf142a",
+        "ratio": 3.35
+      },
+      "element": "House-brand logo",
+      "floor": 3.0,
+      "kind": "graphic",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#cf142a",
+        "ratio": 5.55
+      },
+      "state": "hover"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#7ec9a2",
+        "ratio": 9.51
+      },
+      "element": "Success badge",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1f6b4a",
+        "ratio": 6.44
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#d9a441",
+        "ratio": 8.25
+      },
+      "element": "Warning badge",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#8a5a00",
+        "ratio": 5.93
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#f08c82",
+        "ratio": 7.76
+      },
+      "element": "Danger badge",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#b42318",
+        "ratio": 6.57
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#8ab6e8",
+        "ratio": 8.78
+      },
+      "element": "Info badge",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1a4d8f",
+        "ratio": 8.39
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#8a8378",
+        "ratio": 4.95
+      },
+      "element": "Disabled button or field",
+      "floor": 0.0,
+      "kind": "exempt",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#8a8378",
+        "ratio": 3.75
+      },
+      "state": "disabled"
+    }
+  ],
   "substrates": [
     "paper",
     "paper-white",
     "cream"
   ],
   "system": "Ağustos Design System",
-  "version": "7.0.0"
+  "version": "7.0.1"
 }

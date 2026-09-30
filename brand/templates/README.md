@@ -13,7 +13,7 @@ exports/<brand>/office/<brand>-document-template.docx  Styled Word/Google Docs d
 exports/<brand>/swatches/<brand>.ase              Adobe swatches (Illustrator/Photoshop/InDesign/Affinity)
 exports/<brand>/swatches/<brand>.clr              Apple color list (macOS system color picker)
 exports/<brand>/email/<brand>-signature.html      Email-safe signature (self-contained)
-exports/<brand>/guidelines/<brand>-brand-guidelines.pdf   Shareable 11-page guidelines
+exports/<brand>/guidelines/<brand>-brand-guidelines.pdf   Shareable 13-page guidelines
 ```
 
 ## Use the Office files across native applications

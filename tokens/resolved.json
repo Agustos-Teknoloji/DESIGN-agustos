@@ -96,7 +96,7 @@
       "Use the highlighter once per page, on one to four words of the main headline. Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.",
       "Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar. Websites ship light; dark theme is for product UI.",
       "Copy a screen; do not design a page. Open with a headline, a deck, two buttons, and a trust line. Close with one pale red band.",
-      "Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not use uppercase labels, eyebrow headings, or coloured text.",
+      "Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not combine them, and do not use uppercase labels, eyebrow headings, or coloured text.",
       "When unsure, do the conventional thing. Collect design tweaks and release the kit once a month; fix real defects at once."
     ]
   },
@@ -373,6 +373,440 @@
     "$source": "Ağustos red is the shared interaction signal across every house brand. It recolors a non-Ağustos identity mark only on hover (v7.0.0).",
     "color": "#cf142a"
   },
+  "states": [
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#ffffff",
+        "ratio": 18.55
+      },
+      "element": "Body text",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#8a8378",
+        "ratio": 4.95
+      },
+      "element": "Secondary text",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#404040",
+        "ratio": 10.37
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#ffffff",
+        "ratio": 18.55
+      },
+      "element": "Content link (2px red rule)",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#8a8378",
+        "ratio": 4.95
+      },
+      "element": "Content link, quiet button",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#cf142a",
+        "ratio": 5.55
+      },
+      "state": "hover, pressed"
+    },
+    {
+      "dark": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "element": "Primary button",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#15130f",
+        "foreground": "#ffffff",
+        "ratio": 18.55
+      },
+      "state": "rest, pressed"
+    },
+    {
+      "dark": {
+        "background": "#8a8378",
+        "foreground": "#15130f",
+        "ratio": 4.95
+      },
+      "element": "Primary button",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#404040",
+        "foreground": "#ffffff",
+        "ratio": 10.37
+      },
+      "state": "hover"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#ffffff",
+        "ratio": 18.55
+      },
+      "element": "Secondary button",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "state": "rest, hover"
+    },
+    {
+      "dark": {
+        "background": "#404040",
+        "foreground": "#ffffff",
+        "ratio": 10.37
+      },
+      "element": "Secondary button",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ebebeb",
+        "foreground": "#15130f",
+        "ratio": 15.56
+      },
+      "state": "pressed"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#8a8378",
+        "ratio": 4.95
+      },
+      "element": "Menu item, tab",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#404040",
+        "ratio": 10.37
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#ffffff",
+        "ratio": 18.55
+      },
+      "element": "Menu item, tab (2px red rule)",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "state": "hover, current"
+    },
+    {
+      "dark": {
+        "background": "#404040",
+        "foreground": "#ffffff",
+        "ratio": 10.37
+      },
+      "element": "More menu item",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ebebeb",
+        "foreground": "#15130f",
+        "ratio": 15.56
+      },
+      "state": "hover, current"
+    },
+    {
+      "dark": {
+        "background": "#ffffff",
+        "foreground": "#404040",
+        "ratio": 10.37
+      },
+      "element": "Footer link (the footer stays light)",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#404040",
+        "ratio": 10.37
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "element": "Footer link (2px red rule)",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "state": "hover"
+    },
+    {
+      "dark": {
+        "background": "#ebebeb",
+        "foreground": "#15130f",
+        "ratio": 15.56
+      },
+      "element": "Closing band text",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#fdf5f5",
+        "foreground": "#15130f",
+        "ratio": 17.28
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#8a8378",
+        "ratio": 4.95
+      },
+      "element": "Form field placeholder",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#404040",
+        "ratio": 10.37
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#8a8378",
+        "ratio": 4.95
+      },
+      "element": "Form field border",
+      "floor": 3.0,
+      "kind": "graphic",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#8a8378",
+        "ratio": 3.75
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#ffffff",
+        "ratio": 18.55
+      },
+      "element": "Form field border",
+      "floor": 3.0,
+      "kind": "graphic",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "state": "hover, focus"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#cf142a",
+        "ratio": 3.35
+      },
+      "element": "Keyboard focus ring",
+      "floor": 3.0,
+      "kind": "graphic",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#cf142a",
+        "ratio": 5.55
+      },
+      "state": "focus"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#cf142a",
+        "ratio": 3.35
+      },
+      "element": "Ağustos logo",
+      "floor": 3.0,
+      "kind": "graphic",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#cf142a",
+        "ratio": 5.55
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#ffffff",
+        "ratio": 18.55
+      },
+      "element": "Ağustos logo",
+      "floor": 3.0,
+      "kind": "graphic",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "state": "hover"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#ffffff",
+        "ratio": 18.55
+      },
+      "element": "House-brand logo",
+      "floor": 3.0,
+      "kind": "graphic",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#15130f",
+        "ratio": 18.55
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#cf142a",
+        "ratio": 3.35
+      },
+      "element": "House-brand logo",
+      "floor": 3.0,
+      "kind": "graphic",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#cf142a",
+        "ratio": 5.55
+      },
+      "state": "hover"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#7ec9a2",
+        "ratio": 9.51
+      },
+      "element": "Success badge",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1f6b4a",
+        "ratio": 6.44
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#d9a441",
+        "ratio": 8.25
+      },
+      "element": "Warning badge",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#8a5a00",
+        "ratio": 5.93
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#f08c82",
+        "ratio": 7.76
+      },
+      "element": "Danger badge",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#b42318",
+        "ratio": 6.57
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#8ab6e8",
+        "ratio": 8.78
+      },
+      "element": "Info badge",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#1a4d8f",
+        "ratio": 8.39
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#8a8378",
+        "ratio": 4.95
+      },
+      "element": "Disabled button or field",
+      "floor": 0.0,
+      "kind": "exempt",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#8a8378",
+        "ratio": 3.75
+      },
+      "state": "disabled"
+    }
+  ],
   "themes": {
     "dark": {
       "cream": "#ebebeb",
@@ -389,5 +823,5 @@
       "surface": "#ffffff"
     }
   },
-  "version": "7.0.0"
+  "version": "7.0.1"
 }

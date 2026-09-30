@@ -1,8 +1,8 @@
 from __future__ import annotations
 
-import importlib.util
-import copy
 import contextlib
+import copy
+import importlib.util
 import io
 import json
 import subprocess
@@ -40,6 +40,22 @@ class DesignSystemGenerationTest(unittest.TestCase):
     def test_unknown_token_path_is_rejected(self):
         with self.assertRaisesRegex(self.builder.TokenError, "unknown token path"):
             self.builder.resolve_token(self.tokens, "foundations.color.missing")
+
+    def test_a_state_pair_below_its_floor_stops_the_build(self):
+        """v7.0.1: the states table is a contract, not a picture of one."""
+        tokens = copy.deepcopy(self.tokens)
+        tokens["states"]["rows"].append(
+            {"element": "Red link on dark", "state": "hover", "kind": "text",
+             "light": ["signalRed", "paperWhite"], "dark": ["signalRed", "paperDark"]}
+        )
+        with self.assertRaisesRegex(self.builder.TokenError, "below the text floor"):
+            self.builder.state_rows(tokens)
+
+    def test_a_state_row_naming_an_unknown_colour_is_rejected(self):
+        tokens = copy.deepcopy(self.tokens)
+        tokens["states"]["rows"][0]["dark"] = ["inkDark", "midnight"]
+        with self.assertRaisesRegex(self.builder.TokenError, "unknown colour 'midnight'"):
+            self.builder.state_rows(tokens)
 
     def test_brands_no_longer_register_chrome(self):
         """v7.0.0: chrome follows the screen family, so a brand that registers one is stale."""

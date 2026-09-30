@@ -175,6 +175,62 @@ class StateColorContrastTest(unittest.TestCase):
                     self.assertIn(f"--state-{role.lower()}:", block)
 
 
+class InteractionStateTest(unittest.TestCase):
+    """v7.0.1: every state in both themes clears its floor, and the CSS carries the fixes.
+
+    A browser probe of v7.0.0 found white-on-light-gray (1.19) in the dark More
+    menu, footer links that vanished on hover in dark (1.00), red hover text on
+    off-black (3.35), a dead dark logo hover, 1.27 field borders, no pressed
+    state, and disabled buttons that still reacted to hover.
+    """
+
+    CSS = (ROOT / "ui" / "agustos.css").read_text(encoding="utf-8")
+    FLOORS = {"text": 4.5, "graphic": 3.0, "exempt": 0.0}
+
+    def test_every_state_row_clears_its_floor_in_both_themes(self):
+        colors = TOKENS["foundations"]["color"]
+        rows = TOKENS["states"]["rows"]
+        self.assertGreater(len(rows), 20, "the states table looks truncated")
+        for row in rows:
+            for theme in ("light", "dark"):
+                foreground, background = (colors[key]["$value"] for key in row[theme])
+                with self.subTest(element=row["element"], state=row["state"], theme=theme):
+                    self.assertGreaterEqual(contrast_ratio(foreground, background), self.FLOORS[row["kind"]])
+
+    def test_states_table_is_published_to_docs_and_kit_json(self):
+        docs = (ROOT / "docs" / "web.html").read_text(encoding="utf-8")
+        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+        self.assertEqual(len(kit["states"]), len(TOKENS["states"]["rows"]))
+        self.assertIn('id="states"', docs)
+        for row in TOKENS["states"]["rows"]:
+            with self.subTest(element=row["element"]):
+                self.assertIn(f'<th scope="row">{row["element"]}</th>', docs.replace("&#x27;", "'"))
+
+    def test_dark_hover_dims_the_ink_instead_of_turning_it_red(self):
+        self.assertIn(':where(html[data-theme="dark"]) a:hover,', self.CSS)
+        self.assertIn(':where(html[data-theme="dark"]) .agustos-button--quiet:hover { color: var(--ink-soft); }', self.CSS)
+
+    def test_footer_and_band_stay_light_islands_in_dark(self):
+        start = self.CSS.index('html[data-theme="dark"] .site-footer,')
+        block = self.CSS[start:self.CSS.index("}", start)]
+        self.assertIn('html[data-theme="dark"] .band--cream {', block)
+        for role in ("--paper:", "--ink:", "--ink-soft:", "--ink-faint:", "--rule:"):
+            with self.subTest(role=role):
+                self.assertIn(role, block)
+
+    def test_more_menu_hover_uses_the_functional_gray(self):
+        self.assertIn('.site-header__more-link[aria-current="page"] { background: var(--surface);', self.CSS)
+
+    def test_form_fields_clear_the_non_text_floor(self):
+        self.assertIn("solid var(--ink-faint);", self.CSS)
+        placeholder = self.CSS[self.CSS.index(".agustos-textarea::placeholder {"):]
+        self.assertIn("color: var(--ink-soft);", placeholder[:placeholder.index("}")])
+
+    def test_buttons_have_pressed_and_disabled_states(self):
+        self.assertIn('.agustos-button:active:not(:disabled, [aria-disabled="true"]) { transform: translateY(1px); }', self.CSS)
+        self.assertIn('.agustos-button:is(:disabled, [aria-disabled="true"]):hover', self.CSS)
+
+
 class SixColourPaletteTest(unittest.TestCase):
     """v5 locks six identity colours. Dark theme reuses them. No new hexes."""
 
@@ -656,8 +712,9 @@ class ChromeTest(unittest.TestCase):
         self.assertIn(rule, self.CSS[drawers:self.CSS.index("\n}\n", drawers)])
 
     def test_house_brand_lockups_turn_white_on_dark_and_agustos_stays_red(self):
-        self.assertIn('html[data-theme="dark"] .site-lockup { color: var(--ink); }', self.CSS)
-        self.assertIn('html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }', self.CSS)
+        # `:where` keeps these below the hover rules, so the hover swap works in dark too (v7.0.1).
+        self.assertIn('html[data-theme="dark"] :where(.site-lockup) { color: var(--ink); }', self.CSS)
+        self.assertIn('html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand); }', self.CSS)
 
     def test_layout_layer_is_published(self):
         declared = TOKENS["compatibility"]["cssClasses"]

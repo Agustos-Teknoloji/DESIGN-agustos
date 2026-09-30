@@ -4,6 +4,30 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+## [7.0.1] - 2026-09-30
+
+Interactive states, measured in a browser in both themes and fixed. Consuming sites can move from `v7.0.0` to `v7.0.1` with no markup change.
+
+### Fixed
+
+- Form fields: the border uses `--ink-faint` (3.75:1 light, 4.95:1 dark, was 1.27:1) and the placeholder `--ink-soft` (10.37:1, was 3.75:1).
+- Dark theme: a link or quiet-button hover dims the ink instead of turning text red (4.95:1, was 3.35:1). The red rule stays.
+- Dark theme: the footer and the closing band scope the light colour roles back in. Footer links no longer vanish on hover (was 1.00:1), and a button in the closing band stays readable.
+- Dark theme: the More menu hover is white on dark gray (10.37:1, was 1.19:1). In both themes it uses the functional gray, not the closing band's pale red.
+- Dark theme: logos answer hover. House brands turn red; the Ağustos logo turns white.
+
+### Added
+
+- Pressed state: buttons move 1px down; the primary returns to full ink, the secondary fills light gray.
+- Disabled buttons: `disabled` or `aria-disabled="true"` turns a button gray and stops hover and press.
+- The `states` table in `tokens/design-tokens.json`: every state in both themes with its colour pair. The build refuses a pair below 4.5:1 (text) or 3:1 (borders, logos, focus). Published in `ui/kit.json` (`states`) and `docs/web.html`, summarised in `UI-KIT.md`.
+- Brand guidelines, now 13 pages: "Colour in use" (the states table and the four state rules) and "Emphasis" (highlighter, bold, italic, underline, colour and capitals, with do and don't examples). Rebuilt for agustos, pataraz and pld.
+
+### Changed
+
+- Guidelines Typography page: headings are thin (hero and H1 at 300, H2 at 400, H3 at 500) with their sizes from the registry; 650 is the wordmark alone. It said 650 for headings.
+- Emphasis rule: bold, italic and underline are never combined.
+
 ## [7.0.0] - 2026-09-29
 
 A conventional reset of the website layer. Identity (symbol, wordmarks, six colours, fonts) and the engine stay. Consuming sites pin `v7.0.0` when they are ready: agustos.com and iesdesk.com first, memregunes.com and pldturkiye.com later.
