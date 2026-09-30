@@ -5,8 +5,8 @@
 Reading line (v7.3.1, 2026-09-30, branch `claude/kit-7.2.1-reading-line`). Emre chose the left edge with a free side zone and one line shared with the footer. Record: MEMORY.md 2026-09-30 reading-line.
 
 - [x] `--measure-body` 41rem; `.container--reading > *`; footer site map on the same line with the `--space-xl` gap, stacked below 1280px; AG028 text; docs; tests; `VERSION` 7.3.1.
-- [ ] Build, gate, browser check at 1440, 1280, 1024 and 390px; PR; merge. The tag and `/design-push` follow.
-- [ ] Vendor v7.3.1 into iesdesk.com and agustos.com.
+- [x] Build, gate, browser check at 1440, 1280, 1024 and 390px; PR 73 merged, tag `v7.3.1`. `/design-push` follows in the next local session on `main`.
+- [x] Vendor v7.3.1 into iesdesk.com (APP-iesdesk PR 283, live on dev.iesdesk.com; iesdesk.com with the next release) and agustos.com (WEBSITE-agustos PR 162, which also adopts v7.3.0 and drops its local search styles).
 
 Kit v7.3.0: one search and language recipe (B2), 2026-09-30, branch `claude/kit-7.2-search-recipe`. Emre approved the order (company page, then this, then the memregunes.com and pldturkiye.com rollout on v7.3.0).
 
@@ -20,7 +20,7 @@ Reading column (v7.2.0, 2026-09-30, branch `claude/kit-7.2.0-reading-column`). E
 
 - [x] `.container--reading`, the derived Column in the screens table, checker AG028, screens, Astro pages, docs, tests, `VERSION` 7.2.0, CHANGELOG.
 - [ ] Build, gate, browser check at 1440 and 390px; commit, push, PR. The tag and `/design-push` follow the merge.
-- [ ] Bump iesdesk.com (privacy, terms, About, Contact) and agustos.com content pages to v7.2.0.
+- [x] Bump iesdesk.com (PR 282) and agustos.com (PR 159) content pages to v7.2.0. Superseded by v7.3.1.
 - [x] The header search draft (`claude/kit-7.2-search-recipe`) renames itself to 7.3.0 when it rebases.
 
 Chrome audit and v7.1.0 (2026-09-30, branch `claude/affectionate-ride-f41zre`). The audit checked the top menu, the sidebar and the footer against WCAG 2.2, the WAI-ARIA disclosure-navigation pattern and common B2B conventions; a Chromium probe measured every finding. Emre decided D1 to D3 on 2026-09-30. Record: MEMORY.md 2026-09-30 chrome-best-practice-fixes.
