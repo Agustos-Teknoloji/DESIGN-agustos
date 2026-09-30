@@ -2,6 +2,19 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
+## [7.3.4] - 2026-09-30
+
+A defect patch. Emre approved it after the IESDesk About page showed 132px above each heading. Consuming sites change no markup.
+
+### Fixed
+
+- A reading page (`.container--reading`) is one article, so a section and an H2 in it take one break: 40px (`--space-3xl`). A section drops its band padding and takes a top margin, and a direct H2 or an H2 in `.prose` takes the same margin. The margin collapses with the last margin above it. Measured in a browser at 1440 and 390px: the `static` screen went from 121px and 144px to 40px, and the `content` screen from 108px and 123px to 40px. A home or product page keeps the section spacing.
+
+### Documentation
+
+- DESIGN.md, "Vertical rhythm": a new paragraph, "A reading page is one article".
+- Issue 75 stays open for the H3 and H4 break (2.5em of the heading size).
+
 ## [7.3.3] - 2026-09-30
 
 A patch from the 2026-09-30 design review. Emre chose the three defects plus the quick wins in one release. Consuming sites load `agustos-chrome.js` on every page with the chrome, and drop the `href` from any disabled link.

@@ -2,6 +2,13 @@
 
 ## Now
 
+Kit v7.3.4: one break above each heading on a reading page (2026-09-30, branch `claude/kit-7.3.4-reading-rhythm`). Emre approved the kit fix. Record: MEMORY.md 2026-09-30 reading-rhythm.
+
+- [x] `.container--reading .agustos-section` and the H2 rule; test; DESIGN.md; `VERSION` 7.3.4; CHANGELOG; build; browser check of `static` and `content` at 1440 and 390px.
+- [ ] Gate, PR, merge. The tag follows the merge; the next local session on `main` runs `/design-push`.
+- [ ] iesdesk.com: vendor v7.3.4 in APP-iesdesk (it also carries v7.3.2 and v7.3.3).
+- [ ] agustos.com, memregunes.com, pldturkiye.com: vendor v7.3.4 with the v7.3.2 rollout above.
+
 Kit v7.3.3: design review defects and quick wins (2026-09-30, branch `claude/design-system-review-5d869b`). Emre chose option B: the three defects plus the quick wins in one patch. Record: MEMORY.md 2026-09-30 review-patch.
 
 - [x] A1. An open drawer (`site-header__panel`, `site-sidebar`) closes when keyboard focus leaves it (`ui/agustos-chrome.js`); the app shell loads the script.
