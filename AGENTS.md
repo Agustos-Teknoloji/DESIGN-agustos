@@ -136,4 +136,5 @@ Novara (outdoor kitchen furniture) is a brand that Ağustos **represents and dis
 - Put a rule that consuming sites must follow into `ui/check-agustos-ui.py.tmpl`, not only into a repository test. A rule that only a repository test reads never reaches a consuming site.
 - Do not take a grep for a runtime-set attribute, such as `data-theme`, as proof that a doc never shows it. `docs/colour.html` shows dark through a toggle that sets the attribute at runtime.
 - Before you delete CSS, `git grep` the adapters and screens for its custom properties. A deleted property left both adapter footers with an invisible lockup.
+- Clear every `GIT_*` variable in a test that runs git on a scratch repository. The pre-push hook sets `GIT_DIR`, so the scratch `git init` and `git config` wrote to this repository and marked it bare.
 - Keep the `/design-push`, `/design-pull` and `--target` strings in this file, and never name the retired Claude Design pull folder here. `tests/test_design_sync.py` asserts both.

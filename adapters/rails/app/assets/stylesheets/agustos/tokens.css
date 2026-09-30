@@ -57,8 +57,8 @@
   /* The sticky bar below 1024px: a 44px target, 8px above and below, and the rule.
      The bar and the anchor scroll offset both read it. */
   --sidebar-bar-height: calc(var(--control-min) + 2 * var(--space-xs) + 1px);
-  /* The sticky top menu: a 44px row, its block padding, and the rule. The anchor
-     scroll offset reads it, so a link target or a focused element never hides under it. */
+  /* The sticky top menu at every width: a 44px target, the chrome padding above and below, and the rule.
+     The menu and the anchor scroll offset both read it. */
   --site-header-height: calc(var(--control-min) + 2 * 10px + 1px);
 
   /* The one section spacing: sections, the closing band, and the gap after the hero. */
@@ -971,10 +971,14 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
 .site-sidebar-bar { display: none; }
 
 /* --- Topbar family --- */
+/* An in-page anchor or a focused element lands below the sticky top menu,
+   not under it (WCAG 2.2 SC 2.4.11). */
+html:has(.site-header) { scroll-padding-top: var(--site-header-height); }
 .site-header {
   position: sticky;
   top: 0;
   z-index: 20;
+  min-height: var(--site-header-height);
   border-block-end: 1px solid var(--rule);
   background: var(--paper);
 }
@@ -1180,9 +1184,6 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
 .breadcrumb__link:hover { color: var(--ink); text-decoration: none; }
 .breadcrumb__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 .breadcrumb [aria-current="page"] { color: var(--ink); }
-
-/* An in-page anchor or a focused element lands below the sticky top menu. */
-html:has(.site-header) { scroll-padding-top: var(--site-header-height); }
 
 /* Small laptops: the top menu keeps one row with tighter spacing. */
 @media (min-width: 1024px) and (max-width: 1279px) {

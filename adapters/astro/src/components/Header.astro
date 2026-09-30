@@ -134,7 +134,8 @@ function isCurrent(href: string): boolean {
   :global(.site-header__search-result) { margin: 0; }
   :global(.site-header__search-result a) { display: block; padding: 0.55rem 0.5rem; border-radius: var(--radius-sm); color: var(--ink-soft); text-decoration: none; }
   :global(.site-header__search-result a:hover),
-  :global(.site-header__search-result a:focus-visible) { outline: 0; background: var(--rule); color: var(--ink); }
+  :global(.site-header__search-result a:focus-visible) { background: var(--rule); color: var(--ink); }
+  :global(.site-header__search-result a:focus-visible) { outline: 2px solid var(--signal); outline-offset: -2px; }
   :global(.site-header__search-result-title) { display: block; font-family: var(--display); font-size: 14px; font-weight: 600; line-height: 1.25; }
   :global(.site-header__search-result-excerpt) { display: block; max-width: 70ch; margin-top: 0.3rem; color: var(--ink-faint); font-family: var(--body); font-size: 12.5px; line-height: 1.45; }
   :global(.site-header__search-result-excerpt mark) { padding: 0 0.1em; background: var(--surface); color: var(--ink); }

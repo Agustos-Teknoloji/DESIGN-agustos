@@ -6,7 +6,7 @@ Chrome audit and v7.1.0 (2026-09-30, branch `claude/affectionate-ride-f41zre`). 
 
 Release A, defects, plus the approved tweaks B1 and B4 (v7.1.0):
 
-- [x] A1. `--site-header-height` (65px) sets `scroll-padding-top`, so anchors and focus land below the sticky header (SC 2.4.11).
+- [x] A1. Anchors and focus land below the sticky header (SC 2.4.11). Shipped first in v7.0.2; merged here.
 - [x] A2. `ui/agustos-chrome.js` closes More on Escape, an outside click or focus leaving; the kit says "JavaScript only when it is the logical choice" (D1).
 - [x] A3. The top menu never wraps; spacing tightens between 1024 and 1279px; `UI-KIT.md` documents about 65 characters for five labels at 1024px.
 - [x] A4. Drawer close buttons (`site-header__close`, `site-sidebar__close`) and a page scroll lock.
@@ -29,6 +29,14 @@ Footer and sitemap (v7.1.0), and the next chrome release (B2):
 - [ ] Emre publishes the "Bilgi toplumu hizmetleri" page on agustos.com (contents confirmed with the legal advisor).
 
 Not recommended, because they add weight against the house rules: a mega menu, a header that hides on scroll, a sidebar that collapses to an icon rail, and a back-to-top button.
+
+v7.0.2 patch (2026-09-30, branch `claude/new-kit-worktrees-a927f9`). The agustos.com v7 adoption found two kit defects; Emre asked for the patch. Record: MEMORY.md 2026-09-30 topbar-anchor-offset.
+
+- [x] `tokens/web.css.tmpl`: `--site-header-height` (65px, from the control minimum, the chrome padding and the rule) sets the top menu's `min-height` and `html:has(.site-header) { scroll-padding-top }`.
+- [x] Astro and Rails adapters: a search result link keeps the red focus ring.
+- [x] Tests for both; `VERSION` 7.0.2, CHANGELOG, MEMORY; build and gate green.
+- [x] Commit, push, PR #65. The tag and `/design-push` follow the merge.
+- [ ] Bump agustos.com (PR #157) and iesdesk.com (PR #274) to v7.0.2 after the tag, and remove the agustos.com local copies of both fixes.
 
 v7.0.1 interactive states (2026-09-30, branch `claude/rails-html-template-kbacva`). Emre approved the fix, the white Ağustos logo hover on dark, and the guidelines rebuild. Record: MEMORY.md 2026-09-30 states-table-contract.
 

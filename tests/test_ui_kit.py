@@ -714,14 +714,26 @@ class ChromeTest(unittest.TestCase):
         self.assertIn("--sidebar-bar-height: calc(var(--control-min) + 2 * var(--space-xs) + 1px);", self.CSS)
         self.assertIn("min-height: var(--sidebar-bar-height);", self.CSS)
         rule = "html:has(.site-sidebar-bar) { scroll-padding-top: var(--sidebar-bar-height); }"
+        self.assertEqual(self.CSS.count("scroll-padding-top"), 3, "the sidebar bar, the top menu and the print reset, nothing else")
         # Only below 1024px, where the bar is sticky. Desktop has no bar.
         drawers = self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor")
         self.assertIn(rule, self.CSS[drawers:self.CSS.index("\n}\n", drawers)])
 
-    def test_anchor_and_focus_land_below_the_sticky_top_menu(self):
-        """WCAG 2.2 SC 2.4.11: the 65px sticky header hid anchor targets (v7.1.0)."""
+    def test_anchor_lands_below_the_sticky_top_menu(self):
+        # v7.0.2: the top menu is sticky at every width, so its offset sits outside any media query.
         self.assertIn("--site-header-height: calc(var(--control-min) + 2 * 10px + 1px);", self.CSS)
-        self.assertIn("html:has(.site-header) { scroll-padding-top: var(--site-header-height); }", self.CSS)
+        self.assertIn("min-height: var(--site-header-height);", self.CSS)
+        rule = "html:has(.site-header) { scroll-padding-top: var(--site-header-height); }"
+        self.assertIn(rule, self.CSS)
+        self.assertLess(self.CSS.index(rule), self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor"))
+
+    def test_adapter_search_results_keep_the_focus_ring(self):
+        # v7.0.2: the Astro and Rails adapters removed the ring on a focused search result.
+        for path in ("adapters/astro/src/components/Header.astro",
+                     "adapters/rails/app/assets/stylesheets/agustos/components.css"):
+            css = (ROOT / path).read_text(encoding="utf-8")
+            self.assertRegex(css, r"search-result a:focus-visible\)? \{ outline: 2px solid var\(--signal\)", path)
+            self.assertNotRegex(css, r"search-result a:focus-visible\)?\s*\{\s*outline:\s*(0|none)", path)
 
     def test_top_menu_stays_on_one_row(self):
         """Long Turkish labels wrapped the menu to two rows at 1024px (v7.1.0)."""
