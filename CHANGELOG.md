@@ -24,6 +24,7 @@ A patch from the 2026-09-30 design review. Emre chose the three defects plus the
 
 - DESIGN.md no longer says a menu hover draws the red rule, and it states the one red-text exception (a content link hover on light paper).
 - The `ss01` note is corrected: in Inter it switches to open digits (4, 6 and 9). It never changed the "a", which is two-storey by default.
+- The guidelines PDFs are rebuilt (Emre asked, 2026-09-30). The Colour in use table shows the gray footer hover rule and the search result row.
 
 ## [7.3.2] - 2026-09-30
 

@@ -13,6 +13,7 @@ Kit v7.3.3: design review defects and quick wins (2026-09-30, branch `claude/des
 - [x] Reduced motion sets `--dur: 0s` for every transition.
 - [x] DESIGN.md: the red rule on menu hover (line 159) and the `ss01` note (open digits, not the "a").
 - [x] Tests, `VERSION` 7.3.3, CHANGELOG, DESIGN.md, MEMORY.md, build, gate (234 tests), browser check at 390 and 1440px, PR. The tag and `/design-push` follow the merge on `main`.
+- [x] Guidelines PDFs rebuilt (Emre asked, 2026-09-30): Ağustos, Pataraz and PLD, 13 pages each.
 
 Kit v7.3.2 defect patch (2026-09-30, branch `claude/kit-7.3.2`). Emre approved it. Record: MEMORY.md 2026-09-30 aria-current-section and anchor-snap.
 
