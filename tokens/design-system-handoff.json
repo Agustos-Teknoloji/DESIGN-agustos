@@ -163,7 +163,12 @@
       "agustos-notice--info",
       "agustos-tabs",
       "agustos-tab",
-      "agustos-tabs__panel"
+      "agustos-tabs__panel",
+      "agustos-contents",
+      "agustos-contents__toggle",
+      "agustos-contents__title",
+      "agustos-contents__list",
+      "agustos-contents__link"
     ]
   },
   "contract": {
@@ -1171,7 +1176,7 @@
         "surface": "#ffffff"
       }
     },
-    "version": "7.3.5"
+    "version": "7.4.0"
   },
-  "version": "7.3.5"
+  "version": "7.4.0"
 }

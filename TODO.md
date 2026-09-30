@@ -2,6 +2,13 @@
 
 ## Now
 
+"On this page" list (v7.4.0, 2026-09-30, branch `claude/page-contents-spec`). Record: MEMORY.md 2026-09-30 page-contents. Plan: docs/superpowers/plans/2026-09-30-page-contents.md.
+
+- [x] Component, AG031, docs, starter, `VERSION` 7.4.0.
+- [ ] PR, merge, tag `v7.4.0`. `/design-push` follows in the next local session on `main`.
+- [ ] iesdesk.com: privacy notice and beta terms.
+- [ ] agustos.com: privacy policy, Turkish and English.
+
 Kit v7.3.5: two heading steps (2026-09-30, branch `claude/kit-7.3.5-heading-steps`). Emre chose option B. Record: MEMORY.md 2026-09-30 heading-steps. Closes issue 75.
 
 - [x] H2 40px, H3 and H4 32px; the subsection rule; tests; DESIGN.md; `VERSION` 7.3.5; CHANGELOG; build; before and after diff of every heading on the 9 screens at 1440 and 390px.
