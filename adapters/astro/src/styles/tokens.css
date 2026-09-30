@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.0.0 · GENERATED ASTRO ADAPTER CSS
+/* AĞUSTOS DESIGN SYSTEM v7.0.1 · GENERATED ASTRO ADAPTER CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -139,11 +139,20 @@ html[data-theme="dark"] .type-code {
   background: rgba(255, 255, 255, 0.07);
 }
 
-/* The dark callout band is light gray. Scope the light ink roles back inside
-   it, or its text renders white on light gray at 1.19:1. */
+/* Light islands in the dark theme: the footer never flips, and the dark
+   callout band is light gray. Scope the light roles back inside both, or
+   their text renders white on light at 1.00-1.19:1 and a primary button
+   inside turns off-black on off-black. */
+html[data-theme="dark"] .site-footer,
 html[data-theme="dark"] .band--cream {
-  --ink:      #15130f;
-  --ink-soft: #404040;
+  --paper:       #ffffff;
+  --paper-white: #ffffff;
+  --surface:     #ebebeb;
+  --ink:         #15130f;
+  --ink-soft:    #404040;
+  --ink-faint:   #8a8378;
+  --rule:        #e8e4da;
+  --rule-white:  #e8e4da;
   color: var(--ink);
 }
 
@@ -337,6 +346,11 @@ a, .type-link {
    specificity, so class-styled chrome and menu links keep their own colour. */
 a:where(:visited), .type-link:where(:visited) { color: var(--ink-soft); }
 a:hover, .type-link:hover { color: var(--signal); }
+/* Red text on off-black is 3.35:1, below the 4.5:1 text floor. In the dark
+   theme hover dims the ink instead; the red rule stays the signal. `:where`
+   keeps the weight of `a:hover`, so class-styled chrome keeps its own hover. */
+:where(html[data-theme="dark"]) a:hover,
+:where(html[data-theme="dark"]) .type-link:hover { color: var(--ink-soft); }
 a:focus-visible, .type-link:focus-visible {
   outline: 2px solid var(--signal);
   outline-offset: 2px;
@@ -812,8 +826,11 @@ table th:last-child, table td:last-child { text-align: right; }
 .site-lockup:hover { color: var(--signal); text-decoration: none; }
 .brand-agustos .site-lockup:hover { color: var(--ink); }
 .site-lockup:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
-html[data-theme="dark"] .site-lockup { color: var(--ink); }
-html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }
+/* `:where` keeps the dark rest colours below the hover rules above, so the
+   hover swap works in both themes: house brands turn red, Ağustos turns to
+   the ink (white on dark paper, off-black in the light footer). */
+html[data-theme="dark"] :where(.site-lockup) { color: var(--ink); }
+html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand); }
 
 /* Burgers: one shape, both drawers. The icon is inline SVG in the markup. */
 .site-sidebar-burger,
@@ -998,7 +1015,7 @@ html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }
   text-decoration: none;
 }
 .site-header__more-link:hover,
-.site-header__more-link[aria-current="page"] { background: var(--cream); color: var(--ink); text-decoration: none; }
+.site-header__more-link[aria-current="page"] { background: var(--surface); color: var(--ink); text-decoration: none; }
 .site-header__more-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 
 /* --- Footer. Light and small: the logo and one line on one side, one row of
@@ -1199,7 +1216,9 @@ html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }
   min-height: var(--control-min);
   padding: 0.6rem 0.75rem;
   background: var(--paper-white);
-  border: 1px solid var(--rule);
+  /* --ink-faint, not --rule: a field's edge must clear 3:1 (WCAG 1.4.11).
+     The hairline rule scores 1.27:1 on white; the faint ink 3.75 and 4.95. */
+  border: 1px solid var(--ink-faint);
   border-radius: var(--radius-sm);
   color: var(--ink);
   font-family: var(--body);
@@ -1211,15 +1230,18 @@ html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }
     background var(--dur) var(--ease);
 }
 
+/* Placeholder text is text: --ink-soft clears 4.5:1 in both themes, where
+   --ink-faint scores 3.75 on white. A visible label still carries the name. */
 .agustos-input::placeholder,
 .agustos-textarea::placeholder {
-  color: var(--ink-faint);
+  color: var(--ink-soft);
+  opacity: 1;
 }
 
 .agustos-input:hover,
 .agustos-textarea:hover,
 .agustos-select:hover {
-  border-color: var(--ink-faint);
+  border-color: var(--ink);
 }
 
 .agustos-input:focus-visible,
@@ -1227,13 +1249,14 @@ html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }
 .agustos-select:focus-visible {
   outline: 2px solid var(--signal);
   outline-offset: 2px;
-  border-color: var(--ink-soft);
+  border-color: var(--ink);
 }
 
 .agustos-input:disabled,
 .agustos-textarea:disabled,
 .agustos-select:disabled {
   background: color-mix(in srgb, var(--rule) 40%, var(--paper));
+  border-color: var(--rule);
   color: var(--ink-faint);
   cursor: not-allowed;
 }
@@ -1321,6 +1344,29 @@ html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }
   color: var(--signal);
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+:where(html[data-theme="dark"]) .agustos-button--quiet:hover { color: var(--ink-soft); }
+
+/* Pressed: a 1px press on every rank, and the fill returns to full ink (the
+   primary) or takes the functional gray (the secondary). No new colour. */
+.agustos-button:active:not(:disabled, [aria-disabled="true"]) { transform: translateY(1px); }
+.agustos-button--primary:active:not(:disabled, [aria-disabled="true"]) { border-color: var(--ink); background: var(--ink); }
+.agustos-button--secondary:active:not(:disabled, [aria-disabled="true"]) { background: var(--surface); }
+
+/* Disabled: the field's disabled look, and no hover or press. Works from the
+   attribute on a <button> or from aria-disabled on a link. */
+.agustos-button:is(:disabled, [aria-disabled="true"]),
+.agustos-button:is(:disabled, [aria-disabled="true"]):hover {
+  border-color: var(--rule);
+  background: color-mix(in srgb, var(--rule) 40%, var(--paper));
+  color: var(--ink-faint);
+  text-decoration: none;
+  cursor: not-allowed;
+}
+.agustos-button--quiet:is(:disabled, [aria-disabled="true"]),
+.agustos-button--quiet:is(:disabled, [aria-disabled="true"]):hover {
+  border-color: transparent;
+  background: transparent;
 }
 
 /* --- Badges (6) --- */

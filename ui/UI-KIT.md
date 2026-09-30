@@ -1,4 +1,4 @@
-# Ağustos UI kit — v7.0.0
+# Ağustos UI kit — v7.0.1
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -18,7 +18,7 @@ Create minimal, functional, and elegant interfaces that feel warm and human.
 - Use the highlighter once per page, on one to four words of the main headline. Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.
 - Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar. Websites ship light; dark theme is for product UI.
 - Copy a screen; do not design a page. Open with a headline, a deck, two buttons, and a trust line. Close with one pale red band.
-- Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not use uppercase labels, eyebrow headings, or coloured text.
+- Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not combine them, and do not use uppercase labels, eyebrow headings, or coloured text.
 - When unsure, do the conventional thing. Collect design tweaks and release the kit once a month; fix real defects at once.
 
 Avoid:
@@ -45,11 +45,11 @@ Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and
 
 npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-Prototypes with no build step may link the CDN copies. **Pin to `@v7.0.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
+Prototypes with no build step may link the CDN copies. **Pin to `@v7.0.1`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.0/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.0/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.1/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.1/ui/agustos.css">
 ```
 
 ## Page skeleton
@@ -125,7 +125,9 @@ A website page opens with a `type-hero` headline (or a `type-h1` on listing and 
 
 **The highlighter.** Wrap one to four words of the main headline in `<mark class="type-highlight">`. Once per page (the checker warns, AG025). Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.
 
-**Emphasis.** `strong` (600) marks a fact the reader scans for, at most once per paragraph. `em` marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. No uppercase labels, eyebrow headings, or coloured text.
+**Emphasis.** `strong` (600) marks a fact the reader scans for, at most once per paragraph. `em` marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Never combine them. No uppercase labels, eyebrow headings, or coloured text.
+
+**States.** The kit styles every state; compose from it rather than restyle. Hover: light paper turns a content link red; the dark theme dims the ink instead (red text on off-black is 3.35:1) and keeps the red rule. Pressed: buttons move 1px down. Disabled: the `disabled` attribute, or `aria-disabled="true"` on a link, turns a control gray and inert. The footer and the closing band stay light in the dark theme. Text clears 4.5:1 and borders, logos and focus 3:1 in both themes; `kit.json` (`states`) and `docs/web.html` carry every pair with its ratio.
 
 `brand-memregunes` may show photographs of Emre Güneş on `home` and `static`.
 

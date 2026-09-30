@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- GENERATED. Do not hand-edit. Source: docs/web.html.tmpl plus the screens table in
+<!-- GENERATED. Do not hand-edit. Source: docs/web.html.tmpl plus the screens and states tables in
      tokens/design-tokens.json. Run: python3 scripts/build_design_system.py -->
 <html lang="en">
 <head>
@@ -16,6 +16,7 @@
   .screen { margin: 0 0 var(--space-5xl); }
   .screen__rules { margin: var(--space-sm) 0 var(--space-md); }
   .screen__frame { width: 100%; height: 720px; border: 1px solid var(--rule); border-radius: var(--radius-lg); background: var(--paper); }
+  .state-swatch { display: inline-block; min-width: 2.4em; padding: 0 0.4em; border: 1px solid var(--rule); border-radius: var(--radius-md); font-weight: 600; text-align: center; }
 </style>
 </head>
 <body class="brand-agustos">
@@ -32,6 +33,12 @@
   <h1 class="type-hero-md">Web screens</h1>
   <p class="type-hero-deck">One reference page per screen type, rendered live from <code class="type-code">screens/</code>. Each carries its family's chrome. The rules under each frame come from the screens table in the registry, the same table the kit and the checker read.</p>
   <p class="type-body">Chrome follows the family: websites use the top menu and the footer, product UI uses the sidebar. Marketing, catalog, content, and document screens are light. Only product UI allows dark; open the app shell and use its theme control.</p>
+
+  <section class="screen" id="states">
+    <h2 class="type-h2">States</h2>
+    <p class="type-body">Every interactive state in both themes, from the states table in the registry. Text clears 4.5:1; borders, logos and the focus ring clear 3:1. The build refuses a pair below its floor. In the dark theme a hover dims the ink instead of turning it red, and the footer and the closing band stay light. Pressed buttons move 1px down; disabled controls are gray and do not react.</p>
+  {{ui.statesTable}}
+  </section>
 
 {{ui.screensIndex}}
 

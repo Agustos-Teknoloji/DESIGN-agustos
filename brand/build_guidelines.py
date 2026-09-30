@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Ağustos brand kit: brand guidelines (A4 PDF, 11 pages, English).
+Ağustos brand kit: brand guidelines (A4 PDF, 13 pages, English).
 
 Writes exports/<brand>/guidelines/<brand>-brand-guidelines.html from brands.json and
 tokens/resolved.json. With --pdf it also renders the PDF through the gstack browse tool.
@@ -36,7 +36,9 @@ SECTIONS = [
     "Clear space and minimum size",
     "Logo misuse",
     "Colour",
+    "Colour in use",
     "Typography",
+    "Emphasis",
     "Which file to use",
 ]
 
@@ -61,12 +63,35 @@ def six_colours(colors: dict, signal: str) -> list[tuple[str, str, str]]:
     """The locked six-colour palette: name, value, role."""
     return [
         ("White", colors["paperWhite"], "Paper for every page and screen."),
-        ("Cream", colors["paperCream"], "Full-width callout and closing bands only."),
-        ("Light gray", colors["paperGray"], "Quiet surfaces and panels."),
+        ("Pale red", colors["paperCream"], "The one closing band of a page."),
+        ("Light gray", colors["paperGray"], "Quiet surfaces, panels, and hover and pressed fills."),
         ("Dark gray", colors["inkSoft"], "Secondary text."),
-        ("Off-black", colors["ink"], "Body text and headings."),
-        ("Red", signal, "Signal: 2px link rule, current menu item, keyboard focus."),
+        ("Off-black", colors["ink"], "Body text, headings and buttons."),
+        ("Red", signal, "Identity and signal: the Ağustos logo, the 2px link rule, keyboard focus, one highlighter stroke. Never a button."),
     ]
+
+
+def px(size: str) -> str:
+    """The largest pixel value of a registry size, so clamp(43px, 4.6vw, 55px) reads 55px."""
+    values = [float(v) for v in re.findall(r"([0-9.]+)px", size)]
+    return f"{max(values):g}px"
+
+
+def states_html(rows: list[dict]) -> str:
+    """The registry states table: a swatch of each pair and its contrast ratio, light and dark."""
+
+    def cell(pair: dict, kind: str) -> str:
+        ratio = "exempt" if kind == "exempt" else f"{pair['ratio']:.2f}"
+        return (f'<td><span class="pair" style="color:{pair["foreground"]};background:{pair["background"]};">Aa</span>'
+                f'<span class="ratio">{ratio}</span></td>')
+
+    body = "".join(
+        f'<tr><td>{html.escape(row["element"])}</td><td class="st">{html.escape(row["state"])}</td>'
+        f'{cell(row["light"], row["kind"])}{cell(row["dark"], row["kind"])}</tr>'
+        for row in rows
+    )
+    return ('<table class="states"><thead><tr><th>Element</th><th>State</th><th>Light</th><th>Dark</th></tr></thead>'
+            f'<tbody>{body}</tbody></table>')
 
 
 def intro_html(title: str, is_parent: bool, family: list[str]) -> str:
@@ -106,6 +131,8 @@ def gen_guidelines_html(slug: str, brand: dict, reg: dict, design: dict, out: Pa
     ink, soft, faint = colors["ink"], colors["inkSoft"], colors["inkFaint"]
     paper, cream, gray, rule = colors["paperWhite"], colors["paperCream"], colors["paperGray"], colors["ruleCream"]
     danger = colors["stateDanger"]
+    sizes = design["foundations"]["fontSize"]
+    weights = design["foundations"]["fontWeight"]
     # The wrong colour in the recolour example: red for a black brand, blue for Ağustos.
     wrong = colors["stateInfo"] if is_red else signal
 
@@ -265,6 +292,31 @@ ol.toc .pg {{ color:{faint}; font-variant-numeric:tabular-nums; }}
 .spec .k {{ font-size:10.5px; color:{faint}; line-height:1.5; }}
 .spec .k b {{ font-family:'Inter Tight'; font-weight:600; color:{ink}; font-size:12px; display:block; }}
 
+/* colour in use */
+.rules {{ margin:14px 0 0; padding:0; list-style:none; }}
+.rules li {{ font-size:11px; line-height:1.5; color:{soft}; padding:3px 0; border-top:1px solid {rule}; }}
+.rules b {{ font-family:'Inter Tight'; font-weight:600; color:{ink}; }}
+table.states {{ width:100%; border-collapse:collapse; margin-top:12px; font-size:9.5px; }}
+table.states th {{ text-align:left; font-family:'Inter Tight'; font-weight:600; color:{ink}; padding:0 0 5px; border-bottom:1px solid {ink}; }}
+table.states td {{ padding:1.5px 0; border-bottom:1px solid {rule}; color:{soft}; vertical-align:middle; }}
+table.states td.st {{ color:{faint}; }}
+.pair {{ display:inline-block; width:30px; text-align:center; border:1px solid {rule}; border-radius:4px;
+         font-family:'Inter Tight'; font-weight:600; font-size:10px; line-height:14px; margin-right:6px; }}
+.ratio {{ font-family:'JetBrains Mono'; font-size:9.5px; color:{ink}; }}
+
+/* emphasis */
+.em-row {{ border-top:1px solid {rule}; padding:12px 0; display:grid; grid-template-columns:40mm 1fr; gap:14px; }}
+.em-row .k {{ font-family:'Inter Tight'; font-weight:600; font-size:12.5px; color:{ink}; }}
+.em-row .ex {{ font-size:14px; line-height:1.5; color:{ink}; margin-bottom:5px; }}
+.em-row .use, .em-row .never {{ font-size:11px; line-height:1.5; color:{soft}; }}
+.em-row .never::before {{ content:"Never: "; font-weight:600; color:{danger}; }}
+mark.hl {{ color:inherit; background:linear-gradient(transparent 55%, color-mix(in srgb, {signal} 18%, transparent) 55%); padding:0 2px; }}
+.link {{ font-weight:600; text-decoration:underline; text-decoration-color:{signal}; text-decoration-thickness:2px; text-underline-offset:3px; }}
+.pairs {{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px; }}
+.pairs .card {{ padding:12px 14px; font-size:12px; line-height:1.55; color:{soft}; }}
+.pairs .label {{ font-family:'Inter Tight'; font-weight:600; font-size:11px; margin-bottom:6px; }}
+.pairs .h {{ font-family:'Inter Tight'; font-weight:300; font-size:24px; line-height:1.1; color:{ink}; margin-bottom:8px; }}
+
 /* files */
 table.files {{ width:100%; border-collapse:collapse; margin-top:18px; font-size:11.5px; }}
 table.files td {{ padding:8px 0; border-bottom:1px solid {rule}; vertical-align:top; color:{soft}; }}
@@ -339,21 +391,75 @@ table.files td.path {{ font-family:'JetBrains Mono'; font-size:10px; color:{ink}
   <div class="note">For print, match these colours against a printer proof. CMYK and Pantone values
      are not registered yet. Do not convert the screen values yourself.</div>''')}
 
+{page("Colour in use", f'''
+  <p>On screens, colour follows the state of each element. Every pair below clears the WCAG 2.2 AA floor:
+     4.5:1 for text, 3:1 for borders, logos and the focus ring. The same pairs hold in the light and the dark theme.</p>
+  <ul class="rules">
+    <li><b>Red is identity and signal, never action.</b> Buttons are black in every brand. Red marks the Ağustos logo,
+        the 2px link rule, the current menu item, keyboard focus and one highlighter stroke.</li>
+    <li><b>Hover.</b> On light paper a link turns red. On dark paper red text is too faint (3.35:1), so the text dims
+        and the red rule stays. The Ağustos logo turns off-black (white on dark); every other logo turns red.</li>
+    <li><b>Pressed and disabled.</b> A pressed button moves 1px down. A disabled control turns gray and does not react.</li>
+    <li><b>Light islands.</b> The footer and the closing band stay light in the dark theme.</li>
+  </ul>
+  {states_html(design["states"])}''')}
+
 {page("Typography", f'''
-  <p>Three typefaces, all free and open source. Install them before you edit any template.
-     Write headings in sentence case. Do not use all-capital labels.</p>
-  <div style="margin-top:20px;">
-  <div class="spec"><div class="k"><b>Inter Tight 650</b>Wordmark, display, headings</div>
-    <div style="font-family:'Inter Tight';font-weight:650;font-size:36px;letter-spacing:-0.02em;">Light for architecture</div></div>
-  <div class="spec"><div class="k"><b>Inter Tight 600</b>Subheadings</div>
-    <div style="font-family:'Inter Tight';font-weight:600;font-size:18px;">Product range and specifications</div></div>
-  <div class="spec"><div class="k"><b>Inter 400</b>Body text, captions, tables</div>
-    <div style="font-size:13px;line-height:1.65;color:{soft};">Body text is set at a comfortable size with generous line spacing.
-      Keep lines short enough to read in one pass.</div></div>
+  <p>Three typefaces, all free and open source. Headings are thin and large; weight, not colour, sets the order.
+     Write in sentence case. Sizes follow one scale: the {sizes["body"]} body times 1.272 per step, so every
+     second step is the golden ratio.</p>
+  <div style="margin-top:14px;">
+  <div class="spec"><div class="k"><b>Hero, Inter Tight {weights["light"]}</b>{px(sizes["hero"])} on screen. One per page.</div>
+    <div style="font-family:'Inter Tight';font-weight:{weights["light"]};font-size:{px(sizes["hero"])};letter-spacing:-0.042em;line-height:0.97;">Light</div></div>
+  <div class="spec"><div class="k"><b>H1, Inter Tight {weights["light"]}</b>{px(sizes["h1"])}. Page titles.</div>
+    <div style="font-family:'Inter Tight';font-weight:{weights["light"]};font-size:{px(sizes["h1"])};letter-spacing:-0.035em;line-height:1;">Right light</div></div>
+  <div class="spec"><div class="k"><b>H2, Inter Tight {weights["regular"]}</b>{px(sizes["h2"])}. Sections.</div>
+    <div style="font-family:'Inter Tight';font-weight:{weights["regular"]};font-size:{px(sizes["h2"])};letter-spacing:-0.032em;line-height:1.06;">Product range</div></div>
+  <div class="spec"><div class="k"><b>H3, Inter Tight {weights["medium"]}</b>{px(sizes["h3"])}. Cards and subsections.</div>
+    <div style="font-family:'Inter Tight';font-weight:{weights["medium"]};font-size:{px(sizes["h3"])};">Specifications</div></div>
+  <div class="spec"><div class="k"><b>Body, Inter {weights["regular"]}</b>{px(sizes["body"])}, line height 1.65, at most 65 characters a line.</div>
+    <div style="font-size:{px(sizes["body"])};line-height:1.65;color:{soft};">Body text is set at a comfortable size with generous line spacing.</div></div>
+  <div class="spec"><div class="k"><b>Small print, Inter {weights["regular"]}</b>{px(sizes["footnote"])}. Footnotes and captions.</div>
+    <div style="font-size:{px(sizes["footnote"])};color:{soft};">Prices exclude VAT.</div></div>
   <div class="spec"><div class="k"><b>JetBrains Mono</b>Codes, file names, data</div>
     <div style="font-family:'JetBrains Mono';font-size:13px;">PX22-3000K-24D · 1200 lm</div></div>
-  <div class="spec"><div class="k"><b>Turkish</b>Every face supports it</div>
-    <div style="font-family:'Inter Tight';font-weight:650;font-size:20px;">ağustos · İstanbul · ışık · Güneş</div></div>
+  <div class="spec"><div class="k"><b>Wordmark, Inter Tight {weights["wordmark"]}</b>The logo only. Never for text.</div>
+    <div class="wm" style="color:{identity};">{wordmark}</div></div>
+  </div>
+  <p style="margin-top:12px;">Four text weights: {weights["light"]}, {weights["regular"]}, {weights["medium"]} and {weights["semibold"]}. Every face supports Turkish:
+     ağustos · İstanbul · ışık · Güneş. Documents and slides use the same faces at the sizes their templates carry.</p>''')}
+
+{page("Emphasis", f'''
+  <p>Emphasis is rationed. Each tool has one job, and they are never combined. When everything stands out, nothing does.</p>
+  <div style="margin-top:12px;">
+  <div class="em-row"><div class="k">Red highlighter</div><div>
+    <div class="ex" style="font-family:'Inter Tight';font-weight:300;font-size:24px;">Light for <mark class="hl">architecture</mark></div>
+    <div class="use">Once per page, on one to four words of the main headline. The sentence must read the same without it.</div>
+    <div class="never">body text, links, buttons, numbers, product screens, or a second stroke.</div></div></div>
+  <div class="em-row"><div class="k">Bold ({weights["semibold"]})</div><div>
+    <div class="ex">Delivery takes <b style="font-weight:{weights["semibold"]};">four weeks</b> from the order.</div>
+    <div class="use">A fact the reader scans for: a value, a deadline, a term at its first use. At most once per paragraph.</div>
+    <div class="never">whole sentences, headings inside running text, or next to the highlighter.</div></div></div>
+  <div class="em-row"><div class="k">Italic</div><div>
+    <div class="ex">The symbol is the <i>Laz Güneşi</i>, shown in <i>Lighting Journal</i>.</div>
+    <div class="use">Names of publications and projects, foreign terms, and quoted phrases.</div>
+    <div class="never">to stress a word, in headings, or in buttons.</div></div></div>
+  <div class="em-row"><div class="k">Underline</div><div>
+    <div class="ex">Read the <span class="link">installation guide</span>.</div>
+    <div class="use">Links only. On screens it is a 2px red rule.</div>
+    <div class="never">for emphasis, in print or on screen.</div></div></div>
+  <div class="em-row"><div class="k">Colour and capitals</div><div>
+    <div class="use">Text stays off-black or dark gray. Headings and labels are in sentence case.</div>
+    <div class="never">coloured text, all-capital labels, or small labels above a heading.</div></div></div>
+  </div>
+  <div class="pairs">
+    <div class="card"><div class="label" style="color:{colors["stateSuccess"]};">Do</div>
+      <div class="h">Light for <mark class="hl">architecture</mark></div>
+      Our fittings ship in <b style="font-weight:{weights["semibold"]};">four weeks</b>. See the <span class="link">product range</span>.</div>
+    <div class="card"><div class="label" style="color:{danger};">Don't</div>
+      <div style="font-size:10px;letter-spacing:.12em;color:{signal};font-weight:600;margin-bottom:4px;">NEW COLLECTION</div>
+      <div class="h" style="font-weight:700;">Light for <mark class="hl">architecture</mark></div>
+      Our <b><i>fittings</i></b> ship in <mark class="hl"><b>four weeks</b></mark>. <u>Call us today</u>.</div>
   </div>''')}
 
 {page("Which file to use", f'''
@@ -364,7 +470,7 @@ table.files td.path {{ font-family:'JetBrains Mono'; font-size:10px; color:{ink}
 
 <section class="page back">
   <img src="{neg}" alt="{wordmark}">
-  <div class="foot"><span>{domain}</span><span>11</span></div>
+  <div class="foot"><span>{domain}</span><span>{len(SECTIONS) + 3}</span></div>
 </section>
 
 </body></html>"""

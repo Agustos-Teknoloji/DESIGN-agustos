@@ -68,6 +68,31 @@ ol.toc .pg { color:#8a8378; font-variant-numeric:tabular-nums; }
 .spec .k { font-size:10.5px; color:#8a8378; line-height:1.5; }
 .spec .k b { font-family:'Inter Tight'; font-weight:600; color:#15130f; font-size:12px; display:block; }
 
+/* colour in use */
+.rules { margin:14px 0 0; padding:0; list-style:none; }
+.rules li { font-size:11px; line-height:1.5; color:#404040; padding:3px 0; border-top:1px solid #e8e4da; }
+.rules b { font-family:'Inter Tight'; font-weight:600; color:#15130f; }
+table.states { width:100%; border-collapse:collapse; margin-top:12px; font-size:9.5px; }
+table.states th { text-align:left; font-family:'Inter Tight'; font-weight:600; color:#15130f; padding:0 0 5px; border-bottom:1px solid #15130f; }
+table.states td { padding:1.5px 0; border-bottom:1px solid #e8e4da; color:#404040; vertical-align:middle; }
+table.states td.st { color:#8a8378; }
+.pair { display:inline-block; width:30px; text-align:center; border:1px solid #e8e4da; border-radius:4px;
+         font-family:'Inter Tight'; font-weight:600; font-size:10px; line-height:14px; margin-right:6px; }
+.ratio { font-family:'JetBrains Mono'; font-size:9.5px; color:#15130f; }
+
+/* emphasis */
+.em-row { border-top:1px solid #e8e4da; padding:12px 0; display:grid; grid-template-columns:40mm 1fr; gap:14px; }
+.em-row .k { font-family:'Inter Tight'; font-weight:600; font-size:12.5px; color:#15130f; }
+.em-row .ex { font-size:14px; line-height:1.5; color:#15130f; margin-bottom:5px; }
+.em-row .use, .em-row .never { font-size:11px; line-height:1.5; color:#404040; }
+.em-row .never::before { content:"Never: "; font-weight:600; color:#b42318; }
+mark.hl { color:inherit; background:linear-gradient(transparent 55%, color-mix(in srgb, #cf142a 18%, transparent) 55%); padding:0 2px; }
+.link { font-weight:600; text-decoration:underline; text-decoration-color:#cf142a; text-decoration-thickness:2px; text-underline-offset:3px; }
+.pairs { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:16px; }
+.pairs .card { padding:12px 14px; font-size:12px; line-height:1.55; color:#404040; }
+.pairs .label { font-family:'Inter Tight'; font-weight:600; font-size:11px; margin-bottom:6px; }
+.pairs .h { font-family:'Inter Tight'; font-weight:300; font-size:24px; line-height:1.1; color:#15130f; margin-bottom:8px; }
+
 /* files */
 table.files { width:100%; border-collapse:collapse; margin-top:18px; font-size:11.5px; }
 table.files td { padding:8px 0; border-bottom:1px solid #e8e4da; vertical-align:top; color:#404040; }
@@ -78,12 +103,12 @@ table.files td.path { font-family:'JetBrains Mono'; font-size:10px; color:#15130
   <img src="file:///home/user/DESIGN-agustos/brand/exports/pld/lockup/pld-lockup__positive.svg" alt="pld türkiye">
   <div class="t">Brand guidelines</div>
   <div class="s">PLD Türkiye</div>
-  <div class="foot"><span>pldturkiye.com</span><span>Ağustos Design System 6.5.0</span></div>
+  <div class="foot"><span>pldturkiye.com</span><span>Ağustos Design System 7.0.1</span></div>
 </section>
 
 <section class="page">
   <h1>Contents</h1>
-  <ol class="toc"><li><span>1&nbsp;&nbsp;Introduction</span><span class="pg">3</span></li><li><span>2&nbsp;&nbsp;The symbol</span><span class="pg">4</span></li><li><span>3&nbsp;&nbsp;The logo</span><span class="pg">5</span></li><li><span>4&nbsp;&nbsp;Clear space and minimum size</span><span class="pg">6</span></li><li><span>5&nbsp;&nbsp;Logo misuse</span><span class="pg">7</span></li><li><span>6&nbsp;&nbsp;Colour</span><span class="pg">8</span></li><li><span>7&nbsp;&nbsp;Typography</span><span class="pg">9</span></li><li><span>8&nbsp;&nbsp;Which file to use</span><span class="pg">10</span></li></ol>
+  <ol class="toc"><li><span>1&nbsp;&nbsp;Introduction</span><span class="pg">3</span></li><li><span>2&nbsp;&nbsp;The symbol</span><span class="pg">4</span></li><li><span>3&nbsp;&nbsp;The logo</span><span class="pg">5</span></li><li><span>4&nbsp;&nbsp;Clear space and minimum size</span><span class="pg">6</span></li><li><span>5&nbsp;&nbsp;Logo misuse</span><span class="pg">7</span></li><li><span>6&nbsp;&nbsp;Colour</span><span class="pg">8</span></li><li><span>7&nbsp;&nbsp;Colour in use</span><span class="pg">9</span></li><li><span>8&nbsp;&nbsp;Typography</span><span class="pg">10</span></li><li><span>9&nbsp;&nbsp;Emphasis</span><span class="pg">11</span></li><li><span>10&nbsp;&nbsp;Which file to use</span><span class="pg">12</span></li></ol>
   <div class="foot"><span>PLD Türkiye brand guidelines</span><span>2</span></div>
 </section>
 
@@ -146,36 +171,90 @@ table.files td.path { font-family:'JetBrains Mono'; font-size:10px; color:#15130
     <div class="swv">HEX #15130F<br>RGB 21 19 15</div></div></div>
   <h2>The six colours</h2>
   <p>Every house brand uses the same six colours. White is the paper. In layouts, red is a signal, not a fill.</p>
-  <div class="swatches"><div class="sw"><div class="chip" style="background:#ffffff;"></div><div class="swn">White</div><div class="swv">HEX #FFFFFF<br>RGB 255 255 255</div><div class="swr">Paper for every page and screen.</div></div><div class="sw"><div class="chip" style="background:#fdf5f5;"></div><div class="swn">Cream</div><div class="swv">HEX #FDF5F5<br>RGB 253 245 245</div><div class="swr">Full-width callout and closing bands only.</div></div><div class="sw"><div class="chip" style="background:#ebebeb;"></div><div class="swn">Light gray</div><div class="swv">HEX #EBEBEB<br>RGB 235 235 235</div><div class="swr">Quiet surfaces and panels.</div></div><div class="sw"><div class="chip" style="background:#404040;"></div><div class="swn">Dark gray</div><div class="swv">HEX #404040<br>RGB 64 64 64</div><div class="swr">Secondary text.</div></div><div class="sw"><div class="chip" style="background:#15130f;"></div><div class="swn">Off-black</div><div class="swv">HEX #15130F<br>RGB 21 19 15</div><div class="swr">Body text and headings.</div></div><div class="sw"><div class="chip" style="background:#cf142a;"></div><div class="swn">Red</div><div class="swv">HEX #CF142A<br>RGB 207 20 42</div><div class="swr">Signal: 2px link rule, current menu item, keyboard focus.</div></div></div>
+  <div class="swatches"><div class="sw"><div class="chip" style="background:#ffffff;"></div><div class="swn">White</div><div class="swv">HEX #FFFFFF<br>RGB 255 255 255</div><div class="swr">Paper for every page and screen.</div></div><div class="sw"><div class="chip" style="background:#fdf5f5;"></div><div class="swn">Pale red</div><div class="swv">HEX #FDF5F5<br>RGB 253 245 245</div><div class="swr">The one closing band of a page.</div></div><div class="sw"><div class="chip" style="background:#ebebeb;"></div><div class="swn">Light gray</div><div class="swv">HEX #EBEBEB<br>RGB 235 235 235</div><div class="swr">Quiet surfaces, panels, and hover and pressed fills.</div></div><div class="sw"><div class="chip" style="background:#404040;"></div><div class="swn">Dark gray</div><div class="swv">HEX #404040<br>RGB 64 64 64</div><div class="swr">Secondary text.</div></div><div class="sw"><div class="chip" style="background:#15130f;"></div><div class="swn">Off-black</div><div class="swv">HEX #15130F<br>RGB 21 19 15</div><div class="swr">Body text, headings and buttons.</div></div><div class="sw"><div class="chip" style="background:#cf142a;"></div><div class="swn">Red</div><div class="swv">HEX #CF142A<br>RGB 207 20 42</div><div class="swr">Identity and signal: the Ağustos logo, the 2px link rule, keyboard focus, one highlighter stroke. Never a button.</div></div></div>
   <div class="note">For print, match these colours against a printer proof. CMYK and Pantone values
      are not registered yet. Do not convert the screen values yourself.</div><div class="foot"><span>PLD Türkiye brand guidelines</span><span>8</span></div></section>
 
-<section class="page"><h1><span class="n">7</span>Typography</h1>
-  <p>Three typefaces, all free and open source. Install them before you edit any template.
-     Write headings in sentence case. Do not use all-capital labels.</p>
-  <div style="margin-top:20px;">
-  <div class="spec"><div class="k"><b>Inter Tight 650</b>Wordmark, display, headings</div>
-    <div style="font-family:'Inter Tight';font-weight:650;font-size:36px;letter-spacing:-0.02em;">Light for architecture</div></div>
-  <div class="spec"><div class="k"><b>Inter Tight 600</b>Subheadings</div>
-    <div style="font-family:'Inter Tight';font-weight:600;font-size:18px;">Product range and specifications</div></div>
-  <div class="spec"><div class="k"><b>Inter 400</b>Body text, captions, tables</div>
-    <div style="font-size:13px;line-height:1.65;color:#404040;">Body text is set at a comfortable size with generous line spacing.
-      Keep lines short enough to read in one pass.</div></div>
+<section class="page"><h1><span class="n">7</span>Colour in use</h1>
+  <p>On screens, colour follows the state of each element. Every pair below clears the WCAG 2.2 AA floor:
+     4.5:1 for text, 3:1 for borders, logos and the focus ring. The same pairs hold in the light and the dark theme.</p>
+  <ul class="rules">
+    <li><b>Red is identity and signal, never action.</b> Buttons are black in every brand. Red marks the Ağustos logo,
+        the 2px link rule, the current menu item, keyboard focus and one highlighter stroke.</li>
+    <li><b>Hover.</b> On light paper a link turns red. On dark paper red text is too faint (3.35:1), so the text dims
+        and the red rule stays. The Ağustos logo turns off-black (white on dark); every other logo turns red.</li>
+    <li><b>Pressed and disabled.</b> A pressed button moves 1px down. A disabled control turns gray and does not react.</li>
+    <li><b>Light islands.</b> The footer and the closing band stay light in the dark theme.</li>
+  </ul>
+  <table class="states"><thead><tr><th>Element</th><th>State</th><th>Light</th><th>Dark</th></tr></thead><tbody><tr><td>Body text</td><td class="st">rest</td><td><span class="pair" style="color:#15130f;background:#ffffff;">Aa</span><span class="ratio">18.55</span></td><td><span class="pair" style="color:#ffffff;background:#15130f;">Aa</span><span class="ratio">18.55</span></td></tr><tr><td>Secondary text</td><td class="st">rest</td><td><span class="pair" style="color:#404040;background:#ffffff;">Aa</span><span class="ratio">10.37</span></td><td><span class="pair" style="color:#8a8378;background:#15130f;">Aa</span><span class="ratio">4.95</span></td></tr><tr><td>Content link (2px red rule)</td><td class="st">rest</td><td><span class="pair" style="color:#15130f;background:#ffffff;">Aa</span><span class="ratio">18.55</span></td><td><span class="pair" style="color:#ffffff;background:#15130f;">Aa</span><span class="ratio">18.55</span></td></tr><tr><td>Content link, quiet button</td><td class="st">hover, pressed</td><td><span class="pair" style="color:#cf142a;background:#ffffff;">Aa</span><span class="ratio">5.55</span></td><td><span class="pair" style="color:#8a8378;background:#15130f;">Aa</span><span class="ratio">4.95</span></td></tr><tr><td>Primary button</td><td class="st">rest, pressed</td><td><span class="pair" style="color:#ffffff;background:#15130f;">Aa</span><span class="ratio">18.55</span></td><td><span class="pair" style="color:#15130f;background:#ffffff;">Aa</span><span class="ratio">18.55</span></td></tr><tr><td>Primary button</td><td class="st">hover</td><td><span class="pair" style="color:#ffffff;background:#404040;">Aa</span><span class="ratio">10.37</span></td><td><span class="pair" style="color:#15130f;background:#8a8378;">Aa</span><span class="ratio">4.95</span></td></tr><tr><td>Secondary button</td><td class="st">rest, hover</td><td><span class="pair" style="color:#15130f;background:#ffffff;">Aa</span><span class="ratio">18.55</span></td><td><span class="pair" style="color:#ffffff;background:#15130f;">Aa</span><span class="ratio">18.55</span></td></tr><tr><td>Secondary button</td><td class="st">pressed</td><td><span class="pair" style="color:#15130f;background:#ebebeb;">Aa</span><span class="ratio">15.56</span></td><td><span class="pair" style="color:#ffffff;background:#404040;">Aa</span><span class="ratio">10.37</span></td></tr><tr><td>Menu item, tab</td><td class="st">rest</td><td><span class="pair" style="color:#404040;background:#ffffff;">Aa</span><span class="ratio">10.37</span></td><td><span class="pair" style="color:#8a8378;background:#15130f;">Aa</span><span class="ratio">4.95</span></td></tr><tr><td>Menu item, tab (2px red rule)</td><td class="st">hover, current</td><td><span class="pair" style="color:#15130f;background:#ffffff;">Aa</span><span class="ratio">18.55</span></td><td><span class="pair" style="color:#ffffff;background:#15130f;">Aa</span><span class="ratio">18.55</span></td></tr><tr><td>More menu item</td><td class="st">hover, current</td><td><span class="pair" style="color:#15130f;background:#ebebeb;">Aa</span><span class="ratio">15.56</span></td><td><span class="pair" style="color:#ffffff;background:#404040;">Aa</span><span class="ratio">10.37</span></td></tr><tr><td>Footer link (the footer stays light)</td><td class="st">rest</td><td><span class="pair" style="color:#404040;background:#ffffff;">Aa</span><span class="ratio">10.37</span></td><td><span class="pair" style="color:#404040;background:#ffffff;">Aa</span><span class="ratio">10.37</span></td></tr><tr><td>Footer link (2px red rule)</td><td class="st">hover</td><td><span class="pair" style="color:#15130f;background:#ffffff;">Aa</span><span class="ratio">18.55</span></td><td><span class="pair" style="color:#15130f;background:#ffffff;">Aa</span><span class="ratio">18.55</span></td></tr><tr><td>Closing band text</td><td class="st">rest</td><td><span class="pair" style="color:#15130f;background:#fdf5f5;">Aa</span><span class="ratio">17.28</span></td><td><span class="pair" style="color:#15130f;background:#ebebeb;">Aa</span><span class="ratio">15.56</span></td></tr><tr><td>Form field placeholder</td><td class="st">rest</td><td><span class="pair" style="color:#404040;background:#ffffff;">Aa</span><span class="ratio">10.37</span></td><td><span class="pair" style="color:#8a8378;background:#15130f;">Aa</span><span class="ratio">4.95</span></td></tr><tr><td>Form field border</td><td class="st">rest</td><td><span class="pair" style="color:#8a8378;background:#ffffff;">Aa</span><span class="ratio">3.75</span></td><td><span class="pair" style="color:#8a8378;background:#15130f;">Aa</span><span class="ratio">4.95</span></td></tr><tr><td>Form field border</td><td class="st">hover, focus</td><td><span class="pair" style="color:#15130f;background:#ffffff;">Aa</span><span class="ratio">18.55</span></td><td><span class="pair" style="color:#ffffff;background:#15130f;">Aa</span><span class="ratio">18.55</span></td></tr><tr><td>Keyboard focus ring</td><td class="st">focus</td><td><span class="pair" style="color:#cf142a;background:#ffffff;">Aa</span><span class="ratio">5.55</span></td><td><span class="pair" style="color:#cf142a;background:#15130f;">Aa</span><span class="ratio">3.35</span></td></tr><tr><td>Ağustos logo</td><td class="st">rest</td><td><span class="pair" style="color:#cf142a;background:#ffffff;">Aa</span><span class="ratio">5.55</span></td><td><span class="pair" style="color:#cf142a;background:#15130f;">Aa</span><span class="ratio">3.35</span></td></tr><tr><td>Ağustos logo</td><td class="st">hover</td><td><span class="pair" style="color:#15130f;background:#ffffff;">Aa</span><span class="ratio">18.55</span></td><td><span class="pair" style="color:#ffffff;background:#15130f;">Aa</span><span class="ratio">18.55</span></td></tr><tr><td>House-brand logo</td><td class="st">rest</td><td><span class="pair" style="color:#15130f;background:#ffffff;">Aa</span><span class="ratio">18.55</span></td><td><span class="pair" style="color:#ffffff;background:#15130f;">Aa</span><span class="ratio">18.55</span></td></tr><tr><td>House-brand logo</td><td class="st">hover</td><td><span class="pair" style="color:#cf142a;background:#ffffff;">Aa</span><span class="ratio">5.55</span></td><td><span class="pair" style="color:#cf142a;background:#15130f;">Aa</span><span class="ratio">3.35</span></td></tr><tr><td>Success badge</td><td class="st">rest</td><td><span class="pair" style="color:#1f6b4a;background:#ffffff;">Aa</span><span class="ratio">6.44</span></td><td><span class="pair" style="color:#7ec9a2;background:#15130f;">Aa</span><span class="ratio">9.51</span></td></tr><tr><td>Warning badge</td><td class="st">rest</td><td><span class="pair" style="color:#8a5a00;background:#ffffff;">Aa</span><span class="ratio">5.93</span></td><td><span class="pair" style="color:#d9a441;background:#15130f;">Aa</span><span class="ratio">8.25</span></td></tr><tr><td>Danger badge</td><td class="st">rest</td><td><span class="pair" style="color:#b42318;background:#ffffff;">Aa</span><span class="ratio">6.57</span></td><td><span class="pair" style="color:#f08c82;background:#15130f;">Aa</span><span class="ratio">7.76</span></td></tr><tr><td>Info badge</td><td class="st">rest</td><td><span class="pair" style="color:#1a4d8f;background:#ffffff;">Aa</span><span class="ratio">8.39</span></td><td><span class="pair" style="color:#8ab6e8;background:#15130f;">Aa</span><span class="ratio">8.78</span></td></tr><tr><td>Disabled button or field</td><td class="st">disabled</td><td><span class="pair" style="color:#8a8378;background:#ffffff;">Aa</span><span class="ratio">exempt</span></td><td><span class="pair" style="color:#8a8378;background:#15130f;">Aa</span><span class="ratio">exempt</span></td></tr></tbody></table><div class="foot"><span>PLD Türkiye brand guidelines</span><span>9</span></div></section>
+
+<section class="page"><h1><span class="n">8</span>Typography</h1>
+  <p>Three typefaces, all free and open source. Headings are thin and large; weight, not colour, sets the order.
+     Write in sentence case. Sizes follow one scale: the 16.5px body times 1.272 per step, so every
+     second step is the golden ratio.</p>
+  <div style="margin-top:14px;">
+  <div class="spec"><div class="k"><b>Hero, Inter Tight 300</b>89px on screen. One per page.</div>
+    <div style="font-family:'Inter Tight';font-weight:300;font-size:89px;letter-spacing:-0.042em;line-height:0.97;">Light</div></div>
+  <div class="spec"><div class="k"><b>H1, Inter Tight 300</b>55px. Page titles.</div>
+    <div style="font-family:'Inter Tight';font-weight:300;font-size:55px;letter-spacing:-0.035em;line-height:1;">Right light</div></div>
+  <div class="spec"><div class="k"><b>H2, Inter Tight 400</b>43px. Sections.</div>
+    <div style="font-family:'Inter Tight';font-weight:400;font-size:43px;letter-spacing:-0.032em;line-height:1.06;">Product range</div></div>
+  <div class="spec"><div class="k"><b>H3, Inter Tight 500</b>21px. Cards and subsections.</div>
+    <div style="font-family:'Inter Tight';font-weight:500;font-size:21px;">Specifications</div></div>
+  <div class="spec"><div class="k"><b>Body, Inter 400</b>16.5px, line height 1.65, at most 65 characters a line.</div>
+    <div style="font-size:16.5px;line-height:1.65;color:#404040;">Body text is set at a comfortable size with generous line spacing.</div></div>
+  <div class="spec"><div class="k"><b>Small print, Inter 400</b>13px. Footnotes and captions.</div>
+    <div style="font-size:13px;color:#404040;">Prices exclude VAT.</div></div>
   <div class="spec"><div class="k"><b>JetBrains Mono</b>Codes, file names, data</div>
     <div style="font-family:'JetBrains Mono';font-size:13px;">PX22-3000K-24D · 1200 lm</div></div>
-  <div class="spec"><div class="k"><b>Turkish</b>Every face supports it</div>
-    <div style="font-family:'Inter Tight';font-weight:650;font-size:20px;">ağustos · İstanbul · ışık · Güneş</div></div>
-  </div><div class="foot"><span>PLD Türkiye brand guidelines</span><span>9</span></div></section>
+  <div class="spec"><div class="k"><b>Wordmark, Inter Tight 650</b>The logo only. Never for text.</div>
+    <div class="wm" style="color:#15130f;">pld türkiye</div></div>
+  </div>
+  <p style="margin-top:12px;">Four text weights: 300, 400, 500 and 600. Every face supports Turkish:
+     ağustos · İstanbul · ışık · Güneş. Documents and slides use the same faces at the sizes their templates carry.</p><div class="foot"><span>PLD Türkiye brand guidelines</span><span>10</span></div></section>
 
-<section class="page"><h1><span class="n">8</span>Which file to use</h1>
+<section class="page"><h1><span class="n">9</span>Emphasis</h1>
+  <p>Emphasis is rationed. Each tool has one job, and they are never combined. When everything stands out, nothing does.</p>
+  <div style="margin-top:12px;">
+  <div class="em-row"><div class="k">Red highlighter</div><div>
+    <div class="ex" style="font-family:'Inter Tight';font-weight:300;font-size:24px;">Light for <mark class="hl">architecture</mark></div>
+    <div class="use">Once per page, on one to four words of the main headline. The sentence must read the same without it.</div>
+    <div class="never">body text, links, buttons, numbers, product screens, or a second stroke.</div></div></div>
+  <div class="em-row"><div class="k">Bold (600)</div><div>
+    <div class="ex">Delivery takes <b style="font-weight:600;">four weeks</b> from the order.</div>
+    <div class="use">A fact the reader scans for: a value, a deadline, a term at its first use. At most once per paragraph.</div>
+    <div class="never">whole sentences, headings inside running text, or next to the highlighter.</div></div></div>
+  <div class="em-row"><div class="k">Italic</div><div>
+    <div class="ex">The symbol is the <i>Laz Güneşi</i>, shown in <i>Lighting Journal</i>.</div>
+    <div class="use">Names of publications and projects, foreign terms, and quoted phrases.</div>
+    <div class="never">to stress a word, in headings, or in buttons.</div></div></div>
+  <div class="em-row"><div class="k">Underline</div><div>
+    <div class="ex">Read the <span class="link">installation guide</span>.</div>
+    <div class="use">Links only. On screens it is a 2px red rule.</div>
+    <div class="never">for emphasis, in print or on screen.</div></div></div>
+  <div class="em-row"><div class="k">Colour and capitals</div><div>
+    <div class="use">Text stays off-black or dark gray. Headings and labels are in sentence case.</div>
+    <div class="never">coloured text, all-capital labels, or small labels above a heading.</div></div></div>
+  </div>
+  <div class="pairs">
+    <div class="card"><div class="label" style="color:#1f6b4a;">Do</div>
+      <div class="h">Light for <mark class="hl">architecture</mark></div>
+      Our fittings ship in <b style="font-weight:600;">four weeks</b>. See the <span class="link">product range</span>.</div>
+    <div class="card"><div class="label" style="color:#b42318;">Don't</div>
+      <div style="font-size:10px;letter-spacing:.12em;color:#cf142a;font-weight:600;margin-bottom:4px;">NEW COLLECTION</div>
+      <div class="h" style="font-weight:700;">Light for <mark class="hl">architecture</mark></div>
+      Our <b><i>fittings</i></b> ship in <mark class="hl"><b>four weeks</b></mark>. <u>Call us today</u>.</div>
+  </div><div class="foot"><span>PLD Türkiye brand guidelines</span><span>11</span></div></section>
+
+<section class="page"><h1><span class="n">10</span>Which file to use</h1>
   <p>Use the finished files. Do not redraw the logo or copy it from a website or a PDF.
      Every file below is in the PLD Türkiye brand kit, in the folder named in the right column.</p>
   <table class="files"><tr><td>Logo for a website or app</td><td class='path'>lockup/pld-lockup__positive.svg</td></tr><tr><td>Logo on a dark or photo background</td><td class='path'>lockup/pld-lockup__negative.svg</td></tr><tr><td>Logo in one ink</td><td class='path'>lockup/pld-lockup__mono.svg</td></tr><tr><td>Logo for print</td><td class='path'>lockup/pld-lockup__positive.pdf</td></tr><tr><td>Logo for slides or social posts</td><td class='path'>lockup/pld-lockup__positive.png</td></tr><tr><td>Favicon or app icon (symbol on a white tile)</td><td class='path'>favicon/favicon.svg</td></tr><tr><td>Profile picture</td><td class='path'>social/pld-avatar-1000.png</td></tr><tr><td>Link preview image</td><td class='path'>social/pld-og.png</td></tr><tr><td>Colour swatches</td><td class='path'>swatches/pld.ase (Adobe), pld.clr (Apple)</td></tr><tr><td>Presentation</td><td class='path'>office/pld-template.pptx</td></tr><tr><td>Letter or document</td><td class='path'>office/pld-letterhead.docx, pld-document-template.docx</td></tr><tr><td>Email signature</td><td class='path'>email/pld-signature.html</td></tr></table>
-  <p style="margin-top:16px;">Fonts: Inter Tight, Inter and JetBrains Mono, with their licences, are in the fonts folder of the kit.</p><div class="foot"><span>PLD Türkiye brand guidelines</span><span>10</span></div></section>
+  <p style="margin-top:16px;">Fonts: Inter Tight, Inter and JetBrains Mono, with their licences, are in the fonts folder of the kit.</p><div class="foot"><span>PLD Türkiye brand guidelines</span><span>12</span></div></section>
 
 <section class="page back">
   <img src="file:///home/user/DESIGN-agustos/brand/exports/pld/lockup/pld-lockup__negative.svg" alt="pld türkiye">
-  <div class="foot"><span>pldturkiye.com</span><span>11</span></div>
+  <div class="foot"><span>pldturkiye.com</span><span>13</span></div>
 </section>
 
 </body></html>

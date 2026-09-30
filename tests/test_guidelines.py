@@ -39,10 +39,11 @@ class GuidelinesContractTest(unittest.TestCase):
     def test_every_full_kit_brand_has_guidelines(self):
         self.assertEqual(sorted(self.pages), ["agustos", "pataraz", "pld"])
 
-    def test_eleven_pages_with_every_section(self):
+    def test_thirteen_pages_with_every_section(self):
+        self.assertEqual(len(self.builder.SECTIONS), 10)
         for slug, page in self.pages.items():
             with self.subTest(slug=slug):
-                self.assertEqual(page.count('<section class="page'), 11)
+                self.assertEqual(page.count('<section class="page'), 13)
                 for number, title in enumerate(self.builder.SECTIONS, start=1):
                     self.assertIn(f'<h1><span class="n">{number}</span>{title}</h1>', page)
 
@@ -61,6 +62,29 @@ class GuidelinesContractTest(unittest.TestCase):
                 self.assertNotIn("\u2014", page, "no em dash")
                 self.assertNotIn("uppercase", page, "no uppercase labels")
                 self.assertNotIn("eyebrow", page, "no eyebrow headings")
+
+    def test_colour_in_use_shows_every_registry_state(self):
+        """v7.0.1: the states table reaches partners, not only developers."""
+        for slug, page in self.pages.items():
+            with self.subTest(slug=slug):
+                self.assertEqual(page.count('<span class="pair"'), 2 * len(self.design["states"]))
+                self.assertIn("Red is identity and signal, never action.", page)
+
+    def test_typography_shows_the_thin_headings_from_the_registry(self):
+        """v7.0.1: the page said headings were 650 while the web set them at 300 and 400."""
+        weights = self.design["foundations"]["fontWeight"]
+        for slug, page in self.pages.items():
+            with self.subTest(slug=slug):
+                self.assertNotIn("Wordmark, display, headings", page)
+                self.assertIn(f"<b>Hero, Inter Tight {weights['light']}</b>89px", page)
+                self.assertIn(f"<b>H2, Inter Tight {weights['regular']}</b>43px", page)
+                self.assertIn(f"<b>Wordmark, Inter Tight {weights['wordmark']}</b>The logo only.", page)
+
+    def test_emphasis_page_covers_every_tool(self):
+        for slug, page in self.pages.items():
+            with self.subTest(slug=slug):
+                for tool in ("Red highlighter", "Bold (600)", "Italic", "Underline", "Colour and capitals"):
+                    self.assertIn(f'<div class="k">{tool}</div>', page)
 
     def test_black_brands_warn_against_a_red_logo(self):
         signal = self.design["semantic"]["color"]["signal"].lower()

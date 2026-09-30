@@ -103,6 +103,75 @@ def validate_screens(tokens: dict[str, Any], brands: dict[str, Any]) -> None:
             raise TokenError(f"screen {name!r}: {', '.join(retired)} retired in v7.0.0; the checker no longer counts buttons or quotes")
 
 
+STATE_FLOORS = {"text": 4.5, "graphic": 3.0, "exempt": 0.0}
+STATE_THEMES = ("light", "dark")
+
+
+def contrast_ratio(foreground: str, background: str) -> float:
+    """WCAG 2.x contrast ratio of two #rrggbb colours."""
+
+    def luminance(hex_color: str) -> float:
+        value = hex_color.lstrip("#")
+        channels = []
+        for index in (0, 2, 4):
+            channel = int(value[index:index + 2], 16) / 255
+            channels.append(channel / 12.92 if channel <= 0.03928 else ((channel + 0.055) / 1.055) ** 2.4)
+        red, green, blue = channels
+        return 0.2126 * red + 0.7152 * green + 0.0722 * blue
+
+    first, second = luminance(foreground), luminance(background)
+    return (max(first, second) + 0.05) / (min(first, second) + 0.05)
+
+
+def state_rows(tokens: dict[str, Any]) -> list[dict[str, Any]]:
+    """The states table with hex values and ratios. A pair below its floor stops the build."""
+    colors = tokens["foundations"]["color"]
+    rows: list[dict[str, Any]] = []
+    for entry in tokens["states"]["rows"]:
+        label = f"state {entry['element']!r} ({entry['state']})"
+        kind = entry["kind"]
+        if kind not in STATE_FLOORS:
+            raise TokenError(f"{label}: kind must be one of {', '.join(STATE_FLOORS)}")
+        row: dict[str, Any] = {"element": entry["element"], "state": entry["state"], "kind": kind, "floor": STATE_FLOORS[kind]}
+        for theme in STATE_THEMES:
+            pair = []
+            for key in entry[theme]:
+                if key not in colors or key.startswith("$"):
+                    raise TokenError(f"{label}: unknown colour {key!r} in {theme}")
+                pair.append(colors[key]["$value"].lower())
+            ratio = round(contrast_ratio(*pair), 2)
+            if ratio < STATE_FLOORS[kind]:
+                raise TokenError(f"{label}: {theme} {pair[0]} on {pair[1]} is {ratio}:1, below the {kind} floor {STATE_FLOORS[kind]}:1")
+            row[theme] = {"foreground": pair[0], "background": pair[1], "ratio": ratio}
+        rows.append(row)
+    return rows
+
+
+def states_table_html(rows: list[dict[str, Any]]) -> str:
+    """The states table for docs/web.html: a swatch of each pair, its hex values and ratio."""
+
+    def cell(pair: dict[str, Any], kind: str) -> str:
+        ratio = "exempt" if kind == "exempt" else f"{pair['ratio']:.2f}"
+        return (
+            f'<td><span class="state-swatch" style="color:{pair["foreground"]};background:{pair["background"]}">Aa</span> '
+            f'<code>{pair["foreground"]}</code> on <code>{pair["background"]}</code> · {ratio}</td>'
+        )
+
+    body = "\n".join(
+        f'        <tr><th scope="row">{html.escape(row["element"])}</th><td>{html.escape(row["state"])}</td>'
+        f'{cell(row["light"], row["kind"])}{cell(row["dark"], row["kind"])}</tr>'
+        for row in rows
+    )
+    return (
+        '<div class="table-scroll">\n'
+        '    <table class="type-table">\n'
+        '      <thead><tr><th scope="col">Element</th><th scope="col">State</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>\n'
+        f'      <tbody>\n{body}\n      </tbody>\n'
+        '    </table>\n'
+        '  </div>'
+    )
+
+
 def screen_rows(tokens: dict[str, Any], brands: dict[str, Any]) -> list[dict[str, Any]]:
     """The table plus the two derived columns. Theme and chrome both follow family."""
     rows: list[dict[str, Any]] = []
@@ -526,6 +595,7 @@ def kit_context(tokens: dict[str, Any], brands: dict[str, Any]) -> dict[str, str
             ]
         ),
         "screensIndex": screens_index_html(screen_rows(tokens, brands)),
+        "statesTable": states_table_html(state_rows(tokens)),
         "cdnBase": distribution["cdnBase"].format(repository=repository, version=version),
         "rawBase": distribution["rawBase"].format(repository=repository, version=version),
     }
@@ -733,6 +803,7 @@ def ui_kit_json(
             row["name"]: {key: value for key, value in row.items() if key != "name"}
             for row in screen_rows(tokens, brands)
         },
+        "states": state_rows(tokens),
         "substrates": ["paper", "paper-white", "cream"],
         "darkTheme": 'html[data-theme="dark"]',
         "cssClasses": tokens["compatibility"]["cssClasses"],
@@ -776,6 +847,7 @@ def expected_outputs() -> dict[Path, str]:
         "brands": brands["brands"],
         "signal": brands["signal"],
         "screens": screen_entries(tokens),
+        "states": state_rows(tokens),
     }
     set_output(
         outputs,

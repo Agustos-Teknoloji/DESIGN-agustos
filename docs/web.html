@@ -1,5 +1,5 @@
 <!doctype html>
-<!-- GENERATED. Do not hand-edit. Source: docs/web.html.tmpl plus the screens table in
+<!-- GENERATED. Do not hand-edit. Source: docs/web.html.tmpl plus the screens and states tables in
      tokens/design-tokens.json. Run: python3 scripts/build_design_system.py -->
 <html lang="en">
 <head>
@@ -16,6 +16,7 @@
   .screen { margin: 0 0 var(--space-5xl); }
   .screen__rules { margin: var(--space-sm) 0 var(--space-md); }
   .screen__frame { width: 100%; height: 720px; border: 1px solid var(--rule); border-radius: var(--radius-lg); background: var(--paper); }
+  .state-swatch { display: inline-block; min-width: 2.4em; padding: 0 0.4em; border: 1px solid var(--rule); border-radius: var(--radius-md); font-weight: 600; text-align: center; }
 </style>
 </head>
 <body class="brand-agustos">
@@ -28,10 +29,49 @@
     <a href="web.html" aria-current="page">Web</a>
     <a href="brands.html">Brands</a>
   </nav>
-  <p class="type-h4">Standard artifact 4 of 5 · kit v7.0.0</p>
+  <p class="type-h4">Standard artifact 4 of 5 · kit v7.0.1</p>
   <h1 class="type-hero-md">Web screens</h1>
   <p class="type-hero-deck">One reference page per screen type, rendered live from <code class="type-code">screens/</code>. Each carries its family's chrome. The rules under each frame come from the screens table in the registry, the same table the kit and the checker read.</p>
   <p class="type-body">Chrome follows the family: websites use the top menu and the footer, product UI uses the sidebar. Marketing, catalog, content, and document screens are light. Only product UI allows dark; open the app shell and use its theme control.</p>
+
+  <section class="screen" id="states">
+    <h2 class="type-h2">States</h2>
+    <p class="type-body">Every interactive state in both themes, from the states table in the registry. Text clears 4.5:1; borders, logos and the focus ring clear 3:1. The build refuses a pair below its floor. In the dark theme a hover dims the ink instead of turning it red, and the footer and the closing band stay light. Pressed buttons move 1px down; disabled controls are gray and do not react.</p>
+  <div class="table-scroll">
+    <table class="type-table">
+      <thead><tr><th scope="col">Element</th><th scope="col">State</th><th scope="col">Light</th><th scope="col">Dark</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Body text</th><td>rest</td><td><span class="state-swatch" style="color:#15130f;background:#ffffff">Aa</span> <code>#15130f</code> on <code>#ffffff</code> · 18.55</td><td><span class="state-swatch" style="color:#ffffff;background:#15130f">Aa</span> <code>#ffffff</code> on <code>#15130f</code> · 18.55</td></tr>
+        <tr><th scope="row">Secondary text</th><td>rest</td><td><span class="state-swatch" style="color:#404040;background:#ffffff">Aa</span> <code>#404040</code> on <code>#ffffff</code> · 10.37</td><td><span class="state-swatch" style="color:#8a8378;background:#15130f">Aa</span> <code>#8a8378</code> on <code>#15130f</code> · 4.95</td></tr>
+        <tr><th scope="row">Content link (2px red rule)</th><td>rest</td><td><span class="state-swatch" style="color:#15130f;background:#ffffff">Aa</span> <code>#15130f</code> on <code>#ffffff</code> · 18.55</td><td><span class="state-swatch" style="color:#ffffff;background:#15130f">Aa</span> <code>#ffffff</code> on <code>#15130f</code> · 18.55</td></tr>
+        <tr><th scope="row">Content link, quiet button</th><td>hover, pressed</td><td><span class="state-swatch" style="color:#cf142a;background:#ffffff">Aa</span> <code>#cf142a</code> on <code>#ffffff</code> · 5.55</td><td><span class="state-swatch" style="color:#8a8378;background:#15130f">Aa</span> <code>#8a8378</code> on <code>#15130f</code> · 4.95</td></tr>
+        <tr><th scope="row">Primary button</th><td>rest, pressed</td><td><span class="state-swatch" style="color:#ffffff;background:#15130f">Aa</span> <code>#ffffff</code> on <code>#15130f</code> · 18.55</td><td><span class="state-swatch" style="color:#15130f;background:#ffffff">Aa</span> <code>#15130f</code> on <code>#ffffff</code> · 18.55</td></tr>
+        <tr><th scope="row">Primary button</th><td>hover</td><td><span class="state-swatch" style="color:#ffffff;background:#404040">Aa</span> <code>#ffffff</code> on <code>#404040</code> · 10.37</td><td><span class="state-swatch" style="color:#15130f;background:#8a8378">Aa</span> <code>#15130f</code> on <code>#8a8378</code> · 4.95</td></tr>
+        <tr><th scope="row">Secondary button</th><td>rest, hover</td><td><span class="state-swatch" style="color:#15130f;background:#ffffff">Aa</span> <code>#15130f</code> on <code>#ffffff</code> · 18.55</td><td><span class="state-swatch" style="color:#ffffff;background:#15130f">Aa</span> <code>#ffffff</code> on <code>#15130f</code> · 18.55</td></tr>
+        <tr><th scope="row">Secondary button</th><td>pressed</td><td><span class="state-swatch" style="color:#15130f;background:#ebebeb">Aa</span> <code>#15130f</code> on <code>#ebebeb</code> · 15.56</td><td><span class="state-swatch" style="color:#ffffff;background:#404040">Aa</span> <code>#ffffff</code> on <code>#404040</code> · 10.37</td></tr>
+        <tr><th scope="row">Menu item, tab</th><td>rest</td><td><span class="state-swatch" style="color:#404040;background:#ffffff">Aa</span> <code>#404040</code> on <code>#ffffff</code> · 10.37</td><td><span class="state-swatch" style="color:#8a8378;background:#15130f">Aa</span> <code>#8a8378</code> on <code>#15130f</code> · 4.95</td></tr>
+        <tr><th scope="row">Menu item, tab (2px red rule)</th><td>hover, current</td><td><span class="state-swatch" style="color:#15130f;background:#ffffff">Aa</span> <code>#15130f</code> on <code>#ffffff</code> · 18.55</td><td><span class="state-swatch" style="color:#ffffff;background:#15130f">Aa</span> <code>#ffffff</code> on <code>#15130f</code> · 18.55</td></tr>
+        <tr><th scope="row">More menu item</th><td>hover, current</td><td><span class="state-swatch" style="color:#15130f;background:#ebebeb">Aa</span> <code>#15130f</code> on <code>#ebebeb</code> · 15.56</td><td><span class="state-swatch" style="color:#ffffff;background:#404040">Aa</span> <code>#ffffff</code> on <code>#404040</code> · 10.37</td></tr>
+        <tr><th scope="row">Footer link (the footer stays light)</th><td>rest</td><td><span class="state-swatch" style="color:#404040;background:#ffffff">Aa</span> <code>#404040</code> on <code>#ffffff</code> · 10.37</td><td><span class="state-swatch" style="color:#404040;background:#ffffff">Aa</span> <code>#404040</code> on <code>#ffffff</code> · 10.37</td></tr>
+        <tr><th scope="row">Footer link (2px red rule)</th><td>hover</td><td><span class="state-swatch" style="color:#15130f;background:#ffffff">Aa</span> <code>#15130f</code> on <code>#ffffff</code> · 18.55</td><td><span class="state-swatch" style="color:#15130f;background:#ffffff">Aa</span> <code>#15130f</code> on <code>#ffffff</code> · 18.55</td></tr>
+        <tr><th scope="row">Closing band text</th><td>rest</td><td><span class="state-swatch" style="color:#15130f;background:#fdf5f5">Aa</span> <code>#15130f</code> on <code>#fdf5f5</code> · 17.28</td><td><span class="state-swatch" style="color:#15130f;background:#ebebeb">Aa</span> <code>#15130f</code> on <code>#ebebeb</code> · 15.56</td></tr>
+        <tr><th scope="row">Form field placeholder</th><td>rest</td><td><span class="state-swatch" style="color:#404040;background:#ffffff">Aa</span> <code>#404040</code> on <code>#ffffff</code> · 10.37</td><td><span class="state-swatch" style="color:#8a8378;background:#15130f">Aa</span> <code>#8a8378</code> on <code>#15130f</code> · 4.95</td></tr>
+        <tr><th scope="row">Form field border</th><td>rest</td><td><span class="state-swatch" style="color:#8a8378;background:#ffffff">Aa</span> <code>#8a8378</code> on <code>#ffffff</code> · 3.75</td><td><span class="state-swatch" style="color:#8a8378;background:#15130f">Aa</span> <code>#8a8378</code> on <code>#15130f</code> · 4.95</td></tr>
+        <tr><th scope="row">Form field border</th><td>hover, focus</td><td><span class="state-swatch" style="color:#15130f;background:#ffffff">Aa</span> <code>#15130f</code> on <code>#ffffff</code> · 18.55</td><td><span class="state-swatch" style="color:#ffffff;background:#15130f">Aa</span> <code>#ffffff</code> on <code>#15130f</code> · 18.55</td></tr>
+        <tr><th scope="row">Keyboard focus ring</th><td>focus</td><td><span class="state-swatch" style="color:#cf142a;background:#ffffff">Aa</span> <code>#cf142a</code> on <code>#ffffff</code> · 5.55</td><td><span class="state-swatch" style="color:#cf142a;background:#15130f">Aa</span> <code>#cf142a</code> on <code>#15130f</code> · 3.35</td></tr>
+        <tr><th scope="row">Ağustos logo</th><td>rest</td><td><span class="state-swatch" style="color:#cf142a;background:#ffffff">Aa</span> <code>#cf142a</code> on <code>#ffffff</code> · 5.55</td><td><span class="state-swatch" style="color:#cf142a;background:#15130f">Aa</span> <code>#cf142a</code> on <code>#15130f</code> · 3.35</td></tr>
+        <tr><th scope="row">Ağustos logo</th><td>hover</td><td><span class="state-swatch" style="color:#15130f;background:#ffffff">Aa</span> <code>#15130f</code> on <code>#ffffff</code> · 18.55</td><td><span class="state-swatch" style="color:#ffffff;background:#15130f">Aa</span> <code>#ffffff</code> on <code>#15130f</code> · 18.55</td></tr>
+        <tr><th scope="row">House-brand logo</th><td>rest</td><td><span class="state-swatch" style="color:#15130f;background:#ffffff">Aa</span> <code>#15130f</code> on <code>#ffffff</code> · 18.55</td><td><span class="state-swatch" style="color:#ffffff;background:#15130f">Aa</span> <code>#ffffff</code> on <code>#15130f</code> · 18.55</td></tr>
+        <tr><th scope="row">House-brand logo</th><td>hover</td><td><span class="state-swatch" style="color:#cf142a;background:#ffffff">Aa</span> <code>#cf142a</code> on <code>#ffffff</code> · 5.55</td><td><span class="state-swatch" style="color:#cf142a;background:#15130f">Aa</span> <code>#cf142a</code> on <code>#15130f</code> · 3.35</td></tr>
+        <tr><th scope="row">Success badge</th><td>rest</td><td><span class="state-swatch" style="color:#1f6b4a;background:#ffffff">Aa</span> <code>#1f6b4a</code> on <code>#ffffff</code> · 6.44</td><td><span class="state-swatch" style="color:#7ec9a2;background:#15130f">Aa</span> <code>#7ec9a2</code> on <code>#15130f</code> · 9.51</td></tr>
+        <tr><th scope="row">Warning badge</th><td>rest</td><td><span class="state-swatch" style="color:#8a5a00;background:#ffffff">Aa</span> <code>#8a5a00</code> on <code>#ffffff</code> · 5.93</td><td><span class="state-swatch" style="color:#d9a441;background:#15130f">Aa</span> <code>#d9a441</code> on <code>#15130f</code> · 8.25</td></tr>
+        <tr><th scope="row">Danger badge</th><td>rest</td><td><span class="state-swatch" style="color:#b42318;background:#ffffff">Aa</span> <code>#b42318</code> on <code>#ffffff</code> · 6.57</td><td><span class="state-swatch" style="color:#f08c82;background:#15130f">Aa</span> <code>#f08c82</code> on <code>#15130f</code> · 7.76</td></tr>
+        <tr><th scope="row">Info badge</th><td>rest</td><td><span class="state-swatch" style="color:#1a4d8f;background:#ffffff">Aa</span> <code>#1a4d8f</code> on <code>#ffffff</code> · 8.39</td><td><span class="state-swatch" style="color:#8ab6e8;background:#15130f">Aa</span> <code>#8ab6e8</code> on <code>#15130f</code> · 8.78</td></tr>
+        <tr><th scope="row">Disabled button or field</th><td>disabled</td><td><span class="state-swatch" style="color:#8a8378;background:#ffffff">Aa</span> <code>#8a8378</code> on <code>#ffffff</code> · exempt</td><td><span class="state-swatch" style="color:#8a8378;background:#15130f">Aa</span> <code>#8a8378</code> on <code>#15130f</code> · exempt</td></tr>
+      </tbody>
+    </table>
+  </div>
+  </section>
 
   <section class="screen" id="screen-home">
     <h2 class="type-h2">Home</h2>
