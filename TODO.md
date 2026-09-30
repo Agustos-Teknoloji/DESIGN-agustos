@@ -15,10 +15,19 @@ Kit v7.4.1: the checker's screen rules read markup only (2026-09-30, branch `cla
 - [ ] iesdesk.com: privacy notice and beta terms.
 - [ ] agustos.com: privacy policy, Turkish and English.
 
+Kit v7.3.5 rollout with the brand favicons (2026-09-30, branch `claude/kit-v735-deployment-favicon-90cd69`). Emre asked for it. Each site moves from v7.3.1 and takes the v7.3.2 and v7.3.3 consumer changes.
+
+- [x] `/design-push` of v7.3.5 (the Design project held v7.1.0; 68 files written, none deleted).
+- [x] pldturkiye.com: vendor v7.3.5, `currentState` in `Header.astro`, the `pld` favicon (it showed the old red Ağustos tile). WEBSITE-pldturkiye PR 52, live on dev.pldturkiye.com.
+- [x] memregunes.com: vendor v7.3.5 with `scripts/vendor-kit.sh`, `/writing/` and `/tr/yazdiklarim/` take `true` on posts, the `memregunes` favicon (it showed the red emblem). WEBSITE-memregunes PR 34, live on dev.memregunes.com and the memregunes.com holding page.
+- [x] agustos.com: the `agustos` favicon under new file names (website-agustos PR 165, live). The kit and `true` on parent sections came first with v7.4.0 (PR 164).
+- [x] Follow-ups Emre asked for: memregunes.com Consulting case studies take the 32px subsection break (WEBSITE-memregunes PR 35); the PLD Organization logo is the lockup, not the sun alone (WEBSITE-pldturkiye PR 53).
+- [ ] PLD posts mark their breadcrumb section in the top menu (WEBSITE-pldturkiye PR 54).
+
 Kit v7.3.5: two heading steps (2026-09-30, branch `claude/kit-7.3.5-heading-steps`). Emre chose option B. Record: MEMORY.md 2026-09-30 heading-steps. Closes issue 75.
 
 - [x] H2 40px, H3 and H4 32px; the subsection rule; tests; DESIGN.md; `VERSION` 7.3.5; CHANGELOG; build; before and after diff of every heading on the 9 screens at 1440 and 390px.
-- [ ] Gate, PR, merge. The tag follows the merge; the next local session on `main` runs `/design-push`.
+- [x] Gate, PR 81, merge, tag `v7.3.5`, `/design-push` (2026-09-30).
 - [ ] iesdesk.com: vendor v7.3.5 in APP-iesdesk.
 
 Kit v7.3.4: one break above each heading on a reading page (2026-09-30, branch `claude/kit-7.3.4-reading-rhythm`). Emre approved the kit fix. Record: MEMORY.md 2026-09-30 reading-rhythm.
@@ -26,7 +35,7 @@ Kit v7.3.4: one break above each heading on a reading page (2026-09-30, branch `
 - [x] `.container--reading .agustos-section` and the H2 rule; test; DESIGN.md; `VERSION` 7.3.4; CHANGELOG; build; browser check of `static` and `content` at 1440 and 390px.
 - [x] Gate, PR 79, merge, tag `v7.3.4`. The next local session on `main` runs `/design-push`.
 - [x] iesdesk.com: vendor v7.3.4 in APP-iesdesk (PR 289, on dev.iesdesk.com).
-- [ ] agustos.com, memregunes.com, pldturkiye.com: vendor v7.3.4 with the v7.3.2 rollout above.
+- [x] agustos.com, memregunes.com, pldturkiye.com: vendor v7.3.4 with the v7.3.2 rollout above.
 
 Kit v7.3.3: design review defects and quick wins (2026-09-30, branch `claude/design-system-review-5d869b`). Emre chose option B: the three defects plus the quick wins in one patch. Record: MEMORY.md 2026-09-30 review-patch.
 
@@ -47,11 +56,11 @@ Kit v7.3.2 defect patch (2026-09-30, branch `claude/kit-7.3.2`). Emre approved i
 - [x] Adoption snippet: only product UI uses the sidebar.
 - [x] Header height measured at 375 and 1440px (65px, 126px with the search row); every anchor offset adds `--anchor-snap`.
 - [x] Tests, `VERSION` 7.3.2, CHANGELOG, DESIGN.md, build, gate, PR. The tag follows the merge; Emre runs `/design-push`.
-- [ ] agustos.com: vendor v7.3.2 in WEBSITE-agustos; its header marks a parent section `true`.
-- [ ] memregunes.com: vendor v7.3.2 with `scripts/vendor-kit.sh`, and mark `/writing/` and `/tr/yazdiklarim/` `true` on posts (AG029 finds 102).
-- [ ] pldturkiye.com: vendor v7.3.2 into `apps/pld-astro/vendor/agustos-ui/` and use `currentState` in `Header.astro`. This closes the Codex aria-current finding on WEBSITE-pldturkiye PR 50.
+- [x] agustos.com: vendor v7.3.2 in WEBSITE-agustos; its header marks a parent section `true`.
+- [x] memregunes.com: vendor v7.3.2 with `scripts/vendor-kit.sh`, and mark `/writing/` and `/tr/yazdiklarim/` `true` on posts (AG029 finds 102).
+- [x] pldturkiye.com: vendor v7.3.2 into `apps/pld-astro/vendor/agustos-ui/` and use `currentState` in `Header.astro`. This closes the Codex aria-current finding on WEBSITE-pldturkiye PR 50.
 - [ ] iesdesk.com: vendor v7.3.2 in APP-iesdesk, so the Rails menu and sidebar use `agustos_nav_current`.
-- [ ] `/design-push` for v7.3.2: Emre, Friday 2 October (calendar reminder).
+- [x] `/design-push` for v7.3.2: the v7.3.5 push on 2026-09-30 carries it.
 
 Reading line (v7.3.1, 2026-09-30, branch `claude/kit-7.2.1-reading-line`). Emre chose the left edge with a free side zone and one line shared with the footer. Record: MEMORY.md 2026-09-30 reading-line.
 
