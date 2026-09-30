@@ -101,9 +101,11 @@ the first four as `site-header__link` and moves the rest into one
 `<details class="site-header__more">`, the last child of `site-header__nav`:
 its `summary` reads `more_label` (default "Daha fazla" for `lang: :tr`, "More"
 otherwise) and its `site-header__more-menu` holds `site-header__more-link`
-items. The current page gets `aria-current="page"` in the menu or under More:
-exact matching for `/`, prefix matching for nested sections, and `current:
-true` on an item forces it. `agustos_nav_split` returns `[menu, more]` for a
+items. The current page gets `aria-current="page"` in the menu or under More,
+and on a nested route the parent section gets `aria-current="true"`
+(`agustos_nav_current`; trailing slashes do not count, `/` is only ever exact).
+The sidebar follows the same rule, and `current: true` on an item forces
+`page`. `agustos_nav_split` returns `[menu, more]` for a
 custom header.
 
 **Footer (`footer`).** `note` is the one `type-footnote` line under the lockup.

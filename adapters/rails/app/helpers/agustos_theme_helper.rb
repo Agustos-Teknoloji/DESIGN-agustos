@@ -182,12 +182,23 @@ module AgustosThemeHelper
     value&.fetch(key, value&.fetch(key.to_s, default))
   end
 
-  def agustos_nav_active?(href)
-    return false if href.nil? || href.start_with?("#")
+  # "page" when the request path is the item's own URL; "true" when the item
+  # is a section that holds the page, such as /haberler/ on /haberler/guncel/;
+  # nil otherwise. Trailing slashes do not count, and "/" is only ever exact.
+  def agustos_nav_current(href)
+    href = href.to_s
+    return nil unless href.start_with?("/") && !href.start_with?("//")
 
-    path = request.path
-    href == "/" ? path == "/" : path == href || path.start_with?("#{href}/")
+    trim = ->(path) { path.sub(/[?#].*\z/, "").sub(%r{/+\z}, "").then { |p| p.empty? ? "/" : p } }
+    item = trim.call(href)
+    page = trim.call(request.path.to_s)
+    return "page" if item == page
+    return "true" if item != "/" && page.start_with?("#{item}/")
+
+    nil
   end
+
+  def agustos_nav_active?(href) = !agustos_nav_current(href).nil?
 
   def agustos_link_html_options(link, class_name:)
     options = { class: class_name }
@@ -203,13 +214,13 @@ module AgustosThemeHelper
     options
   end
 
-  # Link options plus aria-current="page" for the current item. An item may
-  # force the state with current: true (for example an in-page #anchor).
+  # Link options plus aria-current: "page" for the current page, "true" for the
+  # section that holds it. An item may force "page" with current: true (for
+  # example an in-page #anchor).
   def agustos_nav_link_options(item, class_name:)
     options = agustos_link_html_options(item, class_name: class_name)
-    if agustos_value(item, :current, false) || agustos_nav_active?(agustos_value(item, :href))
-      options[:aria] = (options[:aria] || {}).merge(current: "page")
-    end
+    current = agustos_value(item, :current, false) ? "page" : agustos_nav_current(agustos_value(item, :href))
+    options[:aria] = (options[:aria] || {}).merge(current: current) if current
     options
   end
 

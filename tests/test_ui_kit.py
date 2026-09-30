@@ -219,7 +219,7 @@ class InteractionStateTest(unittest.TestCase):
                 self.assertIn(role, block)
 
     def test_more_menu_hover_uses_the_functional_gray(self):
-        self.assertIn('.site-header__more-link[aria-current="page"] { background: var(--surface);', self.CSS)
+        self.assertIn('.site-header__more-link:is([aria-current="page"], [aria-current="true"]) { background: var(--surface);', self.CSS)
 
     def test_form_fields_clear_the_non_text_floor(self):
         self.assertIn("solid var(--ink-faint);", self.CSS)
@@ -617,6 +617,59 @@ class CheckerTest(unittest.TestCase):
                 rendered.format(screen="products", main=primary), encoding="utf-8")
             self.assertEqual(self._run(build, "--screens-only").returncode, 0)
 
+    def test_screens_only_warns_on_a_parent_marked_as_the_current_page(self):
+        """AG029 (v7.3.2): in built output the file path is the page's own URL,
+        so a link marked aria-current="page" that points above the page is a
+        parent section announced as the current page. It warns only."""
+        import tempfile
+        page = (
+            '<!doctype html><html lang="tr"><head>'
+            '<link rel="stylesheet" href="/_astro/index.css"></head>'
+            '<body class="brand-agustos" data-screen="content">'
+            '<header class="site-header"><nav class="site-header__nav">{links}</nav></header>'
+            '<main id="main"><div class="container container--reading"><p>Metin</p></div></main></body></html>'
+        )
+        link = '<a class="site-header__link" href="{0}" aria-current="{1}">x</a>'
+        cases = {
+            # file: (links, expected AG029 count)
+            "haberler/guncel/index.html": (link.format("/haberler/", "page"), 1),
+            "haberler/eski.html": (link.format("/haberler", "page"), 1),
+            "blog/post/index.html": (link.format("/", "page"), 1),
+            "haberler/index.html": (link.format("/haberler/", "page"), 0),
+            "about.html": (link.format("/about/", "page"), 0),
+            "index.html": (link.format("/", "page"), 0),
+            "urunler/px22/index.html": (link.format("/urunler/", "true"), 0),
+            "haberciler/index.html": (link.format("/haber", "page"), 0),
+            "app/index.html": (link.format("#validation", "page"), 0),
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            build = Path(tmp) / "dist"
+            for name, (links, _) in cases.items():
+                target = build / name
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_text(page.format(links=links), encoding="utf-8")
+            result = self._run(build, "--screens-only", "--json")
+            report = json.loads(result.stdout)
+            found: dict[str, int] = {}
+            for finding in report["findings"]:
+                if finding["rule"] == "AG029":
+                    self.assertEqual(finding["level"], "warn")
+                    key = Path(finding["file"]).as_posix()
+                    found[key] = found.get(key, 0) + 1
+            for name, (_, expected) in cases.items():
+                with self.subTest(file=name):
+                    self.assertEqual(found.get(name, 0), expected)
+            # A warning alone never fails the build.
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_source_scan_skips_the_current_link_rule(self):
+        """In a source tree the file path is not the URL, so AG029 stays quiet."""
+        source = self.CHECKER.read_text(encoding="utf-8")
+        self.assertIn("check_current_links(rel, path.relative_to(root).as_posix(), text, findings)", source)
+        call = source.index("check_current_links(rel, path")
+        self.assertLess(source.rfind("if screens_only:", 0, call), call)
+        self.assertLess(call, source.index("continue", call))
+
     def test_screens_only_refuses_to_report_clean_without_rendered_pages(self):
         import tempfile
         with tempfile.TemporaryDirectory() as tmp:
@@ -717,7 +770,7 @@ class ChromeTest(unittest.TestCase):
         # The bar and the scroll offset read one variable, built from tokens.
         self.assertIn("--sidebar-bar-height: calc(var(--control-min) + 2 * var(--space-xs) + 1px);", self.CSS)
         self.assertIn("min-height: var(--sidebar-bar-height);", self.CSS)
-        rule = "html:has(.site-sidebar-bar) { scroll-padding-top: var(--sidebar-bar-height); }"
+        rule = "html:has(.site-sidebar-bar) { scroll-padding-top: calc(var(--sidebar-bar-height) + var(--anchor-snap)); }"
         self.assertEqual(self.CSS.count("scroll-padding-top"), 4, "the sidebar bar, the top menu, its phone search row and the print reset")
         # Only below 1024px, where the bar is sticky. Desktop has no bar.
         drawers = self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor")
@@ -727,7 +780,7 @@ class ChromeTest(unittest.TestCase):
         # v7.0.2: the top menu is sticky at every width, so its offset sits outside any media query.
         self.assertIn("--site-header-height: calc(var(--control-min) + 2 * 10px + 1px);", self.CSS)
         self.assertIn("min-height: var(--site-header-height);", self.CSS)
-        rule = "html:has(.site-header) { scroll-padding-top: var(--site-header-height); }"
+        rule = "html:has(.site-header) { scroll-padding-top: calc(var(--site-header-height) + var(--anchor-snap)); }"
         self.assertIn(rule, self.CSS)
         self.assertLess(self.CSS.index(rule), self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor"))
 
@@ -763,7 +816,33 @@ class ChromeTest(unittest.TestCase):
 
     def test_phone_anchor_offset_includes_the_search_row(self):
         self.assertIn("--site-header-search-height: calc(var(--control-min) + 2 * var(--space-xs) + 1px);", self.CSS)
-        self.assertIn("html:has(.site-header__search-row) { scroll-padding-top: calc(var(--site-header-height) + var(--site-header-search-height)); }", self.CSS)
+        self.assertIn("html:has(.site-header__search-row) { scroll-padding-top: calc(var(--site-header-height) + var(--site-header-search-height) + var(--anchor-snap)); }", self.CSS)
+
+    def test_chrome_heights_equal_the_rendered_chrome(self):
+        """v7.3.2: a Chromium probe of ui/starter.html measured the top menu at
+        65px at 1440 and 375px, and the header with its phone search row at
+        126px (65 + 61). The variables add up to the same numbers from the tokens."""
+        chrome = TOKENS["recipes"]["chrome"]
+        px = lambda value: float(str(value).removesuffix("px"))
+        control = px(TOKENS["foundations"]["measure"]["controlMinimum"]["$value"])
+        padding = px(chrome["paddingBlock"]["$value"])
+        rule = px(TOKENS["foundations"]["border"]["hairline"]["$value"])
+        self.assertRegex(self.CSS, r"--space-xs:\s+8px;")
+        self.assertEqual(control + 2 * padding + rule, 65)
+        self.assertEqual(control + 2 * 8 + rule, 61)
+        self.assertIn(f"--site-header-height: calc(var(--control-min) + 2 * {padding:g}px + {rule:g}px);", self.CSS)
+
+    def test_anchor_offsets_add_one_pixel_for_whole_pixel_scrolling(self):
+        """A browser scrolls to whole pixels, so a target at a fractional
+        position stopped up to 0.5px under the 65px header in the probe (64.5 to
+        65.5px). Every anchor offset adds --anchor-snap, so no target stops under it."""
+        import re
+        self.assertIn("--anchor-snap: 1px;", self.CSS)
+        offsets = re.findall(r"scroll-padding-top: ([^;]+);", self.CSS)
+        self.assertEqual(len(offsets), 4)
+        for value in offsets:
+            with self.subTest(value=value):
+                self.assertTrue(value == "0" or value.endswith("+ var(--anchor-snap))"), value)
 
     def test_top_menu_stays_on_one_row(self):
         """Long Turkish labels wrapped the menu to two rows at 1024px (v7.1.0)."""
@@ -781,8 +860,43 @@ class ChromeTest(unittest.TestCase):
             with self.subTest(rule=hover):
                 self.assertIn("var(--ink-faint)", block)
                 self.assertNotIn("var(--signal)", block)
-        self.assertIn('.site-header__more:has([aria-current="page"]) > summary {', self.CSS)
-        self.assertIn('.site-sidebar__group:not([open]):has([aria-current="page"]) > summary { border-inline-start-color: var(--signal); }', self.CSS)
+        self.assertIn('.site-header__more:has([aria-current="page"], [aria-current="true"]) > summary {', self.CSS)
+        self.assertIn('.site-sidebar__group:not([open]):has([aria-current="page"], [aria-current="true"]) > summary { border-inline-start-color: var(--signal); }', self.CSS)
+
+    def test_the_red_rule_marks_the_current_page_and_its_section(self):
+        """v7.3.2: a parent item on a nested route carries aria-current="true",
+        not "page", so a screen reader does not announce it as the current page.
+        Every chrome selector that highlights "page" highlights "true" too.
+        Breadcrumbs keep "page" only: their last item is the page itself."""
+        import re
+        both = '[aria-current="page"], [aria-current="true"]'
+        for selector in (
+            f".agustos-chrome-link:is({both}) {{",
+            f".site-sidebar__link:is({both}) {{",
+            f".site-sidebar__group:has({both}) > summary {{ color: var(--ink); }}",
+            f".site-sidebar__group:not([open]):has({both}) > summary {{ border-inline-start-color: var(--signal); }}",
+            f".site-sidebar__link:hover:not({both}) {{",
+            f".site-header__link:is({both}),\n.site-header__more:has({both}) > summary {{",
+            f".site-header__more-link:is({both}) {{ background: var(--surface);",
+        ):
+            with self.subTest(selector=selector):
+                self.assertIn(selector, self.CSS)
+        # No chrome selector matches "page" alone; only the breadcrumb does.
+        page_only = [line for line in self.CSS.splitlines()
+                     if re.search(r'\[aria-current="page"\](?!, \[aria-current="true"\])', line)]
+        self.assertEqual(page_only, ['.breadcrumb [aria-current="page"] { color: var(--ink); }'])
+        # The header rule draws the 2px red rule for both states.
+        start = self.CSS.index(f".site-header__link:is({both}),")
+        block = self.CSS[start:self.CSS.index("}", start)]
+        self.assertIn("border-block-end-color: var(--signal);", block)
+
+    def test_nested_screens_mark_the_parent_section_true(self):
+        """A post and a product sit below the menu item they belong to."""
+        for screen, href in (("content", "/blog"), ("product", "/urunler"), ("spec-sheet", "/urunler")):
+            html = (ROOT / "screens" / f"{screen}.html").read_text(encoding="utf-8")
+            with self.subTest(screen=screen):
+                self.assertIn(f'<a class="site-header__link" href="{href}" aria-current="true">', html)
+                self.assertNotIn(f'href="{href}" aria-current="page"', html)
 
     def test_drawers_close_from_inside_and_hold_the_page_still(self):
         drawers = self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor")

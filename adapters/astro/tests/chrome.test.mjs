@@ -34,7 +34,31 @@ test('nav over five items keeps four and moves the rest under More', async () =>
   assert.match(header, /<details class="site-header__more">/);
   assert.match(header, /<summary class="site-header__link">\{moreLabel\}<\/summary>/);
   assert.match(header, /<div class="site-header__more-menu">/);
-  assert.match(header, /class="site-header__more-link"\s+aria-current=\{isCurrent\(item\.href\) \? 'page' : undefined\}/);
+  assert.match(header, /class="site-header__more-link"\s+aria-current=\{currentState\(item\.href, pathname\)\}/);
+});
+
+test('aria-current is page on the exact route and true on a parent section', async () => {
+  const types = await read('src/types/chrome.ts');
+  const body = types.match(/export function currentState\(href: string, pathname: string\): 'page' \| 'true' \| undefined \{([\s\S]*?)\n\}/)[1];
+  const currentState = new Function('href', 'pathname', body);
+  // The exact route, with or without a trailing slash.
+  assert.equal(currentState('/haberler/', '/haberler/'), 'page');
+  assert.equal(currentState('/haberler', '/haberler/'), 'page');
+  assert.equal(currentState('/haberler/', '/haberler'), 'page');
+  // A nested route: the parent is the current section, not the current page.
+  assert.equal(currentState('/haberler/', '/haberler/guncel/'), 'true');
+  assert.equal(currentState('/haberler', '/haberler/guncel'), 'true');
+  // A sibling that shares a prefix, an anchor and an external link are not current.
+  assert.equal(currentState('/haber', '/haberler/'), undefined);
+  assert.equal(currentState('#top', '/'), undefined);
+  assert.equal(currentState('https://example.com/haberler', '/haberler/'), undefined);
+  // Home is only ever exact.
+  assert.equal(currentState('/', '/'), 'page');
+  assert.equal(currentState('/', '/haberler/'), undefined);
+
+  const header = await read('src/components/Header.astro');
+  assert.doesNotMatch(header, /isCurrent|aria-current=\{[^}]*'page'/, 'the header sets aria-current from currentState only');
+  assert.equal(header.match(/aria-current=\{currentState\(item\.href, pathname\)\}/g).length, 2);
 });
 
 test('layout indexes only main content with language and kind filters', async () => {

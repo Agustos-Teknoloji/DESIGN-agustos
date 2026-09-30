@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.3.1 · CHROME BEHAVIOUR
+/* AĞUSTOS DESIGN SYSTEM v7.3.2 · CHROME BEHAVIOUR
    GENERATED. Do not hand-edit. Run: python3 scripts/build_design_system.py
 
    Optional. It adds what native HTML does not give the More menu of the top

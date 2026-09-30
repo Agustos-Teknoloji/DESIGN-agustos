@@ -73,6 +73,22 @@ export function splitNav<T>(items: T[]): [T[], T[]] {
   return [items.slice(0, NAV_LIMIT - 1), items.slice(NAV_LIMIT - 1)];
 }
 
+/**
+ * aria-current for a menu item. 'page' when the pathname is the item's own
+ * URL; 'true' when the item is a section that holds the page, such as
+ * '/haberler/' on '/haberler/guncel/'; undefined otherwise. Trailing slashes
+ * do not count, and the home item '/' is only ever exact.
+ */
+export function currentState(href: string, pathname: string): 'page' | 'true' | undefined {
+  if (!href.startsWith('/') || href.startsWith('//')) return undefined;
+  const trim = (path = '') => path.replace(/[?#].*$/, '').replace(/\/+$/, '') || '/';
+  const item = trim(href);
+  const page = trim(pathname);
+  if (item === page) return 'page';
+  if (item !== '/' && page.startsWith(`${item}/`)) return 'true';
+  return undefined;
+}
+
 export const CHROME_LABELS: Record<'en' | 'tr', { more: string; skip: string; nav: string; footer: string; openMenu: string; closeMenu: string; siteMap: string }> = {
   en: { more: 'More', skip: 'Skip to content', nav: 'Main menu', footer: 'Footer', openMenu: 'Open menu', closeMenu: 'Close menu', siteMap: 'Site map' },
   tr: { more: 'Daha fazla', skip: 'İçeriğe geç', nav: 'Ana menü', footer: 'Alt menü', openMenu: 'Menüyü aç', closeMenu: 'Menüyü kapat', siteMap: 'Site haritası' },

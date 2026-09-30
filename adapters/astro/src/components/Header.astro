@@ -2,7 +2,7 @@
 import LazGunesi from './LazGunesi.astro';
 import HeaderSearch from './HeaderSearch.astro';
 import HeaderUtility from './HeaderUtility.astro';
-import { CHROME_LABELS, SEARCH_LABELS, splitNav } from '../types/chrome';
+import { CHROME_LABELS, SEARCH_LABELS, currentState, splitNav } from '../types/chrome';
 import type { ChromeLink, HeaderConfig, SearchLabels } from '../types/chrome';
 
 interface Props {
@@ -38,11 +38,6 @@ const cta = config.cta === undefined
   : config.cta;
 
 const idSuffix = locale;
-function isCurrent(href: string): boolean {
-  if (href.startsWith('#')) return false;
-  if (href === '/') return pathname === '/';
-  return pathname === href || pathname.startsWith(`${href}/`);
-}
 ---
 <header class="site-header">
   <div class="site-header__bar site-frame">
@@ -60,7 +55,7 @@ function isCurrent(href: string): boolean {
           <a
             href={item.href}
             class="site-header__link"
-            aria-current={isCurrent(item.href) ? 'page' : undefined}
+            aria-current={currentState(item.href, pathname)}
             aria-label={item.ariaLabel}
             hreflang={item.hreflang}
             lang={item.hreflang}
@@ -76,7 +71,7 @@ function isCurrent(href: string): boolean {
                 <a
                   href={item.href}
                   class="site-header__more-link"
-                  aria-current={isCurrent(item.href) ? 'page' : undefined}
+                  aria-current={currentState(item.href, pathname)}
                   aria-label={item.ariaLabel}
                   hreflang={item.hreflang}
                   lang={item.hreflang}

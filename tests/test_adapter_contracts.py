@@ -62,7 +62,7 @@ class AdapterContractTest(unittest.TestCase):
     def test_astro_uses_shared_frame_header_and_active_navigation(self):
         header = (ROOT / "adapters" / "astro" / "src" / "components" / "Header.astro").read_text(encoding="utf-8")
         self.assertIn('<header class="site-header">', header)
-        self.assertIn("aria-current={isCurrent(item.href) ? 'page' : undefined}", header)
+        self.assertIn("aria-current={currentState(item.href, pathname)}", header)
         self.assertIn('class="site-header__bar site-frame"', header)
         self.assertIn("config.theme === true", header)
         self.assertIn("agustos-button agustos-button--primary site-header__cta", header)

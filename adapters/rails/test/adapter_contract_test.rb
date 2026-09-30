@@ -15,7 +15,7 @@ class AdapterContractTest < Minitest::Test
       assert_includes helper, "#{key}:"
     end
     assert_includes helper, "theme: false"
-    assert_includes helper, "path.start_with?"
+    assert_includes helper, "def agustos_nav_current(href)"
     assert_includes helper, "NAV_LIMIT = 5"
     refute_match(/columns|DEFAULT_FOOTER_COLUMNS|footer_cta/, helper)
     refute_match(/BRAND_CHROME|chrome_for|brand_chrome/, helper, "brands no longer register chrome")
@@ -83,11 +83,38 @@ class AdapterContractTest < Minitest::Test
     assert_equal "tr", options[:hreflang]
     assert_equal({ label: "Source" }, options[:aria])
 
-    current = harness.agustos_nav_link_options({ href: "/blog" }, class_name: "site-header__link")
-    assert_equal "page", current[:aria][:current]
+    # On /blog/post the Writing section is current, not the current page.
+    section = harness.agustos_nav_link_options({ href: "/blog" }, class_name: "site-header__link")
+    assert_equal "true", section[:aria][:current]
+    page = harness.agustos_nav_link_options({ href: "/blog/post/" }, class_name: "site-header__link")
+    assert_equal "page", page[:aria][:current]
     forced = harness.agustos_nav_link_options({ href: "#validation", current: true }, class_name: "site-sidebar__link")
     assert_equal "page", forced[:aria][:current]
     assert_nil harness.agustos_nav_link_options({ href: "/about" }, class_name: "x")[:aria]
+  end
+
+  def test_aria_current_is_page_on_the_exact_route_and_true_on_a_parent_section
+    harness = self.harness
+    {
+      "/haberler/" => { "/haberler/" => "page", "/haberler" => "page", "/haberler/guncel/" => nil,
+                        "/haber" => nil, "/" => nil },
+      "/haberler/guncel" => { "/haberler/guncel/" => "page", "/haberler/" => "true", "/" => nil, "#top" => nil,
+                              "https://example.com/haberler" => nil },
+      "/" => { "/" => "page", "/haberler/" => nil },
+    }.each do |path, expected|
+      harness.request = Struct.new(:path).new(path)
+      expected.each do |href, state|
+        actual = harness.agustos_nav_current(href)
+        state.nil? ? assert_nil(actual, "#{href} on #{path}") : assert_equal(state, actual, "#{href} on #{path}")
+      end
+    end
+
+    # The sidebar uses the same options, so a product section is marked the same way.
+    harness.request = Struct.new(:path).new("/projects/42/validation")
+    options = harness.agustos_nav_link_options({ href: "/projects/42" }, class_name: "site-sidebar__link")
+    assert_equal "true", options[:aria][:current]
+    sidebar = read("app/views/agustos/shared/_sidebar.html.erb")
+    assert_includes sidebar, 'agustos_nav_link_options(item, class_name: "site-sidebar__link")'
   end
 
   def test_nav_over_five_items_keeps_four_and_moves_the_rest_under_more
