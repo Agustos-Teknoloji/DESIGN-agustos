@@ -88,6 +88,7 @@ SIDEBAR = re.compile(r"\bsite-sidebar\b")
 TOP_MENU_ITEM = re.compile(r"""class=["'][^"']*\bsite-header__link\b""")
 TOP_MENU_LIMIT = 5
 DATA_THEME = re.compile(r"\bdata-theme\s*=")
+CLASS_ATTRIBUTE = re.compile(r"""\bclass\s*=\s*(?:"([^"]*)"|'([^']*)')""", re.I)
 RADIUS = re.compile(r"border-radius:\s*([0-9.]+)px")
 GRADIENT = re.compile(r"(linear|radial|conic)-gradient\(")
 BACKGROUND = re.compile(r"background(?:-color)?:\s*([^;{}]+)")
@@ -263,6 +264,16 @@ def check_screen(rel: str, text: str, findings: list) -> None:
             f"{len(menu_items)} top-menu items — keep at most {TOP_MENU_LIMIT}, the More toggle "
             f"included; put the rest in one site-header__more",
         ))
+    if rules["column"] == "reading":
+        for match in CLASS_ATTRIBUTE.finditer(page):
+            names = (match.group(1) or match.group(2) or "").split()
+            if "container" in names and "container--reading" not in names:
+                findings.append(Finding(
+                    "AG028", "warn", rel, line_of(text, text.find(match.group(0))),
+                    f"full-width container on screen {name!r}: a content page reads in one "
+                    f"centered column: add container--reading",
+                ))
+                break
     theme = DATA_THEME.search(page)
     if theme and rules["theme"] != "dark-allowed":
         findings.append(Finding(

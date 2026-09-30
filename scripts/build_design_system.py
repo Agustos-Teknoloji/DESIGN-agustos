@@ -89,6 +89,11 @@ def chrome_for(family: str) -> str:
     return "sidebar" if family == "product-ui" else "topbar"
 
 
+def column_for(family: str) -> str:
+    """A content page reads in one centered column at the body measure. Every other family uses the frame."""
+    return "reading" if family == "content" else "frame"
+
+
 def screen_entries(tokens: dict[str, Any]) -> dict[str, dict[str, Any]]:
     """The screens table without its `$` metadata keys."""
     return {name: entry for name, entry in tokens["screens"].items() if not name.startswith("$")}
@@ -180,13 +185,14 @@ def states_table_html(rows: list[dict[str, Any]]) -> str:
 
 
 def screen_rows(tokens: dict[str, Any], brands: dict[str, Any]) -> list[dict[str, Any]]:
-    """The table plus the two derived columns. Theme and chrome both follow family."""
+    """The table plus the three derived columns. Theme, chrome and column all follow family."""
     rows: list[dict[str, Any]] = []
     for name, entry in screen_entries(tokens).items():
         rows.append({
             "name": name,
             **{field: entry[field] for field in SCREEN_FIELDS},
             "chrome": chrome_for(entry["family"]),
+            "column": column_for(entry["family"]),
             "theme": "dark-allowed" if entry["family"] == "product-ui" else "light",
         })
     return rows
@@ -207,6 +213,7 @@ def screens_index_html(rows: list[dict[str, Any]]) -> str:
             f'      <dt>Family</dt><dd>{html.escape(family)}</dd>\n'
             f'      <dt>Sample brand</dt><dd>{html.escape(row["brand"])}</dd>\n'
             f'      <dt>Chrome</dt><dd>{html.escape(row["chrome"])}</dd>\n'
+            f'      <dt>Column</dt><dd>{html.escape(row["column"])}</dd>\n'
             f'      <dt>Theme</dt><dd>{html.escape(theme)}</dd>\n'
             f'      <dt>Photography</dt><dd>{html.escape(row["photo"])}</dd>\n'
             f'    </dl>\n'
@@ -589,12 +596,13 @@ def kit_context(tokens: dict[str, Any], brands: dict[str, Any]) -> dict[str, str
         ),
         "brandClasses": repr(tuple(f"brand-{slug}" for slug in brands["brands"])),
         "screensTable": "\n".join(
-            ["| Screen | Family | Chrome | Theme | Photography |", "|---|---|---|---|---|"]
+            ["| Screen | Family | Chrome | Column | Theme | Photography |", "|---|---|---|---|---|---|"]
             + [
-                "| `{name}` | {family} | {chrome} | {theme} | {photo} |".format(
+                "| `{name}` | {family} | {chrome} | {column} | {theme} | {photo} |".format(
                     name=row["name"],
                     family="product UI" if row["family"] == "product-ui" else row["family"],
                     chrome=row["chrome"],
+                    column=row["column"],
                     theme="dark allowed" if row["theme"] == "dark-allowed" else row["theme"],
                     photo=row["photo"],
                 )
@@ -710,11 +718,11 @@ def verify_fonts(tokens: dict[str, Any]) -> list[str]:
 def checker_screens_rules(tokens: dict[str, Any], brands: dict[str, Any]) -> str:
     """Python literal mapping screen name -> the rules the checker enforces.
 
-    Injected into ui/check-agustos-ui.py next to the token table: the theme and
-    the chrome, both derived from the family.
+    Injected into ui/check-agustos-ui.py next to the token table: the theme, the
+    chrome and the column, all derived from the family.
     """
     rules = {
-        row["name"]: {"theme": row["theme"], "chrome": row["chrome"]}
+        row["name"]: {"theme": row["theme"], "chrome": row["chrome"], "column": row["column"]}
         for row in sorted(screen_rows(tokens, brands), key=lambda row: row["name"])
     }
     return repr(rules)
