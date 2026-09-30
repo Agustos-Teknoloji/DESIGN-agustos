@@ -8,7 +8,11 @@ Kit v7.3.2 defect patch (2026-09-30, branch `claude/kit-7.3.2`). Emre approved i
 - [x] Adoption snippet: only product UI uses the sidebar.
 - [x] Header height measured at 375 and 1440px (65px, 126px with the search row); every anchor offset adds `--anchor-snap`.
 - [x] Tests, `VERSION` 7.3.2, CHANGELOG, DESIGN.md, build, gate, PR. The tag follows the merge; Emre runs `/design-push`.
-- [ ] memregunes.com: mark `/writing/` and `/tr/yazdiklarim/` `true` on posts (AG029 finds 102) when it adopts v7.3.2.
+- [ ] agustos.com: vendor v7.3.2 in WEBSITE-agustos; its header marks a parent section `true`.
+- [ ] memregunes.com: vendor v7.3.2 with `scripts/vendor-kit.sh`, and mark `/writing/` and `/tr/yazdiklarim/` `true` on posts (AG029 finds 102).
+- [ ] pldturkiye.com: vendor v7.3.2 into `apps/pld-astro/vendor/agustos-ui/` and use `currentState` in `Header.astro`. This closes the Codex aria-current finding on WEBSITE-pldturkiye PR 50.
+- [ ] iesdesk.com: vendor v7.3.2 in APP-iesdesk, so the Rails menu and sidebar use `agustos_nav_current`.
+- [ ] `/design-push` for v7.3.2: Emre, Friday 2 October (calendar reminder).
 
 Reading line (v7.3.1, 2026-09-30, branch `claude/kit-7.2.1-reading-line`). Emre chose the left edge with a free side zone and one line shared with the footer. Record: MEMORY.md 2026-09-30 reading-line.
 
@@ -55,7 +59,7 @@ Footer and sitemap (v7.1.0), and the next chrome release (B2):
 - [x] B3. Footer site map (v7.1.0): the contact block from the İTO registry facts and three groups on the Ağustos screens and the starter; Astro and Rails take `address` and `groups`. Record: MEMORY.md 2026-09-30 footer-site-map.
 - [x] B5. `sitemap.xml` guidance per adapter in `DESIGN.md` and the adapter READMEs. Astro already ships `@astrojs/sitemap`.
 - [x] Footer phone and email (Emre, 2026-09-30): +90 850 885 1996, agustos@agustos.com.
-- [ ] Emre publishes the "Bilgi toplumu hizmetleri" page on agustos.com (contents confirmed with the legal advisor).
+- [x] The "Bilgi toplumu hizmetleri" page is live on agustos.com (2026-09-30, WEBSITE-agustos PR 158), with the İTO chamber number.
 
 Not recommended, because they add weight against the house rules: a mega menu, a header that hides on scroll, a sidebar that collapses to an icon rail, and a back-to-top button.
 
@@ -93,7 +97,7 @@ v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva
 - [x] Gate green, visual check, commit, push, draft PR #60.
 - [x] Tag `v7.0.0`: automatic since 2026-09-30 (release-tags-on-main).
 - [x] `/design-push` for v7.0.0: covered by the v7.1.0 push (2026-09-30).
-- [ ] Rollout: agustos.com and iesdesk.com run v7.1.0 (2026-09-30); memregunes.com and pldturkiye.com follow.
+- [x] Rollout: agustos.com and iesdesk.com run v7.1.0 (2026-09-30). memregunes.com (PR 31) and pldturkiye.com (PR 50) run v7.3.1 on their dev sites (2026-09-30); both go live at their launches.
 
 ## Next
 
@@ -106,6 +110,5 @@ v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva
   - Handbook pages carry no chrome, copy `.book-nav` into each page, use their own 720px and 820px breakpoints, and `docs/handoff-setup.html` fills a bar with red.
   - Breakpoints 759px, 760px and 1023px have no token. Add one set to the registry.
 
-- agustos.com: move to kit v7.3.0 and delete its local anchor-offset script in `BaseLayout.astro`; the kit offset now covers the phone search row.
 - Register printer-matched CMYK and Pantone values for the six colours and the identity inks in `brand/brands.json`, then show them on the colour page of `brand/build_guidelines.py`. Ask the printer for a proof first; do not convert the screen values.
 - Rebuild `adapters/astro/src/pages/blog/index.astro` on `type-dl` and `type-footnote`, like `screens/content-index.html`. Remove its scoped `<style>` block and the H2 for each post title, which break the list-page rule.
