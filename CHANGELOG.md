@@ -4,6 +4,10 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## Unreleased
 
+### Added
+
+- `.github/workflows/tag-release.yml` and `scripts/release_tags.py`: each release is tagged `v<VERSION>` on its merge when it reaches `main`, from a local or a cloud session alike. The first run tags `v7.0.0` and `v7.0.1`, which a cloud session could not push.
+
 ## [7.0.1] - 2026-09-30
 
 Interactive states, measured in a browser in both themes and fixed. Consuming sites can move from `v7.0.0` to `v7.0.1` with no markup change.
