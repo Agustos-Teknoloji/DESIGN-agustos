@@ -627,11 +627,13 @@ table th:last-child, table td:last-child { text-align: right; }
   margin: 0 0 var(--space-xs);
   color: var(--ink);
   font-family: var(--display);
+  font-size: inherit;
   font-weight: {{foundations.fontWeight.semibold}};
 }
 .agustos-contents__list {
   margin: 0 0 var(--space-md);
   padding: 0;
+  font-size: inherit;
   list-style: none;
   border-inline-start: 1px solid var(--rule);
 }
@@ -1935,6 +1937,7 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
   .site-header,
   .site-sidebar,
   .site-sidebar-bar,
-  .site-footer nav { display: none; }
+  .site-footer nav,
+  .agustos-contents { display: none; }
   .site-sidebar-layout { padding-inline-start: 0; }
 }

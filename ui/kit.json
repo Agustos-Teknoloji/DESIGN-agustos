@@ -258,8 +258,8 @@
       "sha256": "6f772a55993a8475669169d881b8fdebc358dbeeec5ee35e9fe93ea868574fe8"
     },
     "agustos.css": {
-      "bytes": 64153,
-      "sha256": "c114f4f10da75d65f38924c3f224537ed3abd036401feedfa362eeb1912d8c74"
+      "bytes": 64218,
+      "sha256": "07a0a598f9166f966f87679ebb1f61f0653394621e71214843ad31d4d4c52410"
     },
     "check-agustos-ui.py": {
       "bytes": 30652,
@@ -286,8 +286,8 @@
       "sha256": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
     },
     "starter.html": {
-      "bytes": 28501,
-      "sha256": "6d23af7c3e6ba93e9cc3828a3e57df9b66ed3994964fe5db999029121d449ed0"
+      "bytes": 28511,
+      "sha256": "729bb9bc1dacf885710c4bcebafc6eafbf6ba4b8691d22ce1e7d1a992551710b"
     }
   },
   "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.4.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.4.0/ui/agustos.css\">",

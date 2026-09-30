@@ -1012,6 +1012,14 @@ class ChromeTest(unittest.TestCase):
         self.assertIn("@supports selector(::details-content) {", self.CSS)
         self.assertIn("    .agustos-contents::details-content {\n      display: block;\n      content-visibility: visible;\n      position: sticky;", self.CSS)
         self.assertIn("max-block-size: calc(100vh - var(--site-header-height) - 2 * var(--space-xl));", self.CSS)
+        # Final review: the kit's bare ol and p rules set body size, so the list
+        # and the title inherit the compact size of the component.
+        self.assertIn(".agustos-contents__title {\n  display: none;\n  margin: 0 0 var(--space-xs);\n  color: var(--ink);\n  font-family: var(--display);", self.CSS)
+        self.assertRegex(self.CSS, r"\.agustos-contents__title \{[^}]*font-size: inherit;")
+        self.assertRegex(self.CSS, r"\.agustos-contents__list \{[^}]*font-size: inherit;")
+        # A printed page has no use for the list.
+        start = self.CSS.index("@media print {")
+        self.assertIn(".agustos-contents", self.CSS[start:start + 400])
 
     def test_layout_layer_is_published(self):
         declared = TOKENS["compatibility"]["cssClasses"]
@@ -1064,6 +1072,7 @@ class ChromeTest(unittest.TestCase):
             self.assertIn(f'class="{name}"', text)
         self.assertIn('<details class="agustos-contents">', text)
         self.assertIn('<a class="agustos-contents__link" href="#contents-demo-data">', text)
+        self.assertIn('<div class="container container--reading">\n      <p class="type-body">A long legal page', text)
 
 
 class MemregunesBrandTest(unittest.TestCase):
