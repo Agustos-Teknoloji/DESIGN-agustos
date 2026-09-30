@@ -4,15 +4,15 @@
 
 Kit v7.3.3: design review defects and quick wins (2026-09-30, branch `claude/design-system-review-5d869b`). Emre chose option B: the three defects plus the quick wins in one patch. Record: MEMORY.md 2026-09-30 review-patch.
 
-- [ ] A1. An open drawer (`site-header__panel`, `site-sidebar`) closes when keyboard focus leaves it (`ui/agustos-chrome.js`); the app shell loads the script.
-- [ ] A2. A disabled link drops its `href` (`role="link"`, `aria-disabled="true"`); the checker warns on `aria-disabled="true"` with an `href`.
-- [ ] A3. A search result excerpt turns ink on hover and focus (2.76:1 in the dark theme before); a states row guards it.
-- [ ] Table captions align to the start.
-- [ ] `color-scheme` follows the theme, and the light islands stay light.
-- [ ] Footer link hover is the 1px gray rule; states rows follow.
-- [ ] Reduced motion sets `--dur: 0s` for every transition.
-- [ ] DESIGN.md: the red rule on menu hover (line 159) and the `ss01` note (open digits, not the "a").
-- [ ] Tests, `VERSION` 7.3.3, CHANGELOG, DESIGN.md, MEMORY.md, build, gate, browser check, PR. `/design-push` follows on `main`.
+- [x] A1. An open drawer (`site-header__panel`, `site-sidebar`) closes when keyboard focus leaves it (`ui/agustos-chrome.js`); the app shell loads the script.
+- [x] A2. A disabled link drops its `href` (`role="link"`, `aria-disabled="true"`); the checker warns on `aria-disabled="true"` with an `href`.
+- [x] A3. A search result excerpt turns ink on hover and focus (2.76:1 in the dark theme before); a states row guards it.
+- [x] Table captions align to the start.
+- [x] `color-scheme` follows the theme, and the light islands stay light.
+- [x] Footer link hover is the 1px gray rule; states rows follow.
+- [x] Reduced motion sets `--dur: 0s` for every transition.
+- [x] DESIGN.md: the red rule on menu hover (line 159) and the `ss01` note (open digits, not the "a").
+- [x] Tests, `VERSION` 7.3.3, CHANGELOG, DESIGN.md, MEMORY.md, build, gate (234 tests), browser check at 390 and 1440px, PR. The tag and `/design-push` follow the merge on `main`.
 
 Kit v7.3.2 defect patch (2026-09-30, branch `claude/kit-7.3.2`). Emre approved it. Record: MEMORY.md 2026-09-30 aria-current-section and anchor-snap.
 
