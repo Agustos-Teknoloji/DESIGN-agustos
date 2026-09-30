@@ -706,10 +706,26 @@ class ChromeTest(unittest.TestCase):
         self.assertIn("--sidebar-bar-height: calc(var(--control-min) + 2 * var(--space-xs) + 1px);", self.CSS)
         self.assertIn("min-height: var(--sidebar-bar-height);", self.CSS)
         rule = "html:has(.site-sidebar-bar) { scroll-padding-top: var(--sidebar-bar-height); }"
-        self.assertEqual(self.CSS.count("scroll-padding-top"), 1, "only sidebar pages get the offset")
+        self.assertEqual(self.CSS.count("scroll-padding-top"), 2, "the sidebar bar and the top menu, nothing else")
         # Only below 1024px, where the bar is sticky. Desktop has no bar.
         drawers = self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor")
         self.assertIn(rule, self.CSS[drawers:self.CSS.index("\n}\n", drawers)])
+
+    def test_anchor_lands_below_the_sticky_top_menu(self):
+        # v7.0.2: the top menu is sticky at every width, so its offset sits outside any media query.
+        self.assertIn("--site-header-height: calc(var(--control-min) + 2 * 10px + 1px);", self.CSS)
+        self.assertIn("min-height: var(--site-header-height);", self.CSS)
+        rule = "html:has(.site-header) { scroll-padding-top: var(--site-header-height); }"
+        self.assertIn(rule, self.CSS)
+        self.assertLess(self.CSS.index(rule), self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor"))
+
+    def test_adapter_search_results_keep_the_focus_ring(self):
+        # v7.0.2: the Astro and Rails adapters removed the ring on a focused search result.
+        for path in ("adapters/astro/src/components/Header.astro",
+                     "adapters/rails/app/assets/stylesheets/agustos/components.css"):
+            css = (ROOT / path).read_text(encoding="utf-8")
+            self.assertRegex(css, r"search-result a:focus-visible\)? \{ outline: 2px solid var\(--signal\)", path)
+            self.assertNotRegex(css, r"search-result a:focus-visible\)?\s*\{\s*outline:\s*(0|none)", path)
 
     def test_house_brand_lockups_turn_white_on_dark_and_agustos_stays_red(self):
         # `:where` keeps these below the hover rules, so the hover swap works in dark too (v7.0.1).

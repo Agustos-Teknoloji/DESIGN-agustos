@@ -2,7 +2,15 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
-## Unreleased
+## [7.0.2] - 2026-09-30
+
+Two defects that the agustos.com adoption of v7.0.1 found. Consuming sites can move from `v7.0.1` to `v7.0.2` with no markup change.
+
+### Fixed
+
+- Top menu: an in-page anchor lands below the sticky `site-header`, not under it, at every width. The new `--site-header-height` (65px: the 44px target, 10px chrome padding above and below, and the rule) gives the menu its `min-height` and `html:has(.site-header)` its `scroll-padding-top`, so the two cannot drift.
+- Astro and Rails adapters: a search result link keeps the 2px red focus ring. The adapters removed it with `outline: 0`.
+- `tests/test_release_tags.py` clears the `GIT_*` variables. Under the pre-push hook, its scratch repository wrote `core.bare=true` and a test identity into this repository's config.
 
 ### Added
 
