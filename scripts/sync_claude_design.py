@@ -10,6 +10,12 @@ The Design project owns the drawings: page compositions and explorations.
 `pull` copies one page subtree, plus the shared runtime it needs, into
 screens/design/ as a reference. Nothing in the kit imports it.
 
+`status` tells whether this machine has pushed the current bundle. The
+SessionStart hook in .claude/settings.json runs `status --hook` in every local
+session, so a release made anywhere reaches the Design project the next time
+Claude Code opens this repository on a machine with Design access.
+`mark-pushed` records a push; /design-push runs it last.
+
 This script never talks to the network. Claude makes the DesignSync calls,
 following .claude/skills/design-push/SKILL.md and .claude/skills/design-pull/SKILL.md.
 """
@@ -19,6 +25,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -482,6 +489,62 @@ def build_bundle(
     return folder
 
 
+# --- Push state -------------------------------------------------------------
+# The fingerprint of the last bundle this clone pushed lives inside .git/, so
+# it belongs to one machine and is never committed. The commit is left out of
+# the fingerprint: a commit that changes no bundled file needs no push.
+
+PUSH_STATE_NAME = "claude-design-pushed.json"
+
+
+def push_state_path(root: Path = ROOT) -> Path:
+    result = subprocess.run(
+        ["git", "rev-parse", "--git-path", PUSH_STATE_NAME],
+        cwd=root,
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return (root / result.stdout.strip()).resolve()
+
+
+def fingerprint(data: dict) -> str:
+    """One hash for a manifest's version and file hashes."""
+    core = {"version": data["version"], "files": data["files"]}
+    return sha256(json.dumps(core, sort_keys=True, ensure_ascii=False).encode("utf-8"))
+
+
+def current_manifest(root: Path = ROOT) -> dict:
+    """The manifest `build` would write now, without the guards or the commit."""
+    ver = version(root)
+    members = bundle_members(root) + card_members(ver) + screen_card_members(root, ver)
+    return manifest(members, version=ver, commit="")
+
+
+def push_due(root: Path = ROOT) -> tuple[bool, str]:
+    """(due, kit version): due when this machine never pushed the current bundle."""
+    data = current_manifest(root)
+    state = push_state_path(root)
+    if state.exists():
+        try:
+            if json.loads(state.read_text(encoding="utf-8")).get("fingerprint") == fingerprint(data):
+                return False, data["version"]
+        except (ValueError, AttributeError):
+            pass
+    return True, data["version"]
+
+
+def mark_pushed(root: Path = ROOT, bundle: Path = DIST_DIR) -> dict:
+    """Record the bundle in dist/ as pushed. /design-push calls this after the writes succeed."""
+    manifest_path = bundle / REMOTE_PREFIX / "MANIFEST.json"
+    if not manifest_path.exists():
+        raise GuardError(f"{manifest_path} is missing. Run `python3 scripts/sync_claude_design.py build` first.")
+    data = json.loads(manifest_path.read_text(encoding="utf-8"))
+    record = {"version": data["version"], "commit": data["commit"], "fingerprint": fingerprint(data)}
+    push_state_path(root).write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
+    return record
+
+
 # --- Pull -------------------------------------------------------------------
 # A Design page is React + JSX loaded by relative paths from the project root.
 # Mirroring the remote layout keeps every link intact. The page is a reference;
@@ -703,6 +766,11 @@ def main() -> int:
     pulling.add_argument("--page", required=True, help="remote path, for example ui_kits/website or uploads/<chat>/Product page.dc.html")
     pulling.add_argument("--target", default=None, help="the screen this reference updates (a name from the screens table), or new")
     pulling.set_defaults(func=cmd_pull)
+    status = sub.add_parser("status", help="say whether this machine has pushed the current bundle")
+    status.add_argument("--hook", action="store_true", help="SessionStart mode: silent when current or in a cloud session, never fails")
+    status.set_defaults(func=cmd_status)
+    marking = sub.add_parser("mark-pushed", help="record dist/claude-design as pushed from this machine")
+    marking.set_defaults(func=cmd_mark_pushed)
     args = parser.parse_args()
     return args.func(args)
 
@@ -723,6 +791,52 @@ def cmd_build(args: argparse.Namespace) -> int:
         return 1
     count = sum(1 for p in folder.rglob("*") if p.is_file())
     print(f"wrote {folder.relative_to(ROOT) if folder.is_relative_to(ROOT) else folder} ({count} files)")
+    return 0
+
+
+HOOK_MESSAGE = (
+    "Claude Design may be behind this repository: kit v{version} has not been pushed from this machine. "
+    "Before the user's request, run `git pull --ff-only origin main`, then /design-push "
+    "(.claude/skills/design-push/SKILL.md), and tell the user the result in one line. "
+    "If the pull fails or DesignSync lacks authorization, skip the push, say why in one line, "
+    "and carry on with the user's request."
+)
+
+
+def current_branch(root: Path = ROOT) -> str:
+    result = subprocess.run(
+        ["git", "rev-parse", "--abbrev-ref", "HEAD"], cwd=root, capture_output=True, text=True, check=True
+    )
+    return result.stdout.strip()
+
+
+def cmd_status(args: argparse.Namespace) -> int:
+    if args.hook:
+        # A cloud session cannot hold Design authorization, so the push waits for a local one.
+        if os.environ.get("CLAUDE_CODE_REMOTE") == "true":
+            return 0
+        try:
+            # Claude Design mirrors released main, never a feature branch.
+            if current_branch() != "main":
+                return 0
+            due, ver = push_due()
+        except Exception:  # A session must start even when the check cannot run.
+            return 0
+        if due:
+            print(HOOK_MESSAGE.format(version=ver))
+        return 0
+    due, ver = push_due()
+    print(f"due: kit v{ver} has not been pushed from this machine" if due else f"current: kit v{ver} was pushed from this machine")
+    return 0
+
+
+def cmd_mark_pushed(args: argparse.Namespace) -> int:
+    try:
+        record = mark_pushed()
+    except GuardError as error:
+        print(f"refused: {error}")
+        return 1
+    print(f"recorded kit v{record['version']} ({record['commit']}) as pushed from this machine")
     return 0
 
 
