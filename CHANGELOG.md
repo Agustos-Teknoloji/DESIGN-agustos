@@ -2,6 +2,13 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
+## [Unreleased]
+
+### Fixed
+
+- The Astro adapter builds from a clean clone on a Mac with Homebrew `vips`. The adapter now uses Astro's passthrough image service, so the build does not import sharp. Before, sharp tried to compile against the system libvips, the compile failed, and npm removed sharp without an error. `astro build` then failed with "Rollup failed to resolve import sharp". Every built page is byte-identical to the build before the change.
+- `adapters/astro/package.json` and its lockfile root state v7.4.1. They stated v7.3.2.
+
 ## [7.4.1] - 2026-09-30
 
 A defect patch for the checker. Found on WEBSITE-pldturkiye PR 52. Consuming sites change no markup; a site that loads `agustos-chrome.js` as a file only to avoid the warning can go back to a plain import.
