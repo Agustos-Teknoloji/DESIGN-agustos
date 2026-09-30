@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.3.4 · GENERATED CANONICAL PLATFORM-NEUTRAL CSS
+/* AĞUSTOS DESIGN SYSTEM v7.3.5 · GENERATED CANONICAL PLATFORM-NEUTRAL CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -248,12 +248,12 @@ img, svg { max-width: 100%; height: auto; display: block; }
 
 /* --- Headings (4) --- */
 
-/* === Vertical rhythm — three tiers, no exceptions ===
+/* === Vertical rhythm — three tiers ===
    (1) BASELINE: every element has margin-bottom 1em (≈16px) → uniform prose flow.
-   (2) SECTION BREAK: H2/H3/mid-article H4 add margin-top so adjacent vertical
-       margins collapse to the LARGER value (CSS spec) → 40px above markers.
-       Single shared value — hierarchy comes from heading size + weight.
-   (3) Visual hierarchy comes from heading size and weight, not graduated spacing.
+   (2) SECTION BREAK: a heading adds margin-top, and adjacent vertical margins
+       collapse to the LARGER value (CSS spec). Two steps, in px, not em:
+       40px (--space-3xl) above an H2, 32px (--space-2xl) above an H3 or an H4.
+   (3) Heading size and weight carry the rest of the hierarchy.
    See DESIGN.md §"Vertical rhythm" for the rationale. */
 
 h1, .type-h1 {
@@ -274,9 +274,9 @@ h2, .type-h2 {
   line-height: 1.06;
   letter-spacing: -0.032em;
   text-wrap: balance;
-  /* margin-top 2.5em ≈ 40px (collapses with prior body's 1em → max wins).
+  /* margin-top 40px (collapses with prior body's 1em → max wins).
      margin-bottom 1em matches baseline → consistent gap below the heading. */
-  margin: 2.5em 0 1em;
+  margin: var(--space-3xl) 0 1em;
   color: var(--ink);
 }
 
@@ -286,7 +286,7 @@ h3, .type-h3 {
   font-weight: 500;
   line-height: 1.25;
   letter-spacing: -0.014em;
-  margin: 2.5em 0 1em;
+  margin: var(--space-2xl) 0 1em;
   color: var(--ink);
 }
 
@@ -297,7 +297,7 @@ h4, .type-h4 {
   line-height: 1.4;
   letter-spacing: 0.005em;
   text-transform: none;
-  margin: 2.5em 0 1em;
+  margin: var(--space-2xl) 0 1em;
   color: var(--ink-soft);
 }
 
@@ -690,15 +690,11 @@ table th:last-child, table td:last-child { text-align: right; }
 .agustos-section + .agustos-section {
   padding-top: 0;
 }
-/* A reading page is one article, not a set of bands. A section and an H2 in
-   it take one break, the section break of the vertical rhythm: 40px. It is a
-   margin, so it collapses with the last margin above it (the larger wins). */
+/* A reading page is one article, not a set of bands. A section in it takes
+   the H2 break of the vertical rhythm: 40px. It is a margin, so it collapses
+   with the last margin above it (the larger wins). */
 .container--reading .agustos-section {
   padding-block: 0;
-  margin-top: var(--space-3xl);
-}
-.container--reading > :is(h2, .type-h2),
-.container--reading .prose > :is(h2, .type-h2) {
   margin-top: var(--space-3xl);
 }
 
@@ -768,12 +764,20 @@ table th:last-child, table td:last-child { text-align: right; }
   border-left: 2px solid var(--ink);
 }
 
-/* Flex items and padded boxes never collapse margins. A heading's 2.5em
+/* Flex items and padded boxes never collapse margins. A heading's
    section-break margin would stack on the card gap or the section padding
    and leave an empty band above the title. The container owns that space. */
 .agustos-card > *,
 :is(.agustos-card, .agustos-section, .band) :is(h1, h2, h3, h4, .type-h1, .type-h2, .type-h3, .type-h4):first-child {
   margin-top: 0;
+}
+/* A <section> inside a section is a subsection in the text flow, so its
+   heading keeps the break of its level (v7.3.5). */
+.agustos-section section > :is(h2, .type-h2):first-child {
+  margin-top: var(--space-3xl);
+}
+.agustos-section section > :is(h3, h4, .type-h3, .type-h4):first-child {
+  margin-top: var(--space-2xl);
 }
 
 /* Hard rule 5: a card whose heading holds a link is the target. The link

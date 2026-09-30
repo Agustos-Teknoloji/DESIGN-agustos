@@ -2,6 +2,20 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
+## [7.3.5] - 2026-09-30
+
+A defect patch that closes issue 75. Emre chose two steps (option B) from a side-by-side preview. Consuming sites change no markup.
+
+### Fixed
+
+- A heading takes a fixed break above it: 40px (`--space-3xl`) above an H2, 32px (`--space-2xl`) above an H3 or an H4. Each heading took 2.5 times its own size (108px, 53px and 33px), so on the IESDesk Learn pages a subheading took 53px, more than the 40px above a chapter heading. The v7.3.4 H2 rule for reading pages is now the base rule and is removed.
+- A heading that opens a `<section>` inside a kit section keeps the break of its level. The "containers own their edges" rule reached it and removed its space, so the IESDesk privacy notice showed 16px above each H3, the same as a paragraph gap.
+- Measured in a browser before and after, on all 9 screens at 1440 and 390px: only the subheadings move (52.5px to 32px on `content`, `product-finder` and `static`). A 32.5px break rounds to 32px.
+
+### Documentation
+
+- DESIGN.md, "Vertical rhythm": Tier 2 states the two steps and the subsection rule.
+
 ## [7.3.4] - 2026-09-30
 
 A defect patch. Emre approved it after the IESDesk About page showed 132px above each heading. Consuming sites change no markup.
