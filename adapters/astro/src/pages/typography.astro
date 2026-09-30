@@ -96,8 +96,8 @@ const portfolio = [
     <p class="type-body">
       White symbol and wordmark on the registered identity tile (DESIGN.md §"Three expressions"). For
       monograms, identity tiles, social avatars, and hero stamps. Favicons use the shared red
-      <code>master.svg</code> instead. The reverse marks use footer ink so the tile reads correctly
-      in both light and dark themes.
+      <code>master.svg</code> instead. The reverse marks use the kit cream, which stays light in
+      both themes, so the tile reads correctly in light and dark.
     </p>
 
     <div class="portfolio-negative">
@@ -317,9 +317,10 @@ const portfolio = [
     }
   }
   .portfolio-negative__tile {
-    /* Identity tile. Footer ink stays white across themes, so the negative
-       lockup keeps contrast when the handbook inspects dark product UI. */
-    --lockup-color: var(--footer-ink);
+    /* Identity tile. Cream stays light in both themes, so the negative
+       lockup keeps contrast on every identity tile.
+       Do not use --footer-ink here: the footer is light since kit v7. */
+    --lockup-color: var(--cream);
     background: var(--brand);
     border-radius: var(--radius-lg);
     padding: 1.25rem 1rem;
