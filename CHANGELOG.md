@@ -10,6 +10,7 @@ Two defects that the agustos.com adoption of v7.0.1 found. Consuming sites can m
 
 - Top menu: an in-page anchor lands below the sticky `site-header`, not under it, at every width. The new `--site-header-height` (65px: the 44px target, 10px chrome padding above and below, and the rule) gives the menu its `min-height` and `html:has(.site-header)` its `scroll-padding-top`, so the two cannot drift.
 - Astro and Rails adapters: a search result link keeps the 2px red focus ring. The adapters removed it with `outline: 0`.
+- `tests/test_release_tags.py` clears the `GIT_*` variables. Under the pre-push hook, its scratch repository wrote `core.bare=true` and a test identity into this repository's config.
 
 ### Added
 

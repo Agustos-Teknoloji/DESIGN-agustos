@@ -8,6 +8,7 @@ every release when it reaches main (MEMORY.md 2026-09-30 release-tags-on-main).
 from __future__ import annotations
 
 import importlib.util
+import os
 import subprocess
 import tempfile
 import unittest
@@ -69,6 +70,14 @@ class PendingTest(unittest.TestCase):
 
 class ReleaseCommitTest(unittest.TestCase):
     """The tag lands on the first-parent commit that set VERSION: the merge that shipped it."""
+
+    def setUp(self):
+        # The pre-push hook runs this suite with GIT_DIR set. Without this, the
+        # scratch repository's `git init` and `git config` write to the real one.
+        clean = {key: value for key, value in os.environ.items() if not key.startswith("GIT_")}
+        patcher = mock.patch.dict(os.environ, clean, clear=True)
+        patcher.start()
+        self.addCleanup(patcher.stop)
 
     def test_the_tag_goes_on_the_merge_that_shipped_the_version(self):
         tagger = load_tagger()
