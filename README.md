@@ -82,8 +82,9 @@ python3 -m http.server 4330 --directory ui
 
 To hand the kit to another coding agent, read [HANDOFF.md](HANDOFF.md) and run `python3 scripts/pack_handoff.py`.
 
-Any change under `ui/` requires a VERSION bump, a rebuild, and a matching `v<VERSION>` git tag in the
-same change. `VERSION` participates in the manifest's source hash, so the local gate (`scripts/ci.sh`) fails
+Any change under `ui/` requires a VERSION bump, a dated CHANGELOG section, and a rebuild in the same
+change. The `v<VERSION>` tag is automatic: `.github/workflows/tag-release.yml` creates it when the release
+reaches `main`. `VERSION` participates in the manifest's source hash, so the local gate (`scripts/ci.sh`) fails
 if the rebuild is missed.
 
 ## Adapters

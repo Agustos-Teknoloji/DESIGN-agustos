@@ -930,8 +930,9 @@ pinned by tag.
 `ui/kit.json` must all agree; a test enforces it, and the generator refuses to build when `VERSION`
 and the registry disagree.
 
-**Any change under `ui/` requires a VERSION bump, a rebuild, and a `v<VERSION>` git tag in the same
-change.** Consumers pin that tag. `VERSION` participates in the manifest's source hash, so the local gate
+**Any change under `ui/` requires a VERSION bump, a dated CHANGELOG section, and a rebuild in the same
+change.** Consumers pin the `v<VERSION>` tag, which `.github/workflows/tag-release.yml` creates on the merge
+when the release reaches `main`; nobody tags by hand. `VERSION` participates in the manifest's source hash, so the local gate
 fails if the rebuild is missed — without that, a version bump would leave every pinned URL in the kit
 stale while `--check` still reported clean.
 

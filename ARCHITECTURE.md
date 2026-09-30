@@ -77,7 +77,7 @@ python3 scripts/check_office_artifacts.py --check
 python3 -m unittest discover -s tests
 ```
 
-The pre-push hook, [.githooks/pre-push](.githooks/pre-push), runs the gate on every push except tag pushes and branch deletions. A failed gate refuses the push. Run `bin/setup` once in each clone to activate the hook. The repository has no GitHub Actions (MEMORY.md, 2026-09-25 no-github-actions).
+The pre-push hook, [.githooks/pre-push](.githooks/pre-push), runs the gate on every push except tag pushes and branch deletions. A failed gate refuses the push. Run `bin/setup` once in each clone to activate the hook. GitHub Actions runs no CI here (MEMORY.md, 2026-09-25 no-github-actions). Its one workflow, [.github/workflows/tag-release.yml](.github/workflows/tag-release.yml), tags each release when it reaches `main` through `scripts/release_tags.py` (MEMORY.md, 2026-09-30 release-tags-on-main).
 
 The gate uses Python 3.12 or newer. The macOS system Python is 3.9, so the gate falls back to the `python@3.12` install of mise. Set `PYTHON` to choose another interpreter.
 
@@ -98,7 +98,7 @@ Suites:
 Before you call a system change done, also do these factory checks. The visual checks for consumers are in the QA checklist in `DESIGN.md`.
 
 1. If an Office export changed, render every DOCX page and PPTX slide, run the Google Docs title sanitizer, and run the overflow checks.
-2. If `ui/` changed, bump `VERSION`, rebuild, and tag `v<VERSION>` in the same change. Serve `ui/`, and confirm that the woff2 files load and that Inter Tight renders. A font stack alone is not proof.
+2. If `ui/` changed, bump `VERSION`, add its dated CHANGELOG section, and rebuild in the same change. The workflow tags `v<VERSION>` after the merge. Serve `ui/`, and confirm that the woff2 files load and that Inter Tight renders. A font stack alone is not proof.
 
 Known gaps:
 

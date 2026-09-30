@@ -9,7 +9,7 @@ v7.0.1 interactive states (2026-09-30, branch `claude/rails-html-template-kbacva
 - [x] `states` table in the registry; the build refuses a failing pair; `kit.json`, `docs/web.html`, `UI-KIT.md`.
 - [x] Guidelines: Colour in use, Emphasis, corrected Typography; PDFs rebuilt (13 pages).
 - [x] Tests, docs, `VERSION` 7.0.1, gate green.
-- [ ] Tag `v7.0.1` on the merge commit (GitHub → Releases), as for v7.0.0.
+- [x] Tag `v7.0.1`: automatic since 2026-09-30 (release-tags-on-main).
 - [ ] `/design-push` from an interactive Claude Code session.
 
 v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva`). Emre approved each part from the live preview and asked for it to ship without further approvals. Plan and facts: MEMORY.md 2026-09-29 v7-conventional-reset and the five records after it.
@@ -25,7 +25,7 @@ v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva
 - [x] Hand-written docs: DESIGN.md, docs/*.html, README, ARCHITECTURE, HANDOFF, PATARAZ.
 - [x] `AGENTS.md`, `ASSETS.md`.
 - [x] Gate green, visual check, commit, push, draft PR #60.
-- [ ] Tag `v7.0.0` on GitHub. The cloud session could not push tags; create it on the merge commit (GitHub → Releases → Draft a new release → tag `v7.0.0`), or run `git tag -a v7.0.0 && git push origin v7.0.0` locally.
+- [x] Tag `v7.0.0`: automatic since 2026-09-30 (release-tags-on-main).
 - [ ] `/design-push` from an interactive Claude Code session. The cloud session has no Claude Design authorization.
 - [ ] Rollout: agustos.com and iesdesk.com pin v7.0.0 first; memregunes.com and pldturkiye.com later.
 
