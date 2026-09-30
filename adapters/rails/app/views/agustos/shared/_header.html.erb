@@ -56,8 +56,8 @@
     <noscript>
       <div class="site-header__noscript-search site-frame">
         <%= form_with url: agustos_value(agustos_search_config, :url), method: :get, local: true do |form| %>
-          <%= form.search_field agustos_value(agustos_search_config, :param, :q), placeholder: agustos_search_labels[:placeholder], aria: { label: agustos_search_labels[:aria] } %>
-          <%= form.submit agustos_search_labels[:submit] %>
+          <%= form.search_field agustos_value(agustos_search_config, :param, :q), class: "agustos-input", placeholder: agustos_search_labels[:placeholder], aria: { label: agustos_search_labels[:aria] } %>
+          <%= form.submit agustos_search_labels[:submit], class: "agustos-button agustos-button--primary" %>
         <% end %>
       </div>
     </noscript>

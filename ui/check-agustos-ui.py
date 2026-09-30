@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ağustos UI kit compliance checker — v7.2.0
+"""Ağustos UI kit compliance checker — v7.3.0
 
 GENERATED. Do not hand-edit. Regenerate with:
     python3 scripts/build_design_system.py
@@ -28,7 +28,7 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 
-KIT_VERSION = "7.2.0"
+KIT_VERSION = "7.3.0"
 REPOSITORY = "Agustos-Teknoloji/DESIGN-agustos"
 LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json"
 
@@ -117,6 +117,32 @@ KIT_CLASSES = {
     "site-header__cta",
     "site-header__burger",
     "site-header__close",
+    "site-header__utility",
+    "site-header__utility--bar",
+    "site-header__utility--drawer",
+    "site-header__icon-btn",
+    "site-header__theme-sun",
+    "site-header__theme-moon",
+    "site-header__lang-link",
+    "site-header__search",
+    "site-header__search--desktop",
+    "site-header__search--responsive",
+    "site-header__search-toggle",
+    "site-header__search-panel",
+    "site-header__search-field",
+    "site-header__search-output",
+    "site-header__search-status",
+    "site-header__search-results",
+    "site-header__search-group",
+    "site-header__search-heading",
+    "site-header__search-heading-count",
+    "site-header__search-list",
+    "site-header__search-result",
+    "site-header__search-result-title",
+    "site-header__search-result-excerpt",
+    "site-header__search-row",
+    "site-header__search-shell",
+    "site-header__noscript-search",
     "site-footer",
     "site-footer__inner",
     "site-footer__brand",

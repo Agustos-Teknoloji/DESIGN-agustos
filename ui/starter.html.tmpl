@@ -56,14 +56,36 @@
         </details>
       </nav>
       <div class="site-header__end">
-        <a class="agustos-chrome-link" href="/ara">Ara</a>
-        <a class="agustos-chrome-link" href="/en" hreflang="en" lang="en">English</a>
+        <div class="site-header__search site-header__search--desktop">
+          <button type="button" class="site-header__search-toggle" aria-label="Sitede ara" aria-expanded="false" aria-controls="site-search-panel"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+          <div id="site-search-panel" class="site-header__search-panel" hidden>
+            <label class="site-header__search-field"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Ara" aria-label="Sitede ara" autocomplete="off"></label>
+            <div class="site-header__search-output">
+              <p class="site-header__search-status" role="status" aria-live="polite"></p>
+              <div class="site-header__search-results"></div>
+            </div>
+          </div>
+        </div>
+        <div class="site-header__utility site-header__utility--drawer"><a class="site-header__lang-link" href="/en" hreflang="en" lang="en">English</a></div>
         <a class="agustos-button agustos-button--primary site-header__cta" href="/bize-ulasin">İletişim</a>
       </div>
     </div>
+    <div class="site-header__utility site-header__utility--bar"><a class="site-header__lang-link" href="/en" hreflang="en" lang="en">EN</a></div>
     <button type="button" class="site-header__burger" popovertarget="site-header-panel" aria-label="Menüyü aç">
       <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true" focusable="false"><path d="M0 1h18M0 7h18M0 13h18" stroke="currentColor" stroke-width="1.5"/></svg>
     </button>
+  </div>
+  <div class="site-header__search-row">
+    <div class="site-header__search-shell site-frame">
+      <div class="site-header__search site-header__search--responsive">
+        <label class="site-header__search-field"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Ara" aria-label="Sitede ara" autocomplete="off"></label>
+      </div>
+      <noscript>
+        <div class="site-header__noscript-search">
+          <form action="/ara" method="get"><input class="agustos-input" type="search" name="q" aria-label="Sitede ara"><button class="agustos-button agustos-button--primary" type="submit">Ara</button></form>
+        </div>
+      </noscript>
+    </div>
   </div>
 </header>
 
@@ -238,6 +260,25 @@
   <section class="agustos-section" id="chrome">
     <div class="agustos-section__head"><h2 class="type-h2">Chrome and layout</h2></div>
     <p class="type-body">This page uses the website chrome: the top menu above, with a <code class="type-code">site-header__more</code> menu for items beyond five, and the light footer at the bottom. Product UI uses the sidebar instead; see <code class="type-code">screens/app-shell.html</code>. The chrome follows the screen family, never the brand.</p>
+    <p class="type-body">The header search: a toggle and a floating panel on desktop, a row under the bar below 1024px. A script fills the results; the panel below shows them open. The icon button and the theme icons serve product UI only.</p>
+    <div class="site-header__search-panel">
+      <label class="site-header__search-field"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" value="ışık" aria-label="Sitede ara" autocomplete="off"></label>
+      <div class="site-header__search-output">
+        <p class="site-header__search-status" role="status">2 sonuç</p>
+        <div class="site-header__search-results">
+          <section class="site-header__search-group">
+            <h3 class="site-header__search-heading">Yazılar <span class="site-header__search-heading-count">2</span></h3>
+            <ul class="site-header__search-list">
+              <li class="site-header__search-result"><a href="#chrome"><span class="site-header__search-result-title">Işığın rengi</span><span class="site-header__search-result-excerpt">Renk sıcaklığı ve renk sadakati, bir mekânın <mark>ışık</mark> kalitesini belirler.</span></a></li>
+              <li class="site-header__search-result"><a href="#chrome"><span class="site-header__search-result-title">Gün ışığı ve yapay ışık</span></a></li>
+            </ul>
+          </section>
+        </div>
+      </div>
+    </div>
+    <div class="cluster">
+      <button type="button" class="site-header__icon-btn" aria-label="Koyu tema" aria-pressed="false"><svg class="site-header__theme-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/></svg><svg class="site-header__theme-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+    </div>
     <nav aria-label="Breadcrumb">
       <ol class="breadcrumb">
         <li><a class="breadcrumb__link" href="/">Ana sayfa</a></li>

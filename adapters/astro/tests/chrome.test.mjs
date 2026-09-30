@@ -79,7 +79,7 @@ test('header search matches the production interaction contract', async () => {
   assert.match(header, /groups\.forEach\(\(group\) => renderGroup/);
   assert.match(search, /desktop-dropdown/);
   assert.match(search, /responsive-row/);
-  assert.match(search, /\.site-header__search--responsive \.site-header__search-field input \{ font-size: 16px; \}/);
+  assert.match(await read('src/styles/tokens.css'), /\.site-header__search-field input \{[^}]*font-size: 16px;/);
 });
 
 test('header and footer use the shared frame and accessible control sizes', async () => {
@@ -95,9 +95,12 @@ test('header and footer use the shared frame and accessible control sizes', asyn
   assert.match(footer, /class="site-footer__link"/);
   assert.match(footer, /<p class="type-footnote">\{note\}<\/p>/);
   assert.doesNotMatch(footer, /site-footer__(cols|col|col-heading|list|cta)\b|agustos-button/);
-  assert.match(search, /outline: 2px solid var\(--signal\)/);
+  // v7.3.0: the kit styles the search and the language link; the components carry no <style>.
+  const kit = await read('src/styles/tokens.css');
+  for (const source of [header, search, utility]) assert.doesNotMatch(source, /<style>/);
+  assert.match(kit, /\.site-header__search-result a:focus-visible \{[^}]*outline: 2px solid var\(--signal\)/);
+  assert.match(kit, /\.site-header__search-toggle \{[^}]*width: var\(--control-min\)/);
   assert.match(utility, /theme = false/);
-  for (const source of [search, utility]) assert.match(source, /44px/);
   assert.match(header, /class="site-lockup"/);
   assert.match(footer, /class="site-lockup"/);
   assert.doesNotMatch(header, /BrandLockup/);

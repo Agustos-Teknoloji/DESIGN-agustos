@@ -58,6 +58,8 @@
   /* The sticky top menu at every width: a 44px target, the chrome padding above and below, and the rule.
      The menu and the anchor scroll offset both read it. */
   --site-header-height: calc(var(--control-min) + 2 * {{recipes.chrome.paddingBlock}} + {{recipes.chrome.rule}});
+  /* The phone search row under the top menu: a 44px field, 8px above and below, and the rule. */
+  --site-header-search-height: calc(var(--control-min) + 2 * var(--space-xs) + {{recipes.chrome.rule}});
 
   /* The one section spacing: sections, the closing band, and the gap after the hero. */
   --section-space: {{recipes.section.paddingBlock}};
@@ -1081,6 +1083,179 @@ html:has(.site-header) { scroll-padding-top: var(--site-header-height); }
 .site-header__more-link[aria-current="page"] { background: var(--surface); color: var(--ink); text-decoration: none; }
 .site-header__more-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 
+/* --- Header search and utility (v7.3.0). One recipe for every adapter: the
+   search toggle and panel on desktop, a search row under the bar below
+   1024px, the language link and icon buttons. Text uses --ink-soft, never
+   --ink-faint, so it clears 4.5:1. The input is 16px, so a phone does not
+   zoom on focus. The panel floats on the menu shadow. --- */
+.site-header__utility { display: flex; align-items: center; gap: var(--space-2xs); }
+.site-header__utility--bar { display: none; }
+.site-header__icon-btn,
+.site-header__search-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--control-min);
+  height: var(--control-min);
+  padding: 0;
+  border: {{foundations.border.hairline}} solid transparent;
+  border-radius: var(--radius-md);
+  background: transparent;
+  color: var(--ink-soft);
+  cursor: pointer;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+}
+.site-header__icon-btn:hover,
+.site-header__search-toggle:hover,
+.site-header__search-toggle[aria-expanded="true"] { background: var(--surface); color: var(--ink); }
+.site-header__icon-btn:focus-visible,
+.site-header__search-toggle:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.site-header__theme-moon,
+html[data-theme="dark"] .site-header__theme-sun { display: none; }
+html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
+/* The language link reads like the other chrome links: a 1px gray rule on
+   hover; red stays with the current page. */
+.site-header__lang-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: var(--control-min);
+  min-height: var(--control-min);
+  padding: 0 var(--space-2xs);
+  border-bottom: {{foundations.border.signal}} solid transparent;
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: var(--size-body-compact);
+  font-weight: {{foundations.fontWeight.medium}};
+  text-decoration: none;
+  transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
+}
+.site-header__lang-link:hover {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom-width: {{foundations.border.hairline}};
+  border-bottom-color: var(--ink-faint);
+  padding-bottom: {{foundations.border.hairline}};
+}
+.site-header__lang-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+.site-header__search { position: relative; }
+.site-header__search--desktop { position: static; }
+.site-header__search-panel {
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  max-height: min(60dvh, 32rem);
+  padding: var(--space-sm);
+  overflow: hidden;
+  border: {{recipes.chrome.rule}} solid var(--rule);
+  border-radius: var(--radius-lg);
+  background: var(--paper);
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--ink) 8%, transparent);
+}
+.site-header__search-panel[hidden] { display: none; }
+.site-header__search--desktop .site-header__search-panel {
+  position: absolute;
+  inset-block-start: calc(100% + {{recipes.chrome.rule}});
+  inset-inline: var(--space-xl);
+}
+.site-header__search--responsive .site-header__search-panel {
+  position: absolute;
+  inset-block-start: calc(100% + var(--space-xs));
+  inset-inline: 0;
+}
+.site-header__search-field {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: var(--control-min);
+  padding: 0 var(--space-sm);
+  border: {{foundations.border.hairline}} solid var(--ink-faint);
+  border-radius: var(--radius-md);
+  color: var(--ink-soft);
+  transition: border-color var(--dur) var(--ease);
+}
+.site-header__search-field:hover { border-color: var(--ink); }
+.site-header__search-field:focus-within { border-color: var(--ink); outline: 2px solid var(--signal); outline-offset: 2px; }
+.site-header__search-field svg { flex: none; }
+.site-header__search-field input {
+  flex: 1;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--display);
+  font-size: 16px;
+}
+.site-header__search-field input::placeholder { color: var(--ink-soft); }
+.site-header__search-output { min-height: 0; overflow-y: auto; }
+.site-header__search-status {
+  margin: var(--space-xs) 0 0;
+  color: var(--ink-soft);
+  font-size: {{foundations.fontSize.footnote}};
+  line-height: 1.45;
+}
+.site-header__search-status:empty { display: none; }
+.site-header__search-results { margin: var(--space-2xs) 0 0; }
+.site-header__search-group + .site-header__search-group {
+  margin-top: var(--space-xs);
+  padding-top: var(--space-xs);
+  border-top: {{recipes.chrome.rule}} solid var(--rule);
+}
+.site-header__search-heading {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: var(--space-xs) var(--space-xs) var(--space-2xs);
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: {{foundations.fontSize.footnote}};
+  font-weight: {{foundations.fontWeight.semibold}};
+  letter-spacing: 0;
+  text-transform: none;
+}
+.site-header__search-heading-count { font-family: var(--body); font-weight: {{foundations.fontWeight.regular}}; }
+.site-header__search-list { margin: 0; padding: 0; list-style: none; }
+.site-header__search-result { margin: 0; }
+.site-header__search-result a {
+  display: block;
+  padding: var(--space-xs);
+  border-radius: var(--radius-md);
+  color: var(--ink-soft);
+  font-weight: {{foundations.fontWeight.regular}};
+  text-decoration: none;
+}
+.site-header__search-result a:hover { background: var(--surface); color: var(--ink); text-decoration: none; }
+.site-header__search-result a:focus-visible { background: var(--surface); color: var(--ink); outline: 2px solid var(--signal); outline-offset: -2px; }
+.site-header__search-result-title {
+  display: block;
+  font-family: var(--display);
+  font-size: var(--size-body-compact);
+  font-weight: {{foundations.fontWeight.medium}};
+  line-height: 1.3;
+}
+.site-header__search-result-excerpt {
+  display: block;
+  max-width: 70ch;
+  margin-top: var(--space-2xs);
+  color: var(--ink-soft);
+  font-family: var(--body);
+  font-size: {{foundations.fontSize.footnote}};
+  line-height: 1.45;
+}
+.site-header__search-result-excerpt mark { padding: 0 0.1em; background: var(--surface); color: var(--ink); }
+/* Below 1024px the search moves to a row under the bar: a 44px field, 8px
+   above and below, and the rule. --site-header-search-height names it, so the
+   anchor offset can add it. */
+.site-header__search-row { display: none; border-top: {{recipes.chrome.rule}} solid var(--rule); }
+.site-header__search-shell { padding-block: var(--space-xs); }
+.site-header__noscript-search { padding-block: var(--space-xs); }
+.site-header__noscript-search form { display: flex; gap: var(--space-xs); }
+
 /* --- Footer. Light: the logo and one line on one side, one row of links on
    the other, and an optional site map above (below). No button: the top menu
    and the closing band carry the action. The footer variables never follow
@@ -1203,6 +1378,12 @@ html:has(.site-header) { scroll-padding-top: var(--site-header-height); }
 @media (max-width: 1023px) {
   /* An in-page anchor lands below the sticky bar, not under it. */
   html:has(.site-sidebar-bar) { scroll-padding-top: var(--sidebar-bar-height); }
+  /* The top menu grows by the search row here, so the anchor offset does too. */
+  html:has(.site-header__search-row) { scroll-padding-top: calc(var(--site-header-height) + var(--site-header-search-height)); }
+  .site-header__search--desktop { display: none; }
+  .site-header__search-row { display: block; }
+  .site-header__utility--bar { display: flex; justify-self: end; }
+  .site-header__utility--drawer { display: none; }
   /* The page behind an open drawer does not scroll. */
   html:has(.site-header__panel:popover-open),
   html:has(.site-sidebar:popover-open) { overflow: hidden; }
