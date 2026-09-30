@@ -4,11 +4,23 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.4.2] - 2026-09-30
+
+A defect patch from the final review of the contents list (v7.4.0). Emre chose 24px above the folded line on 2026-09-30. Consuming sites add `aria-hidden="true"` to the list title; nothing else in their markup changes.
+
 ### Fixed
 
+- The folded line of the contents list sits 24px (`--space-xl`) below the page opening. It had no top margin, so on iesdesk.com it hugged the date line by 13px while the text below it started 40px lower.
+- The visible title of the contents list takes `aria-hidden="true"`. A screen reader heard "On this page" twice: the `nav` label and the title.
+- AG031 no longer warns when a page leaves a `<p>` open before the list. The checker closes the `<p>` the way a browser does.
 - Astro adapter, `/typography`: the "Negative expression" tiles use `var(--cream)` for the lockup. They used `--footer-ink`, which is off-black since the footer became light in v7. The four house-brand lockups were invisible at 1:1, and the Ağustos lockup was off-black on red. Measured after the fix: 5.16:1 on red and 17.28:1 on off-black in light, 4.65:1 and 15.56:1 in the dark toggle.
 - The Astro adapter builds from a clean clone on a Mac with Homebrew `vips`. The adapter now uses Astro's passthrough image service, so the build does not import sharp. Before, sharp tried to compile against the system libvips, the compile failed, and npm removed sharp without an error. `astro build` then failed with "Rollup failed to resolve import sharp". Every built page is byte-identical to the build before the change.
 - `adapters/astro/package.json` and its lockfile root state v7.4.1. They stated v7.3.2.
+
+### Documentation
+
+- `UI-KIT.md` and `DESIGN.md`: AG031 reads full pages only, so a site that draws the list from a partial or a component needs its own page test.
+- `MEMORY.md`: the 2026-09-30 page-contents record moves above the v7.3.x records, newest first.
 
 ## [7.4.1] - 2026-09-30
 
