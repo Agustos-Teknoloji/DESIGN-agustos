@@ -121,9 +121,15 @@
   --rule:  var(--rule-white);
 }
 
+/* The browser draws its own parts (scrollbars, checkboxes, select menus, date
+   pickers) in the scheme it is told: light here, dark in the dark theme, and
+   light again on the light islands. */
+:root { color-scheme: light; }
+
 /* Dark theme — product UI via html[data-theme="dark"]. Same six colours, flipped.
    Marketing pages stay light. The footer stays light. */
 html[data-theme="dark"] {
+  color-scheme: dark;
   --paper:        {{foundations.color.paperDark}};
   --paper-white:  {{foundations.color.paperDark}};
   --cream:        {{foundations.color.creamDark}};
@@ -161,6 +167,7 @@ html[data-theme="dark"] .band--cream {
   --rule:        {{foundations.color.ruleCream}};
   --rule-white:  {{foundations.color.ruleWhite}};
   color: var(--ink);
+  color-scheme: light;
 }
 
 /* Buttons are black, never red. In the dark theme they simply invert with the
@@ -177,7 +184,8 @@ html, body {
   color: var(--ink);
   font-family: var(--body);
   /* locl: Turkish capitalization correctness when lang="tr". Mandatory.
-     ss01: Inter's two-storey "a" stylistic set — taste decision; flip off if a future audit prefers default. */
+     ss01: Inter's open digits (open 4, 6 and 9). It does not change the "a": Inter's
+     default "a" is already two-storey. A taste decision; see MEMORY.md, review-patch. */
   font-feature-settings: "locl" on, "kern" on, "ss01" on;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -533,6 +541,8 @@ s, del, .type-strike {
 }
 .type-table th:last-child, .type-table td:last-child,
 table th:last-child, table td:last-child { text-align: right; }
+/* A caption names the table and starts on the cell text. Browsers center it by default. */
+.type-table caption, table caption { padding-inline: 0.75em; text-align: start; }
 
 .type-divider, hr {
   border: 0;
@@ -1256,6 +1266,11 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
   line-height: 1.45;
 }
 .site-header__search-result-excerpt mark { padding: 0 0.1em; background: var(--surface); color: var(--ink); }
+/* The row fills with --surface on hover and focus. --ink-soft on the dark
+   surface is 2.76:1, so the excerpt takes the ink there, and the match mark
+   moves to the paper so it stays visible on the fill. */
+.site-header__search-result a:is(:hover, :focus-visible) .site-header__search-result-excerpt { color: var(--ink); }
+.site-header__search-result a:is(:hover, :focus-visible) .site-header__search-result-excerpt mark { background: var(--paper); }
 /* Below 1024px the search moves to a row under the bar: a 44px field, 8px
    above and below, and the rule. --site-header-search-height names it, so the
    anchor offset can add it. */
@@ -1295,7 +1310,9 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
   text-decoration: none;
   transition: color var(--dur) var(--ease);
 }
-.site-footer__link:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--signal); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+/* Hover darkens the ink over a 1px gray rule, as in the top menu: the red rule
+   marks the current page alone (v7.1.0), and the footer has none. */
+.site-footer__link:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--ink-faint); text-decoration-thickness: {{foundations.border.hairline}}; text-underline-offset: 4px; }
 .site-footer__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 
 /* The optional site map above the bottom row (v7.1.0): the lockup with the
@@ -1820,22 +1837,10 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
 /* --- Reduced motion --- */
 
 /* The handoff contract promises this; nothing delivered it before v3.1. */
+/* Every transition in the kit runs on --dur, so one value stops them all,
+   including the ones added after this rule. */
 @media (prefers-reduced-motion: reduce) {
-  .agustos-button,
-  .agustos-card,
-  .site-lockup,
-  .site-footer__link,
-  .site-header__more > summary::after,
-  .agustos-input,
-  .agustos-textarea,
-  .agustos-select,
-  .agustos-tab,
-  .site-sidebar__link,
-  .site-header__link,
-  .site-sidebar__group > summary::after,
-  .agustos-chrome-link {
-    transition: none;
-  }
+  :root { --dur: 0s; }
 }
 
 /* --- Print: the page, not the chrome. Menus, drawers and footer links do not

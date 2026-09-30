@@ -1,4 +1,4 @@
-# Ağustos UI kit — v7.3.2
+# Ağustos UI kit — v7.3.3
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -45,11 +45,11 @@ Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and
 
 npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-Prototypes with no build step may link the CDN copies. **Pin to `@v7.3.2`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
+Prototypes with no build step may link the CDN copies. **Pin to `@v7.3.3`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.2/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.2/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.3/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.3/ui/agustos.css">
 ```
 
 ## Page skeleton
@@ -97,7 +97,7 @@ Use `lang="tr"` for Turkish content so locale-sensitive capitalization renders c
 
 ## Chrome
 
-Chrome follows the screen family, not the brand: every website uses the top menu and the footer; product UI uses the sidebar. JavaScript only when it is the logical choice: drawers are native popovers with a `site-header__close` or `site-sidebar__close` button, groups and More are `details`, and `agustos-chrome.js` (load once with `defer`) closes More on Escape, an outside click, or focus leaving. Print drops the chrome. Copy the markup from `starter.html`.
+Chrome follows the screen family, not the brand: every website uses the top menu and the footer; product UI uses the sidebar. JavaScript only when it is the logical choice: drawers are native popovers with a `site-header__close` or `site-sidebar__close` button, groups and More are `details`, and `agustos-chrome.js` (load once with `defer` on every page with the chrome) closes More on Escape, an outside click, or focus leaving, and closes an open drawer when focus leaves it, so focus never lands on the page behind. Print drops the chrome. Copy the markup from `starter.html`.
 
 - **Top menu** (`site-header*`, `site-footer*`): a sticky one-row header inside a `site-frame` with the lockup, `site-header__nav`, and a `site-header__end` slot for search, language, and the CTA; the kit styles the search (`site-header__search*`, a row under the bar below 1024px) and the `site-header__lang-link`. **At most five items**, about 65 characters together with More, so the row fits at 1024px. Put extra pages in one `site-header__more` `details` whose `summary` is a `site-header__link` ("Daha fazla" or "More") and whose `site-header__more-menu` holds `site-header__more-link` items. The footer is light: `site-footer__brand` holds the lockup and one `type-footnote` line; one `site-footer__links` list holds a single row of `site-footer__link` items for social, legal, and language. No button. An optional site map sits above that row: `site-footer__map` holds `site-footer__contact` (the lockup and an `address`: legal name and address) and one `site-footer__groups` nav of at most three `site-footer__group`s, each a sentence-case `site-footer__group-title` over at most five links in `site-footer__group-links`. List the pages people look for, not every page; `sitemap.xml` serves search engines. Below 1024px the burger opens `site-header__panel` as a drawer, and the More items open inline.
 - **Sidebar** (`site-sidebar*`), product UI only: a fixed 240px column with the lockup, `site-sidebar__nav` links, `site-sidebar__group` details, a `site-sidebar__utility` slot, and a `site-sidebar__note`. Below 1024px a sticky `site-sidebar-bar` with the burger opens it as a drawer.
@@ -127,7 +127,7 @@ A website page opens with a `type-hero` headline (or a `type-h1` on listing and 
 
 **Emphasis.** `strong` (600) marks a fact the reader scans for, at most once per paragraph. `em` marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Never combine them. No uppercase labels, eyebrow headings, or coloured text.
 
-**States.** The kit styles every state; compose from it rather than restyle. Hover: light paper turns a content link red; the dark theme dims the ink instead (red text on off-black is 3.35:1) and keeps the red rule. Pressed: buttons move 1px down. Disabled: the `disabled` attribute, or `aria-disabled="true"` on a link, turns a control gray and inert. The footer and the closing band stay light in the dark theme. Text clears 4.5:1 and borders, logos and focus 3:1 in both themes; `kit.json` (`states`) and `docs/web.html` carry every pair with its ratio.
+**States.** The kit styles every state; compose from it rather than restyle. Hover: light paper turns a content link red; the dark theme dims the ink instead (red text on off-black is 3.35:1) and keeps the red rule. Pressed: buttons move 1px down. Disabled: a `button` takes the `disabled` attribute; a link drops its `href` and takes `role="link"` and `aria-disabled="true"`, because `aria-disabled` alone does not stop a click (AG030). Both turn gray and inert. The footer and the closing band stay light in the dark theme. Text clears 4.5:1 and borders, logos and focus 3:1 in both themes; `kit.json` (`states`) and `docs/web.html` carry every pair with its ratio.
 
 `brand-memregunes` may show photographs of Emre Güneş on `home` and `static`.
 
@@ -184,7 +184,7 @@ python3 vendor/agustos-ui/check-agustos-ui.py .
 ```
 
 Fix reported token values, font loading, CDN pins, brand classes, radii, and class overrides.
-Every page must carry `data-screen="<name>"` on `<body>`. Errors guard identity: token values, the brand red, font loading, CDN pins, brand classes, and screen names. Taste rules only warn: `data-theme` outside product UI (AG024), more than one highlighter (AG025), a sidebar on a website (AG026), more than five top-menu items (AG027), and, on built pages (`--screens-only`), `aria-current="page"` on a parent section (AG029), radii, gradients, and class overrides.
+Every page must carry `data-screen="<name>"` on `<body>`. Errors guard identity: token values, the brand red, font loading, CDN pins, brand classes, and screen names. Taste rules only warn: `data-theme` outside product UI (AG024), more than one highlighter (AG025), a sidebar on a website (AG026), more than five top-menu items (AG027), and, on built pages (`--screens-only`), `aria-current="page"` on a parent section (AG029), a disabled link that keeps its `href` (AG030), radii, gradients, and class overrides.
 If a layout fills `data-screen` at render time (Astro, ERB), the source scan skips those rules. Build the site, then run `python3 vendor/agustos-ui/check-agustos-ui.py dist --screens-only` on the output folder.
 Use `--strict` to fail on warnings; use `--json` for structured output. Exit 0 confirms automated checks passed.
 Use `--skip <dir>` (repeatable) for frozen or generated folders the project must not edit. Do not hand-edit the checker; it is regenerated with the kit.

@@ -2,6 +2,18 @@
 
 ## Now
 
+Kit v7.3.3: design review defects and quick wins (2026-09-30, branch `claude/design-system-review-5d869b`). Emre chose option B: the three defects plus the quick wins in one patch. Record: MEMORY.md 2026-09-30 review-patch.
+
+- [ ] A1. An open drawer (`site-header__panel`, `site-sidebar`) closes when keyboard focus leaves it (`ui/agustos-chrome.js`); the app shell loads the script.
+- [ ] A2. A disabled link drops its `href` (`role="link"`, `aria-disabled="true"`); the checker warns on `aria-disabled="true"` with an `href`.
+- [ ] A3. A search result excerpt turns ink on hover and focus (2.76:1 in the dark theme before); a states row guards it.
+- [ ] Table captions align to the start.
+- [ ] `color-scheme` follows the theme, and the light islands stay light.
+- [ ] Footer link hover is the 1px gray rule; states rows follow.
+- [ ] Reduced motion sets `--dur: 0s` for every transition.
+- [ ] DESIGN.md: the red rule on menu hover (line 159) and the `ss01` note (open digits, not the "a").
+- [ ] Tests, `VERSION` 7.3.3, CHANGELOG, DESIGN.md, MEMORY.md, build, gate, browser check, PR. `/design-push` follows on `main`.
+
 Kit v7.3.2 defect patch (2026-09-30, branch `claude/kit-7.3.2`). Emre approved it. Record: MEMORY.md 2026-09-30 aria-current-section and anchor-snap.
 
 - [x] `aria-current="true"` on a parent section in the Astro, Rails (menu and sidebar) and WordPress adapters; the chrome CSS highlights `page` and `true`; the nested screens; checker AG029.
@@ -105,6 +117,14 @@ v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva
   - Link hover turns text red on light paper, which reads as red used as an element's own colour. Since v7.0.1 the dark theme dims the ink instead. Confirm or change the light rule.
   - Handbook pages carry no chrome, copy `.book-nav` into each page, use their own 720px and 820px breakpoints, and `docs/handoff-setup.html` fills a bar with red.
   - Breakpoints 759px, 760px and 1023px have no token. Add one set to the registry.
+
+- Design review 2026-09-30, for the monthly release (v7.3.3 shipped the defects and quick wins):
+  - Screens: port the v7.3.0 search and language markup into all nine; they still use `agustos-chrome-link`. One page opening for breadcrumb, H1 and deck (`products` opens with `site-frame`, `content-index` with `container`: H1 at 44 vs 156px).
+  - Type scale: map the six off-scale sizes (13.5, 15, 16, 20, 22, 26px) to steps or name them as tokens. Decide whether `ss01` (open digits) stays.
+  - Tokens: a `--focus-ring` token for the 13 hand-typed rings; read `--measure-*` and `bodyCompact` through `var()`; one icon-button recipe; two hover idioms (a rule for links, a fill for menu rows).
+  - Phone and tablet: product title before the media below 760px; finder results collapse inside `grid-aside` at 768px; year and download links reach 44px.
+  - Docs: one entry point (DESIGN.md:7 vs UI-KIT.md:3); cut the Versioning paragraph to the current release; drop v3 and v5 remnants; "topbar" to "top menu"; six brands, not five; the browser baseline is 2024 (`:has()`, `popover`), not 2022.
+  - Best practice: a component status and a deprecation window for the aliases; `prefers-color-scheme` for product UI; `required` and `aria-describedby` in the starter form; per-brand favicons on the Pataraz and IESDesk screens.
 
 - agustos.com: move to kit v7.3.0 and delete its local anchor-offset script in `BaseLayout.astro`; the kit offset now covers the phone search row.
 - Register printer-matched CMYK and Pantone values for the six colours and the identity inks in `brand/brands.json`, then show them on the colour page of `brand/build_guidelines.py`. Ask the printer for a proof first; do not convert the screen values.

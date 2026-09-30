@@ -39,7 +39,7 @@
       "wordmark": "specquick"
     }
   },
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.2/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.3/ui/",
   "cssClasses": [
     "type-hero",
     "type-hero-md",
@@ -238,27 +238,27 @@
   "files": {
     "AGENTS-SNIPPET.md": {
       "bytes": 2327,
-      "sha256": "d900edeba64d362061202aeed9eb83e8c2eba19748e233f52491a204bca16c12"
+      "sha256": "d56431f92eae4a5255a6291b526f313a75e72c7331f2c22a4ca8357358a606fa"
     },
     "UI-KIT.md": {
-      "bytes": 19205,
-      "sha256": "b37fb049899674e79954986bc1e69a81bee11fbda6c33e161a794080fecdb5cc"
+      "bytes": 19482,
+      "sha256": "346534e2ea87e5eac02ce6e94a89731ec36aa2686920c5e29f8522213fb22751"
     },
     "agustos-chrome.js": {
-      "bytes": 1367,
-      "sha256": "e0043af56c0882cf870ef78634ee69df58821f11c232c4836289936c3a2dbabd"
+      "bytes": 1986,
+      "sha256": "133dc18ed9bf8a0eaed692d70d3de7c457915e14e38d6c34eac6cce5ff6abcd5"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
-      "sha256": "c32d53c108cf628b7a68dbd0526aff74293b0c80ae60b8fbdb21b34843ea2402"
+      "sha256": "876c67eb46004db2ca2ac8cc4996fb27dd768e3e21b392e2f9da78d8de61c1fc"
     },
     "agustos.css": {
-      "bytes": 60287,
-      "sha256": "a95f177495206afd946270ad569cddcb2f6dedd1543d09dc7a056744834c39e1"
+      "bytes": 61225,
+      "sha256": "d8af407fa881def1d631ee827af4e3e62e2d79b76b8f1331035087a4cb81ae95"
     },
     "check-agustos-ui.py": {
-      "bytes": 27956,
-      "sha256": "b876c102f26bc4f0c2f4443ed5be0e3c5084eb2a2c34483defeccb828636bb36"
+      "bytes": 28934,
+      "sha256": "ff7b79fd7ffa04beb0abd9053eabd1e209ea45eabd8462423e97d80a8646835e"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -282,12 +282,12 @@
     },
     "starter.html": {
       "bytes": 27153,
-      "sha256": "b4f9c700efa81948fb2ec6427c68a16c6d8a92457db7f31e9a95ed6621b4c4e9"
+      "sha256": "3118c783af12f06f700f65223e4bf5f41f8fe382cb4f7d81045c7092aecd247b"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.2/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.2/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.3/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.3/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.3.2/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.3.3/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "screens": {
     "app-shell": {
@@ -580,6 +580,22 @@
     },
     {
       "dark": {
+        "background": "#404040",
+        "foreground": "#ffffff",
+        "ratio": 10.37
+      },
+      "element": "Search result title and excerpt",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ebebeb",
+        "foreground": "#15130f",
+        "ratio": 15.56
+      },
+      "state": "hover, focus"
+    },
+    {
+      "dark": {
         "background": "#ffffff",
         "foreground": "#404040",
         "ratio": 10.37
@@ -600,13 +616,29 @@
         "foreground": "#15130f",
         "ratio": 18.55
       },
-      "element": "Footer link (2px red rule)",
+      "element": "Footer link",
       "floor": 4.5,
       "kind": "text",
       "light": {
         "background": "#ffffff",
         "foreground": "#15130f",
         "ratio": 18.55
+      },
+      "state": "hover"
+    },
+    {
+      "dark": {
+        "background": "#ffffff",
+        "foreground": "#8a8378",
+        "ratio": 3.75
+      },
+      "element": "Footer link hover rule (1px)",
+      "floor": 3.0,
+      "kind": "graphic",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#8a8378",
+        "ratio": 3.75
       },
       "state": "hover"
     },
@@ -873,5 +905,5 @@
     "cream"
   ],
   "system": "Ağustos Design System",
-  "version": "7.3.2"
+  "version": "7.3.3"
 }
