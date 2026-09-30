@@ -107,6 +107,32 @@
     "site-header__cta",
     "site-header__burger",
     "site-header__close",
+    "site-header__utility",
+    "site-header__utility--bar",
+    "site-header__utility--drawer",
+    "site-header__icon-btn",
+    "site-header__theme-sun",
+    "site-header__theme-moon",
+    "site-header__lang-link",
+    "site-header__search",
+    "site-header__search--desktop",
+    "site-header__search--responsive",
+    "site-header__search-toggle",
+    "site-header__search-panel",
+    "site-header__search-field",
+    "site-header__search-output",
+    "site-header__search-status",
+    "site-header__search-results",
+    "site-header__search-group",
+    "site-header__search-heading",
+    "site-header__search-heading-count",
+    "site-header__search-list",
+    "site-header__search-result",
+    "site-header__search-result-title",
+    "site-header__search-result-excerpt",
+    "site-header__search-row",
+    "site-header__search-shell",
+    "site-header__noscript-search",
     "site-footer",
     "site-footer__inner",
     "site-footer__brand",
@@ -214,8 +240,8 @@
       "sha256": "a1b82ad4e8791a35cf13f743ced0ac22d2fddb873ec710d9c15b153c8a2e371e"
     },
     "UI-KIT.md": {
-      "bytes": 17286,
-      "sha256": "16b4f521e61fc48fded2ec22fcb9e7e40f2d33061ef4e00938eb654684681683"
+      "bytes": 18178,
+      "sha256": "b9bc38779f8272e194fa3c345ea0ed7042e0eb12fd99ebbf0c69fd84bff23f9b"
     },
     "agustos-chrome.js": {
       "bytes": 1367,
@@ -226,12 +252,12 @@
       "sha256": "bdfaaedbd5e50ecf8ab4ba3af04d997808f6f5af08344ac3ba51a84fc4977c4e"
     },
     "agustos.css": {
-      "bytes": 52038,
-      "sha256": "5d7cf18956ee2cacb30aa90c72ed7a1c0404cd061640e9adba53c73c9738a7a5"
+      "bytes": 58924,
+      "sha256": "0312bdbe3d920906fa36fa3b0775b556af9bb9de12350166b5078ebd45b62a70"
     },
     "check-agustos-ui.py": {
-      "bytes": 24288,
-      "sha256": "b786419fe6b41e47a2287eaf977ee15d29c51ad38d8c175afb40f12d0a36c347"
+      "bytes": 25167,
+      "sha256": "7302e028421ced6fec3690a67b673fb3a20f892b95a8b3fca5a8088264cdb84d"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,

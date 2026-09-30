@@ -2,6 +2,14 @@
 
 ## Now
 
+Kit v7.2.0: one search and language recipe (B2), 2026-09-30, branch `claude/kit-7.2-search-recipe`. Emre approved the order (company page, then this, then the memregunes.com and pldturkiye.com rollout on v7.2.0).
+
+- [ ] Move the header search, the language link, the icon button and the utility slot from the Astro and Rails adapters into `tokens/web.css.tmpl`; delete the adapter copies.
+- [ ] Fix while moving: text in `--ink-soft`, not `--ink-faint` (3.75:1 fails the 4.5:1 floor); the icon button hover is the gray tile, not a red rule; the search input is 16px everywhere; sizes on the scale (13, 15.5, 16px); spacing from `--space-*`; the panel floats on the one menu shadow and the 12px radius.
+- [ ] Phone anchor offset: below 1024px, `scroll-padding-top` adds the 61px search row when a page has one (the header is 126px on agustos.com); agustos.com then drops its local script.
+- [ ] Registry classes and states rows; checker; tests; docs.
+- [ ] Before/after preview for Emre (monthly-release rule), then `VERSION` 7.2.0, CHANGELOG, MEMORY, build, gate, PR, `/design-push`.
+
 Chrome audit and v7.1.0 (2026-09-30, branch `claude/affectionate-ride-f41zre`). The audit checked the top menu, the sidebar and the footer against WCAG 2.2, the WAI-ARIA disclosure-navigation pattern and common B2B conventions; a Chromium probe measured every finding. Emre decided D1 to D3 on 2026-09-30. Record: MEMORY.md 2026-09-30 chrome-best-practice-fixes.
 
 Release A, defects, plus the approved tweaks B1 and B4 (v7.1.0):

@@ -194,12 +194,14 @@ class AdapterContractTest < Minitest::Test
   end
 
   def test_responsive_contract_matches_kit_breakpoint_and_ios_safe_input
+    # v7.2.0: the kit styles the search; components.css keeps only the layout and the app toolbar.
     css = read("app/assets/stylesheets/agustos/components.css")
-    refute_includes css, "1366"
-    assert_includes css, "@media (max-width: 1023px)"
-    assert_includes css, "@media (max-width: 480px)"
-    assert_match(/search--responsive .*input \{ font-size: 16px; \}/, css)
-    assert_includes css, "outline: 2px solid var(--signal)"
+    refute_match(/\.site-header__(search|lang-link|utility|icon-btn)/, css)
+    kit = read("app/assets/stylesheets/agustos/tokens.css")
+    refute_includes kit, "1366"
+    assert_includes kit, "@media (max-width: 1023px)"
+    assert_match(/\.site-header__search-field input \{[^}]*font-size: 16px;/m, kit)
+    assert_match(/\.site-header__search-result a:focus-visible \{[^}]*outline: 2px solid var\(--signal\)/, kit)
   end
 
   def test_marketing_example_follows_locked_composition

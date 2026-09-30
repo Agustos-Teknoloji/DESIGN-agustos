@@ -1,49 +1,10 @@
-/* Ağustos Design System v7.0.0 — Rails adapter: search, utility, and app toolbar rules. Chrome, the hero and the
-   closing band come from the kit: top menu and footer for websites, sidebar for product UI. */
+/* Ağustos Design System — Rails adapter: the layout frame and the app toolbar. Chrome, header search, the language
+   link, the hero and the closing band come from the kit (v7.2.0): top menu and footer for websites, sidebar for
+   product UI. */
 
 .agustos-layout { display: flex; flex-direction: column; min-height: 100dvh; }
 .agustos-layout__main { flex: 1; }
 .agustos-container { width: min(calc(100% - var(--measure-gutter) - var(--measure-gutter)), var(--measure-content)); margin: 0 auto; padding: 4rem 0 6rem; }
-
-.site-header__utility { display: flex; align-items: center; gap: 0.125rem; }
-.site-header__utility--bar { display: none; margin-left: auto; }
-.site-header__icon-btn, .site-header__search-toggle { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; background: transparent; border: 1px solid transparent; border-radius: var(--radius-sm); color: var(--ink-soft); cursor: pointer; }
-.site-header__icon-btn:hover, .site-header__search-toggle:hover, .site-header__search-toggle[aria-expanded="true"] { background: var(--rule); color: var(--ink); }
-.site-header__icon-btn:focus-visible, .site-header__search-toggle:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
-.site-header__lang-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
-.site-header__theme-moon, html[data-theme="dark"] .site-header__theme-sun { display: none; }
-html[data-theme="dark"] .site-header__theme-moon { display: block; }
-.site-header__lang-link { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; color: var(--ink-faint); font-family: var(--display); font-size: 13px; font-weight: 600; text-decoration: none; }
-
-.site-header__search { position: relative; }
-.site-header__search--desktop { position: static; }
-.site-header__search-panel { z-index: 30; display: flex; flex-direction: column; max-height: min(60dvh, 32rem); padding: 0.75rem; overflow: hidden; background: var(--paper); border: 1px solid var(--rule); border-radius: var(--radius-md); }
-.site-header__search-panel[hidden] { display: none; }
-.site-header__search--desktop .site-header__search-panel { position: absolute; top: calc(100% + 1px); right: 1.5rem; left: 1.5rem; }
-.site-header__search-field { display: flex; align-items: center; gap: 0.6rem; min-height: 44px; padding: 0.5rem 0.75rem; border: 1px solid var(--rule); border-radius: var(--radius-sm); color: var(--ink-faint); }
-.site-header__search-field:focus-within { border-color: var(--signal); box-shadow: 0 0 0 1px var(--signal); color: var(--ink-soft); }
-.site-header__search-field input { flex: 1; min-width: 0; padding: 0; background: transparent; border: 0; outline: 0; color: var(--ink); font-family: var(--display); font-size: 14px; }
-.site-header__search-output { min-height: 0; overflow-y: auto; }
-.site-header__search-status { margin: 0.5rem 0 0; color: var(--ink-faint); font-size: 12.5px; }
-.site-header__search-row { display: none; border-top: 1px solid var(--rule); }
-.site-header__search-shell { padding-block: 0.5rem; }
-.site-header__noscript-search { padding-block: 0.5rem; }
-.site-header__noscript-search form { display: flex; gap: 0.5rem; }
-.site-header__noscript-search input[type="search"] { min-width: 0; flex: 1; min-height: 44px; padding: 0.5rem 0.75rem; border: 1px solid var(--rule); border-radius: var(--radius-sm); background: var(--paper); color: var(--ink); font: 16px/1.4 var(--display); }
-.site-header__noscript-search input[type="search"]:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
-.site-header__noscript-search input[type="submit"] { min-height: 44px; padding-inline: 1rem; border: 0; border-radius: var(--radius-md); background: var(--ink); color: var(--paper); font-family: var(--display); font-weight: 600; }
-.site-header__noscript-search input[type="submit"]:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
-.site-header__search--responsive .site-header__search-panel { position: absolute; top: calc(100% + 0.5rem); right: 0; left: 0; }
-.site-header__search--responsive .site-header__search-field input { font-size: 16px; }
-.site-header__search-group + .site-header__search-group { margin-top: 0.35rem; padding-top: 0.35rem; border-top: 1px solid var(--rule); }
-.site-header__search-heading { display: flex; align-items: baseline; justify-content: space-between; margin: 0; padding: 0.45rem 0.5rem 0.2rem; color: var(--ink-faint); font-family: var(--display); font-size: 12.5px; font-weight: 600; letter-spacing: 0.005em; text-transform: none; }
-.site-header__search-heading span { font-family: var(--body); font-weight: 500; letter-spacing: 0; text-transform: none; }
-.site-header__search-list { margin: 0; padding: 0; list-style: none; }
-.site-header__search-result a { display: block; padding: 0.55rem 0.5rem; border-radius: var(--radius-sm); color: var(--ink-soft); text-decoration: none; }
-.site-header__search-result a:hover, .site-header__search-result a:focus-visible { background: var(--rule); color: var(--ink); }
-.site-header__search-result a:focus-visible { outline: 2px solid var(--signal); outline-offset: -2px; }
-.site-header__search-result-title { display: block; font-family: var(--display); font-size: 14px; font-weight: 600; line-height: 1.25; }
-.site-header__search-result-excerpt { display: block; margin-top: 0.3rem; color: var(--ink-faint); font-size: 12.5px; line-height: 1.45; }
 
 .agustos-app__toolbar {
   display: flex;
@@ -53,14 +14,3 @@ html[data-theme="dark"] .site-header__theme-moon { display: block; }
 }
 .agustos-app__toolbar .agustos-field { flex: 1 1 12rem; }
 .agustos-app__actions { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
-
-@media (max-width: 1023px) {
-  .site-header__utility--bar { display: flex; justify-self: end; }
-  .site-header__utility--drawer { display: none; }
-  .site-header__search--desktop { display: none; }
-  .site-header__search-row { display: block; }
-}
-
-@media (max-width: 480px) {
-  .site-header__search-shell { padding-inline: 0.75rem; }
-}
