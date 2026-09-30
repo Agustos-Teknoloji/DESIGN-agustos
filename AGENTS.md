@@ -49,8 +49,8 @@ A measured live site beats any doc on what ships. Flag the drift, and fix the do
 - One company, several brands: **ağustos** (parent), **pataraz**, **pld türkiye**, **iesdesk**, **specquick**.
 - Every brand shares **one symbol**, the Laz Güneşi (18-blade sun). Ağustos alone owns red; every other house brand uses black or white identity ink and differs by its **wordmark**.
 - The logo ("lockup") is the symbol plus the lowercase wordmark in the registered identity ink. It is always lowercase, with no tagline.
-- **Shared red `#cf142a` is a 2px rule** under content links and on menu hover or current, plus keyboard focus. It is never a fill, except the dark-theme primary CTA.
-- The design direction is **İskandivvian: Scandinavian restraint filtered through Mediterranean warmth.** The twelve principles, the avoid list, the brand chrome table and the screens table live in `ui/UI-KIT.md`, generated from `tokens/design-tokens.json`. Read that file. Do not restate it.
+- **Red is identity and signal, never action.** Shared red `#cf142a` is the Ağustos logo, a 2px rule under content links and on menu hover or current, keyboard focus, and one highlighter stroke per page. Buttons are black. On the web the Ağustos logo turns black on hover and every other logo turns red.
+- The design direction is **İskandivvian: Scandinavian restraint filtered through Mediterranean warmth.** The nine house rules, the avoid list, the brand table and the screens table live in `ui/UI-KIT.md`, generated from `tokens/design-tokens.json`. Read that file. Do not restate it.
 - A new house brand is a registry entry in `brand/brands.json` (wordmark, neutral identity ink, domain) plus the two build scripts: about ten minutes, no new design work. `brand/README.md` has the steps.
 
 ## "I need ___": use this file
@@ -64,10 +64,10 @@ First pick the **brand** (`agustos`, `pataraz`, `pld`, `iesdesk`, `specquick`), 
 | The logo in a **single ink color** (print, engraving) | `…/lockup/<brand>-lockup__mono.svg` |
 | The logo for **print or business cards** | `…/lockup/<brand>-lockup__positive.pdf` (or `__negative`, `__mono`) |
 | The logo for a **slide or social post** (raster) | `…/lockup/<brand>-lockup__positive.png` (2400px) or `…@800.png` |
-| A **favicon, browser tab or app icon** | `laz-gunesi-amblem/favicon/favicon.svg`, the canonical file, shared by every site. The rest of the kit is in `laz-gunesi-amblem/favicon/`, and each brand has the same files under `brand/exports/<brand>/favicon/`. |
+| A **favicon, browser tab or app icon** | `brand/exports/<brand>/favicon/` (a white tile with the brand's Laz Güneşi: red for Ağustos, black for every other brand). `laz-gunesi-amblem/favicon/` holds the canonical Ağustos kit. See MEMORY.md, per-brand-favicons. |
 | A **square profile avatar** | `brand/exports/<brand>/social/<brand>-avatar-1000.png` (or `-400`) |
 | A **link-preview or OG image** (1200×630) | `brand/exports/<brand>/social/<brand>-og.png` |
-| Just the **symbol**, no wordmark | `laz-gunesi-amblem/svg/master.svg` (also the shared favicon artwork) |
+| Just the **symbol**, no wordmark | `laz-gunesi-amblem/svg/master.svg` (also the favicon artwork, recoloured per brand) |
 | **Brand colors as swatches** | `brand/exports/<brand>/swatches/<brand>.ase` (Adobe) or `.clr` (Apple) |
 | A **PowerPoint, Word or Google-compatible** template | `brand/exports/<brand>/office/<brand>-template.pptx`, `-document-template.docx`, `-letterhead.docx` |
 | An **email signature** | `brand/exports/<brand>/email/` (one signature HTML file per brand) |
@@ -84,20 +84,22 @@ First pick the **brand** (`agustos`, `pataraz`, `pld`, `iesdesk`, `specquick`), 
 ## The three logo expressions: pick by background
 
 1. **positive**: registered identity marks on a light or cream background, red for Ağustos and black for every other house brand. This is the default, about 90% of uses.
-2. **negative**: cream or white marks on the identity tile, red for Ağustos and black for every other house brand. Social avatars and identity banners. (Favicons use the shared red `master.svg` instead.)
+2. **negative**: cream or white marks on the identity tile, red for Ağustos and black for every other house brand. Social avatars and identity banners. (Favicons are a white tile with the red or black sun instead.)
 3. **mono**: one ink color. Single-color print, stamps, engraving.
 
 There is no fourth expression. Do not invent a white-on-transparent "reverse" logo; `positive` already works on dark.
 
 ## Brands at a glance
 
-| Brand (slug) | Wordmark | Color | Domain | Chrome | Kit |
+| Brand (slug) | Wordmark | Color | Domain | Logo hover | Kit |
 |---|---|---|---|---|---|
-| `agustos` | ağustos | `#cf142a` | agustos.com | sidebar | full |
-| `pataraz` | pataraz | `#15130f` | pataraz.com | topbar with footer | full |
-| `pld` | pld türkiye | `#15130f` | pldturkiye.com | topbar with footer | full |
-| `iesdesk` | iesdesk | `#15130f` | iesdesk.com | sidebar | logos only |
-| `specquick` | specquick | `#15130f` | specquick.com | sidebar | logos only |
+| `agustos` | ağustos | `#cf142a` | agustos.com | black | full |
+| `pataraz` | pataraz | `#15130f` | pataraz.com | red | full |
+| `pld` | pld türkiye | `#15130f` | pldturkiye.com | red | full |
+| `iesdesk` | iesdesk | `#15130f` | iesdesk.com | red | logos only |
+| `specquick` | specquick | `#15130f` | specquick.com | red | logos only |
+
+Chrome follows the page type, not the brand: every website uses the top menu (five items at most, the rest under More) and the light footer; product UI uses the sidebar.
 
 Novara (outdoor kitchen furniture) is a brand that Ağustos **represents and distributes** (like Soraa, CoeLux), **not** a house brand. It has no assets here and needs none.
 
@@ -109,7 +111,8 @@ Novara (outdoor kitchen furniture) is a brand that Ağustos **represents and dis
 - Set the wordmark in Inter Tight, weight 650, lowercase, in the registered identity ink. Never put a tagline or subtitle on the lockup.
 - Use one symbol for all brands, and never redraw it. Use red for the Ağustos identity and black or white for every other house brand.
 - Keep signal and identity separate. Red rules and focus never make a non-Ağustos logo red.
-- Use the brand's registered chrome from `brand/brands.json` (`chrome`). Style chrome only in `tokens/web.css.tmpl`.
+- Give every website the top menu and the footer, and product UI the sidebar. Brands register no chrome. Style chrome only in `tokens/web.css.tmpl`.
+- Collect design tweaks under `## Next` in `TODO.md` and ship them as one kit release a month, after Emre approves a before/after preview. Fix real defects at once. When unsure, do the conventional thing. See [MEMORY.md](MEMORY.md), monthly-kit-release.
 - Edit `tokens/design-tokens.json` or `tokens/web.css.tmpl`, then run `python3 scripts/build_design_system.py`. Never hand-edit generated CSS, `theme.json`, `tokens/resolved.json` or anything under `brand/exports/`.
 - Run `bin/setup` once in each new clone. It activates the pre-push hook in `.githooks/`, which runs `scripts/ci.sh` before every push.
 - After an everyday source change, run the build, then `scripts/ci.sh`: the `--check` steps and the unit tests. Run `--check` before every handoff.

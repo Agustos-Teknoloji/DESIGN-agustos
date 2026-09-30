@@ -83,11 +83,15 @@ class PrimitiveTest(unittest.TestCase):
                 for selector in self.GROUPS:
                     self.assertIn(selector, css)
 
-    def test_button_aliases_the_hero_action_definition(self):
-        """One visual definition. A second rule block would drift."""
+    def test_one_button_definition_and_it_is_black(self):
+        """v7.0.0: the hero-action aliases are gone; one button, black, never red."""
         css = (ROOT / "tokens" / "agustos.css").read_text(encoding="utf-8")
-        self.assertIn(".hero-action,\n.agustos-button {", css)
-        self.assertIn(".hero-action--primary,\n.agustos-button--primary {", css)
+        self.assertIsNone(re.search(r"\.hero-action(?!s)", css))
+        self.assertIsNone(re.search(r"\.hero-link", css))
+        start = css.index(".agustos-button--primary {")
+        block = css[start:css.index("}", start)]
+        self.assertIn("background: var(--ink);", block)
+        self.assertNotIn("--signal", block)
 
     def test_controls_meet_the_minimum_target_size(self):
         css = (ROOT / "tokens" / "agustos.css").read_text(encoding="utf-8")
@@ -111,30 +115,28 @@ class PrimitiveTest(unittest.TestCase):
     def test_no_radius_exceeds_the_system_maximum(self):
         css = (ROOT / "tokens" / "agustos.css").read_text(encoding="utf-8")
         for raw in re.findall(r"border-radius:\s*([0-9.]+)px", css):
-            self.assertLessEqual(float(raw), 10.0, "10px is the largest radius in this system")
+            self.assertLessEqual(float(raw), 12.0, "12px is the largest radius in this system")
 
     def test_signal_red_is_never_a_solid_background(self):
-        """`forbidden`: signal red as unrestricted background or decoration.
+        """`forbidden`: signal red as a button, a fill or decoration.
 
         A small share inside color-mix is a tint, not a red field. The one
-        approved solid fill is the dark-theme primary CTA.
+        stronger tint is the highlighter stroke, at most 20%. There is no
+        solid red fill anywhere, not even in the dark theme (v7.0.0).
         """
         css = (ROOT / "tokens" / "agustos.css").read_text(encoding="utf-8")
-        exception = re.search(
-            r'html\[data-theme="dark"\] \.hero-action--primary,.*?'
-            r'html\[data-theme="dark"\] \.agustos-button--primary:hover \{.*?\}',
-            css,
-            flags=re.S,
-        )
-        self.assertIsNotNone(exception, "dark-theme primary CTA exception is missing")
-        self.assertIn("var(--signal)", exception.group(0))
-        remainder = css[: exception.start()] + css[exception.end() :]
+        highlighter = css[css.index("mark.type-highlight,"):]
+        highlighter = highlighter[: highlighter.index("}")]
+        shares = [int(value) for value in re.findall(r"var\(--signal\)\s+(\d+)%", highlighter)]
+        self.assertTrue(shares)
+        self.assertLessEqual(max(shares), 20)
+        remainder = css.replace(highlighter, "")
         for declaration in re.findall(r"\n\s*background(?:-color)?:\s*([^;]+);", remainder):
             if "var(--signal)" not in declaration and "#cf142a" not in declaration.lower():
                 continue
-            share = re.search(r"var\(--signal\)\s+(\d+)%", declaration)
-            self.assertIsNotNone(share, f"signal used as a solid background: {declaration}")
-            self.assertLessEqual(int(share.group(1)), 10, declaration)
+            found = re.findall(r"var\(--signal\)\s+(\d+)%", declaration)
+            self.assertTrue(found, f"signal used as a solid background: {declaration}")
+            self.assertLessEqual(max(int(value) for value in found), 10, declaration)
 
 
 class StateColorContrastTest(unittest.TestCase):
@@ -319,19 +321,13 @@ class DistributionKitTest(unittest.TestCase):
                 self.assertEqual(len(payload), meta["bytes"])
                 self.assertEqual(hashlib.sha256(payload).hexdigest(), meta["sha256"])
 
-    def test_kit_json_registers_each_brand_and_its_chrome(self):
+    def test_kit_json_registers_each_brand(self):
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
         self.assertEqual(
-            {slug: entry["chrome"] for slug, entry in kit["brands"].items()},
-            {
-                "agustos": "sidebar",
-                "pataraz": "topbar",
-                "pld": "topbar",
-                "iesdesk": "sidebar",
-                "specquick": "sidebar",
-                "memregunes": "sidebar",
-            },
+            set(kit["brands"]), {"agustos", "pataraz", "pld", "iesdesk", "specquick", "memregunes"},
         )
+        for entry in kit["brands"].values():
+            self.assertNotIn("chrome", entry)
         self.assertEqual(kit["brands"]["agustos"]["wordmark"], "ağustos")
         self.assertEqual(kit["brands"]["pataraz"]["color"], "#15130f")
 
@@ -343,9 +339,11 @@ class DistributionKitTest(unittest.TestCase):
         self.assertEqual(product["family"], "catalog")
         self.assertEqual(product["chrome"], "topbar")
         self.assertEqual(product["theme"], "light")
-        self.assertEqual(product["primaryCtaMax"], 2)
-        self.assertFalse(product["quotes"])
+        self.assertNotIn("primaryCtaMax", product)
+        self.assertNotIn("quotes", product)
         self.assertEqual(kit["screens"]["app-shell"]["theme"], "dark-allowed")
+        self.assertEqual(kit["screens"]["app-shell"]["chrome"], "sidebar")
+        self.assertEqual(kit["screens"]["home"]["chrome"], "topbar")
 
     def test_kit_json_head_snippet_loads_fonts_before_the_system(self):
         kit = json.loads((self.KIT / "kit.json").read_text(encoding="utf-8"))
@@ -429,10 +427,11 @@ class CheckerTest(unittest.TestCase):
         exec(compile(self.CHECKER.read_text(encoding="utf-8"), str(self.CHECKER), "exec"), namespace)
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
         expected = {
-            name: {"primaryCtaMax": row["primaryCtaMax"], "quotes": row["quotes"], "theme": row["theme"]}
+            name: {"theme": row["theme"], "chrome": row["chrome"]}
             for name, row in kit["screens"].items()
         }
         self.assertEqual(namespace["SCREENS"], expected)
+        self.assertNotIn("BRAND_SCREEN_RULES", namespace)
 
     SCREEN_PAGE = (
         '<!doctype html><html lang="tr"{html_attrs}><head>\n'
@@ -451,98 +450,46 @@ class CheckerTest(unittest.TestCase):
         )
 
     def test_checker_enforces_the_screen_rules(self):
-        """Per-screen rules come from the screens table, keyed on data-screen:
-        a page names its screen, the name exists, primaries inside <main> stay
-        within the limit, quotes appear only where the row allows them, and
-        data-theme appears only on product UI."""
+        """Per-screen rules come from the screens table, keyed on data-screen.
+        Errors guard integrity: a page names its screen, and the name exists.
+        Taste rules only warn: data-theme outside product UI (AG024), more than
+        one highlighter (AG025), a sidebar on a website (AG026). Button counts
+        and quotes are no longer checked (v7.0.0)."""
         import tempfile
         primary = '<a class="agustos-button agustos-button--primary" href="#">Request pricing</a>'
         quote = '<blockquote class="type-blockquote">Quiet.</blockquote>'
+        mark = '<mark class="type-highlight">clear</mark>'
+        sidebar = '<aside id="site-sidebar" class="site-sidebar" popover></aside>'
         pages = {
-            "no-screen.html": self._screen_page(None, main=primary),
-            "unknown.html": self._screen_page("landing", main=primary),
-            "too-many.html": self._screen_page("products", main=primary + primary),
-            "quoted.html": self._screen_page("products", main=primary + quote),
-            "dark.html": self._screen_page("home", main=primary, html_attrs=' data-theme="dark"'),
-            "chrome-primary.html": self._screen_page("products", main=primary, chrome=primary),
-            "fine.html": self._screen_page("app-shell", main=primary, html_attrs=' data-theme="dark"'),
-        }
-        expected = {
-            "no-screen.html": {"AG020"},
-            "unknown.html": {"AG021"},
-            "too-many.html": {"AG022"},
-            "quoted.html": {"AG023"},
-            "dark.html": {"AG024"},
-            "chrome-primary.html": set(),
-            "fine.html": set(),
+            "no-screen.html": (self._screen_page(None, main=primary), {"AG020": "error"}),
+            "unknown.html": (self._screen_page("landing", main=primary), {"AG021": "error"}),
+            "many-and-quoted.html": (self._screen_page("products", main=primary * 4 + quote), {}),
+            "dark.html": (self._screen_page("home", main=primary, html_attrs=' data-theme="dark"'), {"AG024": "warn"}),
+            "two-marks.html": (self._screen_page("home", main=f"<h1>{mark}</h1><p>{mark}</p>"), {"AG025": "warn"}),
+            "one-mark.html": (self._screen_page("home", main=f"<h1>{mark}</h1>"), {}),
+            "sidebar-site.html": (self._screen_page("home", chrome=sidebar), {"AG026": "warn"}),
+            "app.html": (self._screen_page("app-shell", main=primary, chrome=sidebar, html_attrs=' data-theme="dark"'), {}),
         }
         with tempfile.TemporaryDirectory() as tmp:
             project = Path(tmp)
-            for name, text in pages.items():
+            for name, (text, _) in pages.items():
                 (project / name).write_text(text, encoding="utf-8")
             result = self._run(project, "--json")
             self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
             findings = json.loads(result.stdout)["findings"]
-            by_file: dict[str, set[str]] = {name: set() for name in pages}
+            by_file: dict[str, dict[str, str]] = {name: {} for name in pages}
             for finding in findings:
                 if finding["rule"].startswith("AG02"):
-                    by_file[finding["file"]].add(finding["rule"])
-                    self.assertEqual(finding["level"], "error", finding)
-            for name, rules in expected.items():
+                    by_file[finding["file"]][finding["rule"]] = finding["level"]
+            for name, (_, expected) in pages.items():
                 with self.subTest(page=name):
-                    self.assertEqual(by_file[name], rules)
+                    self.assertEqual(by_file[name], expected)
 
-    def test_checker_carries_the_brand_screen_overrides(self):
-        """The brand overrides are baked in like SCREENS, from the registry."""
-        namespace: dict = {"__name__": "agustos_checker"}
-        exec(compile(self.CHECKER.read_text(encoding="utf-8"), str(self.CHECKER), "exec"), namespace)
-        brands = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))["brands"]
-        expected = {
-            f"brand-{slug}": brand["screenOverrides"]
-            for slug, brand in brands.items() if brand.get("screenOverrides")
-        }
-        self.assertEqual(namespace["BRAND_SCREEN_RULES"], expected)
-        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
-        self.assertEqual(kit["brands"]["memregunes"]["screenOverrides"], {"home": {"quotes": True}})
-
-    def test_a_brand_override_allows_quotes_on_its_home_only(self):
-        """brand-memregunes may quote on home. Another brand may not, and
-        memregunes may not quote on a screen its override does not name."""
-        import tempfile
-        quote = '<blockquote class="type-blockquote">Quiet.</blockquote>'
-        pages = {
-            "memregunes-home.html": self._screen_page("home", main=quote, brand="memregunes"),
-            "pataraz-home.html": self._screen_page("home", main=quote, brand="pataraz"),
-            "memregunes-index.html": self._screen_page("content-index", main=quote, brand="memregunes"),
-        }
-        with tempfile.TemporaryDirectory() as tmp:
-            project = Path(tmp)
-            for name, text in pages.items():
-                (project / name).write_text(text, encoding="utf-8")
-            result = self._run(project, "--json")
-            findings = json.loads(result.stdout)["findings"]
-            quoted = {f["file"] for f in findings if f["rule"] == "AG023"}
-            self.assertEqual(quoted, {"pataraz-home.html", "memregunes-index.html"})
-
-    def test_screens_only_allows_quotes_on_the_rendered_memregunes_home(self):
-        """The brand override applies to --screens-only too: a build's rendered
-        memregunes home page with a blockquote reports no AG023."""
-        import tempfile
-        quote = '<blockquote class="type-blockquote">Quiet.</blockquote>'
-        rendered = (
-            '<!doctype html><html lang="en"><head>'
-            '<link rel="stylesheet" href="/_astro/index.3f9a1c.css"></head>'
-            '<body class="brand-memregunes site-sidebar-layout" data-screen="home">'
-            f'<main id="main">{quote}</main></body></html>'
-        )
-        with tempfile.TemporaryDirectory() as tmp:
-            build = Path(tmp) / "dist"
-            build.mkdir()
-            (build / "index.html").write_text(rendered, encoding="utf-8")
-            result = self._run(build, "--screens-only", "--json")
-            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            findings = json.loads(result.stdout)["findings"]
-            self.assertEqual([f for f in findings if f["rule"] == "AG023"], [])
+    def test_retired_screen_rules_stay_retired(self):
+        """AG022 (button count) and AG023 (quotes) policed copy on our own sites."""
+        source = self.CHECKER.read_text(encoding="utf-8")
+        self.assertNotIn('"AG022"', source)
+        self.assertNotIn('"AG023"', source)
 
     def test_skip_dirs_match_below_the_scan_root_only(self):
         """A project that lives in a folder named dist, build or vendor must
@@ -569,7 +516,7 @@ class CheckerTest(unittest.TestCase):
         rendered = (
             '<!doctype html><html lang="en"><head>'
             '<link rel="stylesheet" href="/_astro/index.3f9a1c.css"></head>'
-            '<body class="brand-memregunes site-sidebar-layout" data-screen="{screen}">'
+            '<body class="brand-memregunes" data-screen="{screen}">'
             '<main id="main">{main}</main></body></html>'
         )
         redirect = (
@@ -586,7 +533,7 @@ class CheckerTest(unittest.TestCase):
             (build / "index.html").write_text(
                 rendered.format(screen="home", main=primary), encoding="utf-8")
             (build / "tr" / "index.html").write_text(
-                rendered.format(screen="products", main=primary + primary), encoding="utf-8")
+                rendered.format(screen="landing", main=primary), encoding="utf-8")
             (build / "old-about.html").write_text(redirect, encoding="utf-8")
 
             result = self._run(build, "--screens-only", "--json")
@@ -595,7 +542,7 @@ class CheckerTest(unittest.TestCase):
             self.assertEqual(report["filesScanned"], 3)
             self.assertEqual(
                 [(f["rule"], f["file"]) for f in report["findings"]],
-                [("AG022", str(Path("tr") / "index.html"))],
+                [("AG021", str(Path("tr") / "index.html"))],
             )
 
             (build / "tr" / "index.html").write_text(
@@ -665,12 +612,15 @@ class ChromeTest(unittest.TestCase):
             "site-sidebar__group", "site-sidebar__cta", "site-sidebar__utility", "site-sidebar__note",
             "site-sidebar-bar", "site-sidebar-burger",
             "site-header", "site-header__bar", "site-header__panel", "site-header__nav",
-            "site-header__link", "site-header__end", "site-header__cta", "site-header__burger",
-            "site-footer", "site-footer__inner", "site-footer__brand", "site-footer__cols",
-            "site-footer__col", "site-footer__col-heading", "site-footer__list", "site-footer__link",
-            "site-footer__cta", "breadcrumb", "breadcrumb__link",
+            "site-header__link", "site-header__more", "site-header__more-menu", "site-header__more-link",
+            "site-header__end", "site-header__cta", "site-header__burger",
+            "site-footer", "site-footer__inner", "site-footer__brand", "site-footer__links", "site-footer__link",
+            "breadcrumb", "breadcrumb__link",
         ):
             self.assertIn(name, declared, name)
+        for retired in ("site-footer__cols", "site-footer__col", "site-footer__col-heading",
+                        "site-footer__list", "site-footer__cta", "hero-links", "hero-link", "hero-action"):
+            self.assertNotIn(retired, declared, retired)
 
     def test_drawers_are_native_popovers_and_the_sidebar_is_forced_open_on_desktop(self):
         self.assertIn(".site-sidebar:not(:popover-open) { display: none; }", self.CSS)
@@ -682,6 +632,19 @@ class ChromeTest(unittest.TestCase):
         self.assertIn("--sidebar-width: 240px", self.CSS)
         self.assertIn("padding-inline-start: var(--sidebar-width)", self.CSS)
 
+    def test_footer_is_light_and_carries_no_button(self):
+        self.assertIn("--footer-paper: #ffffff;", self.CSS)
+        self.assertNotIn(".site-footer .agustos-button", self.CSS)
+
+    def test_logo_hover_swaps_the_ink(self):
+        """Ağustos red turns black on hover; every other house brand turns red."""
+        self.assertIn(".site-lockup:hover { color: var(--signal); text-decoration: none; }", self.CSS)
+        self.assertIn(".brand-agustos .site-lockup:hover { color: var(--ink); }", self.CSS)
+
+    def test_more_menu_and_highlighter_ship(self):
+        self.assertIn(".site-header__more-menu {", self.CSS)
+        self.assertIn("mark.type-highlight,", self.CSS)
+
     def test_anchor_lands_below_the_sticky_sidebar_bar(self):
         # The bar and the scroll offset read one variable, built from tokens.
         self.assertIn("--sidebar-bar-height: calc(var(--control-min) + 2 * var(--space-xs) + 1px);", self.CSS)
@@ -691,9 +654,6 @@ class ChromeTest(unittest.TestCase):
         # Only below 1024px, where the bar is sticky. Desktop has no bar.
         drawers = self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor")
         self.assertIn(rule, self.CSS[drawers:self.CSS.index("\n}\n", drawers)])
-
-    def test_footer_primary_button_ignores_the_dark_flip(self):
-        self.assertIn('html[data-theme="dark"] .site-footer .agustos-button--primary', self.CSS)
 
     def test_house_brand_lockups_turn_white_on_dark_and_agustos_stays_red(self):
         self.assertIn('html[data-theme="dark"] .site-lockup { color: var(--ink); }', self.CSS)
@@ -712,25 +672,29 @@ class ChromeTest(unittest.TestCase):
         self.assertIn(".cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); }", self.CSS)
         self.assertIn(".grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }", self.CSS)
         self.assertIn(".grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }", self.CSS)
-        self.assertIn(".band { padding-block: var(--space-3xl); }", self.CSS)
+        self.assertIn(".band { padding-block: var(--section-space); }", self.CSS)
         self.assertIn("@media (max-width: 759px) {\n  .grid-2,\n  .grid-3,\n  .grid-4,\n  .grid-aside { grid-template-columns: minmax(0, 1fr); }\n}", self.CSS)
 
     def test_entry_point_carries_the_screens_table_and_brand_chrome(self):
         text = (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8")
-        self.assertIn("| `product` | catalog | topbar | light | at most 2 | no |", text)
-        self.assertIn("| `app-shell` | product UI | sidebar | dark allowed | at most 1 | no |", text)
-        self.assertIn("| ağustos | `brand-agustos` | sidebar |", text)
-        self.assertIn("| pataraz | `brand-pataraz` | topbar |", text)
+        self.assertIn("| `product` | catalog | topbar | light |", text)
+        self.assertIn("| `home` | marketing | topbar | light |", text)
+        self.assertIn("| `app-shell` | product UI | sidebar | dark allowed |", text)
+        self.assertIn("| ağustos | `brand-agustos` | red | black |", text)
+        self.assertIn("| pataraz | `brand-pataraz` | black | red |", text)
+        self.assertNotIn("at most 2", text)
         self.assertIn("The kit is plain CSS. Do not add Tailwind, Bootstrap, or another utility framework.", text)
         self.assertNotIn("Tailwind preflight", text)
         for name in ("home", "static", "content", "products", "product-finder", "product", "spec-sheet", "app-shell"):
             self.assertIn(f"| `{name}` |", text)
 
-    def test_reference_render_uses_the_sidebar_chrome_and_shows_the_topbar(self):
+    def test_reference_render_uses_the_website_chrome(self):
         text = (ROOT / "ui" / "starter.html").read_text(encoding="utf-8")
-        self.assertIn('class="brand-agustos paper-white site-sidebar-layout"', text)
-        self.assertIn('<aside id="site-sidebar" class="site-sidebar" popover', text)
-        self.assertIn('popovertarget="site-sidebar"', text)
+        self.assertIn('class="brand-agustos paper-white"', text)
+        self.assertNotIn("site-sidebar", text)
+        self.assertIn('popovertarget="site-header-panel"', text)
+        self.assertIn('<details class="site-header__more">', text)
+        self.assertIn('<mark class="type-highlight">', text)
         self.assertIn('<header class="site-header">', text)
         self.assertIn('<footer class="site-footer">', text)
         self.assertIn('class="breadcrumb"', text)
@@ -739,16 +703,16 @@ class ChromeTest(unittest.TestCase):
 
 
 class MemregunesBrandTest(unittest.TestCase):
-    """The personal brand of Emre Güneş is a registered sidebar brand."""
+    """The personal brand of Emre Güneş. Its website adopts the v7 top menu later."""
 
     def test_registry_entry(self):
         brands = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))["brands"]
         entry = brands["memregunes"]
         self.assertEqual(entry["wordmark"], "emre güneş")
         self.assertEqual(entry["color"], "#15130f")
-        self.assertEqual(entry["chrome"], "sidebar")
         self.assertEqual(entry["domain"], "memregunes.com")
-        self.assertEqual(entry["screenOverrides"], {"home": {"quotes": True}})
+        self.assertNotIn("chrome", entry)
+        self.assertNotIn("screenOverrides", entry)
 
     def test_generated_outputs_carry_the_brand(self):
         css = (ROOT / "ui" / "agustos.css").read_text(encoding="utf-8")
@@ -756,7 +720,7 @@ class MemregunesBrandTest(unittest.TestCase):
         self.assertIn("--brand-memregunes:", css)
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
         self.assertIn("brand-memregunes", kit["brandClasses"])
-        self.assertEqual(kit["brands"]["memregunes"]["chrome"], "sidebar")
+        self.assertEqual(kit["brands"]["memregunes"]["domain"], "memregunes.com")
 
     def test_checker_brand_list_is_generated(self):
         template = (ROOT / "ui" / "check-agustos-ui.py.tmpl").read_text(encoding="utf-8")

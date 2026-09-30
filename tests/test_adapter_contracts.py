@@ -8,6 +8,29 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+ADAPTERS = ROOT / "adapters"
+RETIRED_CLASSES = re.compile(
+    r"\b(site-footer__(?:cols|col|col-heading|list|cta)|hero-links?|hero-link--(?:primary|secondary)"
+    r"|hero-action|hero-action--(?:primary|secondary))(?![\w-])"
+)
+
+
+def adapter_sources():
+    """Hand-written adapter files: components, layouts, partials, examples, previews, docs.
+    Generated CSS and theme.json come from the build and are checked there. The
+    adapters' own tests name retired classes to assert their absence, so they are left out."""
+    generated = {
+        ADAPTERS / "astro" / "src" / "styles" / "tokens.css",
+        ADAPTERS / "rails" / "app" / "assets" / "stylesheets" / "agustos" / "tokens.css",
+        ADAPTERS / "wordpress" / "assets" / "css" / "agustos.css",
+        ADAPTERS / "wordpress" / "theme.json",
+    }
+    suffixes = {".astro", ".ts", ".mjs", ".erb", ".rb", ".html", ".css", ".js", ".md", ".example"}
+    for path in sorted(ADAPTERS.rglob("*")):
+        if {"node_modules", "dist", "test", "tests"} & set(path.parts) or path in generated:
+            continue
+        if path.is_file() and path.suffix in suffixes:
+            yield path, path.read_text(encoding="utf-8")
 
 
 class AdapterContractTest(unittest.TestCase):
@@ -60,8 +83,98 @@ class AdapterContractTest(unittest.TestCase):
         self.assertNotIn("<style>", footer)
         self.assertIn('class="site-lockup"', footer)
         self.assertNotIn("BrandLockup", footer)
-        kit_css = (ROOT / "ui" / "agustos.css").read_text(encoding="utf-8")
-        self.assertIn(".site-footer .site-lockup", kit_css)
+        # v7: the footer lockup simply uses the brand ink; the kit no longer
+        # special-cases it. The footer is one note and one row of links.
+        self.assertIn('<div class="site-footer__brand">', footer)
+        self.assertIn('<p class="type-footnote">{note}</p>', footer)
+        self.assertIn('<ul class="site-footer__links">', footer)
+        self.assertIn('class="site-footer__link"', footer)
+        self.assertNotIn("agustos-button", footer, "the footer holds no button")
+
+    def test_footer_is_one_note_and_one_row_of_links(self):
+        types = (ADAPTERS / "astro" / "src" / "types" / "chrome.ts").read_text(encoding="utf-8")
+        self.assertIn("note?: string;", types)
+        self.assertIn("links?: ChromeLink[];", types)
+        self.assertNotIn("FooterColumn", types)
+        self.assertNotIn("columns", types)
+        helper = (ADAPTERS / "rails" / "app" / "helpers" / "agustos_theme_helper.rb").read_text(encoding="utf-8")
+        self.assertIn("def agustos_footer_note", helper)
+        self.assertIn("def agustos_footer_links", helper)
+        self.assertNotIn("columns", helper)
+        self.assertNotIn("footer_cta", helper)
+        for footer in (
+            (ADAPTERS / "astro" / "src" / "components" / "Footer.astro").read_text(encoding="utf-8"),
+            (ADAPTERS / "rails" / "app" / "views" / "agustos" / "shared" / "_footer.html.erb").read_text(encoding="utf-8"),
+        ):
+            order = [footer.find(marker) for marker in (
+                '<footer class="site-footer">', '<div class="site-footer__inner site-frame">',
+                '<div class="site-footer__brand">', 'class="type-footnote"', "<nav aria-label=",
+                '<ul class="site-footer__links">', "site-footer__link",
+            )]
+            self.assertNotIn(-1, order)
+            self.assertEqual(order, sorted(order))
+
+    def test_top_menu_moves_items_beyond_five_under_more(self):
+        types = (ADAPTERS / "astro" / "src" / "types" / "chrome.ts").read_text(encoding="utf-8")
+        self.assertIn("export const NAV_LIMIT = 5;", types)
+        self.assertIn("items.slice(0, NAV_LIMIT - 1), items.slice(NAV_LIMIT - 1)", types)
+        self.assertIn("more: 'Daha fazla'", types)
+        self.assertIn("more: 'More'", types)
+        helper = (ADAPTERS / "rails" / "app" / "helpers" / "agustos_theme_helper.rb").read_text(encoding="utf-8")
+        self.assertIn("NAV_LIMIT = 5", helper)
+        self.assertIn("[items.first(NAV_LIMIT - 1), items.drop(NAV_LIMIT - 1)]", helper)
+        self.assertIn('more: "Daha fazla"', helper)
+        for header in (
+            (ADAPTERS / "astro" / "src" / "components" / "Header.astro").read_text(encoding="utf-8"),
+            (ADAPTERS / "rails" / "app" / "views" / "agustos" / "shared" / "_header.html.erb").read_text(encoding="utf-8"),
+        ):
+            nav = header[header.index('<nav class="site-header__nav"'):header.index("</nav>")]
+            more = nav.index('<details class="site-header__more">')
+            self.assertLess(nav.index("site-header__link"), more)
+            self.assertRegex(nav[more:], r'<summary class="site-header__link">.+?</summary>\s*<div class="site-header__more-menu">')
+            self.assertIn("site-header__more-link", nav[more:])
+            self.assertTrue(nav.rstrip().endswith("</details>") or nav.rstrip().endswith(")}") or nav.rstrip().endswith("<% end %>"),
+                            "More is the last child of site-header__nav")
+        preview = (ADAPTERS / "rails" / "preview" / "marketing.html").read_text(encoding="utf-8")
+        nav = preview[preview.index('<nav class="site-header__nav"'):preview.index("</nav>")]
+        self.assertEqual(nav.count('class="site-header__link"'), 5, "four links plus the More summary")
+        self.assertTrue(nav.rstrip().endswith("</details>"))
+
+    def test_adapters_use_no_retired_v6_classes(self):
+        for path, text in adapter_sources():
+            if path.suffix == ".md":
+                continue  # the READMEs name the retired classes to explain the migration
+            with self.subTest(path=path.relative_to(ROOT)):
+                self.assertIsNone(RETIRED_CLASSES.search(text))
+
+    def test_chrome_follows_the_screen_family_not_the_brand(self):
+        for path, text in adapter_sources():
+            with self.subTest(path=path.relative_to(ROOT)):
+                self.assertNotRegex(text, r"BRAND_CHROME|brandChrome|chrome_for_brand|chromeForBrand|brands\.json")
+                if "site-sidebar" in text and path.suffix in {".astro", ".html", ".erb"}:
+                    rel = path.relative_to(ADAPTERS).as_posix()
+                    self.assertIn(rel, {
+                        "rails/app/views/agustos/shared/_sidebar.html.erb",
+                        "rails/preview/product-ui.html",
+                        "rails/app/views/agustos/examples/product.html.erb",
+                        "rails/app/views/layouts/agustos.html.erb",
+                    }, "only product UI renders the sidebar")
+
+    def test_examples_use_kit_hero_buttons_and_one_highlighter(self):
+        for rel in (
+            "astro/src/pages/index.astro",
+            "rails/app/views/agustos/examples/show.html.erb",
+            "rails/preview/marketing.html",
+        ):
+            page = (ADAPTERS / rel).read_text(encoding="utf-8")
+            with self.subTest(page=rel):
+                self.assertEqual(page.count('<mark class="type-highlight">'), 1)
+                self.assertRegex(page, r'<h1[^>]*class="type-hero"[^>]*>[^<]*<mark class="type-highlight">(\S+(?: \S+){0,3})</mark>')
+                actions = page[page.index('<div class="hero-actions">'):]
+                actions = actions[:actions.index("</div>")]
+                self.assertEqual(actions.count("agustos-button agustos-button--primary"), 1)
+                self.assertEqual(actions.count("agustos-button agustos-button--secondary"), 1)
+                self.assertIn("band band--cream", page)
 
     def test_astro_layout_has_no_legacy_sidebar_contract(self):
         layout = (ROOT / "adapters" / "astro" / "src" / "layouts" / "BaseLayout.astro").read_text(encoding="utf-8")
@@ -86,11 +199,15 @@ class AdapterContractTest(unittest.TestCase):
         footer = (ROOT / "adapters" / "rails" / "app" / "views" / "agustos" / "shared" / "_footer.html.erb").read_text(encoding="utf-8")
         helper = (ROOT / "adapters" / "rails" / "app" / "helpers" / "agustos_theme_helper.rb").read_text(encoding="utf-8")
         self.assertIn("agustos/shared/header", layout)
-        self.assertNotIn("agustos/shared/sidebar", layout)
+        product_branch, website_branch = layout.split("<% else %>", 1)
+        self.assertIn("agustos_product_shell?", product_branch)
+        self.assertIn("agustos/shared/sidebar", product_branch)
+        self.assertNotIn("sidebar", website_branch, "websites never render the sidebar")
+        self.assertIn('classes << (agustos_product_shell? ? "site-sidebar-layout" : "agustos-layout")', helper)
         self.assertNotIn("agustos-nav", layout)
         self.assertNotIn("agustos-nav", helper)
         self.assertIn("agustos_theme_toggle?", layout)
-        self.assertIn("agustos_product_shell?", layout)
+        self.assertRegex(layout, r'<body\s+data-screen="<%= agustos_screen %>"')
         self.assertIn('<header class="site-header">', header)
         self.assertIn("agustos-button agustos-button--primary site-header__cta", header)
         self.assertIn('popovertarget="site-header-panel"', header)
@@ -100,20 +217,26 @@ class AdapterContractTest(unittest.TestCase):
         self.assertNotIn("agustos-footer", footer)
         self.assertFalse((ROOT / "adapters" / "rails" / "app" / "javascript" / "controllers" / "agustos_nav_controller.js").exists())
 
-    def test_rails_product_ui_ports_iesdesk_validation_run(self):
+    def test_rails_product_ui_uses_the_kit_sidebar(self):
         page = (ROOT / "adapters" / "rails" / "app" / "views" / "agustos" / "examples" / "product.html.erb").read_text(encoding="utf-8")
         preview = (ROOT / "adapters" / "rails" / "preview" / "product-ui.html").read_text(encoding="utf-8")
-        css = (ROOT / "adapters" / "rails" / "app" / "assets" / "stylesheets" / "agustos" / "product.css").read_text(encoding="utf-8")
+        sidebar = (ROOT / "adapters" / "rails" / "app" / "views" / "agustos" / "shared" / "_sidebar.html.erb").read_text(encoding="utf-8")
         self.assertIn("shell: :product", page)
+        self.assertIn("screen: :app_shell", page)
         self.assertIn("Validation run", page)
         self.assertIn("Export dataset", page)
-        self.assertIn("pq-side", page)
+        self.assertNotIn("pq-", page)
+        for name in ("site-sidebar-bar", "site-sidebar-burger", 'class="site-sidebar"', "site-sidebar__nav",
+                     "site-sidebar__link", "site-sidebar__utility", "site-sidebar__note"):
+            self.assertIn(name, sidebar)
+            self.assertIn(name, preview)
+        self.assertIn('class="brand-iesdesk paper-white site-sidebar-layout"', preview)
+        self.assertIn('data-screen="app-shell"', preview)
         self.assertIn("Validation run", preview)
-        self.assertIn("pq-stat--featured", preview)
         self.assertNotIn('data-theme="dark"', preview)
-        self.assertIn(".pq-side", css)
-        self.assertNotIn("999px", css)
-        self.assertIn('html[data-theme="dark"] .pq-file code', css)
+        self.assertNotIn("pq-", preview)
+        self.assertNotIn("site-header", preview)
+        self.assertFalse((ROOT / "adapters" / "rails" / "app" / "assets" / "stylesheets" / "agustos" / "product.css").exists())
 
     def test_rails_lockup_contains_exact_eighteen_blades(self):
         lockup = (ROOT / "adapters" / "rails" / "app" / "views" / "agustos" / "shared" / "_brand_lockup.html.erb").read_text(encoding="utf-8")
@@ -189,6 +312,38 @@ class AdapterContractTest(unittest.TestCase):
                 if slug != "agustos":
                     for old_color in retired:
                         self.assertNotIn(old_color, svg)
+
+    def test_brand_favicons_are_a_white_tile_with_the_identity_ink_symbol(self):
+        """MEMORY.md 2026-09-29 per-brand-favicons: red sun for Ağustos, #15130f for the rest."""
+        registry = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))
+        white = registry["substrate"]["paper_white"].lower()
+        master = (ROOT / "laz-gunesi-amblem" / "svg" / "master.svg").read_text(encoding="utf-8")
+        paths = re.findall(r'<path[^>]*\bd="([^"]+)"', master)
+        self.assertEqual(len(paths), 18)
+        for slug, brand in registry["brands"].items():
+            folder = ROOT / "brand" / "exports" / slug / "favicon"
+            if not folder.is_dir():
+                continue
+            ink = brand["color"].lower()
+            svg = (folder / "favicon.svg").read_text(encoding="utf-8").lower()
+            manifest = json.loads((folder / "site.webmanifest").read_text(encoding="utf-8"))
+            with self.subTest(slug=slug):
+                self.assertEqual(ink, "#cf142a" if slug == "agustos" else "#15130f")
+                self.assertRegex(svg, rf'<rect [^>]*fill="{white}"')
+                self.assertIn(f'<g fill="{ink}"', svg)
+                self.assertEqual(set(re.findall(r'fill="(#[0-9a-f]{6})"', svg)), {white, ink})
+                for d in paths:
+                    self.assertIn(f'd="{d.lower()}"', svg)
+                self.assertEqual(manifest["theme_color"].lower(), ink)
+                self.assertEqual(manifest["background_color"].lower(), white)
+                for name in ("favicon.ico", "apple-touch-icon.png", "favicon-16.png", "favicon-192.png", "favicon-512.png"):
+                    self.assertTrue((folder / name).is_file(), name)
+        canonical = ROOT / "laz-gunesi-amblem" / "favicon" / "favicon.svg"
+        self.assertEqual(
+            canonical.read_bytes(),
+            (ROOT / "brand" / "exports" / "agustos" / "favicon" / "favicon.svg").read_bytes(),
+            "the canonical favicon is the Ağustos favicon",
+        )
 
 
 if __name__ == "__main__":

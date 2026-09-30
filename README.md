@@ -2,7 +2,7 @@
 
 Cross-medium design system for Ağustos and its house brands. `agustos.com` is the design laboratory and reference implementation; this repository is the authority.
 
-The system preserves the established identity—Laz Güneşi, lowercase wordmarks, Inter Tight + Inter—while separating identity ink from interaction: Ağustos alone is red, every other house brand is black/white, and shared red signals links, focus, and small emphasis everywhere.
+The system preserves the established identity—Laz Güneşi, lowercase wordmarks, Inter Tight + Inter—while separating identity ink from interaction: Ağustos alone is red, every other house brand is black/white, and shared red signals links, focus, and one highlighter stroke per page everywhere. Buttons are black.
 
 ## Design direction
 
@@ -62,7 +62,7 @@ python3 scripts/check_office_artifacts.py --check
 | `UI-KIT.md` | The entry point. One compact contract, sufficient on its own. |
 | `agustos.css` | The stylesheet. Byte-identical to `tokens/agustos.css` apart from its header. |
 | `agustos-fonts.css` + `fonts/` | Self-hosted Inter Tight, Inter, and JetBrains Mono. **Required** — the stylesheet declares font stacks, not faces. |
-| `starter.html` | Every published class, rendered once, including both chromes and the layout layer. |
+| `starter.html` | Every published class, rendered once, including the top menu, the footer, the product sidebar, and the layout layer. |
 | `kit.json` | The same contract, machine-readable, with file hashes. |
 | `check-agustos-ui.py` | Compliance checker a consuming project runs to prove it complied. |
 | `AGENTS-SNIPPET.md` | The stanza a consuming repository pastes into its own `AGENTS.md`. |
@@ -89,7 +89,7 @@ if the rebuild is missed.
 ## Adapters
 
 - [Astro](adapters/astro/README.md): reference web implementation and visual QA surface.
-- [Rails](adapters/rails/README.md): topbar, shared frame, helpers, and ERB partials for a monolith.
+- [Rails](adapters/rails/README.md): top menu, footer, shared frame, helpers, and ERB partials for a monolith.
 - [WordPress](adapters/wordpress/README.md): generated Global Styles plus the shared recipe layer.
 - [Office](brand/templates/README.md): PowerPoint/Google Slides and Word/Google Docs translation.
 

@@ -6,7 +6,8 @@ Reads the keystone registry (brands.json) and the shared symbol
 (laz-gunesi-amblem/svg/master.svg) and emits per-brand, ready-to-hand-off assets:
 
   exports/<brand>/lockup/   symbol + wordmark, 3 expressions x {svg, pdf, png}
-  exports/<brand>/favicon/  shared Laz Güneşi favicon (master.svg) + rasters + site.webmanifest
+  exports/<brand>/favicon/  white-tile favicon (symbol in the brand's identity ink) + rasters + site.webmanifest
+  laz-gunesi-amblem/favicon/  canonical kit = the Ağustos favicon (red symbol on a white tile)
   exports/<brand>/social/   square avatar (400/1000) + 1200x630 og image
 
 Design choices (see DESIGN.md):
@@ -17,12 +18,15 @@ Design choices (see DESIGN.md):
   - Lockup geometry follows the spec: symbol height = 1.4x wordmark cap height,
     symbol-to-wordmark gap = 0.4x wordmark size, Inter Tight Light, lowercase,
     optical (not geometric) vertical centering for lowercase wordmarks.
-  - Every brand shares one favicon: the bare red Laz Güneşi from master.svg.
-    Social avatars stay per-brand negative monograms.
+  - Favicons (MEMORY.md 2026-09-29 per-brand-favicons): a white tile carrying the
+    master.svg paths verbatim, recoloured to the brand's identity ink: red for
+    Ağustos, #15130f for every other house brand. Social avatars stay per-brand
+    negative monograms.
 
 Usage:
   ../.venv/bin/python build.py                  # every brand in the registry
   ../.venv/bin/python build.py --brand agustos  # a single brand
+  ../.venv/bin/python build.py --favicons       # favicon kits only; no other export changes
 """
 
 from __future__ import annotations
@@ -51,6 +55,17 @@ REGISTRY = BRAND_DIR / "brands.json"
 LOCKUP_PNG_W = 2400          # retina master
 LOCKUP_PNG_W_SMALL = 800     # web-friendly
 FAVICON_SIZES = [16, 32, 48, 64, 180, 192, 256, 512]
+# Large icons (home screen, app manifest): the master viewBox fills 90% of the tile, so
+# the blades span about 81% of it, inside the maskable safe zone.
+FAVICON_TILE_RATIO = 0.9
+# Tab icons (favicon.svg, the PNGs up to 64px, the .ico): a tighter crop. The master
+# viewBox is 105% of the tile and the blades span about 94% of it, so the 18 thin
+# blades still read at 16px (Emre, 2026-09-29: "crop"). The blades reach 51.7 units
+# from the centre and the tile edge sits at 55.2, so nothing is clipped. The symbol
+# itself is never redrawn or scaled; only the tile around it shrinks.
+FAVICON_TAB_TILE_RATIO = 1.05
+FAVICON_TAB_SIZES = [16, 32, 48, 64]
+CANONICAL_FAVICON_DIR = ROOT / "laz-gunesi-amblem" / "favicon"
 AVATAR_SIZES = [1000, 400]
 OG_W, OG_H = 1200, 630
 
@@ -178,6 +193,25 @@ def build_monogram(mark_color, tile_color, size=512.0, radius_ratio=0.0, symbol_
             f'width="{size}" height="{size}" role="img">{bg}{sym}</svg>')
 
 
+def build_favicon_svg(mark_color, tile_color, tile_ratio=FAVICON_TILE_RATIO):
+    """The favicon: a `tile_color` square with the master.svg paths, verbatim and
+    unscaled, filled in `mark_color`. The tile is the master viewBox resized around its
+    centre by `tile_ratio`, so the symbol geometry is never redrawn or transformed."""
+    minx, miny, w, h = SYMBOL_VB
+    side = w / tile_ratio
+    x0 = minx + w / 2 - side / 2
+    y0 = miny + h / 2 - side / 2
+    body = "\n    ".join(f'<path d="{d}"/>' for d in SYMBOL_PATHS)
+    return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{x0:.4f} {y0:.4f} {side:.4f} {side:.4f}" '
+        'width="512" height="512" role="img" aria-label="Laz Güneşi favicon">\n'
+        f'  <rect x="{x0:.4f}" y="{y0:.4f}" width="{side:.4f}" height="{side:.4f}" fill="{tile_color}"/>\n'
+        f'  <g fill="{mark_color}" fill-rule="evenodd" stroke="none">\n    {body}\n  </g>\n'
+        '</svg>\n'
+    )
+
+
 def build_og(inner, W, H, paper, og_w=OG_W, og_h=OG_H, target_ratio=0.54):
     scale = (og_w * target_ratio) / W
     max_h = og_h * 0.5
@@ -216,9 +250,89 @@ def render_pngs(jobs):
     subprocess.run(["node", str(RENDER_JS), jobs_file], check=True, cwd=str(BRAND_DIR))
 
 
-def write_ico(src_png: Path, ico_path: Path):
+def write_ico(src_png: Path, ico_path: Path, sizes=(16, 32, 48, 64)):
     img = Image.open(src_png).convert("RGBA")
-    img.save(ico_path, format="ICO", sizes=[(16, 16), (32, 32), (48, 48), (64, 64)])
+    img.save(ico_path, format="ICO", sizes=[(s, s) for s in sizes])
+
+
+def write_json(path: Path, data: dict):
+    path.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+
+
+# ----------------------------------------------------------------------------
+# Favicons (white tile, identity-ink symbol)
+# ----------------------------------------------------------------------------
+
+def favicon_svg_for(brand, reg, tile_ratio=FAVICON_TAB_TILE_RATIO):
+    """The tab crop by default: favicon.svg is what a browser tab shows."""
+    return build_favicon_svg(brand["color"], reg["substrate"]["paper_white"], tile_ratio)
+
+
+def build_favicons(slug, brand, reg):
+    """exports/<brand>/favicon/: svg, PNG sizes, .ico, apple-touch icon, manifest.
+    Tab sizes use the tight crop; the large icons keep the maskable margin.
+    Writes nothing outside that folder."""
+    fv = BRAND_DIR / "exports" / slug / "favicon"
+    fav_svg = write_svg(fv / "favicon.svg", favicon_svg_for(brand, reg))
+    with tempfile.TemporaryDirectory() as tmp:
+        large_svg = write_svg(Path(tmp) / "favicon-large.svg",
+                              favicon_svg_for(brand, reg, FAVICON_TILE_RATIO))
+        ico_src = Path(tmp) / "favicon-ico-256.png"
+        render_pngs(
+            [(fav_svg if s in FAVICON_TAB_SIZES else large_svg, fv / f"favicon-{s}.png", s)
+             for s in FAVICON_SIZES]
+            + [(fav_svg, ico_src, 256)]
+        )
+        write_ico(ico_src, fv / "favicon.ico")
+    Image.open(fv / "favicon-180.png").save(fv / "apple-touch-icon.png")
+    write_json(fv / "site.webmanifest", {
+        "name": brand.get("title", slug),
+        "short_name": brand["wordmark"],
+        "icons": [
+            {"src": "favicon-192.png", "sizes": "192x192", "type": "image/png"},
+            {"src": "favicon-512.png", "sizes": "512x512", "type": "image/png"},
+        ],
+        "theme_color": brand["color"],
+        "background_color": reg["substrate"]["paper_white"],
+        "display": "standalone",
+    })
+
+
+def build_canonical_favicon(reg):
+    """laz-gunesi-amblem/favicon/: the Ağustos favicon, the default for any house page
+    that has no brand of its own. favicon-mono.svg stays the bare master (in-page use)."""
+    brand = reg["brands"]["agustos"]
+    out = CANONICAL_FAVICON_DIR
+    fav_svg = write_svg(out / "favicon.svg", favicon_svg_for(brand, reg))
+    (out / "favicon-mono.svg").write_bytes(
+        (ROOT / "laz-gunesi-amblem" / "svg" / "master.svg").read_bytes())
+    with tempfile.TemporaryDirectory() as tmp:
+        large_svg = write_svg(Path(tmp) / "favicon-large.svg",
+                              favicon_svg_for(brand, reg, FAVICON_TILE_RATIO))
+        ico_src = Path(tmp) / "favicon-256.png"
+        render_pngs([
+            (fav_svg, out / "favicon-16.png", 16),
+            (fav_svg, out / "favicon-32.png", 32),
+            (large_svg, out / "apple-touch-icon.png", 180),
+            (large_svg, out / "icon-192.png", 192),
+            (large_svg, out / "icon-512.png", 512),
+            (fav_svg, ico_src, 256),
+        ])
+        write_ico(ico_src, out / "favicon.ico", sizes=(16, 32, 48))
+    write_json(out / "site.webmanifest", {
+        "name": "Ağustos",
+        "short_name": "Ağustos",
+        "icons": [
+            {"src": "icon-192.png", "sizes": "192x192", "type": "image/png",
+             "purpose": "any maskable"},
+            {"src": "icon-512.png", "sizes": "512x512", "type": "image/png",
+             "purpose": "any maskable"},
+        ],
+        "theme_color": brand["color"],
+        "background_color": reg["substrate"]["paper_white"],
+        "display": "standalone",
+    })
+    print(f"  ✓ canonical favicon kit -> {out.relative_to(ROOT)}")
 
 
 # ----------------------------------------------------------------------------
@@ -235,7 +349,7 @@ def build_brand(slug, brand, reg):
     font = load_display_font(weight)
 
     base = BRAND_DIR / "exports" / slug
-    lk, fv, so = base / "lockup", base / "favicon", base / "social"
+    lk, so = base / "lockup", base / "social"
     png_jobs = []
 
     # --- Lockups: positive / negative / mono ---
@@ -255,15 +369,6 @@ def build_brand(slug, brand, reg):
         if name == "positive":
             positive_inner, positive_wh = inner, (W, H)
 
-    # --- Favicons + app icons (shared: bare red Laz Güneşi from master.svg) ---
-    # One favicon for every house site. Avatars stay per-brand below.
-    master_svg = (ROOT / "laz-gunesi-amblem" / "svg" / "master.svg").read_text(
-        encoding="utf-8"
-    )
-    fav_svg = write_svg(fv / "favicon.svg", master_svg)
-    for s in FAVICON_SIZES:
-        png_jobs.append((fav_svg, fv / f"favicon-{s}.png", s))
-
     # --- Social: avatar (negative monogram) + OG image ---
     av_svg = write_svg(so / f"{slug}-avatar.svg", build_monogram(paper, color))
     for s in AVATAR_SIZES:
@@ -275,22 +380,8 @@ def build_brand(slug, brand, reg):
     # Rasterize everything in one node call.
     render_pngs(png_jobs)
 
-    # --- Post-raster: .ico, named apple-touch icon, web manifest ---
-    write_ico(fv / "favicon-256.png", fv / "favicon.ico")
-    Image.open(fv / "favicon-180.png").save(fv / "apple-touch-icon.png")
-    manifest = {
-        "name": brand.get("title", slug),
-        "short_name": text,
-        "icons": [
-            {"src": "favicon-192.png", "sizes": "192x192", "type": "image/png"},
-            {"src": "favicon-512.png", "sizes": "512x512", "type": "image/png"},
-        ],
-        "theme_color": reg["signal"]["color"],
-        "background_color": paper,
-        "display": "standalone",
-    }
-    (fv / "site.webmanifest").write_text(json.dumps(manifest, indent=2, ensure_ascii=False),
-                                         encoding="utf-8")
+    # --- Favicons + app icons (white tile, identity-ink symbol) ---
+    build_favicons(slug, brand, reg)
 
     n_files = sum(1 for _ in base.rglob("*") if _.is_file())
     print(f"  ✓ {slug}: {n_files} files -> {base.relative_to(ROOT)}")
@@ -300,6 +391,9 @@ def main():
     reg = json.loads(REGISTRY.read_text(encoding="utf-8"))
     ap = argparse.ArgumentParser()
     ap.add_argument("--brand", help="build a single brand slug (default: all)")
+    ap.add_argument("--favicons", action="store_true",
+                    help="regenerate only the favicon kits (exports/<brand>/favicon/ and "
+                         "laz-gunesi-amblem/favicon/); no other export changes")
     args = ap.parse_args()
 
     brands = reg["brands"]
@@ -307,9 +401,17 @@ def main():
     if args.brand and args.brand not in brands:
         raise SystemExit(f"unknown brand '{args.brand}'. known: {', '.join(brands)}")
 
-    print(f"Building {len(targets)} brand(s)...")
-    for slug, brand in targets.items():
-        build_brand(slug, brand, reg)
+    if args.favicons:
+        print(f"Building favicons for {len(targets)} brand(s)...")
+        for slug, brand in targets.items():
+            build_favicons(slug, brand, reg)
+            print(f"  ✓ {slug}: favicon -> brand/exports/{slug}/favicon")
+    else:
+        print(f"Building {len(targets)} brand(s)...")
+        for slug, brand in targets.items():
+            build_brand(slug, brand, reg)
+    if "agustos" in targets:
+        build_canonical_favicon(reg)
     print("Done.")
 
 

@@ -1,14 +1,16 @@
 <?php
 /**
- * Ağustos Design System v3 adapter bootstrap.
+ * Ağustos Design System v7 adapter bootstrap.
  * Merge this function into the consuming theme's functions.php.
+ * A website gets no chrome class on the body element: the top menu and footer are the
+ * default. Only product UI adds site-sidebar-layout. Brands never pick chrome.
  */
 function agustos_design_system_assets(): void {
     wp_enqueue_style(
         'agustos-design-system',
         get_theme_file_uri('/assets/css/agustos.css'),
         array(),
-        '3.0.0'
+        '7.0.0'
     );
 }
 add_action('wp_enqueue_scripts', 'agustos_design_system_assets');

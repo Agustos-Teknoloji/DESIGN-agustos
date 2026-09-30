@@ -205,14 +205,14 @@ CARDS: tuple[Card, ...] = (
         "Brand",
         700,
         150,
-        "Shared favicon",
-        "One red Laz Güneşi tab icon for every house site",
+        "Brand favicons",
+        "White tile · red sun for Ağustos, black sun for every other brand",
         """
 <div class="hero-actions" style="align-items: center">
   <img src="../favicon/favicon.svg" alt="Laz Güneşi favicon" style="width: 64px; height: 64px">
   <img src="../favicon/favicon.svg" alt="" style="width: 32px; height: 32px">
   <img src="../favicon/favicon.svg" alt="" style="width: 16px; height: 16px">
-  <p class="type-body">Canonical file: <code class="type-code">laz-gunesi-amblem/favicon/favicon.svg</code>. Same artwork on every site.</p>
+  <p class="type-body">The Ağustos favicon: <code class="type-code">laz-gunesi-amblem/favicon/favicon.svg</code>. Every other brand uses the same white tile with the black sun, from <code class="type-code">brand/exports/&lt;brand&gt;/favicon/</code>.</p>
 </div>
 """,
     ),
@@ -221,8 +221,8 @@ CARDS: tuple[Card, ...] = (
         "Chrome",
         1280,
         640,
-        "Sidebar chrome",
-        "agustos · iesdesk · specquick. Fixed 240px column, drawer below 1024px",
+        "Product sidebar",
+        "Product UI only. Fixed 240px column, drawer below 1024px",
         """
 <header class="site-sidebar-bar">
   <a class="site-lockup" href="/" aria-label="ağustos">
@@ -272,8 +272,8 @@ CARDS: tuple[Card, ...] = (
   <p class="site-sidebar__note">© Ağustos Teknoloji, 1996–2026</p>
 </aside>
 <main id="main" class="container">
-  <h1 class="type-h1">Sidebar chrome</h1>
-  <p class="type-body prose">The brand's registered chrome for agustos, iesdesk, and specquick. Below 1024px the bar and burger open it as a drawer.</p>
+  <h1 class="type-h1">Product sidebar</h1>
+  <p class="type-body prose">Product UI only, such as the IESDesk app. Websites use the top menu. Below 1024px the bar and burger open it as a drawer.</p>
 </main>
 """,
         "brand-agustos paper-white site-sidebar-layout",
@@ -283,8 +283,8 @@ CARDS: tuple[Card, ...] = (
         "Chrome",
         1280,
         640,
-        "Topbar chrome and footer",
-        "pataraz · pld. Sticky one-row header, structured footer, drawer below 1024px",
+        "Website chrome: top menu and footer",
+        "Every website. At most five items, then More · light one-row footer · drawer below 1024px",
         """
 <header class="site-header">
   <div class="site-header__bar site-frame">
@@ -301,7 +301,13 @@ CARDS: tuple[Card, ...] = (
         <a class="site-header__link" href="/urunler">Ürünler</a>
         <a class="site-header__link" href="/urun-bul">Ürün bul</a>
         <a class="site-header__link" href="/seriler">Seriler</a>
-        <a class="site-header__link" href="/hakkinda">Hakkında</a>
+        <details class="site-header__more">
+          <summary class="site-header__link">Daha fazla</summary>
+          <div class="site-header__more-menu">
+            <a class="site-header__more-link" href="/hakkinda">Hakkında</a>
+            <a class="site-header__more-link" href="/kariyer">Kariyer</a>
+          </div>
+        </details>
       </nav>
       <div class="site-header__end">
         <a class="agustos-chrome-link" href="/en" hreflang="en">EN</a>
@@ -314,8 +320,8 @@ CARDS: tuple[Card, ...] = (
   </div>
 </header>
 <main id="main" class="container">
-  <h1 class="type-h1">Topbar chrome</h1>
-  <p class="type-body prose">The brand's registered chrome for pataraz and pld. The footer never follows the theme flip.</p>
+  <h1 class="type-h1">Website chrome</h1>
+  <p class="type-body prose">Every website uses the top menu and the light footer, whatever the brand. The footer never follows the theme flip.</p>
 </main>
 <footer class="site-footer">
   <div class="site-footer__inner site-frame">
@@ -330,25 +336,14 @@ CARDS: tuple[Card, ...] = (
       </a>
       <p class="type-footnote">Belirtilmiş armatürler. Net veri. © 2026 Pataraz</p>
     </div>
-    <div class="site-footer__cols">
-      <nav class="site-footer__col" aria-label="Ürünler">
-        <p class="type-h4 site-footer__col-heading">Ürünler</p>
-        <ul class="site-footer__list">
-          <li><a class="site-footer__link" href="/seriler/pl">PL serisi</a></li>
-          <li><a class="site-footer__link" href="/seriler/px">PX serisi</a></li>
-          <li><a class="site-footer__link" href="/seriler/py">PY serisi</a></li>
-        </ul>
-      </nav>
-      <nav class="site-footer__col" aria-label="Destek">
-        <p class="type-h4 site-footer__col-heading">Destek</p>
-        <ul class="site-footer__list">
-          <li><a class="site-footer__link" href="/urun-bul">Ürün bul</a></li>
-          <li><a class="site-footer__link" href="/teknik-foyler">Teknik föyler</a></li>
-          <li><a class="site-footer__link" href="/hakkinda">Hakkında</a></li>
-        </ul>
-      </nav>
-      <a class="agustos-button agustos-button--primary site-footer__cta" href="/iletisim">İletişim</a>
-    </div>
+    <nav aria-label="Alt menü">
+      <ul class="site-footer__links">
+        <li><a class="site-footer__link" href="/teknik-foyler">Teknik föyler</a></li>
+        <li><a class="site-footer__link" href="/iletisim">İletişim</a></li>
+        <li><a class="site-footer__link" href="/gizlilik">Gizlilik ve KVKK</a></li>
+        <li><a class="site-footer__link" href="/en" hreflang="en">English</a></li>
+      </ul>
+    </nav>
   </div>
 </footer>
 """,

@@ -2,13 +2,22 @@
 
 ## Now
 
-Sidebar bar anchor offset (2026-09-29, branch `fix/sidebar-bar-anchor-offset`). Release v6.6.1. Found in the memregunes speakers review: below 1024px the sticky `site-sidebar-bar` covers the target of an in-page anchor.
+v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva`). Emre approved each part from the live preview and asked for it to ship without further approvals. Plan and facts: MEMORY.md 2026-09-29 v7-conventional-reset and the five records after it.
 
-- [x] Add `--sidebar-bar-height` from existing tokens, and `scroll-padding-top` on `html` under the 1024px query, only when the page has a `site-sidebar-bar`.
-- [x] Test: the variable is built from tokens, and the topbar and desktop get no scroll padding.
-- [x] Verify in a browser at 375px (anchor lands below the bar), at 1440px (no change) and on a topbar screen (no change).
-- [x] Record: `MEMORY.md` entry `2026-09-29 sidebar-bar-scroll-padding`, `CHANGELOG.md` for 6.6.1, `UI-KIT.md` variable list.
-- [x] Release: VERSION 6.6.1, build, `scripts/ci.sh`, tag `v6.6.1` on `05c80c8`, open PR #59, and run `/design-push` (2026-09-29).
+- [x] Registry: golden type scale, four weights, two radii, one section spacing, nine house rules, screens table without `primaryCtaMax` and `quotes`, class list.
+- [x] `brand/brands.json`: drop `chrome` and `screenOverrides`. Office fingerprint narrowed to the fields Office reads; manifest rewritten, Office files unchanged.
+- [x] `tokens/web.css.tmpl`: top menu with More, light one-row footer, two-button hero, section rhythm, cards, pale red band, black buttons, logo hover, highlighter, bold 600.
+- [x] Build: chrome from the screen family; checker keeps identity errors, taste rules warn, AG022 and AG023 removed, AG025 and AG026 added.
+- [x] Screens: eight website screens on the top menu and the simple footer; home shows the highlighter; listings use the H1.
+- [x] Starter and Claude Design chrome cards on the v7 chrome.
+- [x] Adapters (Astro, Rails, WordPress): v7 chrome, footer links API, More menu.
+- [x] Per-brand favicons (tight crop at tab sizes, Emre: "crop") and the guidelines PDFs.
+- [x] Hand-written docs: DESIGN.md, docs/*.html, README, ARCHITECTURE, HANDOFF, PATARAZ.
+- [x] `AGENTS.md`, `ASSETS.md`.
+- [x] Gate green, visual check, commit, push, draft PR #60.
+- [ ] Tag `v7.0.0` on GitHub. The cloud session could not push tags; create it on the merge commit (GitHub → Releases → Draft a new release → tag `v7.0.0`), or run `git tag -a v7.0.0 && git push origin v7.0.0` locally.
+- [ ] `/design-push` from an interactive Claude Code session. The cloud session has no Claude Design authorization.
+- [ ] Rollout: agustos.com and iesdesk.com pin v7.0.0 first; memregunes.com and pldturkiye.com later.
 
 ## Next
 

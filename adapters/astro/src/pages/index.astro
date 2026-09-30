@@ -24,132 +24,62 @@ const projects = [
   title="Ağustos Teknoloji — lighting agency and distribution"
   description="Ağustos Teknoloji designs, specifies, and distributes architectural lighting — from the photometric study to the fixture on site."
   header={{
+    // Six items: the menu shows the first four and puts the rest under "More".
     nav: [
+      { href: '/', label: 'Home' },
       { href: '#work', label: 'Work' },
-      { href: '/about', label: 'Services' },
-      { href: '#catalogue', label: 'Catalogue' },
       { href: '/about', label: 'Studio' },
+      { href: '/blog', label: 'Writing' },
+      { href: '/typography', label: 'Typography' },
+      { href: '#catalogue', label: 'Catalogue' },
     ],
     cta: { href: '/about', label: 'Contact' },
-    languageSwitch: { href: '/about', label: 'Türkçe', code: 'TR', ariaLabel: 'Türkçe' },
+    languageSwitch: { href: '/about', label: 'Türkçe', code: 'TR', ariaLabel: 'Türkçe', hreflang: 'tr' },
   }}
   footer={{
-    description: 'Ağustos Teknoloji · architectural lighting, agency & distribution · İstanbul, Türkiye.',
-    columns: [
-      {
-        heading: 'Work',
-        links: [
-          { href: '#work', label: 'Projects' },
-          { href: '/about', label: 'Sectors' },
-          { href: '/about', label: 'Process' },
-        ],
-      },
-      {
-        heading: 'Trade',
-        links: [
-          { href: '#catalogue', label: 'Catalogue' },
-          { href: '/about', label: 'IES files' },
-          { href: '/about', label: 'Become a partner' },
-        ],
-      },
-      {
-        heading: 'Studio',
-        links: [
-          { href: '/about', label: 'About' },
-          { href: '/blog', label: 'Writing' },
-          { href: '/typography', label: 'Typography' },
-          { href: 'https://github.com/Agustos-Teknoloji/DESIGN-agustos/blob/main/DESIGN.md', label: 'Design spec', external: true },
-        ],
-      },
+    note: 'Ağustos Teknoloji · architectural lighting, agency & distribution · İstanbul, Türkiye.',
+    links: [
+      { href: 'https://www.linkedin.com/company/agustostek/', label: 'LinkedIn', external: true },
+      { href: 'https://github.com/Agustos-Teknoloji/DESIGN-agustos/blob/main/DESIGN.md', label: 'Design spec', external: true },
+      { href: '/about', label: 'Privacy' },
+      { href: '/about', label: 'Türkçe', hreflang: 'tr' },
     ],
-    cta: { href: '/about', label: 'Contact' },
   }}
 >
-  <article>
-    <header class="container wk-hero">
-      <h1 class="type-hero-md wk-hero__headline">Light, placed with intent.</h1>
-      <p class="type-hero-deck">Ağustos Teknoloji designs, specifies, and distributes architectural lighting — from the photometric study to the fixture on site.</p>
-      <div class="hero-links">
-        <a class="type-link hero-link hero-link--primary" href="#work">See selected work</a>
-        <a class="type-link hero-link hero-link--primary" href="#catalogue">Browse the catalogue</a>
-        <a class="type-link hero-link hero-link--secondary" href="/about">Talk to the studio</a>
-      </div>
-      <p class="hero-trust">2009–2026 · 240+ projects across Türkiye · partner to leading European luminaire makers</p>
-    </header>
+  <section class="container" aria-labelledby="hero-title">
+    <h1 id="hero-title" class="type-hero">Light, <mark class="type-highlight">placed with intent</mark>.</h1>
+    <p class="type-hero-deck">Ağustos Teknoloji designs, specifies, and distributes architectural lighting — from the photometric study to the fixture on site.</p>
+    <div class="hero-actions">
+      <a class="agustos-button agustos-button--primary" href="#work">See selected work</a>
+      <a class="agustos-button agustos-button--secondary" href="/about">Talk to the studio</a>
+    </div>
+    <p class="hero-trust">2009–2026 · 240+ projects across Türkiye · partner to leading European luminaire makers</p>
+  </section>
 
-    <section class="container wk-section" id="work" aria-labelledby="work-title">
-      <div class="wk-section__head">
-        <h2 id="work-title" class="type-h2">Selected work</h2>
-        <a class="type-link" href="#work">All projects</a>
-      </div>
-      <div class="agustos-card-grid">
-        {projects.map((project, index) => (
-          <article class:list={['agustos-card', { 'agustos-card--marked': index === 0 }]}>
-            <p class="type-h4">{project.kind}</p>
-            <h3 class="type-h3">{project.title}</h3>
-            <p class="type-body">{project.body}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  </article>
+  <section class="site-frame agustos-section" id="work" aria-labelledby="work-title">
+    <div class="agustos-section__head">
+      <h2 id="work-title" class="type-h2">Selected work</h2>
+      <a class="type-link" href="#work">All projects</a>
+    </div>
+    <div class="grid-3">
+      {projects.map((project, index) => (
+        <article class:list={['agustos-card', { 'agustos-card--marked': index === 0 }]}>
+          <p class="type-h4">{project.kind}</p>
+          <h3 class="type-h3">{project.title}</h3>
+          <p class="type-body">{project.body}</p>
+        </article>
+      ))}
+    </div>
+  </section>
 
-  <section class="cta-band" id="catalogue" aria-labelledby="band-title">
-    <div class="container cta-band__split">
-      <h2 id="band-title" class="type-h2">One symbol, forever.</h2>
-      <div class="cta-band__aside">
-        <p class="type-body">Every project ships with its photometric study, IES files, and a commissioning report. The work is documented as carefully as it is designed.</p>
-        <div class="hero-actions">
-          <a class="agustos-button agustos-button--primary" href="/about">Request pricing</a>
-          <a class="type-link" href="/about">Download a sample dossier</a>
-        </div>
+  <section class="band band--cream" id="catalogue" aria-labelledby="band-title">
+    <div class="site-frame">
+      <h2 id="band-title" class="type-h2">Every project ships documented.</h2>
+      <p class="type-body prose">Every project ships with its photometric study, IES files, and a commissioning report. The work is documented as carefully as it is designed.</p>
+      <div class="hero-actions">
+        <a class="agustos-button agustos-button--primary" href="/about">Request pricing</a>
+        <a class="agustos-button agustos-button--quiet" href="/about">Download a sample dossier</a>
       </div>
     </div>
   </section>
 </BaseLayout>
-
-<style>
-  .wk-hero {
-    padding-top: var(--space-4xl);
-    padding-bottom: var(--space-5xl);
-    border-bottom: 1px solid var(--rule);
-  }
-  .wk-hero__headline { max-width: 18ch; }
-  .wk-hero .type-hero-deck { color: var(--ink-soft); margin: 0; }
-  .wk-section { padding-block: var(--space-5xl); }
-  .wk-section__head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: var(--space-xl);
-    margin-bottom: var(--space-2xl);
-  }
-  .wk-section__head .type-h2 { margin: 0; }
-  .agustos-card .type-h4,
-  .agustos-card .type-h3,
-  .agustos-card .type-body { margin: 0; }
-  .cta-band {
-    background: var(--cream);
-    border-top: 1px solid var(--rule);
-    border-bottom: 1px solid var(--rule);
-  }
-  .cta-band .container { padding-block: var(--space-5xl); }
-  .cta-band__split {
-    display: grid;
-    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: var(--space-3xl);
-    align-items: start;
-  }
-  .cta-band .type-h2 { margin: 0; max-width: 20ch; }
-  .cta-band__aside {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-xl);
-    max-width: 46ch;
-  }
-  .cta-band__aside .type-body { margin: 0; color: var(--ink-soft); }
-  .cta-band .hero-actions { margin: 0; }
-  @media (max-width: 760px) {
-    .cta-band__split { grid-template-columns: 1fr; }
-  }
-</style>

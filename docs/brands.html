@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Brands — Ağustos Design System</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.6.1/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.6.1/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.0/ui/agustos.css">
 <link rel="stylesheet" href="agustos-fonts.css">
 <link rel="stylesheet" href="agustos.css">
 <script>
@@ -15,7 +15,7 @@ document.addEventListener("error", function (event) {
   var relative = image.getAttribute("src") || "";
   if (image.dataset.cdn || relative.indexOf("../brand/exports/") !== 0) return;
   image.dataset.cdn = "1";
-  image.src = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.6.1/" + relative.slice(3);
+  image.src = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.0/" + relative.slice(3);
 }, true);
 </script>
 <style>
@@ -45,7 +45,7 @@ document.addEventListener("error", function (event) {
 
   <p class="type-h4">Standard artifact 5 of 5</p>
   <h1 class="type-hero-md">Brands</h1>
-  <p class="type-hero-deck">One symbol. Five wordmarks. Ağustos owns red. Every other house brand uses off-black identity ink and the same red for links and focus.</p>
+  <p class="type-hero-deck">One symbol. Five wordmarks. Ağustos owns red. Every other house brand uses off-black identity ink, turns red on hover, and uses the same red for links and focus.</p>
 
   <section class="agustos-section">
     <h2 class="type-h2">The lockup</h2>
@@ -110,10 +110,24 @@ document.addEventListener("error", function (event) {
   </div>
 
   <section class="agustos-section">
+    <h2 class="type-h2">Favicons</h2>
+    <p class="type-body">Each brand has its own favicon: a white tile with the Laz Güneşi in the brand's identity ink. Red sun for Ağustos, black sun for every other house brand. Take it from <code>brand/exports/&lt;brand&gt;/favicon/</code>. The Ağustos set is also the canonical kit in <code>laz-gunesi-amblem/favicon/</code>.</p>
+    <div class="cluster">
+      <img src="../brand/exports/agustos/favicon/favicon.svg" alt="ağustos favicon" width="48" height="48">
+      <img src="../brand/exports/pataraz/favicon/favicon.svg" alt="pataraz favicon" width="48" height="48">
+      <img src="../brand/exports/pld/favicon/favicon.svg" alt="pld türkiye favicon" width="48" height="48">
+      <img src="../brand/exports/iesdesk/favicon/favicon.svg" alt="iesdesk favicon" width="48" height="48">
+      <img src="../brand/exports/specquick/favicon/favicon.svg" alt="specquick favicon" width="48" height="48">
+    </div>
+  </section>
+
+  <section class="agustos-section">
     <h2 class="type-h2">Rules</h2>
     <ul class="type-list-ul">
       <li>Put a <code>brand-*</code> class on <code>body</code>. That sets identity ink.</li>
-      <li>Links and focus stay signal red on every brand.</li>
+      <li>On the web the logo answers hover: the Ağustos logo turns black, every other logo turns red.</li>
+      <li>Links and focus stay signal red on every brand. Buttons stay black.</li>
+      <li>Chrome follows the screen, not the brand: every website uses the top menu and the footer; product UI uses the sidebar.</li>
       <li>Do not invent a fourth logo expression or a white-on-transparent reverse.</li>
       <li>Novara is a distributed brand, not a house brand. It has no assets here.</li>
     </ul>

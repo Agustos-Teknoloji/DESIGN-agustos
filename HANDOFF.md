@@ -1,8 +1,8 @@
 # Design application handoff
 
-Date: 2026-09-16
-Design system version: 6.1.0
-Status: Both chromes, the layout layer, and nine screens are in the kit; the checker enforces the screens table. Share the five artifacts and screens/. Do not regenerate the factory.
+Date: 2026-09-29
+Design system version: 7.0.0
+Status: Both chromes, the layout layer, and nine screens are in the kit. Websites use the top menu and the footer; product UI uses the sidebar. The checker errors on identity and warns on taste. Share the five artifacts and screens/. Do not regenerate the factory.
 
 Open these five artifacts first:
 
@@ -12,7 +12,7 @@ Open these five artifacts first:
 4. `docs/web.html` — one live frame per screen type, with that screen's rules. The pages are in `screens/`.
 5. `docs/brands.html`
 
-White paper, light gray `#ebebeb`, cream callout bands. Shared red is a 2px rule, not a fill, except the dark primary CTA.
+White paper, light gray `#ebebeb`, one pale red closing band. Shared red is a 2px rule, focus, and one highlighter stroke per page, never a fill. Buttons are black.
 
 ## What this file is
 
@@ -36,7 +36,7 @@ From this repository:
 python3 scripts/pack_handoff.py
 ```
 
-That writes `dist/agustos-ui-handoff-v6.1.0.zip`.
+That writes `dist/agustos-ui-handoff-v7.0.0.zip`.
 The zip holds the five artifacts, the kit, the screens, and lockup SVGs.
 It does not hold generators, adapters, Office files, or decision history.
 
@@ -48,16 +48,16 @@ If you already opened the slim zip, skip packing. Start at Apply to a website.
 
 1. Copy the zip's `ui/` folder to `vendor/agustos-ui/` in the target repository. Commit it.
 2. Paste `vendor/agustos-ui/AGENTS-SNIPPET.md` into that project's `AGENTS.md`.
-3. Load fonts first, then the stylesheet. Put a `brand-*` class and `data-screen` on `<body>`, plus `site-sidebar-layout` for a sidebar brand. Copy the brand's chrome from the matching screen.
-4. Build each page from its screen in `screens/`. White paper, cream bands, filled-plus-outline buttons, one H2 role. Dark theme uses the same six colours, flipped.
-5. Repeat the same primary CTA only in the opening and one closing cream band. The header may carry it once.
+3. Load fonts first, then the stylesheet. Put a `brand-*` class and `data-screen` on `<body>`, plus `site-sidebar-layout` for product UI only. Copy the chrome from the matching screen: every website uses the top menu (five items at most, the rest under More) and the footer.
+4. Build each page from its screen in `screens/`. White paper, one pale red closing band, one primary and one secondary button, one H2 role. Dark theme uses the same six colours, flipped.
+5. Name one primary destination. The header, the opening, and the closing band may carry it; the sections between them do not.
 6. Keep marketing, catalog, and spec pages light. Do not add a theme toggle there.
 7. Put photographs on product pages first. Leave listing and homepage type-only until those photos exist.
-8. Use quotes on content pages only.
+8. Keep quotes for content pages. Use the highlighter once, on the main headline.
 9. Run `python3 vendor/agustos-ui/check-agustos-ui.py .` and make it exit 0.
 
 Read `ui/UI-KIT.md` and the matching screen before you write markup.
-Keep wordmarks lowercase in Inter Tight 650. Do not add red fills, uppercase labels, arrows, or shadows.
+Keep wordmarks lowercase in Inter Tight 650. Do not add red fills, red buttons, uppercase labels, arrows, or shadows.
 
 ## If a Claude Design zip or page arrives in this repository
 
@@ -77,7 +77,7 @@ Do not copy Design markup or CSS into `ui/` or `tokens/`.
 
 ## Locked composition
 
-- Same primary CTA: header once, page body at most twice (opening and one closing cream band).
+- One primary destination: the header, the opening, and one closing pale red band. Advice, not a checked rule.
 - Dark theme ships on product UI. Marketing, catalog, and spec pages stay light. Dark uses the locked six-colour flip.
 - Photographs: product page first, then listing thumbnails, then homepage installation. Type-only pages stay complete.
-- Blockquote and pullquote appear on content pages only.
+- Blockquote and pullquote belong on content pages. Guidance, not a checked rule.

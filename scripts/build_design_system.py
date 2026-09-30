@@ -58,7 +58,7 @@ ALIAS = re.compile(r"^\{([a-zA-Z0-9_.-]+)\}$")
 
 CHROMES = ("sidebar", "topbar")
 SCREEN_FAMILIES = ("marketing", "content", "catalog", "document", "product-ui")
-SCREEN_FIELDS = ("file", "family", "brand", "purpose", "primaryCtaMax", "quotes", "photo")
+SCREEN_FIELDS = ("file", "family", "brand", "purpose", "photo")
 SCREEN_FILE = re.compile(r"^[a-z0-9-]+\.html$")
 
 
@@ -67,13 +67,19 @@ class TokenError(ValueError):
 
 
 def validate_brands(brands: dict[str, Any]) -> None:
-    """Every brand registers one chrome. The kit ships both; a page uses its brand's."""
+    """Chrome follows the screen family (v7.0.0), so a brand that still registers one is stale."""
     for slug, brand in brands["brands"].items():
-        chrome = brand.get("chrome")
-        if chrome not in CHROMES:
-            raise TokenError(
-                f"brand {slug!r} must register chrome as one of {', '.join(CHROMES)}, got {chrome!r}"
-            )
+        for field in ("chrome", "screenOverrides"):
+            if field in brand:
+                raise TokenError(
+                    f"brand {slug!r} registers {field!r}; since v7.0.0 chrome follows the screen family "
+                    "and the screen rules are the same for every brand"
+                )
+
+
+def chrome_for(family: str) -> str:
+    """Product UI uses the sidebar. Every website family uses the top menu and the footer."""
+    return "sidebar" if family == "product-ui" else "topbar"
 
 
 def screen_entries(tokens: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -92,40 +98,19 @@ def validate_screens(tokens: dict[str, Any], brands: dict[str, Any]) -> None:
             raise TokenError(f"screen {name!r}: unknown brand {entry['brand']!r}")
         if not SCREEN_FILE.match(entry["file"]):
             raise TokenError(f"screen {name!r}: file must be a lower-case .html name, got {entry['file']!r}")
-        if not isinstance(entry["primaryCtaMax"], int) or isinstance(entry["primaryCtaMax"], bool) or entry["primaryCtaMax"] < 0:
-            raise TokenError(f"screen {name!r}: primaryCtaMax must be a non-negative integer")
-        if not isinstance(entry["quotes"], bool):
-            raise TokenError(f"screen {name!r}: quotes must be true or false")
-
-
-SCREEN_OVERRIDE_RULES = ("primaryCtaMax", "quotes")
-
-
-def validate_brand_screen_overrides(tokens: dict[str, Any], brands: dict[str, Any]) -> None:
-    """A brand may relax or tighten a screen rule. It names a known screen and a known rule."""
-    screens = screen_entries(tokens)
-    for slug, brand in brands["brands"].items():
-        for screen, rules in brand.get("screenOverrides", {}).items():
-            if screen not in screens:
-                raise TokenError(f"brand {slug!r}: screenOverrides names unknown screen {screen!r}")
-            unknown = sorted(set(rules) - set(SCREEN_OVERRIDE_RULES))
-            if unknown:
-                raise TokenError(f"brand {slug!r}: screenOverrides for {screen!r} has unknown rules {', '.join(unknown)}")
-            if "quotes" in rules and not isinstance(rules["quotes"], bool):
-                raise TokenError(f"brand {slug!r}: screenOverrides quotes must be true or false")
-            cta = rules.get("primaryCtaMax", 0)
-            if not isinstance(cta, int) or isinstance(cta, bool) or cta < 0:
-                raise TokenError(f"brand {slug!r}: screenOverrides primaryCtaMax must be a non-negative integer")
+        retired = sorted({"primaryCtaMax", "quotes"} & set(entry))
+        if retired:
+            raise TokenError(f"screen {name!r}: {', '.join(retired)} retired in v7.0.0; the checker no longer counts buttons or quotes")
 
 
 def screen_rows(tokens: dict[str, Any], brands: dict[str, Any]) -> list[dict[str, Any]]:
-    """The table plus the two derived columns. Theme follows family; chrome follows brand."""
+    """The table plus the two derived columns. Theme and chrome both follow family."""
     rows: list[dict[str, Any]] = []
     for name, entry in screen_entries(tokens).items():
         rows.append({
             "name": name,
             **{field: entry[field] for field in SCREEN_FIELDS},
-            "chrome": brands["brands"][entry["brand"]]["chrome"],
+            "chrome": chrome_for(entry["family"]),
             "theme": "dark-allowed" if entry["family"] == "product-ui" else "light",
         })
     return rows
@@ -147,8 +132,6 @@ def screens_index_html(rows: list[dict[str, Any]]) -> str:
             f'      <dt>Sample brand</dt><dd>{html.escape(row["brand"])}</dd>\n'
             f'      <dt>Chrome</dt><dd>{html.escape(row["chrome"])}</dd>\n'
             f'      <dt>Theme</dt><dd>{html.escape(theme)}</dd>\n'
-            f'      <dt>Primary CTA in body</dt><dd>at most {row["primaryCtaMax"]}</dd>\n'
-            f'      <dt>Quotes</dt><dd>{"yes" if row["quotes"] else "no"}</dd>\n'
             f'      <dt>Photography</dt><dd>{html.escape(row["photo"])}</dd>\n'
             f'    </dl>\n'
             f'    <iframe class="screen__frame" src="../screens/{row["file"]}" title="{html.escape(title)} screen" loading="lazy"></iframe>\n'
@@ -376,7 +359,6 @@ def wordpress_theme(tokens: dict[str, Any], brands: dict[str, Any]) -> dict[str,
             "custom": {
                 "agustos": {
                     "radius": {
-                        "small": resolve_token(tokens, "foundations.radius.small"),
                         "medium": resolve_token(tokens, "foundations.radius.medium"),
                         "large": resolve_token(tokens, "foundations.radius.large"),
                     },
@@ -429,24 +411,24 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
             "invariants": [
                 "Use the exact Laz Güneşi asset. Never redraw or approximate the symbol.",
                 "Keep every wordmark lowercase, Inter Tight weight 650, and free of taglines.",
-                "Ağustos alone owns red as identity ink; Pataraz, PLD Türkiye, IESdesk, SpecQuick, and future house brands use neutral black/white identity ink by default.",
-                "Use shared signal red only for the 2px content-link rule, the 2px menu hover or current-page rule, and keyboard focus; never use it to recolor a non-Ağustos logo. The one fill exception is the dark-theme primary CTA.",
-                "Default working interfaces to white paper, off-black ink, restrained rules, and small radii. No shadows.",
+                "Ağustos alone owns red as identity ink; Pataraz, PLD Türkiye, IESdesk, SpecQuick, and future house brands use neutral black/white identity ink. On the web, the Ağustos logo turns black on hover and every other logo turns red on hover.",
+                "Use shared signal red only for the 2px content-link rule, the 2px menu hover or current-page rule, keyboard focus, and one highlighter stroke per page. Buttons are black, including in the dark theme, where they invert to white.",
+                "Default working interfaces to white paper, off-black ink, hairline rules, and two radii (6px controls, 12px cards). No shadows, except under a menu that floats above the page.",
                 "Align primary content to one 1180px frame on the web; preserve the same alignment logic in other media.",
                 "Use calm typographic openings, quiet chrome, sentence case, and purposeful spacing. Do not use uppercase labels or eyebrow headings.",
-                "Repeat the same primary CTA at most twice in the page body: the opening and one closing cream band. The header may carry it once.",
-                "Ship marketing, catalog, and spec pages on white paper. Reserve dark theme for product UI.",
-                "Use blockquote and pullquote on content pages only.",
+                "Set type on one golden scale (16.5px body, ratio 1.272): 13, 16.5, 21, 27, 34, 43, 55, 70, 89px, with thin headings.",
+                "Websites use the top menu with at most five items and a More menu for the rest; product UI uses the sidebar.",
+                "Ship websites on white paper. Reserve dark theme for product UI.",
             ],
             "forbidden": [
                 "Inventing a new logo expression or approximate sun symbol",
-                "Two-row or sidebar-first website chrome unless the product requirement makes it necessary",
+                "Two-row website chrome, or a sidebar on a website",
                 "Purple gradients, decorative blobs, large uniform radii, or centered generic SaaS feature grids",
                 "Giving a non-Ağustos house brand its own chromatic identity color without an explicit governance change",
-                "Using signal red as a fill, a button, a statistic, or an element's own colour, except the dark-theme primary CTA",
+                "Using signal red as a button, a statistic, a fill, or an element's own colour, beyond the logo and the one highlighter stroke",
                 "A primary button in every section, card, or list",
-                "A theme toggle on marketing chrome",
-                "Testimonial quotes on marketing pages",
+                "A theme toggle on a website",
+                "More than one highlighter stroke on a page",
                 "Hard-coding values that already exist in foundations, semantic roles, or recipes",
             ],
             "implementationOrder": [
@@ -522,24 +504,22 @@ def kit_context(tokens: dict[str, Any], brands: dict[str, Any]) -> dict[str, str
             f"- {rule}" for rule in tokens["designDirection"]["avoid"]
         ),
         "brandTable": "\n".join(
-            ["| Brand | Class | Chrome |", "|---|---|---|"]
+            ["| Brand | Class | Logo | Logo on hover |", "|---|---|---|---|"]
             + [
-                f"| {brand['wordmark']} | `brand-{slug}` | {brand['chrome']} |"
+                f"| {brand['wordmark']} | `brand-{slug}` | {'red' if brand['color'].lower() == brands['signal']['color'].lower() else 'black'} "
+                f"| {'black' if brand['color'].lower() == brands['signal']['color'].lower() else 'red'} |"
                 for slug, brand in brands["brands"].items()
             ]
         ),
-        "brandChromeLine": ", ".join(f"{slug} {brand['chrome']}" for slug, brand in brands["brands"].items()),
         "brandClasses": repr(tuple(f"brand-{slug}" for slug in brands["brands"])),
         "screensTable": "\n".join(
-            ["| Screen | Family | Chrome | Theme | Primary CTA in body | Quotes | Photography |", "|---|---|---|---|---|---|---|"]
+            ["| Screen | Family | Chrome | Theme | Photography |", "|---|---|---|---|---|"]
             + [
-                "| `{name}` | {family} | {chrome} | {theme} | at most {cta} | {quotes} | {photo} |".format(
+                "| `{name}` | {family} | {chrome} | {theme} | {photo} |".format(
                     name=row["name"],
                     family="product UI" if row["family"] == "product-ui" else row["family"],
                     chrome=row["chrome"],
                     theme="dark allowed" if row["theme"] == "dark-allowed" else row["theme"],
-                    cta=row["primaryCtaMax"],
-                    quotes="yes" if row["quotes"] else "no",
                     photo=row["photo"],
                 )
                 for row in screen_rows(tokens, brands)
@@ -653,23 +633,12 @@ def verify_fonts(tokens: dict[str, Any]) -> list[str]:
 def checker_screens_rules(tokens: dict[str, Any], brands: dict[str, Any]) -> str:
     """Python literal mapping screen name -> the rules the checker enforces.
 
-    Injected into ui/check-agustos-ui.py next to the token table: the primary
-    CTA limit and the quote rule from the screens table, and the theme derived
-    from the family.
+    Injected into ui/check-agustos-ui.py next to the token table: the theme and
+    the chrome, both derived from the family.
     """
     rules = {
-        row["name"]: {"primaryCtaMax": row["primaryCtaMax"], "quotes": row["quotes"], "theme": row["theme"]}
+        row["name"]: {"theme": row["theme"], "chrome": row["chrome"]}
         for row in sorted(screen_rows(tokens, brands), key=lambda row: row["name"])
-    }
-    return repr(rules)
-
-
-def checker_brand_screen_rules(brands: dict[str, Any]) -> str:
-    """Python literal mapping brand class -> screen -> the rules that brand overrides."""
-    rules = {
-        f"brand-{slug}": brand["screenOverrides"]
-        for slug, brand in sorted(brands["brands"].items())
-        if brand.get("screenOverrides")
     }
     return repr(rules)
 
@@ -757,8 +726,6 @@ def ui_kit_json(
                 "wordmark": brand["wordmark"],
                 "color": brand["color"],
                 "domain": brand["domain"],
-                "chrome": brand["chrome"],
-                **({"screenOverrides": brand["screenOverrides"]} if brand.get("screenOverrides") else {}),
             }
             for slug, brand in brands["brands"].items()
         },
@@ -794,7 +761,6 @@ def expected_outputs() -> dict[Path, str]:
     brands = load_json(BRAND_SOURCE)
     validate_brands(brands)
     validate_screens(tokens, brands)
-    validate_brand_screen_overrides(tokens, brands)
     outputs: dict[Path, str] = {}
     for path, label in CSS_OUTPUTS.items():
         set_output(outputs, path, render_web_css(tokens, brands, label))
@@ -835,7 +801,6 @@ def expected_outputs() -> dict[Path, str]:
     context["tokenTable"] = checker_token_table(resolved, brands)
     context["classList"] = checker_class_list(tokens)
     context["screensRules"] = checker_screens_rules(tokens, brands)
-    context["brandScreenRules"] = checker_brand_screen_rules(brands)
     for template, target in UI_TEMPLATES:
         set_output(outputs, target, render_text_template(template, context))
     for template, target in DOC_TEMPLATES:

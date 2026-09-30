@@ -9,10 +9,10 @@
   --cream:        {{foundations.color.paperCream}};
   --surface:      {{foundations.color.paperGray}};
 
-  /* Footer never follows the theme invert. It stays off-black. */
-  --footer-paper: {{foundations.color.ink}};
-  --footer-ink:   {{foundations.color.paperWhite}};
-  --footer-cta-hover: {{foundations.color.ruleCream}};
+  /* Footer is light: white paper under a hairline. It never follows the theme invert. */
+  --footer-paper: {{foundations.color.paperWhite}};
+  --footer-ink:   {{foundations.color.ink}};
+  --footer-cta-hover: {{foundations.color.inkSoft}};
 
   /* Ink */
   --ink:        {{foundations.color.ink}};
@@ -29,9 +29,9 @@
   --state-danger:  {{foundations.color.stateDanger}};
   --state-info:    {{foundations.color.stateInfo}};
 
-  /* Shared interaction signal. Red is rationed: the 2px content-link rule,
-     the 2px menu hover/current rule, and keyboard focus. The one fill
-     exception is the dark-theme primary CTA. */
+  /* Shared signal. Red is rationed: the logo, the 2px content-link rule, the
+     2px menu hover/current rule, keyboard focus, and one highlighter stroke
+     per page. Never a button, never a fill. */
   --signal: {{foundations.color.signalRed}};
 
   /* Shared spacing and measures */
@@ -56,13 +56,16 @@
      The bar and the anchor scroll offset both read it. */
   --sidebar-bar-height: calc(var(--control-min) + 2 * var(--space-xs) + {{recipes.chrome.rule}});
 
+  /* The one section spacing: sections, the closing band, and the gap after the hero. */
+  --section-space: {{recipes.section.paddingBlock}};
+
   /* Named type sizes for adapter chrome and native platform mappings */
   --size-footnote: {{foundations.fontSize.footnote}};
   --size-body-compact: {{foundations.fontSize.bodyCompact}};
   --size-body: {{foundations.fontSize.body}};
 
-  /* Radii — proven by the website redesign and promoted into v3 foundations */
-  --radius-sm: {{foundations.radius.small}};
+  /* Two radii: 6px controls, 12px cards. --radius-sm is kept as an alias of md. */
+  --radius-sm: {{foundations.radius.medium}};
   --radius-md: {{foundations.radius.medium}};
   --radius-lg: {{foundations.radius.large}};
 
@@ -110,7 +113,7 @@
 }
 
 /* Dark theme — product UI via html[data-theme="dark"]. Same six colours, flipped.
-   Marketing pages stay light. Footer variables stay off-black. */
+   Marketing pages stay light. The footer stays light. */
 html[data-theme="dark"] {
   --paper:        {{foundations.color.paperDark}};
   --paper-white:  {{foundations.color.paperDark}};
@@ -142,32 +145,8 @@ html[data-theme="dark"] .band--cream {
   color: var(--ink);
 }
 
-/* Dark hero: black is not available as a fill. Primary is filled red —
-   the one approved deviation. Secondary is filled white. */
-html[data-theme="dark"] .hero-action--primary,
-html[data-theme="dark"] .agustos-button--primary {
-  background: var(--signal);
-  border-color: var(--signal);
-  color: {{foundations.color.paperWhite}};
-}
-html[data-theme="dark"] .hero-action--primary:hover,
-html[data-theme="dark"] .agustos-button--primary:hover {
-  background: var(--signal);
-  border-color: var(--signal);
-  color: {{foundations.color.paperWhite}};
-}
-html[data-theme="dark"] .hero-action--secondary,
-html[data-theme="dark"] .agustos-button--secondary {
-  background: {{foundations.color.paperWhite}};
-  border-color: {{foundations.color.paperWhite}};
-  color: {{foundations.color.ink}};
-}
-html[data-theme="dark"] .hero-action--secondary:hover,
-html[data-theme="dark"] .agustos-button--secondary:hover {
-  background: {{foundations.color.paperWhite}};
-  border-color: {{foundations.color.paperWhite}};
-  color: {{foundations.color.ink}};
-}
+/* Buttons are black, never red. In the dark theme they simply invert with the
+   ink: the primary becomes white on off-black. No exception rule is needed. */
 
 /* -- 3. Reset + global rules --------------------------------- */
 
@@ -202,11 +181,12 @@ img, svg { max-width: 100%; height: auto; display: block; }
   font-family: var(--display);
   font-weight: {{foundations.fontWeight.light}};
   font-size: {{foundations.fontSize.hero}};
-  line-height: 0.95;
-  letter-spacing: -0.045em;
+  line-height: 0.97;
+  letter-spacing: -0.042em;
   text-wrap: balance;
   color: var(--ink);
-  margin: 0 0 0.5em;
+  max-width: 15ch;
+  margin: 0 0 var(--space-2xl);
 }
 
 .type-hero-md {
@@ -217,7 +197,7 @@ img, svg { max-width: 100%; height: auto; display: block; }
   letter-spacing: -0.04em;
   text-wrap: balance;
   color: var(--ink);
-  margin: 0 0 0.5em;
+  margin: 0 0 var(--space-xl);
 }
 
 /* Hero deck — upright body utility, paired with either hero token.
@@ -234,7 +214,7 @@ img, svg { max-width: 100%; height: auto; display: block; }
 }
 /* The deck has no bottom margin, so the block after it would sit flush.
    Hero links and actions carry their own top margin. */
-.type-hero-deck + :not(.hero-links, .hero-actions) {
+.type-hero-deck + :not(.hero-actions) {
   margin-top: 1em;
 }
 
@@ -263,8 +243,8 @@ h2, .type-h2 {
   font-family: var(--display);
   font-size: {{foundations.fontSize.h2}};
   font-weight: {{foundations.fontWeight.regular}};
-  line-height: 1.02;
-  letter-spacing: -0.034em;
+  line-height: 1.06;
+  letter-spacing: -0.032em;
   text-wrap: balance;
   /* margin-top 2.5em ≈ 40px (collapses with prior body's 1em → max wins).
      margin-bottom 1em matches baseline → consistent gap below the heading. */
@@ -277,7 +257,7 @@ h3, .type-h3 {
   font-size: {{foundations.fontSize.h3}};
   font-weight: {{foundations.fontWeight.medium}};
   line-height: 1.25;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.014em;
   margin: 2.5em 0 1em;
   color: var(--ink);
 }
@@ -310,8 +290,34 @@ em, .type-em {
   font-weight: 400;
 }
 
+/* Bold marks a fact the reader scans for, once per paragraph at most.
+   600, not 700: it has to sit with thin headings. */
 strong, .type-strong {
-  font-weight: {{foundations.fontWeight.bold}};
+  font-weight: {{foundations.fontWeight.semibold}};
+  color: var(--ink);
+}
+
+/* The highlighter: one marker stroke per page, behind one to four words of the
+   main headline. Brand red at low strength; the text stays ink. */
+mark, .type-highlight {
+  color: inherit;
+  background: none;
+}
+mark.type-highlight,
+.type-highlight {
+  padding: 0 0.06em;
+  margin: 0 -0.02em;
+  border-radius: 0.12em 0.3em 0.16em 0.35em;
+  background:
+    linear-gradient(100deg,
+      color-mix(in srgb, var(--signal) 0%, transparent) 0%,
+      color-mix(in srgb, var(--signal) 20%, transparent) 1.5%,
+      color-mix(in srgb, var(--signal) 15%, transparent) 50%,
+      color-mix(in srgb, var(--signal) 19%, transparent) 97%,
+      color-mix(in srgb, var(--signal) 0%, transparent) 100%)
+    0 62% / 100% 52% no-repeat;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 }
 
 /* Content-link rule: 2px red underline. Hover turns the ink red; the rule stays.
@@ -465,7 +471,7 @@ s, del, .type-strike {
   background: var(--ink);
   color: var(--rule);
   padding: 1em 1.25em;
-  border-radius: 4px;
+  border-radius: var(--radius-md);
   overflow-x: auto;
   /* Content block — 1em baseline rhythm. */
   margin: 0 0 1em;
@@ -538,19 +544,21 @@ table th:last-child, table td:last-child { text-align: right; }
   padding-inline: {{foundations.measure.gutter}};
 }
 
+/* The page opening. Small bottom padding on purpose: the first section below
+   brings the one section spacing. */
 .container {
-  padding-block: 4rem 6rem;
+  padding-block: {{recipes.hero.paddingBlockStart}} {{recipes.hero.paddingBlockEnd}};
 }
 
+/* Two buttons: one primary, one secondary. */
 .hero-actions {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
+  gap: {{recipes.hero.actionGap}};
+  margin-top: var(--space-2xl);
 }
 
-.hero-action,
 .agustos-button {
   display: inline-flex;
   align-items: center;
@@ -576,80 +584,45 @@ table th:last-child, table td:last-child { text-align: right; }
     color var(--dur) var(--ease);
 }
 
-.hero-action:hover,
 .agustos-button:hover {
   text-decoration: none;
 }
 
-.hero-action:focus-visible,
 .agustos-button:focus-visible {
   outline: 2px solid var(--signal);
   outline-offset: 2px;
 }
 
-.hero-action--primary,
+/* Buttons are black: identity is red, action is black. */
 .agustos-button--primary {
   border-color: var(--ink);
   background: var(--ink);
   color: var(--paper);
 }
 
-.hero-action--primary:hover,
 .agustos-button--primary:hover {
-  border-color: var(--ink);
-  background: var(--ink);
+  border-color: var(--ink-soft);
+  background: var(--ink-soft);
   color: var(--paper);
 }
 
-.hero-action--secondary,
+/* A quiet outline, derived from the ink; hover firms it up. */
 .agustos-button--secondary {
+  border-color: color-mix(in srgb, var(--ink) 22%, var(--paper));
   background: transparent;
   color: var(--ink);
 }
 
-.hero-action--secondary:hover,
 .agustos-button--secondary:hover {
-  background: var(--ink);
-  color: var(--paper);
-}
-
-/* Editorial hero links — page-opening action row.
-   Typographic link pattern (not button) for page-defining hero compositions.
-   Inherits bold + shared-red underline from the global `a` rule; this
-   utility adds display family + larger size + the action-row layout. */
-.hero-links {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  row-gap: 1rem;
-  column-gap: 1.5rem;
-  margin-top: 2rem;
-}
-
-.hero-link {
-  font-family: var(--display);
-  font-size: clamp(17px, 1.4vw, 21px);
-  line-height: 1.4;
-  /* Invisible hit area: the line box is 1.4em, the target must be 44px.
-     Symmetric padding grows the box; the negative margin keeps the layout. */
-  padding-block: calc((var(--control-min) - 1.4em) / 2);
-  margin-block: calc((1.4em - var(--control-min)) / 2);
-}
-
-.hero-link--primary {
+  border-color: var(--ink);
+  background: transparent;
   color: var(--ink);
-  font-weight: 600;
-}
-
-.hero-link--secondary {
-  color: var(--ink-soft);
-  font-weight: 500;
 }
 
 /* --ink-soft (7.3-8.9 contrast), not --ink-faint (3.4). Trust signals state
    real proof — year range, client count — so they have to clear 4.5:1. */
 .hero-trust {
-  margin: var(--space-xl) 0 0;
+  margin: var(--space-2xl) 0 0;
   font-family: var(--body);
   font-size: {{foundations.fontSize.bodyCompact}};
   line-height: 1.5;
@@ -658,7 +631,7 @@ table th:last-child, table td:last-child { text-align: right; }
 
 .hero-visual {
   width: 100%;
-  margin-top: var(--space-4xl);
+  margin-top: var(--space-5xl);
 }
 
 /* `.agustos-button` above is the same control under its product-surface name.
@@ -666,9 +639,13 @@ table th:last-child, table td:last-child { text-align: right; }
 
 /* v3 composition recipes. These are deliberately structural: adapters may
    wrap them in framework components without changing the visual grammar. */
+/* One rhythm: every section carries the same spacing and no dividing line.
+   Two sections in a row share one gap, not two. */
 .agustos-section {
-  padding-block: {{recipes.section.paddingBlock}};
-  border-bottom: {{recipes.section.rule}} solid var(--rule);
+  padding-block: var(--section-space);
+}
+.agustos-section + .agustos-section {
+  padding-top: 0;
 }
 
 .agustos-section__head {
@@ -676,8 +653,22 @@ table th:last-child, table td:last-child { text-align: right; }
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
-  gap: var(--space-xl);
+  gap: var(--space-2xs) var(--space-xl);
   margin-bottom: {{recipes.section.headingGap}};
+}
+.agustos-section__head :is(h2, .type-h2) {
+  margin: 0;
+}
+.agustos-section__head .type-link {
+  font-family: var(--display);
+  font-size: {{foundations.fontSize.bodyCompact}};
+  font-weight: {{foundations.fontWeight.medium}};
+  white-space: nowrap;
+}
+/* The intro under a section heading: soft ink, then room before the grid. */
+.agustos-section > .prose {
+  margin: 0 0 var(--space-3xl);
+  color: var(--ink-soft);
 }
 
 .agustos-card-grid {
@@ -700,6 +691,23 @@ table th:last-child, table td:last-child { text-align: right; }
   background: var(--paper);
   border: {{recipes.card.border}} solid var(--rule);
   border-radius: {{recipes.card.radius}};
+  transition: border-color var(--dur) var(--ease);
+}
+.agustos-card:hover {
+  border-color: color-mix(in srgb, var(--ink) 30%, var(--paper));
+}
+/* The card gap spaces its children; their own margins would double it. */
+.agustos-card > * {
+  margin-block: 0;
+}
+.agustos-card .type-body {
+  color: var(--ink-soft);
+}
+/* The whole card is the link (hard rule 5), so its title carries no underline. */
+.agustos-card :is(h2, h3, h4) > a {
+  color: var(--ink);
+  font-weight: inherit;
+  text-decoration: none;
 }
 
 .agustos-card--marked {
@@ -773,14 +781,15 @@ table th:last-child, table td:last-child { text-align: right; }
 
 /* -- 5b. Site chrome ----------------------------------------- */
 
-/* Two chromes ship. A brand registers one in brand/brands.json (`chrome`):
-   agustos, iesdesk, and specquick use the sidebar; pataraz and pld use the
-   topbar and footer. No JavaScript: drawers are native popovers, groups are
-   <details>. Search and language are slots that adapters fill. */
+/* Two chromes ship, and the screen family picks one: every website uses the
+   top menu and the footer; product UI uses the sidebar. No JavaScript: drawers
+   are native popovers, groups are <details>. Search and language are slots
+   that adapters fill. */
 
 /* Lockup: the exact symbol plus a lowercase wordmark. currentColor carries
    the registered identity ink. Dark theme lifts house brands to white;
-   Ağustos stays red. */
+   Ağustos stays red. Hover swaps the ink: Ağustos red to ink, every other
+   house brand ink to red. */
 .site-lockup {
   display: inline-flex;
   align-items: center;
@@ -797,7 +806,9 @@ table th:last-child, table td:last-child { text-align: right; }
 }
 .site-lockup__symbol { flex: none; width: 1em; height: 1em; }
 .site-lockup__name { color: inherit; }
-.site-lockup:hover { text-decoration: none; }
+.site-lockup { transition: color var(--dur) var(--ease); }
+.site-lockup:hover { color: var(--signal); text-decoration: none; }
+.brand-agustos .site-lockup:hover { color: var(--ink); }
 .site-lockup:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
 html[data-theme="dark"] .site-lockup { color: var(--ink); }
 html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }
@@ -917,7 +928,8 @@ html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }
   padding-block: {{recipes.chrome.paddingBlock}};
 }
 .site-header__panel { display: contents; color: inherit; }
-.site-header__nav { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-xl); }
+/* At most five items. The rest go in one site-header__more. */
+.site-header__nav { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: {{recipes.chrome.gap}}; }
 .site-header__link {
   display: inline-flex;
   align-items: center;
@@ -940,53 +952,86 @@ html[data-theme="dark"] .brand-agustos .site-lockup { color: var(--brand); }
 .site-header__end { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-lg); }
 .site-header__cta { margin-inline-start: var(--space-sm); }
 
-/* --- Footer. Never follows the theme flip: the footer variables stay off-black. --- */
+/* More: a <details> whose <summary> is a site-header__link. No JavaScript.
+   On desktop the menu floats under the item; in the drawer it opens inline. */
+.site-header__more { position: relative; }
+.site-header__more > summary { gap: 6px; list-style: none; cursor: pointer; }
+.site-header__more > summary::-webkit-details-marker { display: none; }
+.site-header__more > summary::after {
+  content: "";
+  width: 0.38em;
+  height: 0.38em;
+  border-inline-end: 1.5px solid currentColor;
+  border-block-end: 1.5px solid currentColor;
+  transform: translateY(-0.12em) rotate(45deg);
+  transition: transform var(--dur) var(--ease);
+}
+.site-header__more[open] > summary { color: var(--ink); }
+.site-header__more[open] > summary::after { transform: translateY(0.1em) rotate(-135deg); }
+.site-header__more-menu {
+  position: absolute;
+  inset-block-start: calc(100% + var(--space-xs));
+  inset-inline-start: calc(var(--space-sm) * -1);
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  min-width: 200px;
+  padding: 6px;
+  border: {{recipes.chrome.rule}} solid var(--rule);
+  border-radius: var(--radius-lg);
+  background: var(--paper);
+  /* The one shadow in the system: a menu that floats above the page. */
+  box-shadow: 0 12px 32px color-mix(in srgb, var(--ink) 8%, transparent);
+}
+.site-header__more-link {
+  display: flex;
+  align-items: center;
+  min-height: var(--control-min);
+  padding-inline: var(--space-sm);
+  border-radius: var(--radius-md);
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: {{foundations.fontSize.bodyCompact}};
+  font-weight: {{foundations.fontWeight.medium}};
+  text-decoration: none;
+}
+.site-header__more-link:hover,
+.site-header__more-link[aria-current="page"] { background: var(--cream); color: var(--ink); text-decoration: none; }
+.site-header__more-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+
+/* --- Footer. Light and small: the logo and one line on one side, one row of
+   links on the other. No column headings, no repeat of the top menu, no
+   button: the top menu and the closing band carry the action. The footer
+   variables never follow the theme flip. --- */
 .site-footer {
-  margin-block-start: var(--space-5xl);
+  border-block-start: {{recipes.chrome.rule}} solid var(--rule);
   background: var(--footer-paper);
   color: var(--footer-ink);
 }
 .site-footer__inner {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-start;
-  gap: var(--space-4xl);
-  padding-block: var(--space-5xl);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md) var(--space-2xl);
+  padding-block: var(--space-2xl);
 }
-.site-footer__brand { display: flex; flex-direction: column; gap: var(--space-sm); flex: 1 1 220px; max-width: 40ch; }
-.site-footer .site-lockup,
-.site-footer .type-h4,
-.site-footer .type-footnote,
-.site-footer__link { color: var(--footer-ink); }
-.site-footer .type-footnote { margin: 0; }
-.site-footer__cols { display: flex; flex-wrap: wrap; flex: 1 1 360px; gap: var(--space-2xl); margin-inline-start: auto; }
-.site-footer__col { flex: 1 1 140px; }
-.site-footer__col-heading { margin: 0 0 var(--space-sm); }
-.site-footer__list { display: flex; flex-direction: column; gap: 9px; margin: 0; padding: 0; list-style: none; }
+.site-footer__brand { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2xs) var(--space-lg); }
+.site-footer .type-footnote { margin: 0; color: var(--ink-soft); }
+.site-footer__links { display: flex; flex-wrap: wrap; align-items: center; column-gap: var(--space-lg); margin: 0; padding: 0; list-style: none; }
 .site-footer__link {
   display: inline-flex;
   align-items: center;
   min-height: var(--control-min);
+  color: var(--ink-soft);
   font-family: var(--display);
-  font-size: 15px;
+  font-size: {{foundations.fontSize.bodyCompact}};
   font-weight: {{foundations.fontWeight.medium}};
   text-decoration: none;
+  transition: color var(--dur) var(--ease);
 }
-.site-footer__link:hover { text-decoration: underline; text-decoration-color: var(--signal); text-underline-offset: 4px; }
+.site-footer__link:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--signal); text-decoration-thickness: 2px; text-underline-offset: 4px; }
 .site-footer__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
-.site-footer__cta { align-self: flex-start; }
-.site-footer .agustos-button--primary,
-html[data-theme="dark"] .site-footer .agustos-button--primary {
-  background: var(--footer-ink);
-  color: var(--footer-paper);
-  border-color: var(--footer-ink);
-}
-.site-footer .agustos-button--primary:hover,
-html[data-theme="dark"] .site-footer .agustos-button--primary:hover {
-  background: var(--footer-cta-hover);
-  border-color: var(--footer-cta-hover);
-  color: var(--footer-paper);
-}
 
 /* --- Breadcrumb: the small trail above a page title --- */
 .breadcrumb {
@@ -1062,12 +1107,10 @@ html[data-theme="dark"] .site-footer .agustos-button--primary:hover {
   }
   .site-header__panel:popover-open { display: flex; }
   .site-header__panel::backdrop { background: color-mix(in srgb, var(--ink) 32%, transparent); }
-  .site-header__nav { flex-direction: column; justify-content: flex-start; gap: 2px; }
+  .site-header__nav { flex-direction: column; justify-content: flex-start; align-items: stretch; gap: 2px; }
+  .site-header__more-menu { position: static; min-width: 0; padding: 0 0 0 var(--space-sm); border: 0; box-shadow: none; background: none; }
   .site-header__end { flex-direction: column; align-items: stretch; gap: var(--space-md); }
   .site-header__cta { margin-inline-start: 0; justify-content: center; }
-}
-@media (max-width: 760px) {
-  .site-footer__cols { margin-inline-start: 0; }
 }
 
 /* -- 5c. Layout layer ---------------------------------------- */
@@ -1085,8 +1128,10 @@ html[data-theme="dark"] .site-footer .agustos-button--primary:hover {
 .grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .grid-aside { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(0, 3fr); gap: var(--space-2xl); align-items: start; }
-.band { padding-block: var(--space-3xl); }
-.band--cream { background: var(--cream); border-block: {{foundations.border.hairline}} solid var(--rule); }
+/* The closing band: one per page, pale red, the same spacing as a section. */
+.band { padding-block: var(--section-space); }
+.band--cream { background: var(--cream); }
+.band .prose { color: var(--ink-soft); }
 
 /* A table wider than its column scrolls inside this wrapper, never the page. */
 .table-scroll { max-width: 100%; overflow-x: auto; margin: 0 0 1em; }
@@ -1253,7 +1298,7 @@ html[data-theme="dark"] .site-footer .agustos-button--primary:hover {
   color: var(--state-danger);
 }
 
-/* --- Buttons (1 new; the other three alias .hero-action in section 5) --- */
+/* --- Buttons (1 here; primary and secondary live in section 5) --- */
 
 /* Tertiary action. The rank the system lacked, and the reason people invent
    their own bare <button>. */
@@ -1399,8 +1444,11 @@ html[data-theme="dark"] .site-footer .agustos-button--primary:hover {
 
 /* The handoff contract promises this; nothing delivered it before v3.1. */
 @media (prefers-reduced-motion: reduce) {
-  .hero-action,
   .agustos-button,
+  .agustos-card,
+  .site-lockup,
+  .site-footer__link,
+  .site-header__more > summary::after,
   .agustos-input,
   .agustos-textarea,
   .agustos-select,

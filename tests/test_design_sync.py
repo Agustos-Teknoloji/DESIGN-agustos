@@ -50,14 +50,18 @@ class BundleTest(unittest.TestCase):
             for expression in ("positive", "negative", "mono"):
                 self.assertIn(f"logos/{slug}-lockup__{expression}.svg", self.names)
 
-    def test_shared_favicon_kit_is_present(self):
+    def test_canonical_favicon_kit_is_present(self):
         for name in ("favicon.svg", "favicon.ico", "apple-touch-icon.png", "icon-192.png", "icon-512.png", "site.webmanifest"):
             self.assertIn(f"favicon/{name}", self.names, name)
 
-    def test_favicon_svg_is_the_master_symbol(self):
-        payload = dict(self.members)["favicon/favicon.svg"]
-        master = (ROOT / "laz-gunesi-amblem" / "svg" / "master.svg").read_bytes()
-        self.assertEqual(payload, master)
+    def test_favicon_svg_is_the_red_symbol_on_a_white_tile(self):
+        """The bundled favicon is the Ağustos one: master.svg paths, verbatim, red on white."""
+        payload = dict(self.members)["favicon/favicon.svg"].decode("utf-8")
+        master = (ROOT / "laz-gunesi-amblem" / "svg" / "master.svg").read_text(encoding="utf-8")
+        self.assertRegex(payload, r'<rect [^>]*fill="#ffffff"')
+        self.assertIn('<g fill="#cf142a"', payload)
+        for d in re.findall(r'<path[^>]*\bd="([^"]+)"', master):
+            self.assertIn(f'd="{d}"', payload)
 
     def test_no_factory_paths(self):
         for name in self.names:

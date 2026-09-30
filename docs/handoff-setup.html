@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Ağustos handoff setup — share the kit, not the factory</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.6.1/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v6.6.1/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.0/ui/agustos.css">
 <link rel="stylesheet" href="agustos-fonts.css">
 <link rel="stylesheet" href="agustos.css">
 <style>
@@ -61,7 +61,7 @@
 <main id="main" class="container">
 
   <header class="map-hero">
-    <p class="type-h4">Ağustos Design System v6.6.1</p>
+    <p class="type-h4">Ağustos Design System v7.0.0</p>
     <h1 class="type-hero-md">Share the kit, not the factory</h1>
     <p class="type-hero-deck">
       A full-repository zip makes a coding agent rebuild CSS, logos, fonts, and Office files
@@ -73,8 +73,8 @@
       <a class="type-link" href="what-generates.html">what-generates.html</a>.
     </p>
     <div class="hero-actions">
-      <a class="hero-action hero-action--primary" href="#zip">Build the slim zip</a>
-      <a class="hero-action hero-action--secondary" href="#apply">Apply to a website</a>
+      <a class="agustos-button agustos-button--primary" href="#zip">Build the slim zip</a>
+      <a class="agustos-button agustos-button--secondary" href="#apply">Apply to a website</a>
     </div>
   </header>
 
@@ -229,7 +229,7 @@
         <h3 class="type-h3">Share this</h3>
         <p class="type-body">
           <code>python3 scripts/pack_handoff.py</code>
-          writes <code>dist/agustos-ui-handoff-v6.6.1.zip</code>. About 1.2&nbsp;MB.
+          writes <code>dist/agustos-ui-handoff-v7.0.0.zip</code>. About 1.2&nbsp;MB.
         </p>
         <ul class="map-tree">
           <li class="map-keep">README.md</li>
@@ -257,7 +257,7 @@
     <ol class="type-list-ol">
       <li>Copy <code>ui/</code> to <code>vendor/agustos-ui/</code> in the target repository. Commit it.</li>
       <li>Paste <code>vendor/agustos-ui/AGENTS-SNIPPET.md</code> into that project's <code>AGENTS.md</code>.</li>
-      <li>Load fonts first, then the stylesheet. Put a <code>brand-*</code> class and <code>data-screen</code> on <code>&lt;body&gt;</code>, plus <code>site-sidebar-layout</code> for a sidebar brand. Copy the brand's chrome from the matching screen.</li>
+      <li>Load fonts first, then the stylesheet. Put a <code>brand-*</code> class and <code>data-screen</code> on <code>&lt;body&gt;</code>, plus <code>site-sidebar-layout</code> for product UI only. Copy the chrome from the matching screen: every website uses the top menu and the footer.</li>
       <li>Use kit classes and <code>var(--name)</code>. Open <code>starter.html</code> to see every class once.</li>
       <li>Run <code>python3 vendor/agustos-ui/check-agustos-ui.py .</code> and make it exit 0.</li>
     </ol>

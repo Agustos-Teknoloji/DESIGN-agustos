@@ -1,0 +1,30 @@
+<%# Product UI only (shell: :product). Websites use the top menu and footer.
+    Below 1024px the sticky bar's burger opens the sidebar as a native popover. %>
+<header class="site-sidebar-bar">
+  <%= render "agustos/shared/brand_lockup", href: agustos_theme_config[:home_href] %>
+  <button type="button" class="site-sidebar-burger" popovertarget="site-sidebar" aria-label="<%= agustos_chrome_labels[:open_menu] %>">
+    <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true" focusable="false"><path d="M0 1h18M0 7h18M0 13h18" stroke="currentColor" stroke-width="1.5"/></svg>
+  </button>
+</header>
+<aside id="site-sidebar" class="site-sidebar" popover aria-label="<%= agustos_value(agustos_sidebar_config, :aria_label) || agustos_chrome_labels[:sidebar] %>">
+  <%= render "agustos/shared/brand_lockup", href: agustos_theme_config[:home_href] %>
+  <nav class="site-sidebar__nav" aria-label="<%= agustos_chrome_labels[:sections] %>">
+    <% agustos_sidebar_items.each do |item| %>
+      <%= link_to agustos_value(item, :href), **agustos_nav_link_options(item, class_name: "site-sidebar__link") do %>
+        <%= agustos_value(item, :label) %>
+        <% if agustos_value(item, :badge) %>
+          <% tone = agustos_value(item, :badge_tone) %>
+          <span class="agustos-badge<%= " agustos-badge--#{tone}" if tone %>"><%= agustos_value(item, :badge) %></span>
+        <% end %>
+      <% end %>
+    <% end %>
+  </nav>
+  <% if agustos_theme_toggle? %>
+    <div class="site-sidebar__utility">
+      <button type="button" class="agustos-button agustos-button--quiet" data-action="agustos-theme#toggle" aria-pressed="<%= agustos_dark? %>"><%= agustos_chrome_labels[:theme] %></button>
+    </div>
+  <% end %>
+  <% if agustos_sidebar_note.present? %>
+    <p class="site-sidebar__note"><%= agustos_sidebar_note %></p>
+  <% end %>
+</aside>

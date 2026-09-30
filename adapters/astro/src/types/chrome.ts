@@ -3,6 +3,8 @@ export interface ChromeLink {
   label: string;
   ariaLabel?: string;
   external?: boolean;
+  /** Language of the destination, for a language link (for example 'en'). */
+  hreflang?: string;
 }
 
 export interface LanguageSwitch extends ChromeLink {
@@ -23,7 +25,13 @@ export interface SearchLabels {
 
 export interface HeaderConfig {
   homeHref?: string;
+  /**
+   * Top-menu items. The menu shows at most five: a longer list keeps its first
+   * four and puts the rest under one More menu (site-header__more).
+   */
   nav?: ChromeLink[];
+  /** Label of the More menu. Default 'Daha fazla' for tr, 'More' otherwise. */
+  moreLabel?: string;
   cta?: ChromeLink | null;
   languageSwitch?: LanguageSwitch | null;
   /** Product UI only. Marketing chrome omits the theme toggle. */
@@ -31,18 +39,32 @@ export interface HeaderConfig {
   search?: boolean | { labels?: Partial<SearchLabels> };
 }
 
-export interface FooterColumn {
-  heading: string;
+/**
+ * The footer is light and small: the lockup, one footnote line, and one row of
+ * links for social, legal, and language. No column headings, no repeat of the
+ * top menu, no button.
+ */
+export interface FooterConfig {
+  /** The one footnote line under the lockup, for example '© Ağustos Teknoloji, 1996–2026'. */
+  note?: string;
+  links?: ChromeLink[];
+  /** Accessible name of the footer nav. Default 'Alt menü' for tr, 'Footer' otherwise. */
   ariaLabel?: string;
-  links: ChromeLink[];
 }
 
-export interface FooterConfig {
-  description?: string;
-  columns?: FooterColumn[];
-  /** Separate chrome action. It does not repeat the page primary CTA. */
-  cta?: ChromeLink | null;
+/** The top menu shows at most this many items; the rest go under More. */
+export const NAV_LIMIT = 5;
+
+/** [menu items, More items]. More than five keeps four and moves the rest. */
+export function splitNav<T>(items: T[]): [T[], T[]] {
+  if (items.length <= NAV_LIMIT) return [items, []];
+  return [items.slice(0, NAV_LIMIT - 1), items.slice(NAV_LIMIT - 1)];
 }
+
+export const CHROME_LABELS: Record<'en' | 'tr', { more: string; skip: string; nav: string; footer: string; openMenu: string }> = {
+  en: { more: 'More', skip: 'Skip to content', nav: 'Main menu', footer: 'Footer', openMenu: 'Open menu' },
+  tr: { more: 'Daha fazla', skip: 'İçeriğe geç', nav: 'Ana menü', footer: 'Alt menü', openMenu: 'Menüyü aç' },
+};
 
 export const SEARCH_LABELS: Record<'en' | 'tr', SearchLabels> = {
   en: {

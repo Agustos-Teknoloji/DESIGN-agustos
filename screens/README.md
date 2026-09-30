@@ -7,10 +7,10 @@ screen live in the `screens` table in `tokens/design-tokens.json`. `ui/UI-KIT.md
 <!-- generated: screens.table -->
 | Screen | File | Family | Sample brand | Chrome |
 |---|---|---|---|---|
-| home | `home.html` | marketing | agustos | sidebar |
-| static | `static.html` | content | agustos | sidebar |
-| content | `content.html` | content | agustos | sidebar |
-| content-index | `content-index.html` | content | agustos | sidebar |
+| home | `home.html` | marketing | agustos | topbar |
+| static | `static.html` | content | agustos | topbar |
+| content | `content.html` | content | agustos | topbar |
+| content-index | `content-index.html` | content | agustos | topbar |
 | products | `products.html` | catalog | pataraz | topbar |
 | product-finder | `product-finder.html` | catalog | pataraz | topbar |
 | product | `product.html` | catalog | pataraz | topbar |

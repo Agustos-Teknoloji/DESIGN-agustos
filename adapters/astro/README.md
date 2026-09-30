@@ -1,6 +1,6 @@
 # Ağustos Astro Adapter
 
-Astro 5 reference implementation for the [Ağustos Design System](../../DESIGN.md) v5.0.1.
+Astro 5 reference implementation for the [Ağustos Design System](../../DESIGN.md), kit v7.0.0.
 
 This adapter is useful for static sites, documentation, marketing pages, and visual QA. It is not the canonical center of the system; shared decisions live in `../../tokens/design-tokens.json` and `DESIGN.md`.
 
@@ -53,37 +53,74 @@ index can be queried with the header's language and page/post filters.
 
 ## Chrome Configuration
 
+Chrome follows the screen family, not the brand. `BaseLayout` renders website
+chrome, the top menu and the footer, for every brand and every website screen
+(`home`, `static`, `content`, `content-index`, `products`, `product-finder`,
+`product`, `spec-sheet`). It never renders the sidebar: that belongs to product
+UI (`app-shell`), which this adapter does not ship.
+
 `BaseLayout` accepts semantic `header` and `footer` configuration. Destinations
 and copy are consumer data; spacing, states, responsive behavior, and typography
-belong to the adapter.
+belong to the kit.
 
 ```astro
 <BaseLayout
   title="Pataraz"
   brand="pataraz"
+  lang="tr"
+  screen="home"
   header={{
     homeHref: '/',
-    nav: [{ href: '/products', label: 'Products' }],
-    cta: { href: '/contact', label: 'Request pricing' },
-    languageSwitch: { href: '/tr', label: 'Türkçe', code: 'TR' },
+    nav: [
+      { href: '/urunler', label: 'Ürünler' },
+      { href: '/urun-bul', label: 'Ürün bul' },
+      { href: '/seriler', label: 'Seriler' },
+      { href: '/projeler', label: 'Projeler' },
+      { href: '/hakkinda', label: 'Hakkında' },
+      { href: '/kariyer', label: 'Kariyer' },
+    ],
+    moreLabel: 'Daha fazla',
+    cta: { href: '/iletisim', label: 'Fiyat isteyin' },
+    languageSwitch: { href: '/en', label: 'English', code: 'EN', hreflang: 'en' },
   }}
   footer={{
-    description: 'Pataraz · project-grade lighting',
-    columns: [{ heading: 'Company', links: [{ href: '/about', label: 'About' }] }],
-    cta: { href: '/contact', label: 'Contact' },
+    note: '© Pataraz, 2026',
+    links: [
+      { href: 'https://www.linkedin.com/company/pataraz/', label: 'LinkedIn', external: true },
+      { href: '/gizlilik', label: 'Gizlilik ve KVKK' },
+      { href: '/en', label: 'English', hreflang: 'en' },
+    ],
   }}
 >
   ...
 </BaseLayout>
 ```
 
+**Header.** `nav` is the top menu. It shows at most five items. With more than
+five, the header renders the first four as `site-header__link` and puts the
+rest in one `<details class="site-header__more">` as the last child of
+`site-header__nav`, whose `summary` reads `moreLabel` (default "Daha fazla" for
+`lang="tr"`, "More" otherwise) and whose `site-header__more-menu` holds
+`site-header__more-link` items. The current page gets `aria-current="page"`, in
+the menu or under More. `cta` (default "Start a project"; `null` removes it) is
+the one header button; `languageSwitch` and search sit in `site-header__end`.
+
+**Footer.** `note` is the one `type-footnote` line under the lockup. `links` is
+one flat list of `{ href, label, external?, ariaLabel?, hreflang? }` for social,
+legal, and language, rendered as one row of `site-footer__link` items;
+`ariaLabel` names the footer nav (default "Alt menü" / "Footer"). There are no
+columns, no repeat of the top menu, and no footer button: `description`,
+`columns`, and the footer `cta` were removed in v7.
+
+External links (`external: true`) open in a new tab with `noopener noreferrer`.
+
 Set `searchable={false}` to exclude a page. Blog detail pages should pass
 `searchKind="post"`; other pages default to `"page"`. Set
 `header={{ search: false }}` to remove search from the chrome.
 
-Marketing headers do not include a theme toggle. Product UI may pass
-`header={{ theme: true }}` and, if the page itself is dark,
-`theme="dark"` on `BaseLayout`.
+Websites ship light and carry no theme toggle. `header={{ theme: true }}` and
+`theme="dark"` remain for inspecting product-UI dark (the typography showcase
+uses the toggle); do not use them on a website page.
 
 The header drawer and its backdrop are native popovers styled by the kit. The
 adapter ships no navigation script; the header script handles search and the
@@ -108,7 +145,8 @@ Run `python3 scripts/build_design_system.py` from the repository root. The local
 
 ## Brands
 
-Every page can declare one of five brands via `BaseLayout`:
+Every page can declare one of five brands via `BaseLayout`. The brand sets the
+identity ink and the wordmark; it does not pick the chrome.
 
 ```astro
 <BaseLayout brand="pataraz" title="Pataraz">
@@ -126,11 +164,11 @@ Available brand ids:
 
 ## Substrates and theme
 
-White is the page paper. Cream is a full-bleed callout or CTA band, not a page substrate.
+White is the page paper. The pale red closing band is the kit's `band band--cream`, once per page, not a page substrate.
 
 ```astro
-<section class="cta-band">
-  ...
+<section class="band band--cream">
+  <div class="site-frame">...</div>
 </section>
 ```
 
@@ -138,7 +176,7 @@ Dark theme is for product UI through `html[data-theme="dark"]`. Marketing, catal
 
 ## Composition
 
-Name one committing destination per page. That destination may appear in the header, the opening, and one closing cream band. Do not put a primary button in intervening sections. Footer Contact is separate chrome.
+Copy the matching screen from `screens/` instead of designing a page. A website page opens with a `type-hero` headline (or `type-h1` on listing and content pages), a `type-hero-deck`, a `<div class="hero-actions">` with one `agustos-button agustos-button--primary` and one `agustos-button agustos-button--secondary`, and a `hero-trust` line. Wrap one to four words of the main headline in `<mark class="type-highlight">`, once per page. It closes with one `band band--cream`. Do not put a primary button in intervening sections. Buttons are black; never style a red button. The retired `hero-links`, `hero-link*`, and `hero-action*` classes are gone.
 
 Photographs roll out in this order: product page, listing thumbnail, homepage installation. Type-only pages stay complete. Quotes belong on content pages only. Marketing uses a compact trust line.
 
@@ -156,4 +194,4 @@ The design system depends on `lang="tr"` plus `font-feature-settings: "locl"` fo
 
 ## Scope
 
-This adapter demonstrates the v5.0.1 type tokens, one-row chrome, shared frame, editorial opening, filled-plus-outline actions, cream closing band, restrained card groups, and section rhythm. Rails monoliths should use `../rails/` instead of copying Astro components.
+This adapter demonstrates the v7.0.0 type tokens, the website chrome (top menu with More, simple footer), shared frame, the hero with one highlighter and two buttons, the closing band, restrained card groups, and section rhythm. Rails monoliths should use `../rails/` instead of copying Astro components.

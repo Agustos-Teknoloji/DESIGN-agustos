@@ -1,23 +1,25 @@
 # Favicon & app-icon kit
 
-Web-ready browser/OS icons for every Ağustos house site. Artwork is the bare red
-Laz Güneşi from `../svg/master.svg` — **one shared favicon**, not a per-brand tile.
+Web-ready browser/OS icons. This folder is the **Ağustos** favicon, the canonical kit: the red
+Laz Güneşi on a white square tile. Every other house brand has the same tile with a black
+(`#15130f`) Laz Güneşi in `brand/exports/<brand>/favicon/` (MEMORY.md 2026-09-29
+per-brand-favicons).
 
-Brand red: `#cf142a` · Ground: transparent.
+Symbol: `#cf142a` · Tile: `#ffffff` · The symbol paths are `../svg/master.svg`, verbatim.
 
 ## What's in the kit
 
 | File | Size | Purpose |
 |---|---|---|
-| `favicon.svg` | vector | **Primary favicon.** Byte-identical to `../svg/master.svg`. |
+| `favicon.svg` | vector | **Primary favicon.** White tile, red symbol. Byte-identical to `brand/exports/agustos/favicon/favicon.svg`. |
 | `favicon.ico` | 16/32/48 | Legacy fallback (older browsers, feed readers, crawlers). |
 | `favicon-32.png` | 32×32 | Optional explicit PNG fallback. |
 | `favicon-16.png` | 16×16 | Optional explicit PNG fallback. |
-| `apple-touch-icon.png` | 180×180 | iOS home-screen icon. |
+| `apple-touch-icon.png` | 180×180 | iOS home-screen icon (full white square). |
 | `icon-192.png` | 192×192 | Android / PWA. |
 | `icon-512.png` | 512×512 | Android / PWA splash + install. |
-| `site.webmanifest` | — | PWA manifest. `theme_color` = brand red. |
-| `favicon-mono.svg` | vector | Same artwork as `favicon.svg`. For in-page use next to text/UI. |
+| `site.webmanifest` | — | PWA manifest. `theme_color` = Ağustos red, `background_color` = white. |
+| `favicon-mono.svg` | vector | The bare symbol, no tile (= `../svg/master.svg`). For in-page use next to text/UI, not as a tab icon. |
 
 ## Drop into any site `<head>`
 
@@ -30,19 +32,27 @@ Copy the icon files to your site's web root, then:
 <link rel="manifest" href="/site.webmanifest">
 ```
 
+For a site of another brand, copy `brand/exports/<brand>/favicon/` instead; its manifest names
+`favicon-192.png` and `favicon-512.png`.
+
 The SVG is served to modern browsers; `.ico` is the universal fallback. If the icons live in a
 subdirectory rather than the web root, adjust the `href`s and the `src` paths inside
 `site.webmanifest` to match.
 
 ## Regenerating
 
-`favicon.svg` / `favicon-mono.svg` are copies of `../svg/master.svg`. To rebuild the rasters:
+Never edit these files by hand. From `brand/`:
 
-1. Copy `../svg/master.svg` over `favicon.svg` and `favicon-mono.svg`.
-2. Render PNGs with the brand kit's resvg helper (`brand/scripts/render_png.mjs`) at 16, 32, 180, 192, and 512.
-3. Build `favicon.ico` with Pillow from a 256px PNG (`sizes` 16/32/48).
+```sh
+../.venv/bin/python build.py --favicons
+```
 
-`brand/build.py` regenerates every `brand/exports/<brand>/favicon/` from the same master.
+That rebuilds this folder and every `brand/exports/<brand>/favicon/`, and writes no other
+export. Tab icons (`favicon.svg`, the PNGs up to 64px, `favicon.ico`) use a tight crop: the
+tile is the master viewBox at 1/1.05 of its size, so the blades span about 94% of it and still
+read at 16px. Large icons (the apple-touch icon, the manifest icons, 180px and up) keep the
+master viewBox at 1/0.9, so the blades span about 81% and sit inside the maskable safe zone.
+Only the tile changes; the symbol paths stay verbatim.
 Update adapter `public/favicon.svg` mirrors in the same change.
 
 See the repository root `ASSETS.md` for the canonical-source + mirror rules.

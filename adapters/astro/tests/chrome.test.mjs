@@ -9,9 +9,32 @@ const read = (relative) => readFile(path.join(root, relative), 'utf8');
 
 test('chrome exposes configurable public types', async () => {
   const types = await read('src/types/chrome.ts');
-  for (const name of ['ChromeLink', 'HeaderConfig', 'FooterColumn', 'FooterConfig']) {
+  for (const name of ['ChromeLink', 'HeaderConfig', 'FooterConfig']) {
     assert.match(types, new RegExp(`export interface ${name}`));
   }
+  assert.match(types, /moreLabel\?: string/);
+  assert.match(types, /note\?: string/);
+  assert.match(types, /links\?: ChromeLink\[\]/);
+  assert.match(types, /export const NAV_LIMIT = 5/);
+  assert.doesNotMatch(types, /FooterColumn|columns|description\?:|cta\?: ChromeLink \| null;\n\}\n\nexport const NAV/);
+});
+
+test('nav over five items keeps four and moves the rest under More', async () => {
+  const types = await read('src/types/chrome.ts');
+  const body = types.match(/export function splitNav<T>\(items: T\[\]\): \[T\[\], T\[\]\] \{([\s\S]*?)\n\}/)[1];
+  const splitNav = new Function('items', 'const NAV_LIMIT = 5;' + body);
+  const items = (n) => Array.from({ length: n }, (_, i) => i + 1);
+  assert.deepEqual(splitNav(items(5)), [items(5), []]);
+  assert.deepEqual(splitNav(items(7)), [[1, 2, 3, 4], [5, 6, 7]]);
+  assert.match(types, /more: 'Daha fazla'/);
+  assert.match(types, /more: 'More'/);
+
+  const header = await read('src/components/Header.astro');
+  assert.match(header, /splitNav\(nav\)/);
+  assert.match(header, /<details class="site-header__more">/);
+  assert.match(header, /<summary class="site-header__link">\{moreLabel\}<\/summary>/);
+  assert.match(header, /<div class="site-header__more-menu">/);
+  assert.match(header, /class="site-header__more-link"\s+aria-current=\{isCurrent\(item\.href\) \? 'page' : undefined\}/);
 });
 
 test('layout indexes only main content with language and kind filters', async () => {
@@ -68,7 +91,10 @@ test('header and footer use the shared frame and accessible control sizes', asyn
   assert.match(header, /site-header__bar site-frame/);
   assert.match(footer, /site-footer__inner site-frame/);
   assert.doesNotMatch(footer, /<style>/);
-  assert.match(footer, /agustos-button agustos-button--primary site-footer__cta/);
+  assert.match(footer, /<ul class="site-footer__links">/);
+  assert.match(footer, /class="site-footer__link"/);
+  assert.match(footer, /<p class="type-footnote">\{note\}<\/p>/);
+  assert.doesNotMatch(footer, /site-footer__(cols|col|col-heading|list|cta)\b|agustos-button/);
   assert.match(search, /outline: 2px solid var\(--signal\)/);
   assert.match(utility, /theme = false/);
   for (const source of [search, utility]) assert.match(source, /44px/);
@@ -82,8 +108,11 @@ test('homepage follows locked marketing composition', async () => {
   const page = await read('src/pages/index.astro');
   const layout = await read('src/layouts/BaseLayout.astro');
   const header = await read('src/components/Header.astro');
-  assert.match(page, /Light, placed with intent/);
-  assert.match(page, /cta-band/);
+  assert.match(page, /Light, <mark class="type-highlight">placed with intent<\/mark>\./);
+  assert.equal(page.split('type-highlight').length - 1, 1, 'one highlighter per page');
+  assert.match(page, /<div class="hero-actions">\s*<a class="agustos-button agustos-button--primary"[^>]*>[^<]+<\/a>\s*<a class="agustos-button agustos-button--secondary"/);
+  assert.doesNotMatch(page, /hero-links?\b|hero-link--|hero-action\b|hero-action--|site-sidebar|columns:|description: '/);
+  assert.match(page, /band band--cream/);
   assert.match(page, /Request pricing/);
   assert.match(page, /Selected work/);
   assert.match(page, /hero-trust/);
