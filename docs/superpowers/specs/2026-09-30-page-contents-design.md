@@ -91,18 +91,18 @@ He approved the reader view from a live preview on iesdesk.com/privacy, and the 
 
 ### Other kit deliverables
 
-- `tokens/design-tokens.json`: register the five classes.
+- `tokens/design-tokens.json`: register the six classes: `agustos-contents`, `__toggle`, `__nav`, `__title`, `__list` and `__link`.
 - `ui/UI-KIT.md.tmpl`: one line in the Column paragraph and the new classes in the Layout row. `UI-KIT.md` stays at 200 lines or fewer.
 - `DESIGN.md`: the component in the layout table, and a note that it is a disclosure, not one of the absent dropdowns.
 - `ui/starter.html.tmpl`: one rendered instance.
 - `screens/`: no change. The static screen has no page long enough.
-- Checker `AG029` (warn): an `agustos-contents` element that is not a direct child of `container--reading`.
-- Tests for the CSS rules, the class registry, the starter instance and AG029.
+- Checker `AG031` (warn, on full pages): an `agustos-contents` element that is not a direct child of `container--reading`. AG029 and AG030 are taken (v7.3.2, v7.3.3).
+- Tests for the CSS rules, the class registry, the starter instance and AG031.
 - `VERSION` 7.4.0, `CHANGELOG.md`, a `MEMORY.md` record, `TODO.md`.
 
 ## iesdesk.com (APP-iesdesk)
 
-- Vendor kit v7.4.0.
+- Vendor kit v7.4.0. It carries v7.3.2 and v7.3.3. IESDesk needs no change for them: its marketing header sets no `aria-current`, no view has a disabled link, and the marketing layout loads `agustos-chrome.js`.
 - New partial `app/views/shared/_page_contents.html.erb`, with the local `items`: an array of `[id, label]` pairs. It renders the component with the English labels.
 - `app/views/legal/privacy.html.erb` and `terms.html.erb` render the partial directly after their `header.iesdesk-hero`:
   - Privacy: `controller` Who is responsible, `data` The data we keep, and why, `retention` How long we keep data, `processors` Who else handles data, `transfers` Transfers abroad, `cookies` Cookies and browser storage, `rights` Your rights, `no-sale` No sale of data, `changes` Changes to this notice.
@@ -113,7 +113,7 @@ He approved the reader view from a live preview on iesdesk.com/privacy, and the 
 
 ## agustos.com (WEBSITE-agustos)
 
-- Vendor kit v7.4.0.
+- Vendor kit v7.4.0. It carries v7.3.2 and v7.3.3: copy the kit Astro adapter's `Header.astro`, `HeaderSearch.astro` and `HeaderUtility.astro` (a parent item on a nested route takes `aria-current="true"`), and fix each AG029 and AG030 finding of the checker.
 - New component `src/components/PageContents.astro`, with the props `items` (`{ id, label }[]`) and `lang`. The label is "Bu sayfada" for `tr` and "On this page" for `en`.
 - `src/pages/gizlilik-politikasi.astro`:
   - Give each `h2` an `id`: `veri-sorumlusu`, `islenen-veriler`, `toplama-yontemi`, `aktarim`, `saklama-suresi`, `haklariniz`, `satis-ve-paylasma`, `degisiklikler`.
