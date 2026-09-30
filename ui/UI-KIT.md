@@ -1,4 +1,4 @@
-# Ağustos UI kit — v7.4.1
+# Ağustos UI kit — v7.4.2
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -45,11 +45,11 @@ Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and
 
 npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-Prototypes with no build step may link the CDN copies. **Pin to `@v7.4.1`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
+Prototypes with no build step may link the CDN copies. **Pin to `@v7.4.2`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.4.1/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.4.1/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.4.2/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.4.2/ui/agustos.css">
 ```
 
 ## Page skeleton
@@ -107,7 +107,7 @@ Chrome follows the screen family, not the brand: every website uses the top menu
 
 ## Screens
 
-One reference page per screen type lives in the source repository under `screens/`, hand-written on these classes. Build any page from the matching screen. Theme, chrome and column follow the family. **Column:** a content page (About, privacy, terms, an article, a list of posts) uses `<div class="container container--reading">`: its title, deck, headings and text start on the frame's left edge and stop at the reading line (`--measure-body`, 41rem, about 75 characters). The side zone to the right stays free for a side column, and the footer site map splits on the same line. Every other page uses the full frame and caps a text block with `prose`. Cap the column, not each paragraph; the checker warns on a full-width `container` on a content screen (AG028). A long legal page adds the "On this page" list, `details.agustos-contents`, as a direct child of the reading container after its opening: a folded line below 1280px, open and in view in the side zone at 1280px and wider, with no script (AG031).
+One reference page per screen type lives in the source repository under `screens/`, hand-written on these classes. Build any page from the matching screen. Theme, chrome and column follow the family. **Column:** a content page (About, privacy, terms, an article, a list of posts) uses `<div class="container container--reading">`: its title, deck, headings and text start on the frame's left edge and stop at the reading line (`--measure-body`, 41rem, about 75 characters). The side zone to the right stays free for a side column, and the footer site map splits on the same line. Every other page uses the full frame and caps a text block with `prose`. Cap the column, not each paragraph; the checker warns on a full-width `container` on a content screen (AG028). A long legal page adds the "On this page" list, `details.agustos-contents`, as a direct child of the reading container after its opening: a folded line below 1280px, open and in view in the side zone at 1280px and wider, with no script (AG031). Its title takes `aria-hidden="true"`, because the `nav` label already names the list. AG031 reads full pages only, so a site that draws the list from a partial needs its own page test.
 
 | Screen | Family | Chrome | Column | Theme | Photography |
 |---|---|---|---|---|---|

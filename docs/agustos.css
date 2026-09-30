@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.4.1 · GENERATED DISTRIBUTION KIT CSS
+/* AĞUSTOS DESIGN SYSTEM v7.4.2 · GENERATED DISTRIBUTION KIT CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -605,7 +605,7 @@ table th:last-child, table td:last-child { text-align: right; }
    toggle and the title hold the same words; each width shows one of them, so
    a screen reader never hears "collapsed" beside an open list. */
 .agustos-contents {
-  margin: 0 0 var(--space-2xl);
+  margin: var(--space-xl) 0 var(--space-2xl);
   border-block: 1px solid var(--rule);
   font-size: var(--size-body-compact);
 }

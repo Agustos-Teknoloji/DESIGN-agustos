@@ -567,6 +567,7 @@ class CheckerTest(unittest.TestCase):
             "wide-home.html": (self._screen_page("home", main='<section class="container"><h1>Işık</h1></section>'), {}),
             "contents-nested.html": (self._screen_page("static", main='<div class="container container--reading"><div><details class="agustos-contents"></details></div></div>'), {"AG031": "warn"}),
             "contents-direct.html": (self._screen_page("static", main='<div class="container container--reading"><details class="agustos-contents"></details></div>'), {}),
+            "contents-after-open-p.html": (self._screen_page("static", main='<div class="container container--reading"><p>Intro<details class="agustos-contents"></details></div>'), {}),
         }
         with tempfile.TemporaryDirectory() as tmp:
             project = Path(tmp)
@@ -1045,6 +1046,8 @@ class ChromeTest(unittest.TestCase):
                      "agustos-contents__list", "agustos-contents__link"):
             self.assertIn(name, declared, name)
         self.assertIn(".container--reading {\n  position: relative;\n}", self.CSS)
+        # v7.4.2: 24px above the folded line, so it does not hug the page opening.
+        self.assertIn(".agustos-contents {\n  margin: var(--space-xl) 0 var(--space-2xl);", self.CSS)
         self.assertIn(".agustos-contents__title {\n  display: none;", self.CSS)
         self.assertIn("min-height: var(--control-min);\n  padding-inline-start: var(--space-md);", self.CSS)
         self.assertIn("@media (min-width: 1280px) {\n  .agustos-contents {\n    position: absolute;", self.CSS)
@@ -1126,6 +1129,8 @@ class ChromeTest(unittest.TestCase):
             self.assertIn(f'class="{name}"', text)
         self.assertIn('<details class="agustos-contents">', text)
         self.assertIn('<a class="agustos-contents__link" href="#contents-demo-data">', text)
+        # v7.4.2: the nav label names the list; the visible title is hidden from screen readers.
+        self.assertIn('<p class="agustos-contents__title" aria-hidden="true">On this page</p>', text)
         self.assertIn('<div class="container container--reading">\n      <p class="type-body">A long legal page', text)
 
 

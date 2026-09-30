@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ağustos UI kit compliance checker — v7.4.1
+"""Ağustos UI kit compliance checker — v7.4.2
 
 GENERATED. Do not hand-edit. Regenerate with:
     python3 scripts/build_design_system.py
@@ -28,7 +28,7 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 
-KIT_VERSION = "7.4.1"
+KIT_VERSION = "7.4.2"
 REPOSITORY = "Agustos-Teknoloji/DESIGN-agustos"
 LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json"
 
@@ -376,9 +376,21 @@ class CardScan(HTMLParser):
                 self.stranded.append(card["line"])
 
 
+# Start tags that close an open <p>, as a browser does (HTML "p" end tag
+# omission). A page may leave its <p> open before the next block.
+P_CLOSERS = {
+    "address", "article", "aside", "blockquote", "details", "div", "dl", "fieldset",
+    "figcaption", "figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6",
+    "header", "hgroup", "hr", "main", "menu", "nav", "ol", "p", "pre", "section",
+    "table", "ul",
+}
+
+
 class ContentsScan(HTMLParser):
     """Finds each .agustos-contents whose parent is not .container--reading. The
-    list takes the side zone from that parent, so anywhere else it lands wrong."""
+    list takes the side zone from that parent, so anywhere else it lands wrong.
+    It reads full pages only: a partial or a component has no parent to check,
+    so a site that draws the list from one needs its own page test."""
 
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
@@ -386,6 +398,8 @@ class ContentsScan(HTMLParser):
         self.misplaced: list = []  # start lines of misplaced lists
 
     def handle_starttag(self, tag, attrs):
+        if tag in P_CLOSERS and self.stack and self.stack[-1][0] == "p":
+            self.stack.pop()
         if tag in VOID_TAGS:
             return
         classes = (dict(attrs).get("class") or "").split()
