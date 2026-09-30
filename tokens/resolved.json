@@ -524,7 +524,7 @@
         "foreground": "#ffffff",
         "ratio": 18.55
       },
-      "element": "Menu item, tab (2px red rule)",
+      "element": "Menu item, tab (current: 2px red rule)",
       "floor": 4.5,
       "kind": "text",
       "light": {
@@ -533,6 +533,22 @@
         "ratio": 18.55
       },
       "state": "hover, current"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#8a8378",
+        "ratio": 4.95
+      },
+      "element": "Menu item hover rule (1px)",
+      "floor": 3.0,
+      "kind": "graphic",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#8a8378",
+        "ratio": 3.75
+      },
+      "state": "hover"
     },
     {
       "dark": {
@@ -823,5 +839,5 @@
       "surface": "#ffffff"
     }
   },
-  "version": "7.0.1"
+  "version": "7.1.0"
 }

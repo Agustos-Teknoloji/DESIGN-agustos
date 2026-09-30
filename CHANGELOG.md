@@ -9,6 +9,32 @@ All notable changes to the Ağustos Design System are documented in this file.
 - `.github/workflows/tag-release.yml` and `scripts/release_tags.py`: each release is tagged `v<VERSION>` on its merge when it reaches `main`, from a local or a cloud session alike. The first run tags `v7.0.0` and `v7.0.1`, which a cloud session could not push.
 - `/design-push` runs by itself at the start of a local Claude Code session on `main` (after a fast-forward pull) when that machine has not pushed the current bundle: a SessionStart hook in `.claude/settings.json` runs `scripts/sync_claude_design.py status --hook`, and the skill records each push with `mark-pushed`. Cloud sessions skip the check.
 
+## [7.1.0] - 2026-09-30
+
+Chrome fixes from a best-practice audit of the top menu, the product sidebar and the footer against WCAG 2.2 and the WAI-ARIA disclosure pattern, each measured in Chromium. Consuming sites moving from `v7.0.x` add the drawer close button, `lang` on language links, and one `<script src="/vendor/agustos-ui/agustos-chrome.js" defer>`; nothing else in their markup changes.
+
+### Fixed
+
+- An in-page anchor or a focused element no longer hides under the sticky top menu (WCAG 2.2 SC 2.4.11). `--site-header-height` (65px) sets `scroll-padding-top` on every top-menu page.
+- The top menu keeps one row at 1024px. Long Turkish labels wrapped it to two rows and grew the header from 65px to 137px; the row no longer wraps, and its spacing tightens between 1024 and 1279px. Five labels fit at 1024px up to about 65 characters together, More included.
+- The More menu closes on Escape, an outside click or focus leaving, and Escape returns focus to it. It stayed open before.
+- Each drawer has a visible close button (`site-header__close`, `site-sidebar__close`; `popovertargetaction="hide"`), and the page behind an open drawer no longer scrolls.
+- A More menu or a closed sidebar group that holds the current page now shows the 2px red rule.
+- Print drops the top menu, the sidebar, the drawers and the footer links; the footer keeps the lockup and its line.
+- Language links carry `lang` as well as `hreflang`, so a Turkish screen reader pronounces "English" in English (WCAG SC 3.1.2). The starter, the screens and the Astro and Rails adapters set it.
+
+### Changed
+
+- A menu hover darkens the ink over a 1px gray rule (`--ink-faint`, 3.75:1 light, 4.95:1 dark); the 2px red rule marks the current page alone. Top menu, sidebar and chrome links (Emre chose option C from a preview, 2026-09-30). The `states` table gains the hover-rule row.
+- Top-menu, sidebar and chrome links use the registered `bodyCompact` size (15.5px) instead of a literal 15px.
+- The kit uses JavaScript only when it is the logical choice. `UI-KIT.md`, `DESIGN.md` and the CSS comments no longer say "No JavaScript".
+
+### Added
+
+- `ui/agustos-chrome.js`, the kit's first script (about 15 lines, optional): it closes More. Without it More still opens and closes on click. The build copies it into the Astro (`src/scripts/`), Rails (`app/javascript/agustos/chrome.js`) and WordPress (`assets/js/`) adapters; the Astro header imports it, and the WordPress example enqueues it.
+- Checker warning AG027: more than five top-menu items, the More toggle included.
+- `screens/app-shell.html` shows a sidebar group, so the group has a reference instance.
+
 ## [7.0.1] - 2026-09-30
 
 Interactive states, measured in a browser in both themes and fixed. Consuming sites can move from `v7.0.0` to `v7.0.1` with no markup change.

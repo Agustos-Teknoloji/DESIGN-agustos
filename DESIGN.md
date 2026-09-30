@@ -1,6 +1,6 @@
 # Ağustos Design System
 
-**Version 7.0.1** · Cross-medium design system for Emre Güneş's brand portfolio
+**Version 7.1.0** · Cross-medium design system for Emre Güneş's brand portfolio
 
 ## Standard artifacts
 
@@ -741,7 +741,7 @@ Marketing, catalog, and spec pages stay on white paper. They do not include a th
 Color has two separate jobs and they must never collapse into one token:
 
 1. **Identity ink (`brandMark` / `--brand`).** Ağustos is red `#cf142a`. Every other house brand is off-black `#15130f` on light substrates and cream/white on black identity fields.
-2. **Interaction signal (`signal` / `--signal`).** Always red `#cf142a` across every brand. Use it only for the 2px content-link rule, the 2px menu hover or current-page rule, keyboard focus, one highlighter stroke per page, and the hover state of a house-brand logo. Buttons are black, never red.
+2. **Interaction signal (`signal` / `--signal`).** Always red `#cf142a` across every brand. Use it only for the 2px content-link rule, the 2px current-page menu rule (a menu hover is a 1px gray rule), keyboard focus, one highlighter stroke per page, and the hover state of a house-brand logo. Buttons are black, never red.
 
 A new chromatic house-brand identity is a philosophy change, not a routine registry choice. It requires updating this specification, `brand/brands.json`, tokens, tests, and the decision history together.
 
@@ -815,19 +815,29 @@ The kit ships two chromes, and the screen family picks one, not the brand. Every
 (marketing, content, catalog, and document screens) uses the top menu and the footer. Product UI
 (the app shell) uses the sidebar. Brands no longer register a chrome: v7.0.0 removed `chrome`
 from `brand/brands.json`, and the build rejects it. The checker warns (AG026) on a sidebar outside
-product UI. Both chromes are generated from `tokens/web.css.tmpl` into every web stylesheet. No
-chrome rule exists anywhere else in this repository; a test enforces it. The kit ships no
-JavaScript for chrome: drawers are native popovers, collapsible groups are `details`.
+product UI, and (AG027) on a sixth top-menu item. Both chromes are generated from
+`tokens/web.css.tmpl` into every web stylesheet. No chrome rule exists anywhere else in this
+repository; a test enforces it. The kit uses JavaScript only when it is the logical choice:
+drawers are native popovers with a close button (`site-header__close`, `site-sidebar__close`),
+collapsible groups and More are `details`, and `ui/agustos-chrome.js`, about 15 lines, closes
+More on Escape, an outside click or focus leaving. Without the script More still opens and
+closes on click. Print drops the menus, the drawers and the footer links.
 
 The top menu (`site-header`) is a sticky one-row header inside the shared frame: the lockup,
 primary links, and an end slot for the action, search, and language. The current page carries
-a 2px red rule underneath. Below 1024px the burger opens the panel as a drawer.
+a 2px red rule underneath; a hover darkens the ink over a 1px gray rule, so red always means
+"you are here". The header is 65px (`--site-header-height`), and the page's scroll padding
+keeps an anchor target or a focused element below it. The row never wraps: between 1024 and
+1279px its spacing tightens, and five labels fit at 1024px up to about 65 characters together,
+More included. Below 1024px the burger opens the panel as a drawer; the page behind it holds
+still.
 
 **Five items at most.** The top menu holds at most five links. Put every other page in one
 `site-header__more` `details` whose `summary` is a `site-header__link` reading "Daha fazla" or
 "More". Its `site-header__more-menu` holds `site-header__more-link` items. On desktop the menu
 floats under the item on a 12px radius with the system's one shadow; in the phone drawer the
-More items open inline. Social, legal, and language links do not go in the top menu; they live
+More items open inline. When the current page sits under More, the More item carries the red
+rule. Social, legal, and language links do not go in the top menu; they live
 in the footer.
 
 The footer (`site-footer`) is light and small: white paper under a hairline, in the same frame.
@@ -840,7 +850,8 @@ flip. v7.0.0 retired `site-footer__cols`, `__col`, `__col-heading`, `__list`, an
 The sidebar (`site-sidebar`), product UI only, is a fixed 240px column, white paper with a
 hairline rule on the right: the lockup, primary links, `details` groups, one action, a utility
 slot for search, language, and the theme control, and a note. The current page carries a 2px
-red rule on the left of its link. Below 1024px a sticky bar with the lockup and a burger opens
+red rule on the left of its link, and a closed group that holds it carries the rule on its
+summary; a hover is a 1px gray rule. Below 1024px a sticky bar with the lockup and a burger opens
 the sidebar as a drawer.
 
 The lockup (`site-lockup`) is the exact symbol inline plus the lowercase wordmark in the
@@ -909,7 +920,7 @@ Run this checklist before calling a system change complete:
 4. Check cream, white, light gray, and dark substrates.
 5. Check red Ağustos and black house-brand lockups separately; verify shared-red link, focus, and marker behavior under every brand class.
 6. Test keyboard navigation: skip link, header nav, the More menu, search results, language controls, and the hero buttons. On product UI, also test the theme control.
-7. Verify the More menu (floating on desktop, inline in the drawer), responsive search row, drawer/backdrop/Escape behavior, 44px controls, and 16px responsive input.
+7. Verify the More menu (floating on desktop, inline in the drawer, closing on Escape and an outside click), responsive search row, drawer close button, backdrop and Escape, 44px controls, and 16px responsive input.
 8. Verify mobile and desktop widths; text must not overlap, clip, or force horizontal scrolling except inside code blocks and wide tables.
 The factory checks (generators, Office exports and a `ui/` release) are in `ARCHITECTURE.md`, section "Testing", in the source repository.
 
@@ -917,7 +928,7 @@ The factory checks (generators, Office exports and a `ui/` release) are in `ARCH
 
 ## Versioning
 
-This is **v7.0.1**. The patch fixes interactive states in both themes, measured in a browser: form field borders clear 3:1 and placeholders 4.5:1, the dark theme dims a hover instead of turning text red, the footer and the closing band stay light islands in the dark theme, the dark More menu and logo hovers work, and buttons gain pressed and disabled states. The registry's `states` table lists every pair, and the brand guidelines gain Colour in use and Emphasis pages. v7.0.0 reset the website layer to convention and kept identity and the engine. Chrome follows the screen family, not the brand: every website uses the top menu (five items at most, the rest under More) and a light footer; product UI uses the sidebar, and `chrome` left `brand/brands.json`. Type sits on one golden scale (13 to 89px) with four weights; radii are 6 and 12px; sections share one spacing and no dividing rule. Red is identity and signal, never action: buttons are black everywhere, the dark-theme red primary is gone, house-brand logos turn red on hover, and one highlighter stroke per page joins the kit. The hero opens with two `agustos-button`s; `hero-links`, `hero-link*`, `hero-action*` and the footer columns and button are retired. The checker guards identity with errors and taste with warnings: AG022 (primary CTA count), AG023 (quotes), the screens-table fields `primaryCtaMax` and `quotes`, and brand `screenOverrides` are removed; AG025 (highlighter) and AG026 (sidebar on a website) join. Each brand's favicon is a white tile with its own sun: red for Ağustos, black for every other brand. History: v6.6.1 kept an in-page anchor below the sticky sidebar bar on phones (the product sidebar in v7). v6.6.0 styled bare `h1` to `h4` and `p` with their `.type-*` rules, so Markdown and CMS output matches the kit without classes. v6.5.0 gave the type scale its middle step (an upright H3) and set the hero trust line in the 15.5px `bodyCompact` size. v6.4.0 made cards and breadcrumbs 44px targets: a card's heading link stretches over the card, and the checker warns (AG013) when it cannot. v6.3.0 tightened the rhythm: a heading that opens a card, a section or a band lost its section-break margin, and content text moved from `--ink-faint` to `--ink-soft` to pass contrast. v6.2 added brand `screenOverrides`, removed in v7.0.0. v6.1.0 made the checker enforce the screens table on every page (`data-screen` on `<body>`; primary CTA limit, quotes, and theme per row; v7.0.0 kept only the theme rule, as a warning), added the `content-index` screen, and gave both reference adapters the `screen` switch. v6.0.0 recorded the chrome contract: consumers replace their local chrome with the kit's and adopt one name. v5.0.0 recorded the design philosophy change. Subsequent changes follow semantic versioning:
+This is **v7.1.0**. The release fixes the chrome against WCAG 2.2 and common navigation practice, measured in a browser: an in-page anchor or a focused element no longer hides under the sticky top menu (`--site-header-height`), the top menu keeps one row at 1024px, the More menu closes on Escape and an outside click (`ui/agustos-chrome.js`, the kit's first script), each drawer gains a close button and holds the page still, a More or a sidebar group shows the current page inside it, print drops the chrome, language links carry `lang`, and the checker warns on a sixth top-menu item (AG027). A menu hover becomes a 1px gray rule, so the 2px red rule marks the current page alone. v7.0.1 fixed interactive states in both themes, measured in a browser: form field borders clear 3:1 and placeholders 4.5:1, the dark theme dims a hover instead of turning text red, the footer and the closing band stay light islands in the dark theme, the dark More menu and logo hovers work, and buttons gain pressed and disabled states. The registry's `states` table lists every pair, and the brand guidelines gain Colour in use and Emphasis pages. v7.0.0 reset the website layer to convention and kept identity and the engine. Chrome follows the screen family, not the brand: every website uses the top menu (five items at most, the rest under More) and a light footer; product UI uses the sidebar, and `chrome` left `brand/brands.json`. Type sits on one golden scale (13 to 89px) with four weights; radii are 6 and 12px; sections share one spacing and no dividing rule. Red is identity and signal, never action: buttons are black everywhere, the dark-theme red primary is gone, house-brand logos turn red on hover, and one highlighter stroke per page joins the kit. The hero opens with two `agustos-button`s; `hero-links`, `hero-link*`, `hero-action*` and the footer columns and button are retired. The checker guards identity with errors and taste with warnings: AG022 (primary CTA count), AG023 (quotes), the screens-table fields `primaryCtaMax` and `quotes`, and brand `screenOverrides` are removed; AG025 (highlighter) and AG026 (sidebar on a website) join. Each brand's favicon is a white tile with its own sun: red for Ağustos, black for every other brand. History: v6.6.1 kept an in-page anchor below the sticky sidebar bar on phones (the product sidebar in v7). v6.6.0 styled bare `h1` to `h4` and `p` with their `.type-*` rules, so Markdown and CMS output matches the kit without classes. v6.5.0 gave the type scale its middle step (an upright H3) and set the hero trust line in the 15.5px `bodyCompact` size. v6.4.0 made cards and breadcrumbs 44px targets: a card's heading link stretches over the card, and the checker warns (AG013) when it cannot. v6.3.0 tightened the rhythm: a heading that opens a card, a section or a band lost its section-break margin, and content text moved from `--ink-faint` to `--ink-soft` to pass contrast. v6.2 added brand `screenOverrides`, removed in v7.0.0. v6.1.0 made the checker enforce the screens table on every page (`data-screen` on `<body>`; primary CTA limit, quotes, and theme per row; v7.0.0 kept only the theme rule, as a warning), added the `content-index` screen, and gave both reference adapters the `screen` switch. v6.0.0 recorded the chrome contract: consumers replace their local chrome with the kit's and adopt one name. v5.0.0 recorded the design philosophy change. Subsequent changes follow semantic versioning:
 
 - **Major.** Breaking changes to token names, structural removal, philosophy shifts
 - **Minor.** New tokens, new brand additions, additive-only changes

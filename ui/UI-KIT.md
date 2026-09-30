@@ -1,4 +1,4 @@
-# Ağustos UI kit — v7.0.1
+# Ağustos UI kit — v7.1.0
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -36,7 +36,7 @@ Avoid:
 
 The kit is plain CSS. Do not add Tailwind, Bootstrap, or another utility framework. `agustos.css` styles the whole page, including bare HTML elements, and a second page stylesheet conflicts with it.
 
-Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and 3 OFL.txt, which must travel with them), `check-agustos-ui.py`, and `UI-KIT.md` into `vendor/agustos-ui/` and commit them. Then load the two stylesheets, **fonts first**:
+Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and 3 OFL.txt, which must travel with them), `agustos-chrome.js`, `check-agustos-ui.py`, and `UI-KIT.md` into `vendor/agustos-ui/` and commit them. Then load the two stylesheets, **fonts first**:
 
 ```html
 <link rel="stylesheet" href="/vendor/agustos-ui/agustos-fonts.css">
@@ -45,11 +45,11 @@ Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and
 
 npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-Prototypes with no build step may link the CDN copies. **Pin to `@v7.0.1`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
+Prototypes with no build step may link the CDN copies. **Pin to `@v7.1.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.1/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.0.1/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.1.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.1.0/ui/agustos.css">
 ```
 
 ## Page skeleton
@@ -77,7 +77,7 @@ Use `lang="tr"` for Turkish content so locale-sensitive capitalization renders c
 
 ## Brand, chrome, theme
 
-`agustos` alone owns red identity ink; every other house brand uses off-black `#15130f`, or white on dark. On the web the logo answers hover: the Ağustos logo turns black, every other logo turns red. Shared red (`#cf142a`) is otherwise a 2px rule under content links and menu hover or current, keyboard focus, and one highlighter stroke per page. Buttons are black, never red.
+`agustos` alone owns red identity ink; every other house brand uses off-black `#15130f`, or white on dark. On the web the logo answers hover: the Ağustos logo turns black, every other logo turns red. Shared red (`#cf142a`) is otherwise a 2px rule under content links and under the current menu item, keyboard focus, and one highlighter stroke per page. Buttons are black, never red.
 
 | Brand | Class | Logo | Logo on hover |
 |---|---|---|---|
@@ -97,12 +97,12 @@ Use `lang="tr"` for Turkish content so locale-sensitive capitalization renders c
 
 ## Chrome
 
-Chrome follows the screen family, not the brand: every website uses the top menu and the footer; product UI uses the sidebar. No JavaScript: drawers are native popovers, groups are `details`. Copy the markup from `starter.html`.
+Chrome follows the screen family, not the brand: every website uses the top menu and the footer; product UI uses the sidebar. JavaScript only when it is the logical choice: drawers are native popovers with a `site-header__close` or `site-sidebar__close` button, groups and More are `details`, and `agustos-chrome.js` (load once with `defer`) closes More on Escape, an outside click, or focus leaving. Print drops the chrome. Copy the markup from `starter.html`.
 
-- **Top menu** (`site-header*`, `site-footer*`): a sticky one-row header inside a `site-frame` with the lockup, `site-header__nav`, and a `site-header__end` slot for search, language, and the CTA. **At most five items.** Put extra pages in one `site-header__more` `details` whose `summary` is a `site-header__link` ("Daha fazla" or "More") and whose `site-header__more-menu` holds `site-header__more-link` items. The footer is light and small: `site-footer__brand` holds the lockup and one `type-footnote` line; one `site-footer__links` list holds a single row of `site-footer__link` items for social, legal, and language. No column headings, no repeat of the top menu, no button. Below 1024px the burger opens `site-header__panel` as a drawer, and the More items open inline.
+- **Top menu** (`site-header*`, `site-footer*`): a sticky one-row header inside a `site-frame` with the lockup, `site-header__nav`, and a `site-header__end` slot for search, language, and the CTA. **At most five items**, about 65 characters together with More, so the row fits at 1024px. Put extra pages in one `site-header__more` `details` whose `summary` is a `site-header__link` ("Daha fazla" or "More") and whose `site-header__more-menu` holds `site-header__more-link` items. The footer is light and small: `site-footer__brand` holds the lockup and one `type-footnote` line; one `site-footer__links` list holds a single row of `site-footer__link` items for social, legal, and language. No column headings, no repeat of the top menu, no button. Below 1024px the burger opens `site-header__panel` as a drawer, and the More items open inline.
 - **Sidebar** (`site-sidebar*`), product UI only: a fixed 240px column with the lockup, `site-sidebar__nav` links, `site-sidebar__group` details, a `site-sidebar__utility` slot, and a `site-sidebar__note`. Below 1024px a sticky `site-sidebar-bar` with the burger opens it as a drawer.
 - **Lockup** (`site-lockup`): the exact Laz Güneşi symbol inline plus a lowercase wordmark. Never redraw the symbol; copy it from `starter.html`. Hover swaps its ink: Ağustos red to black, every other brand black to red.
-- The current page carries `aria-current="page"`: a 2px red rule underneath in the top menu, on the left in the sidebar. Every control is 44px.
+- The current page carries `aria-current="page"`: a 2px red rule underneath in the top menu, on the left in the sidebar; a More or a closed group that holds it carries the rule too. Hover darkens the ink over a 1px gray rule. Every control is 44px.
 - Destinations, copy, and columns are configuration. The kit styles them; it never decides them.
 
 ## Screens
@@ -145,7 +145,7 @@ Every class the kit publishes. See `starter.html` for one rendered instance of e
 | Hero | `hero-actions` `hero-trust` `hero-visual` |
 | Sections | `agustos-section` `agustos-section__head` |
 | Cards | `agustos-card-grid` `agustos-card` `agustos-card--marked` |
-| Chrome | `agustos-chrome-link` · `site-lockup` `site-lockup__symbol` `site-lockup__name` · `site-sidebar-layout` `site-sidebar` `site-sidebar__nav` `site-sidebar__link` `site-sidebar__group` `site-sidebar__cta` `site-sidebar__utility` `site-sidebar__note` `site-sidebar-bar` `site-sidebar-burger` · `site-header` `site-header__bar` `site-header__panel` `site-header__nav` `site-header__link` `site-header__more` `site-header__more-menu` `site-header__more-link` `site-header__end` `site-header__cta` `site-header__burger` · `site-footer` `site-footer__inner` `site-footer__brand` `site-footer__links` `site-footer__link` · `breadcrumb` `breadcrumb__link` |
+| Chrome | `agustos-chrome-link` · `site-lockup` `site-lockup__symbol` `site-lockup__name` · `site-sidebar-layout` `site-sidebar` `site-sidebar__nav` `site-sidebar__link` `site-sidebar__group` `site-sidebar__cta` `site-sidebar__utility` `site-sidebar__note` `site-sidebar-bar` `site-sidebar-burger` `site-sidebar__close` · `site-header` `site-header__bar` `site-header__panel` `site-header__nav` `site-header__link` `site-header__more` `site-header__more-menu` `site-header__more-link` `site-header__end` `site-header__cta` `site-header__burger` `site-header__close` · `site-footer` `site-footer__inner` `site-footer__brand` `site-footer__links` `site-footer__link` · `breadcrumb` `breadcrumb__link` |
 | Forms | `agustos-fieldset` `agustos-field` `agustos-field--invalid` · `agustos-label` `agustos-label--required` · `agustos-input` `agustos-textarea` `agustos-select` `agustos-check` `agustos-hint` `agustos-error` |
 | Buttons | `agustos-button` `--primary` `--secondary` `--quiet` |
 | Badges | `agustos-badge` `--success` `--warning` `--danger` `--info` `--signal` |
@@ -175,7 +175,7 @@ Measures `--measure-text` (54ch, hero deck) and `--measure-body` (65ch, long-for
 4. **Radii are 6 and 12px.** Nothing rounder. No pills, no blobs, no gradients.
 5. **44px minimum for anything clickable.** `--control-min` exists for this. Links inside running text are exempt. Put a card's main link directly in its `h2`, `h3` or `h4`: the kit stretches that link over the card, so the whole card is the target. The checker warns (AG013) when a card's links all sit outside a heading.
 6. **Never redraw the Laz Güneşi symbol.** Copy the `site-lockup` markup from `starter.html`.
-7. **Websites use the top menu; product UI uses the sidebar.** At most five top-menu items; the rest go under More. The checker warns (AG026) on a sidebar outside product UI.
+7. **Websites use the top menu; product UI uses the sidebar.** At most five top-menu items; the rest go under More. The checker warns on a sidebar outside product UI (AG026) and on a sixth top-menu item (AG027).
 
 ## Verify before you call it done
 
@@ -184,7 +184,7 @@ python3 vendor/agustos-ui/check-agustos-ui.py .
 ```
 
 Fix reported token values, font loading, CDN pins, brand classes, radii, and class overrides.
-Every page must carry `data-screen="<name>"` on `<body>`. Errors guard identity: token values, the brand red, font loading, CDN pins, brand classes, and screen names. Taste rules only warn: `data-theme` outside product UI (AG024), more than one highlighter (AG025), a sidebar on a website (AG026), radii, gradients, and class overrides.
+Every page must carry `data-screen="<name>"` on `<body>`. Errors guard identity: token values, the brand red, font loading, CDN pins, brand classes, and screen names. Taste rules only warn: `data-theme` outside product UI (AG024), more than one highlighter (AG025), a sidebar on a website (AG026), more than five top-menu items (AG027), radii, gradients, and class overrides.
 If a layout fills `data-screen` at render time (Astro, ERB), the source scan skips those rules. Build the site, then run `python3 vendor/agustos-ui/check-agustos-ui.py dist --screens-only` on the output folder.
 Use `--strict` to fail on warnings; use `--json` for structured output. Exit 0 confirms automated checks passed.
 Use `--skip <dir>` (repeatable) for frozen or generated folders the project must not edit. Do not hand-edit the checker; it is regenerated with the kit.

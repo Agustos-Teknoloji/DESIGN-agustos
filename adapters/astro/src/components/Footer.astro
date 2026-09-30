@@ -41,6 +41,7 @@ const links: ChromeLink[] = config.links ?? [
                 href={link.href}
                 aria-label={link.ariaLabel}
                 hreflang={link.hreflang}
+                lang={link.hreflang}
                 target={link.external ? '_blank' : undefined}
                 rel={link.external ? 'noopener noreferrer' : undefined}
               >{link.label}</a>

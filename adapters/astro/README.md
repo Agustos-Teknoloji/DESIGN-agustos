@@ -122,9 +122,11 @@ Websites ship light and carry no theme toggle. `header={{ theme: true }}` and
 `theme="dark"` remain for inspecting product-UI dark (the typography showcase
 uses the toggle); do not use them on a website page.
 
-The header drawer and its backdrop are native popovers styled by the kit. The
-adapter ships no navigation script; the header script handles search and the
-optional theme toggle only.
+The header drawer and its backdrop are native popovers styled by the kit, with
+a close button inside the drawer. The header script imports the kit's
+`src/scripts/agustos-chrome.js` (generated; do not edit), which closes the More
+menu on Escape, an outside click or focus leaving, and handles search and the
+optional theme toggle. A language link carries `lang` from its `hreflang`.
 
 Regenerate the standalone HTML preview from `DESIGN.md`:
 

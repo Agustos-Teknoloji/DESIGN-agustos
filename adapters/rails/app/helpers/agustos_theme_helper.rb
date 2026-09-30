@@ -36,8 +36,8 @@ module AgustosThemeHelper
   NAV_LIMIT = 5
 
   CHROME_LABELS = {
-    en: { more: "More", skip: "Skip to content", nav: "Main menu", footer: "Footer", sidebar: "Application menu", sections: "Sections", open_menu: "Open menu", theme: "Dark theme" },
-    tr: { more: "Daha fazla", skip: "İçeriğe geç", nav: "Ana menü", footer: "Alt menü", sidebar: "Uygulama menüsü", sections: "Bölümler", open_menu: "Menüyü aç", theme: "Koyu tema" }
+    en: { more: "More", skip: "Skip to content", nav: "Main menu", footer: "Footer", sidebar: "Application menu", sections: "Sections", open_menu: "Open menu", close_menu: "Close menu", theme: "Dark theme" },
+    tr: { more: "Daha fazla", skip: "İçeriğe geç", nav: "Ana menü", footer: "Alt menü", sidebar: "Uygulama menüsü", sections: "Bölümler", open_menu: "Menüyü aç", close_menu: "Menüyü kapat", theme: "Koyu tema" }
   }.freeze
 
   SEARCH_LABELS = {
@@ -187,6 +187,9 @@ module AgustosThemeHelper
     options = { class: class_name }
     options[:aria] = { label: agustos_value(link, :aria_label) } if agustos_value(link, :aria_label)
     options[:hreflang] = agustos_value(link, :hreflang) if agustos_value(link, :hreflang)
+    # A language link names its language (WCAG 3.1.2), so a screen reader pronounces it.
+    link_lang = agustos_value(link, :hreflang) || agustos_value(link, :code)
+    options[:lang] = link_lang.to_s.downcase if link_lang
     if agustos_value(link, :external, false)
       options[:target] = "_blank"
       options[:rel] = "noopener noreferrer"

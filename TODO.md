@@ -2,37 +2,31 @@
 
 ## Now
 
-Chrome audit, plan only (2026-09-30, branch `claude/affectionate-ride-f41zre`). This plan checks the top menu, the sidebar and the footer against WCAG 2.2, the WAI-ARIA disclosure-navigation pattern and common B2B conventions. A Chromium probe of `ui/starter.html`, `screens/home.html` and `screens/app-shell.html` at 390, 1024, 1100, 1280 and 1440px measured every finding. Nothing is built yet: Emre approves the plan, then decides D1 to D3.
+Chrome audit and v7.1.0 (2026-09-30, branch `claude/affectionate-ride-f41zre`). The audit checked the top menu, the sidebar and the footer against WCAG 2.2, the WAI-ARIA disclosure-navigation pattern and common B2B conventions; a Chromium probe measured every finding. Emre decided D1 to D3 on 2026-09-30. Record: MEMORY.md 2026-09-30 chrome-best-practice-fixes.
 
-The kit already follows these practices: the skip link, 44px targets, `aria-current`, at most five items plus a click-to-open More, native popover drawers (Escape and backdrop close them, and the burger reports its expanded state), focus rings, reduced motion, an independently scrolling sidebar, the breadcrumb, and a light footer in a named `nav`.
+Release A, defects, plus the approved tweaks B1 and B4 (v7.1.0):
 
-Release A, defects (fix now, v7.1.0, because new classes are added):
+- [x] A1. `--site-header-height` (65px) sets `scroll-padding-top`, so anchors and focus land below the sticky header (SC 2.4.11).
+- [x] A2. `ui/agustos-chrome.js` closes More on Escape, an outside click or focus leaving; the kit says "JavaScript only when it is the logical choice" (D1).
+- [x] A3. The top menu never wraps; spacing tightens between 1024 and 1279px; `UI-KIT.md` documents about 65 characters for five labels at 1024px.
+- [x] A4. Drawer close buttons (`site-header__close`, `site-sidebar__close`) and a page scroll lock.
+- [x] A5. More and a closed sidebar group show the current page inside them.
+- [x] A6. `@media print` drops the chrome.
+- [x] A7. `lang` on language links in the starter, the screens and the Astro and Rails adapters.
+- [x] A8. Checker AG027 warns on a sixth top-menu item.
+- [x] B1. Hover is a 1px gray rule; the 2px red rule marks the current page alone (D2, option C).
+- [x] B4. Chrome links use the registered 15.5px `bodyCompact` size.
+- [x] A9. Starter, screens (a sidebar group in `app-shell`), adapters, tests, `VERSION` 7.1.0, `CHANGELOG.md`, `MEMORY.md`, build, gate, browser check.
+- [ ] `/design-push` for v7.1.0: runs by itself in the next local Claude Code session on `main`.
+- [ ] Ask Emre whether to rebuild the guidelines PDFs: their states table still shows the red menu hover.
 
-- [ ] A1. The sticky header covers link targets. `#forms` lands at 0px under the 65px header, not the 85px that this file said before, and a focused element can hide under it too (WCAG 2.2 SC 2.4.11). Add `--site-header-height` from the registry and set `html:has(.site-header) { scroll-padding-top }`, as for the sidebar bar in v6.6.1.
-- [ ] A2. The More menu stays open after Escape and after an outside click. Keep the `<details>` markup and add a small kit script (`ui/agustos-chrome.js`, about 15 lines) that closes it on Escape, an outside click or focus leaving, and returns focus to its toggle. Without the script the menu still opens and closes on click. Live sites add one script tag and change no markup. Reword "No JavaScript" in `UI-KIT.md` and the v7 record to "JavaScript only when it is the logical choice" (Emre, 2026-09-30). D1.
-- [ ] A3. The top menu wraps onto two rows at 1024 to 1179px with realistic Turkish labels ("Aydınlatma Tasarımı", "Proje Danışmanlığı", …). The header then grows from 65px to 137px. Set `nowrap` on the menu and narrow `recipes.chrome.gap` between 1024 and 1279px (Emre, 2026-09-27). Document a label budget in `UI-KIT.md`.
-- [ ] A4. The drawers have no visible close button, and the page scrolls behind them. Add `site-header__close` and `site-sidebar__close` (`popovertargetaction="hide"`, no JavaScript), and lock page scroll while a drawer is open.
-- [ ] A5. A parent item never shows the current page. When the current page sits under More or in a `site-sidebar__group`, the parent carries no mark. Style `:has([aria-current="page"])` on the More toggle and the group summary. The markup opens a group that holds the current page.
-- [ ] A6. Printing shows the chrome. No `@media print` exists, so the sticky header, footer and drawers print on every sheet, including `spec-sheet`. Hide the chrome and remove sticky positioning in print.
-- [ ] A7. The "English" link has `hreflang` but no `lang="en"`, so a Turkish screen reader mispronounces it (WCAG SC 3.1.2). Fix it in the starter, the screens and the three adapters.
-- [ ] A8. The five-item rule has no check. The checker gets AG027, a warning for more than five direct top-menu items, so the rule reaches consuming sites.
-- [ ] A9. Close-out: the starter, the nine screens (one sidebar group in `app-shell`), the Astro, Rails and WordPress adapters, the tests, `VERSION`, `CHANGELOG.md`, a `MEMORY.md` record, the build, the gate and `/design-push` from a local session.
+Next chrome release (B2, B3, B5):
 
-Release B, design tweaks (the next monthly release, after Emre approves a before/after preview):
-
-- [ ] B1. Hover looks the same as the current page: both show the 2px red rule, so hovering suggests a second "you are here". Hover darkens the ink only, and the red rule marks the current page alone. D2.
 - [ ] B2. The kit has no search or language control. Astro and Rails each style their own `site-header__search*` and `site-header__lang-link`, about 35 rules each at off-scale 11, 12.5 and 14px. Move one recipe into `tokens/web.css.tmpl` and delete the adapter copies.
-- [ ] B3. Footer as a compact site map (Emre, 2026-09-30: yes, with the Ağustos details). Add an optional `<address class="site-footer__contact">` block with the legal name, address, phone and email, and up to three short link columns (at most five links each, sentence-case titles, 44px targets, two across on phones). The bottom row keeps legal, social and language links. Turkish capital companies also publish a company-information page ("Bilgi toplumu hizmetleri", TTK 1524; confirm with legal) and a cookie policy. This amends the 2026-09-29 v7-conventional-reset footer rule (no column headings, no repeat of the top menu), so record the change in `MEMORY.md`. Needs the official company details from Emre.
+- [ ] B3. Footer as a compact site map (Emre, 2026-09-30: yes, with the Ağustos details). Add an optional `<address class="site-footer__contact">` block with the legal name, address, phone and email, and up to three short link columns (at most five links each, sentence-case titles, 44px targets, two across on phones). The bottom row keeps legal, social and language links. Turkish capital companies also publish a company-information page ("Bilgi toplumu hizmetleri", TTK 1524; confirm with legal) and a cookie policy. This amends the 2026-09-29 v7-conventional-reset footer rule (no column headings, no repeat of the top menu), so record the change in `MEMORY.md`. Waits on the official company details from Emre.
 - [ ] B5. Every site publishes `sitemap.xml` and is registered in Google Search Console. Document the one line for each adapter (Astro `@astrojs/sitemap`, the WordPress core sitemap, Rails `sitemap_generator`). The sitemap does the search-engine work, and the footer serves visitors.
-- [ ] B4. The top-menu and sidebar links use a literal 15px. Use the registry `bodyCompact` size.
 
-Decisions for Emre:
-
-- D1. The More menu. Revised recommendation (2026-09-30): `<details>` plus a small script, which works in every browser and needs no markup change on live sites. The native popover also needs CSS anchor positioning, which reached every engine only in January 2026 (Firefox 147, Safari 26), so Macs not yet on macOS 26 would misplace the menu. Revisit in 2027. Awaiting Emre.
-- D2. The hover. Recommended: the ink darkens and there is no rule. The alternative is a 1px gray rule on hover. Emre is reviewing the preview (A today, B recommended, C alternative).
-- D3. Decided (Emre, 2026-09-30): the footer carries the Ağustos contact details and a compact site map. See B3 and B5.
-
-Not recommended, because they add weight against the house rules: a mega menu, a header that hides on scroll, a sidebar that collapses to an icon rail, a footer site map in columns, and a back-to-top button.
+Not recommended, because they add weight against the house rules: a mega menu, a header that hides on scroll, a sidebar that collapses to an icon rail, and a back-to-top button.
 
 v7.0.1 interactive states (2026-09-30, branch `claude/rails-html-template-kbacva`). Emre approved the fix, the white Ağustos logo hover on dark, and the guidelines rebuild. Record: MEMORY.md 2026-09-30 states-table-contract.
 

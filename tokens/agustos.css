@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.0.1 · GENERATED CANONICAL PLATFORM-NEUTRAL CSS
+/* AĞUSTOS DESIGN SYSTEM v7.1.0 · GENERATED CANONICAL PLATFORM-NEUTRAL CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -32,7 +32,7 @@
   --state-info:    #1a4d8f;
 
   /* Shared signal. Red is rationed: the logo, the 2px content-link rule, the
-     2px menu hover/current rule, keyboard focus, and one highlighter stroke
+     2px current-page menu rule, keyboard focus, and one highlighter stroke
      per page. Never a button, never a fill. */
   --signal: #cf142a;
 
@@ -57,6 +57,9 @@
   /* The sticky bar below 1024px: a 44px target, 8px above and below, and the rule.
      The bar and the anchor scroll offset both read it. */
   --sidebar-bar-height: calc(var(--control-min) + 2 * var(--space-xs) + 1px);
+  /* The sticky top menu: a 44px row, its block padding, and the rule. The anchor
+     scroll offset reads it, so a link target or a focused element never hides under it. */
+  --site-header-height: calc(var(--control-min) + 2 * 10px + 1px);
 
   /* The one section spacing: sections, the closing band, and the gap after the hero. */
   --section-space: clamp(72px, 9vw, 104px);
@@ -768,7 +771,7 @@ table th:last-child, table td:last-child { text-align: right; }
   min-height: var(--control-min);
   color: var(--ink-soft);
   font-family: var(--display);
-  font-size: 15px;
+  font-size: var(--size-body-compact);
   font-weight: 500;
   text-decoration: none;
   border-bottom: 2px solid transparent;
@@ -776,11 +779,21 @@ table th:last-child, table td:last-child { text-align: right; }
   transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
 
-.agustos-chrome-link:hover,
+/* Hover darkens the ink over a 1px gray rule; the 2px red rule marks the
+   current page alone. The 1px border plus 1px padding keeps the box size. */
+.agustos-chrome-link:hover {
+  color: var(--ink);
+  text-decoration: none;
+  border-bottom-width: 1px;
+  border-bottom-color: var(--ink-faint);
+  padding-bottom: calc(2px + 1px);
+}
 .agustos-chrome-link[aria-current="page"] {
   color: var(--ink);
   text-decoration: none;
+  border-bottom-width: 2px;
   border-bottom-color: var(--signal);
+  padding-bottom: 2px;
 }
 
 /* Skip link for keyboard users */
@@ -798,8 +811,10 @@ table th:last-child, table td:last-child { text-align: right; }
 /* -- 5b. Site chrome ----------------------------------------- */
 
 /* Two chromes ship, and the screen family picks one: every website uses the
-   top menu and the footer; product UI uses the sidebar. No JavaScript: drawers
-   are native popovers, groups are <details>. Search and language are slots
+   top menu and the footer; product UI uses the sidebar. JavaScript only when
+   it is the logical choice: drawers are native popovers with a close button,
+   groups and More are <details>, and ui/agustos-chrome.js only closes More on
+   Escape, an outside click or focus leaving. Search and language are slots
    that adapters fill. */
 
 /* Lockup: the exact symbol plus a lowercase wordmark. currentColor carries
@@ -832,9 +847,12 @@ table th:last-child, table td:last-child { text-align: right; }
 html[data-theme="dark"] :where(.site-lockup) { color: var(--ink); }
 html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand); }
 
-/* Burgers: one shape, both drawers. The icon is inline SVG in the markup. */
+/* Burgers and drawer close buttons: one shape, both drawers. The icon is
+   inline SVG in the markup. Both show below 1024px only. */
 .site-sidebar-burger,
-.site-header__burger {
+.site-header__burger,
+.site-sidebar__close,
+.site-header__close {
   display: none;
   align-items: center;
   justify-content: center;
@@ -848,9 +866,13 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
   cursor: pointer;
 }
 .site-sidebar-burger:hover,
-.site-header__burger:hover { background: var(--rule); }
+.site-header__burger:hover,
+.site-sidebar__close:hover,
+.site-header__close:hover { background: var(--rule); }
 .site-sidebar-burger:focus-visible,
-.site-header__burger:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.site-header__burger:focus-visible,
+.site-sidebar__close:focus-visible,
+.site-header__close:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 
 /* --- Sidebar family --- */
 .site-sidebar-layout { padding-inline-start: var(--sidebar-width); }
@@ -883,15 +905,25 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
   border-inline-start: 2px solid transparent;
   color: var(--ink-soft);
   font-family: var(--display);
-  font-size: 15px;
+  font-size: var(--size-body-compact);
   font-weight: 500;
   text-decoration: none;
   transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
-.site-sidebar__link:hover,
+/* Hover darkens the ink over a 1px gray rule; the 2px red rule marks the
+   current page alone. The 1px border plus 1px padding keeps the text still. */
+.site-sidebar__link:hover {
+  color: var(--ink);
+  border-inline-start-width: 1px;
+  border-inline-start-color: var(--ink-faint);
+  padding-inline-start: calc(var(--space-sm) + 1px);
+  text-decoration: none;
+}
 .site-sidebar__link[aria-current="page"] {
   color: var(--ink);
+  border-inline-start-width: 2px;
   border-inline-start-color: var(--signal);
+  padding-inline-start: var(--space-sm);
   text-decoration: none;
 }
 .site-sidebar__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
@@ -901,9 +933,10 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
   align-items: center;
   min-height: var(--control-min);
   padding-inline-start: var(--space-sm);
+  border-inline-start: 2px solid transparent;
   color: var(--ink-soft);
   font-family: var(--display);
-  font-size: 15px;
+  font-size: var(--size-body-compact);
   font-weight: 500;
   list-style: none;
   cursor: pointer;
@@ -921,10 +954,16 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
 }
 .site-sidebar__group[open] > summary::after { transform: translateY(0.1em) rotate(-135deg); }
 .site-sidebar__group > summary:hover { color: var(--ink); }
+/* A closed group that holds the current page carries the red rule for it. */
+.site-sidebar__group:has([aria-current="page"]) > summary { color: var(--ink); }
+.site-sidebar__group:not([open]):has([aria-current="page"]) > summary { border-inline-start-color: var(--signal); }
 .site-sidebar__group > summary:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 .site-sidebar__group > .site-sidebar__link {
   padding-inline-start: var(--space-xl);
   font-size: 15.5px;
+}
+.site-sidebar__group > .site-sidebar__link:hover:not([aria-current="page"]) {
+  padding-inline-start: calc(var(--space-xl) + 1px);
 }
 .site-sidebar__cta { align-self: flex-start; }
 .site-sidebar__utility { display: flex; flex-wrap: wrap; gap: var(--space-md); margin-block-start: auto; }
@@ -948,7 +987,7 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
 }
 .site-header__panel { display: contents; color: inherit; }
 /* At most five items. The rest go in one site-header__more. */
-.site-header__nav { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 28px; }
+.site-header__nav { display: flex; flex-wrap: nowrap; justify-content: center; align-items: center; gap: 28px; }
 .site-header__link {
   display: inline-flex;
   align-items: center;
@@ -956,23 +995,38 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
   border-block-end: 2px solid transparent;
   color: var(--ink-soft);
   font-family: var(--display);
-  font-size: 15px;
+  font-size: var(--size-body-compact);
   font-weight: 500;
+  white-space: nowrap;
   text-decoration: none;
   transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
-.site-header__link:hover,
-.site-header__link[aria-current="page"] {
+/* Hover darkens the ink over a 1px gray rule; the 2px red rule marks the
+   current page alone. The 1px border plus 1px padding keeps the text still. */
+.site-header__link:hover {
   color: var(--ink);
+  border-block-end-width: 1px;
+  border-block-end-color: var(--ink-faint);
+  padding-block-end: 1px;
+  text-decoration: none;
+}
+.site-header__link[aria-current="page"],
+.site-header__more:has([aria-current="page"]) > summary {
+  color: var(--ink);
+  border-block-end-width: 2px;
   border-block-end-color: var(--signal);
+  padding-block-end: 0;
   text-decoration: none;
 }
 .site-header__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 .site-header__end { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-lg); }
 .site-header__cta { margin-inline-start: var(--space-sm); }
 
-/* More: a <details> whose <summary> is a site-header__link. No JavaScript.
-   On desktop the menu floats under the item; in the drawer it opens inline. */
+/* More: a <details> whose <summary> is a site-header__link. On desktop the menu
+   floats under the item; in the drawer it opens inline. ui/agustos-chrome.js
+   closes it on Escape, an outside click or focus leaving; without the script
+   it still opens and closes on click. When the current page sits in More, the
+   More item carries the red rule (above). */
 .site-header__more { position: relative; }
 .site-header__more > summary { gap: 6px; list-style: none; cursor: pointer; }
 .site-header__more > summary::-webkit-details-marker { display: none; }
@@ -1080,10 +1134,25 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
 .breadcrumb__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 .breadcrumb [aria-current="page"] { color: var(--ink); }
 
-/* --- Drawers below 1024px. Native popovers: light dismiss and Escape are free. --- */
+/* An in-page anchor or a focused element lands below the sticky top menu. */
+html:has(.site-header) { scroll-padding-top: var(--site-header-height); }
+
+/* Small laptops: the top menu keeps one row with tighter spacing. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .site-header__bar { gap: var(--space-lg); }
+  .site-header__nav { gap: var(--space-lg); }
+  .site-header__end { gap: var(--space-md); }
+  .site-header__cta { margin-inline-start: 0; }
+}
+
+/* --- Drawers below 1024px. Native popovers: light dismiss and Escape are free,
+   and a visible close button sits where the burger was. --- */
 @media (max-width: 1023px) {
-  /* An in-page anchor lands below the sticky bar, not under it. Topbar pages have no bar. */
+  /* An in-page anchor lands below the sticky bar, not under it. */
   html:has(.site-sidebar-bar) { scroll-padding-top: var(--sidebar-bar-height); }
+  /* The page behind an open drawer does not scroll. */
+  html:has(.site-header__panel:popover-open),
+  html:has(.site-sidebar:popover-open) { overflow: hidden; }
   .site-sidebar-layout { padding-inline-start: 0; }
   .site-sidebar-bar {
     position: sticky;
@@ -1099,6 +1168,12 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
     background: var(--paper);
   }
   .site-sidebar-burger { display: inline-flex; }
+  .site-sidebar__close {
+    display: inline-flex;
+    position: absolute;
+    inset-block-start: 10px;
+    inset-inline-end: var(--space-sm);
+  }
   .site-sidebar { width: min(320px, 86vw); }
   .site-sidebar:not(:popover-open) { display: none; }
   .site-sidebar::backdrop { background: color-mix(in srgb, var(--ink) 32%, transparent); }
@@ -1125,6 +1200,12 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
     color: var(--ink);
   }
   .site-header__panel:popover-open { display: flex; }
+  .site-header__close {
+    display: inline-flex;
+    position: absolute;
+    inset-block-start: 10px;
+    inset-inline-end: var(--space-xl);
+  }
   .site-header__panel::backdrop { background: color-mix(in srgb, var(--ink) 32%, transparent); }
   .site-header__nav { flex-direction: column; justify-content: flex-start; align-items: stretch; gap: 2px; }
   .site-header__more-menu { position: static; min-width: 0; padding: 0 0 0 var(--space-sm); border: 0; box-shadow: none; background: none; }
@@ -1507,4 +1588,16 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
   .agustos-chrome-link {
     transition: none;
   }
+}
+
+/* --- Print: the page, not the chrome. Menus, drawers and footer links do not
+   print; the footer keeps the lockup and its one line. --- */
+@media print {
+  html { scroll-padding-top: 0; }
+  .skip-link,
+  .site-header,
+  .site-sidebar,
+  .site-sidebar-bar,
+  .site-footer nav { display: none; }
+  .site-sidebar-layout { padding-inline-start: 0; }
 }

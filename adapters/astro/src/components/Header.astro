@@ -52,6 +52,9 @@ function isCurrent(href: string): boolean {
     </a>
 
     <div id="site-header-panel" class="site-header__panel" popover>
+      <button type="button" class="site-header__close" popovertarget="site-header-panel" popovertargetaction="hide" aria-label={labels.closeMenu}>
+        <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="1.5"/></svg>
+      </button>
       <nav class="site-header__nav" aria-label={labels.nav}>
         {menuItems.map((item) => (
           <a
@@ -60,6 +63,7 @@ function isCurrent(href: string): boolean {
             aria-current={isCurrent(item.href) ? 'page' : undefined}
             aria-label={item.ariaLabel}
             hreflang={item.hreflang}
+            lang={item.hreflang}
             target={item.external ? '_blank' : undefined}
             rel={item.external ? 'noopener noreferrer' : undefined}
           >{item.label}</a>
@@ -75,6 +79,7 @@ function isCurrent(href: string): boolean {
                   aria-current={isCurrent(item.href) ? 'page' : undefined}
                   aria-label={item.ariaLabel}
                   hreflang={item.hreflang}
+                  lang={item.hreflang}
                   target={item.external ? '_blank' : undefined}
                   rel={item.external ? 'noopener noreferrer' : undefined}
                 >{item.label}</a>
@@ -136,6 +141,9 @@ function isCurrent(href: string): boolean {
 </style>
 
 <script>
+  // The kit's More-menu behaviour: Escape, an outside click or focus leaving closes it.
+  import '../scripts/agustos-chrome.js';
+
   type SearchLabels = { loading: string; empty: string; unavailable: string; result: string; results: string; pages: string; posts: string };
   type PagefindData = { url: string; excerpt?: string; meta?: { title?: string } };
   type PagefindModule = { init?: () => unknown | Promise<unknown>; search: (term: string, options?: { filters?: Record<string, string | string[]> }) => Promise<{ results: Array<{ data: () => Promise<PagefindData> }> }> };

@@ -61,9 +61,9 @@ export function splitNav<T>(items: T[]): [T[], T[]] {
   return [items.slice(0, NAV_LIMIT - 1), items.slice(NAV_LIMIT - 1)];
 }
 
-export const CHROME_LABELS: Record<'en' | 'tr', { more: string; skip: string; nav: string; footer: string; openMenu: string }> = {
-  en: { more: 'More', skip: 'Skip to content', nav: 'Main menu', footer: 'Footer', openMenu: 'Open menu' },
-  tr: { more: 'Daha fazla', skip: 'İçeriğe geç', nav: 'Ana menü', footer: 'Alt menü', openMenu: 'Menüyü aç' },
+export const CHROME_LABELS: Record<'en' | 'tr', { more: string; skip: string; nav: string; footer: string; openMenu: string; closeMenu: string }> = {
+  en: { more: 'More', skip: 'Skip to content', nav: 'Main menu', footer: 'Footer', openMenu: 'Open menu', closeMenu: 'Close menu' },
+  tr: { more: 'Daha fazla', skip: 'İçeriğe geç', nav: 'Ana menü', footer: 'Alt menü', openMenu: 'Menüyü aç', closeMenu: 'Menüyü kapat' },
 };
 
 export const SEARCH_LABELS: Record<'en' | 'tr', SearchLabels> = {

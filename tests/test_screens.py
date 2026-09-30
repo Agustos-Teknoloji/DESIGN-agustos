@@ -87,15 +87,20 @@ class ScreenFileTest(unittest.TestCase):
                 self.assertNotRegex(text, r'href="https?://[^"]*\.(?:css|js)"')
 
     def test_scripts_only_in_the_app_shell_and_short(self):
+        """Website screens load the kit's chrome script and nothing else; the app
+        shell has one short inline theme toggle and no More menu to close."""
+        chrome = '<script src="../ui/agustos-chrome.js" defer></script>'
         for name, text in self.pages.items():
-            scripts = SCRIPT.findall(text)
             with self.subTest(screen=name):
                 if name == "app-shell":
+                    scripts = SCRIPT.findall(text)
                     self.assertEqual(len(scripts), 1)
                     lines = [line for line in scripts[0].strip().splitlines() if line.strip()]
                     self.assertLessEqual(len(lines), 5)
+                    self.assertNotIn(chrome, text)
                 else:
-                    self.assertEqual(scripts, [])
+                    self.assertEqual(text.count(chrome), 1)
+                    self.assertEqual(SCRIPT.findall(text.replace(chrome, "")), [])
 
     def test_checker_scores_the_folder_clean(self):
         """The checker owns the per-screen rules (primary CTA limit, quotes, theme,

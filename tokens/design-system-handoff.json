@@ -71,6 +71,7 @@
       "site-sidebar__note",
       "site-sidebar-bar",
       "site-sidebar-burger",
+      "site-sidebar__close",
       "site-header",
       "site-header__bar",
       "site-header__panel",
@@ -82,6 +83,7 @@
       "site-header__end",
       "site-header__cta",
       "site-header__burger",
+      "site-header__close",
       "site-footer",
       "site-footer__inner",
       "site-footer__brand",
@@ -209,7 +211,7 @@
       "Use the exact Laz Güneşi asset. Never redraw or approximate the symbol.",
       "Keep every wordmark lowercase, Inter Tight weight 650, and free of taglines.",
       "Ağustos alone owns red as identity ink; Pataraz, PLD Türkiye, IESdesk, SpecQuick, and future house brands use neutral black/white identity ink. On the web, the Ağustos logo turns black on hover and every other logo turns red on hover.",
-      "Use shared signal red only for the 2px content-link rule, the 2px menu hover or current-page rule, keyboard focus, and one highlighter stroke per page. Buttons are black, including in the dark theme, where they invert to white.",
+      "Use shared signal red only for the 2px content-link rule, the 2px current-page menu rule, keyboard focus, and one highlighter stroke per page. Buttons are black, including in the dark theme, where they invert to white.",
       "Default working interfaces to white paper, off-black ink, hairline rules, and two radii (6px controls, 12px cards). No shadows, except under a menu that floats above the page.",
       "Align primary content to one 1180px frame on the web; preserve the same alignment logic in other media.",
       "Use calm typographic openings, quiet chrome, sentence case, and purposeful spacing. Do not use uppercase labels or eyebrow headings.",
@@ -757,7 +759,7 @@
           "foreground": "#ffffff",
           "ratio": 18.55
         },
-        "element": "Menu item, tab (2px red rule)",
+        "element": "Menu item, tab (current: 2px red rule)",
         "floor": 4.5,
         "kind": "text",
         "light": {
@@ -766,6 +768,22 @@
           "ratio": 18.55
         },
         "state": "hover, current"
+      },
+      {
+        "dark": {
+          "background": "#15130f",
+          "foreground": "#8a8378",
+          "ratio": 4.95
+        },
+        "element": "Menu item hover rule (1px)",
+        "floor": 3.0,
+        "kind": "graphic",
+        "light": {
+          "background": "#ffffff",
+          "foreground": "#8a8378",
+          "ratio": 3.75
+        },
+        "state": "hover"
       },
       {
         "dark": {
@@ -1056,7 +1074,7 @@
         "surface": "#ffffff"
       }
     },
-    "version": "7.0.1"
+    "version": "7.1.0"
   },
-  "version": "7.0.1"
+  "version": "7.1.0"
 }

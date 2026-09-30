@@ -21,11 +21,13 @@ screen live in the `screens` table in `tokens/design-tokens.json`. `ui/UI-KIT.md
 ## Rules
 
 1. A complete HTML document with `lang="tr"` (`lang="en"` for the app shell).
-2. Load `../ui/agustos-fonts.css`, then `../ui/agustos.css`. Link the canonical favicon.
+2. Load `../ui/agustos-fonts.css`, then `../ui/agustos.css`. Website screens also load
+   `../ui/agustos-chrome.js` with `defer`. Link the canonical favicon.
 3. `body` carries `brand-<slug>`, `data-screen="<name>"`, and `site-sidebar-layout` when the
    brand's registered chrome is the sidebar.
-4. Kit classes only. No `style` attribute. No `<style>` element. No script, except one of at
-   most five lines in the app shell for the theme control.
+4. Kit classes only. No `style` attribute. No `<style>` element. No script, except the kit's
+   `agustos-chrome.js` on website screens and one inline script of at most five lines in the
+   app shell for the theme control.
 5. Images come from this repository or are gray wells. No external URL.
 6. Swap the `brand-*` class for another house brand and use that brand's chrome.
 7. `python3 ui/check-agustos-ui.py screens --skip design` exits 0. `tests/test_screens.py`

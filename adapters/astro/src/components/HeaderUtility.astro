@@ -14,6 +14,8 @@ const { className, languageSwitch, theme = false } = Astro.props;
     <a
       href={languageSwitch.href}
       class="site-header__lang-link"
+      hreflang={languageSwitch.hreflang ?? languageSwitch.code}
+      lang={languageSwitch.hreflang ?? languageSwitch.code}
       aria-label={languageSwitch.ariaLabel ?? languageSwitch.label}
       target={languageSwitch.external ? '_blank' : undefined}
       rel={languageSwitch.external ? 'noopener noreferrer' : undefined}

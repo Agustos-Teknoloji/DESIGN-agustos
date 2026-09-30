@@ -509,13 +509,19 @@ class CheckerTest(unittest.TestCase):
         """Per-screen rules come from the screens table, keyed on data-screen.
         Errors guard integrity: a page names its screen, and the name exists.
         Taste rules only warn: data-theme outside product UI (AG024), more than
-        one highlighter (AG025), a sidebar on a website (AG026). Button counts
-        and quotes are no longer checked (v7.0.0)."""
+        one highlighter (AG025), a sidebar on a website (AG026), more than five
+        top-menu items (AG027, the More toggle counts, its items do not). Button
+        counts and quotes are no longer checked (v7.0.0)."""
         import tempfile
         primary = '<a class="agustos-button agustos-button--primary" href="#">Request pricing</a>'
         quote = '<blockquote class="type-blockquote">Quiet.</blockquote>'
         mark = '<mark class="type-highlight">clear</mark>'
         sidebar = '<aside id="site-sidebar" class="site-sidebar" popover></aside>'
+        item = '<a class="site-header__link" href="/{0}">Item {0}</a>'
+        more = ('<details class="site-header__more"><summary class="site-header__link">Daha fazla</summary>'
+                '<div class="site-header__more-menu">'
+                + ''.join(f'<a class="site-header__more-link" href="/m{n}">M{n}</a>' for n in range(4))
+                + '</div></details>')
         pages = {
             "no-screen.html": (self._screen_page(None, main=primary), {"AG020": "error"}),
             "unknown.html": (self._screen_page("landing", main=primary), {"AG021": "error"}),
@@ -524,6 +530,8 @@ class CheckerTest(unittest.TestCase):
             "two-marks.html": (self._screen_page("home", main=f"<h1>{mark}</h1><p>{mark}</p>"), {"AG025": "warn"}),
             "one-mark.html": (self._screen_page("home", main=f"<h1>{mark}</h1>"), {}),
             "sidebar-site.html": (self._screen_page("home", chrome=sidebar), {"AG026": "warn"}),
+            "six-items.html": (self._screen_page("home", chrome="".join(item.format(n) for n in range(6))), {"AG027": "warn"}),
+            "four-and-more.html": (self._screen_page("home", chrome="".join(item.format(n) for n in range(4)) + more), {}),
             "app.html": (self._screen_page("app-shell", main=primary, chrome=sidebar, html_attrs=' data-theme="dark"'), {}),
         }
         with tempfile.TemporaryDirectory() as tmp:
@@ -706,10 +714,57 @@ class ChromeTest(unittest.TestCase):
         self.assertIn("--sidebar-bar-height: calc(var(--control-min) + 2 * var(--space-xs) + 1px);", self.CSS)
         self.assertIn("min-height: var(--sidebar-bar-height);", self.CSS)
         rule = "html:has(.site-sidebar-bar) { scroll-padding-top: var(--sidebar-bar-height); }"
-        self.assertEqual(self.CSS.count("scroll-padding-top"), 1, "only sidebar pages get the offset")
         # Only below 1024px, where the bar is sticky. Desktop has no bar.
         drawers = self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor")
         self.assertIn(rule, self.CSS[drawers:self.CSS.index("\n}\n", drawers)])
+
+    def test_anchor_and_focus_land_below_the_sticky_top_menu(self):
+        """WCAG 2.2 SC 2.4.11: the 65px sticky header hid anchor targets (v7.1.0)."""
+        self.assertIn("--site-header-height: calc(var(--control-min) + 2 * 10px + 1px);", self.CSS)
+        self.assertIn("html:has(.site-header) { scroll-padding-top: var(--site-header-height); }", self.CSS)
+
+    def test_top_menu_stays_on_one_row(self):
+        """Long Turkish labels wrapped the menu to two rows at 1024px (v7.1.0)."""
+        self.assertIn("flex-wrap: nowrap; justify-content: center; align-items: center; gap: 28px; }", self.CSS)
+        self.assertIn("white-space: nowrap;", self.CSS[self.CSS.index(".site-header__link {"):])
+        small = self.CSS.index("@media (min-width: 1024px) and (max-width: 1279px) {")
+        self.assertIn(".site-header__nav { gap: var(--space-lg); }", self.CSS[small:small + 400])
+
+    def test_hover_is_a_gray_rule_and_red_marks_the_current_page(self):
+        """Emre chose option C (2026-09-30): hover darkens the ink over a 1px
+        gray rule; the 2px red rule means the current page alone."""
+        for hover in (".site-header__link:hover {", ".site-sidebar__link:hover {", ".agustos-chrome-link:hover {"):
+            block = self.CSS[self.CSS.index(hover):]
+            block = block[:block.index("}")]
+            with self.subTest(rule=hover):
+                self.assertIn("var(--ink-faint)", block)
+                self.assertNotIn("var(--signal)", block)
+        self.assertIn('.site-header__more:has([aria-current="page"]) > summary {', self.CSS)
+        self.assertIn('.site-sidebar__group:not([open]):has([aria-current="page"]) > summary { border-inline-start-color: var(--signal); }', self.CSS)
+
+    def test_drawers_close_from_inside_and_hold_the_page_still(self):
+        drawers = self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor")
+        block = self.CSS[drawers:self.CSS.index("\n}\n", drawers)]
+        self.assertIn("html:has(.site-header__panel:popover-open),\n  html:has(.site-sidebar:popover-open) { overflow: hidden; }", block)
+        self.assertIn(".site-header__close {\n    display: inline-flex;", block)
+        self.assertIn(".site-sidebar__close {\n    display: inline-flex;", block)
+        # Hidden on desktop: they share the burger rule, which starts at display: none.
+        self.assertIn(".site-sidebar-burger,\n.site-header__burger,\n.site-sidebar__close,\n.site-header__close {\n  display: none;", self.CSS)
+
+    def test_print_drops_the_chrome(self):
+        start = self.CSS.index("@media print {")
+        block = self.CSS[start:self.CSS.index("\n}\n", start)]
+        for selector in (".site-header", ".site-sidebar,", ".site-sidebar-bar", ".site-footer nav"):
+            self.assertIn(selector, block)
+
+    def test_chrome_script_ships_and_only_closes_more(self):
+        """JavaScript only when it is the logical choice (Emre, 2026-09-30)."""
+        script = (ROOT / "ui" / "agustos-chrome.js").read_text(encoding="utf-8")
+        self.assertIn("details.site-header__more[open]", script)
+        for event in ("'keydown'", "'click'", "'focusout'"):
+            self.assertIn(event, script)
+        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+        self.assertIn("agustos-chrome.js", kit["files"])
 
     def test_house_brand_lockups_turn_white_on_dark_and_agustos_stays_red(self):
         # `:where` keeps these below the hover rules, so the hover swap works in dark too (v7.0.1).
