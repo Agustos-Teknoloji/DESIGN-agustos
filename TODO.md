@@ -7,7 +7,7 @@ v7.0.2 patch (2026-09-30, branch `claude/new-kit-worktrees-a927f9`). The agustos
 - [x] `tokens/web.css.tmpl`: `--site-header-height` (65px, from the control minimum, the chrome padding and the rule) sets the top menu's `min-height` and `html:has(.site-header) { scroll-padding-top }`.
 - [x] Astro and Rails adapters: a search result link keeps the red focus ring.
 - [x] Tests for both; `VERSION` 7.0.2, CHANGELOG, MEMORY; build and gate green.
-- [ ] Commit, push, PR. The tag and `/design-push` follow the merge.
+- [x] Commit, push, PR #65. The tag and `/design-push` follow the merge.
 - [ ] Bump agustos.com (PR #157) and iesdesk.com (PR #274) to v7.0.2 after the tag, and remove the agustos.com local copies of both fixes.
 
 v7.0.1 interactive states (2026-09-30, branch `claude/rails-html-template-kbacva`). Emre approved the fix, the white Ağustos logo hover on dark, and the guidelines rebuild. Record: MEMORY.md 2026-09-30 states-table-contract.
