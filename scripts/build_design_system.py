@@ -40,6 +40,13 @@ UI_TEMPLATES = (
     (UI_DIR / "starter.html.tmpl", UI_DIR / "starter.html"),
     (UI_DIR / "check-agustos-ui.py.tmpl", UI_DIR / "check-agustos-ui.py"),
     (UI_DIR / "AGENTS-SNIPPET.md.tmpl", UI_DIR / "AGENTS-SNIPPET.md"),
+    (UI_DIR / "agustos-chrome.js.tmpl", UI_DIR / "agustos-chrome.js"),
+)
+# The kit's one script, copied into each adapter the way the CSS is.
+CHROME_JS_COPIES = (
+    ROOT / "adapters" / "astro" / "src" / "scripts" / "agustos-chrome.js",
+    ROOT / "adapters" / "rails" / "app" / "javascript" / "agustos" / "chrome.js",
+    ROOT / "adapters" / "wordpress" / "assets" / "js" / "agustos-chrome.js",
 )
 DOC_TEMPLATES = (
     (ROOT / "docs" / "web.html.tmpl", ROOT / "docs" / "web.html"),
@@ -481,7 +488,7 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
                 "Use the exact Laz Güneşi asset. Never redraw or approximate the symbol.",
                 "Keep every wordmark lowercase, Inter Tight weight 650, and free of taglines.",
                 "Ağustos alone owns red as identity ink; Pataraz, PLD Türkiye, IESdesk, SpecQuick, and future house brands use neutral black/white identity ink. On the web, the Ağustos logo turns black on hover and every other logo turns red on hover.",
-                "Use shared signal red only for the 2px content-link rule, the 2px menu hover or current-page rule, keyboard focus, and one highlighter stroke per page. Buttons are black, including in the dark theme, where they invert to white.",
+                "Use shared signal red only for the 2px content-link rule, the 2px current-page menu rule, keyboard focus, and one highlighter stroke per page. Buttons are black, including in the dark theme, where they invert to white.",
                 "Default working interfaces to white paper, off-black ink, hairline rules, and two radii (6px controls, 12px cards). No shadows, except under a menu that floats above the page.",
                 "Align primary content to one 1180px frame on the web; preserve the same alignment logic in other media.",
                 "Use calm typographic openings, quiet chrome, sentence case, and purposeful spacing. Do not use uppercase labels or eyebrow headings.",
@@ -875,6 +882,8 @@ def expected_outputs() -> dict[Path, str]:
     context["screensRules"] = checker_screens_rules(tokens, brands)
     for template, target in UI_TEMPLATES:
         set_output(outputs, target, render_text_template(template, context))
+    for target in CHROME_JS_COPIES:
+        set_output(outputs, target, outputs[UI_DIR / "agustos-chrome.js"])
     for template, target in DOC_TEMPLATES:
         set_output(outputs, target, render_text_template(template, context))
     set_output(

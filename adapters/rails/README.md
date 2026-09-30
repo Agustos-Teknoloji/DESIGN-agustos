@@ -22,6 +22,7 @@ app/helpers/agustos_theme_helper.rb
 app/views/layouts/agustos.html.erb
 app/views/agustos/shared/
 app/javascript/controllers/agustos_*_controller.js
+app/javascript/agustos/chrome.js
 ```
 
 Import `agustos/tokens` and `agustos/components`; the kit styles both the
@@ -30,8 +31,10 @@ stylesheet. Register the Stimulus controllers
 using the same mechanism as the host application. Load fonts first. Copy
 `ui/agustos-fonts.css` and `ui/fonts/` (or install the `@fontsource-variable`
 packages). The live search option requires Turbo. The header drawer is a
-native popover styled by the kit, and so is the product sidebar drawer; the
-More menu is a native `details`. The adapter ships search and theme
+native popover styled by the kit, and so is the product sidebar drawer; each
+drawer has a close button. The More menu is a native `details`; import
+`agustos/chrome` once (the kit's `agustos-chrome.js`) so it closes on Escape,
+an outside click or focus leaving. The adapter ships search and theme
 controllers only.
 
 Use the layout from a controller:
@@ -107,7 +110,11 @@ custom header.
 `links` is one flat list for social, legal, and language, each with `label`,
 `href`, and optional `external`, `aria_label`, and `hreflang`; `aria_label` on
 the footer hash names its nav (default "Alt menü" / "Footer"). The footer has
-no column headings, no repeat of the top menu, and no button. v7 removed
+no button. The optional site map (v7.1.0) sits above the row: `address` is the
+lines of the contact block (legal name and address), `contact` its phone and
+email links, and `groups` is at most
+three `{ title:, links: [] }` of at most five links each. With a site map the
+lockup moves into the contact block. v7 removed
 `description`, `columns`, and the footer `cta`; move a footer description into
 `note` and flatten column links into `links`, keeping only social, legal, and
 language destinations.

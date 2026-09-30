@@ -16,7 +16,7 @@ canonical *asset map* (the files). [MEMORY.md](MEMORY.md) holds the decision log
 |---|---|---|
 | **Ağustos red identity** | `#cf142a` | Ağustos symbol and wordmark; also the shared interaction signal. |
 | House-brand identity ink | `#15130f` | Pataraz, PLD Türkiye, IESDesk, SpecQuick, and future house-brand positive marks. |
-| Shared interaction signal | `#cf142a` | 2px content-link rule, menu hover or current-page rule, and keyboard focus. Never a fill. |
+| Shared interaction signal | `#cf142a` | 2px content-link rule, current-page menu rule, and keyboard focus. Never a fill. |
 | White (paper) | `#ffffff` | Primary substrate. |
 | Cream (callout band) | `#fdf5f5` | Full-bleed callout and CTA bands only. |
 | Ink | `#15130f` | Headlines, filled buttons, footer, and house-brand identity. |

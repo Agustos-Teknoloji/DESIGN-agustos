@@ -108,9 +108,13 @@ the one header button; `languageSwitch` and search sit in `site-header__end`.
 **Footer.** `note` is the one `type-footnote` line under the lockup. `links` is
 one flat list of `{ href, label, external?, ariaLabel?, hreflang? }` for social,
 legal, and language, rendered as one row of `site-footer__link` items;
-`ariaLabel` names the footer nav (default "Alt menü" / "Footer"). There are no
-columns, no repeat of the top menu, and no footer button: `description`,
-`columns`, and the footer `cta` were removed in v7.
+`ariaLabel` names the footer nav (default "Alt menü" / "Footer"). The optional
+site map (v7.1.0) sits above that row: `address` is the lines of the contact
+block (legal name and address), `contact` is its phone and email links, and
+`groups` is at most three
+`{ title, links }` of at most five links each, the pages people look for. With
+a site map the lockup moves into the contact block. There is no footer button;
+`description`, `columns`, and the footer `cta` were removed in v7.
 
 External links (`external: true`) open in a new tab with `noopener noreferrer`.
 
@@ -122,9 +126,11 @@ Websites ship light and carry no theme toggle. `header={{ theme: true }}` and
 `theme="dark"` remain for inspecting product-UI dark (the typography showcase
 uses the toggle); do not use them on a website page.
 
-The header drawer and its backdrop are native popovers styled by the kit. The
-adapter ships no navigation script; the header script handles search and the
-optional theme toggle only.
+The header drawer and its backdrop are native popovers styled by the kit, with
+a close button inside the drawer. The header script imports the kit's
+`src/scripts/agustos-chrome.js` (generated; do not edit), which closes the More
+menu on Escape, an outside click or focus leaving, and handles search and the
+optional theme toggle. A language link carries `lang` from its `hreflang`.
 
 Regenerate the standalone HTML preview from `DESIGN.md`:
 

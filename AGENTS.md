@@ -49,7 +49,7 @@ A measured live site beats any doc on what ships. Flag the drift, and fix the do
 - One company, several brands: **ağustos** (parent), **pataraz**, **pld türkiye**, **iesdesk**, **specquick**.
 - Every brand shares **one symbol**, the Laz Güneşi (18-blade sun). Ağustos alone owns red; every other house brand uses black or white identity ink and differs by its **wordmark**.
 - The logo ("lockup") is the symbol plus the lowercase wordmark in the registered identity ink. It is always lowercase, with no tagline.
-- **Red is identity and signal, never action.** Shared red `#cf142a` is the Ağustos logo, a 2px rule under content links and on menu hover or current, keyboard focus, and one highlighter stroke per page. Buttons are black. On the web the Ağustos logo turns black on hover and every other logo turns red.
+- **Red is identity and signal, never action.** Shared red `#cf142a` is the Ağustos logo, a 2px rule under content links and the current menu item, keyboard focus, and one highlighter stroke per page. Buttons are black. On the web the Ağustos logo turns black on hover and every other logo turns red.
 - The design direction is **İskandivvian: Scandinavian restraint filtered through Mediterranean warmth.** The nine house rules, the avoid list, the brand table and the screens table live in `ui/UI-KIT.md`, generated from `tokens/design-tokens.json`. Read that file. Do not restate it.
 - A new house brand is a registry entry in `brand/brands.json` (wordmark, neutral identity ink, domain) plus the two build scripts: about ten minutes, no new design work. `brand/README.md` has the steps.
 

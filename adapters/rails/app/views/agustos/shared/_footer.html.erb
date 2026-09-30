@@ -1,9 +1,45 @@
 <%# Websites only. One lockup, one footnote line, one row of links for social,
-    legal and language. No column headings, no repeat of the top menu, no button. %>
+    legal and language. No button. footer: { address:, groups: } adds the
+    optional site map above that row. %>
 <footer class="site-footer">
+  <% if agustos_footer_map? %>
+    <div class="site-footer__map site-frame">
+      <div class="site-footer__contact">
+        <%= render "agustos/shared/brand_lockup", href: agustos_theme_config[:home_href] %>
+        <% if agustos_footer_address.any? || agustos_footer_contact.any? %>
+          <address>
+            <%= safe_join(agustos_footer_address, tag.br) %>
+            <% if agustos_footer_contact.any? %>
+              <ul class="site-footer__links">
+                <% agustos_footer_contact.each do |link| %>
+                  <li><%= link_to agustos_value(link, :label), agustos_value(link, :href), **agustos_link_html_options(link, class_name: "site-footer__link") %></li>
+                <% end %>
+              </ul>
+            <% end %>
+          </address>
+        <% end %>
+      </div>
+      <% if agustos_footer_groups.any? %>
+        <nav class="site-footer__groups" aria-label="<%= agustos_chrome_labels[:site_map] %>">
+          <% agustos_footer_groups.each do |group| %>
+            <div class="site-footer__group">
+              <h2 class="site-footer__group-title"><%= agustos_value(group, :title) %></h2>
+              <ul class="site-footer__group-links">
+                <% (agustos_value(group, :links, []) || []).each do |link| %>
+                  <li><%= link_to agustos_value(link, :label), agustos_value(link, :href), **agustos_link_html_options(link, class_name: "site-footer__link") %></li>
+                <% end %>
+              </ul>
+            </div>
+          <% end %>
+        </nav>
+      <% end %>
+    </div>
+  <% end %>
   <div class="site-footer__inner site-frame">
     <div class="site-footer__brand">
-      <%= render "agustos/shared/brand_lockup", href: agustos_theme_config[:home_href] %>
+      <% unless agustos_footer_map? %>
+        <%= render "agustos/shared/brand_lockup", href: agustos_theme_config[:home_href] %>
+      <% end %>
       <% if agustos_footer_note.present? %>
         <p class="type-footnote"><%= agustos_footer_note %></p>
       <% end %>

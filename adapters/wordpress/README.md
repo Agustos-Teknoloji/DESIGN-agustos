@@ -39,7 +39,7 @@ A WordPress site is a website, so it uses the top menu and the footer, whatever 
 
 Label the More menu "Daha fazla" on Turkish sites and "More" on English ones. The current page carries `aria-current="page"`, on a `site-header__more-link` too. A custom nav walker that renders `wp_nav_menu` items should apply the same split.
 
-**Footer template part.** One note line and one row of links for social, legal, and language. No column headings, no repeat of the top menu, no button:
+**Footer template part.** One note line and one row of links for social, legal, and language, and no button. The optional site map (`site-footer__map`, v7.1.0) goes above this row; copy it from `ui/starter.html`. WordPress publishes `wp-sitemap.xml` by itself since 5.5; register it in Google Search Console:
 
 ```html
 <footer class="site-footer">

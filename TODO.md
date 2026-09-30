@@ -2,6 +2,34 @@
 
 ## Now
 
+Chrome audit and v7.1.0 (2026-09-30, branch `claude/affectionate-ride-f41zre`). The audit checked the top menu, the sidebar and the footer against WCAG 2.2, the WAI-ARIA disclosure-navigation pattern and common B2B conventions; a Chromium probe measured every finding. Emre decided D1 to D3 on 2026-09-30. Record: MEMORY.md 2026-09-30 chrome-best-practice-fixes.
+
+Release A, defects, plus the approved tweaks B1 and B4 (v7.1.0):
+
+- [x] A1. Anchors and focus land below the sticky header (SC 2.4.11). Shipped first in v7.0.2; merged here.
+- [x] A2. `ui/agustos-chrome.js` closes More on Escape, an outside click or focus leaving; the kit says "JavaScript only when it is the logical choice" (D1).
+- [x] A3. The top menu never wraps; spacing tightens between 1024 and 1279px; `UI-KIT.md` documents about 65 characters for five labels at 1024px.
+- [x] A4. Drawer close buttons (`site-header__close`, `site-sidebar__close`) and a page scroll lock.
+- [x] A5. More and a closed sidebar group show the current page inside them.
+- [x] A6. `@media print` drops the chrome.
+- [x] A7. `lang` on language links in the starter, the screens and the Astro and Rails adapters.
+- [x] A8. Checker AG027 warns on a sixth top-menu item.
+- [x] B1. Hover is a 1px gray rule; the 2px red rule marks the current page alone (D2, option C).
+- [x] B4. Chrome links use the registered 15.5px `bodyCompact` size.
+- [x] A9. Starter, screens (a sidebar group in `app-shell`), adapters, tests, `VERSION` 7.1.0, `CHANGELOG.md`, `MEMORY.md`, build, gate, browser check.
+- [ ] `/design-push` for v7.1.0: runs by itself in the next local Claude Code session on `main`.
+- [x] Guidelines PDFs rebuilt (Emre said yes, 2026-09-30): the states table shows the gray menu hover and the footer rows; 13 pages.
+
+Footer and sitemap (v7.1.0), and the next chrome release (B2):
+
+- [ ] B2. The kit has no search or language control. Astro and Rails each style their own `site-header__search*` and `site-header__lang-link`, about 35 rules each at off-scale 11, 12.5 and 14px. Move one recipe into `tokens/web.css.tmpl` and delete the adapter copies.
+- [x] B3. Footer site map (v7.1.0): the contact block from the İTO registry facts and three groups on the Ağustos screens and the starter; Astro and Rails take `address` and `groups`. Record: MEMORY.md 2026-09-30 footer-site-map.
+- [x] B5. `sitemap.xml` guidance per adapter in `DESIGN.md` and the adapter READMEs. Astro already ships `@astrojs/sitemap`.
+- [x] Footer phone and email (Emre, 2026-09-30): +90 850 885 1996, agustos@agustos.com.
+- [ ] Emre publishes the "Bilgi toplumu hizmetleri" page on agustos.com (contents confirmed with the legal advisor).
+
+Not recommended, because they add weight against the house rules: a mega menu, a header that hides on scroll, a sidebar that collapses to an icon rail, and a back-to-top button.
+
 v7.0.2 patch (2026-09-30, branch `claude/new-kit-worktrees-a927f9`). The agustos.com v7 adoption found two kit defects; Emre asked for the patch. Record: MEMORY.md 2026-09-30 topbar-anchor-offset.
 
 - [x] `tokens/web.css.tmpl`: `--site-header-height` (65px, from the control minimum, the chrome padding and the rule) sets the top menu's `min-height` and `html:has(.site-header) { scroll-padding-top }`.
@@ -51,4 +79,3 @@ v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva
 - Register printer-matched CMYK and Pantone values for the six colours and the identity inks in `brand/brands.json`, then show them on the colour page of `brand/build_guidelines.py`. Ask the printer for a proof first; do not convert the screen values.
 - Rebuild `adapters/astro/src/pages/blog/index.astro` on `type-dl` and `type-footnote`, like `screens/content-index.html`. Remove its scoped `<style>` block and the H2 for each post title, which break the list-page rule.
 - Close PR #12 ("Register the SpecQuick house brand") as superseded, or rebase it on the root doc set. SpecQuick is already registered on `main`, and the PR still writes the old root `MEMORY.md`.
-- Topbar menu: tighten the spacing of `site-header__nav` between 1024 and 1280px, so long Turkish labels fit on one row (Emre, 2026-09-27: for the future).

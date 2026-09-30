@@ -245,6 +245,7 @@ CARDS: tuple[Card, ...] = (
   </button>
 </header>
 <aside id="site-sidebar" class="site-sidebar" popover aria-label="Site menüsü">
+  <button type="button" class="site-sidebar__close" popovertarget="site-sidebar" popovertargetaction="hide" aria-label="Menüyü kapat"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="1.5"/></svg></button>
   <a class="site-lockup" href="/" aria-label="ağustos">
     <svg class="site-lockup__symbol" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-hidden="true" focusable="false">
       <g fill="currentColor">
@@ -274,7 +275,7 @@ CARDS: tuple[Card, ...] = (
   <a class="agustos-button agustos-button--primary site-sidebar__cta" href="/bize-ulasin">İletişim</a>
   <div class="site-sidebar__utility">
     <a class="agustos-chrome-link" href="/ara">Ara</a>
-    <a class="agustos-chrome-link" href="/en" hreflang="en">English</a>
+    <a class="agustos-chrome-link" href="/en" hreflang="en" lang="en">English</a>
   </div>
   <p class="site-sidebar__note">© Ağustos Teknoloji, 1996–2026</p>
 </aside>
@@ -304,6 +305,7 @@ CARDS: tuple[Card, ...] = (
       <span class="site-lockup__name">pataraz</span>
     </a>
     <div id="site-header-panel" class="site-header__panel" popover>
+      <button type="button" class="site-header__close" popovertarget="site-header-panel" popovertargetaction="hide" aria-label="Menüyü kapat"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="1.5"/></svg></button>
       <nav class="site-header__nav" aria-label="Ana menü">
         <a class="site-header__link" href="/urunler">Ürünler</a>
         <a class="site-header__link" href="/urun-bul">Ürün bul</a>
@@ -317,7 +319,7 @@ CARDS: tuple[Card, ...] = (
         </details>
       </nav>
       <div class="site-header__end">
-        <a class="agustos-chrome-link" href="/en" hreflang="en">EN</a>
+        <a class="agustos-chrome-link" href="/en" hreflang="en" lang="en">EN</a>
         <a class="agustos-button agustos-button--primary site-header__cta" href="/iletisim">Fiyat isteyin</a>
       </div>
     </div>
@@ -348,7 +350,7 @@ CARDS: tuple[Card, ...] = (
         <li><a class="site-footer__link" href="/teknik-foyler">Teknik föyler</a></li>
         <li><a class="site-footer__link" href="/iletisim">İletişim</a></li>
         <li><a class="site-footer__link" href="/gizlilik">Gizlilik ve KVKK</a></li>
-        <li><a class="site-footer__link" href="/en" hreflang="en">English</a></li>
+        <li><a class="site-footer__link" href="/en" hreflang="en" lang="en">English</a></li>
       </ul>
     </nav>
   </div>
@@ -407,6 +409,7 @@ def screen_card_members(root: Path = ROOT, version: str | None = None) -> list[t
         html = (
             html.replace('href="../ui/agustos-fonts.css"', 'href="../agustos-fonts.css"')
             .replace('href="../ui/agustos.css"', 'href="../agustos.css"')
+            .replace('src="../ui/agustos-chrome.js"', 'src="../agustos-chrome.js"')
             .replace('href="../laz-gunesi-amblem/favicon/favicon.svg"', 'href="../favicon/favicon.svg"')
         )
         html = SCREEN_ASSET_REF.sub(r"../assets/\1", html)

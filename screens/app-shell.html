@@ -28,6 +28,7 @@
   </button>
 </header>
 <aside id="site-sidebar" class="site-sidebar" popover aria-label="Application menu">
+  <button type="button" class="site-sidebar__close" popovertarget="site-sidebar" popovertargetaction="hide" aria-label="Close menu"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="1.5"/></svg></button>
   <a class="site-lockup" href="/" aria-label="iesdesk">
     <svg class="site-lockup__symbol" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-hidden="true" focusable="false">
       <g fill="currentColor">
@@ -41,7 +42,11 @@
     <a class="site-sidebar__link" href="#files">Files <span class="agustos-badge">4,218</span></a>
     <a class="site-sidebar__link" href="#validation" aria-current="page">Validation <span class="agustos-badge agustos-badge--warning">157</span></a>
     <a class="site-sidebar__link" href="#exports">Exports <span class="agustos-badge">12</span></a>
-    <a class="site-sidebar__link" href="#formats">Formats</a>
+    <details class="site-sidebar__group">
+      <summary>Reference</summary>
+      <a class="site-sidebar__link" href="#formats">Formats</a>
+      <a class="site-sidebar__link" href="#units">Units</a>
+    </details>
   </nav>
   <div class="site-sidebar__utility">
     <button type="button" class="agustos-button agustos-button--quiet" id="theme" aria-pressed="false">Dark theme</button>

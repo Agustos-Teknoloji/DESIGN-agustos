@@ -14,7 +14,7 @@ Every adapter picks chrome by the kind of page, never by the brand:
 - **Websites** (marketing, content, catalog, document screens) use the top menu (`site-header*`) and the footer (`site-footer*`), for every house brand.
 - **Product UI** (the `app-shell` screen) alone uses the sidebar (`site-sidebar*`, with `site-sidebar-layout` on `<body>`).
 
-The top menu shows at most five items. When the nav config holds more than five, the adapters render the first four as links and put the rest in one `site-header__more` menu ("Daha fazla" in Turkish, "More" in English; the label is configurable). The footer takes one `note` line and one flat list of `links` for social, legal, and language: no columns, no repeat of the top menu, no button.
+The top menu shows at most five items. When the nav config holds more than five, the adapters render the first four as links and put the rest in one `site-header__more` menu ("Daha fazla" in Turkish, "More" in English; the label is configurable). The footer takes one `note` line and one flat list of `links` for social, legal, and language, and no button. An optional site map sits above it: `address` lines, `contact` links (phone, email) and at most three `groups` of at most five links. Every site also publishes `sitemap.xml`: Astro `@astrojs/sitemap`, WordPress core `wp-sitemap.xml`, Rails `sitemap_generator`.
 
 ## Current Adapters
 

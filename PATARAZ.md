@@ -76,7 +76,7 @@ section only notes the Pataraz application.
 
 - **Pataraz identity ink is off-black `#15130f`.** The positive lockup is off-black on white;
   the negative lockup is cream/white on a black tile.
-- **Shared interaction signal is Ağustos red `#cf142a`.** Content links and menu hover use a 2px red rule. The Pataraz logo is black at rest and turns red on hover, on the web only. Buttons are black.
+- **Shared interaction signal is Ağustos red `#cf142a`.** Content links and the current menu item use a 2px red rule; a menu hover is a 1px gray rule. The Pataraz logo is black at rest and turns red on hover, on the web only. Buttons are black.
 - Pataraz blue is retired. `#1a24cc` and the older `#0000FF` are historical values, not active tokens.
 - White paper `#ffffff`, cream bands `#fdf5f5`, and off-black ink `#15130f` are shared (`DESIGN.md` §"Substrate strategy"). Every other role token (surface, muted ink, rule) is the shared system value — see `DESIGN.md` §"Generated web variables"; do not re-list them here.
 

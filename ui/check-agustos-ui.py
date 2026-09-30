@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ağustos UI kit compliance checker — v7.0.2
+"""Ağustos UI kit compliance checker — v7.1.0
 
 GENERATED. Do not hand-edit. Regenerate with:
     python3 scripts/build_design_system.py
@@ -28,7 +28,7 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 
-KIT_VERSION = "7.0.2"
+KIT_VERSION = "7.1.0"
 REPOSITORY = "Agustos-Teknoloji/DESIGN-agustos"
 LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json"
 
@@ -103,6 +103,7 @@ KIT_CLASSES = {
     "site-sidebar__note",
     "site-sidebar-bar",
     "site-sidebar-burger",
+    "site-sidebar__close",
     "site-header",
     "site-header__bar",
     "site-header__panel",
@@ -114,11 +115,18 @@ KIT_CLASSES = {
     "site-header__end",
     "site-header__cta",
     "site-header__burger",
+    "site-header__close",
     "site-footer",
     "site-footer__inner",
     "site-footer__brand",
     "site-footer__links",
     "site-footer__link",
+    "site-footer__map",
+    "site-footer__contact",
+    "site-footer__groups",
+    "site-footer__group",
+    "site-footer__group-title",
+    "site-footer__group-links",
     "breadcrumb",
     "breadcrumb__link",
     "stack",
@@ -208,6 +216,10 @@ TEMPLATED = re.compile(r"[{<$]")
 MAIN_BLOCK = re.compile(r"<main\b.*?</main>", re.S | re.I)
 HIGHLIGHT = re.compile(r"\btype-highlight\b")
 SIDEBAR = re.compile(r"\bsite-sidebar\b")
+# One top-menu item: a site-header__link, including the More toggle. Items
+# inside More are site-header__more-link and do not count.
+TOP_MENU_ITEM = re.compile(r"""class=["'][^"']*\bsite-header__link\b""")
+TOP_MENU_LIMIT = 5
 DATA_THEME = re.compile(r"\bdata-theme\s*=")
 RADIUS = re.compile(r"border-radius:\s*([0-9.]+)px")
 GRADIENT = re.compile(r"(linear|radial|conic)-gradient\(")
@@ -375,6 +387,14 @@ def check_screen(rel: str, text: str, findings: list) -> None:
         findings.append(Finding(
             "AG026", "warn", rel, line_of(text, text.find(sidebar.group(0))),
             f"sidebar on screen {name!r} — websites use the top menu; the sidebar is for product UI",
+        ))
+    menu_items = TOP_MENU_ITEM.findall(page)
+    if len(menu_items) > TOP_MENU_LIMIT:
+        sixth = [m.start() for m in TOP_MENU_ITEM.finditer(page)][TOP_MENU_LIMIT]
+        findings.append(Finding(
+            "AG027", "warn", rel, line_of(text, text.find(page[sixth:sixth + 60])),
+            f"{len(menu_items)} top-menu items — keep at most {TOP_MENU_LIMIT}, the More toggle "
+            f"included; put the rest in one site-header__more",
         ))
     theme = DATA_THEME.search(page)
     if theme and rules["theme"] != "dark-allowed":

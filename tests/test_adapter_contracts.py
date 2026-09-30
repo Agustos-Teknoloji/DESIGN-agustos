@@ -91,6 +91,29 @@ class AdapterContractTest(unittest.TestCase):
         self.assertIn('class="site-footer__link"', footer)
         self.assertNotIn("agustos-button", footer, "the footer holds no button")
 
+    def test_footer_offers_the_optional_site_map(self):
+        """Emre, 2026-09-30: an address block and at most three short groups
+        above the bottom row. The config key is groups, never columns."""
+        types = (ADAPTERS / "astro" / "src" / "types" / "chrome.ts").read_text(encoding="utf-8")
+        self.assertIn("address?: string[];", types)
+        self.assertIn("groups?: FooterGroup[];", types)
+        self.assertIn("contact?: ChromeLink[];", types)
+        helper = (ADAPTERS / "rails" / "app" / "helpers" / "agustos_theme_helper.rb").read_text(encoding="utf-8")
+        self.assertIn("def agustos_footer_groups", helper)
+        self.assertIn("def agustos_footer_address", helper)
+        self.assertIn("def agustos_footer_contact", helper)
+        for footer in (
+            (ADAPTERS / "astro" / "src" / "components" / "Footer.astro").read_text(encoding="utf-8"),
+            (ADAPTERS / "rails" / "app" / "views" / "agustos" / "shared" / "_footer.html.erb").read_text(encoding="utf-8"),
+        ):
+            order = [footer.find(marker) for marker in (
+                '<div class="site-footer__map site-frame">', '<div class="site-footer__contact">', "<address>",
+                '<nav class="site-footer__groups"', '<h2 class="site-footer__group-title">',
+                '<ul class="site-footer__group-links">', '<div class="site-footer__inner site-frame">',
+            )]
+            self.assertNotIn(-1, order)
+            self.assertEqual(order, sorted(order))
+
     def test_footer_is_one_note_and_one_row_of_links(self):
         types = (ADAPTERS / "astro" / "src" / "types" / "chrome.ts").read_text(encoding="utf-8")
         self.assertIn("note?: string;", types)
@@ -106,8 +129,11 @@ class AdapterContractTest(unittest.TestCase):
             (ADAPTERS / "astro" / "src" / "components" / "Footer.astro").read_text(encoding="utf-8"),
             (ADAPTERS / "rails" / "app" / "views" / "agustos" / "shared" / "_footer.html.erb").read_text(encoding="utf-8"),
         ):
-            order = [footer.find(marker) for marker in (
-                '<footer class="site-footer">', '<div class="site-footer__inner site-frame">',
+            # The bottom row, read from its own start: the optional site map above it also holds links.
+            self.assertLess(footer.find('<footer class="site-footer">'), footer.find('<div class="site-footer__inner site-frame">'))
+            row = footer[footer.find('<div class="site-footer__inner site-frame">'):]
+            order = [row.find(marker) for marker in (
+                '<div class="site-footer__inner site-frame">',
                 '<div class="site-footer__brand">', 'class="type-footnote"', "<nav aria-label=",
                 '<ul class="site-footer__links">', "site-footer__link",
             )]

@@ -2,6 +2,36 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
+## [7.1.0] - 2026-09-30
+
+Chrome fixes from a best-practice audit of the top menu, the product sidebar and the footer against WCAG 2.2 and the WAI-ARIA disclosure pattern, each measured in Chromium. Consuming sites moving from `v7.0.x` add the drawer close button, `lang` on language links, and one `<script src="/vendor/agustos-ui/agustos-chrome.js" defer>`; nothing else in their markup changes.
+
+### Fixed
+
+- A focused element no longer hides under the sticky top menu (WCAG 2.2 SC 2.4.11); the anchor offset from v7.0.2 covers focus too.
+- The top menu keeps one row at 1024px. Long Turkish labels wrapped it to two rows and grew the header from 65px to 137px; the row no longer wraps, and its spacing tightens between 1024 and 1279px. Five labels fit at 1024px up to about 65 characters together, More included.
+- The More menu closes on Escape, an outside click or focus leaving, and Escape returns focus to it. It stayed open before.
+- Each drawer has a visible close button (`site-header__close`, `site-sidebar__close`; `popovertargetaction="hide"`), and the page behind an open drawer no longer scrolls.
+- A More menu or a closed sidebar group that holds the current page now shows the 2px red rule.
+- Print drops the top menu, the sidebar, the drawers and the footer links; the footer keeps the lockup and its line.
+- Language links carry `lang` as well as `hreflang`, so a Turkish screen reader pronounces "English" in English (WCAG SC 3.1.2). The starter, the screens and the Astro and Rails adapters set it.
+
+### Changed
+
+- A menu hover darkens the ink over a 1px gray rule (`--ink-faint`, 3.75:1 light, 4.95:1 dark); the 2px red rule marks the current page alone. Top menu, sidebar and chrome links (Emre chose option C from a preview, 2026-09-30). The `states` table gains the hover-rule row.
+- Top-menu, sidebar and chrome links use the registered `bodyCompact` size (15.5px) instead of a literal 15px.
+- The kit uses JavaScript only when it is the logical choice. `UI-KIT.md`, `DESIGN.md` and the CSS comments no longer say "No JavaScript".
+- The footer may repeat top-menu pages in its site map; the one-row rule and "no column headings" are gone. No button still.
+
+### Added
+
+- `ui/agustos-chrome.js`, the kit's first script (about 15 lines, optional): it closes More. Without it More still opens and closes on click. The build copies it into the Astro (`src/scripts/`), Rails (`app/javascript/agustos/chrome.js`) and WordPress (`assets/js/`) adapters; the Astro header imports it, and the WordPress example enqueues it.
+- Checker warning AG027: more than five top-menu items, the More toggle included.
+- `screens/app-shell.html` shows a sidebar group, so the group has a reference instance.
+- An optional footer site map: `site-footer__map`, `__contact` (the lockup and an `address`), `__groups`, `__group`, `__group-title` and `__group-links`; at most three groups of at most five links. The Ağustos screens and the starter show it with the company's registered name, address, phone, email and MERSİS number; the Pataraz screens keep the plain footer. The Astro and Rails footers take `address`, `contact` and `groups`. Emre approved it from a preview (2026-09-30).
+- `sitemap.xml` guidance for every site, per adapter.
+- Brand guidelines PDFs rebuilt for agustos, pataraz and pld (Emre, 2026-09-30): the Colour in use page shows the gray menu hover and the footer rows. Still 13 A4 pages. Rendered with Playwright's Chromium, with the same CSS page size and print backgrounds as the browse tool, because a cloud session has no browse tool.
+
 ## [7.0.2] - 2026-09-30
 
 Two defects that the agustos.com adoption of v7.0.1 found. Consuming sites can move from `v7.0.1` to `v7.0.2` with no markup change.

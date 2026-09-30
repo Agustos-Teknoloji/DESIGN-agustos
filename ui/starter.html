@@ -6,7 +6,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ağustos UI kit v7.0.2 — reference render</title>
+<title>Ağustos UI kit v7.1.0 — reference render</title>
 
 <!-- Fonts FIRST, then the system. Without the first tag the page renders in
      system sans while appearing to comply.
@@ -16,6 +16,7 @@
      pinned CDN form in UI-KIT.md. -->
 <link rel="stylesheet" href="./agustos-fonts.css">
 <link rel="stylesheet" href="./agustos.css">
+<script src="./agustos-chrome.js" defer></script>
 
 <style>
   /* Page scaffolding for this demo only. Not part of the kit. */
@@ -40,6 +41,7 @@
       <span class="site-lockup__name">ağustos</span>
     </a>
     <div id="site-header-panel" class="site-header__panel" popover>
+      <button type="button" class="site-header__close" popovertarget="site-header-panel" popovertargetaction="hide" aria-label="Menüyü kapat"><svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 2l12 12M14 2L2 14" stroke="currentColor" stroke-width="1.5"/></svg></button>
       <nav class="site-header__nav" aria-label="Ana menü">
         <a class="site-header__link" href="/aydinlatma" aria-current="page">Aydınlatma</a>
         <a class="site-header__link" href="/danismanlik">Danışmanlık</a>
@@ -55,7 +57,7 @@
       </nav>
       <div class="site-header__end">
         <a class="agustos-chrome-link" href="/ara">Ara</a>
-        <a class="agustos-chrome-link" href="/en" hreflang="en">English</a>
+        <a class="agustos-chrome-link" href="/en" hreflang="en" lang="en">English</a>
         <a class="agustos-button agustos-button--primary site-header__cta" href="/bize-ulasin">İletişim</a>
       </div>
     </div>
@@ -67,7 +69,7 @@
 
 <main id="main" class="container">
 
-  <p class="type-h4">Ağustos UI kit · v7.0.2</p>
+  <p class="type-h4">Ağustos UI kit · v7.1.0</p>
   <h1 class="type-hero"><mark class="type-highlight">Reference</mark> render</h1>
   <p class="type-hero-deck">
     Every published class, once. Copy from here rather than inventing a variant.
@@ -292,12 +294,12 @@
   </section>
 
   <p class="type-footnote">
-    Ağustos Design System v7.0.2 · Agustos-Teknoloji/DESIGN-agustos
+    Ağustos Design System v7.1.0 · Agustos-Teknoloji/DESIGN-agustos
   </p>
 </main>
 <footer class="site-footer">
-  <div class="site-footer__inner site-frame">
-    <div class="site-footer__brand">
+  <div class="site-footer__map site-frame">
+    <div class="site-footer__contact">
       <a class="site-lockup" href="/" aria-label="ağustos">
         <svg class="site-lockup__symbol" viewBox="-57.9197 -57.9197 115.8395 115.8395" aria-hidden="true" focusable="false">
           <g fill="currentColor">
@@ -306,14 +308,58 @@
         </svg>
         <span class="site-lockup__name">ağustos</span>
       </a>
-      <p class="type-footnote">© Ağustos Teknoloji, 1996–2026</p>
+      <address>
+        Ağustos Teknoloji Ltd. Şti.<br>
+        Barbaros Mah. Denizmen Sok. No. 21/2<br>
+        Üsküdar, İstanbul
+        <ul class="site-footer__links">
+          <li><a class="site-footer__link" href="tel:+908508851996">+90 850 885 1996</a></li>
+          <li><a class="site-footer__link" href="mailto:agustos@agustos.com">agustos@agustos.com</a></li>
+        </ul>
+      </address>
     </div>
+    <nav class="site-footer__groups" aria-label="Site haritası">
+      <div class="site-footer__group">
+        <h2 class="site-footer__group-title">Aydınlatma</h2>
+        <ul class="site-footer__group-links">
+          <li><a class="site-footer__link" href="/aydinlatma/soraa">Soraa</a></li>
+          <li><a class="site-footer__link" href="/aydinlatma/coelux">CoeLux</a></li>
+          <li><a class="site-footer__link" href="/aydinlatma/xicato">Xicato</a></li>
+          <li><a class="site-footer__link" href="/aydinlatma/cooledge">Cooledge</a></li>
+          <li><a class="site-footer__link" href="/aydinlatma">Tüm markalar</a></li>
+        </ul>
+      </div>
+      <div class="site-footer__group">
+        <h2 class="site-footer__group-title">Danışmanlık</h2>
+        <ul class="site-footer__group-links">
+          <li><a class="site-footer__link" href="/danismanlik/saleslayer">Sales Layer</a></li>
+          <li><a class="site-footer__link" href="/danismanlik/bim-project">BIM Project</a></li>
+          <li><a class="site-footer__link" href="/danismanlik">Tüm yazılımlar</a></li>
+        </ul>
+      </div>
+      <div class="site-footer__group">
+        <h2 class="site-footer__group-title">Ağustos</h2>
+        <ul class="site-footer__group-links">
+          <li><a class="site-footer__link" href="/biz-kimiz">Biz kimiz</a></li>
+          <li><a class="site-footer__link" href="/blog">Yazılar</a></li>
+          <li><a class="site-footer__link" href="/gecmis-markalar">Geçmiş markalar</a></li>
+          <li><a class="site-footer__link" href="/kariyer">Kariyer</a></li>
+          <li><a class="site-footer__link" href="/bize-ulasin">İletişim</a></li>
+        </ul>
+      </div>
+    </nav>
+  </div>
+  <div class="site-footer__inner site-frame">
+    <p class="type-footnote">© Ağustos Teknoloji Ltd. Şti., 1996–2026 · MERSİS 0059004540100019</p>
     <nav aria-label="Alt menü">
       <ul class="site-footer__links">
         <li><a class="site-footer__link" href="https://www.linkedin.com/company/agustostek/" rel="noopener">LinkedIn</a></li>
         <li><a class="site-footer__link" href="https://www.instagram.com/agustostek/" rel="noopener">Instagram</a></li>
+        <li><a class="site-footer__link" href="https://www.youtube.com/c/AgustosTek" rel="noopener">YouTube</a></li>
         <li><a class="site-footer__link" href="/gizlilik-politikasi">Gizlilik ve KVKK</a></li>
-        <li><a class="site-footer__link" href="/en" hreflang="en">English</a></li>
+        <li><a class="site-footer__link" href="/cerez-politikasi">Çerezler</a></li>
+        <li><a class="site-footer__link" href="/bilgi-toplumu-hizmetleri">Bilgi toplumu hizmetleri</a></li>
+        <li><a class="site-footer__link" href="/en" hreflang="en" lang="en">English</a></li>
       </ul>
     </nav>
   </div>
