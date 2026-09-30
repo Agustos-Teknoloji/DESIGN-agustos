@@ -7,7 +7,22 @@ All notable changes to the Ağustos Design System are documented in this file.
 ### Fixed
 
 - The Astro adapter builds from a clean clone on a Mac with Homebrew `vips`. The adapter now uses Astro's passthrough image service, so the build does not import sharp. Before, sharp tried to compile against the system libvips, the compile failed, and npm removed sharp without an error. `astro build` then failed with "Rollup failed to resolve import sharp". Every built page is byte-identical to the build before the change.
-- `adapters/astro/package.json` and its lockfile root state v7.4.0. They stated v7.3.2.
+- `adapters/astro/package.json` and its lockfile root state v7.4.1. They stated v7.3.2.
+
+## [7.4.1] - 2026-09-30
+
+A defect patch for the checker. Found on WEBSITE-pldturkiye PR 52. Consuming sites change no markup; a site that loads `agustos-chrome.js` as a file only to avoid the warning can go back to a plain import.
+
+### Fixed
+
+- `check-agustos-ui.py` screen rules read markup only. Astro inlines a processed script under 4 KB, so a site that imports `agustos-chrome.js` from a `<script>` carried the selector `.site-sidebar[popover]` on every page, and `--screens-only` warned AG026 on each one. The rules now blank comments, inline `<script>` bodies and inline `<style>` bodies first. The same fix stops false AG024 (a `[data-theme]` selector in an inline style), AG025, AG027, AG028, AG029 and AG030 findings from inline code.
+- Each screen warning gives the line of its own match. Before, the line came from the first copy of the matched text, so an AG026 or an AG025 pointed at a stylesheet or at the first highlighter.
+- The kit's Astro adapter showed no AG026 only because its Header script, with the search code, is 4,926 bytes and is not inlined. The same page with the chrome script inlined gave AG026 before the fix and no finding after it.
+
+### Documentation
+
+- UI-KIT.md: the screen rules read markup only.
+- The Astro adapter README names the current kit version (it still named v7.3.5).
 
 ## [7.4.0] - 2026-09-30
 
