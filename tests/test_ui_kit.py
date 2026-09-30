@@ -647,6 +647,46 @@ class CheckerTest(unittest.TestCase):
                 rendered.format(screen="products", main=primary), encoding="utf-8")
             self.assertEqual(self._run(build, "--screens-only").returncode, 0)
 
+    def test_screen_rules_read_markup_not_inline_scripts_or_styles(self):
+        """v7.4.1: Astro inlines a small processed script, so a site that imports
+        agustos-chrome.js gets its selector `.site-sidebar[popover]` in every
+        page. Class names and attributes inside <script> and <style> are code,
+        not markup: they must not fire a screen rule. A real sidebar still warns,
+        at its own line."""
+        import tempfile
+        chrome = (ROOT / "ui" / "agustos-chrome.js").read_text(encoding="utf-8")
+        self.assertIn(".site-sidebar", chrome)  # the case this test guards
+        menu = "".join(f'<a class="site-header__link" href="/{n}">Item {n}</a>' for n in range(4))
+        page = (
+            '<!doctype html><html lang="tr"><head>\n'
+            '<link rel="stylesheet" href="/_astro/index.css">\n'
+            '<style>[data-theme="dark"] .site-sidebar { color: red }\n'
+            '.type-highlight, .type-highlight { }</style>\n'
+            '</head><body class="brand-pld" data-screen="content">\n'
+            '<header class="site-header"><nav class="site-header__nav">' + menu + '</nav></header>\n'
+            '<script type="module">' + chrome + '\n'
+            'const tpl = `<a class="site-header__link"></a>`.repeat(6) + \'<div class="container">\';\n'
+            'document.body.insertAdjacentHTML("beforeend", \'<mark class="type-highlight"></mark>\'.repeat(2));\n'
+            '</script>\n'
+            '<main id="main"><div class="container container--reading"><p>Metin</p></div></main>\n'
+            '@EXTRA@</body></html>\n'
+        )
+        with tempfile.TemporaryDirectory() as tmp:
+            build = Path(tmp) / "dist"
+            build.mkdir()
+            (build / "index.html").write_text(page.replace("@EXTRA@", ""), encoding="utf-8")
+            report = json.loads(self._run(build, "--screens-only", "--json").stdout)
+            self.assertEqual(report["findings"], [])
+
+            real = '<aside id="site-sidebar" class="site-sidebar" popover></aside>\n'
+            text = page.replace("@EXTRA@", real)
+            (build / "index.html").write_text(text, encoding="utf-8")
+            report = json.loads(self._run(build, "--screens-only", "--json").stdout)
+            self.assertEqual(
+                [(f["rule"], f["line"]) for f in report["findings"]],
+                [("AG026", text[:text.find(real)].count("\n") + 1)],
+            )
+
     def test_screens_only_warns_on_a_parent_marked_as_the_current_page(self):
         """AG029 (v7.3.2): in built output the file path is the page's own URL,
         so a link marked aria-current="page" that points above the page is a
