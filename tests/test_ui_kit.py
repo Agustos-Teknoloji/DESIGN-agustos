@@ -1033,6 +1033,20 @@ class ChromeTest(unittest.TestCase):
         self.assertIn("--measure-body: 41rem;", self.CSS)
         self.assertIn(".container--reading > * {\n  max-width: var(--measure-body);\n}", self.CSS)
         self.assertNotIn("calc(var(--measure-body) + 2 * var(--measure-gutter))", self.CSS)
+        # v7.3.4: a reading page is one article. A section and an H2 take one
+        # 40px break, a margin that collapses with the last margin above it.
+        self.assertIn(".container--reading .agustos-section {\n  padding-block: 0;\n  margin-top: var(--space-3xl);\n}", self.CSS)
+        # v7.3.5: two steps above a heading, on every page. An H2 takes 40px,
+        # an H3 and an H4 take 32px; 2.5em of the heading size gave 108px
+        # and 53px, so a subheading took more space than a section (issue 75).
+        self.assertNotIn("margin: 2.5em 0 1em;\n  color: var(--ink", self.CSS)
+        self.assertIn("  margin: var(--space-3xl) 0 1em;\n  color: var(--ink);\n}", self.CSS)
+        self.assertEqual(self.CSS.count("  margin: var(--space-2xl) 0 1em;\n"), 2)
+        self.assertNotIn(".container--reading > :is(h2, .type-h2)", self.CSS)
+        # A <section> inside a section is a subsection: its heading keeps the
+        # break of its level (the IESDesk privacy notice H3s showed 16px).
+        self.assertIn(".agustos-section section > :is(h2, .type-h2):first-child {\n  margin-top: var(--space-3xl);\n}", self.CSS)
+        self.assertIn(".agustos-section section > :is(h3, h4, .type-h3, .type-h4):first-child {\n  margin-top: var(--space-2xl);\n}", self.CSS)
         self.assertIn("grid-template-columns: minmax(0, var(--measure-body)) minmax(0, 1fr);\n  gap: var(--space-2xl) var(--space-xl);", self.CSS)
         self.assertIn("@media (max-width: 1279px) {\n  .site-footer__map { grid-template-columns: minmax(0, 1fr); }\n}", self.CSS)
         self.assertIn(".grid-aside { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(0, 3fr);", self.CSS)

@@ -12,6 +12,32 @@ The "On this page" list, the first side column. Emre chose the pages, the behavi
 - `.container--reading` is `position: relative`.
 - Checker warning AG031: an `agustos-contents` that is not a direct child of `container--reading`.
 - `starter.html` shows one instance.
+## [7.3.5] - 2026-09-30
+
+A defect patch that closes issue 75. Emre chose two steps (option B) from a side-by-side preview. Consuming sites change no markup.
+
+### Fixed
+
+- A heading takes a fixed break above it: 40px (`--space-3xl`) above an H2, 32px (`--space-2xl`) above an H3 or an H4. Each heading took 2.5 times its own size (108px, 53px and 33px), so on the IESDesk Learn pages a subheading took 53px, more than the 40px above a chapter heading. The v7.3.4 H2 rule for reading pages is now the base rule and is removed.
+- A heading that opens a `<section>` inside a kit section keeps the break of its level. The "containers own their edges" rule reached it and removed its space, so the IESDesk privacy notice showed 16px above each H3, the same as a paragraph gap.
+- Measured in a browser before and after, on all 9 screens at 1440 and 390px: only the subheadings move (52.5px to 32px on `content`, `product-finder` and `static`). A 32.5px break rounds to 32px.
+
+### Documentation
+
+- DESIGN.md, "Vertical rhythm": Tier 2 states the two steps and the subsection rule.
+
+## [7.3.4] - 2026-09-30
+
+A defect patch. Emre approved it after the IESDesk About page showed 132px above each heading. Consuming sites change no markup.
+
+### Fixed
+
+- A reading page (`.container--reading`) is one article, so a section and an H2 in it take one break: 40px (`--space-3xl`). A section drops its band padding and takes a top margin, and a direct H2 or an H2 in `.prose` takes the same margin. The margin collapses with the last margin above it. Measured in a browser at 1440 and 390px: the `static` screen went from 121px and 144px to 40px, and the `content` screen from 108px and 123px to 40px. A home or product page keeps the section spacing.
+
+### Documentation
+
+- DESIGN.md, "Vertical rhythm": a new paragraph, "A reading page is one article".
+- Issue 75 stays open for the H3 and H4 break (2.5em of the heading size).
 
 ## [7.3.3] - 2026-09-30
 

@@ -9,6 +9,18 @@
 - [ ] iesdesk.com: privacy notice and beta terms.
 - [ ] agustos.com: privacy policy, Turkish and English.
 
+Kit v7.3.5: two heading steps (2026-09-30, branch `claude/kit-7.3.5-heading-steps`). Emre chose option B. Record: MEMORY.md 2026-09-30 heading-steps. Closes issue 75.
+
+- [x] H2 40px, H3 and H4 32px; the subsection rule; tests; DESIGN.md; `VERSION` 7.3.5; CHANGELOG; build; before and after diff of every heading on the 9 screens at 1440 and 390px.
+- [ ] Gate, PR, merge. The tag follows the merge; the next local session on `main` runs `/design-push`.
+- [ ] iesdesk.com: vendor v7.3.5 in APP-iesdesk.
+
+Kit v7.3.4: one break above each heading on a reading page (2026-09-30, branch `claude/kit-7.3.4-reading-rhythm`). Emre approved the kit fix. Record: MEMORY.md 2026-09-30 reading-rhythm.
+
+- [x] `.container--reading .agustos-section` and the H2 rule; test; DESIGN.md; `VERSION` 7.3.4; CHANGELOG; build; browser check of `static` and `content` at 1440 and 390px.
+- [x] Gate, PR 79, merge, tag `v7.3.4`. The next local session on `main` runs `/design-push`.
+- [x] iesdesk.com: vendor v7.3.4 in APP-iesdesk (PR 289, on dev.iesdesk.com).
+- [ ] agustos.com, memregunes.com, pldturkiye.com: vendor v7.3.4 with the v7.3.2 rollout above.
 
 Kit v7.3.3: design review defects and quick wins (2026-09-30, branch `claude/design-system-review-5d869b`). Emre chose option B: the three defects plus the quick wins in one patch. Record: MEMORY.md 2026-09-30 review-patch.
 
