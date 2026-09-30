@@ -7,6 +7,8 @@ All notable changes to the Ağustos Design System are documented in this file.
 ### Fixed
 
 - Astro adapter, `/typography`: the "Negative expression" tiles use `var(--cream)` for the lockup. They used `--footer-ink`, which is off-black since the footer became light in v7. The four house-brand lockups were invisible at 1:1, and the Ağustos lockup was off-black on red. Measured after the fix: 5.16:1 on red and 17.28:1 on off-black in light, 4.65:1 and 15.56:1 in the dark toggle.
+- The Astro adapter builds from a clean clone on a Mac with Homebrew `vips`. The adapter now uses Astro's passthrough image service, so the build does not import sharp. Before, sharp tried to compile against the system libvips, the compile failed, and npm removed sharp without an error. `astro build` then failed with "Rollup failed to resolve import sharp". Every built page is byte-identical to the build before the change.
+- `adapters/astro/package.json` and its lockfile root state v7.4.1. They stated v7.3.2.
 
 ## [7.4.1] - 2026-09-30
 
