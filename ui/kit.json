@@ -280,8 +280,8 @@
       "sha256": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
     },
     "starter.html": {
-      "bytes": 22721,
-      "sha256": "22bee0e95161b5af2333f7c895e603574a8cdef2a1428ceff9fe974fa8db46cb"
+      "bytes": 27145,
+      "sha256": "453b85856cfd70dd86e5a95ac2c42fa287c91266aef52129570fbe91f6bcdb89"
     }
   },
   "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.2.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.2.0/ui/agustos.css\">",

@@ -26,10 +26,10 @@
     "ui/agustos-fonts.css": "19757e9ad0e49c42974cb2314643401e41657a81e88d164cbbeac024f44e6eda",
     "ui/agustos.css": "a5accaf2e773b2b1a64d0660e909d5af7d69c7c87c24ccc8741489d9c62dfa4c",
     "ui/check-agustos-ui.py": "5bfafd8ad3302ea4e5638ff4fb9552c9142cf89a3df2825335bff9c71e70fdb6",
-    "ui/kit.json": "a70f6bfe242d01fbcd0fc6b6f662f18b89581ca6871f40f10ff5438276f9564a",
-    "ui/starter.html": "22bee0e95161b5af2333f7c895e603574a8cdef2a1428ceff9fe974fa8db46cb"
+    "ui/kit.json": "9bd60ebc0283ec39132975a52af396ce2bac9a6abc851661f089cf8efc311ae6",
+    "ui/starter.html": "453b85856cfd70dd86e5a95ac2c42fa287c91266aef52129570fbe91f6bcdb89"
   },
-  "source_sha256": "77466eeffa1b93ef40ba4a374d716d70fef977f06d8701f5b30aaf09e89d8efb",
+  "source_sha256": "0da3dafa57c4f4b7a2931c7016a3863493b3bb745b1a93682117dba9b7d7ab9f",
   "system": "Ağustos Design System",
   "version": "7.2.0"
 }

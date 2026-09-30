@@ -747,6 +747,16 @@ class ChromeTest(unittest.TestCase):
         self.assertNotRegex(block, r"(?<!-)color:\s*var\(--ink-faint\)")
         self.assertIn("font-size: 16px;", block)
 
+    def test_starter_renders_the_search_and_language_classes(self):
+        """UI-KIT.md says copy the chrome from starter.html (Codex, PR #71)."""
+        import re
+        html = (ROOT / "ui" / "starter.html").read_text(encoding="utf-8")
+        used = {c for value in re.findall(r'class="([^"]+)"', html) for c in value.split()}
+        for name in TOKENS["compatibility"]["cssClasses"]:
+            if re.match(r"site-header__(search|lang-link|utility|icon-btn|theme|noscript)", name):
+                with self.subTest(name=name):
+                    self.assertIn(name, used)
+
     def test_phone_anchor_offset_includes_the_search_row(self):
         self.assertIn("--site-header-search-height: calc(var(--control-min) + 2 * var(--space-xs) + 1px);", self.CSS)
         self.assertIn("html:has(.site-header__search-row) { scroll-padding-top: calc(var(--site-header-height) + var(--site-header-search-height)); }", self.CSS)
