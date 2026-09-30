@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ağustos UI kit compliance checker — v7.3.2
+"""Ağustos UI kit compliance checker — v7.3.3
 
 GENERATED. Do not hand-edit. Regenerate with:
     python3 scripts/build_design_system.py
@@ -28,7 +28,7 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 
-KIT_VERSION = "7.3.2"
+KIT_VERSION = "7.3.3"
 REPOSITORY = "Agustos-Teknoloji/DESIGN-agustos"
 LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json"
 
@@ -479,6 +479,22 @@ def check_current_links(rel: str, posix: str, text: str, findings: list) -> None
             ))
 
 
+def check_disabled_links(rel: str, text: str, findings: list) -> None:
+    """aria-disabled only tells a screen reader; it does not stop a link. A
+    disabled link that keeps its href still opens on a click or Enter. Drop the
+    href and add role="link", so the link is inert and still announced."""
+    page = COMMENT.sub("", text)
+    for tag in LINK_TAG.finditer(page):
+        attrs = {name.lower(): next((v for v in values if v), "")
+                 for name, *values in LINK_ATTRIBUTE.findall(tag.group(0))}
+        if attrs.get("aria-disabled", "").lower() == "true" and "href" in attrs:
+            findings.append(Finding(
+                "AG030", "warn", rel, line_of(text, text.find(tag.group(0))),
+                'a link with aria-disabled="true" keeps its href, so it still opens: '
+                'drop the href and add role="link"',
+            ))
+
+
 def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
     findings: list = []
     scanned = 0
@@ -491,6 +507,7 @@ def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
         if screens_only:
             check_screen(rel, text, findings)
             check_current_links(rel, path.relative_to(root).as_posix(), text, findings)
+            check_disabled_links(rel, text, findings)
             continue
         corpus.append(text)
         lines = text.splitlines()
@@ -573,6 +590,7 @@ def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
         if path.suffix.lower() in PAGE_SUFFIXES:
             check_screen(rel, text, findings)
             check_cards(rel, text, findings)
+            check_disabled_links(rel, text, findings)
 
         if path.suffix.lower() in {".css", ".scss", ".sass"}:
             for match in CUSTOM_PROP.finditer(text):

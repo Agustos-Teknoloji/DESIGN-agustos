@@ -230,6 +230,32 @@ class InteractionStateTest(unittest.TestCase):
         self.assertIn('.agustos-button:active:not(:disabled, [aria-disabled="true"]) { transform: translateY(1px); }', self.CSS)
         self.assertIn('.agustos-button:is(:disabled, [aria-disabled="true"]):hover', self.CSS)
 
+    def test_design_review_fixes_hold(self):
+        """Design review 2026-09-30 (v7.3.3), each measured in a browser first."""
+        # A dark search excerpt on the hover fill was #8a8378 on #404040, 2.76:1.
+        self.assertIn(".site-header__search-result a:is(:hover, :focus-visible) .site-header__search-result-excerpt { color: var(--ink); }", self.CSS)
+        # The footer has no current page, so its hover never draws the red rule.
+        footer = self.CSS[self.CSS.index(".site-footer__link:hover {"):]
+        footer = footer[:footer.index("}")]
+        self.assertIn("text-decoration-color: var(--ink-faint);", footer)
+        self.assertNotIn("--signal", footer)
+        # Browsers center a caption; the spec-sheet group labels sat centered.
+        self.assertIn(".type-table caption, table caption { padding-inline: 0.75em; text-align: start; }", self.CSS)
+        # Native parts follow the theme, and the light islands stay light.
+        self.assertIn(":root { color-scheme: light; }", self.CSS)
+        dark = self.CSS[self.CSS.index('html[data-theme="dark"] {'):]
+        self.assertIn("color-scheme: dark;", dark[:dark.index("}")])
+        islands = self.CSS[self.CSS.index('html[data-theme="dark"] .band--cream {'):]
+        self.assertIn("color-scheme: light;", islands[:islands.index("}")])
+        # One duration token stops every transition, so none can be missed.
+        motion = self.CSS[self.CSS.index("@media (prefers-reduced-motion: reduce) {"):]
+        self.assertIn(":root { --dur: 0s; }", motion[:motion.index("\n}\n")])
+        transitions = re.findall(r"transition:\s*([^;]+);", self.CSS)
+        self.assertTrue(transitions)
+        for value in transitions:
+            for part in value.split(","):
+                self.assertIn("var(--dur)", part, value)
+
 
 class SixColourPaletteTest(unittest.TestCase):
     """v5 locks six identity colours. Dark theme reuses them. No new hexes."""
@@ -662,6 +688,42 @@ class CheckerTest(unittest.TestCase):
             # A warning alone never fails the build.
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
+    def test_warns_on_a_disabled_link_that_keeps_its_href(self):
+        """AG030 (v7.3.3): aria-disabled does not stop a link. A disabled link
+        drops its href; one that keeps it warns, in source and in built pages."""
+        import tempfile
+        page = (
+            '<!doctype html><html lang="tr"><head>'
+            '<link rel="stylesheet" href="/_astro/index.css"></head>'
+            '<body class="brand-agustos" data-screen="static">'
+            '<main id="main"><div class="container">{links}</div></main></body></html>'
+        )
+        cases = {
+            # file: (links, expected AG030 count)
+            "kept.html": ('<a class="agustos-button" href="/teklif" aria-disabled="true">Teklif</a>', 1),
+            "single.html": ("<a href='/teklif' aria-disabled='TRUE'>Teklif</a>", 1),
+            "dropped.html": ('<a class="agustos-button" role="link" aria-disabled="true">Teklif</a>', 0),
+            "enabled.html": ('<a class="agustos-button" href="/teklif" aria-disabled="false">Teklif</a>', 0),
+            "button.html": ('<button class="agustos-button" type="button" disabled>Teklif</button>', 0),
+            "comment.html": ('<!-- <a href="/x" aria-disabled="true">x</a> --><p>Metin</p>', 0),
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            build = Path(tmp) / "dist"
+            build.mkdir()
+            for name, (links, _) in cases.items():
+                (build / name).write_text(page.format(links=links), encoding="utf-8")
+            for flags in ((), ("--screens-only",)):
+                with self.subTest(flags=flags):
+                    report = json.loads(self._run(build, *flags, "--json").stdout)
+                    found: dict[str, int] = {}
+                    for finding in report["findings"]:
+                        if finding["rule"] == "AG030":
+                            self.assertEqual(finding["level"], "warn")
+                            key = Path(finding["file"]).as_posix()
+                            found[key] = found.get(key, 0) + 1
+                    for name, (_, expected) in cases.items():
+                        self.assertEqual(found.get(name, 0), expected, name)
+
     def test_source_scan_skips_the_current_link_rule(self):
         """In a source tree the file path is not the URL, so AG029 stays quiet."""
         source = self.CHECKER.read_text(encoding="utf-8")
@@ -913,10 +975,14 @@ class ChromeTest(unittest.TestCase):
         for selector in (".site-header", ".site-sidebar,", ".site-sidebar-bar", ".site-footer nav"):
             self.assertIn(selector, block)
 
-    def test_chrome_script_ships_and_only_closes_more(self):
-        """JavaScript only when it is the logical choice (Emre, 2026-09-30)."""
+    def test_chrome_script_ships_and_closes_more_and_drawers(self):
+        """JavaScript only when it is the logical choice (Emre, 2026-09-30). A native
+        popover does not close when focus leaves it, so the script closes an open
+        drawer then; focus never lands on the page behind it (v7.3.3)."""
         script = (ROOT / "ui" / "agustos-chrome.js").read_text(encoding="utf-8")
         self.assertIn("details.site-header__more[open]", script)
+        self.assertIn("'.site-header__panel[popover], .site-sidebar[popover]'", script)
+        self.assertIn("drawer.hidePopover()", script)
         for event in ("'keydown'", "'click'", "'focusout'"):
             self.assertIn(event, script)
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))

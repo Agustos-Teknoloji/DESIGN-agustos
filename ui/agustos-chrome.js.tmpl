@@ -1,20 +1,29 @@
 /* AĞUSTOS DESIGN SYSTEM v{{ui.version}} · CHROME BEHAVIOUR
    GENERATED. Do not hand-edit. Run: python3 scripts/build_design_system.py
 
-   Optional. It adds what native HTML does not give the More menu of the top
-   menu (a <details class="site-header__more">): it closes on Escape, on a
-   click outside it, and when keyboard focus leaves it. Without this file the
-   menu still opens and closes on click. Drawers need no script: they are
-   native popovers with a close button. Load it once, anywhere, with defer. */
+   It adds what native HTML does not give the chrome. The More menu of the top
+   menu (a <details class="site-header__more">) closes on Escape, on a click
+   outside it, and when keyboard focus leaves it. An open drawer (a native
+   popover: site-header__panel or site-sidebar) closes when keyboard focus
+   leaves it, so focus never moves to the page behind the drawer. Without this
+   file More still opens and closes on click, and a drawer still closes on
+   Escape, an outside click and its close button. Load it once on every page
+   with the chrome, with defer. */
 (() => {
   if (document.agustosChrome) return;
   document.agustosChrome = true;
 
   const OPEN = 'details.site-header__more[open]';
+  const DRAWER = '.site-header__panel[popover], .site-sidebar[popover]';
 
   function close(menu, returnFocus) {
     menu.open = false;
     if (returnFocus) menu.querySelector('summary')?.focus();
+  }
+
+  // A browser without popovers throws on the selector; its drawers never open.
+  function isOpen(drawer) {
+    try { return drawer.matches(':popover-open'); } catch { return false; }
   }
 
   document.addEventListener('keydown', (event) => {
@@ -29,7 +38,11 @@
   });
 
   document.addEventListener('focusout', (event) => {
+    const leaving = event.relatedTarget;
+    if (!leaving) return;
     const menu = event.target.closest?.(OPEN);
-    if (menu && event.relatedTarget && !menu.contains(event.relatedTarget)) close(menu, false);
+    if (menu && !menu.contains(leaving)) close(menu, false);
+    const drawer = event.target.closest?.(DRAWER);
+    if (drawer && isOpen(drawer) && !drawer.contains(leaving)) drawer.hidePopover();
   });
 })();

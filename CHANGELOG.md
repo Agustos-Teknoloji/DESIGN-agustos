@@ -2,6 +2,30 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
+## [7.3.3] - 2026-09-30
+
+A patch from the 2026-09-30 design review. Emre chose the three defects plus the quick wins in one release. Consuming sites load `agustos-chrome.js` on every page with the chrome, and drop the `href` from any disabled link.
+
+### Fixed
+
+- An open drawer (`site-header__panel`, `site-sidebar`) closes when keyboard focus leaves it. Before, Tab after the last drawer item moved focus to the page behind the open drawer (measured at 390px on the home screen). A native popover does not do this, so `ui/agustos-chrome.js` does. The app shell now loads the script too.
+- A disabled link is inert. `aria-disabled="true"` only restyled a link, so a click or Enter still followed its `href`. The contract is now: a link drops its `href` and takes `role="link"` and `aria-disabled="true"`.
+- A search result excerpt takes `--ink` on the hover and focus fill, and its match mark moves to the paper. In the dark theme the excerpt was `#8a8378` on `#404040`, 2.76:1. A states row guards the pair.
+- Table captions align to the start. Browsers center them, so the spec-sheet group labels sat centered over left-aligned tables.
+- `color-scheme` follows the theme: light by default, dark under `data-theme="dark"`, light on the footer and the closing band. Scrollbars, checkboxes and select menus stayed light on the dark theme.
+- A footer link hover is the 1px gray rule, as in the top menu. It drew the 2px red rule, which marks the current page alone (v7.1.0).
+- Reduced motion sets `--dur: 0s`, which stops every transition. The hand-kept selector list had missed content links, the language link and the search controls.
+
+### Added
+
+- Checker warning AG030: a link with `aria-disabled="true"` that keeps its `href`.
+
+### Documentation
+
+- DESIGN.md no longer says a menu hover draws the red rule, and it states the one red-text exception (a content link hover on light paper).
+- The `ss01` note is corrected: in Inter it switches to open digits (4, 6 and 9). It never changed the "a", which is two-storey by default.
+- The guidelines PDFs are rebuilt (Emre asked, 2026-09-30). The Colour in use table shows the gray footer hover rule and the search result row.
+
 ## [7.3.2] - 2026-09-30
 
 A defect patch. Emre approved it. Consuming sites that build their own header change one line: a parent section on a nested route takes `aria-current="true"`.

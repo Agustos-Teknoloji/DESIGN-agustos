@@ -568,6 +568,22 @@
     },
     {
       "dark": {
+        "background": "#404040",
+        "foreground": "#ffffff",
+        "ratio": 10.37
+      },
+      "element": "Search result title and excerpt",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ebebeb",
+        "foreground": "#15130f",
+        "ratio": 15.56
+      },
+      "state": "hover, focus"
+    },
+    {
+      "dark": {
         "background": "#ffffff",
         "foreground": "#404040",
         "ratio": 10.37
@@ -588,13 +604,29 @@
         "foreground": "#15130f",
         "ratio": 18.55
       },
-      "element": "Footer link (2px red rule)",
+      "element": "Footer link",
       "floor": 4.5,
       "kind": "text",
       "light": {
         "background": "#ffffff",
         "foreground": "#15130f",
         "ratio": 18.55
+      },
+      "state": "hover"
+    },
+    {
+      "dark": {
+        "background": "#ffffff",
+        "foreground": "#8a8378",
+        "ratio": 3.75
+      },
+      "element": "Footer link hover rule (1px)",
+      "floor": 3.0,
+      "kind": "graphic",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#8a8378",
+        "ratio": 3.75
       },
       "state": "hover"
     },
@@ -871,5 +903,5 @@
       "surface": "#ffffff"
     }
   },
-  "version": "7.3.2"
+  "version": "7.3.3"
 }
