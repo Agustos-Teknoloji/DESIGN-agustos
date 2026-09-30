@@ -22,7 +22,7 @@ Kit v7.3.5 rollout with the brand favicons (2026-09-30, branch `claude/kit-v735-
 - [x] memregunes.com: vendor v7.3.5 with `scripts/vendor-kit.sh`, `/writing/` and `/tr/yazdiklarim/` take `true` on posts, the `memregunes` favicon (it showed the red emblem). WEBSITE-memregunes PR 34, live on dev.memregunes.com and the memregunes.com holding page.
 - [x] agustos.com: the `agustos` favicon under new file names (website-agustos PR 165, live). The kit and `true` on parent sections came first with v7.4.0 (PR 164).
 - [x] Follow-ups Emre asked for: memregunes.com Consulting case studies take the 32px subsection break (WEBSITE-memregunes PR 35); the PLD Organization logo is the lockup, not the sun alone (WEBSITE-pldturkiye PR 53).
-- [ ] PLD posts mark their breadcrumb section in the top menu (WEBSITE-pldturkiye PR 54).
+- [x] PLD posts mark their breadcrumb section in the top menu (WEBSITE-pldturkiye PR 54, live on dev.pldturkiye.com).
 
 Kit v7.3.5: two heading steps (2026-09-30, branch `claude/kit-7.3.5-heading-steps`). Emre chose option B. Record: MEMORY.md 2026-09-30 heading-steps. Closes issue 75.
 
