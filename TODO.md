@@ -47,7 +47,7 @@ v7.0.1 interactive states (2026-09-30, branch `claude/rails-html-template-kbacva
 - [x] Guidelines: Colour in use, Emphasis, corrected Typography; PDFs rebuilt (13 pages).
 - [x] Tests, docs, `VERSION` 7.0.1, gate green.
 - [x] Tag `v7.0.1`: automatic since 2026-09-30 (release-tags-on-main).
-- [ ] `/design-push` for v7.0.1: runs by itself in the next local Claude Code session (2026-09-30 design-push-at-session-start).
+- [x] `/design-push` for v7.0.1: covered by the v7.1.0 push (2026-09-30).
 
 v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva`). Emre approved each part from the live preview and asked for it to ship without further approvals. Plan and facts: MEMORY.md 2026-09-29 v7-conventional-reset and the five records after it.
 
@@ -63,8 +63,8 @@ v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva
 - [x] `AGENTS.md`, `ASSETS.md`.
 - [x] Gate green, visual check, commit, push, draft PR #60.
 - [x] Tag `v7.0.0`: automatic since 2026-09-30 (release-tags-on-main).
-- [ ] `/design-push` for v7.0.0: covered by the v7.0.1 push in the next local session.
-- [ ] Rollout: agustos.com and iesdesk.com pin v7.0.0 first; memregunes.com and pldturkiye.com later.
+- [x] `/design-push` for v7.0.0: covered by the v7.1.0 push (2026-09-30).
+- [ ] Rollout: agustos.com and iesdesk.com run v7.1.0 (2026-09-30); memregunes.com and pldturkiye.com follow.
 
 ## Next
 
@@ -80,4 +80,3 @@ v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva
 - Phone search row: below 1024px the Astro adapter's `site-header__search-row` sits under the top menu at all times, so the header is 126px on agustos.com, and the v7.0.2 anchor offset (`--site-header-height`, 65px) covers the menu bar only. Anchors and focused elements land under the search row. Give the row a height from tokens and add it to the offset where the row exists, for example `html:has(.site-header__search-row)` below 1024px, in the Astro and Rails adapters. Then agustos.com can drop the scroll script in `src/layouts/BaseLayout.astro`. Reopens MEMORY.md 2026-09-30 topbar-anchor-offset ("an open search row must also offset anchors").
 - Register printer-matched CMYK and Pantone values for the six colours and the identity inks in `brand/brands.json`, then show them on the colour page of `brand/build_guidelines.py`. Ask the printer for a proof first; do not convert the screen values.
 - Rebuild `adapters/astro/src/pages/blog/index.astro` on `type-dl` and `type-footnote`, like `screens/content-index.html`. Remove its scoped `<style>` block and the H2 for each post title, which break the list-page rule.
-- Close PR #12 ("Register the SpecQuick house brand") as superseded, or rebase it on the root doc set. SpecQuick is already registered on `main`, and the PR still writes the old root `MEMORY.md`.
