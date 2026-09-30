@@ -8,7 +8,7 @@ A defect patch. Emre approved it. Consuming sites that build their own header ch
 
 ### Fixed
 
-- A parent menu item on a nested route (for example `/haberler/` on `/haberler/guncel/`) carried `aria-current="page"`, so a screen reader announced the parent as the current page. The Astro header (`currentState()`) and the Rails helper (`agustos_nav_current`, which also drives the sidebar) now set `page` only on the exact route and `true` on an ancestor section. Trailing slashes do not count, and `/` is only ever exact. The WordPress example adds `true` to `wp_nav_menu` ancestors.
+- A parent menu item on a nested route (for example `/haberler/` on `/haberler/guncel/`) carried `aria-current="page"`, so a screen reader announced the parent as the current page. The Astro header (`currentState()`) and the Rails helper (`agustos_nav_current`, which also drives the sidebar) now set `page` only on the exact route and `true` on an ancestor section. Trailing slashes do not count, `/` is only ever exact, and a link with a fragment or a query (`/about#team`) is never current. The WordPress example adds `true` to `wp_nav_menu` ancestors.
 - Every chrome selector that highlights `[aria-current="page"]` (top-menu link, More summary, More link, sidebar link and group, `.agustos-chrome-link`) also matches `[aria-current="true"]`, so the section keeps the red rule. Breadcrumbs keep `page` only.
 - The content, product and spec-sheet screens mark their parent menu item `true`.
 - Every anchor offset adds `--anchor-snap` (1px). A browser scrolls to whole pixels, so a target at a fractional position stopped up to 0.5px under the 65px header in a Chromium probe. `--site-header-height` already equals the rendered header: 65px at 1440 and 375px, 126px with the phone search row.

@@ -52,6 +52,10 @@ test('aria-current is page on the exact route and true on a parent section', asy
   assert.equal(currentState('/haber', '/haberler/'), undefined);
   assert.equal(currentState('#top', '/'), undefined);
   assert.equal(currentState('https://example.com/haberler', '/haberler/'), undefined);
+  // A fragment or a query link is a place on the page, not the page (Codex, PR #76).
+  assert.equal(currentState('/about#team', '/about'), undefined);
+  assert.equal(currentState('/about#jobs', '/about/'), undefined);
+  assert.equal(currentState('/haberler/?sayfa=2', '/haberler/guncel/'), undefined);
   // Home is only ever exact.
   assert.equal(currentState('/', '/'), 'page');
   assert.equal(currentState('/', '/haberler/'), undefined);

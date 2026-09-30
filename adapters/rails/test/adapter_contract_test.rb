@@ -101,6 +101,8 @@ class AdapterContractTest < Minitest::Test
       "/haberler/guncel" => { "/haberler/guncel/" => "page", "/haberler/" => "true", "/" => nil, "#top" => nil,
                               "https://example.com/haberler" => nil },
       "/" => { "/" => "page", "/haberler/" => nil },
+      # A fragment or a query link is a place on the page, not the page (Codex, PR #76).
+      "/about" => { "/about#team" => nil, "/about#jobs" => nil, "/about?tab=2" => nil, "/about" => "page" },
     }.each do |path, expected|
       harness.request = Struct.new(:path).new(path)
       expected.each do |href, state|

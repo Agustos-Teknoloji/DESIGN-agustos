@@ -77,10 +77,11 @@ export function splitNav<T>(items: T[]): [T[], T[]] {
  * aria-current for a menu item. 'page' when the pathname is the item's own
  * URL; 'true' when the item is a section that holds the page, such as
  * '/haberler/' on '/haberler/guncel/'; undefined otherwise. Trailing slashes
- * do not count, and the home item '/' is only ever exact.
+ * do not count, and the home item '/' is only ever exact. A link with a query
+ * or a fragment ('/about#team') is a place on a page, never the page itself.
  */
 export function currentState(href: string, pathname: string): 'page' | 'true' | undefined {
-  if (!href.startsWith('/') || href.startsWith('//')) return undefined;
+  if (!href.startsWith('/') || href.startsWith('//') || /[?#]/.test(href)) return undefined;
   const trim = (path = '') => path.replace(/[?#].*$/, '').replace(/\/+$/, '') || '/';
   const item = trim(href);
   const page = trim(pathname);

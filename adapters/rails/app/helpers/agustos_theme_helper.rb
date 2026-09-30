@@ -185,9 +185,11 @@ module AgustosThemeHelper
   # "page" when the request path is the item's own URL; "true" when the item
   # is a section that holds the page, such as /haberler/ on /haberler/guncel/;
   # nil otherwise. Trailing slashes do not count, and "/" is only ever exact.
+  # A link with a query or a fragment (/about#team) is a place on a page, never
+  # the page itself; an item that needs it passes current: true.
   def agustos_nav_current(href)
     href = href.to_s
-    return nil unless href.start_with?("/") && !href.start_with?("//")
+    return nil unless href.start_with?("/") && !href.start_with?("//") && !href.match?(/[?#]/)
 
     trim = ->(path) { path.sub(/[?#].*\z/, "").sub(%r{/+\z}, "").then { |p| p.empty? ? "/" : p } }
     item = trim.call(href)
