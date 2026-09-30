@@ -36,7 +36,8 @@ v7.0.2 patch (2026-09-30, branch `claude/new-kit-worktrees-a927f9`). The agustos
 - [x] Astro and Rails adapters: a search result link keeps the red focus ring.
 - [x] Tests for both; `VERSION` 7.0.2, CHANGELOG, MEMORY; build and gate green.
 - [x] Commit, push, PR #65. The tag and `/design-push` follow the merge.
-- [ ] Bump agustos.com (PR #157) and iesdesk.com (PR #274) to v7.0.2 after the tag, and remove the agustos.com local copies of both fixes.
+- [x] Bump agustos.com (PR #157) and iesdesk.com (PR #274) to v7.0.2; the agustos.com focus rule is gone. Its scroll script stays for the phone search row (see Next).
+- [ ] Bump both PRs to v7.1.0 (Emre, 2026-09-30): drawer close button, `lang`, the chrome script; the agustos.com footer site map.
 
 v7.0.1 interactive states (2026-09-30, branch `claude/rails-html-template-kbacva`). Emre approved the fix, the white Ağustos logo hover on dark, and the guidelines rebuild. Record: MEMORY.md 2026-09-30 states-table-contract.
 
@@ -76,6 +77,7 @@ v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva
   - Handbook pages carry no chrome, copy `.book-nav` into each page, use their own 720px and 820px breakpoints, and `docs/handoff-setup.html` fills a bar with red.
   - Breakpoints 759px, 760px and 1023px have no token. Add one set to the registry.
 
+- Phone search row: below 1024px the Astro adapter's `site-header__search-row` sits under the top menu at all times, so the header is 126px on agustos.com, and the v7.0.2 anchor offset (`--site-header-height`, 65px) covers the menu bar only. Anchors and focused elements land under the search row. Give the row a height from tokens and add it to the offset where the row exists, for example `html:has(.site-header__search-row)` below 1024px, in the Astro and Rails adapters. Then agustos.com can drop the scroll script in `src/layouts/BaseLayout.astro`. Reopens MEMORY.md 2026-09-30 topbar-anchor-offset ("an open search row must also offset anchors").
 - Register printer-matched CMYK and Pantone values for the six colours and the identity inks in `brand/brands.json`, then show them on the colour page of `brand/build_guidelines.py`. Ask the printer for a proof first; do not convert the screen values.
 - Rebuild `adapters/astro/src/pages/blog/index.astro` on `type-dl` and `type-footnote`, like `screens/content-index.html`. Remove its scoped `<style>` block and the H2 for each post title, which break the list-page rule.
 - Close PR #12 ("Register the SpecQuick house brand") as superseded, or rebase it on the root doc set. SpecQuick is already registered on `main`, and the PR still writes the old root `MEMORY.md`.
