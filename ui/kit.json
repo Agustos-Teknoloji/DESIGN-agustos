@@ -39,7 +39,7 @@
       "wordmark": "specquick"
     }
   },
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.2.0/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.0/ui/",
   "cssClasses": [
     "type-hero",
     "type-hero-md",
@@ -64,6 +64,7 @@
     "type-highlight",
     "site-frame",
     "container",
+    "container--reading",
     "skip-link",
     "brand-agustos",
     "brand-pataraz",
@@ -237,27 +238,27 @@
   "files": {
     "AGENTS-SNIPPET.md": {
       "bytes": 2215,
-      "sha256": "3a42ad944965ad5f44ce72255c564f33226c317fad6a8252f91db4e8911d1e53"
+      "sha256": "d9c35e478f5c0b24ba5fa184773e1ce9189f1bee085a9c3707452b2e72da32cc"
     },
     "UI-KIT.md": {
-      "bytes": 18178,
-      "sha256": "ce0c5b21a5937b239a47a1b81f4b1c2e9aa861a614cc15081e5d5af3e2194d23"
+      "bytes": 18802,
+      "sha256": "ccacc697d99172516bc85eb5a32ea0acbfa5b4f8ecbfd5f0c047cd8aeba8e7d4"
     },
     "agustos-chrome.js": {
       "bytes": 1367,
-      "sha256": "7052addabb01155b573542e9067be4a900c1393a981f892d5e9be612c4d5ac43"
+      "sha256": "b70233ad7e477bcd9218f8637d33f01f591ee2f4a2a3e1d720aaa945fc10f972"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
-      "sha256": "19757e9ad0e49c42974cb2314643401e41657a81e88d164cbbeac024f44e6eda"
+      "sha256": "c5236b0ff2cc1cb7807f579de4bf6ecbc6ac0f805ae3a74b36dd36f90740742a"
     },
     "agustos.css": {
-      "bytes": 58924,
-      "sha256": "a5accaf2e773b2b1a64d0660e909d5af7d69c7c87c24ccc8741489d9c62dfa4c"
+      "bytes": 59261,
+      "sha256": "128958330f3815d2787da90074a67c3f4c53f1ed952ca07f42f9f7cda8d8879f"
     },
     "check-agustos-ui.py": {
-      "bytes": 25167,
-      "sha256": "5bfafd8ad3302ea4e5638ff4fb9552c9142cf89a3df2825335bff9c71e70fdb6"
+      "bytes": 26008,
+      "sha256": "d3cf831a70496f129a7870af138c43281bc5d3acd963eee19e7dd0073df3cc1f"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -281,17 +282,18 @@
     },
     "starter.html": {
       "bytes": 27145,
-      "sha256": "453b85856cfd70dd86e5a95ac2c42fa287c91266aef52129570fbe91f6bcdb89"
+      "sha256": "7dc895ba06631c14691fa26173fb474b8a5a8a9d1170010537cd77e2b165cb35"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.2.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.2.0/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.0/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.2.0/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.3.0/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "screens": {
     "app-shell": {
       "brand": "iesdesk",
       "chrome": "sidebar",
+      "column": "frame",
       "family": "product-ui",
       "file": "app-shell.html",
       "photo": "none",
@@ -301,6 +303,7 @@
     "content": {
       "brand": "agustos",
       "chrome": "topbar",
+      "column": "reading",
       "family": "content",
       "file": "content.html",
       "photo": "only when it explains the content",
@@ -310,6 +313,7 @@
     "content-index": {
       "brand": "agustos",
       "chrome": "topbar",
+      "column": "reading",
       "family": "content",
       "file": "content-index.html",
       "photo": "none; titles stay type-only",
@@ -319,6 +323,7 @@
     "home": {
       "brand": "agustos",
       "chrome": "topbar",
+      "column": "frame",
       "family": "marketing",
       "file": "home.html",
       "photo": "one installation photograph, third in the rollout",
@@ -328,6 +333,7 @@
     "product": {
       "brand": "pataraz",
       "chrome": "topbar",
+      "column": "frame",
       "family": "catalog",
       "file": "product.html",
       "photo": "product photograph or drawing, first in the rollout",
@@ -337,6 +343,7 @@
     "product-finder": {
       "brand": "pataraz",
       "chrome": "topbar",
+      "column": "frame",
       "family": "catalog",
       "file": "product-finder.html",
       "photo": "product thumbnails, second in the rollout",
@@ -346,6 +353,7 @@
     "products": {
       "brand": "pataraz",
       "chrome": "topbar",
+      "column": "frame",
       "family": "catalog",
       "file": "products.html",
       "photo": "product thumbnails, second in the rollout",
@@ -355,6 +363,7 @@
     "spec-sheet": {
       "brand": "pataraz",
       "chrome": "topbar",
+      "column": "frame",
       "family": "document",
       "file": "spec-sheet.html",
       "photo": "product photograph and dimensioned drawing",
@@ -364,10 +373,11 @@
     "static": {
       "brand": "agustos",
       "chrome": "topbar",
+      "column": "reading",
       "family": "content",
       "file": "static.html",
       "photo": "people and places that explain the work",
-      "purpose": "The static page template: About, privacy, terms, and the KVKK notice. Intro, timeline, and people at a long-form measure.",
+      "purpose": "The static page template: About, privacy, terms, and the KVKK notice. Intro, timeline, and people in one centered reading column.",
       "theme": "light"
     }
   },
@@ -863,5 +873,5 @@
     "cream"
   ],
   "system": "Ağustos Design System",
-  "version": "7.2.0"
+  "version": "7.3.0"
 }

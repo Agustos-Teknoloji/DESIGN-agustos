@@ -8,7 +8,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
 const fmt = new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
 <BaseLayout screen="content-index" title="Writing — Ağustos Teknoloji" description="Notes from the publisher's house.">
-  <article class="container">
+  <article class="container container--reading">
     <h1 class="type-h1">Writing</h1>
     <p class="type-body"><em>Notes on lighting, typography, and the technical layer that holds them together.</em></p>
 

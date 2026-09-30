@@ -1,4 +1,4 @@
-# Ağustos UI kit — v7.2.0
+# Ağustos UI kit — v7.3.0
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -45,11 +45,11 @@ Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and
 
 npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-Prototypes with no build step may link the CDN copies. **Pin to `@v7.2.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
+Prototypes with no build step may link the CDN copies. **Pin to `@v7.3.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.2.0/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.2.0/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.0/ui/agustos.css">
 ```
 
 ## Page skeleton
@@ -107,19 +107,19 @@ Chrome follows the screen family, not the brand: every website uses the top menu
 
 ## Screens
 
-One reference page per screen type lives in the source repository under `screens/`, hand-written on these classes. Build any page from the matching screen. Theme and chrome follow the family.
+One reference page per screen type lives in the source repository under `screens/`, hand-written on these classes. Build any page from the matching screen. Theme, chrome and column follow the family. **Column:** a content page (About, privacy, terms, an article, a list of posts) reads in one centered column at the 65ch measure, `<div class="container container--reading">`, and its title, deck, headings and text share that left edge. Every other page uses the full frame and caps a text block with `prose`. Cap the column, not each paragraph; the checker warns on a full-width `container` on a content screen (AG028).
 
-| Screen | Family | Chrome | Theme | Photography |
-|---|---|---|---|---|
-| `home` | marketing | topbar | light | one installation photograph, third in the rollout |
-| `static` | content | topbar | light | people and places that explain the work |
-| `content` | content | topbar | light | only when it explains the content |
-| `content-index` | content | topbar | light | none; titles stay type-only |
-| `products` | catalog | topbar | light | product thumbnails, second in the rollout |
-| `product-finder` | catalog | topbar | light | product thumbnails, second in the rollout |
-| `product` | catalog | topbar | light | product photograph or drawing, first in the rollout |
-| `spec-sheet` | document | topbar | light | product photograph and dimensioned drawing |
-| `app-shell` | product UI | sidebar | dark allowed | none |
+| Screen | Family | Chrome | Column | Theme | Photography |
+|---|---|---|---|---|---|
+| `home` | marketing | topbar | frame | light | one installation photograph, third in the rollout |
+| `static` | content | topbar | reading | light | people and places that explain the work |
+| `content` | content | topbar | reading | light | only when it explains the content |
+| `content-index` | content | topbar | reading | light | none; titles stay type-only |
+| `products` | catalog | topbar | frame | light | product thumbnails, second in the rollout |
+| `product-finder` | catalog | topbar | frame | light | product thumbnails, second in the rollout |
+| `product` | catalog | topbar | frame | light | product photograph or drawing, first in the rollout |
+| `spec-sheet` | document | topbar | frame | light | product photograph and dimensioned drawing |
+| `app-shell` | product UI | sidebar | frame | dark allowed | none |
 
 A website page opens with a `type-hero` headline (or a `type-h1` on listing and content pages), a `type-hero-deck`, a `hero-actions` row with one primary and one secondary `agustos-button`, and a `hero-trust` line. It closes with one `band band--cream`.
 
@@ -137,7 +137,7 @@ Every class the kit publishes. See `starter.html` for one rendered instance of e
 
 | Group | Classes |
 |---|---|
-| Frame | `site-frame` `container` `skip-link` |
+| Frame | `site-frame` `container` `container--reading` `skip-link` |
 | Layout | `stack` `cluster` `prose` `grid-2` `grid-3` `grid-4` `grid-aside` `band` `band--cream` `table-scroll` |
 | Headings | `type-hero` `type-hero-md` `type-hero-deck` `type-h1` `type-h2` `type-h3` `type-h4` |
 | Text | `type-body` `type-link` `type-code` `type-blockquote` `type-pullquote` `type-footnote` `type-highlight` |
@@ -154,7 +154,7 @@ Every class the kit publishes. See `starter.html` for one rendered instance of e
 
 Bare HTML elements are styled too: `h1`–`h4`, `p`, `a`, `ul`, `ol`, `dl`, `table`, `blockquote`, `pre`, `code`, `hr`. Semantic markup gets the right result without classes.
 
-Compose missing components from `agustos-card`, `agustos-button`, the layout classes, and `type-*`. `prose` caps a text block at the 65ch measure. Do not import another component library.
+Compose missing components from `agustos-card`, `agustos-button`, the layout classes, and `type-*`. `prose` caps a text block at the 65ch measure on a full-frame page; `container--reading` caps the whole column of a content page. Do not import another component library.
 
 ## Variables
 

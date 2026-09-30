@@ -483,7 +483,7 @@ class CheckerTest(unittest.TestCase):
         exec(compile(self.CHECKER.read_text(encoding="utf-8"), str(self.CHECKER), "exec"), namespace)
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
         expected = {
-            name: {"theme": row["theme"], "chrome": row["chrome"]}
+            name: {"theme": row["theme"], "chrome": row["chrome"], "column": row["column"]}
             for name, row in kit["screens"].items()
         }
         self.assertEqual(namespace["SCREENS"], expected)
@@ -510,8 +510,9 @@ class CheckerTest(unittest.TestCase):
         Errors guard integrity: a page names its screen, and the name exists.
         Taste rules only warn: data-theme outside product UI (AG024), more than
         one highlighter (AG025), a sidebar on a website (AG026), more than five
-        top-menu items (AG027, the More toggle counts, its items do not). Button
-        counts and quotes are no longer checked (v7.0.0)."""
+        top-menu items (AG027, the More toggle counts, its items do not), a
+        full-width container on a content screen (AG028, v7.2.0). Button counts
+        and quotes are no longer checked (v7.0.0)."""
         import tempfile
         primary = '<a class="agustos-button agustos-button--primary" href="#">Request pricing</a>'
         quote = '<blockquote class="type-blockquote">Quiet.</blockquote>'
@@ -533,6 +534,9 @@ class CheckerTest(unittest.TestCase):
             "six-items.html": (self._screen_page("home", chrome="".join(item.format(n) for n in range(6))), {"AG027": "warn"}),
             "four-and-more.html": (self._screen_page("home", chrome="".join(item.format(n) for n in range(4)) + more), {}),
             "app.html": (self._screen_page("app-shell", main=primary, chrome=sidebar, html_attrs=' data-theme="dark"'), {}),
+            "wide-policy.html": (self._screen_page("static", main='<div class="container"><h1>Gizlilik</h1></div>'), {"AG028": "warn"}),
+            "reading-policy.html": (self._screen_page("static", main="<article class='container container--reading'><h1>Gizlilik</h1></article>"), {}),
+            "wide-home.html": (self._screen_page("home", main='<section class="container"><h1>Işık</h1></section>'), {}),
         }
         with tempfile.TemporaryDirectory() as tmp:
             project = Path(tmp)
@@ -728,12 +732,12 @@ class ChromeTest(unittest.TestCase):
         self.assertLess(self.CSS.index(rule), self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor"))
 
     def test_search_results_keep_the_focus_ring(self):
-        # v7.0.2 fixed a removed ring in both adapters; v7.2.0 moves the rule into the kit once.
+        # v7.0.2 fixed a removed ring in both adapters; v7.3.0 moves the rule into the kit once.
         self.assertIn(".site-header__search-result a:focus-visible { background: var(--surface); color: var(--ink); outline: 2px solid var(--signal);", self.CSS)
         self.assertNotRegex(self.CSS, r"search-result a:focus-visible\s*\{[^}]*outline:\s*(0|none)")
 
     def test_search_and_language_are_styled_in_the_kit_only(self):
-        """B2 (v7.2.0): the adapters carry no copy of the search or language styles."""
+        """B2 (v7.3.0): the adapters carry no copy of the search or language styles."""
         for path in ("adapters/astro/src/components/Header.astro",
                      "adapters/astro/src/components/HeaderSearch.astro",
                      "adapters/astro/src/components/HeaderUtility.astro",
@@ -816,6 +820,7 @@ class ChromeTest(unittest.TestCase):
         self.assertIn(".grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }", self.CSS)
         self.assertIn(".band--cream { background: var(--cream);", self.CSS)
         self.assertIn(".prose { max-width: var(--measure-body); }", self.CSS)
+        self.assertIn(".container--reading {\n  max-width: calc(var(--measure-body) + 2 * var(--measure-gutter));\n}", self.CSS)
         self.assertIn(".grid-aside { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(0, 3fr);", self.CSS)
         self.assertIn(".stack { display: flex; flex-direction: column; gap: var(--space-md); }", self.CSS)
         self.assertIn(".stack > * { margin-block: 0; }", self.CSS)
@@ -827,9 +832,10 @@ class ChromeTest(unittest.TestCase):
 
     def test_entry_point_carries_the_screens_table_and_brand_chrome(self):
         text = (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8")
-        self.assertIn("| `product` | catalog | topbar | light |", text)
-        self.assertIn("| `home` | marketing | topbar | light |", text)
-        self.assertIn("| `app-shell` | product UI | sidebar | dark allowed |", text)
+        self.assertIn("| `product` | catalog | topbar | frame | light |", text)
+        self.assertIn("| `home` | marketing | topbar | frame | light |", text)
+        self.assertIn("| `static` | content | topbar | reading | light |", text)
+        self.assertIn("| `app-shell` | product UI | sidebar | frame | dark allowed |", text)
         self.assertIn("| ağustos | `brand-agustos` | red | black |", text)
         self.assertIn("| pataraz | `brand-pataraz` | black | red |", text)
         self.assertNotIn("at most 2", text)

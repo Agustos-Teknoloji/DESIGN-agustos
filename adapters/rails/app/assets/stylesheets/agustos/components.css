@@ -1,5 +1,5 @@
 /* Ağustos Design System — Rails adapter: the layout frame and the app toolbar. Chrome, header search, the language
-   link, the hero and the closing band come from the kit (v7.2.0): top menu and footer for websites, sidebar for
+   link, the hero and the closing band come from the kit (v7.3.0): top menu and footer for websites, sidebar for
    product UI. */
 
 .agustos-layout { display: flex; flex-direction: column; min-height: 100dvh; }

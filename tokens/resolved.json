@@ -326,7 +326,7 @@
       "family": "content",
       "file": "static.html",
       "photo": "people and places that explain the work",
-      "purpose": "The static page template: About, privacy, terms, and the KVKK notice. Intro, timeline, and people at a long-form measure."
+      "purpose": "The static page template: About, privacy, terms, and the KVKK notice. Intro, timeline, and people in one centered reading column."
     }
   },
   "semantic": {
@@ -871,5 +871,5 @@
       "surface": "#ffffff"
     }
   },
-  "version": "7.2.0"
+  "version": "7.3.0"
 }

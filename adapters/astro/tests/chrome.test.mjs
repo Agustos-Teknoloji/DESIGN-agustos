@@ -95,7 +95,7 @@ test('header and footer use the shared frame and accessible control sizes', asyn
   assert.match(footer, /class="site-footer__link"/);
   assert.match(footer, /<p class="type-footnote">\{note\}<\/p>/);
   assert.doesNotMatch(footer, /site-footer__(cols|col|col-heading|list|cta)\b|agustos-button/);
-  // v7.2.0: the kit styles the search and the language link; the components carry no <style>.
+  // v7.3.0: the kit styles the search and the language link; the components carry no <style>.
   const kit = await read('src/styles/tokens.css');
   for (const source of [header, search, utility]) assert.doesNotMatch(source, /<style>/);
   assert.match(kit, /\.site-header__search-result a:focus-visible \{[^}]*outline: 2px solid var\(--signal\)/);

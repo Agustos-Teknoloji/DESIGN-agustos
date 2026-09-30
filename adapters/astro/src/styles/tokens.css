@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.2.0 · GENERATED ASTRO ADAPTER CSS
+/* AĞUSTOS DESIGN SYSTEM v7.3.0 · GENERATED ASTRO ADAPTER CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -571,6 +571,13 @@ table th:last-child, table td:last-child { text-align: right; }
   padding-block: clamp(56px, 9vw, 112px) clamp(8px, 1.5vw, 16px);
 }
 
+/* A reading page (the content screens: About, privacy, terms, an article, a list
+   of posts). The whole column sits at the body measure in the center of the
+   frame, so a wide screen never shows text on one half and nothing on the other. */
+.container--reading {
+  max-width: calc(var(--measure-body) + 2 * var(--measure-gutter));
+}
+
 /* Two buttons: one primary, one secondary. */
 .hero-actions {
   display: flex;
@@ -1078,7 +1085,7 @@ html:has(.site-header) { scroll-padding-top: var(--site-header-height); }
 .site-header__more-link[aria-current="page"] { background: var(--surface); color: var(--ink); text-decoration: none; }
 .site-header__more-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 
-/* --- Header search and utility (v7.2.0). One recipe for every adapter: the
+/* --- Header search and utility (v7.3.0). One recipe for every adapter: the
    search toggle and panel on desktop, a search row under the bar below
    1024px, the language link and icon buttons. Text uses --ink-soft, never
    --ink-faint, so it clears 4.5:1. The input is 16px, so a phone does not

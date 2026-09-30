@@ -194,7 +194,7 @@ class AdapterContractTest < Minitest::Test
   end
 
   def test_responsive_contract_matches_kit_breakpoint_and_ios_safe_input
-    # v7.2.0: the kit styles the search; components.css keeps only the layout and the app toolbar.
+    # v7.3.0: the kit styles the search; components.css keeps only the layout and the app toolbar.
     css = read("app/assets/stylesheets/agustos/components.css")
     refute_match(/\.site-header__(search|lang-link|utility|icon-btn)/, css)
     kit = read("app/assets/stylesheets/agustos/tokens.css")

@@ -2,7 +2,7 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
-## [7.2.0] - 2026-09-30
+## [7.3.0] - 2026-09-30
 
 One header search and language recipe in the kit (B2). Emre approved it from a before/after preview. Consuming sites load no search or language styles of their own; the Astro and Rails adapters drop theirs.
 
@@ -19,6 +19,21 @@ One header search and language recipe in the kit (B2). Emre approved it from a b
 - `tokens/web.css.tmpl` styles `site-header__search*`, `site-header__lang-link`, `site-header__utility*`, `site-header__icon-btn` and the theme icons. Sizes sit on the scale, spacing comes from `--space-*`, and the panel floats on the menu shadow and the 12px radius.
 - The language link reads like the other chrome links: `bodyCompact`, medium weight, a 1px gray rule on hover.
 - The Rails no-script search uses `agustos-input` and `agustos-button`.
+
+## [7.2.0] - 2026-09-30
+
+One reading column for content pages. On a 1440px screen the privacy page of iesdesk.com showed its text on the left 654px of a 1244px frame and nothing on the right, because `.prose` capped each paragraph while the column kept the full frame. The kit's own static screen did the same. Consuming sites moving from `v7.1.0` add `container--reading` next to `container` on each content page (About, privacy, terms, an article, a list of posts); nothing else in their markup changes.
+
+### Added
+
+- `.container--reading`: the whole column of a content page at the 65ch body measure plus the gutters, in the center of the frame. The line length stays the same (654px at 1440px); the empty space splits evenly on both sides.
+- The screens table gains a derived Column: `reading` for the content family (`static`, `content`, `content-index`), `frame` for every other family. `UI-KIT.md`, `kit.json` and `docs/web.html` show it.
+- Checker warning AG028: a full-width `container` on a content screen.
+
+### Changed
+
+- `screens/static.html`, `screens/content.html` and `screens/content-index.html`, and the Astro About, post and post-list pages, use the reading column. The Astro typography showcase keeps the frame.
+- `DESIGN.md` states the line-length rule: 45 to 75 characters, 65ch in the kit, 80 as the WCAG 1.4.8 ceiling. Cap the column, not each paragraph.
 
 ## [7.1.0] - 2026-09-30
 

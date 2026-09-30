@@ -2,13 +2,20 @@
 
 ## Now
 
-Kit v7.2.0: one search and language recipe (B2), 2026-09-30, branch `claude/kit-7.2-search-recipe`. Emre approved the order (company page, then this, then the memregunes.com and pldturkiye.com rollout on v7.2.0).
+Kit v7.3.0: one search and language recipe (B2), 2026-09-30, branch `claude/kit-7.2-search-recipe`. Emre approved the order (company page, then this, then the memregunes.com and pldturkiye.com rollout on v7.3.0).
 
 - [x] Move the header search, the language link, the icon button and the utility slot from the Astro and Rails adapters into `tokens/web.css.tmpl`; delete the adapter copies.
 - [x] Fix while moving: text in `--ink-soft`, not `--ink-faint` (3.75:1 fails the 4.5:1 floor); the icon button hover is the gray tile, not a red rule; the search input is 16px everywhere; sizes on the scale (13, 15.5, 16px); spacing from `--space-*`; the panel floats on the one menu shadow and the 12px radius.
 - [x] Phone anchor offset: below 1024px, `scroll-padding-top` adds the 61px search row when a page has one (the header is 126px on agustos.com); agustos.com then drops its local script.
 - [x] Registry classes and states rows; checker; tests; docs.
-- [x] Before/after preview for Emre (monthly-release rule), then `VERSION` 7.2.0, CHANGELOG, MEMORY, build, gate, PR, `/design-push`.
+- [x] Before/after preview for Emre (monthly-release rule), then `VERSION` 7.3.0, CHANGELOG, MEMORY, build, gate, PR, `/design-push`.
+
+Reading column (v7.2.0, 2026-09-30, branch `claude/kit-7.2.0-reading-column`). Emre chose option B (a release of its own) and 7.2.0. Record: MEMORY.md 2026-09-30 reading-column.
+
+- [x] `.container--reading`, the derived Column in the screens table, checker AG028, screens, Astro pages, docs, tests, `VERSION` 7.2.0, CHANGELOG.
+- [ ] Build, gate, browser check at 1440 and 390px; commit, push, PR. The tag and `/design-push` follow the merge.
+- [ ] Bump iesdesk.com (privacy, terms, About, Contact) and agustos.com content pages to v7.2.0.
+- [x] The header search draft (`claude/kit-7.2-search-recipe`) renames itself to 7.3.0 when it rebases.
 
 Chrome audit and v7.1.0 (2026-09-30, branch `claude/affectionate-ride-f41zre`). The audit checked the top menu, the sidebar and the footer against WCAG 2.2, the WAI-ARIA disclosure-navigation pattern and common B2B conventions; a Chromium probe measured every finding. Emre decided D1 to D3 on 2026-09-30. Record: MEMORY.md 2026-09-30 chrome-best-practice-fixes.
 
@@ -85,6 +92,6 @@ v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva
   - Handbook pages carry no chrome, copy `.book-nav` into each page, use their own 720px and 820px breakpoints, and `docs/handoff-setup.html` fills a bar with red.
   - Breakpoints 759px, 760px and 1023px have no token. Add one set to the registry.
 
-- agustos.com: move to kit v7.2.0 and delete its local anchor-offset script in `BaseLayout.astro`; the kit offset now covers the phone search row.
+- agustos.com: move to kit v7.3.0 and delete its local anchor-offset script in `BaseLayout.astro`; the kit offset now covers the phone search row.
 - Register printer-matched CMYK and Pantone values for the six colours and the identity inks in `brand/brands.json`, then show them on the colour page of `brand/build_guidelines.py`. Ask the printer for a proof first; do not convert the screen values.
 - Rebuild `adapters/astro/src/pages/blog/index.astro` on `type-dl` and `type-footnote`, like `screens/content-index.html`. Remove its scoped `<style>` block and the H2 for each post title, which break the list-page rule.
