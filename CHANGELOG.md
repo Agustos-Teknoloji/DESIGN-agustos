@@ -2,6 +2,12 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
+## [Unreleased]
+
+### Fixed
+
+- Astro adapter, `/typography`: the "Negative expression" tiles use `var(--cream)` for the lockup. They used `--footer-ink`, which is off-black since the footer became light in v7. The four house-brand lockups were invisible at 1:1, and the Ağustos lockup was off-black on red. Measured after the fix: 5.16:1 on red and 17.28:1 on off-black in light, 4.65:1 and 15.56:1 in the dark toggle.
+
 ## [7.4.1] - 2026-09-30
 
 A defect patch for the checker. Found on WEBSITE-pldturkiye PR 52. Consuming sites change no markup; a site that loads `agustos-chrome.js` as a file only to avoid the warning can go back to a plain import.
