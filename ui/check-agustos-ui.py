@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ağustos UI kit compliance checker — v7.3.0
+"""Ağustos UI kit compliance checker — v7.3.1
 
 GENERATED. Do not hand-edit. Regenerate with:
     python3 scripts/build_design_system.py
@@ -28,7 +28,7 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 
-KIT_VERSION = "7.3.0"
+KIT_VERSION = "7.3.1"
 REPOSITORY = "Agustos-Teknoloji/DESIGN-agustos"
 LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json"
 
@@ -430,8 +430,8 @@ def check_screen(rel: str, text: str, findings: list) -> None:
             if "container" in names and "container--reading" not in names:
                 findings.append(Finding(
                     "AG028", "warn", rel, line_of(text, text.find(match.group(0))),
-                    f"full-width container on screen {name!r}: a content page reads in one "
-                    f"centered column: add container--reading",
+                    f"full-width container on screen {name!r}: a content page stops its "
+                    f"text at the reading line: add container--reading",
                 ))
                 break
     theme = DATA_THEME.search(page)

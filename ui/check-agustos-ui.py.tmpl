@@ -270,8 +270,8 @@ def check_screen(rel: str, text: str, findings: list) -> None:
             if "container" in names and "container--reading" not in names:
                 findings.append(Finding(
                     "AG028", "warn", rel, line_of(text, text.find(match.group(0))),
-                    f"full-width container on screen {name!r}: a content page reads in one "
-                    f"centered column: add container--reading",
+                    f"full-width container on screen {name!r}: a content page stops its "
+                    f"text at the reading line: add container--reading",
                 ))
                 break
     theme = DATA_THEME.search(page)

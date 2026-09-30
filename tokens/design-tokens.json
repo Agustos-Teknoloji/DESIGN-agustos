@@ -1,7 +1,7 @@
 {
   "$schema": "https://design-tokens.github.io/community-group/format/",
   "name": "Ağustos Design System",
-  "version": "7.3.0",
+  "version": "7.3.1",
   "description": "Canonical cross-medium design values. CSS, framework adapters, and Office templates are generated consumers.",
   "meta": {
     "referenceImplementation": "https://agustos.com",
@@ -183,7 +183,7 @@
       "content": { "$value": "1180px", "$description": "Shared content column for page and chrome." },
       "gutter": { "$value": "32px", "$description": "Horizontal frame gutter." },
       "text": { "$value": "54ch", "$description": "Hero supporting copy measure." },
-      "body": { "$value": "65ch", "$description": "Readable long-form measure. About 42rem in Inter at 16.5px, the content column agustos.com already uses." },
+      "body": { "$value": "41rem", "$description": "The reading line: long-form text, and the line between the main zone and the side zone. 656px, about 75 characters of Inter at 16.5px. In rem, so every element puts the line in the same place." },
       "wide": { "$value": "1180px", "$description": "Media and data width. Same as the content column." },
       "controlMinimum": { "$value": "44px", "$description": "Minimum button-like target on the shorter axis." }
     },
@@ -355,14 +355,14 @@
       "file": "static.html",
       "family": "content",
       "brand": "agustos",
-      "purpose": "The static page template: About, privacy, terms, and the KVKK notice. Intro, timeline, and people in one centered reading column.",
+      "purpose": "The static page template: About, privacy, terms, and the KVKK notice. Intro, timeline, and people in the reading column on the left edge of the frame.",
       "photo": "people and places that explain the work"
     },
     "content": {
       "file": "content.html",
       "family": "content",
       "brand": "agustos",
-      "purpose": "One article or post: title, deck, long-form body at 65ch with headings, lists, a quote, and a footnote.",
+      "purpose": "One article or post: title, deck, long-form body at the reading line with headings, lists, a quote, and a footnote.",
       "photo": "only when it explains the content"
     },
     "content-index": {

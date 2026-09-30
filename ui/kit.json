@@ -39,7 +39,7 @@
       "wordmark": "specquick"
     }
   },
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.0/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.1/ui/",
   "cssClasses": [
     "type-hero",
     "type-hero-md",
@@ -238,27 +238,27 @@
   "files": {
     "AGENTS-SNIPPET.md": {
       "bytes": 2215,
-      "sha256": "d9c35e478f5c0b24ba5fa184773e1ce9189f1bee085a9c3707452b2e72da32cc"
+      "sha256": "5e01447e58038bff2845a7d177b4efd362eb5fb15a0a91d9ae147515d2f30fab"
     },
     "UI-KIT.md": {
-      "bytes": 18802,
-      "sha256": "ccacc697d99172516bc85eb5a32ea0acbfa5b4f8ecbfd5f0c047cd8aeba8e7d4"
+      "bytes": 18994,
+      "sha256": "6883f83dcd17cb699541f5ac8adeb5f806f3e9fe86a35286dddcbaa6e9b650ca"
     },
     "agustos-chrome.js": {
       "bytes": 1367,
-      "sha256": "b70233ad7e477bcd9218f8637d33f01f591ee2f4a2a3e1d720aaa945fc10f972"
+      "sha256": "2a5a4e376970ce4418458c9489a5ea3c481e21e6871ab5a00fa6bb4b7ecfe518"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
-      "sha256": "c5236b0ff2cc1cb7807f579de4bf6ecbc6ac0f805ae3a74b36dd36f90740742a"
+      "sha256": "9b1346f79c3b4ebf9ca09eb66f3e1fe7a7570ee5e3d761743c1010d9abbc53d3"
     },
     "agustos.css": {
-      "bytes": 59261,
-      "sha256": "128958330f3815d2787da90074a67c3f4c53f1ed952ca07f42f9f7cda8d8879f"
+      "bytes": 59578,
+      "sha256": "249e9d38c90b8ba7a6f9db114d09baad4a23fbc784a840da224710d32721e7ad"
     },
     "check-agustos-ui.py": {
-      "bytes": 26008,
-      "sha256": "d3cf831a70496f129a7870af138c43281bc5d3acd963eee19e7dd0073df3cc1f"
+      "bytes": 26014,
+      "sha256": "1c0aa4622c92bca2f3e0256fca28c7b4f5843b8596adec7f3084bb8c111371f3"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -281,13 +281,13 @@
       "sha256": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
     },
     "starter.html": {
-      "bytes": 27145,
-      "sha256": "7dc895ba06631c14691fa26173fb474b8a5a8a9d1170010537cd77e2b165cb35"
+      "bytes": 27153,
+      "sha256": "57f39662247f93ed36b963de09079b5f5e6a5c87f28cada4b926aa07a8e1a6a5"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.0/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.1/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.3.1/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.3.0/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.3.1/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "screens": {
     "app-shell": {
@@ -307,7 +307,7 @@
       "family": "content",
       "file": "content.html",
       "photo": "only when it explains the content",
-      "purpose": "One article or post: title, deck, long-form body at 65ch with headings, lists, a quote, and a footnote.",
+      "purpose": "One article or post: title, deck, long-form body at the reading line with headings, lists, a quote, and a footnote.",
       "theme": "light"
     },
     "content-index": {
@@ -377,7 +377,7 @@
       "family": "content",
       "file": "static.html",
       "photo": "people and places that explain the work",
-      "purpose": "The static page template: About, privacy, terms, and the KVKK notice. Intro, timeline, and people in one centered reading column.",
+      "purpose": "The static page template: About, privacy, terms, and the KVKK notice. Intro, timeline, and people in the reading column on the left edge of the frame.",
       "theme": "light"
     }
   },
@@ -873,5 +873,5 @@
     "cream"
   ],
   "system": "Ağustos Design System",
-  "version": "7.3.0"
+  "version": "7.3.1"
 }
