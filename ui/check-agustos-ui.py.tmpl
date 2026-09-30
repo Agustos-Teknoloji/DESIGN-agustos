@@ -74,7 +74,9 @@ RENDERED_SUFFIXES = {".html", ".htm"}
 HEX = re.compile(r"#([0-9a-fA-F]{6})\b")
 # Page files: anything that can carry a <body>. Partials without one are skipped.
 PAGE_SUFFIXES = {".html", ".htm", ".astro", ".erb", ".php", ".liquid", ".vue", ".svelte"}
-COMMENT = re.compile(r"<!--.*?-->", re.S)
+# Comments, scripts and styles are not markup. Astro inlines a small processed
+# script, agustos-chrome.js among them, and its selectors name kit classes.
+NOT_MARKUP = re.compile(r"<!--.*?-->|<script\b[^>]*>.*?</script\s*>|<style\b[^>]*>.*?</style\s*>", re.S | re.I)
 BODY_TAG = re.compile(r"<body\b([^>]*)>", re.I)
 REDIRECT = re.compile(r"<meta\b[^>]*http-equiv\s*=\s*[\"']?refresh", re.I)
 DATA_SCREEN = re.compile(r"""data-screen\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s>]+))""", re.I)
@@ -152,6 +154,12 @@ def scan_files(root: Path, skip_dirs: frozenset[str] = frozenset(SKIP_DIRS), suf
 
 def line_of(text: str, index: int) -> int:
     return text[:index].count("\n") + 1
+
+
+def markup(text: str) -> str:
+    """The page with comments, scripts and styles blanked. Newlines and offsets
+    stay, so the start of a match gives its line in the page as written."""
+    return NOT_MARKUP.sub(lambda match: re.sub(r"[^\n]", " ", match.group(0)), text)
 
 
 # The kit stretches a link that is a direct child of one of these headings
@@ -246,15 +254,15 @@ def check_cards(rel: str, text: str, findings: list) -> None:
 
 
 def check_screen(rel: str, text: str, findings: list) -> None:
-    """The per-screen rules. Comments are stripped first so a header note that
-    mentions <body> or a commented-out button does not count."""
-    page = COMMENT.sub("", text)
+    """The per-screen rules. They read markup only: a header note that mentions
+    <body>, a commented-out button or a selector in an inline script does not count."""
+    page = markup(text)
     body = BODY_TAG.search(page)
     if not body:
         return
     if REDIRECT.search(page[:body.start()]):
         return  # a redirect stub, such as the one Astro writes, is not a screen
-    body_line = line_of(text, text.find(body.group(0)))
+    body_line = line_of(page, body.start())
     attribute = DATA_SCREEN.search(body.group(1))
     if not attribute:
         findings.append(Finding(
@@ -273,24 +281,23 @@ def check_screen(rel: str, text: str, findings: list) -> None:
             f"unknown screen {name!r} — the screens table knows: " + ", ".join(SCREENS),
         ))
         return
-    highlights = HIGHLIGHT.findall(page)
+    highlights = list(HIGHLIGHT.finditer(page))
     if len(highlights) > 1:
         findings.append(Finding(
-            "AG025", "warn", rel, line_of(text, text.find(highlights[1])),
+            "AG025", "warn", rel, line_of(page, highlights[1].start()),
             f"{len(highlights)} highlighter strokes on one page — use one, on a few words "
             f"of the main headline",
         ))
     sidebar = SIDEBAR.search(page)
     if sidebar and rules["chrome"] != "sidebar":
         findings.append(Finding(
-            "AG026", "warn", rel, line_of(text, text.find(sidebar.group(0))),
+            "AG026", "warn", rel, line_of(page, sidebar.start()),
             f"sidebar on screen {name!r} — websites use the top menu; the sidebar is for product UI",
         ))
-    menu_items = TOP_MENU_ITEM.findall(page)
+    menu_items = list(TOP_MENU_ITEM.finditer(page))
     if len(menu_items) > TOP_MENU_LIMIT:
-        sixth = [m.start() for m in TOP_MENU_ITEM.finditer(page)][TOP_MENU_LIMIT]
         findings.append(Finding(
-            "AG027", "warn", rel, line_of(text, text.find(page[sixth:sixth + 60])),
+            "AG027", "warn", rel, line_of(page, menu_items[TOP_MENU_LIMIT].start()),
             f"{len(menu_items)} top-menu items — keep at most {TOP_MENU_LIMIT}, the More toggle "
             f"included; put the rest in one site-header__more",
         ))
@@ -299,7 +306,7 @@ def check_screen(rel: str, text: str, findings: list) -> None:
             names = (match.group(1) or match.group(2) or "").split()
             if "container" in names and "container--reading" not in names:
                 findings.append(Finding(
-                    "AG028", "warn", rel, line_of(text, text.find(match.group(0))),
+                    "AG028", "warn", rel, line_of(page, match.start()),
                     f"full-width container on screen {name!r}: a content page stops its "
                     f"text at the reading line: add container--reading",
                 ))
@@ -319,7 +326,7 @@ def check_screen(rel: str, text: str, findings: list) -> None:
     theme = DATA_THEME.search(page)
     if theme and rules["theme"] != "dark-allowed":
         findings.append(Finding(
-            "AG024", "warn", rel, line_of(text, text.find(theme.group(0))),
+            "AG024", "warn", rel, line_of(page, theme.start()),
             f"data-theme on screen {name!r} — dark theme is for product UI only; "
             f"marketing, catalog, and document pages ship light with no theme control",
         ))
@@ -338,7 +345,7 @@ def check_current_links(rel: str, posix: str, text: str, findings: list) -> None
     marked aria-current="page" that points to a section above the page (or to
     home from a nested page) makes a screen reader announce the parent as the
     current page. The section takes aria-current="true"."""
-    page = COMMENT.sub("", text)
+    page = markup(text)
     body = BODY_TAG.search(page)
     if not body or REDIRECT.search(page[:body.start()]):
         return
@@ -352,7 +359,7 @@ def check_current_links(rel: str, posix: str, text: str, findings: list) -> None
         target = url_path(href)
         if target != here and (target == "/" or here.startswith(target + "/")):
             findings.append(Finding(
-                "AG029", "warn", rel, line_of(text, text.find(tag.group(0))),
+                "AG029", "warn", rel, line_of(page, tag.start()),
                 f'aria-current="page" on a link to {href}, a section above this page ({here}): '
                 f'use aria-current="true" for the section; "page" belongs to the page itself',
             ))
@@ -362,13 +369,13 @@ def check_disabled_links(rel: str, text: str, findings: list) -> None:
     """aria-disabled only tells a screen reader; it does not stop a link. A
     disabled link that keeps its href still opens on a click or Enter. Drop the
     href and add role="link", so the link is inert and still announced."""
-    page = COMMENT.sub("", text)
+    page = markup(text)
     for tag in LINK_TAG.finditer(page):
         attrs = {name.lower(): next((v for v in values if v), "")
                  for name, *values in LINK_ATTRIBUTE.findall(tag.group(0))}
         if attrs.get("aria-disabled", "").lower() == "true" and "href" in attrs:
             findings.append(Finding(
-                "AG030", "warn", rel, line_of(text, text.find(tag.group(0))),
+                "AG030", "warn", rel, line_of(page, tag.start()),
                 'a link with aria-disabled="true" keeps its href, so it still opens: '
                 'drop the href and add role="link"',
             ))

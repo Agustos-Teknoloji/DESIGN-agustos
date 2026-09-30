@@ -2,6 +2,12 @@
 
 ## Now
 
+Kit v7.4.1: the checker's screen rules read markup only (2026-09-30, branch `claude/silly-stonebraker-1ac72f`). Record: MEMORY.md 2026-09-30 checker-reads-markup.
+
+- [x] Blank comments, scripts and styles before the screen rules; a line for each match; test; UI-KIT.md; `VERSION` 7.4.1; CHANGELOG; build; before and after check on the Astro adapter build with the chrome script inlined.
+- [ ] Gate, PR, merge. The tag follows the merge; the next local session on `main` runs `/design-push`.
+- [ ] pldturkiye.com: after it vendors v7.4.1, it can go back to a plain `import` of `agustos-chrome.js`.
+
 "On this page" list (v7.4.0, 2026-09-30, branch `claude/page-contents-spec`). Record: MEMORY.md 2026-09-30 page-contents. Plan: docs/superpowers/plans/2026-09-30-page-contents.md.
 
 - [x] Component, AG031, docs, starter, `VERSION` 7.4.0.
