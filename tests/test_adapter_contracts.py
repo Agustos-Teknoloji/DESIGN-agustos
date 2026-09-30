@@ -97,9 +97,11 @@ class AdapterContractTest(unittest.TestCase):
         types = (ADAPTERS / "astro" / "src" / "types" / "chrome.ts").read_text(encoding="utf-8")
         self.assertIn("address?: string[];", types)
         self.assertIn("groups?: FooterGroup[];", types)
+        self.assertIn("contact?: ChromeLink[];", types)
         helper = (ADAPTERS / "rails" / "app" / "helpers" / "agustos_theme_helper.rb").read_text(encoding="utf-8")
         self.assertIn("def agustos_footer_groups", helper)
         self.assertIn("def agustos_footer_address", helper)
+        self.assertIn("def agustos_footer_contact", helper)
         for footer in (
             (ADAPTERS / "astro" / "src" / "components" / "Footer.astro").read_text(encoding="utf-8"),
             (ADAPTERS / "rails" / "app" / "views" / "agustos" / "shared" / "_footer.html.erb").read_text(encoding="utf-8"),

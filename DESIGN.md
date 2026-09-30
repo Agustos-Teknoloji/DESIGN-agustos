@@ -848,7 +848,8 @@ off-black, and neither follows the theme flip. v7.0.0 retired `site-footer__cols
 `__col-heading`, `__list`, and `__cta`.
 
 **Site map (optional, v7.1.0).** Above the bottom row, `site-footer__map` holds
-`site-footer__contact` (the lockup and an `address`: the legal name and the registered address)
+`site-footer__contact` (the lockup and an `address`: the legal name, the registered address, and
+a `site-footer__links` row with the phone and email)
 and one `site-footer__groups` nav of at most three `site-footer__group`s. Each group is a
 sentence-case `site-footer__group-title` over at most five `site-footer__link`s in
 `site-footer__group-links`: the pages people look for, such as the represented brands, not every

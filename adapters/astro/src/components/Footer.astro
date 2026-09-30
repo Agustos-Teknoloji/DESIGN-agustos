@@ -23,8 +23,9 @@ const links: ChromeLink[] = config.links ?? [
   { href: 'https://github.com/Agustos-Teknoloji/DESIGN-agustos/blob/main/ASSETS.md', label: 'Asset index', external: true },
 ];
 const address: string[] = config.address ?? [];
+const contact: ChromeLink[] = config.contact ?? [];
 const groups: FooterGroup[] = config.groups ?? [];
-const hasMap = address.length > 0 || groups.length > 0;
+const hasMap = address.length > 0 || contact.length > 0 || groups.length > 0;
 ---
 <footer class="site-footer">
   {hasMap && (
@@ -34,8 +35,17 @@ const hasMap = address.length > 0 || groups.length > 0;
           <LazGunesi class="site-lockup__symbol" />
           <span class="site-lockup__name">{brandname}</span>
         </a>
-        {address.length > 0 && (
-          <address>{address.map((line, index) => (<>{index > 0 && <br />}{line}</>))}</address>
+        {(address.length > 0 || contact.length > 0) && (
+          <address>
+            {address.map((line, index) => (<>{index > 0 && <br />}{line}</>))}
+            {contact.length > 0 && (
+              <ul class="site-footer__links">
+                {contact.map((link) => (
+                  <li><a class="site-footer__link" href={link.href} aria-label={link.ariaLabel}>{link.label}</a></li>
+                ))}
+              </ul>
+            )}
+          </address>
         )}
       </div>
       {groups.length > 0 && (

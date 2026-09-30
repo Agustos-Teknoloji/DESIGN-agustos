@@ -53,6 +53,8 @@ export interface FooterGroup {
 export interface FooterConfig {
   /** Lines of the contact block, for example the legal name and the address. */
   address?: string[];
+  /** Phone and email under the address, for example { href: 'tel:+908508851996', label: '+90 850 885 1996' }. */
+  contact?: ChromeLink[];
   /** At most three groups of at most five links: the pages people look for, not every page. */
   groups?: FooterGroup[];
   /** The one footnote line under the lockup, for example '© Ağustos Teknoloji, 1996–2026'. */

@@ -155,8 +155,9 @@ module AgustosThemeHelper
   # The optional site map: address lines, and at most three groups of
   # { title:, links: [] } with at most five links each.
   def agustos_footer_address = agustos_value(agustos_footer_config, :address, []) || []
+  def agustos_footer_contact = agustos_value(agustos_footer_config, :contact, []) || []
   def agustos_footer_groups = agustos_value(agustos_footer_config, :groups, []) || []
-  def agustos_footer_map? = agustos_footer_address.any? || agustos_footer_groups.any?
+  def agustos_footer_map? = agustos_footer_address.any? || agustos_footer_contact.any? || agustos_footer_groups.any?
   def agustos_footer_aria_label = agustos_value(agustos_footer_config, :aria_label) || agustos_chrome_labels[:footer]
   def agustos_sidebar_config = agustos_theme_config[:sidebar] || {}
   def agustos_sidebar_items = agustos_value(agustos_sidebar_config, :nav, []) || []

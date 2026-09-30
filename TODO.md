@@ -25,7 +25,8 @@ Footer and sitemap (v7.1.0), and the next chrome release (B2):
 - [ ] B2. The kit has no search or language control. Astro and Rails each style their own `site-header__search*` and `site-header__lang-link`, about 35 rules each at off-scale 11, 12.5 and 14px. Move one recipe into `tokens/web.css.tmpl` and delete the adapter copies.
 - [x] B3. Footer site map (v7.1.0): the contact block from the İTO registry facts and three groups on the Ağustos screens and the starter; Astro and Rails take `address` and `groups`. Record: MEMORY.md 2026-09-30 footer-site-map.
 - [x] B5. `sitemap.xml` guidance per adapter in `DESIGN.md` and the adapter READMEs. Astro already ships `@astrojs/sitemap`.
-- [ ] Emre: confirm the footer's public phone and email, if the footer should show them; the registry documents give none. Publish the "Bilgi toplumu hizmetleri" page on agustos.com (confirm its contents with the legal advisor).
+- [x] Footer phone and email (Emre, 2026-09-30): +90 850 885 1996, agustos@agustos.com.
+- [ ] Emre publishes the "Bilgi toplumu hizmetleri" page on agustos.com (contents confirmed with the legal advisor).
 
 Not recommended, because they add weight against the house rules: a mega menu, a header that hides on scroll, a sidebar that collapses to an icon rail, and a back-to-top button.
 
