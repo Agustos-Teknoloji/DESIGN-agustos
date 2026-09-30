@@ -1005,6 +1005,10 @@ class ChromeTest(unittest.TestCase):
         self.assertIn("--measure-body: 41rem;", self.CSS)
         self.assertIn(".container--reading > * {\n  max-width: var(--measure-body);\n}", self.CSS)
         self.assertNotIn("calc(var(--measure-body) + 2 * var(--measure-gutter))", self.CSS)
+        # v7.3.4: a reading page is one article. A section and an H2 take one
+        # 40px break, a margin that collapses with the last margin above it.
+        self.assertIn(".container--reading .agustos-section {\n  padding-block: 0;\n  margin-top: var(--space-3xl);\n}", self.CSS)
+        self.assertIn(".container--reading > :is(h2, .type-h2),\n.container--reading .prose > :is(h2, .type-h2) {\n  margin-top: var(--space-3xl);\n}", self.CSS)
         self.assertIn("grid-template-columns: minmax(0, var(--measure-body)) minmax(0, 1fr);\n  gap: var(--space-2xl) var(--space-xl);", self.CSS)
         self.assertIn("@media (max-width: 1279px) {\n  .site-footer__map { grid-template-columns: minmax(0, 1fr); }\n}", self.CSS)
         self.assertIn(".grid-aside { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(0, 3fr);", self.CSS)

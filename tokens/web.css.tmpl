@@ -688,6 +688,17 @@ table th:last-child, table td:last-child { text-align: right; }
 .agustos-section + .agustos-section {
   padding-top: 0;
 }
+/* A reading page is one article, not a set of bands. A section and an H2 in
+   it take one break, the section break of the vertical rhythm: 40px. It is a
+   margin, so it collapses with the last margin above it (the larger wins). */
+.container--reading .agustos-section {
+  padding-block: 0;
+  margin-top: var(--space-3xl);
+}
+.container--reading > :is(h2, .type-h2),
+.container--reading .prose > :is(h2, .type-h2) {
+  margin-top: var(--space-3xl);
+}
 
 .agustos-section__head {
   display: flex;
