@@ -60,6 +60,10 @@
   --site-header-height: calc(var(--control-min) + 2 * {{recipes.chrome.paddingBlock}} + {{recipes.chrome.rule}});
   /* The phone search row under the top menu: a 44px field, 8px above and below, and the rule. */
   --site-header-search-height: calc(var(--control-min) + 2 * var(--space-xs) + {{recipes.chrome.rule}});
+  /* The three heights above equal the rendered chrome. A browser scrolls to whole
+     pixels, so a target at a fractional position can stop up to 1px under the
+     sticky chrome. Every anchor offset adds this 1px. */
+  --anchor-snap: 1px;
 
   /* The one section spacing: sections, the closing band, and the gap after the hero. */
   --section-space: {{recipes.section.paddingBlock}};
@@ -788,7 +792,8 @@ table th:last-child, table td:last-child { text-align: right; }
 }
 
 /* Hover darkens the ink over a 1px gray rule; the 2px red rule marks the
-   current page alone. The 1px border plus 1px padding keeps the box size. */
+   current page, or the section that holds it (aria-current "page" or "true").
+   The 1px border plus 1px padding keeps the box size. */
 .agustos-chrome-link:hover {
   color: var(--ink);
   text-decoration: none;
@@ -796,7 +801,7 @@ table th:last-child, table td:last-child { text-align: right; }
   border-bottom-color: var(--ink-faint);
   padding-bottom: calc(2px + {{foundations.border.hairline}});
 }
-.agustos-chrome-link[aria-current="page"] {
+.agustos-chrome-link:is([aria-current="page"], [aria-current="true"]) {
   color: var(--ink);
   text-decoration: none;
   border-bottom-width: {{foundations.border.signal}};
@@ -919,7 +924,8 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
   transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
 /* Hover darkens the ink over a 1px gray rule; the 2px red rule marks the
-   current page alone. The 1px border plus 1px padding keeps the text still. */
+   current page, or the section that holds it (aria-current "page" or "true").
+   The 1px border plus 1px padding keeps the text still. */
 .site-sidebar__link:hover {
   color: var(--ink);
   border-inline-start-width: {{foundations.border.hairline}};
@@ -927,7 +933,7 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
   padding-inline-start: calc(var(--space-sm) + {{foundations.border.hairline}});
   text-decoration: none;
 }
-.site-sidebar__link[aria-current="page"] {
+.site-sidebar__link:is([aria-current="page"], [aria-current="true"]) {
   color: var(--ink);
   border-inline-start-width: {{foundations.border.signal}};
   border-inline-start-color: var(--signal);
@@ -962,15 +968,15 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
 }
 .site-sidebar__group[open] > summary::after { transform: translateY(0.1em) rotate(-135deg); }
 .site-sidebar__group > summary:hover { color: var(--ink); }
-/* A closed group that holds the current page carries the red rule for it. */
-.site-sidebar__group:has([aria-current="page"]) > summary { color: var(--ink); }
-.site-sidebar__group:not([open]):has([aria-current="page"]) > summary { border-inline-start-color: var(--signal); }
+/* A closed group that holds the current page or section carries the red rule for it. */
+.site-sidebar__group:has([aria-current="page"], [aria-current="true"]) > summary { color: var(--ink); }
+.site-sidebar__group:not([open]):has([aria-current="page"], [aria-current="true"]) > summary { border-inline-start-color: var(--signal); }
 .site-sidebar__group > summary:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 .site-sidebar__group > .site-sidebar__link {
   padding-inline-start: var(--space-xl);
   font-size: {{foundations.fontSize.bodyCompact}};
 }
-.site-sidebar__group > .site-sidebar__link:hover:not([aria-current="page"]) {
+.site-sidebar__group > .site-sidebar__link:hover:not([aria-current="page"], [aria-current="true"]) {
   padding-inline-start: calc(var(--space-xl) + {{foundations.border.hairline}});
 }
 .site-sidebar__cta { align-self: flex-start; }
@@ -981,7 +987,7 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
 /* --- Topbar family --- */
 /* An in-page anchor or a focused element lands below the sticky top menu,
    not under it (WCAG 2.2 SC 2.4.11). */
-html:has(.site-header) { scroll-padding-top: var(--site-header-height); }
+html:has(.site-header) { scroll-padding-top: calc(var(--site-header-height) + var(--anchor-snap)); }
 .site-header {
   position: sticky;
   top: 0;
@@ -1014,7 +1020,8 @@ html:has(.site-header) { scroll-padding-top: var(--site-header-height); }
   transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
 /* Hover darkens the ink over a 1px gray rule; the 2px red rule marks the
-   current page alone. The 1px border plus 1px padding keeps the text still. */
+   current page, or the section that holds it (aria-current "page" or "true").
+   The 1px border plus 1px padding keeps the text still. */
 .site-header__link:hover {
   color: var(--ink);
   border-block-end-width: {{foundations.border.hairline}};
@@ -1022,8 +1029,8 @@ html:has(.site-header) { scroll-padding-top: var(--site-header-height); }
   padding-block-end: {{foundations.border.hairline}};
   text-decoration: none;
 }
-.site-header__link[aria-current="page"],
-.site-header__more:has([aria-current="page"]) > summary {
+.site-header__link:is([aria-current="page"], [aria-current="true"]),
+.site-header__more:has([aria-current="page"], [aria-current="true"]) > summary {
   color: var(--ink);
   border-block-end-width: {{foundations.border.signal}};
   border-block-end-color: var(--signal);
@@ -1081,7 +1088,7 @@ html:has(.site-header) { scroll-padding-top: var(--site-header-height); }
   text-decoration: none;
 }
 .site-header__more-link:hover,
-.site-header__more-link[aria-current="page"] { background: var(--surface); color: var(--ink); text-decoration: none; }
+.site-header__more-link:is([aria-current="page"], [aria-current="true"]) { background: var(--surface); color: var(--ink); text-decoration: none; }
 .site-header__more-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 
 /* --- Header search and utility (v7.3.0). One recipe for every adapter: the
@@ -1384,9 +1391,9 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
    and a visible close button sits where the burger was. --- */
 @media (max-width: 1023px) {
   /* An in-page anchor lands below the sticky bar, not under it. */
-  html:has(.site-sidebar-bar) { scroll-padding-top: var(--sidebar-bar-height); }
+  html:has(.site-sidebar-bar) { scroll-padding-top: calc(var(--sidebar-bar-height) + var(--anchor-snap)); }
   /* The top menu grows by the search row here, so the anchor offset does too. */
-  html:has(.site-header__search-row) { scroll-padding-top: calc(var(--site-header-height) + var(--site-header-search-height)); }
+  html:has(.site-header__search-row) { scroll-padding-top: calc(var(--site-header-height) + var(--site-header-search-height) + var(--anchor-snap)); }
   .site-header__search--desktop { display: none; }
   .site-header__search-row { display: block; }
   .site-header__utility--bar { display: flex; justify-self: end; }

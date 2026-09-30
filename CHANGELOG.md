@@ -2,6 +2,22 @@
 
 All notable changes to the Ağustos Design System are documented in this file.
 
+## [7.3.2] - 2026-09-30
+
+A defect patch. Emre approved it. Consuming sites that build their own header change one line: a parent section on a nested route takes `aria-current="true"`.
+
+### Fixed
+
+- A parent menu item on a nested route (for example `/haberler/` on `/haberler/guncel/`) carried `aria-current="page"`, so a screen reader announced the parent as the current page. The Astro header (`currentState()`) and the Rails helper (`agustos_nav_current`, which also drives the sidebar) now set `page` only on the exact route and `true` on an ancestor section. Trailing slashes do not count, `/` is only ever exact, and a link with a fragment or a query (`/about#team`) is never current. The WordPress example adds `true` to `wp_nav_menu` ancestors.
+- Every chrome selector that highlights `[aria-current="page"]` (top-menu link, More summary, More link, sidebar link and group, `.agustos-chrome-link`) also matches `[aria-current="true"]`, so the section keeps the red rule. Breadcrumbs keep `page` only.
+- The content, product and spec-sheet screens mark their parent menu item `true`.
+- Every anchor offset adds `--anchor-snap` (1px). A browser scrolls to whole pixels, so a target at a fractional position stopped up to 0.5px under the 65px header in a Chromium probe. `--site-header-height` already equals the rendered header: 65px at 1440 and 375px, 126px with the phone search row.
+- The adoption snippet no longer names a "sidebar brand". Every website uses the top menu and the footer; only product UI uses the sidebar.
+
+### Added
+
+- Checker warning AG029 (`--screens-only`, built pages): a link with `aria-current="page"` that points to a section above the page, or to home from a nested page.
+
 ## [7.3.1] - 2026-09-30
 
 One reading line for every region. v7.2.0 put the text of a content page in the center of the frame, so on agustos.com the logo and the breadcrumbs started at 130px and the text at 393px: two left edges on one page. Emre compared the published layouts (Apple centers; GOV.UK, NN/g and 37signals keep the text on the left edge, GOV.UK and NN/g with a side column) and chose the left edge with a free side zone. Consuming sites change no markup.

@@ -2,6 +2,14 @@
 
 ## Now
 
+Kit v7.3.2 defect patch (2026-09-30, branch `claude/kit-7.3.2`). Emre approved it. Record: MEMORY.md 2026-09-30 aria-current-section and anchor-snap.
+
+- [x] `aria-current="true"` on a parent section in the Astro, Rails (menu and sidebar) and WordPress adapters; the chrome CSS highlights `page` and `true`; the nested screens; checker AG029.
+- [x] Adoption snippet: only product UI uses the sidebar.
+- [x] Header height measured at 375 and 1440px (65px, 126px with the search row); every anchor offset adds `--anchor-snap`.
+- [x] Tests, `VERSION` 7.3.2, CHANGELOG, DESIGN.md, build, gate, PR. The tag follows the merge; Emre runs `/design-push`.
+- [ ] memregunes.com: mark `/writing/` and `/tr/yazdiklarim/` `true` on posts (AG029 finds 102) when it adopts v7.3.2.
+
 Reading line (v7.3.1, 2026-09-30, branch `claude/kit-7.2.1-reading-line`). Emre chose the left edge with a free side zone and one line shared with the footer. Record: MEMORY.md 2026-09-30 reading-line.
 
 - [x] `--measure-body` 41rem; `.container--reading > *`; footer site map on the same line with the `--space-xl` gap, stacked below 1280px; AG028 text; docs; tests; `VERSION` 7.3.1.

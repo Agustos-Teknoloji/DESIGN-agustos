@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ağustos UI kit compliance checker — v7.3.1
+"""Ağustos UI kit compliance checker — v7.3.2
 
 GENERATED. Do not hand-edit. Regenerate with:
     python3 scripts/build_design_system.py
@@ -28,7 +28,7 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 
-KIT_VERSION = "7.3.1"
+KIT_VERSION = "7.3.2"
 REPOSITORY = "Agustos-Teknoloji/DESIGN-agustos"
 LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json"
 
@@ -247,6 +247,9 @@ SIDEBAR = re.compile(r"\bsite-sidebar\b")
 # inside More are site-header__more-link and do not count.
 TOP_MENU_ITEM = re.compile(r"""class=["'][^"']*\bsite-header__link\b""")
 TOP_MENU_LIMIT = 5
+# A link start tag and its attributes, for the aria-current check on built pages.
+LINK_TAG = re.compile(r"<a\b[^>]*>", re.I)
+LINK_ATTRIBUTE = re.compile(r"""([\w:-]+)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+))""")
 DATA_THEME = re.compile(r"\bdata-theme\s*=")
 CLASS_ATTRIBUTE = re.compile(r"""\bclass\s*=\s*(?:"([^"]*)"|'([^']*)')""", re.I)
 RADIUS = re.compile(r"border-radius:\s*([0-9.]+)px")
@@ -443,6 +446,39 @@ def check_screen(rel: str, text: str, findings: list) -> None:
         ))
 
 
+def url_path(path: str) -> str:
+    """A site path without query, fragment, index.html, .html or trailing slash."""
+    path = re.sub(r"[?#].*", "", path)
+    path = re.sub(r"(^|/)index\.html?$", r"\1", path)
+    path = re.sub(r"\.html?$", "", path)
+    return "/" + path.strip("/") if path.strip("/") else "/"
+
+
+def check_current_links(rel: str, posix: str, text: str, findings: list) -> None:
+    """Built output only: the file path is the page's own URL there. A link
+    marked aria-current="page" that points to a section above the page (or to
+    home from a nested page) makes a screen reader announce the parent as the
+    current page. The section takes aria-current="true"."""
+    page = COMMENT.sub("", text)
+    body = BODY_TAG.search(page)
+    if not body or REDIRECT.search(page[:body.start()]):
+        return
+    here = url_path(posix)
+    for tag in LINK_TAG.finditer(page):
+        attrs = {name.lower(): next((v for v in values if v), "")
+                 for name, *values in LINK_ATTRIBUTE.findall(tag.group(0))}
+        href = attrs.get("href", "")
+        if attrs.get("aria-current", "").lower() != "page" or not href.startswith("/") or href.startswith("//"):
+            continue
+        target = url_path(href)
+        if target != here and (target == "/" or here.startswith(target + "/")):
+            findings.append(Finding(
+                "AG029", "warn", rel, line_of(text, text.find(tag.group(0))),
+                f'aria-current="page" on a link to {href}, a section above this page ({here}): '
+                f'use aria-current="true" for the section; "page" belongs to the page itself',
+            ))
+
+
 def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
     findings: list = []
     scanned = 0
@@ -454,6 +490,7 @@ def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
         rel = str(path.relative_to(root))
         if screens_only:
             check_screen(rel, text, findings)
+            check_current_links(rel, path.relative_to(root).as_posix(), text, findings)
             continue
         corpus.append(text)
         lines = text.splitlines()

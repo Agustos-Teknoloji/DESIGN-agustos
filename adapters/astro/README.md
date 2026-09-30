@@ -1,6 +1,6 @@
 # Ağustos Astro Adapter
 
-Astro 5 reference implementation for the [Ağustos Design System](../../DESIGN.md), kit v7.0.1.
+Astro 5 reference implementation for the [Ağustos Design System](../../DESIGN.md), kit v7.3.2.
 
 This adapter is useful for static sites, documentation, marketing pages, and visual QA. It is not the canonical center of the system; shared decisions live in `../../tokens/design-tokens.json` and `DESIGN.md`.
 
@@ -102,7 +102,9 @@ rest in one `<details class="site-header__more">` as the last child of
 `site-header__nav`, whose `summary` reads `moreLabel` (default "Daha fazla" for
 `lang="tr"`, "More" otherwise) and whose `site-header__more-menu` holds
 `site-header__more-link` items. The current page gets `aria-current="page"`, in
-the menu or under More. `cta` (default "Start a project"; `null` removes it) is
+the menu or under More; on a nested route, the parent section gets
+`aria-current="true"` (`currentState()` in `src/types/chrome.ts`; trailing
+slashes do not count, and `/` is only ever exact). `cta` (default "Start a project"; `null` removes it) is
 the one header button; `languageSwitch` and search sit in `site-header__end`.
 
 **Footer.** `note` is the one `type-footnote` line under the lockup. `links` is
