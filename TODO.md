@@ -2,6 +2,14 @@
 
 ## Now
 
+v7.0.2 patch (2026-09-30, branch `claude/new-kit-worktrees-a927f9`). The agustos.com v7 adoption found two kit defects; Emre asked for the patch. Record: MEMORY.md 2026-09-30 topbar-anchor-offset.
+
+- [x] `tokens/web.css.tmpl`: `--site-header-height` (65px, from the control minimum, the chrome padding and the rule) sets the top menu's `min-height` and `html:has(.site-header) { scroll-padding-top }`.
+- [x] Astro and Rails adapters: a search result link keeps the red focus ring.
+- [x] Tests for both; `VERSION` 7.0.2, CHANGELOG, MEMORY; build and gate green.
+- [ ] Commit, push, PR. The tag and `/design-push` follow the merge.
+- [ ] Bump agustos.com (PR #157) and iesdesk.com (PR #274) to v7.0.2 after the tag, and remove the agustos.com local copies of both fixes.
+
 v7.0.1 interactive states (2026-09-30, branch `claude/rails-html-template-kbacva`). Emre approved the fix, the white Ağustos logo hover on dark, and the guidelines rebuild. Record: MEMORY.md 2026-09-30 states-table-contract.
 
 - [x] Browser probe of every element in rest, hover, focus and pressed, light and dark.
@@ -43,5 +51,4 @@ v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva
 - Register printer-matched CMYK and Pantone values for the six colours and the identity inks in `brand/brands.json`, then show them on the colour page of `brand/build_guidelines.py`. Ask the printer for a proof first; do not convert the screen values.
 - Rebuild `adapters/astro/src/pages/blog/index.astro` on `type-dl` and `type-footnote`, like `screens/content-index.html`. Remove its scoped `<style>` block and the H2 for each post title, which break the list-page rule.
 - Close PR #12 ("Register the SpecQuick house brand") as superseded, or rebase it on the root doc set. SpecQuick is already registered on `main`, and the PR still writes the old root `MEMORY.md`.
-- Topbar anchors: the sticky `site-header` (85px) covers an in-page anchor target at every width. Give it the same `scroll-padding-top` fix as the sidebar bar in v6.6.1, from a `--site-header-height` variable.
 - Topbar menu: tighten the spacing of `site-header__nav` between 1024 and 1280px, so long Turkish labels fit on one row (Emre, 2026-09-27: for the future).

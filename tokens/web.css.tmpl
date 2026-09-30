@@ -55,6 +55,9 @@
   /* The sticky bar below 1024px: a 44px target, 8px above and below, and the rule.
      The bar and the anchor scroll offset both read it. */
   --sidebar-bar-height: calc(var(--control-min) + 2 * var(--space-xs) + {{recipes.chrome.rule}});
+  /* The sticky top menu at every width: a 44px target, the chrome padding above and below, and the rule.
+     The menu and the anchor scroll offset both read it. */
+  --site-header-height: calc(var(--control-min) + 2 * {{recipes.chrome.paddingBlock}} + {{recipes.chrome.rule}});
 
   /* The one section spacing: sections, the closing band, and the gap after the hero. */
   --section-space: {{recipes.section.paddingBlock}};
@@ -930,10 +933,13 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
 .site-sidebar-bar { display: none; }
 
 /* --- Topbar family --- */
+/* An in-page anchor lands below the sticky top menu, not under it. */
+html:has(.site-header) { scroll-padding-top: var(--site-header-height); }
 .site-header {
   position: sticky;
   top: 0;
   z-index: 20;
+  min-height: var(--site-header-height);
   border-block-end: {{recipes.chrome.rule}} solid var(--rule);
   background: var(--paper);
 }
