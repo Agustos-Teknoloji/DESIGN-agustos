@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.6.0 · GENERATED CANONICAL PLATFORM-NEUTRAL CSS
+/* AĞUSTOS DESIGN SYSTEM v7.6.1 · GENERATED CANONICAL PLATFORM-NEUTRAL CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -280,9 +280,9 @@ img, svg { max-width: 100%; height: auto; display: block; }
   margin: 0;
 }
 /* The deck has no bottom margin, so the block after it would sit flush.
-   Hero links and actions carry their own top margin. Inside a stack, the
-   stack sets this space. */
-:not(.stack) > .type-hero-deck + :not(.hero-actions, .hero-trust, .hero-visual) {
+   Hero links and actions carry their own top margin, and the meta line takes
+   the rule below. Inside a stack, the stack sets this space. */
+:not(.stack) > .type-hero-deck + :not(.hero-actions, .hero-trust, .hero-visual, .type-footnote) {
   margin-top: 1em;
 }
 /* The meta line: a date, an author or a revision is a type-footnote under the

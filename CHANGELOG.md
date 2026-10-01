@@ -4,15 +4,24 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.6.1] - 2026-10-01
+
+A defect patch. It fixes the meta-line gap, found while four sites moved to v7.6.0 (WEBSITE-pldturkiye PR 55), and the paths in the exported HTML. Consuming sites change no markup.
+
+### Fixed
+
+- The meta line sits 12px (`recipes.hero.metaGap`) under the deck, as v7.6.0 states. The general rule that puts 1em after a deck was more specific, so the meta line took 1em of its own size: 13px. That rule now skips a `type-footnote`. Measured at 1440 and 390px: 13 to 12px on the `content` and `spec-sheet` screens. The space after a deck on `product`, `home` and `products` does not change (16, 32 and 16px).
+- The datasheet and brand guidelines HTML (`brand/build_datasheet.py`, `brand/build_guidelines.py`) reference fonts, lockups and SVG drawings by paths relative to the HTML file. Before, they used absolute `file:///` URLs of the folder that ran the build, so the HTML fell back to system fonts on another machine or after a worktree was deleted. Each rebuild from another folder also changed every line that held a path. The PDFs embed their fonts and did not change. `tests/test_export_paths.py` fails on a `file:` URL and on a reference that does not resolve. The committed exports change on the next rebuild.
+- Rebuilt the six datasheets and the three guidelines on the relative paths (Emre asked, 2026-10-01). The HTML holds no `file:` URL; only the path lines changed. `pdfinfo` confirms 14 pages for each guidelines PDF and 1 page for each datasheet, and `pdffonts` shows Inter, Inter Tight and JetBrains Mono embedded in each PDF.
+- `brand/build_social_posts.py` uses the same `rel_url` as the datasheet and guidelines builders. Its own `rel` counted the `..` steps from the output folder as given. The PNG render opens the page by its resolved path, so in a symlinked output folder the fonts did not load and the PNG fell back to system fonts. It also did not URL-encode the path. `tests/test_export_paths.py` now covers the social posts. The committed post HTML is not rebuilt; a rebuild changes only the encoding of the three font URLs, and the PNGs stay pixel-identical.
+
 ### Changed
 
 - Rebuilt brand exports on the v7.6.0 generators (Emre asked, 2026-10-01). The guidelines PDFs for Ağustos, Pataraz and PLD have 14 pages with "In every medium" and the type table. The six datasheets drop all-caps labels, red text and the 650 title weight, and take the registry's faces, weights and print sizes.
 
-### Fixed
+### Documentation
 
-- The datasheet and brand guidelines HTML (`brand/build_datasheet.py`, `brand/build_guidelines.py`) reference fonts, lockups and SVG drawings by paths relative to the HTML file. Before, they used absolute `file:///` URLs of the folder that ran the build, so the HTML fell back to system fonts on another machine or after a worktree was deleted. Each rebuild from another folder also changed every line that held a path. The PDFs embed their fonts and did not change. `tests/test_export_paths.py` fails on a `file:` URL and on a reference that does not resolve. The committed exports change on the next rebuild.
-- Rebuilt the six datasheets and the three guidelines on the relative paths (Emre asked, 2026-10-01). The HTML holds no `file:` URL; only the path lines changed. `pdfinfo` confirms 14 pages for each guidelines PDF and 1 page for each datasheet, and `pdffonts` shows Inter, Inter Tight and JetBrains Mono embedded in each PDF.
-- `brand/build_social_posts.py` uses the same `rel_url` as the datasheet and guidelines builders. Its own `rel` counted the `..` steps from the output folder as given. The PNG render opens the page by its resolved path, so in a symlinked output folder the fonts did not load and the PNG fell back to system fonts. It also did not URL-encode the path. `tests/test_export_paths.py` now covers the social posts. The committed post HTML is not rebuilt; a rebuild changes only the encoding of the three font URLs, and the PNGs stay pixel-identical.
+- CHANGELOG.md: the v7.5.0 section had the heading of v7.6.0 after the renumber merge. It now reads 7.5.0.
 
 ## [7.6.0] - 2026-10-01
 
@@ -60,7 +69,7 @@ A defect patch from the 2026-10-01 kit audit. Emre asked for it after v7.5.0. Ea
 - A hovered skip link keeps white text on its ink box. `a:hover` turned it red: 3.35:1, below the 4.5:1 text floor.
 - Code blocks and the primary button print as outlines. The print dialog drops backgrounds by default, so the light code text printed at about 1.2:1 and the button printed white on white. The outlines read the same with background graphics on or off (checked with a headless Chrome PDF before and after).
 
-## [7.6.0] - 2026-10-01
+## [7.5.0] - 2026-10-01
 
 A minor release from the memregunes.com home review. Emre asked for the kit fix on 2026-10-01, and chose four hero layouts. Consuming sites change no markup for the stack fix. A site that added its own margins inside a `.stack` to work around it can remove them.
 
