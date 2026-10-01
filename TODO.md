@@ -2,6 +2,17 @@
 
 ## Now
 
+Kit v7.6.0 on the four v7 websites (2026-10-01, branch `claude/websites-latest-kit-393082`). Emre chose agustos.com, memregunes.com, pldturkiye.com and iesdesk.com; pataraz2 (v6.1.0) waits for its own v7 migration.
+
+- [x] CHANGELOG.md: the second `[7.6.0]` heading is v7.5.0 (mislabelled in the renumber merge).
+- [x] Kit v7.6.1: the meta line sat 13px under the deck, not 12px (found on WEBSITE-pldturkiye PR 55). Selector fix, test, build, gate.
+- [ ] Merge the v7.6.1 PR; the workflow tags it. Then move the four site PRs from v7.6.0 to v7.6.1, and run `/design-push` from `main`.
+- [ ] agustos.com (v7.4.2): vendor v7.6.0, date line under the deck, checker, build, browser check, PR.
+- [x] memregunes.com (v7.5.1): PR WEBSITE-memregunes#37. The `[hidden]` patch was already gone; no stack workarounds found.
+- [x] pldturkiye.com (v7.3.5): PR WEBSITE-pldturkiye#55. Chrome script back to a plain import.
+- [ ] iesdesk.com (v7.4.2): same, in APP-iesdesk.
+- [ ] CONTEXT-agustos `ops/fleet.md`: Kit cells for the four sites after the merges.
+
 One brand in every medium (2026-10-01, branch `claude/brand-guideline-minimum-classes-f6c98d`). Emre chose steps 1 and 2 for the three media that matter in the next six months: websites, datasheets and LinkedIn. Emre chose on 2026-10-01: mono for spec values everywhere, fix the datasheet code and rebuild the PDFs later, add a LinkedIn post template, one release (v7.6.0) after a before/after preview of the heading rhythm. Record: MEMORY.md 2026-10-01 one-brand-every-medium.
 
 Step 0 comes from the 2026-10-01 type and spacing audit. Only H3 and the link were fully right; five elements conflict between the docs and the CSS. Steps 1 and 2 cannot promise one brand while each medium types its own sizes.

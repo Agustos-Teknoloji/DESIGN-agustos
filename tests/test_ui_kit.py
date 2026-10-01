@@ -191,6 +191,9 @@ class TypeContractTest(unittest.TestCase):
         """v7.6.0, option D: breadcrumb, title, deck, then the date; no label above the title."""
         self.assertIn("nav:has(> .breadcrumb) {\n  margin-block-end: 24px;\n}", self.CSS)
         self.assertIn(".type-hero-deck + .type-footnote {\n  margin: 12px 0 var(--space-xl);\n}", self.CSS)
+        # v7.6.1: the 1em rule after a deck is more specific, so it must skip the meta line.
+        # It did not, and the line sat 13px (1em of the footnote) under the deck.
+        self.assertIn(":not(.stack) > .type-hero-deck + :not(.hero-actions, .hero-trust, .hero-visual, .type-footnote) {", self.CSS)
         for screen in sorted((ROOT / "screens").glob("*.html")):
             html = screen.read_text(encoding="utf-8")
             with self.subTest(screen=screen.name):

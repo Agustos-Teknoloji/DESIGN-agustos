@@ -4,9 +4,21 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.6.1] - 2026-10-01
+
+A defect patch found while four sites moved to v7.6.0 (WEBSITE-pldturkiye PR 55). Consuming sites change no markup.
+
+### Fixed
+
+- The meta line sits 12px (`recipes.hero.metaGap`) under the deck, as v7.6.0 states. The general rule that puts 1em after a deck was more specific, so the meta line took 1em of its own size: 13px. That rule now skips a `type-footnote`. Measured at 1440 and 390px: 13 to 12px on the `content` and `spec-sheet` screens. The space after a deck on `product`, `home` and `products` does not change (16, 32 and 16px).
+
 ### Changed
 
 - Rebuilt brand exports on the v7.6.0 generators (Emre asked, 2026-10-01). The guidelines PDFs for Ağustos, Pataraz and PLD have 14 pages with "In every medium" and the type table. The six datasheets drop all-caps labels, red text and the 650 title weight, and take the registry's faces, weights and print sizes.
+
+### Documentation
+
+- CHANGELOG.md: the v7.5.0 section had the heading of v7.6.0 after the renumber merge. It now reads 7.5.0.
 
 ## [7.6.0] - 2026-10-01
 
@@ -54,7 +66,7 @@ A defect patch from the 2026-10-01 kit audit. Emre asked for it after v7.5.0. Ea
 - A hovered skip link keeps white text on its ink box. `a:hover` turned it red: 3.35:1, below the 4.5:1 text floor.
 - Code blocks and the primary button print as outlines. The print dialog drops backgrounds by default, so the light code text printed at about 1.2:1 and the button printed white on white. The outlines read the same with background graphics on or off (checked with a headless Chrome PDF before and after).
 
-## [7.6.0] - 2026-10-01
+## [7.5.0] - 2026-10-01
 
 A minor release from the memregunes.com home review. Emre asked for the kit fix on 2026-10-01, and chose four hero layouts. Consuming sites change no markup for the stack fix. A site that added its own margins inside a `.stack` to work around it can remove them.
 
