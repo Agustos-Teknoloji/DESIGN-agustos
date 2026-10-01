@@ -36,6 +36,7 @@
       "type-figure",
       "type-code-block",
       "type-table",
+      "type-spec",
       "type-divider",
       "type-footnote",
       "type-highlight",
@@ -206,6 +207,50 @@
       ],
       "definition": "Scandinavian restraint filtered through Mediterranean warmth.",
       "intent": "Create minimal, functional, and elegant experiences that feel calm, warm, and human.",
+      "invariants": [
+        {
+          "datasheet": "The lockup at the top left of every sheet.",
+          "linkedin": "The lockup at the foot of every post image; the avatar is the symbol tile.",
+          "rule": "One symbol and a lowercase wordmark in the identity ink. Never redrawn, never with a tagline.",
+          "web": "The site lockup in the top menu and the footer."
+        },
+        {
+          "datasheet": "No red, except the Ağustos logo.",
+          "linkedin": "No red, except the Ağustos logo and at most one highlighter stroke in the headline.",
+          "rule": "Red is identity and signal only: the Ağustos logo, and on screen the link rule, focus and one marker stroke. Never a fill, a button or text colour.",
+          "web": "The logo, the 2px link and menu rule, keyboard focus and one highlighter stroke per page. Buttons are black."
+        },
+        {
+          "datasheet": "The same faces and weights at the print sizes of recipes.document.",
+          "linkedin": "The headline takes the H1 role, the deck the deck role.",
+          "rule": "Three faces on one scale: Inter Tight for headings, Inter for text, JetBrains Mono for data. Headings are thin and in sentence case.",
+          "web": "The type table (recipes.typeRoles) through the kit classes."
+        },
+        {
+          "datasheet": "Every spec row.",
+          "linkedin": "Any figure that appears in a post image.",
+          "rule": "Spec values are data: mono figures with the unit, the label in the display face.",
+          "web": "type-spec on the spec table or list."
+        },
+        {
+          "datasheet": "White A4, wide margins, one product title.",
+          "linkedin": "A white field; the headline is the only large text.",
+          "rule": "White paper and generous space. One title opens the page and nothing sits above it.",
+          "web": "White paper, the section spacing, one closing band."
+        },
+        {
+          "datasheet": "Sentence case labels; Turkish with lang=tr.",
+          "linkedin": "One idea per post image, in sentence case.",
+          "rule": "Plain, short, active words. No all-caps labels, no label above a title, no inflated claims.",
+          "web": "Sentence case in headings, menus and buttons."
+        },
+        {
+          "datasheet": "Ink and ink-soft on white only.",
+          "linkedin": "Ink on white only; no text on a photograph.",
+          "rule": "Text clears 4.5:1 contrast and graphics 3:1 (WCAG 2.2 AA).",
+          "web": "The states table; the build refuses a failing pair."
+        }
+      ],
       "keywords": [
         "calm",
         "clear",
@@ -352,6 +397,50 @@
       ],
       "definition": "Scandinavian restraint filtered through Mediterranean warmth.",
       "intent": "Create minimal, functional, and elegant experiences that feel calm, warm, and human.",
+      "invariants": [
+        {
+          "datasheet": "The lockup at the top left of every sheet.",
+          "linkedin": "The lockup at the foot of every post image; the avatar is the symbol tile.",
+          "rule": "One symbol and a lowercase wordmark in the identity ink. Never redrawn, never with a tagline.",
+          "web": "The site lockup in the top menu and the footer."
+        },
+        {
+          "datasheet": "No red, except the Ağustos logo.",
+          "linkedin": "No red, except the Ağustos logo and at most one highlighter stroke in the headline.",
+          "rule": "Red is identity and signal only: the Ağustos logo, and on screen the link rule, focus and one marker stroke. Never a fill, a button or text colour.",
+          "web": "The logo, the 2px link and menu rule, keyboard focus and one highlighter stroke per page. Buttons are black."
+        },
+        {
+          "datasheet": "The same faces and weights at the print sizes of recipes.document.",
+          "linkedin": "The headline takes the H1 role, the deck the deck role.",
+          "rule": "Three faces on one scale: Inter Tight for headings, Inter for text, JetBrains Mono for data. Headings are thin and in sentence case.",
+          "web": "The type table (recipes.typeRoles) through the kit classes."
+        },
+        {
+          "datasheet": "Every spec row.",
+          "linkedin": "Any figure that appears in a post image.",
+          "rule": "Spec values are data: mono figures with the unit, the label in the display face.",
+          "web": "type-spec on the spec table or list."
+        },
+        {
+          "datasheet": "White A4, wide margins, one product title.",
+          "linkedin": "A white field; the headline is the only large text.",
+          "rule": "White paper and generous space. One title opens the page and nothing sits above it.",
+          "web": "White paper, the section spacing, one closing band."
+        },
+        {
+          "datasheet": "Sentence case labels; Turkish with lang=tr.",
+          "linkedin": "One idea per post image, in sentence case.",
+          "rule": "Plain, short, active words. No all-caps labels, no label above a title, no inflated claims.",
+          "web": "Sentence case in headings, menus and buttons."
+        },
+        {
+          "datasheet": "Ink and ink-soft on white only.",
+          "linkedin": "Ink on white only; no text on a photograph.",
+          "rule": "Text clears 4.5:1 contrast and graphics 3:1 (WCAG 2.2 AA).",
+          "web": "The states table; the build refuses a failing pair."
+        }
+      ],
       "keywords": [
         "calm",
         "clear",
@@ -435,13 +524,16 @@
         "body": "16.5px",
         "bodyCompact": "15.5px",
         "footnote": "13px",
+        "formField": "16px",
         "h1": "clamp(43px, 4.6vw, 55px)",
         "h2": "clamp(34px, 3.4vw, 43px)",
         "h3": "21px",
         "h4": "13px",
         "hero": "clamp(55px, 7vw, 89px)",
         "heroDeck": "21px",
-        "heroMedium": "clamp(43px, 4.6vw, 55px)"
+        "heroMedium": "clamp(43px, 4.6vw, 55px)",
+        "pullquote": "27px",
+        "quote": "21px"
       },
       "fontWeight": {
         "light": 300,
@@ -449,6 +541,26 @@
         "regular": 400,
         "semibold": 600,
         "wordmark": 650
+      },
+      "letterSpacing": {
+        "h1": "-0.04em",
+        "h2": "-0.032em",
+        "h3": "-0.014em",
+        "h4": "0.005em",
+        "hero": "-0.042em"
+      },
+      "lineHeight": {
+        "body": 1.65,
+        "compact": 1.5,
+        "control": 1,
+        "deck": 1.55,
+        "h1": 1,
+        "h2": 1.06,
+        "h3": 1.25,
+        "h4": 1.4,
+        "hero": 0.97,
+        "pullquote": 1.22,
+        "quote": 1.35
       },
       "measure": {
         "body": "41rem",
@@ -518,10 +630,21 @@
         "titleSize": "28pt",
         "topMargin": "35mm"
       },
+      "heading": {
+        "afterH2": "20px",
+        "afterH3": "12px",
+        "afterH4": "8px",
+        "afterTitle": "32px",
+        "beforeH2": "40px",
+        "beforeH3": "32px"
+      },
       "hero": {
         "actionGap": "12px",
+        "breadcrumbEnd": "24px",
+        "breadcrumbStart": "16px",
         "deckMeasure": "54ch",
         "headline": "hero",
+        "metaGap": "12px",
         "paddingBlockEnd": "clamp(8px, 1.5vw, 16px)",
         "paddingBlockStart": "clamp(56px, 9vw, 112px)"
       },
@@ -538,6 +661,154 @@
       "section": {
         "headingGap": "12px",
         "paddingBlock": "clamp(72px, 9vw, 104px)"
+      },
+      "social": {
+        "dataRole": "spec",
+        "deckRole": "deck",
+        "headlineRole": "h1",
+        "lockupHeight": "56px",
+        "margin": "96px",
+        "portrait": {
+          "height": 1350,
+          "width": 1080
+        },
+        "scale": 1.5,
+        "square": {
+          "height": 1200,
+          "width": 1200
+        }
+      },
+      "typeRoles": {
+        "body": {
+          "avoid": "A line longer than the reading line (--measure-body); grey text below 4.5:1.",
+          "classes": "p, type-body",
+          "family": "body",
+          "lineHeight": "{foundations.lineHeight.body}",
+          "size": "{foundations.fontSize.body}",
+          "use": "All running text. 1em below each paragraph.",
+          "weight": "{foundations.fontWeight.regular}"
+        },
+        "compact": {
+          "avoid": "Running text.",
+          "classes": "hero-trust, type-table",
+          "family": "body",
+          "lineHeight": "{foundations.lineHeight.compact}",
+          "size": "{foundations.fontSize.bodyCompact}",
+          "use": "Tables and the hero trust line.",
+          "weight": "{foundations.fontWeight.regular}"
+        },
+        "control": {
+          "avoid": "Uppercase; arrows on buttons.",
+          "classes": "agustos-button, site-header__link, breadcrumb",
+          "family": "display",
+          "lineHeight": "{foundations.lineHeight.control}",
+          "size": "{foundations.fontSize.bodyCompact}",
+          "use": "Buttons at 600. Menu links and breadcrumbs at 500; breadcrumbs take the footnote size.",
+          "weight": "{foundations.fontWeight.semibold}"
+        },
+        "deck": {
+          "avoid": "A deck under an H2; more than two sentences.",
+          "classes": "type-hero-deck",
+          "family": "body",
+          "lineHeight": "{foundations.lineHeight.deck}",
+          "size": "{foundations.fontSize.heroDeck}",
+          "use": "One or two sentences directly under the hero or the H1 that say what the page is.",
+          "weight": "{foundations.fontWeight.regular}"
+        },
+        "footnote": {
+          "avoid": "Any text the reader needs to act on.",
+          "classes": "type-footnote, figcaption",
+          "family": "body",
+          "lineHeight": "{foundations.lineHeight.deck}",
+          "size": "{foundations.fontSize.footnote}",
+          "use": "Footnotes, image captions and code blocks.",
+          "weight": "{foundations.fontWeight.regular}"
+        },
+        "h1": {
+          "after": "{recipes.heading.afterTitle}",
+          "avoid": "Two H1s; an H1 inside a card.",
+          "classes": "h1, type-h1",
+          "family": "display",
+          "lineHeight": "{foundations.lineHeight.h1}",
+          "size": "{foundations.fontSize.h1}",
+          "tracking": "{foundations.letterSpacing.h1}",
+          "use": "The title of every page that has no hero. One per page.",
+          "weight": "{foundations.fontWeight.light}"
+        },
+        "h2": {
+          "after": "{recipes.heading.afterH2}",
+          "avoid": "A label above the heading; uppercase.",
+          "before": "{recipes.heading.beforeH2}",
+          "classes": "h2, type-h2",
+          "family": "display",
+          "lineHeight": "{foundations.lineHeight.h2}",
+          "size": "{foundations.fontSize.h2}",
+          "tracking": "{foundations.letterSpacing.h2}",
+          "use": "The title of a section.",
+          "weight": "{foundations.fontWeight.regular}"
+        },
+        "h3": {
+          "after": "{recipes.heading.afterH3}",
+          "avoid": "Italic; bold to fake an H2.",
+          "before": "{recipes.heading.beforeH3}",
+          "classes": "h3, type-h3",
+          "family": "display",
+          "lineHeight": "{foundations.lineHeight.h3}",
+          "size": "{foundations.fontSize.h3}",
+          "tracking": "{foundations.letterSpacing.h3}",
+          "use": "A subsection, or the title of a card.",
+          "weight": "{foundations.fontWeight.medium}"
+        },
+        "h4": {
+          "after": "{recipes.heading.afterH4}",
+          "avoid": "An eyebrow label above a heading; uppercase.",
+          "before": "{recipes.heading.beforeH3}",
+          "classes": "h4, type-h4",
+          "family": "display",
+          "lineHeight": "{foundations.lineHeight.h4}",
+          "size": "{foundations.fontSize.h4}",
+          "tracking": "{foundations.letterSpacing.h4}",
+          "use": "A small group title: a table caption, a footer group, a form group.",
+          "weight": "{foundations.fontWeight.semibold}"
+        },
+        "hero": {
+          "after": "{recipes.heading.afterTitle}",
+          "avoid": "A second hero on the page; a hero on a content page (use H1).",
+          "classes": "type-hero",
+          "family": "display",
+          "lineHeight": "{foundations.lineHeight.hero}",
+          "size": "{foundations.fontSize.hero}",
+          "tracking": "{foundations.letterSpacing.hero}",
+          "use": "The one headline of a home or landing page. One per page.",
+          "weight": "{foundations.fontWeight.light}"
+        },
+        "pullquote": {
+          "avoid": "More than one per article.",
+          "classes": "type-pullquote",
+          "family": "display",
+          "lineHeight": "{foundations.lineHeight.pullquote}",
+          "size": "{foundations.fontSize.pullquote}",
+          "use": "One line lifted from a long article.",
+          "weight": "{foundations.fontWeight.regular}"
+        },
+        "quote": {
+          "avoid": "Decorative quote marks; a quote as a section heading.",
+          "classes": "blockquote, type-blockquote",
+          "family": "display",
+          "lineHeight": "{foundations.lineHeight.quote}",
+          "size": "{foundations.fontSize.quote}",
+          "use": "A quotation inside the text, in italic with a 2px ink rule.",
+          "weight": "{foundations.fontWeight.regular}"
+        },
+        "spec": {
+          "avoid": "Prose tables; labels in mono.",
+          "classes": "type-spec",
+          "family": "mono",
+          "lineHeight": "{foundations.lineHeight.compact}",
+          "size": "{foundations.fontSize.bodyCompact}",
+          "use": "Product specification values with units (160 W, 4200 lm). The label stays in the display face. The same on the web, the datasheet and LinkedIn.",
+          "weight": "{foundations.fontWeight.regular}"
+        }
       }
     },
     "screens": {
@@ -1179,7 +1450,152 @@
         "surface": "#ffffff"
       }
     },
-    "version": "7.5.1"
+    "typeRoles": [
+      {
+        "after": "32px",
+        "avoid": "A second hero on the page; a hero on a content page (use H1).",
+        "classes": "type-hero",
+        "family": "display",
+        "lineHeight": 0.97,
+        "role": "hero",
+        "size": "clamp(55px, 7vw, 89px)",
+        "tracking": "-0.042em",
+        "use": "The one headline of a home or landing page. One per page.",
+        "weight": 300
+      },
+      {
+        "after": "32px",
+        "avoid": "Two H1s; an H1 inside a card.",
+        "classes": "h1, type-h1",
+        "family": "display",
+        "lineHeight": 1,
+        "role": "h1",
+        "size": "clamp(43px, 4.6vw, 55px)",
+        "tracking": "-0.04em",
+        "use": "The title of every page that has no hero. One per page.",
+        "weight": 300
+      },
+      {
+        "avoid": "A deck under an H2; more than two sentences.",
+        "classes": "type-hero-deck",
+        "family": "body",
+        "lineHeight": 1.55,
+        "role": "deck",
+        "size": "21px",
+        "use": "One or two sentences directly under the hero or the H1 that say what the page is.",
+        "weight": 400
+      },
+      {
+        "after": "20px",
+        "avoid": "A label above the heading; uppercase.",
+        "before": "40px",
+        "classes": "h2, type-h2",
+        "family": "display",
+        "lineHeight": 1.06,
+        "role": "h2",
+        "size": "clamp(34px, 3.4vw, 43px)",
+        "tracking": "-0.032em",
+        "use": "The title of a section.",
+        "weight": 400
+      },
+      {
+        "after": "12px",
+        "avoid": "Italic; bold to fake an H2.",
+        "before": "32px",
+        "classes": "h3, type-h3",
+        "family": "display",
+        "lineHeight": 1.25,
+        "role": "h3",
+        "size": "21px",
+        "tracking": "-0.014em",
+        "use": "A subsection, or the title of a card.",
+        "weight": 500
+      },
+      {
+        "after": "8px",
+        "avoid": "An eyebrow label above a heading; uppercase.",
+        "before": "32px",
+        "classes": "h4, type-h4",
+        "family": "display",
+        "lineHeight": 1.4,
+        "role": "h4",
+        "size": "13px",
+        "tracking": "0.005em",
+        "use": "A small group title: a table caption, a footer group, a form group.",
+        "weight": 600
+      },
+      {
+        "avoid": "A line longer than the reading line (--measure-body); grey text below 4.5:1.",
+        "classes": "p, type-body",
+        "family": "body",
+        "lineHeight": 1.65,
+        "role": "body",
+        "size": "16.5px",
+        "use": "All running text. 1em below each paragraph.",
+        "weight": 400
+      },
+      {
+        "avoid": "Running text.",
+        "classes": "hero-trust, type-table",
+        "family": "body",
+        "lineHeight": 1.5,
+        "role": "compact",
+        "size": "15.5px",
+        "use": "Tables and the hero trust line.",
+        "weight": 400
+      },
+      {
+        "avoid": "Uppercase; arrows on buttons.",
+        "classes": "agustos-button, site-header__link, breadcrumb",
+        "family": "display",
+        "lineHeight": 1,
+        "role": "control",
+        "size": "15.5px",
+        "use": "Buttons at 600. Menu links and breadcrumbs at 500; breadcrumbs take the footnote size.",
+        "weight": 600
+      },
+      {
+        "avoid": "Decorative quote marks; a quote as a section heading.",
+        "classes": "blockquote, type-blockquote",
+        "family": "display",
+        "lineHeight": 1.35,
+        "role": "quote",
+        "size": "21px",
+        "use": "A quotation inside the text, in italic with a 2px ink rule.",
+        "weight": 400
+      },
+      {
+        "avoid": "More than one per article.",
+        "classes": "type-pullquote",
+        "family": "display",
+        "lineHeight": 1.22,
+        "role": "pullquote",
+        "size": "27px",
+        "use": "One line lifted from a long article.",
+        "weight": 400
+      },
+      {
+        "avoid": "Any text the reader needs to act on.",
+        "classes": "type-footnote, figcaption",
+        "family": "body",
+        "lineHeight": 1.55,
+        "role": "footnote",
+        "size": "13px",
+        "use": "Footnotes, image captions and code blocks.",
+        "weight": 400
+      },
+      {
+        "avoid": "Prose tables; labels in mono.",
+        "classes": "type-spec",
+        "family": "mono",
+        "lineHeight": 1.5,
+        "role": "spec",
+        "size": "15.5px",
+        "use": "Product specification values with units (160 W, 4200 lm). The label stays in the display face. The same on the web, the datasheet and LinkedIn.",
+        "weight": 400
+      }
+    ],
+    "version": "7.6.0"
   },
-  "version": "7.5.1"
+  "version": "7.6.0"
 }

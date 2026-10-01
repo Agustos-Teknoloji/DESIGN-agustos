@@ -99,11 +99,22 @@ class PrimitiveTest(unittest.TestCase):
             start = css.index(block)
             self.assertIn("min-height: var(--control-min)", css[start:start + 700], block)
 
+    def test_spec_values_use_the_mono_face(self):
+        """v7.6.0: a spec value is data in every medium: mono, with the label in the display face."""
+        css = (ROOT / "tokens" / "agustos.css").read_text(encoding="utf-8")
+        self.assertIn(".type-spec th, .type-spec dt { font-family: var(--display); }", css)
+        start = css.index(".type-spec td, .type-spec dd {")
+        self.assertIn("font-family: var(--mono);", css[start:start + 200])
+        for screen in ("product", "spec-sheet"):
+            html = (ROOT / "screens" / f"{screen}.html").read_text(encoding="utf-8")
+            self.assertIn("type-spec", html, screen)
+
     def test_inputs_do_not_trigger_ios_focus_zoom(self):
         """Below 16px iOS Safari zooms the viewport on focus."""
         css = (ROOT / "tokens" / "agustos.css").read_text(encoding="utf-8")
         start = css.index(".agustos-input,\n.agustos-textarea,\n.agustos-select {")
-        self.assertIn("font-size: 16px", css[start:start + 900])
+        self.assertIn("font-size: var(--size-form-field)", css[start:start + 900])
+        self.assertIn("--size-form-field: 16px;", css)
 
     def test_reduced_motion_is_honoured(self):
         """The handoff contract's acceptance list promises this."""
@@ -137,6 +148,66 @@ class PrimitiveTest(unittest.TestCase):
             found = re.findall(r"var\(--signal\)\s+(\d+)%", declaration)
             self.assertTrue(found, f"signal used as a solid background: {declaration}")
             self.assertLessEqual(max(int(value) for value in found), 10, declaration)
+
+
+class TypeContractTest(unittest.TestCase):
+    """v7.6.0: one type table feeds every medium (MEMORY.md 2026-10-01 one-brand-every-medium)."""
+
+    CSS = (ROOT / "ui" / "agustos.css").read_text(encoding="utf-8")
+    KIT = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+
+    def test_every_role_is_published_with_resolved_values(self):
+        roles = {row["role"]: row for row in self.KIT["typeRoles"]}
+        expected = {"hero", "h1", "deck", "h2", "h3", "h4", "body", "compact", "control",
+                    "quote", "pullquote", "footnote", "spec"}
+        self.assertEqual(set(roles), expected)
+        for role, row in roles.items():
+            with self.subTest(role=role):
+                for field in ("size", "weight", "lineHeight"):
+                    self.assertNotIn("{", str(row[field]), f"{role}.{field} is an unresolved alias")
+        self.assertEqual(roles["spec"]["family"], "mono")
+
+    def test_every_size_is_a_variable(self):
+        """A consumer cannot follow "never retype a token value" without a name for each size."""
+        sizes = TOKENS["foundations"]["fontSize"]
+        for key, name in (("hero", "hero"), ("h1", "h1"), ("h2", "h2"), ("h3", "h3"), ("h4", "h4"),
+                          ("heroDeck", "deck"), ("body", "body"), ("bodyCompact", "body-compact"),
+                          ("formField", "form-field"), ("footnote", "footnote")):
+            with self.subTest(size=key):
+                self.assertIn(f"--size-{name}: {sizes[key]['$value']};", self.CSS)
+
+    def test_no_type_size_is_typed_by_hand(self):
+        """The six off-scale sizes (13.5, 15, 16, 20 except the logo, 22, 26px) mapped to the scale."""
+        rules = self.CSS[self.CSS.index("/* -- 2. Per-brand application"):]
+        literals = re.findall(r"font-size:\s*(\d+(?:\.\d+)?px)", rules)
+        self.assertEqual(literals, ["20px"], "only the site lockup keeps a pixel size")
+
+    def test_a_breadcrumb_opens_close_under_the_menu(self):
+        """v7.6.0: the hero padding (up to 112px) above a 13px trail read as an empty band."""
+        self.assertIn(".container:has(> nav:first-child > .breadcrumb) {\n  padding-block-start: 16px;\n}", self.CSS)
+        self.assertIn(".site-frame > nav:first-child:has(> .breadcrumb) {\n  padding-block-start: 16px;\n}", self.CSS)
+
+    def test_the_meta_line_sits_under_the_deck(self):
+        """v7.6.0, option D: breadcrumb, title, deck, then the date; no label above the title."""
+        self.assertIn("nav:has(> .breadcrumb) {\n  margin-block-end: 24px;\n}", self.CSS)
+        self.assertIn(".type-hero-deck + .type-footnote {\n  margin: 12px 0 var(--space-xl);\n}", self.CSS)
+        for screen in sorted((ROOT / "screens").glob("*.html")):
+            html = screen.read_text(encoding="utf-8")
+            with self.subTest(screen=screen.name):
+                # The line before each H1 is the breadcrumb or nothing, never a label.
+                self.assertNotRegex(html, r'<p class="type-(h4|footnote)"[^>]*>[^\n]*</p>\s*(</div>\s*)?<h1')
+
+    def test_the_stack_uses_the_heading_rhythm(self):
+        """v7.6.0: a title sits 32px above its deck inside a stack too, even on an h2 element."""
+        after_h2 = self.CSS.index(".stack > :is(h2, .type-h2) + * { --stack-space: var(--space-after-h2); }")
+        title = self.CSS.index(".stack > :is(.type-hero, .type-hero-md, h1, .type-h1) + * { --stack-space: var(--space-after-title); }")
+        self.assertLess(after_h2, title, "the title rule must win over the h2 rule at equal weight")
+        self.assertIn(".stack > :is(h2, .type-h2) { --stack-space: var(--space-before-h2); }", self.CSS)
+
+    def test_entry_point_prints_the_type_table(self):
+        text = (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8")
+        self.assertIn("## Type and spacing", text)
+        self.assertIn("| spec | `type-spec` | mono |", text)
 
 
 class StateColorContrastTest(unittest.TestCase):
@@ -380,7 +451,8 @@ class DistributionKitTest(unittest.TestCase):
 
     def test_entry_point_stays_short_enough_to_be_read_whole(self):
         lines = (self.KIT / "UI-KIT.md").read_text(encoding="utf-8").splitlines()
-        self.assertLessEqual(len(lines), 200, "UI-KIT.md is the one file an agent reads in full")
+        # 220 since v7.6.0: the type table (one row per role) joined the file.
+        self.assertLessEqual(len(lines), 220, "UI-KIT.md is the one file an agent reads in full")
 
     def test_entry_point_documents_every_published_class(self):
         text = (self.KIT / "UI-KIT.md").read_text(encoding="utf-8")
@@ -913,7 +985,7 @@ class ChromeTest(unittest.TestCase):
         start = self.CSS.index("/* --- Header search and utility")
         block = self.CSS[start:self.CSS.index("/* --- Footer.", start)]
         self.assertNotRegex(block, r"(?<!-)color:\s*var\(--ink-faint\)")
-        self.assertIn("font-size: 16px;", block)
+        self.assertIn("font-size: var(--size-form-field);", block)
 
     def test_starter_renders_the_search_and_language_classes(self):
         """UI-KIT.md says copy the chrome from starter.html (Codex, PR #71)."""
@@ -1103,8 +1175,16 @@ class ChromeTest(unittest.TestCase):
         # an H3 and an H4 take 32px; 2.5em of the heading size gave 108px
         # and 53px, so a subheading took more space than a section (issue 75).
         self.assertNotIn("margin: 2.5em 0 1em;\n  color: var(--ink", self.CSS)
-        self.assertIn("  margin: var(--space-3xl) 0 1em;\n  color: var(--ink);\n}", self.CSS)
-        self.assertEqual(self.CSS.count("  margin: var(--space-2xl) 0 1em;\n"), 2)
+        # v7.6.0: the space below a heading is a fixed step, smaller than the
+        # space above, so the heading binds to its text (1em gave 55px under an
+        # H1 and 43px under an H2).
+        self.assertIn("  margin: var(--space-before-h2) 0 var(--space-after-h2);\n  color: var(--ink);\n}", self.CSS)
+        self.assertIn("  margin: var(--space-before-h3) 0 var(--space-after-h3);\n", self.CSS)
+        self.assertIn("  margin: var(--space-before-h3) 0 var(--space-after-h4);\n", self.CSS)
+        self.assertIn("  margin: 0 0 var(--space-after-title);\n  color: var(--ink);\n}", self.CSS)
+        for name, value in (("before-h2", "40px"), ("before-h3", "32px"), ("after-title", "32px"),
+                            ("after-h2", "20px"), ("after-h3", "12px"), ("after-h4", "8px")):
+            self.assertIn(f"--space-{name}: {value};", self.CSS)
         self.assertNotIn(".container--reading > :is(h2, .type-h2)", self.CSS)
         # A <section> inside a section is a subsection: its heading keeps the
         # break of its level (the IESDesk privacy notice H3s showed 16px).

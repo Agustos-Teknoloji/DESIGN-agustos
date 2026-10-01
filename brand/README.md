@@ -37,6 +37,9 @@ python3 build_guidelines.py --brand agustos --pdf  # std-lib only; omit --brand 
 
 # 4. product datasheet ("teknik föy") — lighting spec sheet, A4, renders its own PDF
 python3 build_datasheet.py --brand agustos --pdf   # std-lib only; no venv needed
+
+# 5. LinkedIn post templates: portrait + square per post, renders its own PNGs
+python3 build_social_posts.py --png                # std-lib only; omit --png for html only
 ```
 
 ## What gets generated
@@ -47,6 +50,7 @@ Per brand, under `exports/<brand>/`:
 lockup/      symbol + wordmark — positive / negative / mono, each as svg + pdf + png (2400 & 800px)
 favicon/     shared Laz Güneşi favicon (master.svg) + rasters + site.webmanifest
 social/      square avatar (400 & 1000px) + 1200x630 og image (svg + png)
+             + LinkedIn posts <post-key>-portrait / -square (html + png, 1080x1350 & 1200x1200)
 swatches/    <brand>.ase (Adobe) + <brand>.clr (Apple)
 email/       <brand>-signature.html (email-safe, self-contained)
 office/      <brand>-letterhead.docx + <brand>-document-template.docx + <brand>-template.pptx
@@ -58,6 +62,23 @@ datasheet/   <product-key>.html + .pdf  (one A4 "teknik föy" per product, e.g. 
 working documents; `build_datasheet.py` makes the product datasheet. See
 `templates/README.md` for using the Office files in PowerPoint / Keynote /
 Google Slides / Word / Pages.
+
+### The LinkedIn post generator
+
+`build_social_posts.py` makes LinkedIn post images that read as the same brand as the website
+and the datasheet. Like the datasheet, it is half template, half data: the `POSTS` dict at the
+top of the script holds the copy, keyed by post (e.g. `pataraz-px22`), each naming its `brand`.
+Each post gives two images, `exports/<brand>/social/<post-key>-portrait` (1080x1350) and
+`-square` (1200x1200), as html (editable source) and png (with `--png`).
+
+- **Every value comes from the registry:** `recipes.social` (canvas, scale, margin, roles,
+  lockup height), `typeRoles` (text size = role px × scale) and the foundation colours.
+- **One idea per image:** a thin h1 headline in sentence case, a deck in ink-soft, up to four
+  spec values (JetBrains Mono, labels in Inter Tight), and the positive lockup at the foot.
+- **Red:** only the Ağustos logo and at most one highlighter stroke behind 1 to 4 words of the
+  headline (`highlight`, a substring of the headline). No red text, no fills, no capitals.
+- Build one post with `--post <key>`, one brand with `--brand <slug>`, or all with no flag.
+  Samples: `agustos-company`, `pataraz-px22`, `pld-editorial`.
 
 ### The datasheet generator
 

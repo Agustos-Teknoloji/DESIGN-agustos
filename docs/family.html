@@ -1,0 +1,104 @@
+<!doctype html>
+<!-- GENERATED. Do not hand-edit. Source: docs/family.html.tmpl plus designDirection.invariants and
+     recipes.typeRoles in tokens/design-tokens.json. Run: python3 scripts/build_design_system.py -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Family photo — Ağustos Design System</title>
+<link rel="stylesheet" href="agustos-fonts.css">
+<link rel="stylesheet" href="agustos.css">
+<style>
+  /* Review scaffolding for this page only. Not part of the kit.
+     Each medium shows at its real size, scaled to fit one column. */
+  .family { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xl); align-items: start; margin: var(--space-2xl) 0 var(--space-5xl); }
+  .family__shot { position: relative; overflow: hidden; border: 1px solid var(--rule); border-radius: var(--radius-lg); background: var(--paper); }
+  .family__shot iframe { position: absolute; inset: 0 auto auto 0; border: 0; transform-origin: 0 0; pointer-events: none; }
+  .family__shot--web { aspect-ratio: 1280 / 1600; }
+  .family__shot--web iframe { width: 1280px; height: 1600px; }
+  .family__shot--sheet { aspect-ratio: 794 / 1123; }
+  .family__shot--sheet iframe { width: 794px; height: 1123px; }
+  .family__shot img { display: block; width: 100%; height: auto; }
+  .family figcaption { margin-top: var(--space-sm); }
+  @media (max-width: 899px) { .family { grid-template-columns: minmax(0, 1fr); } }
+</style>
+</head>
+<body class="brand-pataraz">
+<a class="skip-link" href="#main">Skip to content</a>
+<main id="main" class="container">
+  <h1 class="type-h1">One brand in every medium</h1>
+  <p class="type-hero-deck">Pataraz PX22 on the three media of the next six months: the product page, the datasheet and a LinkedIn post. Review the three side by side at each monthly kit release, against the rules below. Kit v7.6.0.</p>
+  <p class="type-body prose">The test: cover the logo on each piece. The reader must still know whose it is. Each medium changes the form of a rule, never the rule. A difference that no rule explains is drift: record it under Next in <code class="type-code">TODO.md</code>.</p>
+
+  <div class="family">
+    <figure class="type-figure">
+      <div class="family__shot family__shot--web">
+        <iframe src="../screens/product.html" title="Website: the PX22 product page" loading="lazy" tabindex="-1"></iframe>
+      </div>
+      <figcaption>Website: <a class="type-link" href="../screens/product.html">screens/product.html</a>, the kit itself.</figcaption>
+    </figure>
+    <figure class="type-figure">
+      <div class="family__shot family__shot--sheet">
+        <iframe src="../brand/exports/pataraz/datasheet/pataraz-px22.html" title="Datasheet: PX22" loading="lazy" tabindex="-1"></iframe>
+      </div>
+      <figcaption>Datasheet: <a class="type-link" href="../brand/exports/pataraz/datasheet/pataraz-px22.html">the exported PX22 sheet</a>, as it ships. The generator changes in v7.6.0 reach this file when the datasheets are rebuilt.</figcaption>
+    </figure>
+    <figure class="type-figure">
+      <div class="family__shot">
+        <img src="../brand/exports/pataraz/social/pataraz-px22-portrait.png" alt="LinkedIn post: PX22, portrait 1080 by 1350" width="1080" height="1350" loading="lazy">
+      </div>
+      <figcaption>LinkedIn: <a class="type-link" href="../brand/exports/pataraz/social/pataraz-px22-portrait.html">the PX22 post</a>, portrait 1080 × 1350.</figcaption>
+    </figure>
+  </div>
+
+  <h2 class="type-h2">The rules to check</h2>
+  <p class="type-body prose">From <code class="type-code">designDirection.invariants</code> in the registry, the same list as DESIGN.md and the brand guidelines.</p>
+  <div class="table-scroll">
+    <table class="type-table">
+      <thead><tr><th scope="col">Rule</th><th scope="col">Website</th><th scope="col">Datasheet</th><th scope="col">LinkedIn</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">One symbol and a lowercase wordmark in the identity ink. Never redrawn, never with a tagline.</th><td>The site lockup in the top menu and the footer.</td><td>The lockup at the top left of every sheet.</td><td>The lockup at the foot of every post image; the avatar is the symbol tile.</td></tr>
+      <tr><th scope="row">Red is identity and signal only: the Ağustos logo, and on screen the link rule, focus and one marker stroke. Never a fill, a button or text colour.</th><td>The logo, the 2px link and menu rule, keyboard focus and one highlighter stroke per page. Buttons are black.</td><td>No red, except the Ağustos logo.</td><td>No red, except the Ağustos logo and at most one highlighter stroke in the headline.</td></tr>
+      <tr><th scope="row">Three faces on one scale: Inter Tight for headings, Inter for text, JetBrains Mono for data. Headings are thin and in sentence case.</th><td>The type table (recipes.typeRoles) through the kit classes.</td><td>The same faces and weights at the print sizes of recipes.document.</td><td>The headline takes the H1 role, the deck the deck role.</td></tr>
+      <tr><th scope="row">Spec values are data: mono figures with the unit, the label in the display face.</th><td>type-spec on the spec table or list.</td><td>Every spec row.</td><td>Any figure that appears in a post image.</td></tr>
+      <tr><th scope="row">White paper and generous space. One title opens the page and nothing sits above it.</th><td>White paper, the section spacing, one closing band.</td><td>White A4, wide margins, one product title.</td><td>A white field; the headline is the only large text.</td></tr>
+      <tr><th scope="row">Plain, short, active words. No all-caps labels, no label above a title, no inflated claims.</th><td>Sentence case in headings, menus and buttons.</td><td>Sentence case labels; Turkish with lang=tr.</td><td>One idea per post image, in sentence case.</td></tr>
+      <tr><th scope="row">Text clears 4.5:1 contrast and graphics 3:1 (WCAG 2.2 AA).</th><td>The states table; the build refuses a failing pair.</td><td>Ink and ink-soft on white only.</td><td>Ink on white only; no text on a photograph.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h2 class="type-h2">The type table</h2>
+  <p class="type-body prose">From <code class="type-code">recipes.typeRoles</code>. The website uses these sizes, LinkedIn multiplies them by the social scale, and the datasheet uses the same faces and weights at print sizes.</p>
+  <div class="table-scroll">
+    <table class="type-table">
+      <thead><tr><th scope="col">Role</th><th scope="col">Face</th><th scope="col">Size</th><th scope="col">Weight</th><th scope="col">Line height</th><th scope="col">Use for</th></tr></thead>
+      <tbody>
+      <tr><th scope="row">hero</th><td>display</td><td>55 to 89px</td><td>300</td><td>0.97</td><td>The one headline of a home or landing page. One per page.</td></tr>
+      <tr><th scope="row">h1</th><td>display</td><td>43 to 55px</td><td>300</td><td>1</td><td>The title of every page that has no hero. One per page.</td></tr>
+      <tr><th scope="row">deck</th><td>body</td><td>21px</td><td>400</td><td>1.55</td><td>One or two sentences directly under the hero or the H1 that say what the page is.</td></tr>
+      <tr><th scope="row">h2</th><td>display</td><td>34 to 43px</td><td>400</td><td>1.06</td><td>The title of a section.</td></tr>
+      <tr><th scope="row">h3</th><td>display</td><td>21px</td><td>500</td><td>1.25</td><td>A subsection, or the title of a card.</td></tr>
+      <tr><th scope="row">h4</th><td>display</td><td>13px</td><td>600</td><td>1.4</td><td>A small group title: a table caption, a footer group, a form group.</td></tr>
+      <tr><th scope="row">body</th><td>body</td><td>16.5px</td><td>400</td><td>1.65</td><td>All running text. 1em below each paragraph.</td></tr>
+      <tr><th scope="row">compact</th><td>body</td><td>15.5px</td><td>400</td><td>1.5</td><td>Tables and the hero trust line.</td></tr>
+      <tr><th scope="row">control</th><td>display</td><td>15.5px</td><td>600</td><td>1</td><td>Buttons at 600. Menu links and breadcrumbs at 500; breadcrumbs take the footnote size.</td></tr>
+      <tr><th scope="row">quote</th><td>display</td><td>21px</td><td>400</td><td>1.35</td><td>A quotation inside the text, in italic with a 2px ink rule.</td></tr>
+      <tr><th scope="row">pullquote</th><td>display</td><td>27px</td><td>400</td><td>1.22</td><td>One line lifted from a long article.</td></tr>
+      <tr><th scope="row">footnote</th><td>body</td><td>13px</td><td>400</td><td>1.55</td><td>Footnotes, image captions and code blocks.</td></tr>
+      <tr><th scope="row">spec</th><td>mono</td><td>15.5px</td><td>400</td><td>1.5</td><td>Product specification values with units (160 W, 4200 lm). The label stays in the display face. The same on the web, the datasheet and LinkedIn.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</main>
+<script>
+  /* Scale each frame to its column. The frames show real pages at their real width. */
+  const fit = () => document.querySelectorAll('.family__shot iframe').forEach((frame) => {
+    frame.style.transform = `scale(${frame.parentElement.clientWidth / frame.offsetWidth})`;
+  });
+  addEventListener('resize', fit);
+  addEventListener('load', fit);
+  fit();
+</script>
+</body>
+</html>

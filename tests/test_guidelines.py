@@ -39,11 +39,12 @@ class GuidelinesContractTest(unittest.TestCase):
     def test_every_full_kit_brand_has_guidelines(self):
         self.assertEqual(sorted(self.pages), ["agustos", "pataraz", "pld"])
 
-    def test_thirteen_pages_with_every_section(self):
-        self.assertEqual(len(self.builder.SECTIONS), 10)
+    def test_fourteen_pages_with_every_section(self):
+        # v7.6.0 adds "In every medium" after the introduction.
+        self.assertEqual(len(self.builder.SECTIONS), 11)
         for slug, page in self.pages.items():
             with self.subTest(slug=slug):
-                self.assertEqual(page.count('<section class="page'), 13)
+                self.assertEqual(page.count('<section class="page'), 14)
                 for number, title in enumerate(self.builder.SECTIONS, start=1):
                     self.assertIn(f'<h1><span class="n">{number}</span>{title}</h1>', page)
 

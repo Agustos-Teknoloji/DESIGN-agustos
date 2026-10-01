@@ -2,6 +2,26 @@
 
 ## Now
 
+One brand in every medium (2026-10-01, branch `claude/brand-guideline-minimum-classes-f6c98d`). Emre chose steps 1 and 2 for the three media that matter in the next six months: websites, datasheets and LinkedIn. Emre chose on 2026-10-01: mono for spec values everywhere, fix the datasheet code and rebuild the PDFs later, add a LinkedIn post template, one release (v7.6.0) after a before/after preview of the heading rhythm. Record: MEMORY.md 2026-10-01 one-brand-every-medium.
+
+Step 0 comes from the 2026-10-01 type and spacing audit. Only H3 and the link were fully right; five elements conflict between the docs and the CSS. Steps 1 and 2 cannot promise one brand while each medium types its own sizes.
+
+- [x] Step 0a, one type contract. The registry emits every type step as a variable (`--size-hero` to `--size-h4`, deck, compact), with line-height and letter-spacing tokens. Map the six off-scale sizes (13.5, 15, 16, 20, 22, 26px) to steps, or name them; the 16px form floor becomes a token. Read `--measure-text` and `bodyCompact` through `var()`.
+- [x] Step 0b, heading rhythm (a visible change: before/after preview for Emre). One fixed gap below every heading instead of `1em` (H1 55px and H2 43px today); one title-to-deck gap for the hero and the H1 (32px against 55px today).
+- [x] Step 0c, UI-KIT.md type and spacing section: for each class, its size range, when to use it and what not to do. Add H4, the lead paragraph, captions, heading breaks, section rules and spacing values. Correct DESIGN.md (H2 gap, footnote, data font, measure) and the guidelines Typography page (65 characters, H1 tracking).
+- [x] Step 0d, data font: spec values in JetBrains Mono in every medium, labels in Inter. Wire `recipes.dataTable.valueFamily` into `.type-table` values; fix DESIGN.md:203.
+- [x] Step 0e, datasheet defect: `brand/build_datasheet.py` breaks the house rules (uppercase tracked labels, red text, weight 650 on the title) and hand-types its colours and sizes. Read `tokens/resolved.json` and `recipes.document`. Do not rebuild the PDFs; Emre asks for that later.
+- [x] Step 1, the fixed list. Add `designDirection.invariants` to `tokens/design-tokens.json`: six to eight rules that hold in every medium, each with its form on the web, on a datasheet and on LinkedIn. The nine principles stay; they are the web form of the list.
+- [x] Step 1, the outputs. The build prints the list into the generated block of `DESIGN.md` ("One brand in every medium") and `tokens/design-system-handoff.json`; UI-KIT.md keeps the nine web rules. The guidelines gain a page, "In every medium" (14 pages), and read the type table; their own titles drop the 650 weight. The PDF rebuild waits for Emre's yes.
+- [x] Step 1b, LinkedIn recipe: `recipes.social` in the registry (headline, deck, lockup per format) and `brand/build_social_posts.py` with three sample posts (Pataraz PX22, Ağustos, PLD) in 1080×1350 and 1200×1200 on the same type scale; `tests/test_social_posts.py`; ASSETS.md and brand/README.md.
+- [x] Step 2, the family-photo sheet. `docs/family.html.tmpl`, rendered by the everyday build like `docs/web.html`: Pataraz PX22 as the product screen, the datasheet and the LinkedIn image, side by side, with the fixed list as the review checklist under each.
+- [x] Page opening: Emre found the empty band above the breadcrumb in the preview. A breadcrumb now opens 16px under the menu on every screen.
+- [x] Page opening, option D (Emre, 2026-10-01): 24px under the breadcrumb; the date or revision line moves under the deck as a `type-footnote`. Screens `content` and `spec-sheet`, and the Astro blog post.
+- [ ] Consuming sites, after they vendor v7.6.0: move the date line of each article from above the H1 to under the deck (agustos.com, memregunes.com, pldturkiye.com, iesdesk.com).
+- [x] Before/after preview of the heading rhythm and the page opening; Emre said ship it on 2026-10-01 and kept the calm LinkedIn headline.
+- [ ] When Emre asks: rebuild the guidelines PDFs (14 pages; then change "13-page" in ASSETS.md and brand/README.md) and the datasheet PDFs and HTML.
+- [ ] Tests, `VERSION` 7.6.0, CHANGELOG, build, gate, PR. The tag and `/design-push` follow the merge on `main`.
+
 Kit v7.5.1: four defects from the kit audit (2026-10-01, branch `claude/kit-7.5.1-defects`, stacked on v7.5.0). Emre asked for it. Record: MEMORY.md 2026-10-01 audit-defects.
 
 - [x] `[hidden]`, card hover, skip-link hover, print outlines; test; `VERSION` 7.5.1; CHANGELOG; DESIGN.md; build; before and after browser check.
@@ -173,7 +193,8 @@ v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva
   - Docs: ship `screens/` with the kit, because a consumer agent never receives them; a "page type to screen and recipe" table (contact, pricing, FAQ, case study, 404, data table); replace "do the conventional thing" with "stop and ask for a recipe"; recipes for form states, article media and footnotes, pagination, image ratio and placeholder; fix the starter's contradictions (an eyebrow above the H1, a theme toggle on a `home` page, "paper (cream, default)").
 - Add a theme-invariant reverse-ink token (cream or white) to the registry for negative lockups, and use it on the Astro `/typography` negative tiles. In the dark toggle the house-brand tiles are off-black on off-black paper, so their edge disappears; decide whether the tile needs a rule. See MEMORY.md, negative-tile-cream.
 - Design review 2026-09-29, open decisions for Emre:
-  - Labels above headings remain on `screens/product-finder.html` (series above each card title), `screens/static.html` (role above each name) and `screens/content.html` (date above the H1). Decide whether a dateline is allowed, then move the rest below their headings.
+  - Labels above headings remain on `screens/product-finder.html` (series above each card title) and `screens/static.html` (role above each name). Move them below their headings, like the date in v7.6.0 (no dateline above a title: Emre chose option D on 2026-10-01).
+  - Checker: warn when a page puts a line above its H1 (the v7.6.0 page-opening rule), so consuming sites find their old datelines.
   - App shell: the four stat cards do not need to be cards, and the marked one puts a 2px border on a rounded card. Try a `grid-4` of ruled figures.
   - App shell tabs have no tab semantics or arrow-key handling. Wire them up or use plain filter links.
   - "Six colours" is not literally true: `--ink-faint` #8a8378 and `--rule` #e8e4da are extra hexes, and dark `--ink-soft` reuses #8a8378. Either reword the contract or change the tokens.
@@ -189,5 +210,9 @@ v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva
   - Docs: one entry point (DESIGN.md:7 vs UI-KIT.md:3); cut the Versioning paragraph to the current release; drop v3 and v5 remnants; "topbar" to "top menu"; six brands, not five; the browser baseline is 2024 (`:has()`, `popover`), not 2022.
   - Best practice: a component status and a deprecation window for the aliases; `prefers-color-scheme` for product UI; `required` and `aria-describedby` in the starter form; per-brand favicons on the Pataraz and IESDesk screens.
 
+- Brand guidelines PDF, three candidate pages from the 2026-10-01 comparison with common practice. No standard sets the sections; agency guides name seven, and these three are missing. Each one needs Emre's yes before the PDFs are rebuilt (MEMORY.md, guidelines-rebuild-on-request).
+  - Tone of voice: a short page from `standards/voice.md` in the SKILL-writing repo.
+  - Application examples: one real use for each section (letterhead, email signature, social post, datasheet), not only the file list.
+  - Accessibility: one line on "Colour in use", "Text on any background keeps 4.5:1 contrast (WCAG 2.2 AA)", so partners who make their own material follow the kit's floors.
 - Register printer-matched CMYK and Pantone values for the six colours and the identity inks in `brand/brands.json`, then show them on the colour page of `brand/build_guidelines.py`. Ask the printer for a proof first; do not convert the screen values.
 - Rebuild `adapters/astro/src/pages/blog/index.astro` on `type-dl` and `type-footnote`, like `screens/content-index.html`. Remove its scoped `<style>` block and the H2 for each post title, which break the list-page rule.

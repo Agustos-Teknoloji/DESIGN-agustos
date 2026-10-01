@@ -31,6 +31,7 @@ BROWSE = Path.home() / ".claude/skills/gstack/browse/dist/browse"
 # Page titles, in order. The cover and back cover have no title.
 SECTIONS = [
     "Introduction",
+    "In every medium",
     "The symbol",
     "The logo",
     "Clear space and minimum size",
@@ -133,6 +134,14 @@ def gen_guidelines_html(slug: str, brand: dict, reg: dict, design: dict, out: Pa
     danger = colors["stateDanger"]
     sizes = design["foundations"]["fontSize"]
     weights = design["foundations"]["fontWeight"]
+    # The one type table (recipes.typeRoles): the same rows as the web kit and UI-KIT.md.
+    roles = {row["role"]: row for row in design["typeRoles"]}
+
+    def type_sample(role: str, face: str, text: str, extra: str = "") -> str:
+        r = roles[role]
+        tracking = f"letter-spacing:{r['tracking']};" if r.get("tracking") else ""
+        return (f'<div style="font-family:\'{face}\';font-weight:{r["weight"]};font-size:{px(r["size"])};'
+                f'{tracking}line-height:{r["lineHeight"]};{extra}">{text}</div>')
     # The wrong colour in the recolour example: red for a black brand, blue for Ağustos.
     wrong = colors["stateInfo"] if is_red else signal
 
@@ -232,9 +241,9 @@ def gen_guidelines_html(slug: str, brand: dict, reg: dict, design: dict, out: Pa
 body {{ margin:0; font-family:'Inter',sans-serif; color:{ink}; background:{paper}; }}
 .page {{ width:210mm; height:297mm; padding:24mm 20mm 26mm; page-break-after:always; position:relative; overflow:hidden; }}
 .page:last-child {{ page-break-after:auto; }}
-h1 {{ font-family:'Inter Tight'; font-weight:650; font-size:38px; letter-spacing:-0.02em; line-height:1.1; margin:0 0 18px; }}
+h1 {{ font-family:'Inter Tight'; font-weight:{roles['h1']['weight']}; font-size:38px; letter-spacing:{roles['h1']['tracking']}; line-height:1.1; margin:0 0 18px; }}
 h1 .n {{ color:{faint}; margin-right:14px; font-variant-numeric:tabular-nums; }}
-h2 {{ font-family:'Inter Tight'; font-weight:600; font-size:17px; margin:30px 0 10px; }}
+h2 {{ font-family:'Inter Tight'; font-weight:{roles['h3']['weight']}; font-size:17px; margin:30px 0 10px; }}
 p {{ font-size:13px; line-height:1.65; max-width:64ch; color:{soft}; margin:0 0 12px; }}
 .foot {{ position:absolute; bottom:12mm; left:20mm; right:20mm; font-size:9.5px; color:{faint};
          border-top:1px solid {rule}; padding-top:6px; display:flex; justify-content:space-between; }}
@@ -321,6 +330,10 @@ mark.hl {{ color:inherit; background:linear-gradient(transparent 55%, color-mix(
 table.files {{ width:100%; border-collapse:collapse; margin-top:18px; font-size:11.5px; }}
 table.files td {{ padding:8px 0; border-bottom:1px solid {rule}; vertical-align:top; color:{soft}; }}
 table.files td.path {{ font-family:'JetBrains Mono'; font-size:10px; color:{ink}; padding-left:14px; }}
+table.medium {{ font-size:10px; line-height:1.4; }}
+table.medium th {{ text-align:left; font-weight:600; color:{ink}; padding:0 10px 8px 0; border-bottom:1px solid {rule}; }}
+table.medium td {{ padding:8px 10px 8px 0; }}
+table.medium td b {{ font-weight:600; color:{ink}; }}
 </style></head><body>
 
 <section class="page cover">
@@ -337,6 +350,14 @@ table.files td.path {{ font-family:'JetBrains Mono'; font-size:10px; color:{ink}
 </section>
 
 {page("Introduction", intro_html(title, slug == "agustos", family) + family_html)}
+
+{page("In every medium", f'''
+  <p>A website, a datasheet and a LinkedIn post cannot look the same, but they must read as one brand.
+     These rules hold everywhere. Test a new piece by covering its logo: the reader must still know whose it is.</p>
+  <table class="files medium">
+    <tr><th>Rule</th><th>Website</th><th>Datasheet</th><th>LinkedIn</th></tr>
+    {"".join(f"<tr><td><b>{html.escape(r['rule'])}</b></td><td>{html.escape(r['web'])}</td><td>{html.escape(r['datasheet'])}</td><td>{html.escape(r['linkedin'])}</td></tr>" for r in design["designDirection"]["invariants"])}
+  </table>''')}
 
 {page("The symbol", f'''
   <p>The Laz Güneşi is an 18-blade sun. Every brand in the family uses this one symbol.
@@ -409,20 +430,20 @@ table.files td.path {{ font-family:'JetBrains Mono'; font-size:10px; color:{ink}
      Write in sentence case. Sizes follow one scale: the {sizes["body"]} body times 1.272 per step, so every
      second step is the golden ratio.</p>
   <div style="margin-top:14px;">
-  <div class="spec"><div class="k"><b>Hero, Inter Tight {weights["light"]}</b>{px(sizes["hero"])} on screen. One per page.</div>
-    <div style="font-family:'Inter Tight';font-weight:{weights["light"]};font-size:{px(sizes["hero"])};letter-spacing:-0.042em;line-height:0.97;">Light</div></div>
-  <div class="spec"><div class="k"><b>H1, Inter Tight {weights["light"]}</b>{px(sizes["h1"])}. Page titles.</div>
-    <div style="font-family:'Inter Tight';font-weight:{weights["light"]};font-size:{px(sizes["h1"])};letter-spacing:-0.035em;line-height:1;">Right light</div></div>
-  <div class="spec"><div class="k"><b>H2, Inter Tight {weights["regular"]}</b>{px(sizes["h2"])}. Sections.</div>
-    <div style="font-family:'Inter Tight';font-weight:{weights["regular"]};font-size:{px(sizes["h2"])};letter-spacing:-0.032em;line-height:1.06;">Product range</div></div>
-  <div class="spec"><div class="k"><b>H3, Inter Tight {weights["medium"]}</b>{px(sizes["h3"])}. Cards and subsections.</div>
-    <div style="font-family:'Inter Tight';font-weight:{weights["medium"]};font-size:{px(sizes["h3"])};">Specifications</div></div>
-  <div class="spec"><div class="k"><b>Body, Inter {weights["regular"]}</b>{px(sizes["body"])}, line height 1.65, at most 65 characters a line.</div>
-    <div style="font-size:{px(sizes["body"])};line-height:1.65;color:{soft};">Body text is set at a comfortable size with generous line spacing.</div></div>
-  <div class="spec"><div class="k"><b>Small print, Inter {weights["regular"]}</b>{px(sizes["footnote"])}. Footnotes and captions.</div>
-    <div style="font-size:{px(sizes["footnote"])};color:{soft};">Prices exclude VAT.</div></div>
-  <div class="spec"><div class="k"><b>JetBrains Mono</b>Codes, file names, data</div>
-    <div style="font-family:'JetBrains Mono';font-size:13px;">PX22-3000K-24D · 1200 lm</div></div>
+  <div class="spec"><div class="k"><b>Hero, Inter Tight {roles["hero"]["weight"]}</b>{px(roles["hero"]["size"])} on screen. One per page.</div>
+    {type_sample("hero", "Inter Tight", "Light")}</div>
+  <div class="spec"><div class="k"><b>H1, Inter Tight {roles["h1"]["weight"]}</b>{px(roles["h1"]["size"])}. Page titles.</div>
+    {type_sample("h1", "Inter Tight", "Right light")}</div>
+  <div class="spec"><div class="k"><b>H2, Inter Tight {roles["h2"]["weight"]}</b>{px(roles["h2"]["size"])}. Sections.</div>
+    {type_sample("h2", "Inter Tight", "Product range")}</div>
+  <div class="spec"><div class="k"><b>H3, Inter Tight {roles["h3"]["weight"]}</b>{px(roles["h3"]["size"])}. Cards and subsections.</div>
+    {type_sample("h3", "Inter Tight", "Specifications")}</div>
+  <div class="spec"><div class="k"><b>Body, Inter {roles["body"]["weight"]}</b>{px(roles["body"]["size"])}, line height {roles["body"]["lineHeight"]}, about 75 characters a line at most.</div>
+    {type_sample("body", "Inter", "Body text is set at a comfortable size with generous line spacing.", f"color:{soft};")}</div>
+  <div class="spec"><div class="k"><b>Small print, Inter {roles["footnote"]["weight"]}</b>{px(roles["footnote"]["size"])}. Footnotes and captions.</div>
+    {type_sample("footnote", "Inter", "Prices exclude VAT.", f"color:{soft};")}</div>
+  <div class="spec"><div class="k"><b>Spec values, JetBrains Mono</b>Data with units, on the web, the datasheet and LinkedIn. Labels stay in Inter Tight.</div>
+    {type_sample("spec", "JetBrains Mono", "PX22 · 160 W · 4200 lm")}</div>
   <div class="spec"><div class="k"><b>Wordmark, Inter Tight {weights["wordmark"]}</b>The logo only. Never for text.</div>
     <div class="wm" style="color:{identity};">{wordmark}</div></div>
   </div>
