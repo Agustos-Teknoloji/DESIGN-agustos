@@ -4,6 +4,39 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.5.0] - 2026-10-01
+
+One brand in every medium. Emre asked for a kit that feels like one brand on websites, datasheets and LinkedIn, the three media of the next six months, and approved the heading rhythm from a before/after preview. Record: MEMORY.md 2026-10-01 one-brand-every-medium.
+
+Consuming sites move the date line of an article from above the H1 to under the deck, as a `type-footnote`. Text below an H1 or a heading moves up (see Changed). A site may add `type-spec` to its spec tables and lists, and may replace hand-typed type sizes with the new variables.
+
+### Added
+
+- One type contract. `recipes.typeRoles` in the registry has one row per text role: class, face, size, weight, line height, tracking, the space around it, what it is for and what not to use it for. UI-KIT.md prints it as "Type and spacing", `kit.json` and `tokens/resolved.json` publish it as `typeRoles`, and the brand guidelines and the LinkedIn templates read it.
+- Variables for every type step: `--size-hero` to `--size-h4`, `--size-deck`, `--size-quote`, `--size-pullquote`, `--size-form-field`, with `--leading-*` and `--tracking-*` per role, and the heading rhythm `--space-before-h2`, `--space-before-h3`, `--space-after-title`, `--space-after-h2`, `--space-after-h3`, `--space-after-h4`. Before, only 3 of about 10 sizes had a name, so a site had to retype the others.
+- `type-spec` on a `table` or a `dl` of product specifications: values in JetBrains Mono with tabular figures, labels in Inter Tight. The `product` and `spec-sheet` screens use it. Spec values now look the same on the web and the datasheet.
+- `designDirection.invariants`: seven rules that hold in every medium, each with its form on a website, a datasheet and LinkedIn. DESIGN.md prints them under "One brand in every medium"; the brand guidelines gain a page, "In every medium" (14 pages).
+- `docs/family.html`, the family-photo sheet: Pataraz PX22 as the product page, the datasheet and a LinkedIn post side by side, with the rules and the type table under them. Review it at each monthly release.
+- LinkedIn post templates: `recipes.social` and `brand/build_social_posts.py` write a portrait (1080 × 1350) and a square (1200 × 1200) post per full-kit brand from the type table.
+
+### Changed
+
+- The space below a heading is a fixed step, smaller than the space above it, so the heading binds to the text it opens: 32px under a hero or an H1 to its deck (55px under an H1 before), 20px under an H2 (43px), 12px under an H3 (21px), 8px under an H4 (13px). Measured on the `content` and `static` screens at 1440 and 390px.
+- A page that opens with a breadcrumb starts 16px under the top menu, on a `container` and a `site-frame` alike. The `content`, `static` and `content-index` screens had the full hero padding above the trail (112px at 1440px, 56px on a phone), and `products` and `product` had none. Emre found the empty band in the preview.
+- The page opening reads breadcrumb, title, deck, meta line. The title sits 24px under the breadcrumb (it touched the trail on `products`, `static` and `product-finder`), and a date or revision line is a `type-footnote` 12px under the deck, never a label above the title. The `content` and `spec-sheet` screens and the Astro blog post move their line, and `spec-sheet` gains the breadcrumb of an inner page (Ana sayfa / Ürünler / PX serisi / PX22 / Teknik föy). Emre chose this (option D) from four rendered options; lighter text alone fails the 4.5:1 floor.
+- `type-hero-md` takes the 32px title gap (24px before), like `type-hero` and the H1.
+- Six sizes move onto the scale or a named token: block quote 22 to 21px, pull quote 26 to 27px, definition list 16 to 16.5px, figure caption and code block 13.5 to 13px, button 15 to 15.5px. Inputs keep 16px as `--size-form-field`. Only the site lockup keeps a pixel size.
+
+### Fixed
+
+- `brand/build_datasheet.py` follows the house rules: no all-caps tracked labels, no red text, no 650 weight on the title, and colours, faces, weights and print sizes come from `tokens/resolved.json`. The exported datasheets change when Emre asks for the rebuild.
+- The brand guidelines Typography page reads the type table: the H1 tracking matches the web (-0.04em, was -0.035em), and the line length reads "about 75 characters" (was 65). The guidelines' own titles drop the 650 weight. The PDFs change when Emre asks for the rebuild.
+
+### Documentation
+
+- DESIGN.md matches the CSS: the H2 gap, the footnote rule, the faces of block quotes and spec values, and the sizes above.
+- UI-KIT.md: the two paragraphs that repeated house rules 5 and 8 are gone; the highlighter markup moves to the type section. Its line limit is 220 (was 200) for the type table.
+
 ## [7.4.2] - 2026-09-30
 
 A defect patch from the final review of the contents list (v7.4.0). Emre chose 24px above the folded line on 2026-09-30. Consuming sites add `aria-hidden="true"` to the list title; nothing else in their markup changes.

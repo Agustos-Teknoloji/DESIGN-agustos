@@ -48,6 +48,7 @@ A full rebuild is manual. Run it only when asked:
 ./.venv/bin/python brand/build_templates.py
 ./.venv/bin/python scripts/build_ui_fonts.py
 python3 brand/build_datasheet.py --pdf
+python3 brand/build_social_posts.py --png
 python3 scripts/check_office_artifacts.py --check
 ```
 

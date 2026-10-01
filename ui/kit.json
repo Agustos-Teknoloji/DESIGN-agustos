@@ -39,7 +39,7 @@
       "wordmark": "specquick"
     }
   },
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.4.2/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.5.0/ui/",
   "cssClasses": [
     "type-hero",
     "type-hero-md",
@@ -59,6 +59,7 @@
     "type-figure",
     "type-code-block",
     "type-table",
+    "type-spec",
     "type-divider",
     "type-footnote",
     "type-highlight",
@@ -215,6 +216,50 @@
     ],
     "definition": "Scandinavian restraint filtered through Mediterranean warmth.",
     "intent": "Create minimal, functional, and elegant experiences that feel calm, warm, and human.",
+    "invariants": [
+      {
+        "datasheet": "The lockup at the top left of every sheet.",
+        "linkedin": "The lockup at the foot of every post image; the avatar is the symbol tile.",
+        "rule": "One symbol and a lowercase wordmark in the identity ink. Never redrawn, never with a tagline.",
+        "web": "The site lockup in the top menu and the footer."
+      },
+      {
+        "datasheet": "No red, except the Ağustos logo.",
+        "linkedin": "No red, except the Ağustos logo and at most one highlighter stroke in the headline.",
+        "rule": "Red is identity and signal only: the Ağustos logo, and on screen the link rule, focus and one marker stroke. Never a fill, a button or text colour.",
+        "web": "The logo, the 2px link and menu rule, keyboard focus and one highlighter stroke per page. Buttons are black."
+      },
+      {
+        "datasheet": "The same faces and weights at the print sizes of recipes.document.",
+        "linkedin": "The headline takes the H1 role, the deck the deck role.",
+        "rule": "Three faces on one scale: Inter Tight for headings, Inter for text, JetBrains Mono for data. Headings are thin and in sentence case.",
+        "web": "The type table (recipes.typeRoles) through the kit classes."
+      },
+      {
+        "datasheet": "Every spec row.",
+        "linkedin": "Any figure that appears in a post image.",
+        "rule": "Spec values are data: mono figures with the unit, the label in the display face.",
+        "web": "type-spec on the spec table or list."
+      },
+      {
+        "datasheet": "White A4, wide margins, one product title.",
+        "linkedin": "A white field; the headline is the only large text.",
+        "rule": "White paper and generous space. One title opens the page and nothing sits above it.",
+        "web": "White paper, the section spacing, one closing band."
+      },
+      {
+        "datasheet": "Sentence case labels; Turkish with lang=tr.",
+        "linkedin": "One idea per post image, in sentence case.",
+        "rule": "Plain, short, active words. No all-caps labels, no label above a title, no inflated claims.",
+        "web": "Sentence case in headings, menus and buttons."
+      },
+      {
+        "datasheet": "Ink and ink-soft on white only.",
+        "linkedin": "Ink on white only; no text on a photograph.",
+        "rule": "Text clears 4.5:1 contrast and graphics 3:1 (WCAG 2.2 AA).",
+        "web": "The states table; the build refuses a failing pair."
+      }
+    ],
     "keywords": [
       "calm",
       "clear",
@@ -243,27 +288,27 @@
   "files": {
     "AGENTS-SNIPPET.md": {
       "bytes": 2327,
-      "sha256": "eb4edc8881485fcc2a03b7c2cb4bbcd54b1e07ad8be73a312645b7b36e963ce5"
+      "sha256": "49519a11d7295b4700a114ddf226f0e7745ae236f12221ecda213df9575d9930"
     },
     "UI-KIT.md": {
-      "bytes": 20161,
-      "sha256": "25ff31406dfcd6a2bdf53cdec9614e997d72760b802fbfca42a58b536b2d680d"
+      "bytes": 24055,
+      "sha256": "1db18561b69d2cb1ceb907c3a88013a829eb17f1f461c6548937af6b1517a62f"
     },
     "agustos-chrome.js": {
       "bytes": 1986,
-      "sha256": "f86a0e51bda4d963e06d13a9312871a894483eb698ffa6bf0a413390b52459a0"
+      "sha256": "7fee3643812c3f1eedbcc3106d209255aefce28df9af6b32b98fa30520334029"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
-      "sha256": "3b8eba016ffbc90af7e683958577911e075d1282944d801da8ec7b6cf7e449b1"
+      "sha256": "0edda0237e6de1985a469a5bf1e3d1bd53130aebde09113529a39c194e7382a3"
     },
     "agustos.css": {
-      "bytes": 64843,
-      "sha256": "9fefaf391e4634a3fee210b2e4a55c1e0340870fed6de33601c5ce3a60a7a50d"
+      "bytes": 68012,
+      "sha256": "fa84ec172022cf013f6c6dc3258cdd92a19a11850eb26f4c0e0712ae3ff97d41"
     },
     "check-agustos-ui.py": {
-      "bytes": 31679,
-      "sha256": "0c302c33016750bbb3574e2ce8e65ca1d58188f78df815558220a81257b630d9"
+      "bytes": 31696,
+      "sha256": "575b13adabfce6ebe0d7902d904f4be948da67d52b98effda360f9aadaf0d12c"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -287,12 +332,12 @@
     },
     "starter.html": {
       "bytes": 28530,
-      "sha256": "589fe200dcc67b880cde0003fde51381b97b3ab901f1d8210d5b423b4332e1d0"
+      "sha256": "f772c5aba72f59d0521170d52d0d52aa2c7df9bc4c35bef60e7d23f4a2bc69c1"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.4.2/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.4.2/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.5.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.5.0/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.4.2/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.5.0/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "screens": {
     "app-shell": {
@@ -910,5 +955,150 @@
     "cream"
   ],
   "system": "Ağustos Design System",
-  "version": "7.4.2"
+  "typeRoles": [
+    {
+      "after": "32px",
+      "avoid": "A second hero on the page; a hero on a content page (use H1).",
+      "classes": "type-hero",
+      "family": "display",
+      "lineHeight": 0.97,
+      "role": "hero",
+      "size": "clamp(55px, 7vw, 89px)",
+      "tracking": "-0.042em",
+      "use": "The one headline of a home or landing page. One per page.",
+      "weight": 300
+    },
+    {
+      "after": "32px",
+      "avoid": "Two H1s; an H1 inside a card.",
+      "classes": "h1, type-h1",
+      "family": "display",
+      "lineHeight": 1,
+      "role": "h1",
+      "size": "clamp(43px, 4.6vw, 55px)",
+      "tracking": "-0.04em",
+      "use": "The title of every page that has no hero. One per page.",
+      "weight": 300
+    },
+    {
+      "avoid": "A deck under an H2; more than two sentences.",
+      "classes": "type-hero-deck",
+      "family": "body",
+      "lineHeight": 1.55,
+      "role": "deck",
+      "size": "21px",
+      "use": "One or two sentences directly under the hero or the H1 that say what the page is.",
+      "weight": 400
+    },
+    {
+      "after": "20px",
+      "avoid": "A label above the heading; uppercase.",
+      "before": "40px",
+      "classes": "h2, type-h2",
+      "family": "display",
+      "lineHeight": 1.06,
+      "role": "h2",
+      "size": "clamp(34px, 3.4vw, 43px)",
+      "tracking": "-0.032em",
+      "use": "The title of a section.",
+      "weight": 400
+    },
+    {
+      "after": "12px",
+      "avoid": "Italic; bold to fake an H2.",
+      "before": "32px",
+      "classes": "h3, type-h3",
+      "family": "display",
+      "lineHeight": 1.25,
+      "role": "h3",
+      "size": "21px",
+      "tracking": "-0.014em",
+      "use": "A subsection, or the title of a card.",
+      "weight": 500
+    },
+    {
+      "after": "8px",
+      "avoid": "An eyebrow label above a heading; uppercase.",
+      "before": "32px",
+      "classes": "h4, type-h4",
+      "family": "display",
+      "lineHeight": 1.4,
+      "role": "h4",
+      "size": "13px",
+      "tracking": "0.005em",
+      "use": "A small group title: a table caption, a footer group, a form group.",
+      "weight": 600
+    },
+    {
+      "avoid": "A line longer than the reading line (--measure-body); grey text below 4.5:1.",
+      "classes": "p, type-body",
+      "family": "body",
+      "lineHeight": 1.65,
+      "role": "body",
+      "size": "16.5px",
+      "use": "All running text. 1em below each paragraph.",
+      "weight": 400
+    },
+    {
+      "avoid": "Running text.",
+      "classes": "hero-trust, type-table",
+      "family": "body",
+      "lineHeight": 1.5,
+      "role": "compact",
+      "size": "15.5px",
+      "use": "Tables and the hero trust line.",
+      "weight": 400
+    },
+    {
+      "avoid": "Uppercase; arrows on buttons.",
+      "classes": "agustos-button, site-header__link, breadcrumb",
+      "family": "display",
+      "lineHeight": 1,
+      "role": "control",
+      "size": "15.5px",
+      "use": "Buttons at 600. Menu links and breadcrumbs at 500; breadcrumbs take the footnote size.",
+      "weight": 600
+    },
+    {
+      "avoid": "Decorative quote marks; a quote as a section heading.",
+      "classes": "blockquote, type-blockquote",
+      "family": "display",
+      "lineHeight": 1.35,
+      "role": "quote",
+      "size": "21px",
+      "use": "A quotation inside the text, in italic with a 2px ink rule.",
+      "weight": 400
+    },
+    {
+      "avoid": "More than one per article.",
+      "classes": "type-pullquote",
+      "family": "display",
+      "lineHeight": 1.22,
+      "role": "pullquote",
+      "size": "27px",
+      "use": "One line lifted from a long article.",
+      "weight": 400
+    },
+    {
+      "avoid": "Any text the reader needs to act on.",
+      "classes": "type-footnote, figcaption",
+      "family": "body",
+      "lineHeight": 1.55,
+      "role": "footnote",
+      "size": "13px",
+      "use": "Footnotes, image captions and code blocks.",
+      "weight": 400
+    },
+    {
+      "avoid": "Prose tables; labels in mono.",
+      "classes": "type-spec",
+      "family": "mono",
+      "lineHeight": 1.5,
+      "role": "spec",
+      "size": "15.5px",
+      "use": "Product specification values with units (160 W, 4200 lm). The label stays in the display face. The same on the web, the datasheet and LinkedIn.",
+      "weight": 400
+    }
+  ],
+  "version": "7.5.0"
 }

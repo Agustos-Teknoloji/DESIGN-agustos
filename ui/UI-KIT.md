@@ -1,4 +1,4 @@
-# Ağustos UI kit — v7.4.2
+# Ağustos UI kit — v7.5.0
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -45,11 +45,11 @@ Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and
 
 npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-Prototypes with no build step may link the CDN copies. **Pin to `@v7.4.2`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
+Prototypes with no build step may link the CDN copies. **Pin to `@v7.5.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.4.2/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.4.2/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.5.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.5.0/ui/agustos.css">
 ```
 
 ## Page skeleton
@@ -123,10 +123,6 @@ One reference page per screen type lives in the source repository under `screens
 
 A website page opens with a `type-hero` headline (or a `type-h1` on listing and content pages), a `type-hero-deck`, a `hero-actions` row with one primary and one secondary `agustos-button`, and a `hero-trust` line. It closes with one `band band--cream`.
 
-**The highlighter.** Wrap one to four words of the main headline in `<mark class="type-highlight">`. Once per page (the checker warns, AG025). Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.
-
-**Emphasis.** `strong` (600) marks a fact the reader scans for, at most once per paragraph. `em` marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Never combine them. No uppercase labels, eyebrow headings, or coloured text.
-
 **States.** The kit styles every state; compose from it rather than restyle. Hover: light paper turns a content link red; the dark theme dims the ink instead (red text on off-black is 3.35:1) and keeps the red rule. Pressed: buttons move 1px down. Disabled: a `button` takes the `disabled` attribute; a link drops its `href` and takes `role="link"` and `aria-disabled="true"`, because `aria-disabled` alone does not stop a click (AG030). Both turn gray and inert. The footer and the closing band stay light in the dark theme. Text clears 4.5:1 and borders, logos and focus 3:1 in both themes; `kit.json` (`states`) and `docs/web.html` carry every pair with its ratio.
 
 `brand-memregunes` may show photographs of Emre Güneş on `home` and `static`.
@@ -141,7 +137,7 @@ Every class the kit publishes. See `starter.html` for one rendered instance of e
 | Layout | `stack` `cluster` `prose` `grid-2` `grid-3` `grid-4` `grid-aside` `band` `band--cream` `table-scroll` |
 | Headings | `type-hero` `type-hero-md` `type-hero-deck` `type-h1` `type-h2` `type-h3` `type-h4` |
 | Text | `type-body` `type-link` `type-code` `type-blockquote` `type-pullquote` `type-footnote` `type-highlight` |
-| Blocks | `type-list-ul` `type-list-ol` `type-dl` `type-figure` `type-code-block` `type-table` `type-divider` |
+| Blocks | `type-list-ul` `type-list-ol` `type-dl` `type-figure` `type-code-block` `type-table` `type-spec` `type-divider` |
 | Hero | `hero-actions` `hero-trust` `hero-visual` |
 | Sections | `agustos-section` `agustos-section__head` |
 | Cards | `agustos-card-grid` `agustos-card` `agustos-card--marked` |
@@ -156,12 +152,34 @@ Bare HTML elements are styled too: `h1`–`h4`, `p`, `a`, `ul`, `ol`, `dl`, `tab
 
 Compose missing components from `agustos-card`, `agustos-button`, the layout classes, and `type-*`. `prose` caps a text block at the reading line on a full-frame page; `container--reading` caps the whole column of a content page. Do not import another component library.
 
+## Type and spacing
+
+One table sets every text role. The same rows feed `kit.json` (`typeRoles`), the brand guidelines, the datasheet and the LinkedIn templates, so a role looks the same in every medium. Use the class or the bare element; the kit sets size, weight, line height, tracking and the space around it. Faces: display is Inter Tight, body is Inter, mono is JetBrains Mono. The highlighter is `<mark class="type-highlight">` around one to four words of the main headline.
+
+| Role | Class or element | Face | Size | Weight | Line height | Space above / below | Use for | Not for |
+|---|---|---|---|---|---|---|---|---|
+| hero | `type-hero` | display | 55 to 89px | 300 | 0.97 | - / 32px | The one headline of a home or landing page. One per page. | A second hero on the page; a hero on a content page (use H1). |
+| h1 | `h1` `type-h1` | display | 43 to 55px | 300 | 1 | - / 32px | The title of every page that has no hero. One per page. | Two H1s; an H1 inside a card. |
+| deck | `type-hero-deck` | body | 21px | 400 | 1.55 | - / 1em | One or two sentences directly under the hero or the H1 that say what the page is. | A deck under an H2; more than two sentences. |
+| h2 | `h2` `type-h2` | display | 34 to 43px | 400 | 1.06 | 40px / 20px | The title of a section. | A label above the heading; uppercase. |
+| h3 | `h3` `type-h3` | display | 21px | 500 | 1.25 | 32px / 12px | A subsection, or the title of a card. | Italic; bold to fake an H2. |
+| h4 | `h4` `type-h4` | display | 13px | 600 | 1.4 | 32px / 8px | A small group title: a table caption, a footer group, a form group. | An eyebrow label above a heading; uppercase. |
+| body | `p` `type-body` | body | 16.5px | 400 | 1.65 | - / 1em | All running text. 1em below each paragraph. | A line longer than the reading line (--measure-body); grey text below 4.5:1. |
+| compact | `hero-trust` `type-table` | body | 15.5px | 400 | 1.5 | - / 1em | Tables and the hero trust line. | Running text. |
+| control | `agustos-button` `site-header__link` `breadcrumb` | display | 15.5px | 600 | 1 | - / 1em | Buttons at 600. Menu links and breadcrumbs at 500; breadcrumbs take the footnote size. | Uppercase; arrows on buttons. |
+| quote | `blockquote` `type-blockquote` | display | 21px | 400 | 1.35 | - / 1em | A quotation inside the text, in italic with a 2px ink rule. | Decorative quote marks; a quote as a section heading. |
+| pullquote | `type-pullquote` | display | 27px | 400 | 1.22 | - / 1em | One line lifted from a long article. | More than one per article. |
+| footnote | `type-footnote` `figcaption` | body | 13px | 400 | 1.55 | - / 1em | Footnotes, image captions and code blocks. | Any text the reader needs to act on. |
+| spec | `type-spec` | mono | 15.5px | 400 | 1.5 | - / 1em | Product specification values with units (160 W, 4200 lm). The label stays in the display face. The same on the web, the datasheet and LinkedIn. | Prose tables; labels in mono. |
+
+**Space.** Every paragraph, list, table and figure takes 1em below it; do not add margins. A heading takes more space above it than below, so it belongs to the text it opens; a heading that opens a section, a card or a band drops the space above, because the container owns that edge. A hero headline or an H1 sits 32px above its deck, with no label, date or eyebrow above it. A page that opens with a breadcrumb (`nav` > `ol.breadcrumb`, the first child of the `container` or `site-frame`) starts 16px under the top menu, and the title sits 24px under the trail. A date, author or revision is a `type-footnote` line directly under the deck. `agustos-section` and `band` take `--section-space` (72 to 104px) above and below; two sections in a row share one gap and no rule. On a reading page a section takes the 40px H2 break instead. Inside a component use the scale, never a literal: `--space-2xs` 4, `-xs` 8, `-sm` 12, `-md` 16, `-lg` 20, `-xl` 24, `-2xl` 32, `-3xl` 40, `-4xl` 48, `-5xl` 64, `-6xl` 80px. Running text ends on `--measure-body` (about 75 characters); a deck ends at `--measure-text`.
+
 ## Variables
 
 Use `var(--name)`, never the literal value. Spacing `--space-2xs` … `--space-6xl`.
 Radii `--radius-md` (6px, controls) and `--radius-lg` (12px, cards). `--radius-sm` is an alias of `--radius-md`. Nothing larger exists.
 Color `--paper` `--cream` `--surface` `--ink` `--ink-soft` `--ink-faint` `--rule` `--signal` `--brand`
-`--footer-*` `--state-success|warning|danger|info`. Type `--display` `--body` `--mono`; sizes follow one golden scale (13, 16.5, 21, 27, 34, 43, 55, 70, 89px). Section spacing `--section-space`.
+`--footer-*` `--state-success|warning|danger|info`. Type `--display` `--body` `--mono`; sizes follow one golden scale (13, 16.5, 21, 27, 34, 43, 55, 70, 89px): `--size-hero` `--size-h1` `--size-h2` `--size-h3` `--size-h4` `--size-deck` `--size-pullquote` `--size-quote` `--size-body` `--size-body-compact` `--size-form-field` `--size-footnote`, with `--leading-*` and `--tracking-*` for each heading role. Heading rhythm `--space-before-h2` `--space-before-h3` `--space-after-title` `--space-after-h2` `--space-after-h3` `--space-after-h4`. Section spacing `--section-space`.
 Motion `--dur` `--ease`. Targets `--control-min` (44px). Frame `--measure-content` (1180px). Product sidebar `--sidebar-width` (240px) and `--sidebar-bar-height` (61px, the sticky bar below 1024px; the kit sets it as `scroll-padding-top`, so an anchor lands below the bar).
 Measures `--measure-text` (54ch, hero deck) and `--measure-body` (41rem, the reading line: long-form prose, and the split of a content page and the footer site map).
 

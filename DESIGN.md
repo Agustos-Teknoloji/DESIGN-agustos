@@ -1,6 +1,6 @@
 # Ağustos Design System
 
-**Version 7.4.2** · Cross-medium design system for Emre Güneş's brand portfolio
+**Version 7.5.0** · Cross-medium design system for Emre Güneş's brand portfolio
 
 ## Standard artifacts
 
@@ -77,13 +77,21 @@ Roll photographs out in this order:
 Do not put a photograph behind body text, forms, or tables.
 Do not fill every card with an image.
 
-### Cross-medium application
+### One brand in every medium
 
-Editorial pages can carry more atmosphere through composition and relevant photography.
-Software uses the same warmth through language, spacing, and clear controls.
-Documents and technical sheets retain plain reading surfaces and economical printing.
-Presentations use calm hierarchy, purposeful spacing, and relevant images.
-Every medium must remain clear and useful.
+A website, a datasheet and a LinkedIn post cannot look the same, but they must read as one brand. These rules hold in every medium; each medium translates their form. The nine rules above are their website form. Test a new piece by covering its logo: the reader must still know whose it is. `docs/family.html` shows Pataraz PX22 on each medium beside this list (v7.5.0).
+
+<!-- generated: designDirection.invariants -->
+| Rule | Website | Datasheet | LinkedIn |
+|---|---|---|---|
+| One symbol and a lowercase wordmark in the identity ink. Never redrawn, never with a tagline. | The site lockup in the top menu and the footer. | The lockup at the top left of every sheet. | The lockup at the foot of every post image; the avatar is the symbol tile. |
+| Red is identity and signal only: the Ağustos logo, and on screen the link rule, focus and one marker stroke. Never a fill, a button or text colour. | The logo, the 2px link and menu rule, keyboard focus and one highlighter stroke per page. Buttons are black. | No red, except the Ağustos logo. | No red, except the Ağustos logo and at most one highlighter stroke in the headline. |
+| Three faces on one scale: Inter Tight for headings, Inter for text, JetBrains Mono for data. Headings are thin and in sentence case. | The type table (recipes.typeRoles) through the kit classes. | The same faces and weights at the print sizes of recipes.document. | The headline takes the H1 role, the deck the deck role. |
+| Spec values are data: mono figures with the unit, the label in the display face. | type-spec on the spec table or list. | Every spec row. | Any figure that appears in a post image. |
+| White paper and generous space. One title opens the page and nothing sits above it. | White paper, the section spacing, one closing band. | White A4, wide margins, one product title. | A white field; the headline is the only large text. |
+| Plain, short, active words. No all-caps labels, no label above a title, no inflated claims. | Sentence case in headings, menus and buttons. | Sentence case labels; Turkish with lang=tr. | One idea per post image, in sentence case. |
+| Text clears 4.5:1 contrast and graphics 3:1 (WCAG 2.2 AA). | The states table; the build refuses a failing pair. | Ink and ink-soft on white only. | Ink on white only; no text on a photograph. |
+<!-- /generated -->
 
 ### Implementation contract
 
@@ -200,7 +208,7 @@ Inter Tight falls back to Inter (same designer, very close metrics), then to the
 
 ### Inter (Body)
 
-The most rigorously screen-engineered open-source sans. Hinted, optical-sized, with gold-standard Latin Extended including Turkish (`ç`, `ğ`, `ı`, `İ`, `ö`, `ş`, `ü`). Variable wght axis 100–900 with italics. Used for **paragraph body, em, strong, links, lists, blockquote, definition lists, footnotes, figure captions, and table cells**, every paragraph and inline element.
+The most rigorously screen-engineered open-source sans. Hinted, optical-sized, with gold-standard Latin Extended including Turkish (`ç`, `ğ`, `ı`, `İ`, `ö`, `ş`, `ü`). Variable wght axis 100–900 with italics. Used for **paragraph body, em, strong, links, lists, definition lists, footnotes, figure captions, and table cells**, every paragraph and inline element. Product specification values are the exception: they take the mono face (`type-spec`).
 
 **Fallback stack:**
 
@@ -212,7 +220,7 @@ The fallback chain resolves to SF Pro on Apple, Segoe UI on Windows, Roboto on A
 
 ### JetBrains Mono (Monospace)
 
-Designed for code legibility. Excellent ligatures, tabular figures, clear 0/O and 1/l/I disambiguation. Supports Turkish diacritics. Used for inline code, code blocks, file paths, hex codes, technical identifiers, section markers.
+Designed for code legibility. Excellent ligatures, tabular figures, clear 0/O and 1/l/I disambiguation. Supports Turkish diacritics. Used for inline code, code blocks, file paths, hex codes, technical identifiers, and **product specification values** (`type-spec`: 160 W, 4200 lm). A spec value is data, so it takes the mono face on the web, the datasheet and LinkedIn alike, with tabular figures; its label stays in Inter Tight (v7.5.0).
 
 **Fallback stack:**
 
@@ -330,7 +338,7 @@ Each token has exactly one job. When writing content, ask only: which one of the
 
 ### One golden scale
 
-Every text size sits on one scale: the 16.5px body times 1.272 (the square root of the golden ratio) per step, so every second step is the golden ratio. The steps are 13, 16.5, 21, 27, 34, 43, 55, 70, and 89px. Headings shrink one or two steps on small screens through `clamp()`. `bodyCompact` (15.5px) is the one UI size off the scale: menus, buttons, and the hero trust line.
+Every text size sits on one scale: the 16.5px body times 1.272 (the square root of the golden ratio) per step, so every second step is the golden ratio. The steps are 13, 16.5, 21, 27, 34, 43, 55, 70, and 89px. Headings shrink one or two steps on small screens through `clamp()`. Two sizes sit off the scale: `bodyCompact` (15.5px) for menus, buttons, tables and the hero trust line, and `formField` (16px), the smallest input size that stops a phone from zooming. Every size, line height and tracking is a variable (`--size-*`, `--leading-*`, `--tracking-*`), and `recipes.typeRoles` in the registry is the one type table: UI-KIT.md, `kit.json`, the brand guidelines, the datasheet and the LinkedIn templates read it (v7.5.0).
 
 Four weights: 300, 400, 500, and 600. The wordmark alone uses 650. Headings are thin: the hero and H1 at 300, H2 at 400, H3 at 500.
 
@@ -338,8 +346,8 @@ Four weights: 300, 400, 500, and 600. The wordmark alone uses 650. Headings are 
 
 | Token | Size | Weight | Family | Notes |
 |---|---|---|---|---|
-| `.type-hero` | clamp(55px, 7vw, 89px) / lh 0.97 | 300 | Display | Tracking -0.042em. Max-width 15ch. Margin-bottom 32px (`--space-2xl`). Marketing page opening. One per page maximum. |
-| `.type-hero-md` | clamp(43px, 4.6vw, 55px) / lh 1.0 | 300 | Display | Tracking -0.04em. The H1 size: `heroMedium` is an alias of `h1`, kept for compatibility. |
+| `.type-hero` | clamp(55px, 7vw, 89px) / lh 0.97 | 300 | Display | Tracking -0.042em. Max-width 15ch. Margin-bottom 32px (`--space-after-title`). Marketing page opening. One per page maximum. |
+| `.type-hero-md` | clamp(43px, 4.6vw, 55px) / lh 1.0 | 300 | Display | Tracking -0.04em. Margin-bottom 32px. The H1 size: `heroMedium` is an alias of `h1`, kept for compatibility. |
 
 Two measures exist for text: `--measure-text` (54ch) is the hero deck, `--measure-body` (41rem, 656px) is the reading line: long-form prose such as posts, policies and profiles. A line of running text stays between 45 and 75 characters (Bringhurst, Baymard, GOV.UK), and WCAG 1.4.8 sets 80 as the ceiling; 41rem holds about 75 characters of Inter at 16.5px. The line is in `rem`, not `ch`, because `ch` follows the font size of each element, and the footer and the article would then put the line in different places. Cap the column, not each paragraph: a content page stops each block at the line with `.container--reading`, and a full-frame page caps each text block with `.prose`. The hero deck is a separate utility (`.type-hero-deck`), upright body at 21px, max-width 54ch, paired with either hero token. It is a supporting lead, not a quote, so it does not use italic. Do not place an eyebrow above the hero. The headline carries the opening.
 
@@ -392,7 +400,7 @@ The page opening (`.container`) pads `clamp(56px, 9vw, 112px)` above and `clamp(
 | `.type-h1` | clamp(43px, 4.6vw, 55px) / lh 1.0 | 300 | Display | Tracking -0.04em. Page and product title, and the listing-page opening. |
 | `.type-h2` | clamp(34px, 3.4vw, 43px) / lh 1.06 | 400 | Display | Tracking -0.032em. One H2 role on marketing and product pages. |
 | `.type-h3` | 21px / lh 1.25 | 500, upright | Display | Tracking -0.014em. The middle step between body and H2. Size separates it from H2. |
-| `.type-h4` | 13px / lh 1.4 | 600, sentence case | Display | Tracking 0.005em. Ink-soft. Labels, table headers, breadcrumbs. No uppercase. |
+| `.type-h4` | 13px / lh 1.4 | 600, sentence case | Display | Tracking 0.005em. Ink-soft. Labels, table captions and headers, footer groups. No uppercase. |
 
 Both hero tokens, `.type-h1` and `.type-h2` set `text-wrap: balance`, so a two-line heading breaks into two even lines instead of a long line and a stub. Browsers without support wrap as before.
 
@@ -430,14 +438,15 @@ Underline is for links only. Do not use uppercase labels, eyebrow headings, or c
 
 | Token | Size | Family | Notes |
 |---|---|---|---|
-| `.type-blockquote` | 22px / lh 1.35 | Display italic | Border-left 2px ink. `cite` is display, 13px, weight 600, sentence case, ink-soft. Meant for content pages. |
-| `.type-pullquote` | 26px / lh 1.22 | Display | Borders top + bottom. Opening curly quote in ink. Meant for content pages. |
+| `.type-blockquote` | 21px / lh 1.35 | Display italic | Border-left 2px ink. `cite` is display, 13px, weight 600, sentence case, ink-soft. Meant for content pages. |
+| `.type-pullquote` | 27px / lh 1.22 | Display | Borders top + bottom. Opening curly quote in ink. Meant for content pages. |
 | `.type-list-ol` | 16.5px / lh 1.65 | Body | Markers in ink. |
 | `.type-list-ul` | 16.5px / lh 1.65 | Body | Markers in ink. |
-| `.type-dl` | 16px | Body | dt at 600 weight, dd at 400 weight in ink-soft. |
-| `.type-figure` | placeholder + caption | — | Caption is 13.5px italic body, ink-soft. |
-| `.type-code-block` | 13.5px | Mono | Background ink, color rule. |
+| `.type-dl` | 16.5px | Body | dt at 600 weight, dd at 400 weight in ink-soft. |
+| `.type-figure` | placeholder + caption | — | Caption is 13px italic body, ink-soft. |
+| `.type-code-block` | 13px | Mono | Background ink, color rule. |
 | `.type-table` | 15.5px | Body cells, display headers | Headers 13px, weight 600, ink-soft. Tabular numerals. Last column right-aligned. |
+| `.type-spec` | 0.94em of its block | Mono values, display labels | On a `table` or `dl` of product specifications. Spec values are data, so they take JetBrains Mono on the web, the datasheet and LinkedIn alike (v7.5.0). Not for prose tables. |
 | `.type-divider` | 1px | — | Background var(--rule). For section breaks. |
 
 ### Supporting (1)
@@ -456,10 +465,10 @@ Every block-level token has `margin-bottom: 1em` and `margin-top: 0`. The next e
 
 | Token | margin |
 |---|---|
-| `.type-hero` | `0 0 32px` (`--space-2xl`) |
-| `.type-hero-md` | `0 0 24px` (`--space-xl`) |
+| `.type-hero` | `0 0 32px` (`--space-after-title`) |
+| `.type-hero-md` | `0 0 32px` (`--space-after-title`) |
 | `.type-hero-deck` | `0` (relies on hero's bottom margin) |
-| `.type-h1` | `0 0 1em` |
+| `.type-h1` | `0 0 32px` (`--space-after-title`) |
 | `.type-body` | `0 0 1em` |
 | `.type-blockquote` | `0 0 1em` |
 | `.type-list-ol`, `.type-list-ul` | `0 0 1em` |
@@ -468,24 +477,25 @@ Every block-level token has `margin-bottom: 1em` and `margin-top: 0`. The next e
 | `.type-table` | `0 0 1em` |
 | `.type-code-block` | `0 0 1em` |
 
-**Tier 2, Section break (two heading steps in px, 1em below)**
+**Tier 2, Heading break (fixed steps in px above and below)**
 
-A heading gets a fixed break above it: 40px (`--space-3xl`) above an H2, 32px (`--space-2xl`) above an H3 or an H4. The bigger heading gets more space, and heading size and weight carry the rest of the hierarchy. Below the heading, baseline 1em, same as everything else. The pullquote and the divider keep 2.5em of their own size. Until v7.3.4 every heading took 2.5em of its own size: 108px above an H2 and 53px above an H3, so a subheading took more space than the section heading above it on a page that set the H2 to 40px (issue 75, v7.3.5).
+A heading gets a fixed break above it: 40px (`--space-3xl`) above an H2, 32px (`--space-2xl`) above an H3 or an H4. The bigger heading gets more space, and heading size and weight carry the rest of the hierarchy. Below the heading the gap is smaller than above it, so the heading binds to the text it opens: 20px under an H2, 12px under an H3, 8px under an H4, and 32px under a hero or an H1 to its deck. Until v7.5.0 every heading took 1em below, so an H1 had 55px under it and an H2 43px, more than the 40px above it, and the heading floated between sections. The pullquote and the divider keep 2.5em of their own size. Until v7.3.4 every heading took 2.5em of its own size: 108px above an H2 and 53px above an H3, so a subheading took more space than the section heading above it on a page that set the H2 to 40px (issue 75, v7.3.5).
 
 | Token | margin |
 |---|---|
-| `.type-h2` | `40px 0 1em` (`--space-3xl`) |
-| `.type-h3` | `32px 0 1em` (`--space-2xl`) |
-| `.type-h4` (mid-article) | `32px 0 1em` (`--space-2xl`) |
+| `.type-h2` | `40px 0 20px` (`--space-before-h2`, `--space-after-h2`) |
+| `.type-h3` | `32px 0 12px` (`--space-before-h3`, `--space-after-h3`) |
+| `.type-h4` (mid-article) | `32px 0 8px` (`--space-before-h3`, `--space-after-h4`) |
 | `.type-pullquote` | `2.5em 0 1em` |
 | `hr.type-divider` | `2.5em 0 1em` |
-| `.type-footnote` | `2.5em` + `padding-top` + `border-top` (editorial scope) |
 
 CSS adjacent vertical margins collapse to the larger value (per CSS spec), so a heading with `margin-top: 40px` follows a paragraph with `margin-bottom: 1em` at 40px, a clean section break without double-counting margins.
 
-**No eyebrow tier.** Do not place a label above a heading. Put metadata below the heading it describes, for example as `.type-hero-deck` after the H1.
+**No eyebrow tier.** Do not place a label above a heading. Put metadata below the heading it describes. The page opening reads breadcrumb, title, deck, meta line: 24px under the breadcrumb (`recipes.hero.breadcrumbEnd`), and the date, author or revision as a `type-footnote` 12px under the deck (`recipes.hero.metaGap`), with 24px before the text (v7.5.0).
 
 **Containers own their edges.** A heading that opens a card, a section or a band has no top margin. Flex items and padded boxes never collapse margins, so the Tier 2 margin would stack on the container's gap or padding. Card children carry no margin at all: the card's 12px gap spaces them. A `<section>` inside a section is a subsection in the text flow, so its heading keeps the break of its level (v7.3.5).
+
+**A breadcrumb opens close under the menu.** A page opening keeps the hero padding (56 to 112px) above a headline. When a breadcrumb opens the page, as the first child of a `container` or a `site-frame`, the padding above it is 16px (`recipes.hero.breadcrumbStart`), so the trail does not float in an empty band (v7.5.0).
 
 **One section spacing.** `.agustos-section` and `.band` pad `--section-space` (`clamp(72px, 9vw, 104px)`) above and below. Sections carry no dividing rule. Two sections in a row share one gap, not two. The closing band uses the same spacing.
 
@@ -956,7 +966,7 @@ The factory checks (generators, Office exports and a `ui/` release) are in `ARCH
 
 ## Versioning
 
-This is **v7.4.2**. The patch gives the contents list 24px above its folded line, hides its visible title from screen readers (the `nav` label names it), and stops AG031 from warning after an unclosed `<p>`. v7.4.1: The patch makes the checker's screen rules read markup only. Astro inlines a small processed script, so a site that imports `agustos-chrome.js` carried its `.site-sidebar[popover]` selector on every page, and `--screens-only` warned AG026 on each one. Comments, inline scripts and inline styles no longer count, and each warning gives the line of its own match. v7.4.0: The release adds the "On this page" list, `agustos-contents`: a no-script disclosure of a long legal page's main sections, folded below 1280px and open and in view in the side zone at 1280px and wider, and checker warning AG031. v7.3.5: The patch gives headings two fixed breaks: 40px above an H2 and 32px above an H3 or an H4, on every page. Before, each heading took 2.5 times its own size, so an H3 took 53px, more than the 40px of a reading-page H2. A heading that opens a `<section>` inside a section keeps its break. v7.3.4: The patch gives a reading page one break above each H2 and each section: 40px (`--space-3xl`), a margin that collapses with the last margin above it. Before, a section on a reading page kept the band padding of a marketing page (121 to 144px at 1440px), and a bare H2 took 2.5 times its own size (108px). v7.3.3: The patch fixes three defects and five small rules from the 2026-09-30 design review. An open drawer closes when keyboard focus leaves it, so focus never lands on the page behind it (`ui/agustos-chrome.js`, now on every screen). A disabled link drops its `href`, because `aria-disabled` alone does not stop a click; the checker warns on one that keeps it (AG030). A search result excerpt takes the ink on its hover fill (2.76:1 in the dark theme before). Table captions align to the start, `color-scheme` follows the theme, a footer link hover is the 1px gray rule, and reduced motion sets `--dur` to 0s for every transition. v7.3.2: The patch fixes three defects. A parent menu item on a nested route carries `aria-current="true"`, not `"page"`, and the chrome draws the red rule for both; the checker warns on a parent marked `"page"` in built pages (AG029). The adoption snippet says that only product UI uses the sidebar. Every anchor offset adds 1px (`--anchor-snap`), because a browser scrolls to whole pixels and a fractional target stopped under the sticky chrome. v7.3.1: The patch moves the reading column of a content page back to the frame's left edge and gives every region one reading line: `--measure-body` becomes 41rem (656px, about 75 characters), the text of a content page and the footer contact block end on it, and the footer groups fill the side zone to its right. Below 1280px the footer groups move under the contact block. v7.3.0: The kit owns the header search and the language link: one recipe replaces the copies in the Astro and Rails adapters, its text clears 4.5:1, its input is 16px, and below 1024px the anchor offset adds the 61px search row. v7.2.0 gave every content page one reading column: `.container--reading` puts the title, the text and the headings at the 65ch body measure in the center of the frame, so a wide screen no longer shows text on the left half and nothing on the right. The screens table gains a derived Column (reading for the content family, frame for the rest), and the checker warns on a full-width `container` on a content screen (AG028). v7.1.0 fixed the chrome against WCAG 2.2 and common navigation practice, measured in a browser: a focused element no longer hides under the sticky top menu, the top menu keeps one row at 1024px, the More menu closes on Escape and an outside click (`ui/agustos-chrome.js`, the kit's first script), each drawer gains a close button and holds the page still, a More or a sidebar group shows the current page inside it, print drops the chrome, language links carry `lang`, and the checker warns on a sixth top-menu item (AG027). A menu hover becomes a 1px gray rule, so the 2px red rule marks the current page alone, and the footer gains an optional site map. v7.0.2 kept an in-page anchor below the sticky top menu at every width (`--site-header-height`), and the Astro and Rails adapters keep the focus ring on a search result. v7.0.1 fixed interactive states in both themes, measured in a browser: form field borders clear 3:1 and placeholders 4.5:1, the dark theme dims a hover instead of turning text red, the footer and the closing band stay light islands in the dark theme, the dark More menu and logo hovers work, and buttons gain pressed and disabled states. The registry's `states` table lists every pair, and the brand guidelines gain Colour in use and Emphasis pages. v7.0.0 reset the website layer to convention and kept identity and the engine. Chrome follows the screen family, not the brand: every website uses the top menu (five items at most, the rest under More) and a light footer; product UI uses the sidebar, and `chrome` left `brand/brands.json`. Type sits on one golden scale (13 to 89px) with four weights; radii are 6 and 12px; sections share one spacing and no dividing rule. Red is identity and signal, never action: buttons are black everywhere, the dark-theme red primary is gone, house-brand logos turn red on hover, and one highlighter stroke per page joins the kit. The hero opens with two `agustos-button`s; `hero-links`, `hero-link*`, `hero-action*` and the footer columns and button are retired. The checker guards identity with errors and taste with warnings: AG022 (primary CTA count), AG023 (quotes), the screens-table fields `primaryCtaMax` and `quotes`, and brand `screenOverrides` are removed; AG025 (highlighter) and AG026 (sidebar on a website) join. Each brand's favicon is a white tile with its own sun: red for Ağustos, black for every other brand. History: v6.6.1 kept an in-page anchor below the sticky sidebar bar on phones (the product sidebar in v7). v6.6.0 styled bare `h1` to `h4` and `p` with their `.type-*` rules, so Markdown and CMS output matches the kit without classes. v6.5.0 gave the type scale its middle step (an upright H3) and set the hero trust line in the 15.5px `bodyCompact` size. v6.4.0 made cards and breadcrumbs 44px targets: a card's heading link stretches over the card, and the checker warns (AG013) when it cannot. v6.3.0 tightened the rhythm: a heading that opens a card, a section or a band lost its section-break margin, and content text moved from `--ink-faint` to `--ink-soft` to pass contrast. v6.2 added brand `screenOverrides`, removed in v7.0.0. v6.1.0 made the checker enforce the screens table on every page (`data-screen` on `<body>`; primary CTA limit, quotes, and theme per row; v7.0.0 kept only the theme rule, as a warning), added the `content-index` screen, and gave both reference adapters the `screen` switch. v6.0.0 recorded the chrome contract: consumers replace their local chrome with the kit's and adopt one name. v5.0.0 recorded the design philosophy change. Subsequent changes follow semantic versioning:
+This is **v7.5.0**. The release makes one type contract for every medium: every size, line height and tracking is a variable, `recipes.typeRoles` is the one type table that UI-KIT.md, the guidelines, the datasheet and the LinkedIn templates read, a heading takes a fixed gap below it (32px under a title, 20px under an H2, 12px under an H3, 8px under an H4), spec values take the mono face (`type-spec`), and `designDirection.invariants` lists the rules that hold in every medium. v7.4.2: The patch gives the contents list 24px above its folded line, hides its visible title from screen readers (the `nav` label names it), and stops AG031 from warning after an unclosed `<p>`. v7.4.1: The patch makes the checker's screen rules read markup only. Astro inlines a small processed script, so a site that imports `agustos-chrome.js` carried its `.site-sidebar[popover]` selector on every page, and `--screens-only` warned AG026 on each one. Comments, inline scripts and inline styles no longer count, and each warning gives the line of its own match. v7.4.0: The release adds the "On this page" list, `agustos-contents`: a no-script disclosure of a long legal page's main sections, folded below 1280px and open and in view in the side zone at 1280px and wider, and checker warning AG031. v7.3.5: The patch gives headings two fixed breaks: 40px above an H2 and 32px above an H3 or an H4, on every page. Before, each heading took 2.5 times its own size, so an H3 took 53px, more than the 40px of a reading-page H2. A heading that opens a `<section>` inside a section keeps its break. v7.3.4: The patch gives a reading page one break above each H2 and each section: 40px (`--space-3xl`), a margin that collapses with the last margin above it. Before, a section on a reading page kept the band padding of a marketing page (121 to 144px at 1440px), and a bare H2 took 2.5 times its own size (108px). v7.3.3: The patch fixes three defects and five small rules from the 2026-09-30 design review. An open drawer closes when keyboard focus leaves it, so focus never lands on the page behind it (`ui/agustos-chrome.js`, now on every screen). A disabled link drops its `href`, because `aria-disabled` alone does not stop a click; the checker warns on one that keeps it (AG030). A search result excerpt takes the ink on its hover fill (2.76:1 in the dark theme before). Table captions align to the start, `color-scheme` follows the theme, a footer link hover is the 1px gray rule, and reduced motion sets `--dur` to 0s for every transition. v7.3.2: The patch fixes three defects. A parent menu item on a nested route carries `aria-current="true"`, not `"page"`, and the chrome draws the red rule for both; the checker warns on a parent marked `"page"` in built pages (AG029). The adoption snippet says that only product UI uses the sidebar. Every anchor offset adds 1px (`--anchor-snap`), because a browser scrolls to whole pixels and a fractional target stopped under the sticky chrome. v7.3.1: The patch moves the reading column of a content page back to the frame's left edge and gives every region one reading line: `--measure-body` becomes 41rem (656px, about 75 characters), the text of a content page and the footer contact block end on it, and the footer groups fill the side zone to its right. Below 1280px the footer groups move under the contact block. v7.3.0: The kit owns the header search and the language link: one recipe replaces the copies in the Astro and Rails adapters, its text clears 4.5:1, its input is 16px, and below 1024px the anchor offset adds the 61px search row. v7.2.0 gave every content page one reading column: `.container--reading` puts the title, the text and the headings at the 65ch body measure in the center of the frame, so a wide screen no longer shows text on the left half and nothing on the right. The screens table gains a derived Column (reading for the content family, frame for the rest), and the checker warns on a full-width `container` on a content screen (AG028). v7.1.0 fixed the chrome against WCAG 2.2 and common navigation practice, measured in a browser: a focused element no longer hides under the sticky top menu, the top menu keeps one row at 1024px, the More menu closes on Escape and an outside click (`ui/agustos-chrome.js`, the kit's first script), each drawer gains a close button and holds the page still, a More or a sidebar group shows the current page inside it, print drops the chrome, language links carry `lang`, and the checker warns on a sixth top-menu item (AG027). A menu hover becomes a 1px gray rule, so the 2px red rule marks the current page alone, and the footer gains an optional site map. v7.0.2 kept an in-page anchor below the sticky top menu at every width (`--site-header-height`), and the Astro and Rails adapters keep the focus ring on a search result. v7.0.1 fixed interactive states in both themes, measured in a browser: form field borders clear 3:1 and placeholders 4.5:1, the dark theme dims a hover instead of turning text red, the footer and the closing band stay light islands in the dark theme, the dark More menu and logo hovers work, and buttons gain pressed and disabled states. The registry's `states` table lists every pair, and the brand guidelines gain Colour in use and Emphasis pages. v7.0.0 reset the website layer to convention and kept identity and the engine. Chrome follows the screen family, not the brand: every website uses the top menu (five items at most, the rest under More) and a light footer; product UI uses the sidebar, and `chrome` left `brand/brands.json`. Type sits on one golden scale (13 to 89px) with four weights; radii are 6 and 12px; sections share one spacing and no dividing rule. Red is identity and signal, never action: buttons are black everywhere, the dark-theme red primary is gone, house-brand logos turn red on hover, and one highlighter stroke per page joins the kit. The hero opens with two `agustos-button`s; `hero-links`, `hero-link*`, `hero-action*` and the footer columns and button are retired. The checker guards identity with errors and taste with warnings: AG022 (primary CTA count), AG023 (quotes), the screens-table fields `primaryCtaMax` and `quotes`, and brand `screenOverrides` are removed; AG025 (highlighter) and AG026 (sidebar on a website) join. Each brand's favicon is a white tile with its own sun: red for Ağustos, black for every other brand. History: v6.6.1 kept an in-page anchor below the sticky sidebar bar on phones (the product sidebar in v7). v6.6.0 styled bare `h1` to `h4` and `p` with their `.type-*` rules, so Markdown and CMS output matches the kit without classes. v6.5.0 gave the type scale its middle step (an upright H3) and set the hero trust line in the 15.5px `bodyCompact` size. v6.4.0 made cards and breadcrumbs 44px targets: a card's heading link stretches over the card, and the checker warns (AG013) when it cannot. v6.3.0 tightened the rhythm: a heading that opens a card, a section or a band lost its section-break margin, and content text moved from `--ink-faint` to `--ink-soft` to pass contrast. v6.2 added brand `screenOverrides`, removed in v7.0.0. v6.1.0 made the checker enforce the screens table on every page (`data-screen` on `<body>`; primary CTA limit, quotes, and theme per row; v7.0.0 kept only the theme rule, as a warning), added the `content-index` screen, and gave both reference adapters the `screen` switch. v6.0.0 recorded the chrome contract: consumers replace their local chrome with the kit's and adopt one name. v5.0.0 recorded the design philosophy change. Subsequent changes follow semantic versioning:
 
 - **Major.** Breaking changes to token names, structural removal, philosophy shifts
 - **Minor.** New tokens, new brand additions, additive-only changes

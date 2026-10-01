@@ -108,6 +108,7 @@ scripts; never hand-edit `exports/`.
 | Engine — editable PowerPoint / Google Slides import | [`brand/build_presentation.mjs`](brand/build_presentation.mjs) |
 | Office artifact drift manifest (9 files, generated) | [`brand/exports/office-manifest.json`](brand/exports/office-manifest.json) |
 | Engine — product datasheet (lighting "teknik föy") | [`brand/build_datasheet.py`](brand/build_datasheet.py) |
+| Engine: LinkedIn post templates (portrait 1080×1350, square 1200×1200) | [`brand/build_social_posts.py`](brand/build_social_posts.py) |
 | Fonts (Inter Tight, Inter, JetBrains Mono) + OFL | `brand/fonts/` |
 | Per-brand exports | `brand/exports/<brand>/` |
 
@@ -118,7 +119,10 @@ kits: `agustos`, `pataraz`, `pld`; `iesdesk` and `specquick` have logos only. Th
 one sheet per product — real Pataraz luminaires (`pataraz-pl22`, `pataraz-px22`, and the
 PY series `pataraz-py300600` / `pataraz-py600600` / `pataraz-py6001200`) and an `agustos`
 sample (`agustos-pro-spot-28`); add a product by editing the `PRODUCTS` dict in
-`build_datasheet.py` (keyed by product, each naming its brand). Docs: `brand/README.md`,
+`build_datasheet.py` (keyed by product, each naming its brand). `social/` also holds the
+LinkedIn post templates, `<post-key>-portrait` and `<post-key>-square` (html + png), one sample per
+full-kit brand (`agustos-company`, `pataraz-px22`, `pld-editorial`); add a post by editing the `POSTS`
+dict in `build_social_posts.py`, then run `python3 brand/build_social_posts.py --png`. Docs: `brand/README.md`,
 `brand/templates/README.md`.
 
 The portable single-file coding-system contract is [`tokens/design-system-handoff.json`](tokens/design-system-handoff.json). It contains resolved tokens, brand values, recipes, family-resemblance rules, forbidden patterns, and acceptance checks; supply the exact logo asset separately when implementing a branded interface.

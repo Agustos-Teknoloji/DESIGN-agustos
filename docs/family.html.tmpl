@@ -1,0 +1,76 @@
+<!doctype html>
+<!-- GENERATED. Do not hand-edit. Source: docs/family.html.tmpl plus designDirection.invariants and
+     recipes.typeRoles in tokens/design-tokens.json. Run: python3 scripts/build_design_system.py -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Family photo — Ağustos Design System</title>
+<link rel="stylesheet" href="agustos-fonts.css">
+<link rel="stylesheet" href="agustos.css">
+<style>
+  /* Review scaffolding for this page only. Not part of the kit.
+     Each medium shows at its real size, scaled to fit one column. */
+  .family { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-xl); align-items: start; margin: var(--space-2xl) 0 var(--space-5xl); }
+  .family__shot { position: relative; overflow: hidden; border: 1px solid var(--rule); border-radius: var(--radius-lg); background: var(--paper); }
+  .family__shot iframe { position: absolute; inset: 0 auto auto 0; border: 0; transform-origin: 0 0; pointer-events: none; }
+  .family__shot--web { aspect-ratio: 1280 / 1600; }
+  .family__shot--web iframe { width: 1280px; height: 1600px; }
+  .family__shot--sheet { aspect-ratio: 794 / 1123; }
+  .family__shot--sheet iframe { width: 794px; height: 1123px; }
+  .family__shot img { display: block; width: 100%; height: auto; }
+  .family figcaption { margin-top: var(--space-sm); }
+  @media (max-width: 899px) { .family { grid-template-columns: minmax(0, 1fr); } }
+</style>
+</head>
+<body class="brand-pataraz">
+<a class="skip-link" href="#main">Skip to content</a>
+<main id="main" class="container">
+  <h1 class="type-h1">One brand in every medium</h1>
+  <p class="type-hero-deck">Pataraz PX22 on the three media of the next six months: the product page, the datasheet and a LinkedIn post. Review the three side by side at each monthly kit release, against the rules below. Kit v{{ui.version}}.</p>
+  <p class="type-body prose">The test: cover the logo on each piece. The reader must still know whose it is. Each medium changes the form of a rule, never the rule. A difference that no rule explains is drift: record it under Next in <code class="type-code">TODO.md</code>.</p>
+
+  <div class="family">
+    <figure class="type-figure">
+      <div class="family__shot family__shot--web">
+        <iframe src="../screens/product.html" title="Website: the PX22 product page" loading="lazy" tabindex="-1"></iframe>
+      </div>
+      <figcaption>Website: <a class="type-link" href="../screens/product.html">screens/product.html</a>, the kit itself.</figcaption>
+    </figure>
+    <figure class="type-figure">
+      <div class="family__shot family__shot--sheet">
+        <iframe src="../brand/exports/pataraz/datasheet/pataraz-px22.html" title="Datasheet: PX22" loading="lazy" tabindex="-1"></iframe>
+      </div>
+      <figcaption>Datasheet: <a class="type-link" href="../brand/exports/pataraz/datasheet/pataraz-px22.html">the exported PX22 sheet</a>, as it ships. The generator changes in v7.5.0 reach this file when the datasheets are rebuilt.</figcaption>
+    </figure>
+    <figure class="type-figure">
+      <div class="family__shot">
+        <img src="../brand/exports/pataraz/social/pataraz-px22-portrait.png" alt="LinkedIn post: PX22, portrait 1080 by 1350" width="1080" height="1350" loading="lazy">
+      </div>
+      <figcaption>LinkedIn: <a class="type-link" href="../brand/exports/pataraz/social/pataraz-px22-portrait.html">the PX22 post</a>, portrait 1080 × 1350.</figcaption>
+    </figure>
+  </div>
+
+  <h2 class="type-h2">The rules to check</h2>
+  <p class="type-body prose">From <code class="type-code">designDirection.invariants</code> in the registry, the same list as DESIGN.md and the brand guidelines.</p>
+  <div class="table-scroll">
+{{ui.invariantsTable}}
+  </div>
+
+  <h2 class="type-h2">The type table</h2>
+  <p class="type-body prose">From <code class="type-code">recipes.typeRoles</code>. The website uses these sizes, LinkedIn multiplies them by the social scale, and the datasheet uses the same faces and weights at print sizes.</p>
+  <div class="table-scroll">
+{{ui.typeTableHtml}}
+  </div>
+</main>
+<script>
+  /* Scale each frame to its column. The frames show real pages at their real width. */
+  const fit = () => document.querySelectorAll('.family__shot iframe').forEach((frame) => {
+    frame.style.transform = `scale(${frame.parentElement.clientWidth / frame.offsetWidth})`;
+  });
+  addEventListener('resize', fit);
+  addEventListener('load', fit);
+  fit();
+</script>
+</body>
+</html>

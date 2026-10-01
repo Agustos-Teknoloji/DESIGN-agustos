@@ -39,7 +39,7 @@ Everything below is generated. Never edit it by hand. Repair the source and rege
 Two build paths exist:
 
 1. Everyday: `python3 scripts/build_design_system.py` writes `ui/`, the token CSS, the adapter CSS, the handoff JSON and the generated blocks.
-2. Full rebuild, only when Emre asks: `brand/build.py`, `brand/build_templates.py`, `scripts/build_ui_fonts.py` and `brand/build_datasheet.py`. [README.md](README.md) lists the commands.
+2. Full rebuild, only when Emre asks: `brand/build.py`, `brand/build_templates.py`, `scripts/build_ui_fonts.py`, `brand/build_datasheet.py` and `brand/build_social_posts.py`. [README.md](README.md) lists the commands.
 
 Generated files are committed, so consumer deployments never depend on this repository. Each generator has a `--check` mode, and the local gate fails on a stale file. `VERSION` is part of the manifest source hash, so a change under `ui/` without a rebuild fails the gate. `scripts/check_office_artifacts.py` fingerprints only the fields that the Office generators read (MEMORY.md, 2026-09-13 office-rebuild-on-request).
 

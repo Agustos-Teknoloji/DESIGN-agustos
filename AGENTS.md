@@ -29,6 +29,7 @@ A measured live site beats any doc on what ships. Flag the drift, and fix the do
 | Set up, generate and verify | [README.md](README.md) | [ARCHITECTURE.md](ARCHITECTURE.md) |
 | Understand the structure, or write and run tests | [ARCHITECTURE.md](ARCHITECTURE.md) | `scripts/ci.sh`, the local gate that the pre-push hook runs |
 | **Build a UI in another repository** (Astro, WordPress, Rails, plain HTML) | **[ui/UI-KIT.md](ui/UI-KIT.md)**, then the matching `screens/<name>.html` | [docs/web.html](docs/web.html) for every screen with its rules, then [DESIGN.md](DESIGN.md) |
+| Check that websites, datasheets and LinkedIn read as one brand | [docs/family.html](docs/family.html) | "One brand in every medium" in [DESIGN.md](DESIGN.md), `recipes.typeRoles` and `designDirection.invariants` in `tokens/design-tokens.json` |
 | Change tokens or web recipes | `tokens/design-tokens.json` and `tokens/web.css.tmpl` | [docs/what-generates.html](docs/what-generates.html) for what a change regenerates |
 | Add or change a screen (home, static, content, content-index, products, product-finder, product, spec-sheet, app-shell) | `screens/<name>.html` and the `screens` table in `tokens/design-tokens.json` | [screens/README.md](screens/README.md), then the build and `/design-push` |
 | Change or add a brand | [brand/README.md](brand/README.md) and `brand/brands.json` | The build. Run the full `brand/build.py` only if asked. |
@@ -72,6 +73,7 @@ First pick the **brand** (`agustos`, `pataraz`, `pld`, `iesdesk`, `specquick`), 
 | A **PowerPoint, Word or Google-compatible** template | `brand/exports/<brand>/office/<brand>-template.pptx`, `-document-template.docx`, `-letterhead.docx` |
 | An **email signature** | `brand/exports/<brand>/email/` (one signature HTML file per brand) |
 | **Brand guidelines** to share | `brand/exports/<brand>/guidelines/<brand>-brand-guidelines.pdf` |
+| A **LinkedIn post** (portrait 1080×1350 or square 1200×1200) | `brand/exports/<brand>/social/<post-key>-portrait.png` or `-square.png` (edit `POSTS` in `brand/build_social_posts.py`, then run it with `--png`) |
 | A **product datasheet** (lighting "teknik föy", A4) | `brand/exports/<brand>/datasheet/<product-key>.pdf` (for example `pataraz-px22.pdf`; edit `PRODUCTS` in `brand/build_datasheet.py`, then run it again) |
 | The **fonts** (to install) | `brand/fonts/` (Inter Tight, Inter, JetBrains Mono, with licenses) |
 
@@ -116,7 +118,7 @@ Novara (outdoor kitchen furniture) is a brand that Ağustos **represents and dis
 - Edit `tokens/design-tokens.json` or `tokens/web.css.tmpl`, then run `python3 scripts/build_design_system.py`. Never hand-edit generated CSS, `theme.json`, `tokens/resolved.json` or anything under `brand/exports/`.
 - Run `bin/setup` once in each new clone. It activates the pre-push hook in `.githooks/`, which runs `scripts/ci.sh` before every push.
 - After an everyday source change, run the build, then `scripts/ci.sh`: the `--check` steps and the unit tests. Run `--check` before every handoff.
-- Run `brand/build.py`, `brand/build_templates.py`, `brand/build_guidelines.py`, `scripts/build_ui_fonts.py` or `brand/build_datasheet.py` only when the user asks for a full rebuild. Then update `ASSETS.md`.
+- Run `brand/build.py`, `brand/build_templates.py`, `brand/build_guidelines.py`, `scripts/build_ui_fonts.py`, `brand/build_datasheet.py` or `brand/build_social_posts.py` only when the user asks for a full rebuild. Then update `ASSETS.md`.
 - Rebuild the Office files (letterhead, document template, PowerPoint) only when Emre asks, and only after the Ağustos brand approach changed: identity ink, wordmark, logo, or the document or presentation recipe. A website-only token edit never needs one. Never rebuild them as a reflex to a drift warning from the local gate. See [MEMORY.md](MEMORY.md), office-rebuild-on-request.
 - After a big brand change, ask Emre whether to rebuild the brand guidelines PDFs (`python3 brand/build_guidelines.py --pdf`). A big change is one the PDF shows: identity ink, wordmark, symbol or lockup artwork, the six-colour palette, the typefaces, the logo rules (clear space, minimum size, versions), or a brand that joins or leaves the family. A website-only token edit is not one. Never rebuild the PDFs without his yes. See [MEMORY.md](MEMORY.md), guidelines-rebuild-on-request.
 - Keep taglines in `brand/brands.json` (`tagline_en`, `tagline_tr`). Use them sparingly, and never print them on an artifact.
@@ -132,6 +134,7 @@ Novara (outdoor kitchen furniture) is a brand that Ağustos **represents and dis
 
 ## Traps
 
+- In a before/after preview, check the whole first screen of each page, not only the element you changed. Emre found a 112px empty band above the breadcrumb in the v7.5.0 heading preview; the change did not cause it, and the preview did not flag it.
 - Never edit inside the generated block of `DESIGN.md`. Edit the registry, run the build, then `--check`. The build and `tests/test_design_system.py` compare the block byte for byte.
 - Put a rule that consuming sites must follow into `ui/check-agustos-ui.py.tmpl`, not only into a repository test. A rule that only a repository test reads never reaches a consuming site.
 - Do not take a grep for a runtime-set attribute, such as `data-theme`, as proof that a doc never shows it. `docs/colour.html` shows dark through a toggle that sets the attribute at runtime.
