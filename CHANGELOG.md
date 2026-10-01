@@ -8,6 +8,10 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 - Rebuilt brand exports on the v7.6.0 generators (Emre asked, 2026-10-01). The guidelines PDFs for Ağustos, Pataraz and PLD have 14 pages with "In every medium" and the type table. The six datasheets drop all-caps labels, red text and the 650 title weight, and take the registry's faces, weights and print sizes.
 
+### Fixed
+
+- The datasheet and brand guidelines HTML (`brand/build_datasheet.py`, `brand/build_guidelines.py`) reference fonts, lockups and SVG drawings by paths relative to the HTML file. Before, they used absolute `file:///` URLs of the folder that ran the build, so the HTML fell back to system fonts on another machine or after a worktree was deleted. Each rebuild from another folder also changed every line that held a path. The PDFs embed their fonts and did not change. `tests/test_export_paths.py` fails on a `file:` URL and on a reference that does not resolve. The committed exports change on the next rebuild.
+
 ## [7.6.0] - 2026-10-01
 
 One brand in every medium. Emre asked for a kit that feels like one brand on websites, datasheets and LinkedIn, the three media of the next six months, and approved the heading rhythm from a before/after preview. Record: MEMORY.md 2026-10-01 one-brand-every-medium.

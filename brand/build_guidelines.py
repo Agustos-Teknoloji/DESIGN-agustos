@@ -17,9 +17,11 @@ import argparse
 import base64
 import html
 import json
+import os
 import re
 import subprocess
 from pathlib import Path
+from urllib.parse import quote
 
 BRAND_DIR = Path(__file__).resolve().parent
 ROOT = BRAND_DIR.parent
@@ -42,6 +44,11 @@ SECTIONS = [
     "Emphasis",
     "Which file to use",
 ]
+
+
+def rel_url(target: Path, out_dir: Path) -> str:
+    """A URL for target relative to out_dir, so the HTML works from any folder or machine."""
+    return quote(Path(os.path.relpath(target.resolve(), out_dir.resolve())).as_posix())
 
 
 def hexrgb(h: str) -> tuple[int, int, int]:
@@ -146,12 +153,13 @@ def gen_guidelines_html(slug: str, brand: dict, reg: dict, design: dict, out: Pa
     wrong = colors["stateInfo"] if is_red else signal
 
     fonts = BRAND_DIR / "fonts"
-    f_it = (fonts / "inter-tight" / "InterTight[wght].ttf").as_uri()
-    f_in = (fonts / "inter" / "Inter[opsz,wght].ttf").as_uri()
-    f_mo = (fonts / "jetbrains-mono" / "JetBrainsMono[wght].ttf").as_uri()
-    pos = (lk_dir / f"{slug}-lockup__positive.svg").as_uri()
-    neg = (lk_dir / f"{slug}-lockup__negative.svg").as_uri()
-    mono = (lk_dir / f"{slug}-lockup__mono.svg").as_uri()
+    here = out.parent
+    f_it = rel_url(fonts / "inter-tight" / "InterTight[wght].ttf", here)
+    f_in = rel_url(fonts / "inter" / "Inter[opsz,wght].ttf", here)
+    f_mo = rel_url(fonts / "jetbrains-mono" / "JetBrainsMono[wght].ttf", here)
+    pos = rel_url(lk_dir / f"{slug}-lockup__positive.svg", here)
+    neg = rel_url(lk_dir / f"{slug}-lockup__negative.svg", here)
+    mono = rel_url(lk_dir / f"{slug}-lockup__mono.svg", here)
     sym = tinted(SYMBOL, identity)
 
     def page(head: str, content: str) -> str:

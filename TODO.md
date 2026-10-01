@@ -2,6 +2,12 @@
 
 ## Now
 
+Relative paths in the datasheet and guidelines HTML (2026-10-01, branch `claude/clever-cannon-9b728e`). Emre asked for it. Record: MEMORY.md 2026-10-01 export-relative-paths.
+
+- [x] `rel_url` in both builders; `tests/test_export_paths.py`; merge of `main` (v7.6.0); scratch PDF render (fonts embedded, 1 and 14 pages); CHANGELOG.
+- [ ] PR to `main`.
+- [ ] Rebuild the datasheet and guidelines exports only when Emre asks; then confirm the page counts with `pdfinfo`.
+
 One brand in every medium (2026-10-01, branch `claude/brand-guideline-minimum-classes-f6c98d`). Emre chose steps 1 and 2 for the three media that matter in the next six months: websites, datasheets and LinkedIn. Emre chose on 2026-10-01: mono for spec values everywhere, fix the datasheet code and rebuild the PDFs later, add a LinkedIn post template, one release (v7.6.0) after a before/after preview of the heading rhythm. Record: MEMORY.md 2026-10-01 one-brand-every-medium.
 
 Step 0 comes from the 2026-10-01 type and spacing audit. Only H3 and the link were fully right; five elements conflict between the docs and the CSS. Steps 1 and 2 cannot promise one brand while each medium types its own sizes.
