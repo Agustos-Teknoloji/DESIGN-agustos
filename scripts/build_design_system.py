@@ -235,7 +235,7 @@ def type_table_markdown(rows: list[dict[str, Any]]) -> str:
 
 
 def screen_rows(tokens: dict[str, Any], brands: dict[str, Any]) -> list[dict[str, Any]]:
-    """The table plus the three derived columns. Theme, chrome and column all follow family."""
+    """The table plus the four derived columns. Theme, chrome, column and highlighter all follow family."""
     rows: list[dict[str, Any]] = []
     for name, entry in screen_entries(tokens).items():
         rows.append({
@@ -244,6 +244,8 @@ def screen_rows(tokens: dict[str, Any], brands: dict[str, Any]) -> list[dict[str
             "chrome": chrome_for(entry["family"]),
             "column": column_for(entry["family"]),
             "theme": "dark-allowed" if entry["family"] == "product-ui" else "light",
+            # The homepage carries the one highlighter stroke; other pages may.
+            "highlight": "one" if entry["family"] == "marketing" else "at-most-one",
         })
     return rows
 
@@ -265,6 +267,7 @@ def screens_index_html(rows: list[dict[str, Any]]) -> str:
             f'      <dt>Chrome</dt><dd>{html.escape(row["chrome"])}</dd>\n'
             f'      <dt>Column</dt><dd>{html.escape(row["column"])}</dd>\n'
             f'      <dt>Theme</dt><dd>{html.escape(theme)}</dd>\n'
+            f'      <dt>Highlighter</dt><dd>{"one stroke" if row["highlight"] == "one" else "at most one stroke"}</dd>\n'
             f'      <dt>Photography</dt><dd>{html.escape(row["photo"])}</dd>\n'
             f'    </dl>\n'
             f'    <iframe class="screen__frame" src="../screens/{row["file"]}" title="{html.escape(title)} screen" loading="lazy"></iframe>\n'
@@ -812,10 +815,13 @@ def checker_screens_rules(tokens: dict[str, Any], brands: dict[str, Any]) -> str
     """Python literal mapping screen name -> the rules the checker enforces.
 
     Injected into ui/check-agustos-ui.py next to the token table: the theme, the
-    chrome and the column, all derived from the family.
+    chrome, the column and the highlighter, all derived from the family.
     """
     rules = {
-        row["name"]: {"theme": row["theme"], "chrome": row["chrome"], "column": row["column"]}
+        row["name"]: {
+            "theme": row["theme"], "chrome": row["chrome"], "column": row["column"],
+            "highlight": row["highlight"],
+        }
         for row in sorted(screen_rows(tokens, brands), key=lambda row: row["name"])
     }
     return repr(rules)

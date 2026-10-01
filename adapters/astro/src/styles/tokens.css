@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.5.0 · GENERATED ASTRO ADAPTER CSS
+/* AĞUSTOS DESIGN SYSTEM v7.6.0 · GENERATED ASTRO ADAPTER CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -234,6 +234,12 @@ body {
 
 img, svg { max-width: 100%; height: auto; display: block; }
 
+/* `hidden` hides. A kit class that sets display (a button, a stack, a grid)
+   outweighs the browser's own [hidden] rule, so a hidden button still showed.
+   The one !important in the kit: nothing may show a hidden element.
+   `until-found` keeps the browser's find-in-page behaviour. */
+[hidden]:not([hidden="until-found"]) { display: none !important; }
+
 /* -- 4. Typography and content classes ---------------------- */
 
 /* --- Hero (2) — NEW IN v2.0 --- */
@@ -274,8 +280,9 @@ img, svg { max-width: 100%; height: auto; display: block; }
   margin: 0;
 }
 /* The deck has no bottom margin, so the block after it would sit flush.
-   Hero links and actions carry their own top margin. */
-.type-hero-deck + :not(.hero-actions) {
+   Hero links and actions carry their own top margin. Inside a stack, the
+   stack sets this space. */
+:not(.stack) > .type-hero-deck + :not(.hero-actions, .hero-trust, .hero-visual) {
   margin-top: 1em;
 }
 /* The meta line: a date, an author or a revision is a type-footnote under the
@@ -830,6 +837,25 @@ nav:has(> .breadcrumb) {
   margin-top: var(--space-5xl);
 }
 
+/* The hero with an image beside it (v7.5.0). A hero has four layouts: text
+   only; an image below (`hero-visual`); an image on the right (`hero-split`);
+   an image on the left (`hero-split--media-start`). The text stays first in
+   the markup, so a phone shows it first and a screen reader reads it first.
+   The columns align at the top: the headline opens the page, never centered. */
+.hero-split {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas: "text media";
+  gap: var(--space-2xl);
+  align-items: start;
+}
+.hero-split--media-start { grid-template-areas: "media text"; }
+.hero-split > :first-child { grid-area: text; }
+.hero-split__media { grid-area: media; margin: 0; }
+@media (max-width: 759px) {
+  .hero-split { grid-template-columns: minmax(0, 1fr); grid-template-areas: "text" "media"; }
+}
+
 /* `.agustos-button` above is the same control under its product-surface name.
    Do not fork it; extend the shared blocks. */
 
@@ -896,7 +922,9 @@ nav:has(> .breadcrumb) {
   border-radius: 12px;
   transition: border-color var(--dur) var(--ease);
 }
-.agustos-card:hover {
+/* Hover only on a card that is a link (its heading holds one). A card
+   without a link does nothing on click, so it does not answer the pointer. */
+.agustos-card:has(:is(h2, h3, h4) > a):hover {
   border-color: color-mix(in srgb, var(--ink) 30%, var(--paper));
 }
 /* The card gap spaces its children; their own margins would double it. */
@@ -915,6 +943,10 @@ nav:has(> .breadcrumb) {
 
 .agustos-card--marked {
   border-left: 2px solid var(--ink);
+}
+/* The hover above sets all four sides; the marked rule stays ink. */
+.agustos-card--marked:has(:is(h2, h3, h4) > a):hover {
+  border-left-color: var(--ink);
 }
 
 /* Flex items and padded boxes never collapse margins. A heading's
@@ -1000,6 +1032,8 @@ nav:has(> .breadcrumb) {
   z-index: 999;
 }
 .skip-link:focus { left: 1rem; }
+/* `a:hover` turns a link red: 3.35:1 on the ink box, below 4.5:1. */
+.skip-link:hover { color: var(--paper); }
 
 /* -- 5b. Site chrome ----------------------------------------- */
 
@@ -1652,8 +1686,34 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
 
 /* Ten helpers so no page declares its own frame, band, grid, or measure.
    Composition stays in the markup; rhythm comes from the spacing scale. */
-.stack { display: flex; flex-direction: column; gap: var(--space-md); }
+/* The stack owns the space between its children, and it keeps the vertical
+   rhythm (v7.5.0). Each child sits --stack-space below the one before it:
+   16px, or the break of a heading or a hero part. Until v7.5.0 the stack
+   cleared every margin and set a flat 16px gap, so a hero or a heading inside
+   a stack lost its break. A page may set --stack-space on one child. The
+   property does not inherit, so a nested stack starts at 16px again. */
+@property --stack-space { syntax: "*"; inherits: false; }
+.stack { display: flex; flex-direction: column; }
 .stack > * { margin-block: 0; }
+.stack > * + * { margin-block-start: var(--stack-space, var(--space-md)); }
+/* The gaps are the heading rhythm of the text flow (v7.6.0), so a title, a
+   heading or a hero part sits the same inside a stack as outside it. The
+   space after a title or a heading comes first, so a larger break below
+   wins, as two collapsed margins do in the text flow. */
+.stack > :is(h2, .type-h2) + * { --stack-space: var(--space-after-h2); }
+.stack > :is(h3, .type-h3) + * { --stack-space: var(--space-after-h3); }
+.stack > :is(h4, .type-h4) + * { --stack-space: var(--space-after-h4); }
+/* After the heading levels: an h2 that carries a title class is a title. */
+.stack > :is(.type-hero, .type-hero-md, h1, .type-h1) + * { --stack-space: var(--space-after-title); }
+.stack > .agustos-fieldset + * { --stack-space: var(--space-xl); }
+.stack > :is(h3, h4, .type-h3, .type-h4) { --stack-space: var(--space-before-h3); }
+.stack > :is(.hero-actions, .hero-trust) { --stack-space: var(--space-2xl); }
+.stack > :is(h2, .type-h2) { --stack-space: var(--space-before-h2); }
+.stack > .hero-visual { --stack-space: var(--space-5xl); }
+/* The form blocks come later in this file at the same weight, so the stack
+   sets their margins by name. */
+.stack > :is(.agustos-fieldset, .agustos-field) { margin-block-end: 0; }
+.stack > * + :is(.agustos-fieldset, .agustos-field) { margin-block-start: var(--stack-space, var(--space-md)); }
 .cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); }
 .prose { max-width: var(--measure-body); }
 .grid-2,
@@ -2024,4 +2084,14 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
   .site-footer nav,
   .agustos-contents { display: none; }
   .site-sidebar-layout { padding-inline-start: 0; }
+  /* A printer drops backgrounds, so light text on an ink box prints white on
+     white: code at 1.2:1, a primary button invisible. Print them as outlines. */
+  pre,
+  .type-code-block,
+  .agustos-button--primary {
+    background: none;
+    color: var(--ink);
+  }
+  pre,
+  .type-code-block { border: 1px solid var(--ink-faint); }
 }

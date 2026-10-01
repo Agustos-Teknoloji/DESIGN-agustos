@@ -134,11 +134,12 @@ Novara (outdoor kitchen furniture) is a brand that Ağustos **represents and dis
 
 ## Traps
 
-- In a before/after preview, check the whole first screen of each page, not only the element you changed. Emre found a 112px empty band above the breadcrumb in the v7.5.0 heading preview; the change did not cause it, and the preview did not flag it.
+- In a before/after preview, check the whole first screen of each page, not only the element you changed. Emre found a 112px empty band above the breadcrumb in the v7.6.0 heading preview; the change did not cause it, and the preview did not flag it.
 - Never edit inside the generated block of `DESIGN.md`. Edit the registry, run the build, then `--check`. The build and `tests/test_design_system.py` compare the block byte for byte.
 - Put a rule that consuming sites must follow into `ui/check-agustos-ui.py.tmpl`, not only into a repository test. A rule that only a repository test reads never reaches a consuming site.
 - Do not take a grep for a runtime-set attribute, such as `data-theme`, as proof that a doc never shows it. `docs/colour.html` shows dark through a toggle that sets the attribute at runtime.
 - Before you delete CSS, `git grep` the adapters and screens for its custom properties. A deleted property left both adapter footers with an invisible lockup.
 - Clear every `GIT_*` variable in a test that runs git on a scratch repository. The pre-push hook sets `GIT_DIR`, so the scratch `git init` and `git config` wrote to this repository and marked it bare.
 - Save browser-check screenshots to an absolute scratchpad path, never a relative one, and read `git status` before `git add -A`. A relative path put two screenshots into the repository root and into the v7.1.0 tag.
+- Before you add or change a recipe in `ui/UI-KIT.md`, read the section on that element in `DESIGN.md`. DESIGN.md wins, and UI-KIT.md is the only file a consumer reads, so it must restate every rule a consumer needs. The homepage-hero rule lived only in DESIGN.md, and memregunes.com broke it.
 - Keep the `/design-push`, `/design-pull` and `--target` strings in this file, and never name the retired Claude Design pull folder here. `tests/test_design_sync.py` asserts both.

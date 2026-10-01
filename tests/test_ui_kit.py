@@ -100,7 +100,7 @@ class PrimitiveTest(unittest.TestCase):
             self.assertIn("min-height: var(--control-min)", css[start:start + 700], block)
 
     def test_spec_values_use_the_mono_face(self):
-        """v7.5.0: a spec value is data in every medium: mono, with the label in the display face."""
+        """v7.6.0: a spec value is data in every medium: mono, with the label in the display face."""
         css = (ROOT / "tokens" / "agustos.css").read_text(encoding="utf-8")
         self.assertIn(".type-spec th, .type-spec dt { font-family: var(--display); }", css)
         start = css.index(".type-spec td, .type-spec dd {")
@@ -151,7 +151,7 @@ class PrimitiveTest(unittest.TestCase):
 
 
 class TypeContractTest(unittest.TestCase):
-    """v7.5.0: one type table feeds every medium (MEMORY.md 2026-10-01 one-brand-every-medium)."""
+    """v7.6.0: one type table feeds every medium (MEMORY.md 2026-10-01 one-brand-every-medium)."""
 
     CSS = (ROOT / "ui" / "agustos.css").read_text(encoding="utf-8")
     KIT = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
@@ -183,12 +183,12 @@ class TypeContractTest(unittest.TestCase):
         self.assertEqual(literals, ["20px"], "only the site lockup keeps a pixel size")
 
     def test_a_breadcrumb_opens_close_under_the_menu(self):
-        """v7.5.0: the hero padding (up to 112px) above a 13px trail read as an empty band."""
+        """v7.6.0: the hero padding (up to 112px) above a 13px trail read as an empty band."""
         self.assertIn(".container:has(> nav:first-child > .breadcrumb) {\n  padding-block-start: 16px;\n}", self.CSS)
         self.assertIn(".site-frame > nav:first-child:has(> .breadcrumb) {\n  padding-block-start: 16px;\n}", self.CSS)
 
     def test_the_meta_line_sits_under_the_deck(self):
-        """v7.5.0, option D: breadcrumb, title, deck, then the date; no label above the title."""
+        """v7.6.0, option D: breadcrumb, title, deck, then the date; no label above the title."""
         self.assertIn("nav:has(> .breadcrumb) {\n  margin-block-end: 24px;\n}", self.CSS)
         self.assertIn(".type-hero-deck + .type-footnote {\n  margin: 12px 0 var(--space-xl);\n}", self.CSS)
         for screen in sorted((ROOT / "screens").glob("*.html")):
@@ -196,6 +196,13 @@ class TypeContractTest(unittest.TestCase):
             with self.subTest(screen=screen.name):
                 # The line before each H1 is the breadcrumb or nothing, never a label.
                 self.assertNotRegex(html, r'<p class="type-(h4|footnote)"[^>]*>[^\n]*</p>\s*(</div>\s*)?<h1')
+
+    def test_the_stack_uses_the_heading_rhythm(self):
+        """v7.6.0: a title sits 32px above its deck inside a stack too, even on an h2 element."""
+        after_h2 = self.CSS.index(".stack > :is(h2, .type-h2) + * { --stack-space: var(--space-after-h2); }")
+        title = self.CSS.index(".stack > :is(.type-hero, .type-hero-md, h1, .type-h1) + * { --stack-space: var(--space-after-title); }")
+        self.assertLess(after_h2, title, "the title rule must win over the h2 rule at equal weight")
+        self.assertIn(".stack > :is(h2, .type-h2) { --stack-space: var(--space-before-h2); }", self.CSS)
 
     def test_entry_point_prints_the_type_table(self):
         text = (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8")
@@ -444,7 +451,7 @@ class DistributionKitTest(unittest.TestCase):
 
     def test_entry_point_stays_short_enough_to_be_read_whole(self):
         lines = (self.KIT / "UI-KIT.md").read_text(encoding="utf-8").splitlines()
-        # 220 since v7.5.0: the type table (one row per role) joined the file.
+        # 220 since v7.6.0: the type table (one row per role) joined the file.
         self.assertLessEqual(len(lines), 220, "UI-KIT.md is the one file an agent reads in full")
 
     def test_entry_point_documents_every_published_class(self):
@@ -574,7 +581,7 @@ class CheckerTest(unittest.TestCase):
         exec(compile(self.CHECKER.read_text(encoding="utf-8"), str(self.CHECKER), "exec"), namespace)
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
         expected = {
-            name: {"theme": row["theme"], "chrome": row["chrome"], "column": row["column"]}
+            name: {"theme": row["theme"], "chrome": row["chrome"], "column": row["column"], "highlight": row["highlight"]}
             for name, row in kit["screens"].items()
         }
         self.assertEqual(namespace["SCREENS"], expected)
@@ -604,12 +611,13 @@ class CheckerTest(unittest.TestCase):
         top-menu items (AG027, the More toggle counts, its items do not), a
         full-width container on a content screen (AG028, v7.2.0), an
         `agustos-contents` that is not a direct child of `container--reading`
-        (AG031, v7.4.0). Button counts
+        (AG031, v7.4.0), a homepage with no highlighter (AG032, v7.5.0). Button counts
         and quotes are no longer checked (v7.0.0)."""
         import tempfile
         primary = '<a class="agustos-button agustos-button--primary" href="#">Request pricing</a>'
         quote = '<blockquote class="type-blockquote">Quiet.</blockquote>'
         mark = '<mark class="type-highlight">clear</mark>'
+        head = f"<h1>{mark}</h1>"  # the homepage's one stroke, so AG032 stays quiet
         sidebar = '<aside id="site-sidebar" class="site-sidebar" popover></aside>'
         item = '<a class="site-header__link" href="/{0}">Item {0}</a>'
         more = ('<details class="site-header__more"><summary class="site-header__link">Daha fazla</summary>'
@@ -620,16 +628,18 @@ class CheckerTest(unittest.TestCase):
             "no-screen.html": (self._screen_page(None, main=primary), {"AG020": "error"}),
             "unknown.html": (self._screen_page("landing", main=primary), {"AG021": "error"}),
             "many-and-quoted.html": (self._screen_page("products", main=primary * 4 + quote), {}),
-            "dark.html": (self._screen_page("home", main=primary, html_attrs=' data-theme="dark"'), {"AG024": "warn"}),
+            "dark.html": (self._screen_page("home", main=head + primary, html_attrs=' data-theme="dark"'), {"AG024": "warn"}),
             "two-marks.html": (self._screen_page("home", main=f"<h1>{mark}</h1><p>{mark}</p>"), {"AG025": "warn"}),
             "one-mark.html": (self._screen_page("home", main=f"<h1>{mark}</h1>"), {}),
-            "sidebar-site.html": (self._screen_page("home", chrome=sidebar), {"AG026": "warn"}),
-            "six-items.html": (self._screen_page("home", chrome="".join(item.format(n) for n in range(6))), {"AG027": "warn"}),
-            "four-and-more.html": (self._screen_page("home", chrome="".join(item.format(n) for n in range(4)) + more), {}),
+            "sidebar-site.html": (self._screen_page("home", main=head, chrome=sidebar), {"AG026": "warn"}),
+            "six-items.html": (self._screen_page("home", main=head, chrome="".join(item.format(n) for n in range(6))), {"AG027": "warn"}),
+            "four-and-more.html": (self._screen_page("home", main=head, chrome="".join(item.format(n) for n in range(4)) + more), {}),
             "app.html": (self._screen_page("app-shell", main=primary, chrome=sidebar, html_attrs=' data-theme="dark"'), {}),
             "wide-policy.html": (self._screen_page("static", main='<div class="container"><h1>Gizlilik</h1></div>'), {"AG028": "warn"}),
             "reading-policy.html": (self._screen_page("static", main="<article class='container container--reading'><h1>Gizlilik</h1></article>"), {}),
-            "wide-home.html": (self._screen_page("home", main='<section class="container"><h1>Işık</h1></section>'), {}),
+            "wide-home.html": (self._screen_page("home", main=f'<section class="container">{head}</section>'), {}),
+            "no-mark-home.html": (self._screen_page("home", main="<h1>Işık</h1>"), {"AG032": "warn"}),
+            "no-mark-products.html": (self._screen_page("products", main="<h1>Ürünler</h1>"), {}),
             "contents-nested.html": (self._screen_page("static", main='<div class="container container--reading"><div><details class="agustos-contents"></details></div></div>'), {"AG031": "warn"}),
             "contents-direct.html": (self._screen_page("static", main='<div class="container container--reading"><details class="agustos-contents"></details></div>'), {}),
             "contents-after-open-p.html": (self._screen_page("static", main='<div class="container container--reading"><p>Intro<details class="agustos-contents"></details></div>'), {}),
@@ -643,7 +653,7 @@ class CheckerTest(unittest.TestCase):
             findings = json.loads(result.stdout)["findings"]
             by_file: dict[str, dict[str, str]] = {name: {} for name in pages}
             for finding in findings:
-                if finding["rule"].startswith(("AG02", "AG031")):
+                if finding["rule"].startswith(("AG02", "AG031", "AG032")):
                     by_file[finding["file"]][finding["rule"]] = finding["level"]
             for name, (_, expected) in pages.items():
                 with self.subTest(page=name):
@@ -695,7 +705,8 @@ class CheckerTest(unittest.TestCase):
             (build / "_astro" / "index.3f9a1c.css").write_text(
                 ".hero { color: #cf142a; }", encoding="utf-8")
             (build / "index.html").write_text(
-                rendered.format(screen="home", main=primary), encoding="utf-8")
+                rendered.format(screen="home", main='<h1><mark class="type-highlight">Light</mark></h1>' + primary),
+                encoding="utf-8")
             (build / "tr" / "index.html").write_text(
                 rendered.format(screen="landing", main=primary), encoding="utf-8")
             (build / "old-about.html").write_text(redirect, encoding="utf-8")
@@ -1129,6 +1140,22 @@ class ChromeTest(unittest.TestCase):
         start = self.CSS.index("@media print {")
         self.assertIn(".agustos-contents", self.CSS[start:start + 400])
 
+    def test_audit_defects_stay_fixed(self):
+        """v7.5.1, from the 2026-10-01 kit audit. Each one was measured in a
+        browser before and after the fix."""
+        # A kit class that sets display outweighed the browser's [hidden] rule.
+        self.assertIn('[hidden]:not([hidden="until-found"]) { display: none !important; }', self.CSS)
+        # A card without a link does not answer the pointer; a marked card keeps its rule.
+        self.assertNotIn(".agustos-card:hover {", self.CSS)
+        self.assertIn(".agustos-card:has(:is(h2, h3, h4) > a):hover {", self.CSS)
+        self.assertIn(".agustos-card--marked:has(:is(h2, h3, h4) > a):hover {\n  border-left-color: var(--ink);\n}", self.CSS)
+        # a:hover turned the skip link red on its ink box (3.35:1).
+        self.assertIn(".skip-link:hover { color: var(--paper); }", self.CSS)
+        # A printer drops backgrounds: code and the primary button print as outlines.
+        print_block = self.CSS[self.CSS.index("@media print {"):]
+        self.assertIn("  .agustos-button--primary {\n    background: none;\n    color: var(--ink);\n  }", print_block)
+        self.assertIn(".type-code-block { border: 1px solid var(--ink-faint); }", print_block)
+
     def test_layout_layer_is_published(self):
         declared = TOKENS["compatibility"]["cssClasses"]
         for name in ("stack", "cluster", "grid-2", "grid-3", "grid-4", "grid-aside", "band", "band--cream", "prose"):
@@ -1148,7 +1175,7 @@ class ChromeTest(unittest.TestCase):
         # an H3 and an H4 take 32px; 2.5em of the heading size gave 108px
         # and 53px, so a subheading took more space than a section (issue 75).
         self.assertNotIn("margin: 2.5em 0 1em;\n  color: var(--ink", self.CSS)
-        # v7.5.0: the space below a heading is a fixed step, smaller than the
+        # v7.6.0: the space below a heading is a fixed step, smaller than the
         # space above, so the heading binds to its text (1em gave 55px under an
         # H1 and 43px under an H2).
         self.assertIn("  margin: var(--space-before-h2) 0 var(--space-after-h2);\n  color: var(--ink);\n}", self.CSS)
@@ -1166,8 +1193,10 @@ class ChromeTest(unittest.TestCase):
         self.assertIn("grid-template-columns: minmax(0, var(--measure-body)) minmax(0, 1fr);\n  gap: var(--space-2xl) var(--space-xl);", self.CSS)
         self.assertIn("@media (max-width: 1279px) {\n  .site-footer__map { grid-template-columns: minmax(0, 1fr); }\n}", self.CSS)
         self.assertIn(".grid-aside { display: grid; grid-template-columns: minmax(240px, 1fr) minmax(0, 3fr);", self.CSS)
-        self.assertIn(".stack { display: flex; flex-direction: column; gap: var(--space-md); }", self.CSS)
+        self.assertIn(".stack { display: flex; flex-direction: column; }", self.CSS)
         self.assertIn(".stack > * { margin-block: 0; }", self.CSS)
+        self.assertIn(".stack > * + * { margin-block-start: var(--stack-space, var(--space-md)); }", self.CSS)
+        self.assertIn('@property --stack-space { syntax: "*"; inherits: false; }', self.CSS)
         self.assertIn(".cluster { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); }", self.CSS)
         self.assertIn(".grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }", self.CSS)
         self.assertIn(".grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }", self.CSS)

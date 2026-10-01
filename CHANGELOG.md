@@ -4,7 +4,7 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
-## [7.5.0] - 2026-10-01
+## [7.6.0] - 2026-10-01
 
 One brand in every medium. Emre asked for a kit that feels like one brand on websites, datasheets and LinkedIn, the three media of the next six months, and approved the heading rhythm from a before/after preview. Record: MEMORY.md 2026-10-01 one-brand-every-medium.
 
@@ -23,8 +23,9 @@ Consuming sites move the date line of an article from above the H1 to under the 
 
 - The space below a heading is a fixed step, smaller than the space above it, so the heading binds to the text it opens: 32px under a hero or an H1 to its deck (55px under an H1 before), 20px under an H2 (43px), 12px under an H3 (21px), 8px under an H4 (13px). Measured on the `content` and `static` screens at 1440 and 390px.
 - A page that opens with a breadcrumb starts 16px under the top menu, on a `container` and a `site-frame` alike. The `content`, `static` and `content-index` screens had the full hero padding above the trail (112px at 1440px, 56px on a phone), and `products` and `product` had none. Emre found the empty band in the preview.
-- The page opening reads breadcrumb, title, deck, meta line. The title sits 24px under the breadcrumb (it touched the trail on `products`, `static` and `product-finder`), and a date or revision line is a `type-footnote` 12px under the deck, never a label above the title. The `content` and `spec-sheet` screens and the Astro blog post move their line, and `spec-sheet` gains the breadcrumb of an inner page (Ana sayfa / Ürünler / PX serisi / PX22 / Teknik föy). Emre chose this (option D) from four rendered options; lighter text alone fails the 4.5:1 floor.
+- The page opening reads breadcrumb, title, deck, meta line. The title sits 24px under the breadcrumb (it touched the trail on `products`, `static` and `product-finder`), and a date or revision line is a `type-footnote` 12px under the deck, never a label above the title. The `content` and `spec-sheet` screens and the Astro blog post move their line, and `spec-sheet` gains the breadcrumb of an inner page (Ana sayfa / Ürünler / PX serisi / PX22 / Teknik föy). `starter.html` moves its version label from above the title into the trust line. Emre chose this (option D) from four rendered options; lighter text alone fails the 4.5:1 floor.
 - `type-hero-md` takes the 32px title gap (24px before), like `type-hero` and the H1.
+- The stack (v7.5.0) reads the same heading variables, so a title, a heading or a hero part sits the same inside a stack as outside it. A title or an H1 in a stack sits 32px above its deck: 24px after a `type-hero-md` before, and 16px after an H1, as on the product screen. A heading in a stack takes 20, 12 or 8px below it, like the text flow.
 - Six sizes move onto the scale or a named token: block quote 22 to 21px, pull quote 26 to 27px, definition list 16 to 16.5px, figure caption and code block 13.5 to 13px, button 15 to 15.5px. Inputs keep 16px as `--size-form-field`. Only the site lockup keeps a pixel size.
 
 ### Fixed
@@ -36,6 +37,40 @@ Consuming sites move the date line of an article from above the H1 to under the 
 
 - DESIGN.md matches the CSS: the H2 gap, the footnote rule, the faces of block quotes and spec values, and the sizes above.
 - UI-KIT.md: the two paragraphs that repeated house rules 5 and 8 are gone; the highlighter markup moves to the type section. Its line limit is 220 (was 200) for the type table.
+
+## [7.5.1] - 2026-10-01
+
+A defect patch from the 2026-10-01 kit audit. Emre asked for it after v7.5.0. Each defect was measured in a browser before and after the fix. Consuming sites change no markup. A site that patched `[hidden]` itself, as memregunes.com does in `home.css`, can remove the patch.
+
+### Fixed
+
+- The `hidden` attribute hides every element. A kit class that sets `display` outweighed the browser's own rule: a hidden `agustos-button` showed as `inline-flex`, a hidden `stack` as `flex`. Both now compute to `none`. `hidden="until-found"` keeps the browser's find-in-page behaviour.
+- A card takes the hover only when its heading holds a link. A card without a link darkened its border on hover and signalled a click that did nothing, as the app-shell stat cards did.
+- A marked card keeps its 2px ink rule on hover. The hover set all four borders, so the rule faded to the 30% gray.
+- A hovered skip link keeps white text on its ink box. `a:hover` turned it red: 3.35:1, below the 4.5:1 text floor.
+- Code blocks and the primary button print as outlines. The print dialog drops backgrounds by default, so the light code text printed at about 1.2:1 and the button printed white on white. The outlines read the same with background graphics on or off (checked with a headless Chrome PDF before and after).
+
+## [7.6.0] - 2026-10-01
+
+A minor release from the memregunes.com home review. Emre asked for the kit fix on 2026-10-01, and chose four hero layouts. Consuming sites change no markup for the stack fix. A site that added its own margins inside a `.stack` to work around it can remove them.
+
+### Fixed
+
+- `.stack` keeps the vertical rhythm. Each child sits `--stack-space` below the one before it: 16px, or the break of the child. 40px above an H2; 32px above an H3, an H4, `hero-actions` and `hero-trust`; 24px below a `type-hero-md`; 32px below a `type-hero`; 64px above a `hero-visual`; 24px below a fieldset. Before, the stack cleared every margin and set a flat 16px gap. The memregunes.com hero, a `type-hero-md`, a deck, buttons and a trust line in a stack, measured 16, 16 and 16px; it now measures 24, 32 and 32px, the same as the hero outside a stack, at 1440 and 390px.
+- `--stack-space` does not inherit (`@property`), so a nested stack starts at 16px again.
+- Inside a stack, a fieldset and a field no longer add their own margins to the gap. On the product-finder screen the space between fieldsets was 40px (24px margin plus the 16px gap); it is now 24px. The buttons below the last field moved from 32px to 16px.
+- The space after a hero deck (1em) no longer overrides `hero-trust` and `hero-visual`. A deck followed by a trust line took 16px instead of 32px, and one followed by an image took 16px instead of 64px. Inside a stack, the stack sets this space. On the product screen the deck and the body text measured 33px (1em plus the gap); they now measure 16px.
+
+### Added
+
+- Two hero layouts with an image beside the text: `hero-split` (image on the right) and `hero-split--media-start` (image on the left), with `hero-split__media` on the figure. The text stays first in the markup, so a phone and a screen reader get it first. Below 760px the image follows the text. With text only and an image below (`hero-visual`), the hero has four layouts. `starter.html` renders a split hero.
+- AG032 (warning): a homepage with no highlighter. AG025 warned only on a second stroke, so a homepage with none passed. The screens table derives the rule from the family: the marketing family (the homepage) takes one stroke, every other family at most one.
+
+### Documentation
+
+- `UI-KIT.md`: the four hero layouts, the stack rule, and "copy carries markup": a headline or a paragraph must be able to hold `<mark>`, `<strong>`, `<em>` and links. memregunes.com stored its hero copy as plain strings, so it had no place for its highlighter and bold.
+- The house rule reads: the highlighter goes on one to four words of the main headline, once on the homepage and at most once on any other page.
+- `DESIGN.md`: the hero section lists the four layouts and drops the rule that a homepage hero is text only.
 
 ## [7.4.2] - 2026-09-30
 

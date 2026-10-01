@@ -1,4 +1,4 @@
-# Ağustos UI kit — v7.5.0
+# Ağustos UI kit — v7.6.0
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -15,7 +15,7 @@ Create minimal, functional, and elegant interfaces that feel warm and human.
 - Set type on one golden scale: the 16.5px body times 1.272 per step, so every second step is the golden ratio (13, 16.5, 21, 27, 34, 43, 55, 70, 89px). Headings are thin: hero 89px light, H1 55px light, H2 43px regular, H3 21px medium. Use four weights (300, 400, 500, 600). The wordmark alone uses 650.
 - Use two radii, 6px for controls and 12px for cards, and one section spacing. Do not use gradients or textures. The only shadow sits under a menu that floats above the page.
 - Red is identity and signal, never action: the logo, the 2px link and menu rule, keyboard focus, and one highlighter stroke per page. Buttons are black. The Ağustos logo is red and turns black on hover; every other house brand's logo is black and turns red on hover.
-- Use the highlighter once per page, on one to four words of the main headline. Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.
+- Use the highlighter on one to four words of the main headline: once on the homepage, at most once on any other page. Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.
 - Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar. Websites ship light; dark theme is for product UI.
 - Copy a screen; do not design a page. Open with a headline, a deck, two buttons, and a trust line. Close with one pale red band.
 - Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not combine them, and do not use uppercase labels, eyebrow headings, or coloured text.
@@ -45,11 +45,11 @@ Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and
 
 npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-Prototypes with no build step may link the CDN copies. **Pin to `@v7.5.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
+Prototypes with no build step may link the CDN copies. **Pin to `@v7.6.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.5.0/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.5.0/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.0/ui/agustos.css">
 ```
 
 ## Page skeleton
@@ -121,7 +121,9 @@ One reference page per screen type lives in the source repository under `screens
 | `spec-sheet` | document | topbar | frame | light | product photograph and dimensioned drawing |
 | `app-shell` | product UI | sidebar | frame | dark allowed | none |
 
-A website page opens with a `type-hero` headline (or a `type-h1` on listing and content pages), a `type-hero-deck`, a `hero-actions` row with one primary and one secondary `agustos-button`, and a `hero-trust` line. It closes with one `band band--cream`.
+A website page opens with a `type-hero` headline (or a `type-h1` on listing and content pages), a `type-hero-deck`, a `hero-actions` row with one primary and one secondary `agustos-button`, and a `hero-trust` line. It closes with one `band band--cream`. **The hero has four layouts**, one per page, all aligned at the top: text only; an image below, as `figure.type-figure.hero-visual` after the text (64px below the trust line); an image on the right, as `div.hero-split` holding the text in a `stack`, then `figure.type-figure.hero-split__media`; an image on the left, with `hero-split hero-split--media-start`. A split hero takes `type-hero-md`, because `type-hero` is too large for half the frame. Its text stays first in the markup, so a phone and a screen reader get it first, and below 760px the image follows the text. Use one real photograph (a product, a place, a person), never a decorative image. `starter.html` renders a split hero.
+
+**Highlighter and copy.** The checker warns on a second highlighter stroke (AG025) and on a homepage without one (AG032). **Copy carries markup:** a headline or a paragraph must be able to hold `<mark>`, `<strong>`, `<em>` and links. A template that prints copy as an escaped plain string cannot, so the page loses its highlighter and its bold. Keep copy as HTML or Markdown, or as text runs that name their mark, and render the marks.
 
 **States.** The kit styles every state; compose from it rather than restyle. Hover: light paper turns a content link red; the dark theme dims the ink instead (red text on off-black is 3.35:1) and keeps the red rule. Pressed: buttons move 1px down. Disabled: a `button` takes the `disabled` attribute; a link drops its `href` and takes `role="link"` and `aria-disabled="true"`, because `aria-disabled` alone does not stop a click (AG030). Both turn gray and inert. The footer and the closing band stay light in the dark theme. Text clears 4.5:1 and borders, logos and focus 3:1 in both themes; `kit.json` (`states`) and `docs/web.html` carry every pair with its ratio.
 
@@ -138,7 +140,7 @@ Every class the kit publishes. See `starter.html` for one rendered instance of e
 | Headings | `type-hero` `type-hero-md` `type-hero-deck` `type-h1` `type-h2` `type-h3` `type-h4` |
 | Text | `type-body` `type-link` `type-code` `type-blockquote` `type-pullquote` `type-footnote` `type-highlight` |
 | Blocks | `type-list-ul` `type-list-ol` `type-dl` `type-figure` `type-code-block` `type-table` `type-spec` `type-divider` |
-| Hero | `hero-actions` `hero-trust` `hero-visual` |
+| Hero | `hero-actions` `hero-trust` `hero-visual` `hero-split` `hero-split--media-start` `hero-split__media` |
 | Sections | `agustos-section` `agustos-section__head` |
 | Cards | `agustos-card-grid` `agustos-card` `agustos-card--marked` |
 | Chrome | `agustos-chrome-link` · `site-lockup` `site-lockup__symbol` `site-lockup__name` · `site-sidebar-layout` `site-sidebar` `site-sidebar__nav` `site-sidebar__link` `site-sidebar__group` `site-sidebar__cta` `site-sidebar__utility` `site-sidebar__note` `site-sidebar-bar` `site-sidebar-burger` `site-sidebar__close` · `site-header` `site-header__bar` `site-header__panel` `site-header__nav` `site-header__link` `site-header__more` `site-header__more-menu` `site-header__more-link` `site-header__end` `site-header__cta` `site-header__burger` `site-header__close` · search and language: `site-header__utility` `site-header__utility--bar` `site-header__utility--drawer` `site-header__icon-btn` `site-header__theme-sun` `site-header__theme-moon` `site-header__lang-link` `site-header__search` `site-header__search--desktop` `site-header__search--responsive` `site-header__search-toggle` `site-header__search-panel` `site-header__search-field` `site-header__search-output` `site-header__search-status` `site-header__search-results` `site-header__search-group` `site-header__search-heading` `site-header__search-heading-count` `site-header__search-list` `site-header__search-result` `site-header__search-result-title` `site-header__search-result-excerpt` `site-header__search-row` `site-header__search-shell` `site-header__noscript-search` · `site-footer` `site-footer__inner` `site-footer__brand` `site-footer__links` `site-footer__link` `site-footer__map` `site-footer__contact` `site-footer__groups` `site-footer__group` `site-footer__group-title` `site-footer__group-links` · `breadcrumb` `breadcrumb__link` |
@@ -150,7 +152,7 @@ Every class the kit publishes. See `starter.html` for one rendered instance of e
 
 Bare HTML elements are styled too: `h1`–`h4`, `p`, `a`, `ul`, `ol`, `dl`, `table`, `blockquote`, `pre`, `code`, `hr`. Semantic markup gets the right result without classes.
 
-Compose missing components from `agustos-card`, `agustos-button`, the layout classes, and `type-*`. `prose` caps a text block at the reading line on a full-frame page; `container--reading` caps the whole column of a content page. Do not import another component library.
+Compose missing components from `agustos-card`, `agustos-button`, the layout classes, and `type-*`. `prose` caps a text block at the reading line on a full-frame page; `container--reading` caps the whole column of a content page. Do not import another component library. **The stack keeps the rhythm.** A `stack` puts 16px between its children, and each heading and hero part keeps its break: 40px above an H2; 32px above an H3, an H4, `hero-actions` and `hero-trust`; 24px below a `type-hero-md`; 32px below a `type-hero`. To change the space above one child, set `--stack-space` on it. Do not put margins on the children of a stack: the stack clears them.
 
 ## Type and spacing
 

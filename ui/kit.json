@@ -39,7 +39,7 @@
       "wordmark": "specquick"
     }
   },
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.5.0/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.0/ui/",
   "cssClasses": [
     "type-hero",
     "type-hero-md",
@@ -77,6 +77,9 @@
     "hero-actions",
     "hero-trust",
     "hero-visual",
+    "hero-split",
+    "hero-split--media-start",
+    "hero-split__media",
     "agustos-section",
     "agustos-section__head",
     "agustos-card-grid",
@@ -277,7 +280,7 @@
       "Set type on one golden scale: the 16.5px body times 1.272 per step, so every second step is the golden ratio (13, 16.5, 21, 27, 34, 43, 55, 70, 89px). Headings are thin: hero 89px light, H1 55px light, H2 43px regular, H3 21px medium. Use four weights (300, 400, 500, 600). The wordmark alone uses 650.",
       "Use two radii, 6px for controls and 12px for cards, and one section spacing. Do not use gradients or textures. The only shadow sits under a menu that floats above the page.",
       "Red is identity and signal, never action: the logo, the 2px link and menu rule, keyboard focus, and one highlighter stroke per page. Buttons are black. The Ağustos logo is red and turns black on hover; every other house brand's logo is black and turns red on hover.",
-      "Use the highlighter once per page, on one to four words of the main headline. Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.",
+      "Use the highlighter on one to four words of the main headline: once on the homepage, at most once on any other page. Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.",
       "Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar. Websites ship light; dark theme is for product UI.",
       "Copy a screen; do not design a page. Open with a headline, a deck, two buttons, and a trust line. Close with one pale red band.",
       "Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not combine them, and do not use uppercase labels, eyebrow headings, or coloured text.",
@@ -288,27 +291,27 @@
   "files": {
     "AGENTS-SNIPPET.md": {
       "bytes": 2327,
-      "sha256": "49519a11d7295b4700a114ddf226f0e7745ae236f12221ecda213df9575d9930"
+      "sha256": "a1c6add10d51c7f8687da4d022064ff305f5243b2f3761e14d63d6ef04779c66"
     },
     "UI-KIT.md": {
-      "bytes": 24055,
-      "sha256": "1db18561b69d2cb1ceb907c3a88013a829eb17f1f461c6548937af6b1517a62f"
+      "bytes": 25669,
+      "sha256": "3b2facbfb0fee398af4a60aaeb85d1ebcfcb00fabf6ea932860c9778c04cd58b"
     },
     "agustos-chrome.js": {
       "bytes": 1986,
-      "sha256": "7fee3643812c3f1eedbcc3106d209255aefce28df9af6b32b98fa30520334029"
+      "sha256": "295b00d9af76d4b65a602f420dab2093001be3ad922bf0c173036bf49ef234c6"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
-      "sha256": "0edda0237e6de1985a469a5bf1e3d1bd53130aebde09113529a39c194e7382a3"
+      "sha256": "2aa011d6fcf57b52cfc645afebd58626a46341c745b237878d65528f5507a4f6"
     },
     "agustos.css": {
-      "bytes": 68012,
-      "sha256": "fa84ec172022cf013f6c6dc3258cdd92a19a11850eb26f4c0e0712ae3ff97d41"
+      "bytes": 71980,
+      "sha256": "4470a2df37246732beb65ae8099f95cc075ed5b46ef858188f0ecd07d7d992ca"
     },
     "check-agustos-ui.py": {
-      "bytes": 31696,
-      "sha256": "575b13adabfce6ebe0d7902d904f4be948da67d52b98effda360f9aadaf0d12c"
+      "bytes": 32387,
+      "sha256": "7373eaa971eb5b725e910c76a27733c383e8bdfa881a17d2f508f9dc9de268f5"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -331,13 +334,13 @@
       "sha256": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
     },
     "starter.html": {
-      "bytes": 28530,
-      "sha256": "f772c5aba72f59d0521170d52d0d52aa2c7df9bc4c35bef60e7d23f4a2bc69c1"
+      "bytes": 29260,
+      "sha256": "a22e1cf8f2fe7a276838d2dcc3997e56a180a9a40e5ab7696b117896277a1879"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.5.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.5.0/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.0/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.5.0/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.6.0/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "screens": {
     "app-shell": {
@@ -346,6 +349,7 @@
       "column": "frame",
       "family": "product-ui",
       "file": "app-shell.html",
+      "highlight": "at-most-one",
       "photo": "none",
       "purpose": "The product-UI frame: sidebar navigation with counts, a page toolbar, stats, and a data table. The theme control lives in the sidebar.",
       "theme": "dark-allowed"
@@ -356,6 +360,7 @@
       "column": "reading",
       "family": "content",
       "file": "content.html",
+      "highlight": "at-most-one",
       "photo": "only when it explains the content",
       "purpose": "One article or post: title, deck, long-form body at the reading line with headings, lists, a quote, and a footnote.",
       "theme": "light"
@@ -366,6 +371,7 @@
       "column": "reading",
       "family": "content",
       "file": "content-index.html",
+      "highlight": "at-most-one",
       "photo": "none; titles stay type-only",
       "purpose": "The list of posts: one section per year, body-size title links with a footnote line each, newest first. No heading per title.",
       "theme": "light"
@@ -376,6 +382,7 @@
       "column": "frame",
       "family": "marketing",
       "file": "home.html",
+      "highlight": "one",
       "photo": "one installation photograph, third in the rollout",
       "purpose": "The homepage: a thin headline with one highlighter stroke, a deck, two buttons and a trust line, then the brand and software card sections, and one closing pale red band.",
       "theme": "light"
@@ -386,6 +393,7 @@
       "column": "frame",
       "family": "catalog",
       "file": "product.html",
+      "highlight": "at-most-one",
       "photo": "product photograph or drawing, first in the rollout",
       "purpose": "One luminaire: photograph and drawing, description, grouped specification tables, downloads, and related products.",
       "theme": "light"
@@ -396,6 +404,7 @@
       "column": "frame",
       "family": "catalog",
       "file": "product-finder.html",
+      "highlight": "at-most-one",
       "photo": "product thumbnails, second in the rollout",
       "purpose": "The product finder: a filter column and a result list. Form submits are task actions, not the page primary.",
       "theme": "light"
@@ -406,6 +415,7 @@
       "column": "frame",
       "family": "catalog",
       "file": "products.html",
+      "highlight": "at-most-one",
       "photo": "product thumbnails, second in the rollout",
       "purpose": "The product listing: an H1 page title, series sections with product cards, quick links, and one closing pale red band.",
       "theme": "light"
@@ -416,6 +426,7 @@
       "column": "frame",
       "family": "document",
       "file": "spec-sheet.html",
+      "highlight": "at-most-one",
       "photo": "product photograph and dimensioned drawing",
       "purpose": "The A4 technical datasheet (teknik föy) as a web page: header, photograph and drawing, the five specification groups, revision line.",
       "theme": "light"
@@ -426,6 +437,7 @@
       "column": "reading",
       "family": "content",
       "file": "static.html",
+      "highlight": "at-most-one",
       "photo": "people and places that explain the work",
       "purpose": "The static page template: About, privacy, terms, and the KVKK notice. Intro, timeline, and people in the reading column on the left edge of the frame.",
       "theme": "light"
@@ -1100,5 +1112,5 @@
       "weight": 400
     }
   ],
-  "version": "7.5.0"
+  "version": "7.6.0"
 }

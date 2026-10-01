@@ -2,7 +2,7 @@
 
 ## Now
 
-One brand in every medium (2026-10-01, branch `claude/brand-guideline-minimum-classes-f6c98d`). Emre chose steps 1 and 2 for the three media that matter in the next six months: websites, datasheets and LinkedIn. Emre chose on 2026-10-01: mono for spec values everywhere, fix the datasheet code and rebuild the PDFs later, add a LinkedIn post template, one release (v7.5.0) after a before/after preview of the heading rhythm. Record: MEMORY.md 2026-10-01 one-brand-every-medium.
+One brand in every medium (2026-10-01, branch `claude/brand-guideline-minimum-classes-f6c98d`). Emre chose steps 1 and 2 for the three media that matter in the next six months: websites, datasheets and LinkedIn. Emre chose on 2026-10-01: mono for spec values everywhere, fix the datasheet code and rebuild the PDFs later, add a LinkedIn post template, one release (v7.6.0) after a before/after preview of the heading rhythm. Record: MEMORY.md 2026-10-01 one-brand-every-medium.
 
 Step 0 comes from the 2026-10-01 type and spacing audit. Only H3 and the link were fully right; five elements conflict between the docs and the CSS. Steps 1 and 2 cannot promise one brand while each medium types its own sizes.
 
@@ -17,10 +17,28 @@ Step 0 comes from the 2026-10-01 type and spacing audit. Only H3 and the link we
 - [x] Step 2, the family-photo sheet. `docs/family.html.tmpl`, rendered by the everyday build like `docs/web.html`: Pataraz PX22 as the product screen, the datasheet and the LinkedIn image, side by side, with the fixed list as the review checklist under each.
 - [x] Page opening: Emre found the empty band above the breadcrumb in the preview. A breadcrumb now opens 16px under the menu on every screen.
 - [x] Page opening, option D (Emre, 2026-10-01): 24px under the breadcrumb; the date or revision line moves under the deck as a `type-footnote`. Screens `content` and `spec-sheet`, and the Astro blog post.
-- [ ] Consuming sites, after they vendor v7.5.0: move the date line of each article from above the H1 to under the deck (agustos.com, memregunes.com, pldturkiye.com, iesdesk.com).
+- [ ] Consuming sites, after they vendor v7.6.0: move the date line of each article from above the H1 to under the deck (agustos.com, memregunes.com, pldturkiye.com, iesdesk.com).
 - [x] Before/after preview of the heading rhythm and the page opening; Emre said ship it on 2026-10-01 and kept the calm LinkedIn headline.
 - [ ] When Emre asks: rebuild the guidelines PDFs (14 pages; then change "13-page" in ASSETS.md and brand/README.md) and the datasheet PDFs and HTML.
-- [ ] Tests, `VERSION` 7.5.0, CHANGELOG, build, gate, PR. The tag and `/design-push` follow the merge on `main`.
+- [ ] Tests, `VERSION` 7.6.0, CHANGELOG, build, gate, PR. The tag and `/design-push` follow the merge on `main`.
+
+Kit v7.5.1: four defects from the kit audit (2026-10-01, branch `claude/kit-7.5.1-defects`, stacked on v7.5.0). Emre asked for it. Record: MEMORY.md 2026-10-01 audit-defects.
+
+- [x] `[hidden]`, card hover, skip-link hover, print outlines; test; `VERSION` 7.5.1; CHANGELOG; DESIGN.md; build; before and after browser check.
+- [ ] Gate, PR (base: the v7.5.0 branch, retargets to `main` when PR 88 merges), merge after PR 88.
+- [ ] memregunes.com: drop its `.home-copy[hidden]` patch when it vendors v7.5.1.
+
+Kit v7.5.0: the stack keeps the vertical rhythm (2026-10-01, branch `claude/memregunes-homepage-styling-cd1a36`). Emre asked for the kit fix after the memregunes.com home review. Record: MEMORY.md 2026-10-01 stack-rhythm.
+
+- [x] `.stack` reads `--stack-space`: headings, hero parts and fieldsets keep their breaks inside a stack.
+- [x] AG032: a `home` page with no highlighter warns. Fires on memregunes.com (home and holding, EN and TR); agustos.com stays clean.
+- [x] UI-KIT.md: four hero layouts (`hero-split`, `hero-split--media-start`; Emre's choice), copy that carries markup, the stack rule. UI-KIT.md stays at 200 lines.
+- [x] Tests, DESIGN.md, `VERSION` 7.5.0, CHANGELOG, MEMORY.md, build, gate (`scripts/ci.sh` exit 0).
+- [x] Before and after browser check at 1440 and 390px: the hero in a stack 16/16/16 to 24/32/32; the four layouts; product-finder fieldsets 40 to 24px.
+- [x] Emre approved the hero preview (2026-10-01).
+- [ ] Gate, PR, merge. The tag follows the merge; the next local session on `main` runs `/design-push`.
+- [x] Kit audit (CSS practice, doc gaps, checker coverage): reported to Emre; new findings under `## Next`, Kit audit 2026-10-01.
+- [ ] memregunes.com: highlighter and bold in the copy, vendor v7.5.0 (WEBSITE-memregunes).
 
 Kit v7.4.1: the checker's screen rules read markup only (2026-09-30, branch `claude/silly-stonebraker-1ac72f`). Record: MEMORY.md 2026-09-30 checker-reads-markup.
 
@@ -169,10 +187,14 @@ v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva
 
 ## Next
 
+- Kit audit 2026-10-01 (three reviews; the v7.5.0 stack fix closed the first finding of each):
+  - CSS structure: cascade layers (`reset < base < components < layout < utilities`), after an audit of each site, because every unlayered consumer rule then wins; components drop outer margins, so layout owns all spacing; container queries for cards and grids in columns; `overflow-wrap` on body, so a long Turkish word or a URL cannot overflow a 375px phone; `forced-colors` rules.
+  - Checker (12 of 59 UI-KIT rules fully enforced): AG009 reads component `<style>` blocks (12 hidden overrides on agustos.com, 1 on PLD); hero and closing band per screen; red beyond backgrounds (`color`, `fill`, borders); off-scale font sizes and weights of 700 and up; move the repository-test rules (header and footer, no footer button, `lang`) into the checker; a way to run the screen rules on the Rails site, which has no static build.
+  - Docs: ship `screens/` with the kit, because a consumer agent never receives them; a "page type to screen and recipe" table (contact, pricing, FAQ, case study, 404, data table); replace "do the conventional thing" with "stop and ask for a recipe"; recipes for form states, article media and footnotes, pagination, image ratio and placeholder; fix the starter's contradictions (an eyebrow above the H1, a theme toggle on a `home` page, "paper (cream, default)").
 - Add a theme-invariant reverse-ink token (cream or white) to the registry for negative lockups, and use it on the Astro `/typography` negative tiles. In the dark toggle the house-brand tiles are off-black on off-black paper, so their edge disappears; decide whether the tile needs a rule. See MEMORY.md, negative-tile-cream.
 - Design review 2026-09-29, open decisions for Emre:
-  - Labels above headings remain on `screens/product-finder.html` (series above each card title) and `screens/static.html` (role above each name). Move them below their headings, like the date in v7.5.0 (no dateline above a title: Emre chose option D on 2026-10-01).
-  - Checker: warn when a page puts a line above its H1 (the v7.5.0 page-opening rule), so consuming sites find their old datelines.
+  - Labels above headings remain on `screens/product-finder.html` (series above each card title) and `screens/static.html` (role above each name). Move them below their headings, like the date in v7.6.0 (no dateline above a title: Emre chose option D on 2026-10-01).
+  - Checker: warn when a page puts a line above its H1 (the v7.6.0 page-opening rule), so consuming sites find their old datelines.
   - App shell: the four stat cards do not need to be cards, and the marked one puts a 2px border on a rounded card. Try a `grid-4` of ruled figures.
   - App shell tabs have no tab semantics or arrow-key handling. Wire them up or use plain filter links.
   - "Six colours" is not literally true: `--ink-faint` #8a8378 and `--rule` #e8e4da are extra hexes, and dark `--ink-soft` reuses #8a8378. Either reword the contract or change the tokens.
@@ -192,6 +214,5 @@ v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva
   - Tone of voice: a short page from `standards/voice.md` in the SKILL-writing repo.
   - Application examples: one real use for each section (letterhead, email signature, social post, datasheet), not only the file list.
   - Accessibility: one line on "Colour in use", "Text on any background keeps 4.5:1 contrast (WCAG 2.2 AA)", so partners who make their own material follow the kit's floors.
-- `screens/product.html`: the H1 sits in a `stack`, so its gap to the deck is the 16px stack gap, not the 32px title gap of v7.5.0. Decide whether the product opening takes the title gap.
 - Register printer-matched CMYK and Pantone values for the six colours and the identity inks in `brand/brands.json`, then show them on the colour page of `brand/build_guidelines.py`. Ask the printer for a proof first; do not convert the screen values.
 - Rebuild `adapters/astro/src/pages/blog/index.astro` on `type-dl` and `type-footnote`, like `screens/content-index.html`. Remove its scoped `<style>` block and the H2 for each post title, which break the list-page rule.

@@ -40,7 +40,7 @@ class GuidelinesContractTest(unittest.TestCase):
         self.assertEqual(sorted(self.pages), ["agustos", "pataraz", "pld"])
 
     def test_fourteen_pages_with_every_section(self):
-        # v7.5.0 adds "In every medium" after the introduction.
+        # v7.6.0 adds "In every medium" after the introduction.
         self.assertEqual(len(self.builder.SECTIONS), 11)
         for slug, page in self.pages.items():
             with self.subTest(slug=slug):
