@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.5.0 · GENERATED RAILS ADAPTER CSS
+/* AĞUSTOS DESIGN SYSTEM v7.5.1 · GENERATED RAILS ADAPTER CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -200,6 +200,12 @@ body {
 }
 
 img, svg { max-width: 100%; height: auto; display: block; }
+
+/* `hidden` hides. A kit class that sets display (a button, a stack, a grid)
+   outweighs the browser's own [hidden] rule, so a hidden button still showed.
+   The one !important in the kit: nothing may show a hidden element.
+   `until-found` keeps the browser's find-in-page behaviour. */
+[hidden]:not([hidden="until-found"]) { display: none !important; }
 
 /* -- 4. Typography and content classes ---------------------- */
 
@@ -849,7 +855,9 @@ table th:last-child, table td:last-child { text-align: right; }
   border-radius: 12px;
   transition: border-color var(--dur) var(--ease);
 }
-.agustos-card:hover {
+/* Hover only on a card that is a link (its heading holds one). A card
+   without a link does nothing on click, so it does not answer the pointer. */
+.agustos-card:has(:is(h2, h3, h4) > a):hover {
   border-color: color-mix(in srgb, var(--ink) 30%, var(--paper));
 }
 /* The card gap spaces its children; their own margins would double it. */
@@ -868,6 +876,10 @@ table th:last-child, table td:last-child { text-align: right; }
 
 .agustos-card--marked {
   border-left: 2px solid var(--ink);
+}
+/* The hover above sets all four sides; the marked rule stays ink. */
+.agustos-card--marked:has(:is(h2, h3, h4) > a):hover {
+  border-left-color: var(--ink);
 }
 
 /* Flex items and padded boxes never collapse margins. A heading's
@@ -953,6 +965,8 @@ table th:last-child, table td:last-child { text-align: right; }
   z-index: 999;
 }
 .skip-link:focus { left: 1rem; }
+/* `a:hover` turns a link red: 3.35:1 on the ink box, below 4.5:1. */
+.skip-link:hover { color: var(--paper); }
 
 /* -- 5b. Site chrome ----------------------------------------- */
 
@@ -1997,4 +2011,14 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
   .site-footer nav,
   .agustos-contents { display: none; }
   .site-sidebar-layout { padding-inline-start: 0; }
+  /* A printer drops backgrounds, so light text on an ink box prints white on
+     white: code at 1.2:1, a primary button invisible. Print them as outlines. */
+  pre,
+  .type-code-block,
+  .agustos-button--primary {
+    background: none;
+    color: var(--ink);
+  }
+  pre,
+  .type-code-block { border: 1px solid var(--ink-faint); }
 }
