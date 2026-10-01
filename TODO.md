@@ -19,7 +19,7 @@ Step 0 comes from the 2026-10-01 type and spacing audit. Only H3 and the link we
 - [x] Page opening, option D (Emre, 2026-10-01): 24px under the breadcrumb; the date or revision line moves under the deck as a `type-footnote`. Screens `content` and `spec-sheet`, and the Astro blog post.
 - [ ] Consuming sites, after they vendor v7.6.0: move the date line of each article from above the H1 to under the deck (agustos.com, memregunes.com, pldturkiye.com, iesdesk.com).
 - [x] Before/after preview of the heading rhythm and the page opening; Emre said ship it on 2026-10-01 and kept the calm LinkedIn headline.
-- [ ] When Emre asks: rebuild the guidelines PDFs (14 pages; then change "13-page" in ASSETS.md and brand/README.md) and the datasheet PDFs and HTML.
+- [x] PR 90 merged (v7.6.0). Emre asked for the PDF rebuild on 2026-10-01: guidelines for Ağustos, Pataraz and PLD (14 pages each) and the six datasheets, rebuilt on branch `claude/rebuild-pdfs-v7.6.0`.
 - [ ] Tests, `VERSION` 7.6.0, CHANGELOG, build, gate, PR. The tag and `/design-push` follow the merge on `main`.
 
 Kit v7.5.1: four defects from the kit audit (2026-10-01, branch `claude/kit-7.5.1-defects`, stacked on v7.5.0). Emre asked for it. Record: MEMORY.md 2026-10-01 audit-defects.
