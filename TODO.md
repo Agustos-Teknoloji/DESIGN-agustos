@@ -5,8 +5,8 @@
 Relative paths in the datasheet and guidelines HTML (2026-10-01, branch `claude/clever-cannon-9b728e`). Emre asked for it. Record: MEMORY.md 2026-10-01 export-relative-paths.
 
 - [x] `rel_url` in both builders; `tests/test_export_paths.py`; merge of `main` (v7.6.0); scratch PDF render (fonts embedded, 1 and 14 pages); CHANGELOG.
-- [ ] PR to `main`.
-- [ ] Rebuild the datasheet and guidelines exports only when Emre asks; then confirm the page counts with `pdfinfo`.
+- [x] PR 92 merged.
+- [x] Emre asked for the rebuild on 2026-10-01: six datasheets (1 page each) and three guidelines (14 pages each), branch `claude/rebuild-exports-relative-paths`. Delete this entry when its PR merges.
 
 One brand in every medium (2026-10-01, branch `claude/brand-guideline-minimum-classes-f6c98d`). Emre chose steps 1 and 2 for the three media that matter in the next six months: websites, datasheets and LinkedIn. Emre chose on 2026-10-01: mono for spec values everywhere, fix the datasheet code and rebuild the PDFs later, add a LinkedIn post template, one release (v7.6.0) after a before/after preview of the heading rhythm. Record: MEMORY.md 2026-10-01 one-brand-every-medium.
 
