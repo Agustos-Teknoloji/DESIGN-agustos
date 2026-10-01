@@ -4,6 +4,28 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.5.0] - 2026-10-01
+
+A minor release from the memregunes.com home review. Emre asked for the kit fix on 2026-10-01, and chose four hero layouts. Consuming sites change no markup for the stack fix. A site that added its own margins inside a `.stack` to work around it can remove them.
+
+### Fixed
+
+- `.stack` keeps the vertical rhythm. Each child sits `--stack-space` below the one before it: 16px, or the break of the child. 40px above an H2; 32px above an H3, an H4, `hero-actions` and `hero-trust`; 24px below a `type-hero-md`; 32px below a `type-hero`; 64px above a `hero-visual`; 24px below a fieldset. Before, the stack cleared every margin and set a flat 16px gap. The memregunes.com hero, a `type-hero-md`, a deck, buttons and a trust line in a stack, measured 16, 16 and 16px; it now measures 24, 32 and 32px, the same as the hero outside a stack, at 1440 and 390px.
+- `--stack-space` does not inherit (`@property`), so a nested stack starts at 16px again.
+- Inside a stack, a fieldset and a field no longer add their own margins to the gap. On the product-finder screen the space between fieldsets was 40px (24px margin plus the 16px gap); it is now 24px. The buttons below the last field moved from 32px to 16px.
+- The space after a hero deck (1em) no longer overrides `hero-trust` and `hero-visual`. A deck followed by a trust line took 16px instead of 32px, and one followed by an image took 16px instead of 64px. Inside a stack, the stack sets this space. On the product screen the deck and the body text measured 33px (1em plus the gap); they now measure 16px.
+
+### Added
+
+- Two hero layouts with an image beside the text: `hero-split` (image on the right) and `hero-split--media-start` (image on the left), with `hero-split__media` on the figure. The text stays first in the markup, so a phone and a screen reader get it first. Below 760px the image follows the text. With text only and an image below (`hero-visual`), the hero has four layouts. `starter.html` renders a split hero.
+- AG032 (warning): a homepage with no highlighter. AG025 warned only on a second stroke, so a homepage with none passed. The screens table derives the rule from the family: the marketing family (the homepage) takes one stroke, every other family at most one.
+
+### Documentation
+
+- `UI-KIT.md`: the four hero layouts, the stack rule, and "copy carries markup": a headline or a paragraph must be able to hold `<mark>`, `<strong>`, `<em>` and links. memregunes.com stored its hero copy as plain strings, so it had no place for its highlighter and bold.
+- The house rule reads: the highlighter goes on one to four words of the main headline, once on the homepage and at most once on any other page.
+- `DESIGN.md`: the hero section lists the four layouts and drops the rule that a homepage hero is text only.
+
 ## [7.4.2] - 2026-09-30
 
 A defect patch from the final review of the contents list (v7.4.0). Emre chose 24px above the folded line on 2026-09-30. Consuming sites add `aria-hidden="true"` to the list title; nothing else in their markup changes.

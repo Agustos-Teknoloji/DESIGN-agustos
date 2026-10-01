@@ -40,7 +40,8 @@ KIT_CLASSES = {{ui.classList}}
 
 # screen name -> the rules a page under that screen should meet. Injected from the
 # screens table for the same reason as TOKEN_COLORS. A page names its screen with
-# data-screen on <body>; theme "dark-allowed" and chrome "sidebar" mark product UI.
+# data-screen on <body>; theme "dark-allowed" and chrome "sidebar" mark product UI;
+# highlight "one" marks the homepage, which carries the one highlighter stroke.
 # The checker guards identity with errors. Taste rules only warn.
 SCREENS = {{ui.screensRules}}
 
@@ -301,6 +302,12 @@ def check_screen(rel: str, text: str, findings: list) -> None:
             "AG025", "warn", rel, line_of(page, highlights[1].start()),
             f"{len(highlights)} highlighter strokes on one page — use one, on a few words "
             f"of the main headline",
+        ))
+    if not highlights and rules["highlight"] == "one":
+        findings.append(Finding(
+            "AG032", "warn", rel, body_line,
+            f"no highlighter on screen {name!r} — wrap one to four words of the main "
+            f"headline in <mark class=\"type-highlight\">",
         ))
     sidebar = SIDEBAR.search(page)
     if sidebar and rules["chrome"] != "sidebar":

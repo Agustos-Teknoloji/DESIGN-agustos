@@ -53,6 +53,9 @@
       "hero-actions",
       "hero-trust",
       "hero-visual",
+      "hero-split",
+      "hero-split--media-start",
+      "hero-split__media",
       "agustos-section",
       "agustos-section__head",
       "agustos-card-grid",
@@ -220,7 +223,7 @@
         "Set type on one golden scale: the 16.5px body times 1.272 per step, so every second step is the golden ratio (13, 16.5, 21, 27, 34, 43, 55, 70, 89px). Headings are thin: hero 89px light, H1 55px light, H2 43px regular, H3 21px medium. Use four weights (300, 400, 500, 600). The wordmark alone uses 650.",
         "Use two radii, 6px for controls and 12px for cards, and one section spacing. Do not use gradients or textures. The only shadow sits under a menu that floats above the page.",
         "Red is identity and signal, never action: the logo, the 2px link and menu rule, keyboard focus, and one highlighter stroke per page. Buttons are black. The Ağustos logo is red and turns black on hover; every other house brand's logo is black and turns red on hover.",
-        "Use the highlighter once per page, on one to four words of the main headline. Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.",
+        "Use the highlighter on one to four words of the main headline: once on the homepage, at most once on any other page. Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.",
         "Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar. Websites ship light; dark theme is for product UI.",
         "Copy a screen; do not design a page. Open with a headline, a deck, two buttons, and a trust line. Close with one pale red band.",
         "Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not combine them, and do not use uppercase labels, eyebrow headings, or coloured text.",
@@ -366,7 +369,7 @@
         "Set type on one golden scale: the 16.5px body times 1.272 per step, so every second step is the golden ratio (13, 16.5, 21, 27, 34, 43, 55, 70, 89px). Headings are thin: hero 89px light, H1 55px light, H2 43px regular, H3 21px medium. Use four weights (300, 400, 500, 600). The wordmark alone uses 650.",
         "Use two radii, 6px for controls and 12px for cards, and one section spacing. Do not use gradients or textures. The only shadow sits under a menu that floats above the page.",
         "Red is identity and signal, never action: the logo, the 2px link and menu rule, keyboard focus, and one highlighter stroke per page. Buttons are black. The Ağustos logo is red and turns black on hover; every other house brand's logo is black and turns red on hover.",
-        "Use the highlighter once per page, on one to four words of the main headline. Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.",
+        "Use the highlighter on one to four words of the main headline: once on the homepage, at most once on any other page. Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.",
         "Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar. Websites ship light; dark theme is for product UI.",
         "Copy a screen; do not design a page. Open with a headline, a deck, two buttons, and a trust line. Close with one pale red band.",
         "Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not combine them, and do not use uppercase labels, eyebrow headings, or coloured text.",
@@ -1176,7 +1179,7 @@
         "surface": "#ffffff"
       }
     },
-    "version": "7.4.2"
+    "version": "7.5.0"
   },
-  "version": "7.4.2"
+  "version": "7.5.0"
 }
