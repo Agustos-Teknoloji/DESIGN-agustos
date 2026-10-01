@@ -137,7 +137,7 @@ class DesignSystemGenerationTest(unittest.TestCase):
         text = " ".join(self.tokens["designDirection"]["principles"])
         self.assertIn("two buttons", text)
         self.assertIn("product UI", text)
-        self.assertIn("highlighter once per page", text)
+        self.assertIn("highlighter on one to four words of the main headline: once on the homepage", text)
         self.assertIn("at most five items", text)
         self.assertIn("golden", text)
         avoid = " ".join(self.tokens["designDirection"]["avoid"])

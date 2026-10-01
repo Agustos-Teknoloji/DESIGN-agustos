@@ -2,6 +2,18 @@
 
 ## Now
 
+Kit v7.5.0: the stack keeps the vertical rhythm (2026-10-01, branch `claude/memregunes-homepage-styling-cd1a36`). Emre asked for the kit fix after the memregunes.com home review. Record: MEMORY.md 2026-10-01 stack-rhythm.
+
+- [x] `.stack` reads `--stack-space`: headings, hero parts and fieldsets keep their breaks inside a stack.
+- [x] AG032: a `home` page with no highlighter warns. Fires on memregunes.com (home and holding, EN and TR); agustos.com stays clean.
+- [x] UI-KIT.md: four hero layouts (`hero-split`, `hero-split--media-start`; Emre's choice), copy that carries markup, the stack rule. UI-KIT.md stays at 200 lines.
+- [x] Tests, DESIGN.md, `VERSION` 7.5.0, CHANGELOG, MEMORY.md, build, gate (`scripts/ci.sh` exit 0).
+- [x] Before and after browser check at 1440 and 390px: the hero in a stack 16/16/16 to 24/32/32; the four layouts; product-finder fieldsets 40 to 24px.
+- [x] Emre approved the hero preview (2026-10-01).
+- [ ] Gate, PR, merge. The tag follows the merge; the next local session on `main` runs `/design-push`.
+- [x] Kit audit (CSS practice, doc gaps, checker coverage): reported to Emre; new findings under `## Next`, Kit audit 2026-10-01.
+- [ ] memregunes.com: highlighter and bold in the copy, vendor v7.5.0 (WEBSITE-memregunes).
+
 Kit v7.4.1: the checker's screen rules read markup only (2026-09-30, branch `claude/silly-stonebraker-1ac72f`). Record: MEMORY.md 2026-09-30 checker-reads-markup.
 
 - [x] Blank comments, scripts and styles before the screen rules; a line for each match; test; UI-KIT.md; `VERSION` 7.4.1; CHANGELOG; build; before and after check on the Astro adapter build with the chrome script inlined.
@@ -149,6 +161,11 @@ v7.0.0 conventional reset (2026-09-29, branch `claude/rails-html-template-kbacva
 
 ## Next
 
+- Kit audit 2026-10-01 (three reviews; the v7.5.0 stack fix closed the first finding of each):
+  - Defects for a v7.5.1 patch: a hovered skip link turns red on ink (3.35:1); `.agustos-button` `inline-flex` beats `[hidden]` (memregunes `home.css:19` patches it); print drops the `pre` and primary-button backgrounds, so code prints at 1.2:1 and the button white on white; a marked card loses its 2px rule on hover, and cards without a link take the hover too.
+  - CSS structure: cascade layers (`reset < base < components < layout < utilities`), after an audit of each site, because every unlayered consumer rule then wins; components drop outer margins, so layout owns all spacing; container queries for cards and grids in columns; `overflow-wrap` on body, so a long Turkish word or a URL cannot overflow a 375px phone; `forced-colors` rules.
+  - Checker (12 of 59 UI-KIT rules fully enforced): AG009 reads component `<style>` blocks (12 hidden overrides on agustos.com, 1 on PLD); hero and closing band per screen; red beyond backgrounds (`color`, `fill`, borders); off-scale font sizes and weights of 700 and up; move the repository-test rules (header and footer, no footer button, `lang`) into the checker; a way to run the screen rules on the Rails site, which has no static build.
+  - Docs: ship `screens/` with the kit, because a consumer agent never receives them; a "page type to screen and recipe" table (contact, pricing, FAQ, case study, 404, data table); replace "do the conventional thing" with "stop and ask for a recipe"; recipes for form states, article media and footnotes, pagination, image ratio and placeholder; fix the starter's contradictions (an eyebrow above the H1, a theme toggle on a `home` page, "paper (cream, default)").
 - Add a theme-invariant reverse-ink token (cream or white) to the registry for negative lockups, and use it on the Astro `/typography` negative tiles. In the dark toggle the house-brand tiles are off-black on off-black paper, so their edge disappears; decide whether the tile needs a rule. See MEMORY.md, negative-tile-cream.
 - Design review 2026-09-29, open decisions for Emre:
   - Labels above headings remain on `screens/product-finder.html` (series above each card title), `screens/static.html` (role above each name) and `screens/content.html` (date above the H1). Decide whether a dateline is allowed, then move the rest below their headings.

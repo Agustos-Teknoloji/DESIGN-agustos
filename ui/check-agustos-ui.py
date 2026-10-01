@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ağustos UI kit compliance checker — v7.4.2
+"""Ağustos UI kit compliance checker — v7.5.0
 
 GENERATED. Do not hand-edit. Regenerate with:
     python3 scripts/build_design_system.py
@@ -28,7 +28,7 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 
-KIT_VERSION = "7.4.2"
+KIT_VERSION = "7.5.0"
 REPOSITORY = "Agustos-Teknoloji/DESIGN-agustos"
 LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json"
 
@@ -85,6 +85,9 @@ KIT_CLASSES = {
     "hero-actions",
     "hero-trust",
     "hero-visual",
+    "hero-split",
+    "hero-split--media-start",
+    "hero-split__media",
     "agustos-section",
     "agustos-section__head",
     "agustos-card-grid",
@@ -205,9 +208,10 @@ KIT_CLASSES = {
 
 # screen name -> the rules a page under that screen should meet. Injected from the
 # screens table for the same reason as TOKEN_COLORS. A page names its screen with
-# data-screen on <body>; theme "dark-allowed" and chrome "sidebar" mark product UI.
+# data-screen on <body>; theme "dark-allowed" and chrome "sidebar" mark product UI;
+# highlight "one" marks the homepage, which carries the one highlighter stroke.
 # The checker guards identity with errors. Taste rules only warn.
-SCREENS = {'app-shell': {'theme': 'dark-allowed', 'chrome': 'sidebar', 'column': 'frame'}, 'content': {'theme': 'light', 'chrome': 'topbar', 'column': 'reading'}, 'content-index': {'theme': 'light', 'chrome': 'topbar', 'column': 'reading'}, 'home': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame'}, 'product': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame'}, 'product-finder': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame'}, 'products': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame'}, 'spec-sheet': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame'}, 'static': {'theme': 'light', 'chrome': 'topbar', 'column': 'reading'}}
+SCREENS = {'app-shell': {'theme': 'dark-allowed', 'chrome': 'sidebar', 'column': 'frame', 'highlight': 'at-most-one'}, 'content': {'theme': 'light', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}, 'content-index': {'theme': 'light', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}, 'home': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'one'}, 'product': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'product-finder': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'products': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'spec-sheet': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'static': {'theme': 'light', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}}
 
 # #15130f and #ffffff are legitimate as identity ink and as paper. Reported at
 # warning level rather than error: too common to fail a build over.
@@ -466,6 +470,12 @@ def check_screen(rel: str, text: str, findings: list) -> None:
             "AG025", "warn", rel, line_of(page, highlights[1].start()),
             f"{len(highlights)} highlighter strokes on one page — use one, on a few words "
             f"of the main headline",
+        ))
+    if not highlights and rules["highlight"] == "one":
+        findings.append(Finding(
+            "AG032", "warn", rel, body_line,
+            f"no highlighter on screen {name!r} — wrap one to four words of the main "
+            f"headline in <mark class=\"type-highlight\">",
         ))
     sidebar = SIDEBAR.search(page)
     if sidebar and rules["chrome"] != "sidebar":
