@@ -30,6 +30,7 @@ import os
 import re
 import subprocess
 from pathlib import Path
+from urllib.parse import quote
 
 BRAND_DIR = Path(__file__).resolve().parent
 ROOT = BRAND_DIR.parent
@@ -137,10 +138,9 @@ def headline_html(post: dict) -> str:
     return f'{html.escape(before)}<mark>{html.escape(mark)}</mark>{html.escape(after)}'
 
 
-def rel(target: Path, out_dir: Path) -> str:
-    """A URL from the page to a file in the repository. A relative URL keeps the page
-    working after the repository moves."""
-    return Path(os.path.relpath(target, out_dir)).as_posix()
+def rel_url(target: Path, out_dir: Path) -> str:
+    """A URL for target relative to out_dir, so the HTML works from any folder or machine."""
+    return quote(Path(os.path.relpath(target.resolve(), out_dir.resolve())).as_posix())
 
 
 def gen_post_html(key: str, post: dict, brand: dict, design: dict, fmt_name: str, out: Path,
@@ -171,9 +171,9 @@ def gen_post_html(key: str, post: dict, brand: dict, design: dict, fmt_name: str
     headline = roles[social["headlineRole"]]
     deck_gap = fmt(px(headline.get("after", spacing["2xl"])) * scale)
     out_dir = out.parent
-    f_display = rel(FONTS / "inter-tight" / "InterTight[wght].ttf", out_dir)
-    f_body = rel(FONTS / "inter" / "Inter[opsz,wght].ttf", out_dir)
-    f_mono = rel(FONTS / "jetbrains-mono" / "JetBrainsMono[wght].ttf", out_dir)
+    f_display = rel_url(FONTS / "inter-tight" / "InterTight[wght].ttf", out_dir)
+    f_body = rel_url(FONTS / "inter" / "Inter[opsz,wght].ttf", out_dir)
+    f_mono = rel_url(FONTS / "jetbrains-mono" / "JetBrainsMono[wght].ttf", out_dir)
 
     specs = post.get("specs", [])
     specs_html = ""
@@ -232,7 +232,7 @@ mark {{
     <p class="deck">{html.escape(post["deck"])}</p>
   </div>
   {specs_html}
-  <div class="foot"><img src="{rel(lockup, out_dir)}" alt="{html.escape(brand['wordmark'])}"></div>
+  <div class="foot"><img src="{rel_url(lockup, out_dir)}" alt="{html.escape(brand['wordmark'])}"></div>
 </div>
 </body></html>
 """
