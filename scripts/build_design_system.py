@@ -33,6 +33,7 @@ SCREENS_README = ROOT / "screens" / "README.md"
 BLOCK_START = "<!-- generated: designDirection.principles -->"
 BLOCK_END = "<!-- /generated -->"
 SCREENS_TABLE_BLOCK_START = "<!-- generated: screens.table -->"
+INVARIANTS_BLOCK_START = "<!-- generated: designDirection.invariants -->"
 UI_DIR = ROOT / "ui"
 UI_FONT_DIR = UI_DIR / "fonts"
 UI_TEMPLATES = (
@@ -50,6 +51,7 @@ CHROME_JS_COPIES = (
 )
 DOC_TEMPLATES = (
     (ROOT / "docs" / "web.html.tmpl", ROOT / "docs" / "web.html"),
+    (ROOT / "docs" / "family.html.tmpl", ROOT / "docs" / "family.html"),
 )
 
 CSS_OUTPUTS = {
@@ -184,6 +186,54 @@ def states_table_html(rows: list[dict[str, Any]]) -> str:
     )
 
 
+TYPE_FIELDS = ("size", "weight", "lineHeight", "tracking", "before", "after")
+
+
+def type_rows(tokens: dict[str, Any]) -> list[dict[str, Any]]:
+    """The type contract (recipes.typeRoles), one resolved row per role.
+
+    Each medium reads these rows: UI-KIT.md, kit.json, the brand guidelines and
+    the LinkedIn templates. A field that names a token resolves to its value.
+    """
+    rows = []
+    for role, entry in tokens["recipes"]["typeRoles"].items():
+        if role.startswith("$"):
+            continue
+        row = {"role": role, **entry}
+        for field in TYPE_FIELDS:
+            value = entry.get(field)
+            match = ALIAS.match(value) if isinstance(value, str) else None
+            if match:
+                row[field] = resolve_token(tokens, match.group(1))
+        missing = [field for field in ("classes", "family", "size", "weight", "lineHeight", "use", "avoid") if field not in row]
+        if missing:
+            raise TokenError(f"recipes.typeRoles.{role}: missing {', '.join(missing)}")
+        rows.append(row)
+    return rows
+
+
+def css_size_label(value: Any) -> str:
+    """A size for people: clamp(43px, 4.6vw, 55px) reads as "43 to 55px"."""
+    text = str(value)
+    match = re.fullmatch(r"clamp\((\d+(?:\.\d+)?)px,\s*[^,]+,\s*(\d+(?:\.\d+)?)px\)", text)
+    return f"{match.group(1)} to {match.group(2)}px" if match else text
+
+
+def type_table_markdown(rows: list[dict[str, Any]]) -> str:
+    lines = [
+        "| Role | Class or element | Face | Size | Weight | Line height | Space above / below | Use for | Not for |",
+        "|---|---|---|---|---|---|---|---|---|",
+    ]
+    for row in rows:
+        classes = " ".join(f"`{name.strip()}`" for name in row["classes"].split(","))
+        space = f"{row.get('before', '-')} / {row.get('after', '1em')}"
+        lines.append(
+            f"| {row['role']} | {classes} | {row['family']} | {css_size_label(row['size'])} | {row['weight']} "
+            f"| {row['lineHeight']} | {space} | {row['use']} | {row['avoid']} |"
+        )
+    return "\n".join(lines)
+
+
 def screen_rows(tokens: dict[str, Any], brands: dict[str, Any]) -> list[dict[str, Any]]:
     """The table plus the four derived columns. Theme, chrome, column and highlighter all follow family."""
     rows: list[dict[str, Any]] = []
@@ -231,6 +281,45 @@ def design_direction_block(tokens: dict[str, Any]) -> str:
     return "\n".join(f"- {rule}" for rule in tokens["designDirection"]["principles"])
 
 
+def invariants_table(tokens: dict[str, Any]) -> str:
+    """The rules that hold in every medium, with the form each takes on the three planned media."""
+    lines = ["| Rule | Website | Datasheet | LinkedIn |", "|---|---|---|---|"]
+    for row in tokens["designDirection"]["invariants"]:
+        lines.append(f"| {row['rule']} | {row['web']} | {row['datasheet']} | {row['linkedin']} |")
+    return "\n".join(lines)
+
+
+def html_table(head: tuple[str, ...], rows: list[tuple[str, ...]]) -> str:
+    """A kit table for the generated handbook pages. Cells are escaped; the first is the row header."""
+    header = "".join(f'<th scope="col">{html.escape(cell)}</th>' for cell in head)
+    body = "\n".join(
+        f'      <tr><th scope="row">{html.escape(row[0])}</th>'
+        + "".join(f"<td>{html.escape(str(cell))}</td>" for cell in row[1:])
+        + "</tr>"
+        for row in rows
+    )
+    return (
+        '    <table class="type-table">\n'
+        f"      <thead><tr>{header}</tr></thead>\n"
+        f"      <tbody>\n{body}\n      </tbody>\n"
+        "    </table>"
+    )
+
+
+def invariants_table_html(tokens: dict[str, Any]) -> str:
+    return html_table(
+        ("Rule", "Website", "Datasheet", "LinkedIn"),
+        [(row["rule"], row["web"], row["datasheet"], row["linkedin"]) for row in tokens["designDirection"]["invariants"]],
+    )
+
+
+def type_table_html(rows: list[dict[str, Any]]) -> str:
+    return html_table(
+        ("Role", "Face", "Size", "Weight", "Line height", "Use for"),
+        [(row["role"], row["family"], css_size_label(row["size"]), row["weight"], row["lineHeight"], row["use"]) for row in rows],
+    )
+
+
 def replace_generated_block(text: str, block_start: str, body: str, label: str) -> str:
     """Replace the content between `block_start` and the next BLOCK_END after it.
 
@@ -249,7 +338,8 @@ def replace_generated_block(text: str, block_start: str, body: str, label: str) 
 
 def design_md_with_block(text: str, tokens: dict[str, Any]) -> str:
     """DESIGN.md with its generated block replaced. The rest of the file is hand-written."""
-    return replace_generated_block(text, BLOCK_START, design_direction_block(tokens), "DESIGN.md")
+    text = replace_generated_block(text, BLOCK_START, design_direction_block(tokens), "DESIGN.md")
+    return replace_generated_block(text, INVARIANTS_BLOCK_START, invariants_table(tokens), "DESIGN.md")
 
 
 def screens_readme_table(tokens: dict[str, Any], brands: dict[str, Any]) -> str:
@@ -614,6 +704,9 @@ def kit_context(tokens: dict[str, Any], brands: dict[str, Any]) -> dict[str, str
         ),
         "screensIndex": screens_index_html(screen_rows(tokens, brands)),
         "statesTable": states_table_html(state_rows(tokens)),
+        "typeTable": type_table_markdown(type_rows(tokens)),
+        "typeTableHtml": type_table_html(type_rows(tokens)),
+        "invariantsTable": invariants_table_html(tokens),
         "cdnBase": distribution["cdnBase"].format(repository=repository, version=version),
         "rawBase": distribution["rawBase"].format(repository=repository, version=version),
     }
@@ -825,6 +918,7 @@ def ui_kit_json(
             for row in screen_rows(tokens, brands)
         },
         "states": state_rows(tokens),
+        "typeRoles": type_rows(tokens),
         "substrates": ["paper", "paper-white", "cream"],
         "darkTheme": 'html[data-theme="dark"]',
         "cssClasses": tokens["compatibility"]["cssClasses"],
@@ -869,6 +963,7 @@ def expected_outputs() -> dict[Path, str]:
         "signal": brands["signal"],
         "screens": screen_entries(tokens),
         "states": state_rows(tokens),
+        "typeRoles": type_rows(tokens),
     }
     set_output(
         outputs,

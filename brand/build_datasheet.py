@@ -15,12 +15,15 @@ A datasheet is half template, half data. The brand half comes from brands.json; 
 product half is the PRODUCTS dict below — a flat registry keyed by product (e.g.
 "pataraz-px22"), each entry naming its brand. That is the one place to edit field
 labels, add spec rows, or document a new luminaire. A brand can hold any number of
-products; each emits its own sheet named after its key. Labels are Turkish; lang="tr"
-is set so İ/ı capitalisation renders correctly.
+products; each emits its own sheet named after its key. Labels are Turkish and in
+sentence case; lang="tr" is set so Turkish text shapes correctly.
+
+Colours, type families, weights and print sizes come from tokens/resolved.json
+(foundations and recipes.document). Do not type a colour or a size into the CSS.
 
 Run after build.py (it reuses the generated lockup SVGs).
 
-  python3 build_datasheet.py [--brand <slug>] [--product <key>] [--pdf]
+  python3 build_datasheet.py [--brand <slug>] [--product <key>] [--pdf] [--out <dir>]
 """
 
 from __future__ import annotations
@@ -39,6 +42,12 @@ BRAND_DIR = Path(__file__).resolve().parent
 ROOT = BRAND_DIR.parent
 REGISTRY = BRAND_DIR / "brands.json"
 FONTS = BRAND_DIR / "fonts"
+TOKENS = ROOT / "tokens" / "resolved.json"
+EXPORTS = BRAND_DIR / "exports"
+
+# The one datasheet size that recipes.document does not give. A sheet packs 20 to
+# 30 spec rows onto one A4 page, so the rows need a step below footnoteSize.
+DATA_SIZE = "7.5pt"
 BROWSE = Path.home() / ".claude/skills/gstack/browse/dist/browse"
 
 
@@ -59,8 +68,9 @@ def hexrgb(h):
 #
 # Field labels are Turkish. To document a new product, copy a block, give it a new
 # key, set `brand`, and replace the values; to change which specs appear, edit the
-# `specs` groups (the group title becomes the shared-red section label). Order
-# matters — rows render top-to-bottom, groups flow into 2 columns.
+# `specs` groups (the group title becomes the group label). Write every label in
+# sentence case: the sheet prints labels exactly as typed. Order matters — rows
+# render top-to-bottom, groups flow into 2 columns.
 # ----------------------------------------------------------------------------
 
 PRODUCTS = {
@@ -74,7 +84,7 @@ PRODUCTS = {
         "name": "PL22",
         "series": "PL serisi · ultra ince tavan penceresi",
         "code": "PL22",
-        "doc_type": "Teknik Föy",
+        "doc_type": "Teknik föy",
         "rev": "Rev. 01 · 2026-06",
         "photo": str(BRAND_DIR / "datasheet-assets" / "pataraz" / "pl22-urun.jpg"),
         "drawing": str(BRAND_DIR / "datasheet-assets" / "pataraz" / "pl22-drawing.png"),
@@ -101,12 +111,12 @@ PRODUCTS = {
                 ("Montaj şekli", "Sıva üstü"),
                 ("Montaj yeri", "Tavan"),
             ],
-            "Koruma & Ortam": [
+            "Koruma & ortam": [
                 ("Koruma sınıfı (IP)", "IP20"),
                 ("Ortam sıcaklığı (ta)", "−20 … +40 °C"),
                 ("İzolasyon sınıfı", "Class II"),
             ],
-            "Ömür & Garanti": [
+            "Ömür & garanti": [
                 ("Ömür", "L70B50 @ 30.000 saat"),
                 ("Garanti", "2 yıl"),
             ],
@@ -124,7 +134,7 @@ PRODUCTS = {
         "name": "PX22",
         "series": "PX serisi · ultra ince duvar penceresi",
         "code": "PX22",
-        "doc_type": "Teknik Föy",
+        "doc_type": "Teknik föy",
         "rev": "Rev. 01 · 2026-06",
         "photo": str(BRAND_DIR / "datasheet-assets" / "pataraz" / "px22-urun.jpg"),
         "drawing": str(BRAND_DIR / "datasheet-assets" / "pataraz" / "px22-drawing.png"),
@@ -154,12 +164,12 @@ PRODUCTS = {
                 ("Montaj şekli", "Sıva altı · sıva üstü"),
                 ("Montaj yeri", "Duvar"),
             ],
-            "Koruma & Ortam": [
+            "Koruma & ortam": [
                 ("Koruma sınıfı (IP)", "IP20"),
                 ("Ortam sıcaklığı (ta)", "−20 … +40 °C"),
                 ("İzolasyon sınıfı", "Class II"),
             ],
-            "Ömür & Garanti": [
+            "Ömür & garanti": [
                 ("Ömür", "L70B50 @ 30.000 saat"),
                 ("Garanti", "2 yıl"),
             ],
@@ -197,7 +207,7 @@ PRODUCTS = {
         "name": "PY300600",
         "series": "PY serisi · ultra ince ışık paneli",
         "code": "PY300600",
-        "doc_type": "Teknik Föy",
+        "doc_type": "Teknik föy",
         "rev": "Rev. 01 · 2026-08",
         "photo": str(BRAND_DIR / "datasheet-assets" / "pataraz" / "py300600.png"),
         "drawing": str(BRAND_DIR / "datasheet-assets" / "pataraz" / "py300600-drawing.svg"),
@@ -225,12 +235,12 @@ PRODUCTS = {
                 ("Montaj şekli", "Sıva altı"),
                 ("Montaj yeri", "Tavan"),
             ],
-            "Koruma & Ortam": [
+            "Koruma & ortam": [
                 ("Koruma sınıfı (IP)", "IP20"),
                 ("Ortam sıcaklığı (ta)", "−20 … +40 °C"),
                 ("İzolasyon sınıfı", "Class II"),
             ],
-            "Ömür & Garanti": [
+            "Ömür & garanti": [
                 ("Ömür", "L70B50 @ 30.000 saat"),
                 ("Garanti", "2 yıl"),
             ],
@@ -242,7 +252,7 @@ PRODUCTS = {
         "name": "PY600600",
         "series": "PY serisi · ultra ince ışık paneli",
         "code": "PY600600",
-        "doc_type": "Teknik Föy",
+        "doc_type": "Teknik föy",
         "rev": "Rev. 01 · 2026-08",
         "photo": str(BRAND_DIR / "datasheet-assets" / "pataraz" / "py600600.png"),
         "drawing": str(BRAND_DIR / "datasheet-assets" / "pataraz" / "py600600-drawing.svg"),
@@ -270,12 +280,12 @@ PRODUCTS = {
                 ("Montaj şekli", "Sıva altı"),
                 ("Montaj yeri", "Tavan"),
             ],
-            "Koruma & Ortam": [
+            "Koruma & ortam": [
                 ("Koruma sınıfı (IP)", "IP20"),
                 ("Ortam sıcaklığı (ta)", "−20 … +40 °C"),
                 ("İzolasyon sınıfı", "Class II"),
             ],
-            "Ömür & Garanti": [
+            "Ömür & garanti": [
                 ("Ömür", "L70B50 @ 30.000 saat"),
                 ("Garanti", "2 yıl"),
             ],
@@ -287,7 +297,7 @@ PRODUCTS = {
         "name": "PY6001200",
         "series": "PY serisi · ultra ince ışık paneli",
         "code": "PY6001200",
-        "doc_type": "Teknik Föy",
+        "doc_type": "Teknik föy",
         "rev": "Rev. 01 · 2026-08",
         "photo": str(BRAND_DIR / "datasheet-assets" / "pataraz" / "py6001200.png"),
         "drawing": str(BRAND_DIR / "datasheet-assets" / "pataraz" / "py6001200-drawing.svg"),
@@ -315,12 +325,12 @@ PRODUCTS = {
                 ("Montaj şekli", "Sıva altı"),
                 ("Montaj yeri", "Tavan"),
             ],
-            "Koruma & Ortam": [
+            "Koruma & ortam": [
                 ("Koruma sınıfı (IP)", "IP20"),
                 ("Ortam sıcaklığı (ta)", "−20 … +40 °C"),
                 ("İzolasyon sınıfı", "Class II"),
             ],
-            "Ömür & Garanti": [
+            "Ömür & garanti": [
                 ("Ömür", "L70B50 @ 30.000 saat"),
                 ("Garanti", "2 yıl"),
             ],
@@ -332,7 +342,7 @@ PRODUCTS = {
         "name": "Pro Spot 28",
         "series": "Pro seri · 3-fazlı ray spotu",
         "code": "AGT-PRS28",
-        "doc_type": "Teknik Föy",
+        "doc_type": "Teknik föy",
         "rev": "Rev. 01 · 2026-06",
         "description": (
             "Yüksek renksel geriverimli, dar ışın açılı ray spotu. Döküm alüminyum gövde "
@@ -362,18 +372,18 @@ PRODUCTS = {
                 ("Boyutlar", "Ø 75 × 180 mm"),
                 ("Ağırlık", "0,8 kg"),
                 ("Gövde", "Döküm alüminyum"),
-                ("Yüzey / Renk", "RAL 9005 mat siyah"),
-                ("Dönüş / Eğim", "355° / 90°"),
+                ("Yüzey / renk", "RAL 9005 mat siyah"),
+                ("Dönüş / eğim", "355° / 90°"),
                 ("Montaj", "3-fazlı ray adaptörü"),
             ],
-            "Koruma & Ortam": [
+            "Koruma & ortam": [
                 ("Koruma sınıfı", "IP20"),
                 ("Darbe dayanımı", "IK05"),
                 ("Ortam sıcaklığı (ta)", "−10 … +35 °C"),
                 ("İzolasyon sınıfı", "Class I"),
                 ("Fotobiyolojik güvenlik", "RG0"),
             ],
-            "Ömür & Garanti": [
+            "Ömür & garanti": [
                 ("Ömür", "L90B10 @ 50.000 saat"),
                 ("Garanti", "5 yıl"),
             ],
@@ -394,10 +404,10 @@ PRODUCTS = {
 # Brands without a bespoke sample fall back to a generic luminaire block so the
 # template still generates. (Only agustos + pataraz were requested.)
 GENERIC = {
-    "name": "Ürün Adı",
+    "name": "Ürün adı",
     "series": "Seri · ürün ailesi",
     "code": "KOD-000",
-    "doc_type": "Teknik Föy",
+    "doc_type": "Teknik föy",
     "rev": "Rev. 01 · 2026-06",
     "description": "Ürün açıklamasını buraya yazın. Bir-iki cümlede ürünün tipini, "
                    "uygulamasını ve öne çıkan özelliğini belirtin.",
@@ -410,9 +420,9 @@ GENERIC = {
                        ("Işın açısı", "—°")],
         "Fiziksel": [("Boyutlar", "— mm"), ("Ağırlık", "— kg"),
                      ("Gövde", "Alüminyum"), ("Montaj", "—")],
-        "Koruma & Ortam": [("Koruma sınıfı", "IP20"), ("Ortam sıcaklığı (ta)", "—  °C"),
+        "Koruma & ortam": [("Koruma sınıfı", "IP20"), ("Ortam sıcaklığı (ta)", "—  °C"),
                            ("İzolasyon sınıfı", "Class I")],
-        "Ömür & Garanti": [("Ömür", "L80B10 @ 50.000 saat"), ("Garanti", "— yıl")],
+        "Ömür & garanti": [("Ömür", "L80B10 @ 50.000 saat"), ("Garanti", "— yıl")],
     },
     "certifications": ["CE", "RoHS"],
     "ordering": {
@@ -470,9 +480,15 @@ def _ordering(order):
             f'<tbody>{body}</tbody></table>')
 
 
-def gen_datasheet_html(slug, brand, reg, product, out: Path, lk_dir: Path):
-    color = brand["color"]
-    signal = reg["signal"]["color"]
+def gen_datasheet_html(slug, brand, reg, product, design, out: Path, lk_dir: Path):
+    # Colours, families, weights, borders and print sizes all come from the tokens.
+    colors = design["foundations"]["color"]
+    family = design["foundations"]["fontFamily"]
+    weights = design["foundations"]["fontWeight"]
+    border = design["foundations"]["border"]
+    radius = design["foundations"]["radius"]["medium"]
+    doc = design["recipes"]["document"]
+    display, body, data = family["display"], family["body"], family["mono"]
     title, domain = brand["title"], brand.get("domain", "")
     here = out.parent
     it = rel_url(FONTS / "inter-tight" / "InterTight[wght].ttf", here)
@@ -494,89 +510,100 @@ def gen_datasheet_html(slug, brand, reg, product, out: Path, lk_dir: Path):
     certs_html = (f'<div class="certs"><b>Sertifikalar</b>{"  ·  ".join(cert_list)}</div>'
                   if cert_list else "")
 
+    # Labels are sentence case in the display face, at medium or semibold weight,
+    # in ink or ink-soft, with no tracking. Red never colours text or rules here:
+    # on this sheet only the Ağustos lockup carries it.
     html = f"""<!doctype html><html lang="tr"><head><meta charset="utf-8">
 <title>{title} — {product['name']} · {product['doc_type']}</title><style>
-@font-face {{ font-family:'IT'; src:url('{it}'); }}
-@font-face {{ font-family:'IN'; src:url('{inr}'); }}
-@font-face {{ font-family:'JB'; src:url('{mono}'); }}
-@page {{ size:A4; margin:0; }}
+@font-face {{ font-family:'{display}'; src:url('{it}'); }}
+@font-face {{ font-family:'{body}'; src:url('{inr}'); }}
+@font-face {{ font-family:'{data}'; src:url('{mono}'); }}
+@page {{ size:{doc['page']}; margin:0; }}
 * {{ box-sizing:border-box; -webkit-print-color-adjust:exact; print-color-adjust:exact; }}
-:root {{ --brand:{color}; --signal:{signal}; --ink:#15130f; --soft:#404040; --faint:#8a8378;
-         --paper:#ffffff; --rule:#e8e4da; --surface:#ebebeb; }}
-body {{ margin:0; font-family:'IN',sans-serif; color:var(--ink); background:var(--paper);
-        font-feature-settings:"locl" on,"kern" on; }}
+:root {{ --ink:{colors['ink']}; --soft:{colors['inkSoft']}; --faint:{colors['inkFaint']};
+         --paper:{colors['paperWhite']}; --rule:{colors['ruleWhite']};
+         --hair:{border['hairline']}; --radius:{radius};
+         --display:'{display}',sans-serif; --body:'{body}',sans-serif; --data:'{data}',monospace;
+         --light:{weights['light']}; --regular:{weights['regular']};
+         --medium:{weights['medium']}; --semibold:{weights['semibold']};
+         --title:{doc['titleSize']}; --h1:{doc['heading1Size']}; --h3:{doc['heading3Size']};
+         --text:{doc['bodySize']}; --leading:{doc['bodyLineSpacing']};
+         --small:{doc['footnoteSize']}; --data-size:{DATA_SIZE}; }}
+body {{ margin:0; font-family:var(--body); font-weight:var(--regular); color:var(--ink);
+        background:var(--paper); font-feature-settings:"locl" on,"kern" on; }}
 .page {{ width:210mm; height:297mm; overflow:hidden; padding:12mm 13mm 12mm; position:relative; }}
 
 /* Header */
 .head {{ display:flex; justify-content:space-between; align-items:flex-end;
-         padding-bottom:8px; border-bottom:1px solid var(--rule); }}
+         padding-bottom:8px; border-bottom:var(--hair) solid var(--rule); }}
 .head img {{ height:30px; display:block; }}
 .head .doc {{ text-align:right; }}
-.doc-type {{ font-family:'IT'; font-weight:600; font-size:11px; letter-spacing:0.005em; color:var(--faint); }}
-.doc-code {{ font-family:'JB'; font-size:11px; color:var(--soft); margin-top:3px;
+.doc-type {{ font-family:var(--display); font-weight:var(--semibold); font-size:var(--small);
+             color:var(--soft); }}
+.doc-code {{ font-family:var(--data); font-size:var(--small); color:var(--soft); margin-top:3px;
              font-variant-numeric:tabular-nums; }}
 
-/* Title block */
+/* Title block: headings are thin in this system */
 .title {{ margin-top:12px; }}
-h1 {{ font-family:'IT'; font-weight:650; font-size:30px; letter-spacing:-0.02em; margin:0; }}
-.series {{ font-size:13px; color:var(--soft); margin-top:2px; }}
+h1 {{ font-family:var(--display); font-weight:var(--light); font-size:var(--title);
+      line-height:1.05; letter-spacing:-0.02em; margin:0; }}
+.series {{ font-size:var(--text); color:var(--soft); margin-top:2px; }}
 
 /* Visual slots */
 .visuals {{ display:grid; grid-template-columns:1fr 1fr; gap:8mm; margin-top:11px; }}
 .slot {{ position:relative; }}
-.slot-cap {{ font-family:'IT'; font-weight:650; font-size:9.5px; text-transform:uppercase;
-             letter-spacing:0.12em; color:var(--faint); margin-bottom:5px; }}
-.slot .ph, .slot.has-img img {{ width:100%; aspect-ratio:3/2; border-radius:5px; }}
-.slot .ph {{ border:1.5px dashed var(--rule); display:flex; flex-direction:column;
-             align-items:center; justify-content:center; background:#fff; }}
-.slot.has-img img {{ object-fit:contain; border:1px solid var(--rule); background:#fff; }}
-.ph-mark {{ font-family:'IT'; font-weight:300; font-size:30px; color:var(--signal);
-            line-height:1; opacity:0.55; }}
-.ph-lbl {{ font-family:'IT'; font-weight:650; font-size:12px; color:var(--soft); margin-top:6px; }}
-.ph-sub {{ font-size:10px; color:var(--faint); margin-top:2px; }}
+.slot-cap {{ font-family:var(--display); font-weight:var(--medium); font-size:var(--small);
+             color:var(--soft); margin-bottom:5px; }}
+.slot .ph, .slot.has-img img {{ width:100%; aspect-ratio:16/10; border-radius:var(--radius); }}
+.slot .ph {{ border:var(--hair) dashed var(--rule); display:flex; flex-direction:column;
+             align-items:center; justify-content:center; background:var(--paper); }}
+.slot.has-img img {{ object-fit:contain; border:var(--hair) solid var(--rule); background:var(--paper); }}
+.ph-mark {{ font-family:var(--display); font-weight:var(--light); font-size:var(--h1);
+            color:var(--faint); line-height:1; }}
+.ph-lbl {{ font-family:var(--display); font-weight:var(--semibold); font-size:var(--small);
+           color:var(--soft); margin-top:6px; }}
+.ph-sub {{ font-size:var(--data-size); color:var(--faint); margin-top:2px; }}
 
 /* Description */
-.desc {{ font-size:12px; line-height:1.6; color:var(--soft); max-width:64ch; margin:13px 0 2px; }}
+.desc {{ font-size:var(--text); line-height:var(--leading); color:var(--soft); max-width:64ch;
+         margin:13px 0 2px; }}
 
 /* Spec grid — groups packed into 2 columns */
-.section-label {{ font-family:'IT'; font-weight:650; font-size:10px; text-transform:uppercase;
-                  letter-spacing:0.14em; color:var(--ink); margin:16px 0 9px;
-                  padding-bottom:5px; border-bottom:1px solid var(--rule); }}
+.section-label {{ font-family:var(--display); font-weight:var(--semibold); font-size:var(--h3);
+                  color:var(--ink); margin:12px 0 7px;
+                  padding-bottom:4px; border-bottom:var(--hair) solid var(--rule); }}
 .specs {{ columns:2; column-gap:12mm; }}
 .group {{ break-inside:avoid; -webkit-column-break-inside:avoid; display:inline-block;
           width:100%; margin-bottom:11px; }}
-.glabel {{ font-family:'IT'; font-weight:650; font-size:9.5px; text-transform:uppercase;
-           letter-spacing:0.1em; color:var(--signal); margin-bottom:5px;
-           padding-left:8px; border-left:2px solid var(--signal); }}
+.glabel {{ font-family:var(--display); font-weight:var(--semibold); font-size:var(--small);
+           color:var(--ink); margin-bottom:4px; }}
 .srow {{ display:flex; justify-content:space-between; gap:8px; align-items:baseline;
-         padding:2.5px 0; border-bottom:1px solid rgba(0,0,0,0.045); }}
-.sk {{ font-size:10px; color:var(--soft); flex:1 1 auto; }}
-.sv {{ font-family:'JB'; font-size:10px; color:var(--ink); text-align:right;
+         padding:2.5px 0; border-bottom:var(--hair) solid var(--rule); }}
+.sk {{ font-size:var(--data-size); color:var(--soft); flex:1 1 auto; }}
+.sv {{ font-family:var(--data); font-size:var(--data-size); color:var(--ink); text-align:right;
        white-space:nowrap; font-variant-numeric:tabular-nums; }}
 
 /* Ordering matrix */
-.order {{ width:100%; border-collapse:collapse; margin-top:6px; border-top:2px solid var(--signal); }}
-.order th {{ font-family:'IT'; font-weight:650; font-size:9px; text-transform:uppercase;
-            letter-spacing:0.08em; color:var(--ink); text-align:left;
-            padding:6px 8px; border-bottom:1px solid var(--rule); }}
-.order td {{ font-family:'JB'; font-size:10px; color:var(--ink); padding:5px 8px;
-            border-bottom:1px solid var(--rule); font-variant-numeric:tabular-nums; }}
-.order tbody tr:nth-child(even) {{ background:rgba(0,0,0,0.02); }}
-.order td:first-child {{ color:var(--signal); }}
+.order {{ width:100%; border-collapse:collapse; margin-top:6px; }}
+.order th {{ font-family:var(--display); font-weight:var(--semibold); font-size:var(--data-size);
+            color:var(--ink); text-align:left;
+            padding:6px 8px; border-bottom:var(--hair) solid var(--ink); }}
+.order td {{ font-family:var(--data); font-size:var(--data-size); color:var(--ink); padding:5px 8px;
+            border-bottom:var(--hair) solid var(--rule); font-variant-numeric:tabular-nums; }}
 
 /* Certifications */
-.certs {{ margin-top:11px; font-size:10px; color:var(--soft); }}
-.certs b {{ font-family:'IT'; font-weight:650; font-size:9px; text-transform:uppercase;
-            letter-spacing:0.12em; color:var(--faint); margin-right:8px; }}
+.certs {{ margin-top:8px; font-size:var(--data-size); color:var(--soft); }}
+.certs b {{ font-family:var(--display); font-weight:var(--semibold); font-size:var(--data-size);
+            color:var(--ink); margin-right:8px; }}
 
 /* Footer */
 .foot {{ position:absolute; left:13mm; right:13mm; bottom:9mm; display:flex;
          justify-content:space-between; align-items:flex-end; gap:12px;
-         border-top:1px solid var(--rule); padding-top:6px;
-         font-size:9px; color:var(--faint); }}
-.foot .brand {{ font-family:'IT'; font-weight:650; color:var(--soft); }}
+         border-top:var(--hair) solid var(--rule); padding-top:6px;
+         font-size:var(--data-size); color:var(--faint); }}
+.foot .brand {{ font-family:var(--display); font-weight:var(--semibold); color:var(--soft); }}
 .foot .disc {{ flex:1; text-align:center; }}
-.foot .rev {{ font-family:'JB'; font-variant-numeric:tabular-nums; }}
+.foot .rev {{ font-family:var(--data); font-variant-numeric:tabular-nums; }}
 </style></head><body>
 <section class="page">
 
@@ -628,32 +655,34 @@ def render_pdf(html: Path, pdf: Path):
 
 # ----------------------------------------------------------------------------
 
-def _build(key, slug, brand, reg, product, want_pdf):
-    base = BRAND_DIR / "exports" / slug
-    lk = base / "lockup"
+def _build(key, slug, brand, reg, product, design, want_pdf, out_root=EXPORTS):
+    # The lockup always comes from the exports. Only the sheet goes to out_root.
+    lk = EXPORTS / slug / "lockup"
     pos = lk / f"{slug}-lockup__positive.svg"
     if not pos.exists():
         raise SystemExit(f"missing {pos} — run build.py --brand {slug} first")
 
-    ds_dir = base / "datasheet"
+    ds_dir = out_root / slug / "datasheet"
     ds_dir.mkdir(parents=True, exist_ok=True)
     html = ds_dir / f"{key}.html"
-    gen_datasheet_html(slug, brand, reg, product, html, lk)
-    print(f"  ✓ {slug}: {product['name']} → {html.relative_to(ROOT)}")
+    gen_datasheet_html(slug, brand, reg, product, design, html, lk)
+    shown = html.relative_to(ROOT) if html.is_relative_to(ROOT) else html
+    print(f"  ✓ {slug}: {product['name']} → {shown}")
     if want_pdf:
         render_pdf(html, ds_dir / f"{key}.pdf")
 
 
-def build_product(key, product, reg, want_pdf):
+def build_product(key, product, reg, design, want_pdf, out_root=EXPORTS):
     slug = product["brand"]
     if slug not in reg["brands"]:
         raise SystemExit(f"product '{key}' names unknown brand '{slug}'")
-    _build(key, slug, reg["brands"][slug], reg, product, want_pdf)
+    _build(key, slug, reg["brands"][slug], reg, product, design, want_pdf, out_root)
 
 
-def build_generic(slug, brand, reg, want_pdf):
+def build_generic(slug, brand, reg, design, want_pdf, out_root=EXPORTS):
     """A brand with no product entry still gets a sheet — a generic blank form."""
-    _build(f"{slug}-datasheet-template", slug, brand, reg, GENERIC, want_pdf)
+    _build(f"{slug}-datasheet-template", slug, brand, reg, GENERIC, design, want_pdf,
+           out_root)
 
 
 # Fields gen_datasheet_html / build_product read by hard subscript. Optional keys
@@ -685,11 +714,16 @@ def _validate_products(reg):
 
 def main():
     reg = json.loads(REGISTRY.read_text(encoding="utf-8"))
+    design = json.loads(TOKENS.read_text(encoding="utf-8"))
     ap = argparse.ArgumentParser()
     ap.add_argument("--brand", help="all products for one brand slug")
     ap.add_argument("--product", help="single product key, e.g. pataraz-px22")
     ap.add_argument("--pdf", action="store_true", help="also render PDF via browse")
+    ap.add_argument("--out", type=Path, default=EXPORTS,
+                    help="root folder for the sheets (default: brand/exports); "
+                         "each sheet goes to <out>/<brand>/datasheet/")
     args = ap.parse_args()
+    out_root = args.out.resolve()
     brands = reg["brands"]
 
     if args.brand and args.product:
@@ -702,7 +736,7 @@ def main():
             raise SystemExit(f"unknown product '{args.product}' — "
                              f"choices: {', '.join(PRODUCTS)}")
         print("Building 1 datasheet...")
-        build_product(args.product, PRODUCTS[args.product], reg, args.pdf)
+        build_product(args.product, PRODUCTS[args.product], reg, design, args.pdf, out_root)
     elif args.brand:
         if args.brand not in brands:
             raise SystemExit(f"unknown brand '{args.brand}'")
@@ -710,13 +744,13 @@ def main():
         print(f"Building datasheet(s) for {args.brand}...")
         if prods:
             for k, v in prods.items():
-                build_product(k, v, reg, args.pdf)
+                build_product(k, v, reg, design, args.pdf, out_root)
         else:
-            build_generic(args.brand, brands[args.brand], reg, args.pdf)
+            build_generic(args.brand, brands[args.brand], reg, design, args.pdf, out_root)
     else:
         print(f"Building {len(PRODUCTS)} datasheet(s)...")
         for k, v in PRODUCTS.items():
-            build_product(k, v, reg, args.pdf)
+            build_product(k, v, reg, design, args.pdf, out_root)
     print("Done." + ("" if args.pdf else "  (add --pdf to render PDFs)"))
 
 

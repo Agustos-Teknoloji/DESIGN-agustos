@@ -1,7 +1,7 @@
 {
   "$schema": "https://design-tokens.github.io/community-group/format/",
   "name": "Ağustos Design System",
-  "version": "7.5.1",
+  "version": "7.6.0",
   "description": "Canonical cross-medium design values. CSS, framework adapters, and Office templates are generated consumers.",
   "meta": {
     "referenceImplementation": "https://agustos.com",
@@ -34,6 +34,15 @@
       "Copy a screen; do not design a page. Open with a headline, a deck, two buttons, and a trust line. Close with one pale red band.",
       "Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not combine them, and do not use uppercase labels, eyebrow headings, or coloured text.",
       "When unsure, do the conventional thing. Collect design tweaks and release the kit once a month; fix real defects at once."
+    ],
+    "invariants": [
+      { "rule": "One symbol and a lowercase wordmark in the identity ink. Never redrawn, never with a tagline.", "web": "The site lockup in the top menu and the footer.", "datasheet": "The lockup at the top left of every sheet.", "linkedin": "The lockup at the foot of every post image; the avatar is the symbol tile." },
+      { "rule": "Red is identity and signal only: the Ağustos logo, and on screen the link rule, focus and one marker stroke. Never a fill, a button or text colour.", "web": "The logo, the 2px link and menu rule, keyboard focus and one highlighter stroke per page. Buttons are black.", "datasheet": "No red, except the Ağustos logo.", "linkedin": "No red, except the Ağustos logo and at most one highlighter stroke in the headline." },
+      { "rule": "Three faces on one scale: Inter Tight for headings, Inter for text, JetBrains Mono for data. Headings are thin and in sentence case.", "web": "The type table (recipes.typeRoles) through the kit classes.", "datasheet": "The same faces and weights at the print sizes of recipes.document.", "linkedin": "The headline takes the H1 role, the deck the deck role." },
+      { "rule": "Spec values are data: mono figures with the unit, the label in the display face.", "web": "type-spec on the spec table or list.", "datasheet": "Every spec row.", "linkedin": "Any figure that appears in a post image." },
+      { "rule": "White paper and generous space. One title opens the page and nothing sits above it.", "web": "White paper, the section spacing, one closing band.", "datasheet": "White A4, wide margins, one product title.", "linkedin": "A white field; the headline is the only large text." },
+      { "rule": "Plain, short, active words. No all-caps labels, no label above a title, no inflated claims.", "web": "Sentence case in headings, menus and buttons.", "datasheet": "Sentence case labels; Turkish with lang=tr.", "linkedin": "One idea per post image, in sentence case." },
+      { "rule": "Text clears 4.5:1 contrast and graphics 3:1 (WCAG 2.2 AA).", "web": "The states table; the build refuses a failing pair.", "datasheet": "Ink and ink-soft on white only.", "linkedin": "Ink on white only; no text on a photograph." }
     ],
     "avoid": [
       "Red buttons, red statistics, red fills, or red text. The logo and the one highlighter stroke are the only red areas",
@@ -135,7 +144,7 @@
     },
     "fontSize": {
       "$type": "dimension",
-      "$description": "One golden scale: 16.5px times 1.272 (the square root of the golden ratio) per step, so every second step is 1.618. Steps: 13, 16.5, 21, 27, 34, 43, 55, 70, 89px. Headings shrink one or two steps on small screens. bodyCompact is the one UI size off the scale, for menus, buttons, and captions.",
+      "$description": "One golden scale: 16.5px times 1.272 (the square root of the golden ratio) per step, so every second step is 1.618. Steps: 13, 16.5, 21, 27, 34, 43, 55, 70, 89px. Headings shrink one or two steps on small screens. Two sizes are off the scale: bodyCompact for menus, buttons, tables and the hero trust line, and formField, the smallest input size that stops a phone from zooming.",
       "hero": { "$value": "clamp(55px, 7vw, 89px)" },
       "heroMedium": { "$value": "{foundations.fontSize.h1}", "$description": "Alias of h1, kept for compatibility." },
       "heroDeck": { "$value": "21px" },
@@ -143,9 +152,36 @@
       "h2": { "$value": "clamp(34px, 3.4vw, 43px)" },
       "h3": { "$value": "21px" },
       "h4": { "$value": "13px" },
+      "quote": { "$value": "21px", "$description": "Block quote. The H3 step." },
+      "pullquote": { "$value": "27px", "$description": "Pull quote. The step between H3 and H2." },
       "body": { "$value": "16.5px" },
       "bodyCompact": { "$value": "15.5px" },
-      "footnote": { "$value": "13px" }
+      "formField": { "$value": "16px", "$description": "Text inputs. A phone zooms into a field below 16px." },
+      "footnote": { "$value": "13px", "$description": "Footnotes, captions, code blocks and breadcrumbs." }
+    },
+    "lineHeight": {
+      "$type": "number",
+      "$description": "Line height per type role. Large type sets tight, reading text sets open.",
+      "hero": { "$value": 0.97 },
+      "h1": { "$value": 1 },
+      "h2": { "$value": 1.06 },
+      "h3": { "$value": 1.25 },
+      "h4": { "$value": 1.4 },
+      "pullquote": { "$value": 1.22 },
+      "quote": { "$value": 1.35 },
+      "deck": { "$value": 1.55 },
+      "body": { "$value": 1.65 },
+      "compact": { "$value": 1.5 },
+      "control": { "$value": 1 }
+    },
+    "letterSpacing": {
+      "$type": "dimension",
+      "$description": "Tracking per heading role. Large display type tightens; body text keeps the font's own spacing.",
+      "hero": { "$value": "-0.042em" },
+      "h1": { "$value": "-0.04em" },
+      "h2": { "$value": "-0.032em" },
+      "h3": { "$value": "-0.014em" },
+      "h4": { "$value": "0.005em" }
     },
     "spacing": {
       "$type": "dimension",
@@ -295,6 +331,9 @@
     },
     "hero": {
       "paddingBlockStart": { "$value": "clamp(56px, 9vw, 112px)" },
+      "breadcrumbEnd": { "$value": "{foundations.spacing.xl}", "$description": "The gap between the breadcrumb and the title below it." },
+      "metaGap": { "$value": "{foundations.spacing.sm}", "$description": "The gap between the deck and the meta line under it (date, author, revision)." },
+      "breadcrumbStart": { "$value": "{foundations.spacing.md}", "$description": "A page that opens with a breadcrumb: the trail sits this far under the top menu, not the full hero padding." },
       "paddingBlockEnd": { "$value": "clamp(8px, 1.5vw, 16px)", "$description": "Small on purpose: the first section below brings the section spacing." },
       "headline": { "$value": "hero" },
       "deckMeasure": { "$value": "{semantic.layout.readingMeasure}" },
@@ -303,6 +342,42 @@
     "section": {
       "paddingBlock": { "$value": "clamp(72px, 9vw, 104px)", "$description": "The one section spacing. Sections, the closing band, and the gap after the hero all use it." },
       "headingGap": { "$value": "{foundations.spacing.sm}" }
+    },
+    "heading": {
+      "$description": "Vertical rhythm around headings, in fixed steps. The space above a heading is larger than the space below it, so the heading binds to the text it opens.",
+      "beforeH2": { "$value": "{foundations.spacing.3xl}" },
+      "beforeH3": { "$value": "{foundations.spacing.2xl}" },
+      "afterTitle": { "$value": "{foundations.spacing.2xl}", "$description": "Below a hero headline or an H1: the title-to-deck gap." },
+      "afterH2": { "$value": "{foundations.spacing.lg}" },
+      "afterH3": { "$value": "{foundations.spacing.sm}" },
+      "afterH4": { "$value": "{foundations.spacing.xs}" }
+    },
+    "social": {
+      "$description": "LinkedIn post images. Text uses the type table at one scale factor, so a post reads like the website seen from arm's length. One idea per image: a headline, a deck, at most four spec values, and the lockup at the foot.",
+      "portrait": { "width": 1080, "height": 1350 },
+      "square": { "width": 1200, "height": 1200 },
+      "scale": { "$value": 1.5, "$description": "Multiplies each type role's largest size; a feed shows the image at about half its width." },
+      "margin": { "$value": "96px" },
+      "headlineRole": { "$value": "h1" },
+      "deckRole": { "$value": "deck" },
+      "dataRole": { "$value": "spec" },
+      "lockupHeight": { "$value": "56px" }
+    },
+    "typeRoles": {
+      "$description": "The type contract, one row per role. Every medium reads this table: the web kit, UI-KIT.md, the brand guidelines and the LinkedIn templates. Sizes, weights and spaces point at foundation tokens.",
+      "hero": { "classes": "type-hero", "family": "display", "size": "{foundations.fontSize.hero}", "weight": "{foundations.fontWeight.light}", "lineHeight": "{foundations.lineHeight.hero}", "tracking": "{foundations.letterSpacing.hero}", "after": "{recipes.heading.afterTitle}", "use": "The one headline of a home or landing page. One per page.", "avoid": "A second hero on the page; a hero on a content page (use H1)." },
+      "h1": { "classes": "h1, type-h1", "family": "display", "size": "{foundations.fontSize.h1}", "weight": "{foundations.fontWeight.light}", "lineHeight": "{foundations.lineHeight.h1}", "tracking": "{foundations.letterSpacing.h1}", "after": "{recipes.heading.afterTitle}", "use": "The title of every page that has no hero. One per page.", "avoid": "Two H1s; an H1 inside a card." },
+      "deck": { "classes": "type-hero-deck", "family": "body", "size": "{foundations.fontSize.heroDeck}", "weight": "{foundations.fontWeight.regular}", "lineHeight": "{foundations.lineHeight.deck}", "use": "One or two sentences directly under the hero or the H1 that say what the page is.", "avoid": "A deck under an H2; more than two sentences." },
+      "h2": { "classes": "h2, type-h2", "family": "display", "size": "{foundations.fontSize.h2}", "weight": "{foundations.fontWeight.regular}", "lineHeight": "{foundations.lineHeight.h2}", "tracking": "{foundations.letterSpacing.h2}", "before": "{recipes.heading.beforeH2}", "after": "{recipes.heading.afterH2}", "use": "The title of a section.", "avoid": "A label above the heading; uppercase." },
+      "h3": { "classes": "h3, type-h3", "family": "display", "size": "{foundations.fontSize.h3}", "weight": "{foundations.fontWeight.medium}", "lineHeight": "{foundations.lineHeight.h3}", "tracking": "{foundations.letterSpacing.h3}", "before": "{recipes.heading.beforeH3}", "after": "{recipes.heading.afterH3}", "use": "A subsection, or the title of a card.", "avoid": "Italic; bold to fake an H2." },
+      "h4": { "classes": "h4, type-h4", "family": "display", "size": "{foundations.fontSize.h4}", "weight": "{foundations.fontWeight.semibold}", "lineHeight": "{foundations.lineHeight.h4}", "tracking": "{foundations.letterSpacing.h4}", "before": "{recipes.heading.beforeH3}", "after": "{recipes.heading.afterH4}", "use": "A small group title: a table caption, a footer group, a form group.", "avoid": "An eyebrow label above a heading; uppercase." },
+      "body": { "classes": "p, type-body", "family": "body", "size": "{foundations.fontSize.body}", "weight": "{foundations.fontWeight.regular}", "lineHeight": "{foundations.lineHeight.body}", "use": "All running text. 1em below each paragraph.", "avoid": "A line longer than the reading line (--measure-body); grey text below 4.5:1." },
+      "compact": { "classes": "hero-trust, type-table", "family": "body", "size": "{foundations.fontSize.bodyCompact}", "weight": "{foundations.fontWeight.regular}", "lineHeight": "{foundations.lineHeight.compact}", "use": "Tables and the hero trust line.", "avoid": "Running text." },
+      "control": { "classes": "agustos-button, site-header__link, breadcrumb", "family": "display", "size": "{foundations.fontSize.bodyCompact}", "weight": "{foundations.fontWeight.semibold}", "lineHeight": "{foundations.lineHeight.control}", "use": "Buttons at 600. Menu links and breadcrumbs at 500; breadcrumbs take the footnote size.", "avoid": "Uppercase; arrows on buttons." },
+      "quote": { "classes": "blockquote, type-blockquote", "family": "display", "size": "{foundations.fontSize.quote}", "weight": "{foundations.fontWeight.regular}", "lineHeight": "{foundations.lineHeight.quote}", "use": "A quotation inside the text, in italic with a 2px ink rule.", "avoid": "Decorative quote marks; a quote as a section heading." },
+      "pullquote": { "classes": "type-pullquote", "family": "display", "size": "{foundations.fontSize.pullquote}", "weight": "{foundations.fontWeight.regular}", "lineHeight": "{foundations.lineHeight.pullquote}", "use": "One line lifted from a long article.", "avoid": "More than one per article." },
+      "footnote": { "classes": "type-footnote, figcaption", "family": "body", "size": "{foundations.fontSize.footnote}", "weight": "{foundations.fontWeight.regular}", "lineHeight": "{foundations.lineHeight.deck}", "use": "Footnotes, image captions and code blocks.", "avoid": "Any text the reader needs to act on." },
+      "spec": { "classes": "type-spec", "family": "mono", "size": "{foundations.fontSize.bodyCompact}", "weight": "{foundations.fontWeight.regular}", "lineHeight": "{foundations.lineHeight.compact}", "use": "Product specification values with units (160 W, 4200 lm). The label stays in the display face. The same on the web, the datasheet and LinkedIn.", "avoid": "Prose tables; labels in mono." }
     },
     "card": {
       "surface": { "$value": "{semantic.color.surface}" },
@@ -430,6 +505,7 @@
         "type-figure",
         "type-code-block",
         "type-table",
+        "type-spec",
         "type-divider",
         "type-footnote",
         "type-highlight",

@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.5.1 · GENERATED ASTRO ADAPTER CSS
+/* AĞUSTOS DESIGN SYSTEM v7.6.0 · GENERATED ASTRO ADAPTER CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -70,10 +70,43 @@
   /* The one section spacing: sections, the closing band, and the gap after the hero. */
   --section-space: clamp(72px, 9vw, 104px);
 
-  /* Named type sizes for adapter chrome and native platform mappings */
-  --size-footnote: 13px;
-  --size-body-compact: 15.5px;
+  /* The type contract: every size, line height and tracking on the one scale.
+     Use these names in a site's own components; never type the value. */
+  --size-hero: clamp(55px, 7vw, 89px);
+  --size-h1: clamp(43px, 4.6vw, 55px);
+  --size-h2: clamp(34px, 3.4vw, 43px);
+  --size-h3: 21px;
+  --size-h4: 13px;
+  --size-deck: 21px;
+  --size-pullquote: 27px;
+  --size-quote: 21px;
   --size-body: 16.5px;
+  --size-body-compact: 15.5px;
+  --size-form-field: 16px;
+  --size-footnote: 13px;
+  --leading-hero: 0.97;
+  --leading-h1: 1;
+  --leading-h2: 1.06;
+  --leading-h3: 1.25;
+  --leading-h4: 1.4;
+  --leading-pullquote: 1.22;
+  --leading-quote: 1.35;
+  --leading-deck: 1.55;
+  --leading-body: 1.65;
+  --leading-compact: 1.5;
+  --tracking-hero: -0.042em;
+  --tracking-h1: -0.04em;
+  --tracking-h2: -0.032em;
+  --tracking-h3: -0.014em;
+  --tracking-h4: 0.005em;
+
+  /* Heading rhythm: more space above a heading than below it. */
+  --space-before-h2: 40px;
+  --space-before-h3: 32px;
+  --space-after-title: 32px;
+  --space-after-h2: 20px;
+  --space-after-h3: 12px;
+  --space-after-h4: 8px;
 
   /* Two radii: 6px controls, 12px cards. --radius-sm is kept as an alias of md. */
   --radius-sm: 6px;
@@ -196,7 +229,7 @@ html, body {
 
 body {
   min-height: 100vh;
-  line-height: 1.65;
+  line-height: var(--leading-body);
 }
 
 img, svg { max-width: 100%; height: auto; display: block; }
@@ -214,24 +247,24 @@ img, svg { max-width: 100%; height: auto; display: block; }
 .type-hero {
   font-family: var(--display);
   font-weight: 300;
-  font-size: clamp(55px, 7vw, 89px);
-  line-height: 0.97;
-  letter-spacing: -0.042em;
+  font-size: var(--size-hero);
+  line-height: var(--leading-hero);
+  letter-spacing: var(--tracking-hero);
   text-wrap: balance;
   color: var(--ink);
   max-width: 15ch;
-  margin: 0 0 var(--space-2xl);
+  margin: 0 0 var(--space-after-title);
 }
 
 .type-hero-md {
   font-family: var(--display);
   font-weight: 300;
-  font-size: clamp(43px, 4.6vw, 55px);
-  line-height: 1;
-  letter-spacing: -0.04em;
+  font-size: var(--size-h1);
+  line-height: var(--leading-h1);
+  letter-spacing: var(--tracking-h1);
   text-wrap: balance;
   color: var(--ink);
-  margin: 0 0 var(--space-xl);
+  margin: 0 0 var(--space-after-title);
 }
 
 /* Hero deck — upright body utility, paired with either hero token.
@@ -240,10 +273,10 @@ img, svg { max-width: 100%; height: auto; display: block; }
   font-family: var(--body);
   font-weight: 400;
   font-style: normal;
-  font-size: 21px;
-  line-height: 1.55;
+  font-size: var(--size-deck);
+  line-height: var(--leading-deck);
   color: var(--ink-soft);
-  max-width: 54ch;
+  max-width: var(--measure-text);
   margin: 0;
 }
 /* The deck has no bottom margin, so the block after it would sit flush.
@@ -252,59 +285,66 @@ img, svg { max-width: 100%; height: auto; display: block; }
 :not(.stack) > .type-hero-deck + :not(.hero-actions, .hero-trust, .hero-visual) {
   margin-top: 1em;
 }
+/* The meta line: a date, an author or a revision is a type-footnote under the
+   deck, never a label above the title. The page opening reads breadcrumb,
+   title, deck, meta line, then the text. */
+.type-hero-deck + .type-footnote {
+  margin: 12px 0 var(--space-xl);
+}
 
 /* --- Headings (4) --- */
 
 /* === Vertical rhythm — three tiers ===
-   (1) BASELINE: every element has margin-bottom 1em (≈16px) → uniform prose flow.
-   (2) SECTION BREAK: a heading adds margin-top, and adjacent vertical margins
-       collapse to the LARGER value (CSS spec). Two steps, in px, not em:
-       40px (--space-3xl) above an H2, 32px (--space-2xl) above an H3 or an H4.
+   (1) BASELINE: every text element has margin-bottom 1em (about 16px) for an even prose flow.
+   (2) HEADING BREAK: a heading adds margin-top, and adjacent vertical margins
+       collapse to the LARGER value (CSS spec). Fixed steps, in px, not em:
+       40px above an H2, 32px above an H3 or an H4. Below a heading the gap is
+       smaller (32px under an H1, 20px under an H2, 12px under an H3, 8px under
+       an H4), so the heading binds to the text it opens.
    (3) Heading size and weight carry the rest of the hierarchy.
    See DESIGN.md §"Vertical rhythm" for the rationale. */
 
 h1, .type-h1 {
   font-family: var(--display);
-  font-size: clamp(43px, 4.6vw, 55px);
+  font-size: var(--size-h1);
   font-weight: 300;
-  line-height: 1;
-  letter-spacing: -0.04em;
+  line-height: var(--leading-h1);
+  letter-spacing: var(--tracking-h1);
   text-wrap: balance;
-  margin: 0 0 1em;
+  margin: 0 0 var(--space-after-title);
   color: var(--ink);
 }
 
 h2, .type-h2 {
   font-family: var(--display);
-  font-size: clamp(34px, 3.4vw, 43px);
+  font-size: var(--size-h2);
   font-weight: 400;
-  line-height: 1.06;
-  letter-spacing: -0.032em;
+  line-height: var(--leading-h2);
+  letter-spacing: var(--tracking-h2);
   text-wrap: balance;
-  /* margin-top 40px (collapses with prior body's 1em → max wins).
-     margin-bottom 1em matches baseline → consistent gap below the heading. */
-  margin: var(--space-3xl) 0 1em;
+  /* 40px above collapses with the 1em below the text before it; the larger wins. */
+  margin: var(--space-before-h2) 0 var(--space-after-h2);
   color: var(--ink);
 }
 
 h3, .type-h3 {
   font-family: var(--display);
-  font-size: 21px;
+  font-size: var(--size-h3);
   font-weight: 500;
-  line-height: 1.25;
-  letter-spacing: -0.014em;
-  margin: var(--space-2xl) 0 1em;
+  line-height: var(--leading-h3);
+  letter-spacing: var(--tracking-h3);
+  margin: var(--space-before-h3) 0 var(--space-after-h3);
   color: var(--ink);
 }
 
 h4, .type-h4 {
   font-family: var(--display);
-  font-size: 13px;
+  font-size: var(--size-h4);
   font-weight: 600;
-  line-height: 1.4;
-  letter-spacing: 0.005em;
+  line-height: var(--leading-h4);
+  letter-spacing: var(--tracking-h4);
   text-transform: none;
-  margin: var(--space-2xl) 0 1em;
+  margin: var(--space-before-h3) 0 var(--space-after-h4);
   color: var(--ink-soft);
 }
 
@@ -312,9 +352,9 @@ h4, .type-h4 {
 
 p, .type-body {
   font-family: var(--body);
-  font-size: 16.5px;
+  font-size: var(--size-body);
   font-weight: 400;
-  line-height: 1.65;
+  line-height: var(--leading-body);
   /* Baseline rhythm — 1em (≈16px) below every element. */
   margin: 0 0 1em;
   color: var(--ink);
@@ -418,17 +458,17 @@ s, del, .type-strike {
   padding: 0.25em 0 0.25em 1.25em;
   border-left: 2px solid var(--ink);
   font-family: var(--display);
-  font-size: 22px;
+  font-size: var(--size-quote);
   font-style: italic;
   font-weight: 400;
-  line-height: 1.35;
+  line-height: var(--leading-quote);
   color: var(--ink);
 }
 .type-blockquote cite, blockquote cite {
   display: block;
   margin-top: 0.6em;
   font-family: var(--display);
-  font-size: 13px;
+  font-size: var(--size-h4);
   font-weight: 600;
   font-style: normal;
   text-transform: none;
@@ -443,9 +483,9 @@ s, del, .type-strike {
   border-top: 1px solid var(--rule);
   border-bottom: 1px solid var(--rule);
   font-family: var(--display);
-  font-size: 26px;
+  font-size: var(--size-pullquote);
   font-weight: 400;
-  line-height: 1.22;
+  line-height: var(--leading-pullquote);
   letter-spacing: -0.018em;
   color: var(--ink);
   text-align: left;
@@ -459,8 +499,8 @@ s, del, .type-strike {
 
 .type-list-ol, ol {
   font-family: var(--body);
-  font-size: 16.5px;
-  line-height: 1.65;
+  font-size: var(--size-body);
+  line-height: var(--leading-body);
   padding-left: 1.5em;
   /* Content block — 1em baseline rhythm. */
   margin: 0 0 1em;
@@ -469,8 +509,8 @@ s, del, .type-strike {
 
 .type-list-ul, ul {
   font-family: var(--body);
-  font-size: 16.5px;
-  line-height: 1.65;
+  font-size: var(--size-body);
+  line-height: var(--leading-body);
   padding-left: 1.5em;
   /* Content block — 1em baseline rhythm. */
   margin: 0 0 1em;
@@ -479,7 +519,7 @@ s, del, .type-strike {
 
 .type-dl, dl {
   font-family: var(--body);
-  font-size: 16px;
+  font-size: var(--size-body);
   /* Content block — 1em baseline rhythm. */
   margin: 0 0 1em;
 }
@@ -488,6 +528,19 @@ s, del, .type-strike {
 .type-dl dt, dl dt { font-weight: 600; color: var(--ink); margin-top: 1em; }
 .type-dl dt:first-child, dl dt:first-child { margin-top: 0; }
 .type-dl dd, dl dd { margin: 0; color: var(--ink-soft); font-weight: 400; }
+
+/* Product specifications: add .type-spec to a table or a dl. The value is
+   data, so it takes the mono face in every medium (web, datasheet, social);
+   the label stays in the display face. Tabular figures keep columns of
+   numbers aligned. 0.94em matches the mono face to the size of the text
+   beside it. Use it for values with units, not for prose tables. */
+.type-spec th, .type-spec dt { font-family: var(--display); }
+.type-spec td, .type-spec dd {
+  font-family: var(--mono);
+  font-size: 0.94em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
 
 .type-figure, figure {
   /* Content block — 1em baseline rhythm. */
@@ -499,14 +552,14 @@ s, del, .type-strike {
 .type-figure figcaption, figure figcaption {
   margin-top: 0.5em;
   font-family: var(--body);
-  font-size: 13.5px;
+  font-size: var(--size-footnote);
   font-style: italic;
   color: var(--ink-soft);
 }
 
 .type-code-block, pre {
   font-family: var(--mono);
-  font-size: 13.5px;
+  font-size: var(--size-footnote);
   line-height: 1.55;
   background: var(--ink);
   color: var(--rule);
@@ -527,14 +580,14 @@ s, del, .type-strike {
   width: 100%;
   border-collapse: collapse;
   font-family: var(--body);
-  font-size: 15.5px;
+  font-size: var(--size-body-compact);
   font-variant-numeric: tabular-nums;
   /* Content block — 1em baseline rhythm. */
   margin: 0 0 1em;
 }
 .type-table th, table th {
   font-family: var(--display);
-  font-size: 13px;
+  font-size: var(--size-h4);
   font-weight: 600;
   text-transform: none;
   letter-spacing: 0.005em;
@@ -567,8 +620,8 @@ table th:last-child, table td:last-child { text-align: right; }
    content, not a quiet mark, so it has to clear 4.5:1. */
 .type-footnote {
   font-family: var(--body);
-  font-size: 13px;
-  line-height: 1.55;
+  font-size: var(--size-footnote);
+  line-height: var(--leading-deck);
   color: var(--ink-soft);
 }
 .type-footnote sup, .type-footnote .ref {
@@ -590,6 +643,20 @@ table th:last-child, table td:last-child { text-align: right; }
    brings the one section spacing. */
 .container {
   padding-block: clamp(56px, 9vw, 112px) clamp(8px, 1.5vw, 16px);
+}
+
+/* A page that opens with a breadcrumb starts close under the top menu: the
+   trail is small, so the hero padding above it reads as an empty band. The
+   same gap applies on a container and on a site frame. */
+.container:has(> nav:first-child > .breadcrumb) {
+  padding-block-start: 16px;
+}
+.site-frame > nav:first-child:has(> .breadcrumb) {
+  padding-block-start: 16px;
+}
+/* The trail is small and the title is large: 24px keeps them apart. */
+nav:has(> .breadcrumb) {
+  margin-block-end: 24px;
 }
 
 /* A reading page (the content screens: About, privacy, terms, an article, a list
@@ -707,7 +774,7 @@ table th:last-child, table td:last-child { text-align: right; }
   box-shadow: none;
   color: var(--ink);
   font-family: var(--display);
-  font-size: 15px;
+  font-size: var(--size-body-compact);
   font-weight: 600;
   line-height: 1;
   letter-spacing: 0;
@@ -760,8 +827,8 @@ table th:last-child, table td:last-child { text-align: right; }
 .hero-trust {
   margin: var(--space-2xl) 0 0;
   font-family: var(--body);
-  font-size: 15.5px;
-  line-height: 1.5;
+  font-size: var(--size-body-compact);
+  line-height: var(--leading-compact);
   color: var(--ink-soft);
 }
 
@@ -823,7 +890,7 @@ table th:last-child, table td:last-child { text-align: right; }
 }
 .agustos-section__head .type-link {
   font-family: var(--display);
-  font-size: 15.5px;
+  font-size: var(--size-body-compact);
   font-weight: 500;
   white-space: nowrap;
 }
@@ -1121,14 +1188,14 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
 .site-sidebar__group > summary:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 .site-sidebar__group > .site-sidebar__link {
   padding-inline-start: var(--space-xl);
-  font-size: 15.5px;
+  font-size: var(--size-body-compact);
 }
 .site-sidebar__group > .site-sidebar__link:hover:not([aria-current="page"], [aria-current="true"]) {
   padding-inline-start: calc(var(--space-xl) + 1px);
 }
 .site-sidebar__cta { align-self: flex-start; }
 .site-sidebar__utility { display: flex; flex-wrap: wrap; gap: var(--space-md); margin-block-start: auto; }
-.site-sidebar__note { margin: 0; color: var(--ink-soft); font-size: 13px; }
+.site-sidebar__note { margin: 0; color: var(--ink-soft); font-size: var(--size-footnote); }
 .site-sidebar-bar { display: none; }
 
 /* --- Topbar family --- */
@@ -1230,7 +1297,7 @@ html:has(.site-header) { scroll-padding-top: calc(var(--site-header-height) + va
   border-radius: var(--radius-md);
   color: var(--ink-soft);
   font-family: var(--display);
-  font-size: 15.5px;
+  font-size: var(--size-body-compact);
   font-weight: 500;
   text-decoration: none;
 }
@@ -1342,14 +1409,14 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
   background: transparent;
   color: var(--ink);
   font-family: var(--display);
-  font-size: 16px;
+  font-size: var(--size-form-field);
 }
 .site-header__search-field input::placeholder { color: var(--ink-soft); }
 .site-header__search-output { min-height: 0; overflow-y: auto; }
 .site-header__search-status {
   margin: var(--space-xs) 0 0;
   color: var(--ink-soft);
-  font-size: 13px;
+  font-size: var(--size-footnote);
   line-height: 1.45;
 }
 .site-header__search-status:empty { display: none; }
@@ -1368,7 +1435,7 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
   padding: var(--space-xs) var(--space-xs) var(--space-2xs);
   color: var(--ink-soft);
   font-family: var(--display);
-  font-size: 13px;
+  font-size: var(--size-footnote);
   font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
@@ -1399,7 +1466,7 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
   margin-top: var(--space-2xs);
   color: var(--ink-soft);
   font-family: var(--body);
-  font-size: 13px;
+  font-size: var(--size-footnote);
   line-height: 1.45;
 }
 .site-header__search-result-excerpt mark { padding: 0 0.1em; background: var(--surface); color: var(--ink); }
@@ -1442,7 +1509,7 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
   min-height: var(--control-min);
   color: var(--ink-soft);
   font-family: var(--display);
-  font-size: 15.5px;
+  font-size: var(--size-body-compact);
   font-weight: 500;
   text-decoration: none;
   transition: color var(--dur) var(--ease);
@@ -1516,7 +1583,7 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
   list-style: none;
   color: var(--ink-soft);
   font-family: var(--display);
-  font-size: 13px;
+  font-size: var(--size-footnote);
   font-weight: 500;
 }
 .breadcrumb li { display: inline-flex; align-items: center; min-height: var(--control-min); }
@@ -1629,13 +1696,19 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
 .stack { display: flex; flex-direction: column; }
 .stack > * { margin-block: 0; }
 .stack > * + * { margin-block-start: var(--stack-space, var(--space-md)); }
-/* The space after a hero headline comes first, so a larger break below wins,
-   as two collapsed margins do in the text flow. */
-.stack > .type-hero-md + * { --stack-space: var(--space-xl); }
-.stack > .type-hero + * { --stack-space: var(--space-2xl); }
+/* The gaps are the heading rhythm of the text flow (v7.6.0), so a title, a
+   heading or a hero part sits the same inside a stack as outside it. The
+   space after a title or a heading comes first, so a larger break below
+   wins, as two collapsed margins do in the text flow. */
+.stack > :is(h2, .type-h2) + * { --stack-space: var(--space-after-h2); }
+.stack > :is(h3, .type-h3) + * { --stack-space: var(--space-after-h3); }
+.stack > :is(h4, .type-h4) + * { --stack-space: var(--space-after-h4); }
+/* After the heading levels: an h2 that carries a title class is a title. */
+.stack > :is(.type-hero, .type-hero-md, h1, .type-h1) + * { --stack-space: var(--space-after-title); }
 .stack > .agustos-fieldset + * { --stack-space: var(--space-xl); }
-.stack > :is(h3, h4, .type-h3, .type-h4, .hero-actions, .hero-trust) { --stack-space: var(--space-2xl); }
-.stack > :is(h2, .type-h2) { --stack-space: var(--space-3xl); }
+.stack > :is(h3, h4, .type-h3, .type-h4) { --stack-space: var(--space-before-h3); }
+.stack > :is(.hero-actions, .hero-trust) { --stack-space: var(--space-2xl); }
+.stack > :is(h2, .type-h2) { --stack-space: var(--space-before-h2); }
 .stack > .hero-visual { --stack-space: var(--space-5xl); }
 /* The form blocks come later in this file at the same weight, so the stack
    sets their margins by name. */
@@ -1699,7 +1772,7 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
 
 .agustos-label {
   font-family: var(--display);
-  font-size: 13px;
+  font-size: var(--size-h4);
   font-weight: 600;
   line-height: 1.4;
   letter-spacing: 0.005em;
@@ -1726,7 +1799,7 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
   color: var(--ink);
   font-family: var(--body);
   /* 16px exactly: iOS zooms the viewport on focus below this. */
-  font-size: 16px;
+  font-size: var(--size-form-field);
   line-height: 1.4;
   transition:
     border-color var(--dur) var(--ease),
@@ -1886,7 +1959,7 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
   background: transparent;
   color: var(--ink-soft);
   font-family: var(--display);
-  font-size: 13px;
+  font-size: var(--size-h4);
   font-weight: 600;
   line-height: 1.5;
   letter-spacing: 0.005em;

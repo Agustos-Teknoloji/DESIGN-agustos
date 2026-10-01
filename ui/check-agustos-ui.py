@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ağustos UI kit compliance checker — v7.5.1
+"""Ağustos UI kit compliance checker — v7.6.0
 
 GENERATED. Do not hand-edit. Regenerate with:
     python3 scripts/build_design_system.py
@@ -28,7 +28,7 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 
-KIT_VERSION = "7.5.1"
+KIT_VERSION = "7.6.0"
 REPOSITORY = "Agustos-Teknoloji/DESIGN-agustos"
 LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json"
 
@@ -68,6 +68,7 @@ KIT_CLASSES = {
     "type-figure",
     "type-code-block",
     "type-table",
+    "type-spec",
     "type-divider",
     "type-footnote",
     "type-highlight",

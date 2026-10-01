@@ -23,10 +23,10 @@ const fmt = new Intl.DateTimeFormat(post.data.lang === 'tr' ? 'tr-TR' : 'en-GB',
   searchKind="post"
 >
   <article class="container container--reading" lang={post.data.lang}>
-    <header class="post-header">
-      <p class="type-h4">{fmt.format(post.data.date)}</p>
+    <header>
       <h1 class="type-h1">{post.data.title}</h1>
-      {post.data.deck && <p class="type-body post-deck"><em>{post.data.deck}</em></p>}
+      {post.data.deck && <p class="type-hero-deck">{post.data.deck}</p>}
+      <p class="type-footnote"><time datetime={post.data.date.toISOString().slice(0, 10)}>{fmt.format(post.data.date)}</time></p>
     </header>
 
     <hr class="type-divider" />
@@ -36,12 +36,3 @@ const fmt = new Intl.DateTimeFormat(post.data.lang === 'tr' ? 'tr-TR' : 'en-GB',
     </div>
   </article>
 </BaseLayout>
-
-<style>
-  /* Post header — date → H1 → deck. Same baseline rhythm as the article body. */
-  .post-header { margin-bottom: 2.5rem; }
-  .post-deck { font-size: 18px; color: var(--ink-soft); margin-top: 1.4em; }
-
-  /* Markdown-rendered content needs no rules here: tokens.css styles bare
-     h1–h4 and p the same as their .type-* classes. */
-</style>

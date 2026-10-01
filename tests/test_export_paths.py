@@ -41,7 +41,7 @@ class ExportPathsTest(unittest.TestCase):
             slug = product["brand"]
             out = tmp / "datasheet" / f"{key}.html"
             out.parent.mkdir(parents=True, exist_ok=True)
-            datasheet.gen_datasheet_html(slug, cls.reg["brands"][slug], cls.reg, product, out,
+            datasheet.gen_datasheet_html(slug, cls.reg["brands"][slug], cls.reg, product, design, out,
                                          BRAND / "exports" / slug / "lockup")
             cls.pages[out] = out.read_text(encoding="utf-8")
         for slug, brand in cls.reg["brands"].items():
