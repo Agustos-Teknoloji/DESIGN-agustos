@@ -11,6 +11,7 @@ All notable changes to the Ağustos Design System are documented in this file.
 ### Fixed
 
 - The datasheet and brand guidelines HTML (`brand/build_datasheet.py`, `brand/build_guidelines.py`) reference fonts, lockups and SVG drawings by paths relative to the HTML file. Before, they used absolute `file:///` URLs of the folder that ran the build, so the HTML fell back to system fonts on another machine or after a worktree was deleted. Each rebuild from another folder also changed every line that held a path. The PDFs embed their fonts and did not change. `tests/test_export_paths.py` fails on a `file:` URL and on a reference that does not resolve. The committed exports change on the next rebuild.
+- Rebuilt the six datasheets and the three guidelines on the relative paths (Emre asked, 2026-10-01). The HTML holds no `file:` URL; only the path lines changed. `pdfinfo` confirms 14 pages for each guidelines PDF and 1 page for each datasheet, and `pdffonts` shows Inter, Inter Tight and JetBrains Mono embedded in each PDF.
 
 ## [7.6.0] - 2026-10-01
 
