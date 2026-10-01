@@ -1068,6 +1068,22 @@ class ChromeTest(unittest.TestCase):
         start = self.CSS.index("@media print {")
         self.assertIn(".agustos-contents", self.CSS[start:start + 400])
 
+    def test_audit_defects_stay_fixed(self):
+        """v7.5.1, from the 2026-10-01 kit audit. Each one was measured in a
+        browser before and after the fix."""
+        # A kit class that sets display outweighed the browser's [hidden] rule.
+        self.assertIn('[hidden]:not([hidden="until-found"]) { display: none !important; }', self.CSS)
+        # A card without a link does not answer the pointer; a marked card keeps its rule.
+        self.assertNotIn(".agustos-card:hover {", self.CSS)
+        self.assertIn(".agustos-card:has(:is(h2, h3, h4) > a):hover {", self.CSS)
+        self.assertIn(".agustos-card--marked:has(:is(h2, h3, h4) > a):hover {\n  border-left-color: var(--ink);\n}", self.CSS)
+        # a:hover turned the skip link red on its ink box (3.35:1).
+        self.assertIn(".skip-link:hover { color: var(--paper); }", self.CSS)
+        # A printer drops backgrounds: code and the primary button print as outlines.
+        print_block = self.CSS[self.CSS.index("@media print {"):]
+        self.assertIn("  .agustos-button--primary {\n    background: none;\n    color: var(--ink);\n  }", print_block)
+        self.assertIn(".type-code-block { border: 1px solid var(--ink-faint); }", print_block)
+
     def test_layout_layer_is_published(self):
         declared = TOKENS["compatibility"]["cssClasses"]
         for name in ("stack", "cluster", "grid-2", "grid-3", "grid-4", "grid-aside", "band", "band--cream", "prose"):

@@ -4,6 +4,18 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.5.1] - 2026-10-01
+
+A defect patch from the 2026-10-01 kit audit. Emre asked for it after v7.5.0. Each defect was measured in a browser before and after the fix. Consuming sites change no markup. A site that patched `[hidden]` itself, as memregunes.com does in `home.css`, can remove the patch.
+
+### Fixed
+
+- The `hidden` attribute hides every element. A kit class that sets `display` outweighed the browser's own rule: a hidden `agustos-button` showed as `inline-flex`, a hidden `stack` as `flex`. Both now compute to `none`. `hidden="until-found"` keeps the browser's find-in-page behaviour.
+- A card takes the hover only when its heading holds a link. A card without a link darkened its border on hover and signalled a click that did nothing, as the app-shell stat cards did.
+- A marked card keeps its 2px ink rule on hover. The hover set all four borders, so the rule faded to the 30% gray.
+- A hovered skip link keeps white text on its ink box. `a:hover` turned it red: 3.35:1, below the 4.5:1 text floor.
+- Code blocks and the primary button print as outlines. The print dialog drops backgrounds by default, so the light code text printed at about 1.2:1 and the button printed white on white. The outlines read the same with background graphics on or off (checked with a headless Chrome PDF before and after).
+
 ## [7.5.0] - 2026-10-01
 
 A minor release from the memregunes.com home review. Emre asked for the kit fix on 2026-10-01, and chose four hero layouts. Consuming sites change no markup for the stack fix. A site that added its own margins inside a `.stack` to work around it can remove them.
