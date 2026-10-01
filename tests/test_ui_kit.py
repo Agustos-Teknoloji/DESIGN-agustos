@@ -194,6 +194,17 @@ class TypeContractTest(unittest.TestCase):
         # v7.6.1: the 1em rule after a deck is more specific, so it must skip the meta line.
         # It did not, and the line sat 13px (1em of the footnote) under the deck.
         self.assertIn(":not(.stack) > .type-hero-deck + :not(.hero-actions, .hero-trust, .hero-visual, .type-footnote) {", self.CSS)
+        # v7.6.2: a page with no deck puts the meta line under the title, and the
+        # text starts 24px below it, as after a deck. agustos.com showed 13px.
+        self.assertIn(":not(.stack) > :is(h1, .type-h1, .type-hero, .type-hero-md) + .type-footnote {\n  margin-block-end: var(--space-xl);\n}", self.CSS)
+        # A stack is a flex column, so margins add up there: 24px on the meta line
+        # plus the 16px gap gave 40px. Both rules skip a stack, and the stack sets
+        # the same spaces. A heading below keeps its break (:where, same weight, earlier).
+        self.assertIn(":not(.stack) > .type-hero-deck + .type-footnote {", self.CSS)
+        self.assertIn(".stack > .type-hero-deck + .type-footnote { --stack-space: 12px; }", self.CSS)
+        meta = ".stack > :where(h1, .type-h1, .type-hero, .type-hero-md, .type-hero-deck) + .type-footnote + * { --stack-space: var(--space-xl); }"
+        self.assertIn(meta, self.CSS)
+        self.assertLess(self.CSS.index(meta), self.CSS.index(".stack > :is(h2, .type-h2) { --stack-space: var(--space-before-h2); }"))
         for screen in sorted((ROOT / "screens").glob("*.html")):
             html = screen.read_text(encoding="utf-8")
             with self.subTest(screen=screen.name):
@@ -1131,6 +1142,13 @@ class ChromeTest(unittest.TestCase):
         self.assertIn("min-height: var(--control-min);\n  padding-inline-start: var(--space-md);", self.CSS)
         self.assertIn("@media (min-width: 1280px) {\n  .agustos-contents {\n    position: absolute;", self.CSS)
         self.assertIn("inset-inline-start: calc(var(--measure-gutter) + var(--measure-body) + var(--space-xl));", self.CSS)
+        # v7.6.2: a page that opens with a breadcrumb starts 16px under the menu,
+        # so the list starts under the trail (16 + 44 + 24px) to sit level with the H1.
+        self.assertIn(
+            "  .container--reading:has(> nav:first-child > .breadcrumb) > .agustos-contents {\n"
+            "    padding-block-start: calc(16px + var(--control-min) + 24px);\n  }",
+            self.CSS,
+        )
         self.assertIn("@supports selector(::details-content) {", self.CSS)
         self.assertIn("    .agustos-contents::details-content {\n      display: block;\n      content-visibility: visible;\n      position: sticky;", self.CSS)
         self.assertIn("max-block-size: calc(100vh - var(--site-header-height) - 2 * var(--space-xl));", self.CSS)
