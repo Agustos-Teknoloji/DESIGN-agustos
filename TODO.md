@@ -6,11 +6,13 @@ Kit v7.6.0 on the four v7 websites (2026-10-01, branch `claude/websites-latest-k
 
 - [x] CHANGELOG.md: the second `[7.6.0]` heading is v7.5.0 (mislabelled in the renumber merge).
 - [x] Kit v7.6.1: the meta line sat 13px under the deck, not 12px (found on WEBSITE-pldturkiye PR 55). Selector fix, test, build, gate.
-- [ ] Merge the v7.6.1 PR; the workflow tags it. Then move the four site PRs from v7.6.0 to v7.6.1, and run `/design-push` from `main`.
-- [ ] agustos.com (v7.4.2): vendor v7.6.0, date line under the deck, checker, build, browser check, PR.
+- [x] Merge the v7.6.1 PR (PR 95, tagged). memregunes.com (PR 37) and pldturkiye.com (PR 55) merged on v7.6.1.
+- [x] Kit v7.6.2 (branch `claude/kit-7.6.2-opening-gaps`): the contents list sits level with the H1 under a breadcrumb; a meta line with no deck and a meta line in a stack take 24px before the next block. Found on WEBSITE-agustos PR 167.
+- [ ] Merge the v7.6.2 PR. Move agustos.com (PR 167) and iesdesk.com (PR 305) to v7.6.2, then merge them. Run `/design-push` from `main`.
+- [ ] agustos.com (v7.4.2): PR WEBSITE-agustos#167 on v7.6.1; breadcrumb moved into the container on 27 pages. Move to v7.6.2.
 - [x] memregunes.com (v7.5.1): PR WEBSITE-memregunes#37. The `[hidden]` patch was already gone; no stack workarounds found.
 - [x] pldturkiye.com (v7.3.5): PR WEBSITE-pldturkiye#55. Chrome script back to a plain import.
-- [ ] iesdesk.com (v7.4.2): same, in APP-iesdesk.
+- [ ] iesdesk.com (v7.4.2): PR APP-iesdesk#305 on v7.6.1. Move to v7.6.2.
 - [ ] CONTEXT-agustos `ops/fleet.md`: Kit cells for the four sites after the merges.
 
 One brand in every medium (2026-10-01, branch `claude/brand-guideline-minimum-classes-f6c98d`). Emre chose steps 1 and 2 for the three media that matter in the next six months: websites, datasheets and LinkedIn. Emre chose on 2026-10-01: mono for spec values everywhere, fix the datasheet code and rebuild the PDFs later, add a LinkedIn post template, one release (v7.6.0) after a before/after preview of the heading rhythm. Record: MEMORY.md 2026-10-01 one-brand-every-medium.

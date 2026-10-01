@@ -4,6 +4,21 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.6.2] - 2026-10-01
+
+A defect patch from the agustos.com move to v7.6.1 (WEBSITE-agustos PR 167). Emre asked for it before the last two site PRs merge. Each defect was measured in a browser before and after the fix. Consuming sites change no markup. A site that added its own space under a meta line, as agustos.com does on `.post-header`, can remove it.
+
+### Fixed
+
+- "On this page" sits level with the H1 when the page opens with a breadcrumb. At 1280px and wider the list kept the 112px hero padding, but since v7.6.0 such a page starts 16px under the menu. The list title sat 28px below the top of the H1. It now starts under the trail (16 + 44 + 24px). Measured at 1440px: 28px to 0. A page with no breadcrumb does not change.
+- A meta line with no deck above it takes 24px before the text, as it does after a deck. It took 1em of its own size: 13px on the agustos.com cookie pages.
+- Inside a `stack`, the meta line keeps the same spaces. A stack is a flex column, so margins add up: the v7.6.0 meta-line margin plus the stack gap gave 40px before body text and 56px before buttons. Both meta-line margins now skip a stack, and the stack sets 12px under a deck and 24px to the next block through `--stack-space`. A heading below keeps its own break (40px before an H2).
+- Measured on all 9 screens at 1440 and 390px: no box moves, because no screen holds one of these three cases.
+
+### Documentation
+
+- UI-KIT.md and DESIGN.md: a page with no deck puts the meta line under the title, with 24px before the text; the contents list sits level with the H1, with or without a breadcrumb.
+
 ## [7.6.1] - 2026-10-01
 
 A defect patch. It fixes the meta-line gap, found while four sites moved to v7.6.0 (WEBSITE-pldturkiye PR 55), and the paths in the exported HTML. Consuming sites change no markup.

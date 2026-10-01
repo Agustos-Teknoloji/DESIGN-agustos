@@ -1,4 +1,4 @@
-# Ağustos UI kit — v7.6.1
+# Ağustos UI kit — v7.6.2
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -45,11 +45,11 @@ Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and
 
 npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-Prototypes with no build step may link the CDN copies. **Pin to `@v7.6.1`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
+Prototypes with no build step may link the CDN copies. **Pin to `@v7.6.2`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.1/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.1/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.2/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.2/ui/agustos.css">
 ```
 
 ## Page skeleton
@@ -174,7 +174,7 @@ One table sets every text role. The same rows feed `kit.json` (`typeRoles`), the
 | footnote | `type-footnote` `figcaption` | body | 13px | 400 | 1.55 | - / 1em | Footnotes, image captions and code blocks. | Any text the reader needs to act on. |
 | spec | `type-spec` | mono | 15.5px | 400 | 1.5 | - / 1em | Product specification values with units (160 W, 4200 lm). The label stays in the display face. The same on the web, the datasheet and LinkedIn. | Prose tables; labels in mono. |
 
-**Space.** Every paragraph, list, table and figure takes 1em below it; do not add margins. A heading takes more space above it than below, so it belongs to the text it opens; a heading that opens a section, a card or a band drops the space above, because the container owns that edge. A hero headline or an H1 sits 32px above its deck, with no label, date or eyebrow above it. A page that opens with a breadcrumb (`nav` > `ol.breadcrumb`, the first child of the `container` or `site-frame`) starts 16px under the top menu, and the title sits 24px under the trail. A date, author or revision is a `type-footnote` line directly under the deck. `agustos-section` and `band` take `--section-space` (72 to 104px) above and below; two sections in a row share one gap and no rule. On a reading page a section takes the 40px H2 break instead. Inside a component use the scale, never a literal: `--space-2xs` 4, `-xs` 8, `-sm` 12, `-md` 16, `-lg` 20, `-xl` 24, `-2xl` 32, `-3xl` 40, `-4xl` 48, `-5xl` 64, `-6xl` 80px. Running text ends on `--measure-body` (about 75 characters); a deck ends at `--measure-text`.
+**Space.** Every paragraph, list, table and figure takes 1em below it; do not add margins. A heading takes more space above it than below, so it belongs to the text it opens; a heading that opens a section, a card or a band drops the space above, because the container owns that edge. A hero headline or an H1 sits 32px above its deck, with no label, date or eyebrow above it. A page that opens with a breadcrumb (`nav` > `ol.breadcrumb`, the first child of the `container` or `site-frame`) starts 16px under the top menu, and the title sits 24px under the trail. A date, author or revision is a `type-footnote` line directly under the deck, or under the title when the page has no deck; the text starts 24px below it, in a `stack` too. `agustos-section` and `band` take `--section-space` (72 to 104px) above and below; two sections in a row share one gap and no rule. On a reading page a section takes the 40px H2 break instead. Inside a component use the scale, never a literal: `--space-2xs` 4, `-xs` 8, `-sm` 12, `-md` 16, `-lg` 20, `-xl` 24, `-2xl` 32, `-3xl` 40, `-4xl` 48, `-5xl` 64, `-6xl` 80px. Running text ends on `--measure-body` (about 75 characters); a deck ends at `--measure-text`.
 
 ## Variables
 

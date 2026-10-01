@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.6.1 · GENERATED CANONICAL PLATFORM-NEUTRAL CSS
+/* AĞUSTOS DESIGN SYSTEM v7.6.2 · GENERATED CANONICAL PLATFORM-NEUTRAL CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -287,9 +287,15 @@ img, svg { max-width: 100%; height: auto; display: block; }
 }
 /* The meta line: a date, an author or a revision is a type-footnote under the
    deck, never a label above the title. The page opening reads breadcrumb,
-   title, deck, meta line, then the text. */
-.type-hero-deck + .type-footnote {
+   title, deck, meta line, then the text.
+   A stack sets the same spaces through --stack-space (see .stack). */
+:not(.stack) > .type-hero-deck + .type-footnote {
   margin: 12px 0 var(--space-xl);
+}
+/* With no deck, the meta line sits under the title, and the text starts the
+   same 24px below it (v7.6.2). The title sets the top. */
+:not(.stack) > :is(h1, .type-h1, .type-hero, .type-hero-md) + .type-footnote {
+  margin-block-end: var(--space-xl);
 }
 
 /* --- Headings (4) --- */
@@ -735,6 +741,11 @@ nav:has(> .breadcrumb) {
     margin: 0;
     padding-block-start: clamp(56px, 9vw, 112px);
     border-block: 0;
+  }
+  /* A page that opens with a breadcrumb starts close under the menu (v7.6.0),
+     so the list starts under the 44px trail and sits level with the H1. */
+  .container--reading:has(> nav:first-child > .breadcrumb) > .agustos-contents {
+    padding-block-start: calc(16px + var(--control-min) + 24px);
   }
   .agustos-contents__list { margin-block-end: 0; }
   /* Browsers without ::details-content (Safari before 18.4) keep the folded
@@ -1706,6 +1717,10 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
 /* After the heading levels: an h2 that carries a title class is a title. */
 .stack > :is(.type-hero, .type-hero-md, h1, .type-h1) + * { --stack-space: var(--space-after-title); }
 .stack > .agustos-fieldset + * { --stack-space: var(--space-xl); }
+/* The meta line (v7.6.2): 12px under a deck, and 24px to the block after it.
+   :where keeps the second rule light, so a heading break below still wins. */
+.stack > .type-hero-deck + .type-footnote { --stack-space: 12px; }
+.stack > :where(h1, .type-h1, .type-hero, .type-hero-md, .type-hero-deck) + .type-footnote + * { --stack-space: var(--space-xl); }
 .stack > :is(h3, h4, .type-h3, .type-h4) { --stack-space: var(--space-before-h3); }
 .stack > :is(.hero-actions, .hero-trust) { --stack-space: var(--space-2xl); }
 .stack > :is(h2, .type-h2) { --stack-space: var(--space-before-h2); }
