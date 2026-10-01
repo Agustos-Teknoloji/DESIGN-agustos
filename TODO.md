@@ -2,6 +2,12 @@
 
 ## Now
 
+Relative paths in the datasheet and guidelines HTML (2026-10-01, branch `claude/clever-cannon-9b728e`). Emre asked for it. Record: MEMORY.md 2026-10-01 export-relative-paths.
+
+- [x] `rel_url` in both builders; `tests/test_export_paths.py`; scratch PDF render (fonts embedded, 1 and 13 pages); CHANGELOG.
+- [ ] PR to `main`.
+- [ ] Rebuild the datasheet and guidelines exports only when Emre asks; then confirm the page counts with `pdfinfo`.
+
 Kit v7.5.1: four defects from the kit audit (2026-10-01, branch `claude/kit-7.5.1-defects`, stacked on v7.5.0). Emre asked for it. Record: MEMORY.md 2026-10-01 audit-defects.
 
 - [x] `[hidden]`, card hover, skip-link hover, print outlines; test; `VERSION` 7.5.1; CHANGELOG; DESIGN.md; build; before and after browser check.

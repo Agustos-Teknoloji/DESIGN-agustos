@@ -8,7 +8,7 @@ luminaire so the field structure is self-documenting. Same generate-don't-mainta
 contract as the rest of the kit: the brand chrome (lockup, colour, footer) resolves
 from brands.json; you fill in the product data.
 
-  exports/<brand>/datasheet/<product-key>.html   source (embeds fonts + lockup)
+  exports/<brand>/datasheet/<product-key>.html   source (links fonts + lockup by relative path)
   exports/<brand>/datasheet/<product-key>.pdf     rendered by browse (with --pdf)
 
 A datasheet is half template, half data. The brand half comes from brands.json; the
@@ -29,15 +29,22 @@ import argparse
 import base64
 import json
 import mimetypes
+import os
 import re
 import subprocess
 from pathlib import Path
+from urllib.parse import quote
 
 BRAND_DIR = Path(__file__).resolve().parent
 ROOT = BRAND_DIR.parent
 REGISTRY = BRAND_DIR / "brands.json"
 FONTS = BRAND_DIR / "fonts"
 BROWSE = Path.home() / ".claude/skills/gstack/browse/dist/browse"
+
+
+def rel_url(target: Path, out_dir: Path) -> str:
+    """A URL for target relative to out_dir, so the HTML works from any folder or machine."""
+    return quote(Path(os.path.relpath(target.resolve(), out_dir.resolve())).as_posix())
 
 
 def hexrgb(h):
@@ -419,20 +426,20 @@ GENERIC = {
 # HTML fragments
 # ----------------------------------------------------------------------------
 
-def _img_data_uri(path: Path) -> str:
-    """Base64 data URI so the datasheet HTML stays self-contained and portable
-    (the image travels inside the file, like the embedded fonts and lockup)."""
+def _img_data_uri(path: Path, out_dir: Path) -> str:
+    """Base64 data URI so the raster image travels inside the datasheet HTML.
+    An SVG stays a vector file, referenced by a path relative to the HTML."""
     mime = mimetypes.guess_type(str(path))[0] or "image/jpeg"
-    if mime == "image/svg+xml":  # SVG: reference by file URI (vector, stays crisp)
-        return path.resolve().as_uri()
+    if mime == "image/svg+xml":
+        return rel_url(path, out_dir)
     data = base64.b64encode(path.read_bytes()).decode()
     return f"data:{mime};base64,{data}"
 
 
-def _visual_slot(label, sub, img_path):
+def _visual_slot(label, sub, img_path, out_dir):
     """A photo/drawing slot: real image if given, else a dashed placeholder."""
     if img_path and Path(img_path).exists():
-        inner = f'<img src="{_img_data_uri(Path(img_path))}" alt="{label}">'
+        inner = f'<img src="{_img_data_uri(Path(img_path), out_dir)}" alt="{label}">'
         cls = "slot has-img"
     else:
         inner = (f'<div class="ph"><div class="ph-mark">+</div>'
@@ -467,15 +474,16 @@ def gen_datasheet_html(slug, brand, reg, product, out: Path, lk_dir: Path):
     color = brand["color"]
     signal = reg["signal"]["color"]
     title, domain = brand["title"], brand.get("domain", "")
-    it = (FONTS / "inter-tight" / "InterTight[wght].ttf").as_uri()
-    inr = (FONTS / "inter" / "Inter[opsz,wght].ttf").as_uri()
-    mono = (FONTS / "jetbrains-mono" / "JetBrainsMono[wght].ttf").as_uri()
-    pos = (lk_dir / f"{slug}-lockup__positive.svg").as_uri()
+    here = out.parent
+    it = rel_url(FONTS / "inter-tight" / "InterTight[wght].ttf", here)
+    inr = rel_url(FONTS / "inter" / "Inter[opsz,wght].ttf", here)
+    mono = rel_url(FONTS / "jetbrains-mono" / "JetBrainsMono[wght].ttf", here)
+    pos = rel_url(lk_dir / f"{slug}-lockup__positive.svg", here)
 
     photo = _visual_slot("Ürün görseli", "ürün fotoğrafını buraya ekleyin",
-                         product.get("photo"))
+                         product.get("photo"), here)
     drawing = _visual_slot("Teknik çizim", product.get("dim_note", "ölçüler — mm"),
-                          product.get("drawing"))
+                          product.get("drawing"), here)
 
     # Ordering matrix + certifications are optional — omit the section when the
     # product has none (e.g. a single tunable SKU with no published variants).
