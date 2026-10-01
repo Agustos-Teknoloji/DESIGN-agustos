@@ -1,4 +1,4 @@
-"""The datasheet and guidelines HTML must reference fonts and images by paths
+"""The datasheet, guidelines and social-post HTML must reference fonts and images by paths
 relative to the HTML file. An absolute file:/// URL names the folder that ran the
 build, so the page falls back to system fonts on any other machine, in the handoff
 zip, or after that folder is deleted."""
@@ -33,7 +33,8 @@ class ExportPathsTest(unittest.TestCase):
         cls.reg = json.loads((BRAND / "brands.json").read_text(encoding="utf-8"))
         design = json.loads((ROOT / "tokens" / "resolved.json").read_text(encoding="utf-8"))
         datasheet, guidelines = load("build_datasheet"), load("build_guidelines")
-        cls.datasheet, cls.guidelines = datasheet, guidelines
+        social = load("build_social_posts")
+        cls.builders = (datasheet, guidelines, social)
         cls.pages = {}
         cls.tmp = tempfile.TemporaryDirectory()
         tmp = Path(cls.tmp.name)
@@ -52,6 +53,9 @@ class ExportPathsTest(unittest.TestCase):
             guidelines.gen_guidelines_html(slug, brand, cls.reg, design, out,
                                            BRAND / "exports" / slug / "lockup", "0.0.0")
             cls.pages[out] = out.read_text(encoding="utf-8")
+        for key, post in social.POSTS.items():
+            for out in social.build_post(key, post, cls.reg, design, out_root=tmp / "social"):
+                cls.pages[out] = out.read_text(encoding="utf-8")
 
     @classmethod
     def tearDownClass(cls):
@@ -73,7 +77,7 @@ class ExportPathsTest(unittest.TestCase):
 
     def test_paths_from_the_export_folder_reach_the_fonts(self):
         """From brand/exports/<brand>/datasheet/, the fonts sit three folders up."""
-        for builder in (self.datasheet, self.guidelines):
+        for builder in self.builders:
             with self.subTest(builder=builder.__name__):
                 out_dir = BRAND / "exports" / "pataraz" / "datasheet"
                 url = builder.rel_url(BRAND / "fonts" / "inter" / "Inter[opsz,wght].ttf", out_dir)
