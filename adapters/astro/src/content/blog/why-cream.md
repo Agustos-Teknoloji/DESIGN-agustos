@@ -29,6 +29,6 @@ Three things:
 
 1. A calm reading surface that does not compete with type.
 2. One cream band that can close the page without putting a primary button in every section.
-3. The same six colours on dark product UI, flipped. Marketing stays light.
+3. The same six colours on dark, flipped. Every page starts light; the user may switch.
 
 The `--paper` and `--cream` variables still swap in one line. Same tokens, same rules. Cream is a band, not a substrate.

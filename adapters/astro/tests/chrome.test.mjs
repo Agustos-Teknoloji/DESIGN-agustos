@@ -91,6 +91,7 @@ test('every page names its screen on <body>', async () => {
 test('header search matches the production interaction contract', async () => {
   const header = await read('src/components/Header.astro');
   const search = await read('src/components/HeaderSearch.astro');
+  const utility = await read('src/components/HeaderUtility.astro');
 
   assert.match(header, /const SEARCH_THRESHOLD = 2/);
   assert.match(header, /await delay\(180\)/);
@@ -101,13 +102,17 @@ test('header search matches the production interaction contract', async () => {
   assert.match(header, /popovertarget="site-header-panel"/);
   assert.match(header, /config\.theme === true/);
   assert.match(header, /agustos-button agustos-button--primary site-header__cta/);
-  assert.match(header, /setAttribute\('data-theme', 'dark'\)/);
+  assert.match(utility, /data-agustos-theme/);
+  assert.doesNotMatch(header, /data-theme-toggle/);
   assert.match(header, /header-search-panel-desktop-\$\{idSuffix\}/);
   assert.match(header, /header-search-panel-responsive-\$\{idSuffix\}/);
   assert.match(header, /groups\.forEach\(\(group\) => renderGroup/);
   assert.match(search, /desktop-dropdown/);
   assert.match(search, /responsive-row/);
-  assert.match(await read('src/styles/tokens.css'), /\.site-header__search-field input \{[^}]*font-size: 16px;/);
+  // iOS zooms into a field under 16px. The kit sets the size through --size-form-field (v7.5.0).
+  const tokens = await read('src/styles/tokens.css');
+  assert.match(tokens, /\.site-header__search-field input \{[^}]*font-size: var\(--size-form-field\);/);
+  assert.match(tokens, /--size-form-field: 16px;/);
 });
 
 test('header and footer use the shared frame and accessible control sizes', async () => {
@@ -152,4 +157,25 @@ test('homepage follows locked marketing composition', async () => {
   assert.doesNotMatch(page, /data-theme-toggle|setTheme/);
   assert.match(layout, /header\.theme === true/);
   assert.match(header, /config\.theme === true/);
+});
+
+test('the theme switch is the kit switch, and every page starts light', async () => {
+  const utility = await read('src/components/HeaderUtility.astro');
+  const header = await read('src/components/Header.astro');
+  const layout = await read('src/layouts/BaseLayout.astro');
+  const typography = await read('src/pages/typography.astro');
+  assert.match(utility, /class="site-header__icon-btn agustos-theme-switch" data-agustos-theme/);
+  assert.match(utility, /agustos-theme-switch__to-dark/);
+  assert.match(utility, /agustos-theme-switch__to-light/);
+  assert.match(utility, /themeToDark: 'Koyu tema', themeToLight: 'Açık tema'/);
+  assert.match(utility, /themeToDark: 'Dark theme', themeToLight: 'Light theme'/);
+  assert.match(header, /lang=\{locale\}/);
+  // One handler: the kit script. The layout never renders a dark page on the server.
+  assert.doesNotMatch(header + utility, /localStorage|setAttribute\('data-theme'/);
+  assert.doesNotMatch(layout, /data-theme=\{|theme\?: 'light' \| 'dark'/);
+  assert.match(layout, /<script is:inline set:html=\{THEME_SCRIPT\} \/>/);
+  const head = layout.slice(layout.indexOf('<head>'), layout.indexOf('</head>'));
+  assert.ok(head.indexOf('name="viewport"') < head.indexOf('THEME_SCRIPT'), 'the head script follows the viewport meta');
+  assert.doesNotMatch(typography, /theme-inspect|dataset\.theme/);
+  assert.match(typography, /header=\{\{ theme: true \}\}/);
 });

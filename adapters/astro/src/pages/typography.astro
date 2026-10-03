@@ -24,13 +24,11 @@ const portfolio = [
   screen="content"
   title="Typography showcase — Ağustos Design System v7.0.0"
   description="Every published type token, exercised on one page."
+  header={{ theme: true }}
 >
   <article class="container container--reading">
     <p class="type-h4">Handbook inspect</p>
-    <p class="type-body">This page is a type showcase, not marketing chrome. The control inspects product-UI dark. Marketing pages do not ship a theme toggle.</p>
-    <p>
-      <button class="agustos-button agustos-button--secondary" type="button" id="theme-inspect">Dark theme</button>
-    </p>
+    <p class="type-body">This page is a type showcase. The theme switch shows the dark theme, which every site may offer.</p>
 
     {/* ---- Hero showcase ---- */}
     <section style="margin-bottom: 4rem;">
@@ -96,8 +94,8 @@ const portfolio = [
     <p class="type-body">
       White symbol and wordmark on the registered identity tile (DESIGN.md §"Three expressions"). For
       monograms, identity tiles, social avatars, and hero stamps. Favicons use the shared red
-      <code>master.svg</code> instead. The reverse marks use the kit cream, which stays light in
-      both themes, so the tile reads correctly in light and dark.
+      <code>master.svg</code> instead. The reverse marks use the kit cream. Cream (light gray in the
+      dark theme) stays light in both themes, so the negative lockup keeps contrast on every identity tile.
     </p>
 
     <div class="portfolio-negative">
@@ -230,11 +228,6 @@ const portfolio = [
       body.classList.add(`brand-${brand}`);
     });
   });
-
-  document.getElementById('theme-inspect')?.addEventListener('click', () => {
-    const root = document.documentElement;
-    root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
-  });
 </script>
 
 <style>
@@ -317,8 +310,8 @@ const portfolio = [
     }
   }
   .portfolio-negative__tile {
-    /* Identity tile. Cream stays light in both themes, so the negative
-       lockup keeps contrast on every identity tile.
+    /* Identity tile. Cream (light gray in the dark theme) stays light in both
+       themes, so the negative lockup keeps contrast on every identity tile.
        Do not use --footer-ink here: the footer is light since kit v7. */
     --lockup-color: var(--cream);
     background: var(--brand);

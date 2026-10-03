@@ -34,7 +34,7 @@ export interface HeaderConfig {
   moreLabel?: string;
   cta?: ChromeLink | null;
   languageSwitch?: LanguageSwitch | null;
-  /** Product UI only. Marketing chrome omits the theme toggle. */
+  /** Adds the theme switch. The user picks dark; a page starts light. */
   theme?: boolean;
   search?: boolean | { labels?: Partial<SearchLabels> };
 }
@@ -46,7 +46,7 @@ export interface FooterGroup {
 }
 
 /**
- * The footer is light: the lockup, one footnote line, and one row of links for
+ * The footer follows the theme: the lockup, one footnote line, and one row of links for
  * social, legal, and language. No button. An optional site map sits above that
  * row: the lockup with an address block, and at most three short groups.
  */

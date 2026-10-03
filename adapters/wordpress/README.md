@@ -17,7 +17,7 @@ Set the site brand on the body or a wrapping block with `brand-agustos`, `brand-
 
 ## Chrome
 
-A WordPress site is a website, so it uses the top menu and the footer, whatever the brand. The sidebar (`site-sidebar*`) is for product UI only; do not put it in a theme's header or footer template part.
+A WordPress site is a website, so it uses the top menu and the footer, whatever the brand. The sidebar (`site-sidebar*`) is for product UI. A theme may add the kit theme switch; without it the site stays light.
 
 **Header template part.** At most five menu items. With more than five, keep the first four and put the rest in one More menu, as the last child of `site-header__nav`:
 

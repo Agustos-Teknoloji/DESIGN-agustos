@@ -25,8 +25,6 @@ interface Props {
   brand?: Brand;
   /** Substrate. White is the default paper. Cream is for callout bands, not the page. */
   substrate?: 'cream' | 'white';
-  /** Product UI only. Marketing pages stay light and omit this. */
-  theme?: 'light' | 'dark';
   /** Page language. Default 'en'. Use 'tr' for Turkish content (mandatory per §6). */
   lang?: string;
   /**
@@ -69,7 +67,6 @@ const {
   description = 'Published from Emre Güneş’s house — typography-first design.',
   brand = 'agustos',
   substrate = 'white',
-  theme,
   lang = 'en',
   screen,
   brandname = BRAND_WORDMARKS[brand as Brand] ?? 'ağustos',
@@ -82,7 +79,10 @@ const {
 const brandClass = `brand-${brand}`;
 const substrateClass = substrate === 'white' ? 'paper-white' : '';
 const bodyClass = [brandClass, substrateClass].filter(Boolean).join(' ');
+// header={{ theme: true }} adds the theme switch. A site without it stays light.
 const themeToggle = header.theme === true;
+// The exact themeScript of kit.json: it applies a stored dark choice before the first paint.
+const THEME_SCRIPT = 'try{if(localStorage.getItem("agustos:theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}';
 const searchAttributes = searchable ? {
   'data-pagefind-body': '',
   'data-search-kind': searchKind,
@@ -91,10 +91,11 @@ const searchAttributes = searchable ? {
 } : {};
 ---
 <!doctype html>
-<html lang={lang} data-theme={theme === 'dark' ? 'dark' : undefined}>
+<html lang={lang}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    {themeToggle && <script is:inline set:html={THEME_SCRIPT} />}
     <meta name="description" content={description} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="canonical" href={Astro.url.href} />
@@ -102,16 +103,6 @@ const searchAttributes = searchable ? {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
-    {themeToggle && (
-      <script is:inline>
-        (function () {
-          try {
-            var theme = localStorage.getItem('agustos:theme');
-            if (theme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-          } catch (e) { /* private mode / disabled storage — fall back to defaults */ }
-        })();
-      </script>
-    )}
   </head>
   <body class={bodyClass} data-screen={screen}>
     <a class="skip-link" href="#main">{CHROME_LABELS[lang === 'tr' ? 'tr' : 'en'].skip}</a>

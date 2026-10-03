@@ -1,8 +1,10 @@
 <!doctype html>
-<html lang="<%= agustos_theme_config[:lang] %>"<% if agustos_dark? %> data-theme="dark"<% end %>>
+<html lang="<%= agustos_theme_config[:lang] %>">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <%# theme: true adds the theme switch. This script applies a stored dark choice before the first paint. %>
+    <%= javascript_tag AgustosThemeHelper::THEME_SCRIPT, nonce: true if agustos_theme_toggle? %>
     <meta name="description" content="<%= agustos_meta_description %>">
     <title><%= agustos_page_title %></title>
     <%= csrf_meta_tags %>
@@ -11,17 +13,6 @@
     <%= stylesheet_link_tag "agustos/tokens", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "agustos/components", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <% if agustos_theme_toggle? %>
-      <script>
-        (function () {
-          try {
-            var theme = localStorage.getItem("agustos:theme");
-            if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
-            if (theme === "light") document.documentElement.removeAttribute("data-theme");
-          } catch (e) {}
-        })();
-      </script>
-    <% end %>
   </head>
   <%# data-screen comes first: the kit checker reads the body tag only up to its first closing bracket. %>
   <body

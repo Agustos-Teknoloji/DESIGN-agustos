@@ -35,9 +35,13 @@ module AgustosThemeHelper
   # and puts the rest under one More menu.
   NAV_LIMIT = 5
 
+  # The exact themeScript of kit.json. The layout puts it in <head>, before the
+  # stylesheets, so a stored dark choice applies before the first paint.
+  THEME_SCRIPT = 'try{if(localStorage.getItem("agustos:theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}'
+
   CHROME_LABELS = {
-    en: { more: "More", skip: "Skip to content", nav: "Main menu", footer: "Footer", sidebar: "Application menu", sections: "Sections", open_menu: "Open menu", close_menu: "Close menu", site_map: "Site map", theme: "Dark theme" },
-    tr: { more: "Daha fazla", skip: "İçeriğe geç", nav: "Ana menü", footer: "Alt menü", sidebar: "Uygulama menüsü", sections: "Bölümler", open_menu: "Menüyü aç", close_menu: "Menüyü kapat", site_map: "Site haritası", theme: "Koyu tema" }
+    en: { more: "More", skip: "Skip to content", nav: "Main menu", footer: "Footer", sidebar: "Application menu", sections: "Sections", open_menu: "Open menu", close_menu: "Close menu", site_map: "Site map", theme_to_dark: "Dark theme", theme_to_light: "Light theme" },
+    tr: { more: "Daha fazla", skip: "İçeriğe geç", nav: "Ana menü", footer: "Alt menü", sidebar: "Uygulama menüsü", sections: "Bölümler", open_menu: "Menüyü aç", close_menu: "Menüyü kapat", site_map: "Site haritası", theme_to_dark: "Koyu tema", theme_to_light: "Açık tema" }
   }.freeze
 
   SEARCH_LABELS = {
@@ -57,7 +61,6 @@ module AgustosThemeHelper
     cta: UNSET,
     language_switch: nil,
     theme: false,
-    color_scheme: :light,
     shell: :marketing,
     screen: nil,
     search: nil,
@@ -75,7 +78,6 @@ module AgustosThemeHelper
       more_label: more_label,
       language_switch: language_switch,
       theme: theme,
-      color_scheme: color_scheme&.to_sym,
       shell: shell&.to_sym,
       screen: screen&.to_s&.tr("_", "-"),
       search: search,
@@ -98,7 +100,6 @@ module AgustosThemeHelper
       cta: { label: "Start a project", href: "/about" },
       language_switch: nil,
       theme: false,
-      color_scheme: :light,
       shell: :marketing,
       screen: nil,
       search: nil,
@@ -139,15 +140,12 @@ module AgustosThemeHelper
   def agustos_header_cta = agustos_theme_config[:cta]
   def agustos_language_switch = agustos_theme_config[:language_switch]
   def agustos_theme_toggle? = agustos_theme_config[:theme] == true
-  def agustos_dark? = agustos_theme_config[:color_scheme] == :dark
   def agustos_product_shell? = agustos_theme_config[:shell] == :product
   def agustos_header_utility? = agustos_language_switch || agustos_theme_toggle?
 
-  def agustos_body_controller
-    controllers = []
-    controllers << "agustos-theme" if agustos_theme_toggle?
-    controllers.join(" ")
-  end
+  # The Stimulus controllers on <body>: none. The kit script agustos/chrome.js
+  # handles the theme switch, so the adapter ships no theme controller.
+  def agustos_body_controller = ""
   def agustos_search_config = agustos_theme_config[:search]
   def agustos_footer_config = agustos_theme_config[:footer] || {}
   def agustos_footer_note = agustos_value(agustos_footer_config, :note)

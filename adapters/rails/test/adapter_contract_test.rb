@@ -11,12 +11,13 @@ class AdapterContractTest < Minitest::Test
 
   def test_helper_exposes_v7_chrome_configuration
     helper = read("app/helpers/agustos_theme_helper.rb")
-    %w[home_href nav more_label cta language_switch theme color_scheme shell screen search footer sidebar].each do |key|
+    %w[home_href nav more_label cta language_switch theme shell screen search footer sidebar].each do |key|
       assert_includes helper, "#{key}:"
     end
     assert_includes helper, "theme: false"
     assert_includes helper, "def agustos_nav_current(href)"
     assert_includes helper, "NAV_LIMIT = 5"
+    refute_includes helper, "color_scheme", "every page starts light; only the theme switch sets dark"
     refute_match(/columns|DEFAULT_FOOTER_COLUMNS|footer_cta/, helper)
     refute_match(/BRAND_CHROME|chrome_for|brand_chrome/, helper, "brands no longer register chrome")
   end
@@ -32,9 +33,8 @@ class AdapterContractTest < Minitest::Test
     harness = self.harness
 
     assert_equal :white, harness.agustos_theme_config[:substrate]
-    assert_equal :light, harness.agustos_theme_config[:color_scheme]
     refute harness.agustos_theme_toggle?
-    refute harness.agustos_dark?
+    refute_respond_to harness, :agustos_dark?
     refute harness.agustos_product_shell?
     assert_nil harness.agustos_screen, "a marketing page names its own screen; the checker reports one that does not"
     assert_equal "", harness.agustos_body_controller
@@ -60,12 +60,11 @@ class AdapterContractTest < Minitest::Test
 
     harness.agustos_theme(brand: :iesdesk, shell: :product, theme: true)
     assert harness.agustos_theme_toggle?
-    refute harness.agustos_dark?
     assert harness.agustos_product_shell?
     assert_equal :iesdesk, harness.agustos_theme_config[:brand]
     assert_includes harness.agustos_body_class, "site-sidebar-layout"
     assert_includes harness.agustos_body_class, "brand-iesdesk"
-    assert_equal "agustos-theme", harness.agustos_body_controller
+    refute_includes harness.agustos_body_controller, "agustos-theme", "the kit script is the one theme handler"
     assert_equal "app-shell", harness.agustos_screen
 
     # Chrome follows the screen family, not the brand: a house brand with a
@@ -192,7 +191,32 @@ class AdapterContractTest < Minitest::Test
     end
     assert_includes sidebar, 'id="site-sidebar" class="site-sidebar" popover'
     assert_includes sidebar, 'popovertarget="site-sidebar"'
-    assert_includes sidebar, "agustos-theme#toggle"
+    assert_includes sidebar, '<button type="button" class="agustos-button agustos-button--quiet agustos-theme-switch" data-agustos-theme>'
+    refute_includes sidebar, "agustos-theme#toggle"
+  end
+
+  def test_theme_switch_is_the_kit_switch_and_every_page_starts_light
+    harness = self.harness
+    assert_equal 'try{if(localStorage.getItem("agustos:theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}',
+                 AgustosThemeHelper::THEME_SCRIPT
+    utility = read("app/views/agustos/shared/_header_utility.html.erb")
+    assert_includes utility, 'class="site-header__icon-btn agustos-theme-switch" data-agustos-theme'
+    assert_includes utility, "agustos_chrome_labels[:theme_to_dark]"
+    assert_includes utility, "agustos_chrome_labels[:theme_to_light]"
+    assert_equal "Koyu tema", harness.agustos_chrome_labels[:theme_to_dark]
+    assert_equal "Açık tema", harness.agustos_chrome_labels[:theme_to_light]
+    harness.agustos_theme(lang: :en)
+    assert_equal "Dark theme", harness.agustos_chrome_labels[:theme_to_dark]
+    assert_equal "Light theme", harness.agustos_chrome_labels[:theme_to_light]
+
+    layout = read("app/views/layouts/agustos.html.erb")
+    refute_includes layout, "data-theme", "only the theme switch sets data-theme"
+    head = layout[/<head>.*<\/head>/m]
+    script_at = head.index("javascript_tag AgustosThemeHelper::THEME_SCRIPT, nonce: true if agustos_theme_toggle?")
+    assert script_at, "the head script carries the CSP nonce"
+    assert_operator head.index('name="viewport"'), :<, script_at
+    assert_operator script_at, :<, head.index("stylesheet_link_tag"), "the head script runs before the stylesheets"
+    refute File.exist?(File.join(ROOT, "app/javascript/controllers/agustos_theme_controller.js"))
   end
 
   def test_search_is_turbo_frame_and_server_partial_driven
@@ -216,10 +240,10 @@ class AdapterContractTest < Minitest::Test
     assert_includes controller, 'event.key === "ArrowDown"'
     assert_includes controller, 'event.key === "Enter"'
     assert_includes controller, 'event.key === "Escape"'
-    theme = read("app/javascript/controllers/agustos_theme_controller.js")
-    assert_includes theme, 'setAttribute("data-theme", "dark")'
-    assert_includes theme, "aria-pressed"
-    refute_includes theme, "pq-theme"
+    # The kit script agustos/chrome.js handles the theme switch; the adapter ships no theme controller.
+    chrome = read("app/javascript/agustos/chrome.js")
+    assert_includes chrome, "data-agustos-theme"
+    assert_includes chrome, "agustos:theme"
   end
 
   def test_responsive_contract_matches_kit_breakpoint_and_ios_safe_input
@@ -229,7 +253,9 @@ class AdapterContractTest < Minitest::Test
     kit = read("app/assets/stylesheets/agustos/tokens.css")
     refute_includes kit, "1366"
     assert_includes kit, "@media (max-width: 1023px)"
-    assert_match(/\.site-header__search-field input \{[^}]*font-size: 16px;/m, kit)
+    # iOS zooms into a field under 16px. The kit sets the size through --size-form-field (v7.5.0).
+    assert_match(/\.site-header__search-field input \{[^}]*font-size: var\(--size-form-field\);/m, kit)
+    assert_includes kit, "--size-form-field: 16px;"
     assert_match(/\.site-header__search-result a:focus-visible \{[^}]*outline: 2px solid var\(--signal\)/, kit)
   end
 
