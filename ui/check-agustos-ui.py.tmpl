@@ -86,9 +86,11 @@ TEMPLATED = re.compile(r"[{<$]")
 MAIN_BLOCK = re.compile(r"<main\b.*?</main>", re.S | re.I)
 HIGHLIGHT = re.compile(r"\btype-highlight\b")
 SIDEBAR = re.compile(r"\bsite-sidebar\b")
-# One top-menu item: a site-header__link, including the More toggle. Items
-# inside More are site-header__more-link and do not count.
+# One top-menu item: a site-header__link inside site-header__nav, the More
+# toggle included. Items inside More are site-header__more-link and do not
+# count; an account list in site-header__end does not count (v7.7.0).
 TOP_MENU_ITEM = re.compile(r"""class=["'][^"']*\bsite-header__link\b""")
+TOP_MENU_NAV = re.compile(r"""<nav\b[^>]*class=["'][^"']*\bsite-header__nav\b[^>]*>.*?</nav\s*>""", re.S | re.I)
 TOP_MENU_LIMIT = 5
 # A grouped More holds at most two groups; a third goes past the page edge at 1024px.
 MORE_OPEN = re.compile(r"""<details\b[^>]*\bclass\s*=\s*["'][^"']*\bsite-header__more(?![\w-])""", re.I)
@@ -331,12 +333,14 @@ def check_screen(rel: str, text: str, findings: list) -> None:
             "AG026", "warn", rel, line_of(page, sidebar.start()),
             f"sidebar on screen {name!r} — websites use the top menu; the sidebar is for product UI",
         ))
-    menu_items = list(TOP_MENU_ITEM.finditer(page))
+    navs = list(TOP_MENU_NAV.finditer(page))
+    scope = [(nav.start(), nav.group(0)) for nav in navs] or [(0, page)]
+    menu_items = [(offset + match.start()) for offset, block in scope for match in TOP_MENU_ITEM.finditer(block)]
     if len(menu_items) > TOP_MENU_LIMIT:
         findings.append(Finding(
-            "AG027", "warn", rel, line_of(page, menu_items[TOP_MENU_LIMIT].start()),
-            f"{len(menu_items)} top-menu items — keep at most {TOP_MENU_LIMIT}, the More toggle "
-            f"included; put the rest in one site-header__more",
+            "AG027", "warn", rel, line_of(page, menu_items[TOP_MENU_LIMIT]),
+            f"{len(menu_items)} items in site-header__nav: keep at most {TOP_MENU_LIMIT}, the More "
+            f"toggle included; put the rest in one site-header__more",
         ))
     if rules["column"] == "reading":
         for match in CLASS_ATTRIBUTE.finditer(page):

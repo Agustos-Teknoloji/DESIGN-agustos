@@ -364,6 +364,33 @@ class InteractionStateTest(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertIn(name, TOKENS["compatibility"]["cssClasses"])
 
+    def test_account_list_sits_at_the_end_and_truncates(self):
+        """v7.7.0: the account list is a More in site-header__end. It opens from
+        the right edge, its email label ends with an ellipsis, and a sign-out
+        form button reads like the links around it (IESDesk)."""
+        end = self.CSS[self.CSS.index(".site-header__more--end .site-header__more-menu {"):]
+        end = end[:end.index("}")]
+        self.assertIn("inset-inline-start: auto;", end)
+        self.assertIn("inset-inline-end:", end)
+        label = self.CSS[self.CSS.index(".site-header__more-label {"):]
+        label = label[:label.index("}")]
+        for rule in ("text-overflow: ellipsis;", "overflow: hidden;", "white-space: nowrap;", "max-inline-size:"):
+            with self.subTest(rule=rule):
+                self.assertIn(rule, label)
+        button = self.CSS[self.CSS.index("button.site-header__more-link {"):]
+        button = button[:button.index("}")]
+        for rule in ("border: 0;", "background: transparent;", "width: 100%;", "text-align: start;", "cursor: pointer;"):
+            with self.subTest(rule=rule):
+                self.assertIn(rule, button)
+        self.assertIn(".site-header__more-menu > form { display: contents; }", self.CSS)
+        drawer = self.CSS[self.CSS.index("@media (max-width: 1023px) {", self.CSS.index(".site-header__panel {")):]
+        drawer = drawer[:drawer.index("\n}\n")]  # the drawer block only
+        self.assertIn(".site-header__more--end .site-header__more-menu { inset-inline-end: auto; }", drawer)
+        self.assertIn(".site-header__more-label { max-inline-size: none; }", drawer)
+        for name in ("site-header__more--end", "site-header__more-label"):
+            with self.subTest(name=name):
+                self.assertIn(name, TOKENS["compatibility"]["cssClasses"])
+
     def test_form_fields_clear_the_non_text_floor(self):
         self.assertIn("solid var(--ink-faint);", self.CSS)
         placeholder = self.CSS[self.CSS.index(".agustos-textarea::placeholder {"):]
@@ -679,7 +706,8 @@ class CheckerTest(unittest.TestCase):
         Errors guard integrity: a page names its screen, and the name exists.
         Taste rules only warn: a page that starts dark (AG024), more than
         one highlighter (AG025), a sidebar on a website (AG026), more than five
-        top-menu items (AG027, the More toggle counts, its items do not), a
+        items in site-header__nav (AG027, the More toggle counts, its items and an
+        account list in site-header__end do not; v7.7.0), a
         full-width container on a content screen (AG028, v7.2.0), an
         `agustos-contents` that is not a direct child of `container--reading`
         (AG031, v7.4.0), a homepage with no highlighter (AG032, v7.5.0). Button counts
@@ -695,6 +723,11 @@ class CheckerTest(unittest.TestCase):
                 '<div class="site-header__more-menu">'
                 + ''.join(f'<a class="site-header__more-link" href="/m{n}">M{n}</a>' for n in range(4))
                 + '</div></details>')
+        nav = '<nav class="site-header__nav">{0}</nav>'
+        account = ('<div class="site-header__end"><details class="site-header__more site-header__more--end">'
+                   '<summary class="site-header__link"><span class="site-header__more-label">a@b.com</span></summary>'
+                   '<div class="site-header__more-menu"><form action="/s" method="post">'
+                   '<button type="submit" class="site-header__more-link">Sign out</button></form></div></details></div>')
         pages = {
             "no-screen.html": (self._screen_page(None, main=primary), {"AG020": "error"}),
             "unknown.html": (self._screen_page("landing", main=primary), {"AG021": "error"}),
@@ -703,8 +736,10 @@ class CheckerTest(unittest.TestCase):
             "two-marks.html": (self._screen_page("home", main=f"<h1>{mark}</h1><p>{mark}</p>"), {"AG025": "warn"}),
             "one-mark.html": (self._screen_page("home", main=f"<h1>{mark}</h1>"), {}),
             "sidebar-site.html": (self._screen_page("home", main=head, chrome=sidebar), {"AG026": "warn"}),
-            "six-items.html": (self._screen_page("home", main=head, chrome="".join(item.format(n) for n in range(6))), {"AG027": "warn"}),
-            "four-and-more.html": (self._screen_page("home", main=head, chrome="".join(item.format(n) for n in range(4)) + more), {}),
+            "six-items.html": (self._screen_page("home", main=head, chrome=nav.format("".join(item.format(n) for n in range(6)))), {"AG027": "warn"}),
+            "four-and-more.html": (self._screen_page("home", main=head, chrome=nav.format("".join(item.format(n) for n in range(4)) + more)), {}),
+            "five-and-account.html": (self._screen_page("home", main=head, chrome=nav.format("".join(item.format(n) for n in range(5))) + account), {}),
+            "six-no-nav.html": (self._screen_page("home", main=head, chrome="".join(item.format(n) for n in range(6))), {"AG027": "warn"}),
             "app.html": (self._screen_page("app-shell", main=primary, chrome=sidebar, html_attrs=' data-theme="dark"'), {"AG024": "warn"}),
             "light-attr.html": (self._screen_page("home", main=head, html_attrs=' data-theme="light"'), {}),
             "switch-script.html": (self._screen_page("home", main=head + '<script>try{if(localStorage.getItem("agustos:theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>'), {}),
@@ -805,12 +840,19 @@ class CheckerTest(unittest.TestCase):
             return ('<details class="site-header__more"><summary class="site-header__link">Tools</summary>\n'
                     f'<div class="site-header__more-menu site-header__more-menu--groups">\n{groups}</div></details>\n')
 
+        # The account list (v7.7.0) is a More with no groups: AG035 never counts it.
+        account = ('<div class="site-header__end"><details class="site-header__more site-header__more--end">\n'
+                   '<summary class="site-header__link"><span class="site-header__more-label">a@b.com</span></summary>\n'
+                   '<div class="site-header__more-menu"><a class="site-header__more-link" href="/account">Account</a>\n'
+                   '<form action="/s" method="post"><button type="submit" class="site-header__more-link">Sign out</button></form>\n'
+                   '</div></details></div>\n')
         pages = {
             "two-groups.html": (self._screen_page("home", main="<h1><mark class=\"type-highlight\">Clear</mark></h1>", chrome=more(2)), []),
             "three-groups.html": (self._screen_page("home", main="<h1><mark class=\"type-highlight\">Clear</mark></h1>", chrome=more(3)), ["AG035"]),
             "_header.html.erb": (more(3), ["AG035"]),
             "_two.html.erb": (more(2), []),
             "commented.html.erb": ("<!-- " + more(3) + " -->\n", []),
+            "_account.html.erb": (account, []),
         }
         with tempfile.TemporaryDirectory() as tmp:
             project = Path(tmp)

@@ -561,6 +561,8 @@
         "site-header__more-menu--groups",
         "site-header__more-group",
         "site-header__more-group-title",
+        "site-header__more--end",
+        "site-header__more-label",
         "site-header__end",
         "site-header__cta",
         "site-header__burger",

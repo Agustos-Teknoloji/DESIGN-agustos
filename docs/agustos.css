@@ -1314,6 +1314,28 @@ html:has(.site-header) { scroll-padding-top: calc(var(--site-header-height) + va
   font-size: var(--size-footnote);
   font-weight: 500;
 }
+/* The account list (v7.7.0): a More in site-header__end that opens from the
+   right edge. An email in its summary stops at the label width with an
+   ellipsis, so the row keeps one line at 1024px. A sign-out form button reads
+   like the links around it. */
+.site-header__more--end .site-header__more-menu { inset-inline-start: auto; inset-inline-end: calc(var(--space-sm) * -1); }
+.site-header__more-label {
+  display: inline-block;
+  max-inline-size: 22ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.site-header__more-menu > form { display: contents; }
+button.site-header__more-link {
+  width: 100%;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  line-height: inherit;
+  text-align: start;
+  cursor: pointer;
+}
 
 /* --- Header search and utility (v7.3.0). One recipe for every adapter: the
    search toggle and panel on desktop, a search row under the bar below
@@ -1710,6 +1732,8 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
   .site-header__more-menu { position: static; min-width: 0; padding: 0 0 0 var(--space-sm); border: 0; box-shadow: none; background: none; }
   .site-header__more-menu--groups { flex-direction: column; gap: var(--space-md); padding: 0 0 0 var(--space-sm); }
   .site-header__more-group { min-width: 0; }
+  .site-header__more--end .site-header__more-menu { inset-inline-end: auto; }
+  .site-header__more-label { max-inline-size: none; }
   /* The script opens every More of the drawer and marks it. Its summary then
      reads as a small title over its links (v7.7.0). Without the script the
      summary stays a control, so no link is out of reach. */

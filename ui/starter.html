@@ -26,6 +26,8 @@
   .demo-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); }
   .demo-swatch { display: flex; align-items: center; gap: var(--space-xs); }
   .demo-swatch i { inline-size: 1rem; block-size: 1rem; border-radius: var(--radius-sm); }
+  /* Room under the open account list, which floats like the More menu. */
+  .demo-account { display: flex; align-items: flex-start; min-block-size: 13rem; }
 </style>
 </head>
 
@@ -323,6 +325,17 @@
           </section>
         </div>
       </div>
+    </div>
+    <p class="type-body">The account list: a More at the end of <code class="type-code">site-header__end</code> that opens from the right edge. A signed-in page shows it in place of Sign in and the CTA, never beside them. The list below is shown open.</p>
+    <div class="demo-account">
+      <details class="site-header__more site-header__more--end" open>
+        <summary class="site-header__link"><span class="site-header__more-label">selin.kaya@ornek-aydinlatma.com.tr</span></summary>
+        <div class="site-header__more-menu">
+          <a class="site-header__more-link" href="/hesap">Hesap</a>
+          <button type="button" class="site-header__more-link agustos-theme-switch" data-agustos-theme><span class="agustos-theme-switch__to-dark"><span class="agustos-theme-switch__label">Koyu tema</span></span><span class="agustos-theme-switch__to-light"><span class="agustos-theme-switch__label">Açık tema</span></span></button>
+          <form action="/oturum" method="post"><button type="submit" class="site-header__more-link">Çıkış yap</button></form>
+        </div>
+      </details>
     </div>
     <div class="cluster">
       <!-- Deprecated since v7.7.0: use agustos-theme-switch (in the header above). -->

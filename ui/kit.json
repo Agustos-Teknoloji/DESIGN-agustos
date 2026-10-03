@@ -111,6 +111,8 @@
     "site-header__more-menu--groups",
     "site-header__more-group",
     "site-header__more-group-title",
+    "site-header__more--end",
+    "site-header__more-label",
     "site-header__end",
     "site-header__cta",
     "site-header__burger",
@@ -301,8 +303,8 @@
       "sha256": "63538bf3cd2a5ed1a23e6a04d7acd53ae75acbd04b2cc8510dd3510441b6fc02"
     },
     "UI-KIT.md": {
-      "bytes": 27734,
-      "sha256": "f81778c2f0af8a0093eb64f4bfdb8e58d7af82f47bba12a13fc16e631a56104b"
+      "bytes": 28246,
+      "sha256": "e385c7a9ca322be5392ece21b9b2ce5c7d6a9660e99c5e79ea0b0492e8cab844"
     },
     "agustos-chrome.js": {
       "bytes": 4413,
@@ -313,12 +315,12 @@
       "sha256": "23c0f48218e908d334523373cf51dfd3893fef499a5d6c2e4065b1ad4def48df"
     },
     "agustos.css": {
-      "bytes": 76944,
-      "sha256": "9c772ed7d0eee5fc18fe1cb1533d7562b66d2c8ac32a092a86a76241ece1863b"
+      "bytes": 77829,
+      "sha256": "08b19d53c10eb1e02d81d27a95ea2cd0ea140770f8b3eb108398ce629bfcea82"
     },
     "check-agustos-ui.py": {
-      "bytes": 36488,
-      "sha256": "2a297f5ecb9a16ec1156ad283c34b08298ae4f20f72a1d3bcb979b8d27d4b9d7"
+      "bytes": 36928,
+      "sha256": "e16f825e431a8114fdf72e613f6878bf03888c0983ff7c6b852dc964b566e501"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -341,8 +343,8 @@
       "sha256": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
     },
     "starter.html": {
-      "bytes": 31160,
-      "sha256": "bf177387f60b407c3858e7730a8b5cb417742276ece21a31810e0903f228778f"
+      "bytes": 32428,
+      "sha256": "8870447aedc3b85ef7b6bed636edb5f36ce6942cd3cf29ac10ec26304821ca98"
     }
   },
   "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.2/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.2/ui/agustos.css\">",
