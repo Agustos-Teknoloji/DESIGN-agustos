@@ -2,16 +2,7 @@
 
 ## Now
 
-- Kit v7.7.0, one top menu and the dark theme on every site (plan `docs/superpowers/plans/2026-10-03-kit-7.7-top-menu-dark.md`, branch `claude/kit-7.7-top-menu-dark`). An extra release under MEMORY 2026-09-29 monthly-kit-release: IESDesk is blocked (IESDesk MEMORY 2026-10-03 one-top-bar).
-  - [x] A. Footer and closing band follow the dark theme; print stays light
-  - [x] A and B. Theme rules in the registry and the checker (AG024, AG033)
-  - [x] B. Theme switch in `agustos-chrome.js` and the head script
-  - [x] C. Grouped More list
-  - [x] D. Drawer shows every More open
-  - [x] E. Account list; AG027 counts the menu only
-  - [x] F. Product UI with the top menu (`app-top-menu`)
-  - [x] Adapters, docs, guidelines PDFs (approved 2026-10-03)
-  - [ ] Release records, preview for Emre (gate), ops record, merge
+Nothing in progress. Kit v7.7.0 shipped on 2026-10-03 (one top menu and the dark theme on every site; MEMORY.md 2026-10-03 kit-7.7-extra-release). The consuming sites adopt it under Next.
 
 ## Next
 
