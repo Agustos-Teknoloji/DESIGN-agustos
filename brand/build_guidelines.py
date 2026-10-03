@@ -315,10 +315,10 @@ ol.toc .pg {{ color:{faint}; font-variant-numeric:tabular-nums; }}
 .rules b {{ font-family:'Inter Tight'; font-weight:600; color:{ink}; }}
 table.states {{ width:100%; border-collapse:collapse; margin-top:12px; font-size:9.5px; }}
 table.states th {{ text-align:left; font-family:'Inter Tight'; font-weight:600; color:{ink}; padding:0 0 5px; border-bottom:1px solid {ink}; }}
-table.states td {{ padding:1.5px 0; border-bottom:1px solid {rule}; color:{soft}; vertical-align:middle; }}
+table.states td {{ padding:1px 0; border-bottom:1px solid {rule}; color:{soft}; vertical-align:middle; }}
 table.states td.st {{ color:{faint}; }}
 .pair {{ display:inline-block; width:30px; text-align:center; border:1px solid {rule}; border-radius:4px;
-         font-family:'Inter Tight'; font-weight:600; font-size:10px; line-height:14px; margin-right:6px; }}
+         font-family:'Inter Tight'; font-weight:600; font-size:10px; line-height:12px; margin-right:6px; }}
 .ratio {{ font-family:'JetBrains Mono'; font-size:9.5px; color:{ink}; }}
 
 /* emphasis */
@@ -429,7 +429,8 @@ table.medium td b {{ font-weight:600; color:{ink}; }}
     <li><b>Hover.</b> On light paper a link turns red. On dark paper red text is too faint (3.35:1), so the text dims
         and the red rule stays. The Ağustos logo turns off-black (white on dark); every other logo turns red.</li>
     <li><b>Pressed and disabled.</b> A pressed button moves 1px down. A disabled control turns gray and does not react.</li>
-    <li><b>Light islands.</b> The footer and the closing band stay light in the dark theme.</li>
+    <li><b>Dark theme.</b> Every page starts light. The user may switch to dark; the device never chooses.
+        The footer and the closing band turn dark with the page. Print is always light.</li>
   </ul>
   {states_html(design["states"])}''')}
 
