@@ -85,6 +85,9 @@
       "site-header__more",
       "site-header__more-menu",
       "site-header__more-link",
+      "site-header__more-menu--groups",
+      "site-header__more-group",
+      "site-header__more-group-title",
       "site-header__end",
       "site-header__cta",
       "site-header__burger",
@@ -1132,6 +1135,22 @@
           "ratio": 15.56
         },
         "state": "hover, current"
+      },
+      {
+        "dark": {
+          "background": "#15130f",
+          "foreground": "#8a8378",
+          "ratio": 4.95
+        },
+        "element": "More group title",
+        "floor": 4.5,
+        "kind": "text",
+        "light": {
+          "background": "#ffffff",
+          "foreground": "#404040",
+          "ratio": 10.37
+        },
+        "state": "rest"
       },
       {
         "dark": {

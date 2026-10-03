@@ -51,9 +51,15 @@
         <a class="site-header__link" href="/biz-kimiz">Biz kimiz</a>
         <details class="site-header__more">
           <summary class="site-header__link">Daha fazla</summary>
-          <div class="site-header__more-menu">
-            <a class="site-header__more-link" href="/gecmis-markalar">Geçmiş markalar</a>
-            <a class="site-header__more-link" href="/kariyer">Kariyer</a>
+          <div class="site-header__more-menu site-header__more-menu--groups">
+            <div class="site-header__more-group" role="group" aria-labelledby="more-brands">
+              <p class="site-header__more-group-title" id="more-brands">Markalar</p>
+              <a class="site-header__more-link" href="/gecmis-markalar">Geçmiş markalar</a>
+            </div>
+            <div class="site-header__more-group" role="group" aria-labelledby="more-company">
+              <p class="site-header__more-group-title" id="more-company">Şirket</p>
+              <a class="site-header__more-link" href="/kariyer">Kariyer</a>
+            </div>
           </div>
         </details>
       </nav>

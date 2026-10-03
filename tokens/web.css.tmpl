@@ -1298,6 +1298,19 @@ html:has(.site-header) { scroll-padding-top: calc(var(--site-header-height) + va
 .site-header__more-link:hover,
 .site-header__more-link:is([aria-current="page"], [aria-current="true"]) { background: var(--surface); color: var(--ink); text-decoration: none; }
 .site-header__more-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+/* Groups (v7.7.0): a More may hold up to three titled groups of links. On a
+   wide screen they sit side by side; in the drawer they stack. The title is
+   sentence case, never an uppercase label. */
+.site-header__more-menu--groups { flex-direction: row; align-items: flex-start; gap: var(--space-md); padding: var(--space-sm); }
+.site-header__more-group { display: flex; flex-direction: column; min-width: 200px; }
+.site-header__more-group-title {
+  margin: 0;
+  padding: var(--space-2xs) var(--space-sm) var(--space-xs);
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: var(--size-footnote);
+  font-weight: {{foundations.fontWeight.medium}};
+}
 
 /* --- Header search and utility (v7.3.0). One recipe for every adapter: the
    search toggle and panel on desktop, a search row under the bar below
@@ -1692,6 +1705,8 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
   .site-header__panel::backdrop { background: color-mix(in srgb, var(--ink) 32%, transparent); }
   .site-header__nav { flex-direction: column; justify-content: flex-start; align-items: stretch; gap: 2px; }
   .site-header__more-menu { position: static; min-width: 0; padding: 0 0 0 var(--space-sm); border: 0; box-shadow: none; background: none; }
+  .site-header__more-menu--groups { flex-direction: column; gap: var(--space-md); padding: 0 0 0 var(--space-sm); }
+  .site-header__more-group { min-width: 0; }
   .site-header__end { flex-direction: column; align-items: stretch; gap: var(--space-md); }
   .site-header__cta { margin-inline-start: 0; justify-content: center; }
   /* In the drawer the switch is a line with its word (NN/g: icons need words). */

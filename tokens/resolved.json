@@ -810,6 +810,22 @@
     },
     {
       "dark": {
+        "background": "#15130f",
+        "foreground": "#8a8378",
+        "ratio": 4.95
+      },
+      "element": "More group title",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#404040",
+        "ratio": 10.37
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
         "background": "#404040",
         "foreground": "#ffffff",
         "ratio": 10.37

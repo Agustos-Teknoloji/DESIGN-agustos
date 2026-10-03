@@ -346,6 +346,22 @@ class InteractionStateTest(unittest.TestCase):
     def test_more_menu_hover_uses_the_functional_gray(self):
         self.assertIn('.site-header__more-link:is([aria-current="page"], [aria-current="true"]) { background: var(--surface);', self.CSS)
 
+    def test_more_list_holds_titled_groups_as_columns(self):
+        """v7.7.0: a More may hold titled groups, in columns on a wide screen and
+        stacked in the drawer (IESDesk Tools: one file, many files)."""
+        groups = self.CSS[self.CSS.index(".site-header__more-menu--groups {"):]
+        self.assertIn("flex-direction: row;", groups[:groups.index("}")])
+        title = self.CSS[self.CSS.index(".site-header__more-group-title {"):]
+        title = title[:title.index("}")]
+        self.assertIn("font-size: var(--size-footnote);", title)
+        self.assertIn("color: var(--ink-soft);", title)
+        self.assertNotIn("text-transform", title)
+        drawer = self.CSS[self.CSS.index("@media (max-width: 1023px) {", self.CSS.index(".site-header__panel {")):]
+        self.assertIn(".site-header__more-menu--groups { flex-direction: column;", drawer)
+        for name in ("site-header__more-menu--groups", "site-header__more-group", "site-header__more-group-title"):
+            with self.subTest(name=name):
+                self.assertIn(name, TOKENS["compatibility"]["cssClasses"])
+
     def test_form_fields_clear_the_non_text_floor(self):
         self.assertIn("solid var(--ink-faint);", self.CSS)
         placeholder = self.CSS[self.CSS.index(".agustos-textarea::placeholder {"):]

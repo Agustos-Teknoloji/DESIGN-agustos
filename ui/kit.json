@@ -108,6 +108,9 @@
     "site-header__more",
     "site-header__more-menu",
     "site-header__more-link",
+    "site-header__more-menu--groups",
+    "site-header__more-group",
+    "site-header__more-group-title",
     "site-header__end",
     "site-header__cta",
     "site-header__burger",
@@ -298,8 +301,8 @@
       "sha256": "63538bf3cd2a5ed1a23e6a04d7acd53ae75acbd04b2cc8510dd3510441b6fc02"
     },
     "UI-KIT.md": {
-      "bytes": 27323,
-      "sha256": "cf793aaf27daa47b2fc71cd37cf061a76a0daf30d911dde70b41d3e96ae905a1"
+      "bytes": 27669,
+      "sha256": "2fbd30bb74e2f2bd3f090e3c7bbc9e4e0f908fb545cea89f4dda6d854feb3612"
     },
     "agustos-chrome.js": {
       "bytes": 2862,
@@ -310,12 +313,12 @@
       "sha256": "23c0f48218e908d334523373cf51dfd3893fef499a5d6c2e4065b1ad4def48df"
     },
     "agustos.css": {
-      "bytes": 75177,
-      "sha256": "88b6afdbb643a18525cb047c03eb990c6589500058fd91c1f77b45e18969395b"
+      "bytes": 75976,
+      "sha256": "415ca8f8f3a611687f2c7382229c0fc3db9f2ab650c7604c9e9ed282c0b2c4dc"
     },
     "check-agustos-ui.py": {
-      "bytes": 35005,
-      "sha256": "2711245a73499826604a6c2473c7d3588435d74025ad993fab7cb6f088c13918"
+      "bytes": 35111,
+      "sha256": "c1a52e790b1d9257dc7602ed0ffa712b492f5623a2a387bfe9f157343141e845"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -338,8 +341,8 @@
       "sha256": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
     },
     "starter.html": {
-      "bytes": 30730,
-      "sha256": "abbb7f1436402496659471ae7c4a09a85b4a8469f679f965f198256930e2ce67"
+      "bytes": 31160,
+      "sha256": "bf177387f60b407c3858e7730a8b5cb417742276ece21a31810e0903f228778f"
     }
   },
   "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.2/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.2/ui/agustos.css\">",
@@ -659,6 +662,22 @@
         "ratio": 15.56
       },
       "state": "hover, current"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#8a8378",
+        "ratio": 4.95
+      },
+      "element": "More group title",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#404040",
+        "ratio": 10.37
+      },
+      "state": "rest"
     },
     {
       "dark": {
