@@ -1033,12 +1033,14 @@ nav:has(> .breadcrumb) {
 
 /* -- 5b. Site chrome ----------------------------------------- */
 
-/* Two chromes ship, and the screen family picks one: every website uses the
-   top menu and the footer; product UI uses the sidebar. JavaScript only when
-   it is the logical choice: drawers are native popovers with a close button,
-   groups and More are <details>, and ui/agustos-chrome.js only closes More on
-   Escape, an outside click or focus leaving. Search and language are slots
-   that adapters fill. */
+/* Two chromes ship, and the screen picks one: every website uses the top
+   menu and the footer; product UI uses the sidebar or, with about ten
+   destinations or fewer, the top menu. JavaScript only when it is the logical
+   choice: drawers are native popovers with a close button, groups and More are
+   <details>. ui/agustos-chrome.js closes More on Escape, an outside click or
+   focus leaving, closes an open drawer when focus leaves it, opens every More
+   of an open drawer below 1024px, and runs the theme switch. Search and
+   language are slots that adapters fill. */
 
 /* Lockup: the exact symbol plus a lowercase wordmark. currentColor carries
    the registered identity ink. Dark theme lifts house brands to white;

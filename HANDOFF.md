@@ -2,7 +2,7 @@
 
 Date: 2026-09-29
 Design system version: 7.0.0
-Status: Both chromes, the layout layer, and nine screens are in the kit. Websites and small products use the top menu and the footer; larger product UI uses the sidebar. The checker errors on identity and warns on taste. Share the five artifacts and screens/. Do not regenerate the factory.
+Status: Both chromes, the layout layer, and ten screens are in the kit. Websites and small products use the top menu and the footer; larger product UI uses the sidebar. The checker errors on identity and warns on taste. Share the five artifacts and screens/. Do not regenerate the factory.
 
 Open these five artifacts first:
 

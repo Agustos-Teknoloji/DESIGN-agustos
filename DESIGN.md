@@ -921,7 +921,7 @@ Rails monoliths should use `adapters/rails/` as the starting point. The adapter 
 - `app/helpers/agustos_theme_helper.rb`
 - `app/views/layouts/agustos.html.erb`
 - shared ERB partials for the exact lockup, header, footer, and Turbo search results
-- focused Stimulus controllers for drawer, theme, and search panel behavior
+- a Stimulus controller for the search panel; the kit script runs the drawer and the theme switch
 
 The Rails adapter is plain ERB first. If an app uses ViewComponent, components can wrap the same semantic pieces later without changing the design grammar.
 
