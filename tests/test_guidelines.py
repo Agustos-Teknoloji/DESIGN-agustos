@@ -99,6 +99,12 @@ class GuidelinesContractTest(unittest.TestCase):
         self.assertNotIn("Light islands", source)
         self.assertIn("The footer and the closing band turn dark with the page", source)
         self.assertIn("The user may switch to dark; the device never chooses.", source)
+        # The committed export must be rebuilt from this source, not left stale.
+        export = (ROOT / "brand" / "exports" / "agustos" / "guidelines" / "agustos-brand-guidelines.html")
+        page = export.read_text(encoding="utf-8")
+        self.assertNotIn("Light islands", page)
+        self.assertIn("The user may switch to dark; the device never chooses.", page)
+        self.assertIn("The footer and the closing band turn dark with the page", page)
 
 
 if __name__ == "__main__":

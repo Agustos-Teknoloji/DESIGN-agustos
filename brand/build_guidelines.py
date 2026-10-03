@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Ağustos brand kit: brand guidelines (A4 PDF, 13 pages, English).
+Ağustos brand kit: brand guidelines (A4 PDF, 14 pages, English).
 
 Writes exports/<brand>/guidelines/<brand>-brand-guidelines.html from brands.json and
 tokens/resolved.json. With --pdf it also renders the PDF through the gstack browse tool.
