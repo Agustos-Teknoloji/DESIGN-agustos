@@ -365,11 +365,8 @@
       <code class="type-code">html[data-theme="dark"]</code>, set only by the theme switch.
     </p>
     <div class="demo-row">
-      <button class="agustos-button agustos-button--secondary" type="button"
-              onclick="document.documentElement.dataset.theme =
-                       document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">
-        Tema değiştir
-      </button>
+      <!-- The theme switch as a quiet button, as in the product sidebar. -->
+      <button type="button" class="agustos-button agustos-button--quiet agustos-theme-switch" data-agustos-theme><span class="agustos-theme-switch__to-dark"><span class="agustos-theme-switch__label">Koyu tema</span></span><span class="agustos-theme-switch__to-light"><span class="agustos-theme-switch__label">Açık tema</span></span></button>
       <button class="agustos-button agustos-button--quiet" type="button"
               onclick="document.body.classList.toggle('paper-white')">
         Substrate değiştir

@@ -269,6 +269,16 @@ LINK_ATTRIBUTE = re.compile(r"""([\w:-]+)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]
 # A page that is served dark. Only the user's theme switch may set dark, at run time.
 HTML_DARK = re.compile(r"""<html\b[^>]*\bdata-theme\s*=\s*["']?dark\b""", re.I)
 DEVICE_THEME = "prefers-color-scheme"
+# The theme switch keeps the user's choice under this key. The kit head script
+# reads it and applies a dark choice before the first paint, so it must sit in
+# <head> before the first stylesheet. A quoted attribute value may hold a
+# template tag, such as nonce="<%= content_security_policy_nonce %>".
+THEME_STORAGE_KEY = "agustos:theme"
+THEME_SWITCH = re.compile(r"\bdata-agustos-theme\b")
+COMMENT = re.compile(r"<!--.*?-->", re.S)
+SCRIPT_BLOCK = re.compile(r"""<script\b(?:[^>"']|"[^"]*"|'[^']*')*>(.*?)</script\s*>""", re.S | re.I)
+STYLESHEET = re.compile(r"""<link\b(?:[^>"']|"[^"]*"|'[^']*')*?\brel\s*=\s*["']?stylesheet\b|\bstylesheet_link_tag\b""", re.I)
+HEAD_END = re.compile(r"</head\s*>", re.I)
 CLASS_ATTRIBUTE = re.compile(r"""\bclass\s*=\s*(?:"([^"]*)"|'([^']*)')""", re.I)
 RADIUS = re.compile(r"border-radius:\s*([0-9.]+)px")
 GRADIENT = re.compile(r"(linear|radial|conic)-gradient\(")
@@ -528,6 +538,34 @@ def check_screen(rel: str, text: str, findings: list) -> None:
         ))
 
 
+def check_theme_script(rel: str, text: str, findings: list) -> None:
+    """A full page with a theme switch also needs the kit head script in <head>,
+    before the first stylesheet. Without it, each new page shows light before it
+    turns dark. A partial has no <body>, so its layout is checked instead."""
+    page = markup(text)
+    body = BODY_TAG.search(page)
+    if not body or REDIRECT.search(page[:body.start()]):
+        return
+    switch = THEME_SWITCH.search(page)
+    if not switch:
+        return
+    head = HEAD_END.search(page, 0, body.start())
+    limit = head.start() if head else body.start()
+    stylesheet = STYLESHEET.search(page, 0, limit)
+    if stylesheet:
+        limit = stylesheet.start()
+    source = COMMENT.sub(lambda match: re.sub(r"[^\n]", " ", match.group(0)), text)
+    if any(THEME_STORAGE_KEY in match.group(1)
+           for match in SCRIPT_BLOCK.finditer(source, 0, limit)):
+        return
+    findings.append(Finding(
+        "AG034", "warn", rel, line_of(page, switch.start()),
+        "theme switch without the kit head script before the stylesheets: put the "
+        "themeScript of kit.json in <head>, after the viewport meta, or a dark choice "
+        "shows light first on each new page",
+    ))
+
+
 def url_path(path: str) -> str:
     """A site path without query, fragment, index.html, .html or trailing slash."""
     path = re.sub(r"[?#].*", "", path)
@@ -588,6 +626,7 @@ def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
         rel = str(path.relative_to(root))
         if screens_only:
             check_screen(rel, text, findings)
+            check_theme_script(rel, text, findings)
             check_current_links(rel, path.relative_to(root).as_posix(), text, findings)
             check_disabled_links(rel, text, findings)
             continue
@@ -677,6 +716,7 @@ def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
 
         if path.suffix.lower() in PAGE_SUFFIXES:
             check_screen(rel, text, findings)
+            check_theme_script(rel, text, findings)
             check_cards(rel, text, findings)
             check_disabled_links(rel, text, findings)
 

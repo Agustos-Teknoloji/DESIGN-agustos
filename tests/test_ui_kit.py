@@ -728,6 +728,50 @@ class CheckerTest(unittest.TestCase):
             self.assertEqual(sorted(f["file"] for f in findings), ["site.css", "theme.js"])
             self.assertTrue(all(f["level"] == "warn" for f in findings))
 
+    def test_checker_warns_on_a_switch_without_the_head_script(self):
+        """v7.7.0: the switch keeps a dark choice, and only the head script applies
+        it before the first paint. Without the script, or with the script after a
+        stylesheet, each new page shows light first (AG034)."""
+        import tempfile
+        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+        script = f"<script>{kit['themeScript']}</script>"
+        switch = ('<button type="button" class="site-header__icon-btn agustos-theme-switch" data-agustos-theme>'
+                  '<span class="agustos-theme-switch__to-dark"><span class="agustos-theme-switch__label">Dark theme</span></span>'
+                  '<span class="agustos-theme-switch__to-light"><span class="agustos-theme-switch__label">Light theme</span></span></button>')
+        links = ('<link rel="stylesheet" href="/vendor/agustos-ui/agustos-fonts.css">\n'
+                 '<link rel="stylesheet" href="/vendor/agustos-ui/agustos.css">\n')
+
+        def page(head, body=switch):
+            return ('<!doctype html><html lang="en"><head>\n<meta charset="utf-8">\n'
+                    f'{head}</head><body class="brand-agustos" data-screen="static">\n'
+                    f'<header class="site-header">{body}</header>\n<main id="main"></main>\n</body></html>\n')
+
+        nonce = kit["themeScript"].join(('<script nonce="<%= content_security_policy_nonce %>">', "</script>\n"))
+        pages = {
+            "script-first.html": (page(script + "\n" + links), []),
+            "no-script.html": (page(links), ["AG034"]),
+            "script-after-css.html": (page(links + script + "\n"), ["AG034"]),
+            "script-in-comment.html": (page("<!-- " + script + " -->\n" + links), ["AG034"]),
+            "no-switch.html": (page(links, body=""), []),
+            "layout.html.erb": (page(nonce + '<%= stylesheet_link_tag "agustos" %>\n'), []),
+            "helper-first.html.erb": (page('<%= stylesheet_link_tag "agustos" %>\n' + nonce), ["AG034"]),
+            "_header.html.erb": (switch + "\n", []),
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp)
+            for name, (text, _) in pages.items():
+                (project / name).write_text(text, encoding="utf-8")
+            result = self._run(project, "--json")
+            findings = [f for f in json.loads(result.stdout)["findings"] if f["rule"] == "AG034"]
+            self.assertTrue(all(f["level"] == "warn" for f in findings))
+            for name, (_, expected) in pages.items():
+                with self.subTest(page=name):
+                    self.assertEqual([f["rule"] for f in findings if f["file"] == name], expected)
+            # Built output is a page too.
+            result = self._run(project, "--json", "--screens-only")
+            found = sorted(f["file"] for f in json.loads(result.stdout)["findings"] if f["rule"] == "AG034")
+            self.assertEqual(found, ["no-script.html", "script-after-css.html", "script-in-comment.html"])
+
     def test_kit_never_reads_the_device_theme(self):
         for name in ("agustos.css", "agustos-chrome.js", "starter.html"):
             with self.subTest(file=name):
@@ -1193,7 +1237,10 @@ class ChromeTest(unittest.TestCase):
         self.assertEqual(kit["themeStorageKey"], "agustos:theme")
         self.assertIn(self.THEME_SCRIPT, (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8"))
         starter = (ROOT / "ui" / "starter.html").read_text(encoding="utf-8")
+        self.assertEqual(starter.count(self.THEME_SCRIPT), 1)
         self.assertLess(starter.index(f"<script>{self.THEME_SCRIPT}</script>"), starter.index('href="./agustos-fonts.css"'))
+        # One switch behaviour: no demo button sets data-theme on its own.
+        self.assertNotIn("dataset.theme", starter)
 
     def test_chrome_script_flips_and_keeps_the_theme(self):
         script = (ROOT / "ui" / "agustos-chrome.js").read_text(encoding="utf-8")
@@ -1205,7 +1252,7 @@ class ChromeTest(unittest.TestCase):
         flip = script[script.index("function flipTheme"):]
         flip = flip[:flip.index("\n  }\n")]
         self.assertIn("try {", flip)
-        self.assertNotIn("matchMedia('(prefers-color-scheme", script)
+        self.assertNotIn("prefers-color-scheme", script)
 
     def test_theme_switch_label_is_css_driven(self):
         """Both labels are in the markup; CSS shows the one the button switches to,
@@ -1218,6 +1265,8 @@ class ChromeTest(unittest.TestCase):
         self.assertNotIn("display: none", bar[:bar.index("}")])
         drawer = self.CSS[self.CSS.index("@media (max-width: 1023px) {", self.CSS.index(".site-header__panel {")):]
         self.assertIn(".site-header__panel .site-header__icon-btn .agustos-theme-switch__label", drawer)
+        # The drawer switch starts on the same line as the drawer links, which have no inline padding.
+        self.assertIn(".site-header__panel .site-header__icon-btn.agustos-theme-switch { width: auto; justify-content: flex-start; padding-inline: 0; }", drawer)
         for name in ("agustos-theme-switch", "agustos-theme-switch__to-dark", "agustos-theme-switch__to-light", "agustos-theme-switch__label"):
             with self.subTest(name=name):
                 self.assertIn(name, TOKENS["compatibility"]["cssClasses"])
