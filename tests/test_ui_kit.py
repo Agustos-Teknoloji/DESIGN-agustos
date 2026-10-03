@@ -295,13 +295,42 @@ class InteractionStateTest(unittest.TestCase):
         self.assertIn(':where(html[data-theme="dark"]) a:hover,', self.CSS)
         self.assertIn(':where(html[data-theme="dark"]) .agustos-button--quiet:hover { color: var(--ink-soft); }', self.CSS)
 
-    def test_footer_and_band_stay_light_islands_in_dark(self):
-        start = self.CSS.index('html[data-theme="dark"] .site-footer,')
-        block = self.CSS[start:self.CSS.index("}", start)]
-        self.assertIn('html[data-theme="dark"] .band--cream {', block)
-        for role in ("--paper:", "--ink:", "--ink-soft:", "--ink-faint:", "--rule:"):
+    def test_footer_and_band_follow_the_dark_theme(self):
+        """v7.7.0: the footer and the closing band turn dark with the page (Emre,
+        2026-10-03: "Footer should change too"). The light islands are gone."""
+        # The print block holds an indented copy; the top-level line stays unique.
+        self.assertEqual(self.CSS.count('\nhtml[data-theme="dark"] {\n'), 1)
+        dark = self.CSS[self.CSS.index('html[data-theme="dark"] {'):]
+        dark = dark[:dark.index("}")]
+        self.assertIn("--footer-paper:", dark)
+        self.assertIn("--footer-ink:", dark)
+        self.assertIn("--footer-cta-hover:", dark)
+        self.assertNotIn('html[data-theme="dark"] .site-footer,', self.CSS)
+        band = self.CSS[self.CSS.index('html[data-theme="dark"] .band--cream {'):]
+        band = band[:band.index("}")]
+        # Decision 1 (B2): the dark paper between two hairline rules, so every
+        # pair inside the band is a page pair and red keeps 3.35:1.
+        self.assertIn("background: var(--paper);", band)
+        self.assertIn("border-block:", band)
+        self.assertNotIn("color-scheme: light", band)
+
+    def test_print_is_light_in_the_dark_theme(self):
+        """A printer drops backgrounds, so dark-theme ink would print white on white."""
+        start = self.CSS.index("@media print {")
+        block = self.CSS[start:self.CSS.index("\n}\n", start)]
+        self.assertIn('html[data-theme="dark"] {', block)
+        for role in ("--paper:", "--ink:", "--ink-soft:", "--footer-paper:", "--footer-ink:"):
             with self.subTest(role=role):
                 self.assertIn(role, block)
+        self.assertIn("color-scheme: light;", block)
+
+    def test_states_cover_the_dark_footer_and_band(self):
+        rows = {(row["element"], row["state"]): row for row in TOKENS["states"]["rows"]}
+        self.assertEqual(rows[("Footer link", "rest")]["dark"], ["inkSoftDark", "paperDark"])
+        self.assertEqual(rows[("Closing band text", "rest")]["dark"], ["inkDark", "paperDark"])
+        self.assertEqual(rows[("Closing band secondary text", "rest")]["dark"], ["inkSoftDark", "paperDark"])
+        self.assertEqual(rows[("Keyboard focus ring in the closing band", "focus")]["dark"], ["signalRed", "paperDark"])
+        self.assertNotIn("stays light", " ".join(row["element"] for row in TOKENS["states"]["rows"]))
 
     def test_more_menu_hover_uses_the_functional_gray(self):
         self.assertIn('.site-header__more-link:is([aria-current="page"], [aria-current="true"]) { background: var(--surface);', self.CSS)
@@ -326,12 +355,11 @@ class InteractionStateTest(unittest.TestCase):
         self.assertNotIn("--signal", footer)
         # Browsers center a caption; the spec-sheet group labels sat centered.
         self.assertIn(".type-table caption, table caption { padding-inline: 0.75em; text-align: start; }", self.CSS)
-        # Native parts follow the theme, and the light islands stay light.
+        # Native parts follow the theme. The footer and the band follow it too (v7.7.0).
         self.assertIn(":root { color-scheme: light; }", self.CSS)
         dark = self.CSS[self.CSS.index('html[data-theme="dark"] {'):]
         self.assertIn("color-scheme: dark;", dark[:dark.index("}")])
-        islands = self.CSS[self.CSS.index('html[data-theme="dark"] .band--cream {'):]
-        self.assertIn("color-scheme: light;", islands[:islands.index("}")])
+        self.assertNotIn("light islands", self.CSS.lower())
         # One duration token stops every transition, so none can be missed.
         motion = self.CSS[self.CSS.index("@media (prefers-reduced-motion: reduce) {"):]
         self.assertIn(":root { --dur: 0s; }", motion[:motion.index("\n}\n")])

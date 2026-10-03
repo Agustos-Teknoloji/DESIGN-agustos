@@ -11,7 +11,7 @@
   --cream:        #fdf5f5;
   --surface:      #ebebeb;
 
-  /* Footer is light: white paper under a hairline. It never follows the theme invert. */
+  /* Footer: the page paper under a hairline. The dark theme flips it with the page (v7.7.0). */
   --footer-paper: #ffffff;
   --footer-ink:   #15130f;
   --footer-cta-hover: #404040;
@@ -157,12 +157,12 @@
 }
 
 /* The browser draws its own parts (scrollbars, checkboxes, select menus, date
-   pickers) in the scheme it is told: light here, dark in the dark theme, and
-   light again on the light islands. */
+   pickers) in the scheme it is told: light here, dark in the dark theme. */
 :root { color-scheme: light; }
 
-/* Dark theme — product UI via html[data-theme="dark"]. Same six colours, flipped.
-   Marketing pages stay light. The footer stays light. */
+/* Dark theme via html[data-theme="dark"]. Same six colours, flipped. Every
+   page starts light; only the user's theme switch sets the attribute. The
+   footer and the closing band turn dark with the page (v7.7.0). */
 html[data-theme="dark"] {
   color-scheme: dark;
   --paper:        #15130f;
@@ -174,6 +174,9 @@ html[data-theme="dark"] {
   --ink-faint:  #8a8378;
   --rule:        #404040;
   --rule-white:  #404040;
+  --footer-paper: #15130f;
+  --footer-ink:   #ffffff;
+  --footer-cta-hover: #8a8378;
 
   /* State colors are substrate-specific. The light values fall to 2.19-3.11
      contrast on dark paper; these lift every one back above 7. */
@@ -185,24 +188,6 @@ html[data-theme="dark"] {
 html[data-theme="dark"] code,
 html[data-theme="dark"] .type-code {
   background: rgba(255, 255, 255, 0.07);
-}
-
-/* Light islands in the dark theme: the footer never flips, and the dark
-   callout band is light gray. Scope the light roles back inside both, or
-   their text renders white on light at 1.00-1.19:1 and a primary button
-   inside turns off-black on off-black. */
-html[data-theme="dark"] .site-footer,
-html[data-theme="dark"] .band--cream {
-  --paper:       #ffffff;
-  --paper-white: #ffffff;
-  --surface:     #ebebeb;
-  --ink:         #15130f;
-  --ink-soft:    #404040;
-  --ink-faint:   #8a8378;
-  --rule:        #e8e4da;
-  --rule-white:  #e8e4da;
-  color: var(--ink);
-  color-scheme: light;
 }
 
 /* Buttons are black, never red. In the dark theme they simply invert with the
@@ -1496,8 +1481,8 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
 
 /* --- Footer. Light: the logo and one line on one side, one row of links on
    the other, and an optional site map above (below). No button: the top menu
-   and the closing band carry the action. The footer variables never follow
-   the theme flip. --- */
+   and the closing band carry the action. The footer variables follow the
+   theme flip (v7.7.0). --- */
 .site-footer {
   border-block-start: 1px solid var(--rule);
   background: var(--footer-paper);
@@ -1742,6 +1727,14 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
 .band { padding-block: var(--section-space); }
 .band--cream { background: var(--cream); }
 .band .prose { color: var(--ink-soft); }
+/* The dark closing band keeps its spacing on the dark paper, between two
+   hairline rules. The six colours hold no dark tint that passes: on #404040
+   red scores 1.87:1 and --ink-soft 2.76:1. On the paper every pair is a page
+   pair: red 3.35:1, --ink-soft 4.95:1 (v7.7.0). */
+html[data-theme="dark"] .band--cream {
+  background: var(--paper);
+  border-block: 1px solid var(--rule);
+}
 
 /* A table wider than its column scrolls inside this wrapper, never the page. */
 .table-scroll { max-width: 100%; overflow-x: auto; margin: 0 0 1em; }
@@ -2109,4 +2102,24 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
   }
   pre,
   .type-code-block { border: 1px solid var(--ink-faint); }
+  /* Print is always light: a printer drops backgrounds, so dark-theme ink
+     would print white on white (v7.7.0). */
+  html[data-theme="dark"] {
+    color-scheme: light;
+    --paper:        #ffffff;
+    --paper-white:  #ffffff;
+    --cream:        #fdf5f5;
+    --surface:      #ebebeb;
+    --ink:          #15130f;
+    --ink-soft:     #404040;
+    --ink-faint:    #8a8378;
+    --rule:         #e8e4da;
+    --rule-white:   #e8e4da;
+    --footer-paper: #ffffff;
+    --footer-ink:   #15130f;
+    --state-success: #1f6b4a;
+    --state-warning: #8a5a00;
+    --state-danger:  #b42318;
+    --state-info:    #1a4d8f;
+  }
 }

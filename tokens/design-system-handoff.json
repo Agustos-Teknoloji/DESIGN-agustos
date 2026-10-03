@@ -1131,11 +1131,11 @@
       },
       {
         "dark": {
-          "background": "#ffffff",
-          "foreground": "#404040",
-          "ratio": 10.37
+          "background": "#15130f",
+          "foreground": "#8a8378",
+          "ratio": 4.95
         },
-        "element": "Footer link (the footer stays light)",
+        "element": "Footer link",
         "floor": 4.5,
         "kind": "text",
         "light": {
@@ -1147,8 +1147,8 @@
       },
       {
         "dark": {
-          "background": "#ffffff",
-          "foreground": "#15130f",
+          "background": "#15130f",
+          "foreground": "#ffffff",
           "ratio": 18.55
         },
         "element": "Footer link",
@@ -1163,9 +1163,9 @@
       },
       {
         "dark": {
-          "background": "#ffffff",
+          "background": "#15130f",
           "foreground": "#8a8378",
-          "ratio": 3.75
+          "ratio": 4.95
         },
         "element": "Footer link hover rule (1px)",
         "floor": 3.0,
@@ -1179,8 +1179,8 @@
       },
       {
         "dark": {
-          "background": "#ffffff",
-          "foreground": "#15130f",
+          "background": "#15130f",
+          "foreground": "#ffffff",
           "ratio": 18.55
         },
         "element": "Footer group title",
@@ -1195,9 +1195,9 @@
       },
       {
         "dark": {
-          "background": "#ffffff",
-          "foreground": "#404040",
-          "ratio": 10.37
+          "background": "#15130f",
+          "foreground": "#8a8378",
+          "ratio": 4.95
         },
         "element": "Footer contact block",
         "floor": 4.5,
@@ -1211,9 +1211,9 @@
       },
       {
         "dark": {
-          "background": "#ebebeb",
-          "foreground": "#15130f",
-          "ratio": 15.56
+          "background": "#15130f",
+          "foreground": "#ffffff",
+          "ratio": 18.55
         },
         "element": "Closing band text",
         "floor": 4.5,
@@ -1224,6 +1224,38 @@
           "ratio": 17.28
         },
         "state": "rest"
+      },
+      {
+        "dark": {
+          "background": "#15130f",
+          "foreground": "#8a8378",
+          "ratio": 4.95
+        },
+        "element": "Closing band secondary text",
+        "floor": 4.5,
+        "kind": "text",
+        "light": {
+          "background": "#fdf5f5",
+          "foreground": "#404040",
+          "ratio": 9.66
+        },
+        "state": "rest"
+      },
+      {
+        "dark": {
+          "background": "#15130f",
+          "foreground": "#cf142a",
+          "ratio": 3.35
+        },
+        "element": "Keyboard focus ring in the closing band",
+        "floor": 3.0,
+        "kind": "graphic",
+        "light": {
+          "background": "#fdf5f5",
+          "foreground": "#cf142a",
+          "ratio": 5.16
+        },
+        "state": "focus"
       },
       {
         "dark": {
