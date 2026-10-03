@@ -17,7 +17,6 @@
 
 - IESDesk, agustos.com, memregunes.com, pldturkiye.com and GEM-agustos-admin adopt v7.7.0 (follow-up list in the v7.7.0 plan).
 - Run the Astro and Rails adapter test suites in `scripts/ci.sh`. Today they run only by hand, so the gate does not see an adapter that breaks the kit contract.
-- Add `adapters/wordpress/functions.php.example` to the version-label test (`tests/test_version_labels.py`), so its enqueue version cannot lag the kit version again.
 - pataraz2 (dev.pataraz.com) still runs kit v6.1.0. Move it to v7 in its own task: top menu, light footer, `agustos-chrome.js`, then the v7.x consumer changes. It needs a before/after preview for Emre.
 - Give a reference screen the three v7.6.2 cases (a meta line with no deck, a contents list under a breadcrumb, a meta line in a stack), so the screen sweep covers them. No screen held them, so v7.6.0 shipped all three defects.
 - Kit audit 2026-10-01 (three reviews; the v7.5.0 stack fix closed the first finding of each):

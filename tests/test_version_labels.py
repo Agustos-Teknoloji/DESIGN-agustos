@@ -59,5 +59,14 @@ class VersionLabelTest(unittest.TestCase):
                 self.assertTrue(found, "names no kit version")
                 self.assertEqual(set(found), {VERSION})
 
+    def test_wordpress_enqueue_names_the_current_version(self):
+        """WordPress adds the version as ?ver= to each file URL. A stale version
+        keeps the browser on a cached copy of the old kit."""
+        text = (ROOT / "adapters" / "wordpress" / "functions.php.example").read_text(encoding="utf-8")
+        found = re.findall(r"'(\d+\.\d+\.\d+)'", text)
+        self.assertEqual(len(found), 2, "the stylesheet and the chrome script each name a version")
+        self.assertEqual(set(found), {VERSION})
+
+
 if __name__ == "__main__":
     unittest.main()

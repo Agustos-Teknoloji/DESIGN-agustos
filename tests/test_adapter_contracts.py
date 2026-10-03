@@ -267,7 +267,8 @@ class AdapterContractTest(unittest.TestCase):
     def test_adapters_use_the_kit_theme_switch_and_one_handler(self):
         """v7.7.0: agustos-chrome.js is the one theme handler. A second handler on the
         same button would flip the theme twice per click."""
-        script = 'try{if(localStorage.getItem("agustos:theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}'
+        # The adapter copies must match the one published head script.
+        script = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))["themeScript"]
         astro_utility = (ROOT / "adapters/astro/src/components/HeaderUtility.astro").read_text(encoding="utf-8")
         astro_header = (ROOT / "adapters/astro/src/components/Header.astro").read_text(encoding="utf-8")
         astro_layout = (ROOT / "adapters/astro/src/layouts/BaseLayout.astro").read_text(encoding="utf-8")
