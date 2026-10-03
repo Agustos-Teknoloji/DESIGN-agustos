@@ -1708,11 +1708,31 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
   .site-header__more-menu { position: static; min-width: 0; padding: 0 0 0 var(--space-sm); border: 0; box-shadow: none; background: none; }
   .site-header__more-menu--groups { flex-direction: column; gap: var(--space-md); padding: 0 0 0 var(--space-sm); }
   .site-header__more-group { min-width: 0; }
+  /* The script opens every More of the drawer and marks it. Its summary then
+     reads as a small title over its links (v7.7.0). Without the script the
+     summary stays a control, so no link is out of reach. */
+  .site-header__more[data-agustos-unfold] > summary {
+    min-height: 0;
+    padding-block: var(--space-md) var(--space-2xs);
+    border-block-end: 0;
+    color: var(--ink);
+    font-size: var(--size-footnote);
+    font-weight: {{foundations.fontWeight.semibold}};
+    pointer-events: none;
+  }
+  .site-header__more[data-agustos-unfold] > summary::after { display: none; }
   .site-header__end { flex-direction: column; align-items: stretch; gap: var(--space-md); }
   .site-header__cta { margin-inline-start: 0; justify-content: center; }
   /* In the drawer the switch is a line with its word (NN/g: icons need words). */
   .site-header__panel .site-header__icon-btn.agustos-theme-switch { width: auto; justify-content: flex-start; padding-inline: 0; }
   .site-header__panel .site-header__icon-btn .agustos-theme-switch__label { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
+}
+
+/* On a phone the drawer covers the whole width (v7.7.0): the top-menu panel
+   and the sidebar drawer alike. The backdrop stays, hidden under the drawer. */
+@media (max-width: 639px) {
+  .site-header__panel { width: 100%; max-width: none; border-inline-start: 0; }
+  .site-sidebar { width: 100%; max-width: none; border-inline-end: 0; }
 }
 
 /* -- 5c. Layout layer ---------------------------------------- */

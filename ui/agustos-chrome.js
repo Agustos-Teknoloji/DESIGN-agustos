@@ -7,7 +7,9 @@
    popover: site-header__panel or site-sidebar) closes when keyboard focus
    leaves it, so focus never moves to the page behind the drawer. Without this
    file More still opens and closes on click, and a drawer still closes on
-   Escape, an outside click and its close button. Load it once on every page
+   Escape, an outside click and its close button. Below 1024px it opens every
+   More of an open drawer, so each group shows; without this file each More
+   folds and opens on a tap. Load it once on every page
    with the chrome, with defer. A theme switch (a button with
    data-agustos-theme) flips data-theme on <html> and keeps the choice in
    localStorage under agustos:theme. The inline head script in UI-KIT.md
@@ -17,7 +19,10 @@
   if (document.agustosChrome) return;
   document.agustosChrome = true;
 
-  const OPEN = 'details.site-header__more[open]';
+  // An unfolded More (inside an open drawer) never closes on Escape, a click or focus.
+  const OPEN = 'details.site-header__more[open]:not([data-agustos-unfold])';
+  const DRAWER_MODE = window.matchMedia('(max-width: 1023px)');
+  const PANEL_MORE = '.site-header__panel details.site-header__more';
   const DRAWER = '.site-header__panel[popover], .site-sidebar[popover]';
   const SWITCH = '[data-agustos-theme]';
   const THEME_KEY = 'agustos:theme';
@@ -41,6 +46,33 @@
   function isOpen(drawer) {
     try { return drawer.matches(':popover-open'); } catch { return false; }
   }
+
+  // Below 1024px the drawer shows every More open, its summary as a small title
+  // (v7.7.0). It runs on each drawer open, so a swapped page body is covered.
+  function unfold(on) {
+    document.querySelectorAll(PANEL_MORE).forEach((menu) => {
+      const summary = menu.querySelector('summary');
+      if (on) {
+        menu.dataset.agustosUnfold = '';
+        menu.open = true;
+        summary?.setAttribute('tabindex', '-1');
+      } else if ('agustosUnfold' in menu.dataset) {
+        delete menu.dataset.agustosUnfold;
+        menu.open = false;
+        summary?.removeAttribute('tabindex');
+      }
+    });
+  }
+
+  // toggle does not bubble, so listen in the capture phase.
+  document.addEventListener('toggle', (event) => {
+    const target = event.target;
+    if (target.matches?.('.site-header__panel[popover]') && isOpen(target)) unfold(DRAWER_MODE.matches);
+    // A screen reader can still activate the summary: keep the menu open.
+    if (target.matches?.('details[data-agustos-unfold]') && !target.open && DRAWER_MODE.matches) target.open = true;
+  }, true);
+
+  DRAWER_MODE.addEventListener('change', (event) => { if (!event.matches) unfold(false); });
 
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;

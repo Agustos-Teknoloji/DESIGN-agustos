@@ -1283,7 +1283,50 @@ class ChromeTest(unittest.TestCase):
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
         self.assertIn("agustos-chrome.js", kit["files"])
 
-    THEME_SCRIPT = 'try{if(localStorage.getItem("agustos:theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}'
+    def test_drawer_opens_every_more_by_script(self):
+        """v7.7.0: below 1024px the drawer shows every More open (model: turso.tech
+        phone menu). CSS cannot open a closed details, so the script does it when
+        the drawer opens, and the close rules skip those menus."""
+        script = (ROOT / "ui" / "agustos-chrome.js").read_text(encoding="utf-8")
+        self.assertIn("matchMedia('(max-width: 1023px)')", script)
+        self.assertIn("details.site-header__more[open]:not([data-agustos-unfold])", script)
+        self.assertIn("addEventListener('toggle'", script)
+        self.assertIn("}, true);", script)  # toggle does not bubble: listen in the capture phase
+        self.assertIn("dataset.agustosUnfold", script)
+        self.assertIn("setAttribute('tabindex', '-1')", script)
+
+    def test_unfold_css_needs_the_script(self):
+        """Without the script each More folds and opens on a tap, as before."""
+        drawer = self.CSS[self.CSS.index("@media (max-width: 1023px) {", self.CSS.index(".site-header__panel {")):]
+        drawer = drawer[:drawer.index("\n}\n")]
+        self.assertIn(".site-header__more[data-agustos-unfold] > summary {", drawer)
+        self.assertIn(".site-header__more[data-agustos-unfold] > summary::after { display: none; }", drawer)
+        self.assertNotIn(".site-header__more > summary { display: none", drawer)
+
+    def test_drawer_fills_a_phone_screen(self):
+        """v7.7.0 (Emre, 2026-10-03): below 640px the drawer covers the whole
+        screen width, like the turso.tech phone menu."""
+        start = self.CSS.index("@media (max-width: 639px) {")
+        block = self.CSS[start:self.CSS.index("\n}\n", start)]
+        self.assertIn(".site-header__panel", block)
+        self.assertIn("width: 100%", block)
+
+    def test_sidebar_drawer_fills_a_phone_screen_too(self):
+        """One drawer rule for every site: the sidebar drawer of the product UI
+        gets the same full width below 640px as the top-menu panel."""
+        start = self.CSS.index("@media (max-width: 639px) {")
+        block = self.CSS[start:self.CSS.index("\n}\n", start)]
+        self.assertIn(".site-sidebar", block)
+        self.assertIn("width: 100%; max-width: none;", block)
+        # From 640px to 1023px both drawers keep the narrow width.
+        drawer = self.CSS[self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor"):]
+        drawer = drawer[:drawer.index("\n}\n")]
+        self.assertIn(".site-sidebar { width: min(320px, 86vw); }", drawer)
+        self.assertIn("width: min(320px, 86vw);", drawer[drawer.index(".site-header__panel {"):])
+        # The phone rule comes after the drawer block, so it wins at equal weight.
+        self.assertLess(self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor"), start)
+
+    THEME_SCRIPT ='try{if(localStorage.getItem("agustos:theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}'
 
     def test_theme_script_is_published_once_and_used_everywhere(self):
         """The no-flash head script has one source: the builder. It only sets dark;

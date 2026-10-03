@@ -331,7 +331,7 @@
       "gap": { "$value": "28px", "$description": "Between top-menu items." },
       "rule": { "$value": "{foundations.border.hairline}" },
       "sidebarWidth": {"$value": "240px", "$description": "Fixed sidebar column. Matches agustos.com."},
-      "drawerWidth": {"$value": "min(320px, 86vw)", "$description": "Sidebar and topbar drawers below 1024px."}
+      "drawerWidth": {"$value": "min(320px, 86vw)", "$description": "Sidebar and topbar drawers from 640px to 1023px. Below 640px a drawer covers the whole width."}
     },
     "hero": {
       "paddingBlockStart": { "$value": "clamp(56px, 9vw, 112px)" },
