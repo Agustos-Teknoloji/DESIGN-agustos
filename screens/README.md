@@ -22,7 +22,7 @@ screen live in the `screens` table in `tokens/design-tokens.json`. `ui/UI-KIT.md
 ## Rules
 
 1. A complete HTML document with `lang="tr"` (`lang="en"` for the product UI screens).
-2. Load `../ui/agustos-fonts.css`, then `../ui/agustos.css`. Website screens also load
+2. Load `../ui/agustos-fonts.css`, then `../ui/agustos.css`. Every screen also loads
    `../ui/agustos-chrome.js` with `defer`. Link the canonical favicon.
 3. `body` carries `brand-<slug>`, `data-screen="<name>"`, and `site-sidebar-layout` when the
    screen's chrome is the sidebar.

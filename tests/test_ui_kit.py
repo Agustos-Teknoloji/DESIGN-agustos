@@ -552,6 +552,19 @@ class DistributionKitTest(unittest.TestCase):
         # 220 since v7.6.0: the type table (one row per role) joined the file.
         self.assertLessEqual(len(lines), 220, "UI-KIT.md is the one file an agent reads in full")
 
+    def test_entry_point_states_the_v7_7_rules(self):
+        text = (self.KIT / "UI-KIT.md").read_text(encoding="utf-8")
+        for phrase in ("every page starts light", "never the device", "AG033", "data-agustos-unfold",
+                       "site-header__more--end", "app-top-menu", "Print is always light",
+                       "covers the whole width below 640px"):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, text)
+        for gone in ("product UI only; same six colours", "The footer and the closing band stay light",
+                     "The footer is light:", "`data-theme` outside product UI",
+                     "Theme, chrome and column follow the family"):
+            with self.subTest(gone=gone):
+                self.assertNotIn(gone, text)
+
     def test_entry_point_documents_every_published_class(self):
         text = (self.KIT / "UI-KIT.md").read_text(encoding="utf-8")
         for name in TOKENS["compatibility"]["cssClasses"]:
@@ -705,7 +718,7 @@ class CheckerTest(unittest.TestCase):
         """Per-screen rules come from the screens table, keyed on data-screen.
         Errors guard integrity: a page names its screen, and the name exists.
         Taste rules only warn: a page that starts dark (AG024), more than
-        one highlighter (AG025), a sidebar on a website (AG026), more than five
+        one highlighter (AG025), a sidebar on a top-menu screen (AG026), more than five
         items in site-header__nav (AG027, the More toggle counts, its items and an
         account list in site-header__end do not; v7.7.0), a
         full-width container on a content screen (AG028, v7.2.0), an

@@ -166,7 +166,7 @@ Use naturally lit installation photographs only when they support product unders
 Introduce photographs in this order: product page, listing thumbnail, then homepage.
 Type-only pages stay complete until those photographs exist.
 Preserve product finishes, technical facts, black identity ink, and red interaction signals.
-Keep marketing and catalog pages on white paper. Dark theme is for product UI, not pataraz.com.
+Start marketing and catalog pages on white paper. The site may add the kit theme switch; the user chooses dark, never the device.
 Name one primary destination: the header, the opening, and one closing pale red band carry it.
 Keep quote treatments for content pages, not marketing or product pages.
 

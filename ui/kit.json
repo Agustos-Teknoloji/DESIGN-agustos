@@ -299,12 +299,12 @@
   "entryPoint": "UI-KIT.md",
   "files": {
     "AGENTS-SNIPPET.md": {
-      "bytes": 2327,
-      "sha256": "63538bf3cd2a5ed1a23e6a04d7acd53ae75acbd04b2cc8510dd3510441b6fc02"
+      "bytes": 2476,
+      "sha256": "8feb69d37cefae404adc294c428ea2db81a13b455d1f420cc9c0497e04d0744d"
     },
     "UI-KIT.md": {
-      "bytes": 28429,
-      "sha256": "c35aed356d55e0b2dfae878e51205d9c90fd1d40239fa31bc66569dc8cc8a13c"
+      "bytes": 29190,
+      "sha256": "c05bc28d1d35a41106ad6432d43d57ff46d8874be1e286694500d8752e0d19fb"
     },
     "agustos-chrome.js": {
       "bytes": 4413,
@@ -315,8 +315,8 @@
       "sha256": "23c0f48218e908d334523373cf51dfd3893fef499a5d6c2e4065b1ad4def48df"
     },
     "agustos.css": {
-      "bytes": 77829,
-      "sha256": "08b19d53c10eb1e02d81d27a95ea2cd0ea140770f8b3eb108398ce629bfcea82"
+      "bytes": 77959,
+      "sha256": "61929d03387988b42bb9823c647cfde6c1f5730b4d0eb0654682e6095cdf563e"
     },
     "check-agustos-ui.py": {
       "bytes": 37086,
@@ -343,8 +343,8 @@
       "sha256": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
     },
     "starter.html": {
-      "bytes": 32428,
-      "sha256": "8870447aedc3b85ef7b6bed636edb5f36ce6942cd3cf29ac10ec26304821ca98"
+      "bytes": 32558,
+      "sha256": "6dc063fd33355ebcae51279c90de165552f71eaf292063e71f79a1a2492ba704"
     }
   },
   "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.2/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.2/ui/agustos.css\">",

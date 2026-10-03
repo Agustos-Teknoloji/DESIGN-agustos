@@ -268,6 +268,8 @@ class DesignSystemGenerationTest(unittest.TestCase):
             self.assertIn(f'id="screen-{name}"', text)
             self.assertIn(f'src="../screens/{name}.html"', text)
         self.assertIn("websites use the top menu and the footer, product UI uses the sidebar", text)
+        self.assertIn("product UI uses the sidebar or, with about ten destinations or fewer, the top menu", text)
+        self.assertIn("Every screen starts light.", text)
         self.assertIn('href="agustos.css"', text)
         self.assertNotIn('href="../ui/agustos.css"', text)
         self.assertNotIn(".site-header {", text)

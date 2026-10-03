@@ -21,7 +21,8 @@ Preserve registered identity inks, fonts, rationed red rules, and accessible con
 Use only its classes and CSS variables. Never retype a token value. Never invent a hex color.
 Never restyle a kit class — compose instead. Brand red is `#cf142a`; `#D11D2B` is stale.
 The `<body>` element must carry a `brand-*` class and `data-screen="<name>"`. Every website uses the top menu and the footer, whatever the brand.
-Only product UI (the `app-shell` screen) uses the sidebar and adds `site-sidebar-layout`. Build every page from the matching screen in `screens/`.
+Product UI uses the sidebar and adds `site-sidebar-layout` (the `app-shell` screen), or the top menu when it has about ten destinations or fewer (the `app-top-menu` screen).
+Every page starts light; only the user's theme switch sets dark. Build every page from the matching screen in `screens/`.
 
 Before you call UI work done, run `python3 vendor/agustos-ui/check-agustos-ui.py .` and make it
 exit 0.

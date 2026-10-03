@@ -99,7 +99,7 @@ A website, a datasheet and a LinkedIn post cannot look the same, but they must r
 The generator publishes it in the handoff, resolved registry, and UI kit.
 Version 5 applies the approved white-substrate palette, type scale, action system, layout measure, and locked dark theme.
 The dark theme reuses the same six colours, flipped. No new hexes.
-Marketing pages stay light. Dark theme is for product UI.
+Every page starts light. A site may offer the dark theme through a theme switch; the user chooses it, never the device.
 
 ## Website composition
 
@@ -121,14 +121,16 @@ In-prose links with a 2px red rule are not buttons.
 
 ### Dark theme
 
-Marketing pages, product catalog pages, and spec sheets ship on white paper.
-They do not include a theme toggle.
-Dark theme is for product UI (IESDesk and similar tools) and honors user preference there.
-Use the locked six-colour flip: paper `#15130f`, surface `#404040`, callout `#ebebeb`, ink `#ffffff`, ink-soft `#8a8378`.
+Every page starts on white paper. Any site may add the kit theme switch; a site without it stays light.
+The user chooses the theme. The device setting (`prefers-color-scheme`) never chooses it.
+The browser keeps the choice under `agustos:theme`, and a one-line head script applies it before the first paint.
+Use the locked six-colour flip: paper `#15130f`, surface `#404040`, ink `#ffffff`, ink-soft `#8a8378`.
+The footer turns dark with the page. The closing band keeps its spacing on the dark paper, between two hairline rules.
 Buttons invert with the ink: the primary is white on off-black. Red never fills a button, in either theme.
-The handbook dark control inspects that theme. It is not a marketing pattern.
-Do not design a dark-first marketing page.
-Do not place photography on a dark marketing hero.
+Print is always light.
+Pictures drawn on white stay as they are.
+Do not design a dark-first page.
+Do not place photography on a dark hero.
 
 ### Photography
 
@@ -703,7 +705,7 @@ Accessibility is part of the design system, not an implementation afterthought. 
 
 - Transitions should be short and functional (150ms, `cubic-bezier(0.2, 0, 0, 1)`).
 - Do not encode meaning in color alone. Links use both weight and underline; active navigation uses position, text, and state, not just color.
-- Dark theme is allowed as an opt-in layer for product UI. It must preserve the same six colour roles, flipped: paper, surface, cream/callout, ink, ink-soft, and shared signal. Marketing pages stay light.
+- Dark theme is a user choice on every page. It must preserve the same six colour roles, flipped: paper, surface, cream/callout, ink, ink-soft, and shared signal.
 
 ---
 
@@ -739,12 +741,12 @@ Key-figure tiles, image regions, and summary panels.
 
 A single CSS variable swap still flips dark theme. Pale red is not a third page substrate.
 
-### Dark `#15130f` (product UI; locked)
+### Dark `#15130f` (the user's choice; locked)
 
-Same six colours, flipped. Paper `#15130f`, surface `#404040`, callout band `#ebebeb`, ink `#ffffff`, ink-soft `#8a8378`, red unchanged.
+Same six colours, flipped. Paper `#15130f`, surface `#404040`, callout `#ebebeb` (identity tiles; the closing band takes the dark paper), ink `#ffffff`, ink-soft `#8a8378`, red unchanged.
 Buttons invert with the ink: the primary is white on off-black. No red fill.
-The footer variables do not follow the flip.
-Marketing, catalog, and spec pages stay on white paper. They do not include a theme toggle.
+The footer variables follow the flip. Print is always light.
+Marketing, catalog, and spec pages start on white paper. A theme switch is optional.
 
 ---
 
@@ -774,7 +776,7 @@ Current non-token utilities:
 | Utility | Role |
 |---|---|
 | `.paper-white` | Compatibility class. White is already the default paper. |
-| `html[data-theme="dark"]` | Product-UI dark theme. Same six colours, flipped. Paper `#15130f`, surface `#404040`, callout `#ebebeb`, ink `#ffffff`, ink-soft `#8a8378`. Buttons invert with the ink. Marketing pages do not set this. |
+| `html[data-theme="dark"]` | The dark theme, set only by the theme switch. Same six colours, flipped. Paper `#15130f`, surface `#404040`, ink `#ffffff`, ink-soft `#8a8378`. Buttons invert with the ink. The footer and the closing band follow it. |
 | `.site-frame` | Shared site-chrome frame: 1180px content measure plus 32px gutters. |
 | `.container` | The same frame geometry plus default vertical page padding. |
 | `.container--reading` | A content page: the frame keeps its left edge, and each block stops at the reading line. The side zone to the right stays free. |
@@ -782,8 +784,8 @@ Current non-token utilities:
 | `.hero-actions` | The opening's button row: one primary and one secondary `agustos-button`. |
 | `.skip-link` | Keyboard accessibility utility for persistent navigation layouts. |
 | `.site-lockup`, `.site-lockup__symbol`, `.site-lockup__name` | The brand lockup: exact symbol plus lowercase wordmark. |
-| `.site-sidebar*`, `.site-sidebar-bar`, `.site-sidebar-burger`, `.site-sidebar-layout` | The sidebar chrome, product UI only. Drawer below 1024px. |
-| `.site-header*`, `.site-footer*` | The top menu and the footer, on every website. Five items at most, the rest under `site-header__more`. Drawer below 1024px. |
+| `.site-sidebar*`, `.site-sidebar-bar`, `.site-sidebar-burger`, `.site-sidebar-layout` | The sidebar chrome, for product UI with more than about ten destinations. Drawer below 1024px, full width below 640px. |
+| `.site-header*`, `.site-footer*` | The top menu and the footer, on every website. Five items at most, the rest under `site-header__more`. Drawer below 1024px, full width below 640px. |
 | `.breadcrumb`, `.breadcrumb__link` | The trail above a page title. |
 | `.stack`, `.cluster`, `.prose`, `.grid-2`, `.grid-3`, `.grid-4`, `.grid-aside`, `.band`, `.band--cream`, `.table-scroll` | The layout layer. No page declares its own frame, band, grid, or measure. |
 
@@ -834,15 +836,16 @@ Composition rules the web template follows:
 
 The kit ships two chromes, and the screen family picks one, not the brand. Every website
 (marketing, content, catalog, and document screens) uses the top menu and the footer. Product UI
-(the app shell) uses the sidebar. Brands no longer register a chrome: v7.0.0 removed `chrome`
-from `brand/brands.json`, and the build rejects it. The checker warns (AG026) on a sidebar outside
-product UI, and (AG027) on a sixth top-menu item. Both chromes are generated from
+uses the sidebar (the app shell), or the top menu when it has about ten destinations or fewer
+(the app top menu, `app-top-menu`). Brands no longer register a chrome: v7.0.0 removed `chrome`
+from `brand/brands.json`, and the build rejects it. The checker warns (AG026) on a sidebar on a
+top-menu screen, and (AG027) on a sixth item in `site-header__nav`. Both chromes are generated from
 `tokens/web.css.tmpl` into every web stylesheet. No chrome rule exists anywhere else in this
 repository; a test enforces it. The kit uses JavaScript only when it is the logical choice:
 drawers are native popovers with a close button (`site-header__close`, `site-sidebar__close`),
-collapsible groups and More are `details`, and `ui/agustos-chrome.js`, about 30 lines, closes
-More on Escape, an outside click or focus leaving, and closes an open drawer when focus leaves
-it. Without the script More still opens and closes on click, and a drawer still closes on
+collapsible groups and More are `details`, and `ui/agustos-chrome.js`, about 100 lines, closes
+More on Escape, an outside click or focus leaving, closes an open drawer when focus leaves
+it, opens every More of an open drawer below 1024px, and runs the theme switch. Without the script More still opens and closes on click, and a drawer still closes on
 Escape, an outside click and its close button. Print drops the menus, the drawers and the footer links.
 
 The top menu (`site-header`) is a sticky one-row header inside the shared frame: the lockup,
@@ -855,21 +858,29 @@ and the page's scroll padding keeps an anchor target or a focused element below 
 adds 1px (`--anchor-snap`) because a browser scrolls to whole pixels. The row never wraps: between 1024 and
 1279px its spacing tightens, and five labels fit at 1024px up to about 65 characters together,
 More included. Below 1024px the burger opens the panel as a drawer; the page behind it holds
-still.
+still. The drawer is `min(320px, 86vw)` wide, and it covers the whole width below 640px.
 
 **Five items at most.** The top menu holds at most five links. Put every other page in one
 `site-header__more` `details` whose `summary` is a `site-header__link` reading "Daha fazla" or
 "More". Its `site-header__more-menu` holds `site-header__more-link` items. On desktop the menu
-floats under the item on a 12px radius with the system's one shadow; in the phone drawer the
-More items open inline. When the current page sits under More, the More item carries the red
-rule. Social, legal, and language links do not go in the top menu; they live
+floats under the item on a 12px radius with the system's one shadow. Below 1024px the script
+opens every More of an open drawer and marks it `data-agustos-unfold`: its summary reads as a
+small title over its links and stays open, and a screen reader still announces it as an open
+disclosure. Without the script each More folds and opens on a tap. When the current page sits
+under More, the More item carries the red rule. A More may hold up to two titled groups
+(`site-header__more-menu--groups`, each `site-header__more-group` with a sentence-case
+`site-header__more-group-title`): columns on a wide screen, stacked in the drawer. The checker
+warns on a third (AG035). An account list (`site-header__more site-header__more--end`) sits last
+in `site-header__end`, with the email in a `site-header__more-label` that ends in an ellipsis.
+It opens from the right edge, it may end with a sign-out form, and it takes the place of Sign in
+and the CTA. AG027 counts only the items in `site-header__nav`. Social, legal, and language links do not go in the top menu; they live
 in the footer.
 
-The footer (`site-footer`) is light and small: white paper under a hairline, in the same frame.
+The footer (`site-footer`) is small: the page paper under a hairline, in the same frame.
 `site-footer__brand` holds the lockup and one `type-footnote` line. One `site-footer__links`
 list holds a single row of `site-footer__link` items for social, legal, and language. No button:
-the top menu and the closing band carry the action. `--footer-paper` is white and `--footer-ink`
-off-black, and neither follows the theme flip. v7.0.0 retired `site-footer__cols`, `__col`,
+the top menu and the closing band carry the action. `--footer-paper` and `--footer-ink` follow
+the theme: white and off-black, or dark paper and white in the dark theme. Print is always light. v7.0.0 retired `site-footer__cols`, `__col`,
 `__col-heading`, `__list`, and `__cta`.
 
 **Site map (optional, v7.1.0).** Above the bottom row, `site-footer__map` holds
@@ -885,12 +896,12 @@ page discovery; the search-engine work belongs to `sitemap.xml`, which every sit
 registers in Google Search Console (Astro `@astrojs/sitemap`, WordPress core `wp-sitemap.xml`,
 Rails `sitemap_generator`).
 
-The sidebar (`site-sidebar`), product UI only, is a fixed 240px column, white paper with a
+The sidebar (`site-sidebar`), for larger product UI, is a fixed 240px column, white paper with a
 hairline rule on the right: the lockup, primary links, `details` groups, one action, a utility
-slot for search, language, and the theme control, and a note. The current page carries a 2px
+slot for search, language, and the theme switch, and a note. The current page carries a 2px
 red rule on the left of its link, and a closed group that holds it carries the rule on its
 summary; a hover is a 1px gray rule. Below 1024px a sticky bar with the lockup and a burger opens
-the sidebar as a drawer.
+the sidebar as a drawer, full width below 640px.
 
 The lockup (`site-lockup`) is the exact symbol inline plus the lowercase wordmark in the
 registered identity ink. Hover swaps the ink: Ağustos red to black, every other brand black to
@@ -957,8 +968,8 @@ Run this checklist before calling a system change complete:
 3. Test Turkish uppercase with `lang="tr"` on H4/table-header-style text: `başlık`, `i`, and `ışık` must uppercase correctly.
 4. Check cream, white, light gray, and dark substrates.
 5. Check red Ağustos and black house-brand lockups separately; verify shared-red link, focus, and marker behavior under every brand class.
-6. Test keyboard navigation: skip link, header nav, the More menu, search results, language controls, and the hero buttons. On product UI, also test the theme control.
-7. Verify the More menu (floating on desktop, inline in the drawer, closing on Escape and an outside click), responsive search row, drawer close button, backdrop and Escape, 44px controls, and 16px responsive input.
+6. Test keyboard navigation: skip link, header nav, the More menu, search results, language controls, and the hero buttons. Where a theme switch exists, test it in the bar and in the drawer.
+7. Verify the More menu (floating on desktop, open with its group titles in the drawer, closing on Escape and an outside click), the account list at the right edge, responsive search row, drawer close button, backdrop and Escape, 44px controls, and 16px responsive input.
 8. Verify mobile and desktop widths; text must not overlap, clip, or force horizontal scrolling except inside code blocks and wide tables.
 The factory checks (generators, Office exports and a `ui/` release) are in `ARCHITECTURE.md`, section "Testing", in the source repository.
 

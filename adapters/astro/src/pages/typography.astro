@@ -312,7 +312,7 @@ const portfolio = [
   .portfolio-negative__tile {
     /* Identity tile. Cream (light gray in the dark theme) stays light in both
        themes, so the negative lockup keeps contrast on every identity tile.
-       Do not use --footer-ink here: the footer is light since kit v7. */
+       Do not use --footer-ink here: it follows the theme flip, and the tile does not. */
     --lockup-color: var(--cream);
     background: var(--brand);
     border-radius: var(--radius-lg);

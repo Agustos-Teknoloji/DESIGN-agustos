@@ -1066,7 +1066,7 @@ nav:has(> .breadcrumb) {
 .site-lockup:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
 /* `:where` keeps the dark rest colours below the hover rules above, so the
    hover swap works in both themes: house brands turn red, Ağustos turns to
-   the ink (white on dark paper, off-black in the light footer). */
+   the ink (white on dark paper, off-black on white paper). */
 html[data-theme="dark"] :where(.site-lockup) { color: var(--ink); }
 html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand); }
 
@@ -1252,10 +1252,12 @@ html:has(.site-header) { scroll-padding-top: calc(var(--site-header-height) + va
 .site-header__cta { margin-inline-start: var(--space-sm); }
 
 /* More: a <details> whose <summary> is a site-header__link. On desktop the menu
-   floats under the item; in the drawer it opens inline. ui/agustos-chrome.js
-   closes it on Escape, an outside click or focus leaving; without the script
-   it still opens and closes on click. When the current page sits in More, the
-   More item carries the red rule (above). */
+   floats under the item, and ui/agustos-chrome.js closes it on Escape, an
+   outside click or focus leaving. In an open drawer the script opens every More
+   and marks it data-agustos-unfold: it stays open, and its summary reads as a
+   small title (below). Without the script a More opens and closes on click in
+   both places. When the current page sits in More, the More item carries the
+   red rule (above). */
 .site-header__more { position: relative; }
 .site-header__more > summary { gap: 6px; list-style: none; cursor: pointer; }
 .site-header__more > summary::-webkit-details-marker { display: none; }
