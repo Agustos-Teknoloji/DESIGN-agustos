@@ -1214,8 +1214,6 @@ html:has(.site-header) { scroll-padding-top: calc(var(--site-header-height) + va
   padding-block: {{recipes.chrome.paddingBlock}};
 }
 .site-header__panel { display: contents; color: inherit; }
-/* The drawer copy of the lockup (v7.7.0). The bar lockup shows on desktop. */
-.site-header__panel-brand { display: none; }
 /* At most five items. The rest go in one site-header__more. */
 .site-header__nav { display: flex; flex-wrap: nowrap; justify-content: center; align-items: center; gap: {{recipes.chrome.gap}}; }
 .site-header__link {
@@ -1730,17 +1728,6 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
     position: absolute;
     inset-block-start: {{recipes.chrome.paddingBlock}};
     inset-inline-end: var(--space-xl);
-  }
-  /* The drawer starts with the lockup, top left on the row of the close
-     button. It stops before the button, so the two never overlap. */
-  .site-header__panel-brand {
-    display: flex;
-    align-items: center;
-    position: absolute;
-    inset-block-start: {{recipes.chrome.paddingBlock}};
-    inset-inline-start: var(--space-xl);
-    min-height: var(--control-min);
-    max-inline-size: calc(100% - 2 * var(--space-xl) - var(--control-min) - var(--space-md));
   }
   .site-header__panel::backdrop { background: color-mix(in srgb, var(--ink) 32%, transparent); }
   .site-header__nav { flex-direction: column; justify-content: flex-start; align-items: stretch; gap: 2px; }
