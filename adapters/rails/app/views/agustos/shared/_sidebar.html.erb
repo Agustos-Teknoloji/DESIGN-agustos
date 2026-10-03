@@ -24,7 +24,7 @@
   </nav>
   <% if agustos_theme_toggle? %>
     <div class="site-sidebar__utility">
-      <button type="button" class="agustos-button agustos-button--quiet" data-action="agustos-theme#toggle" aria-pressed="<%= agustos_dark? %>"><%= agustos_chrome_labels[:theme] %></button>
+      <button type="button" class="agustos-button agustos-button--quiet agustos-theme-switch" data-agustos-theme><span class="agustos-theme-switch__to-dark"><span class="agustos-theme-switch__label"><%= agustos_chrome_labels[:theme_to_dark] %></span></span><span class="agustos-theme-switch__to-light"><span class="agustos-theme-switch__label"><%= agustos_chrome_labels[:theme_to_light] %></span></span></button>
     </div>
   <% end %>
   <% if agustos_sidebar_note.present? %>

@@ -1,4 +1,4 @@
-# Ağustos Rails Adapter (kit v7.0.0)
+# Ağustos Rails Adapter (kit v7.7.0)
 
 Plain-ERB, Hotwire-compatible implementation of the Ağustos Design System. The
 adapter matches the Astro top menu and footer grammar without depending on Astro
@@ -34,8 +34,8 @@ packages). The live search option requires Turbo. The header drawer is a
 native popover styled by the kit, and so is the product sidebar drawer; each
 drawer has a close button. The More menu is a native `details`; import
 `agustos/chrome` once (the kit's `agustos-chrome.js`) so it closes on Escape,
-an outside click or focus leaving. The adapter ships search and theme
-controllers only.
+an outside click or focus leaving, and so that the theme switch flips the
+theme and keeps the choice. The adapter ships a search controller only.
 
 Use the layout from a controller:
 
@@ -93,7 +93,7 @@ end
 `content-index`, `products`, `product-finder`, `product`, `spec-sheet`,
 `app-shell`) and renders as `data-screen` on `<body>`. The kit checker holds the
 page to that screen's row: the highlighter once, the sidebar only on product
-UI, `data-theme` only on product UI. Product UI defaults to `app-shell`; every
+UI. `data-theme` is set only by the theme switch. Product UI defaults to `app-shell`; every
 website page must set its own, or the checker reports it.
 
 **Top menu (`nav`).** At most five items. With more than five, the header keeps
@@ -125,10 +125,15 @@ language destinations.
 `hreflang`, and `external: true`; external links receive `_blank` plus
 `noopener noreferrer`.
 
-Websites ship light and carry no theme toggle. Product UI uses the app shell
+A site may add the theme switch with `theme: true`. The user picks dark; the
+device never does, and every page starts light. A site without the switch
+stays light. With `theme: true` the layout puts the kit head script
+(`AgustosThemeHelper::THEME_SCRIPT`, with the CSP nonce) before the stylesheets.
+
+Product UI uses the app shell
 (`shell: :product`): the layout renders `agustos/shared/sidebar`
 (`site-sidebar-bar` with the burger below 1024px, then `site-sidebar` with the
-lockup, `site-sidebar__nav`, an optional dark control in
+lockup, `site-sidebar__nav`, an optional theme switch in
 `site-sidebar__utility`, and a `site-sidebar__note`):
 
 ```ruby

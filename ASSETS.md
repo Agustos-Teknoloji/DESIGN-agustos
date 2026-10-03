@@ -104,7 +104,7 @@ scripts; never hand-edit `exports/`.
 | Registry (keystone, source of truth) | [`brand/brands.json`](brand/brands.json) |
 | Engine — logos / favicons / social | [`brand/build.py`](brand/build.py) |
 | Engine — office / swatches / email | [`brand/build_templates.py`](brand/build_templates.py) |
-| Engine — brand guidelines (14-page A4 PDF) | [`brand/build_guidelines.py`](brand/build_guidelines.py) |
+| Engine — brand guidelines (14-page A4 PDF, rebuilt 2026-10-03 for v7.7.0) | [`brand/build_guidelines.py`](brand/build_guidelines.py) |
 | Engine — editable PowerPoint / Google Slides import | [`brand/build_presentation.mjs`](brand/build_presentation.mjs) |
 | Office artifact drift manifest (9 files, generated) | [`brand/exports/office-manifest.json`](brand/exports/office-manifest.json) |
 | Engine — product datasheet (lighting "teknik föy") | [`brand/build_datasheet.py`](brand/build_datasheet.py) |

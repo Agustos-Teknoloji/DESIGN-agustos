@@ -43,7 +43,7 @@ class ScreenFileTest(unittest.TestCase):
         for name, text in self.pages.items():
             row = KIT["screens"][name]
             with self.subTest(screen=name):
-                lang = "en" if name == "app-shell" else "tr"
+                lang = "en" if row["family"] == "product-ui" else "tr"
                 self.assertIn(f'<html lang="{lang}">', text)
                 self.assertLess(text.index('href="../ui/agustos-fonts.css"'), text.index('href="../ui/agustos.css"'))
                 self.assertIn('href="../laz-gunesi-amblem/favicon/favicon.svg"', text)
@@ -86,21 +86,33 @@ class ScreenFileTest(unittest.TestCase):
                 self.assertNotRegex(text, r'src="https?://')
                 self.assertNotRegex(text, r'href="https?://[^"]*\.(?:css|js)"')
 
-    def test_scripts_are_the_chrome_script_and_one_short_toggle(self):
-        """Every screen loads the kit's chrome script once: it closes More and an
-        open drawer when focus leaves them (v7.3.3). The app shell adds one short
-        inline theme toggle; website screens add nothing."""
+    THEMED = {"home", "app-shell", "app-top-menu"}
+
+    def test_scripts_are_the_chrome_script_and_the_theme_script(self):
+        """Every screen loads the kit's chrome script once. A screen with a theme
+        switch also carries the one-line head script from kit.json, before the
+        stylesheets, and nothing else (v7.7.0)."""
         chrome = '<script src="../ui/agustos-chrome.js" defer></script>'
+        theme = f"<script>{KIT['themeScript']}</script>"
         for name, text in self.pages.items():
             with self.subTest(screen=name):
                 self.assertEqual(text.count(chrome), 1)
                 scripts = SCRIPT.findall(text.replace(chrome, ""))
-                if name == "app-shell":
-                    self.assertEqual(len(scripts), 1)
-                    lines = [line for line in scripts[0].strip().splitlines() if line.strip()]
-                    self.assertLessEqual(len(lines), 5)
+                if name in self.THEMED:
+                    self.assertEqual(scripts, [KIT["themeScript"]])
+                    self.assertLess(text.index(theme), text.index('href="../ui/agustos-fonts.css"'))
+                    self.assertIn("data-agustos-theme", text)
                 else:
                     self.assertEqual(scripts, [])
+                    self.assertNotIn("data-agustos-theme", text)
+
+    def test_top_menu_product_screen_shows_the_new_parts(self):
+        text = self.pages["app-top-menu"]
+        self.assertIn("site-header__more-menu--groups", text)
+        self.assertEqual(text.count('class="site-header__more-group"'), 2)
+        self.assertIn("site-header__more site-header__more--end", text)
+        self.assertIn('<button type="submit" class="site-header__more-link">Sign out</button>', text)
+        self.assertNotIn("site-sidebar", text)
 
     def test_checker_scores_the_folder_clean(self):
         """The checker owns the per-screen rules (primary CTA limit, quotes, theme,

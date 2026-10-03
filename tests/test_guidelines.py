@@ -94,6 +94,18 @@ class GuidelinesContractTest(unittest.TestCase):
                 self.assertNotEqual(self.reg["brands"][slug]["color"].lower(), signal)
                 self.assertIn(f"Never make the {self.reg['brands'][slug]['title']} logo red.", self.pages[slug])
 
+    def test_colour_in_use_states_the_v7_7_theme_rule(self):
+        source = (ROOT / "brand" / "build_guidelines.py").read_text(encoding="utf-8")
+        self.assertNotIn("Light islands", source)
+        self.assertIn("The footer and the closing band turn dark with the page", source)
+        self.assertIn("The user may switch to dark; the device never chooses.", source)
+        # The committed export must be rebuilt from this source, not left stale.
+        export = (ROOT / "brand" / "exports" / "agustos" / "guidelines" / "agustos-brand-guidelines.html")
+        page = export.read_text(encoding="utf-8")
+        self.assertNotIn("Light islands", page)
+        self.assertIn("The user may switch to dark; the device never chooses.", page)
+        self.assertIn("The footer and the closing band turn dark with the page", page)
+
 
 if __name__ == "__main__":
     unittest.main()

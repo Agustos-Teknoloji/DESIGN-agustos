@@ -1,8 +1,8 @@
 # Design application handoff
 
-Date: 2026-09-29
-Design system version: 7.0.0
-Status: Both chromes, the layout layer, and nine screens are in the kit. Websites use the top menu and the footer; product UI uses the sidebar. The checker errors on identity and warns on taste. Share the five artifacts and screens/. Do not regenerate the factory.
+Date: 2026-10-03
+Design system version: 7.7.0
+Status: Both chromes, the layout layer, and ten screens are in the kit. Websites and small products use the top menu and the footer; larger product UI uses the sidebar. The checker errors on identity and warns on taste. Share the five artifacts and screens/. Do not regenerate the factory.
 
 Open these five artifacts first:
 
@@ -36,7 +36,7 @@ From this repository:
 python3 scripts/pack_handoff.py
 ```
 
-That writes `dist/agustos-ui-handoff-v7.0.1.zip`.
+That writes `dist/agustos-ui-handoff-v7.7.0.zip`.
 The zip holds the five artifacts, the kit, the screens, and lockup SVGs.
 It does not hold generators, adapters, Office files, or decision history.
 
@@ -48,10 +48,10 @@ If you already opened the slim zip, skip packing. Start at Apply to a website.
 
 1. Copy the zip's `ui/` folder to `vendor/agustos-ui/` in the target repository. Commit it.
 2. Paste `vendor/agustos-ui/AGENTS-SNIPPET.md` into that project's `AGENTS.md`.
-3. Load fonts first, then the stylesheet. Put a `brand-*` class and `data-screen` on `<body>`, plus `site-sidebar-layout` for product UI only. Copy the chrome from the matching screen: every website uses the top menu (five items at most, the rest under More) and the footer.
+3. Load fonts first, then the stylesheet. Put a `brand-*` class and `data-screen` on `<body>`, plus `site-sidebar-layout` for the product sidebar only. Copy the chrome from the matching screen: every website uses the top menu (five items at most, the rest under More) and the footer.
 4. Build each page from its screen in `screens/`. White paper, one pale red closing band, one primary and one secondary button, one H2 role. Dark theme uses the same six colours, flipped.
 5. Name one primary destination. The header, the opening, and the closing band may carry it; the sections between them do not.
-6. Keep marketing, catalog, and spec pages light. Do not add a theme toggle there.
+6. Start every page light. A theme switch is optional; the user picks dark, never the device.
 7. Put photographs on product pages first. Leave listing and homepage type-only until those photos exist.
 8. Keep quotes for content pages. Use the highlighter once, on the main headline.
 9. Run `python3 vendor/agustos-ui/check-agustos-ui.py .` and make it exit 0.
@@ -78,6 +78,6 @@ Do not copy Design markup or CSS into `ui/` or `tokens/`.
 ## Locked composition
 
 - One primary destination: the header, the opening, and one closing pale red band. Advice, not a checked rule.
-- Dark theme ships on product UI. Marketing, catalog, and spec pages stay light. Dark uses the locked six-colour flip.
+- The dark theme is the user's choice on any page. Every page starts light. Dark uses the locked six-colour flip.
 - Photographs: product page first, then listing thumbnails, then homepage installation. Type-only pages stay complete.
 - Blockquote and pullquote belong on content pages. Guidance, not a checked rule.

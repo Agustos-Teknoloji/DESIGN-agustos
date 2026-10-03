@@ -86,7 +86,7 @@ const idSuffix = locale;
 
       <div class="site-header__end">
         {searchEnabled && <HeaderSearch variant="desktop-dropdown" labels={searchLabels} panelId={`header-search-panel-desktop-${idSuffix}`} resultsId={`header-search-results-desktop-${idSuffix}`} />}
-        {hasUtility && <HeaderUtility className="site-header__utility--drawer" languageSwitch={config.languageSwitch} theme={themeEnabled} />}
+        {hasUtility && <HeaderUtility className="site-header__utility--drawer" languageSwitch={config.languageSwitch} theme={themeEnabled} lang={locale} />}
         {cta && (
           <a
             href={cta.href}
@@ -99,7 +99,7 @@ const idSuffix = locale;
       </div>
     </div>
 
-    {hasUtility && <HeaderUtility className="site-header__utility--bar" languageSwitch={config.languageSwitch} theme={themeEnabled} />}
+    {hasUtility && <HeaderUtility className="site-header__utility--bar" languageSwitch={config.languageSwitch} theme={themeEnabled} lang={locale} />}
     <button type="button" class="site-header__burger" popovertarget="site-header-panel" aria-label={labels.openMenu}>
       <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true" focusable="false"><path d="M0 1h18M0 7h18M0 13h18" stroke="currentColor" stroke-width="1.5"/></svg>
     </button>
@@ -110,7 +110,8 @@ const idSuffix = locale;
 
 
 <script>
-  // The kit's More-menu behaviour: Escape, an outside click or focus leaving closes it.
+  // The kit script: the More menu closes on Escape, an outside click or focus leaving,
+  // and the theme switch flips data-theme and keeps the choice.
   import '../scripts/agustos-chrome.js';
 
   type SearchLabels = { loading: string; empty: string; unavailable: string; result: string; results: string; pages: string; posts: string };
@@ -140,13 +141,6 @@ const idSuffix = locale;
     if (root.dataset.searchVariant === 'responsive') input?.setAttribute('aria-expanded', 'true');
     if (focusInput) input?.focus();
   }
-
-  document.querySelectorAll<HTMLButtonElement>('[data-theme-toggle]').forEach((button) => button.addEventListener('click', () => {
-    const dark = html.getAttribute('data-theme') !== 'dark';
-    if (dark) html.setAttribute('data-theme', 'dark');
-    else html.removeAttribute('data-theme');
-    try { localStorage.setItem('agustos:theme', dark ? 'dark' : 'light'); } catch { /* storage unavailable */ }
-  }));
 
   function loadPagefind() {
     const pagefindPath = '/pagefind/pagefind.js';

@@ -229,7 +229,7 @@ CARDS: tuple[Card, ...] = (
         1280,
         640,
         "Product sidebar",
-        "Product UI only. Fixed 240px column, drawer below 1024px",
+        "Larger product UI. Fixed 240px column, drawer below 1024px, full width below 640px",
         """
 <header class="site-sidebar-bar">
   <a class="site-lockup" href="/" aria-label="ağustos">
@@ -281,7 +281,7 @@ CARDS: tuple[Card, ...] = (
 </aside>
 <main id="main" class="container">
   <h1 class="type-h1">Product sidebar</h1>
-  <p class="type-body prose">Product UI only, such as the IESDesk app. Websites use the top menu. Below 1024px the bar and burger open it as a drawer.</p>
+  <p class="type-body prose">Product UI with more than about ten destinations, such as a large app. Websites and small products use the top menu. Below 1024px the bar and burger open it as a drawer.</p>
 </main>
 """,
         "brand-agustos paper-white site-sidebar-layout",
@@ -330,7 +330,7 @@ CARDS: tuple[Card, ...] = (
 </header>
 <main id="main" class="container">
   <h1 class="type-h1">Website chrome</h1>
-  <p class="type-body prose">Every website uses the top menu and the light footer, whatever the brand. The footer never follows the theme flip.</p>
+  <p class="type-body prose">Every website uses the top menu and the footer, whatever the brand. The footer follows the theme.</p>
 </main>
 <footer class="site-footer">
   <div class="site-footer__inner site-frame">
@@ -401,7 +401,7 @@ def screen_card_members(root: Path = ROOT, version: str | None = None) -> list[t
         html = (root / "screens" / screen["file"]).read_text(encoding="utf-8")
         title = name.replace("-", " ").capitalize()
         family = "product UI" if screen["family"] == "product-ui" else screen["family"]
-        theme = "dark allowed" if screen["theme"] == "dark-allowed" else screen["theme"]
+        theme = {"light-first": "light first, dark by choice"}.get(screen["theme"], screen["theme"])
         marker = (
             f'<!-- @dsCard group="Kit · Screens" viewport="{width}x{height}" '
             f'name="{title}" subtitle="{family} · {screen["chrome"]} · {theme}" -->'

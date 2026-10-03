@@ -4,6 +4,51 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.7.0] - 2026-10-03
+
+An extra minor release under MEMORY 2026-09-29 monthly-kit-release: IESDesk moves every page to one top menu and offers the dark theme everywhere (IESDesk MEMORY 2026-10-03 one-top-bar, dark-theme-everywhere), and the kit rules blocked both. Emre approved the change on 2026-10-03 ("Let's change the UI kit rule. Footer should change too."; "user should choose light or dark, not the system to dictate"; "Everything starts with light first").
+
+### Changed
+
+- Every site may offer the dark theme. The rule "Websites ship light; dark theme is for product UI" and the ban on a theme switch on a website are gone. Every page starts light, and a site without the switch stays light.
+- The footer and the closing band turn dark with the page. The light islands are gone. The dark band is the dark paper between two hairline rules, so red keeps 3.35:1 and secondary text 4.95:1.
+- Print is always light, also with the dark theme on.
+- Product UI may use the top menu when it has about ten destinations or fewer. The new screen `app-top-menu` shows it. The app shell keeps the sidebar.
+- Below 640px the drawer covers the whole width: the top-menu panel and the sidebar drawer alike. From 640 to 1023px it keeps `min(320px, 86vw)`.
+- The screens table field `theme` is `light-first` for every screen.
+- AG024 warns on a page that starts dark (`data-theme="dark"` on the served `<html>`), not on any `data-theme`. AG027 counts only the items in `site-header__nav`, so an account list in `site-header__end` does not count. AG026 warns on a sidebar on every screen whose chrome is the top menu, `app-top-menu` included. AG024 and AG027 step over ERB and PHP tags inside a start tag, and AG034 accepts a Rails `javascript_tag` that carries the head script.
+
+### Added
+
+- The theme switch: `agustos-theme-switch`, `agustos-theme-switch__to-dark`, `agustos-theme-switch__to-light`, `agustos-theme-switch__label`, with `data-agustos-theme`. `agustos-chrome.js` flips the theme and keeps it under `agustos:theme`; `kit.json` publishes the head script as `themeScript`.
+- Grouped More lists: `site-header__more-menu--groups`, `site-header__more-group`, `site-header__more-group-title`. A More holds at most two groups: columns on a wide screen, stacked in the drawer.
+- The phone drawer shows every More open, with its summary as a small title (`data-agustos-unfold`, set by `agustos-chrome.js`). Without the script each More folds as before. The script clears the marks at 1024px and wider and before Turbo caches the page, so Back never brings back a More that is stuck open.
+- The account list: `site-header__more--end` and `site-header__more-label`, and a button reset for a sign-out `button.site-header__more-link` in a `form`.
+- AG033 warns on `prefers-color-scheme` in any checked file but Markdown: CSS, a script or a page.
+- AG034 warns on a theme switch without the kit head script before the stylesheets.
+- AG035 warns on a More with more than two groups, because a third group goes past the edge of the page at 1024px.
+- AG036 warns on a theme switch on a page that does not load `agustos-chrome.js`, because the switch then does nothing.
+- States rows: the dark footer, the band secondary text, the focus ring in the band, the theme switch, the More group title.
+
+### Deprecated
+
+- `site-header__theme-sun` and `site-header__theme-moon`. Use `agustos-theme-switch`. They stay until v8.
+
+### Documentation
+
+- UI-KIT.md, DESIGN.md, HANDOFF.md, the adapters and the handbook pages state the new rules. The brand guidelines PDFs are rebuilt with the new "Colour in use" rule (Emre approved, 2026-10-03).
+
+### Migration
+
+- A site that adds no switch changes no markup and stays light. Its desktop header, footer and band look the same in light. Below 1024px every More in the drawer shows open with its title, and below 640px the drawer fills the screen. Check each site at 375px and 800px.
+- A site that adds the switch puts the head script (`kit.json` `themeScript`) in `<head>`, after the viewport meta and before the stylesheets, with its CSP nonce. AG034 warns when it is missing. A page with the switch also loads `agustos-chrome.js`; AG036 warns when it does not.
+- A site that sets text on `var(--cream)` outside `band--cream` changes it before it adds the switch: in the dark theme `--cream` stays light gray `#ebebeb` under white ink.
+- A site that renders `data-theme="dark"` on `<html>` from the server now gets AG024. Apply the stored choice with the head script instead.
+- A site with its own theme handler (Astro or Rails adapter copies, IESDesk `agustos_theme_controller.js`) removes it when it adopts `data-agustos-theme`, or the click flips the theme twice.
+- Rails adapter: the `color_scheme:` option and `agustos_dark?` are removed, so a caller that passes `color_scheme:` gets an `ArgumentError`. The Stimulus theme controller is deleted. A host that shows the switch imports `agustos/chrome`.
+- Astro adapter: the `BaseLayout` `theme` prop is removed, so no page renders dark from the server. `header={{ theme: true }}` adds the kit switch and the head script.
+- A site that renders `site-header__theme-sun` or `site-header__theme-moon` keeps working until v8. Move to `agustos-theme-switch`.
+
 ## [7.6.2] - 2026-10-01
 
 A defect patch from the agustos.com move to v7.6.1 (WEBSITE-agustos PR 167). Emre asked for it before the last two site PRs merge. Each defect was measured in a browser before and after the fix. Consuming sites change no markup. A site that added its own space under a meta line, as agustos.com does on `.post-header`, can remove it.

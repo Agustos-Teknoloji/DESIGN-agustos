@@ -1,6 +1,6 @@
 # Ağustos Design System
 
-**Version 7.6.2** · Cross-medium design system for Emre Güneş's brand portfolio
+**Version 7.7.0** · Cross-medium design system for Emre Güneş's brand portfolio
 
 ## Standard artifacts
 
@@ -52,7 +52,7 @@ Keep the experience welcoming and easy to use.
 - Use two radii, 6px for controls and 12px for cards, and one section spacing. Do not use gradients or textures. The only shadow sits under a menu that floats above the page.
 - Red is identity and signal, never action: the logo, the 2px link and menu rule, keyboard focus, and one highlighter stroke per page. Buttons are black. The Ağustos logo is red and turns black on hover; every other house brand's logo is black and turns red on hover.
 - Use the highlighter on one to four words of the main headline: once on the homepage, at most once on any other page. Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.
-- Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar. Websites ship light; dark theme is for product UI.
+- Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar, or the top menu when it has about ten destinations or fewer. Every page starts light. A site may add a theme switch; the user picks dark, never the device.
 - Copy a screen; do not design a page. Open with a headline, a deck, two buttons, and a trust line. Close with one pale red band.
 - Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not combine them, and do not use uppercase labels, eyebrow headings, or coloured text.
 - When unsure, do the conventional thing. Collect design tweaks and release the kit once a month; fix real defects at once.
@@ -99,7 +99,7 @@ A website, a datasheet and a LinkedIn post cannot look the same, but they must r
 The generator publishes it in the handoff, resolved registry, and UI kit.
 Version 5 applies the approved white-substrate palette, type scale, action system, layout measure, and locked dark theme.
 The dark theme reuses the same six colours, flipped. No new hexes.
-Marketing pages stay light. Dark theme is for product UI.
+Every page starts light. A site may offer the dark theme through a theme switch; the user chooses it, never the device.
 
 ## Website composition
 
@@ -121,14 +121,16 @@ In-prose links with a 2px red rule are not buttons.
 
 ### Dark theme
 
-Marketing pages, product catalog pages, and spec sheets ship on white paper.
-They do not include a theme toggle.
-Dark theme is for product UI (IESDesk and similar tools) and honors user preference there.
-Use the locked six-colour flip: paper `#15130f`, surface `#404040`, callout `#ebebeb`, ink `#ffffff`, ink-soft `#8a8378`.
+Every page starts on white paper. Any site may add the kit theme switch; a site without it stays light.
+The user chooses the theme. The device setting (`prefers-color-scheme`) never chooses it.
+The browser keeps the choice under `agustos:theme`, and a one-line head script applies it before the first paint.
+Use the locked six-colour flip: paper `#15130f`, surface `#404040`, ink `#ffffff`, ink-soft `#8a8378`.
+The footer turns dark with the page. The closing band keeps its spacing on the dark paper, between two hairline rules.
 Buttons invert with the ink: the primary is white on off-black. Red never fills a button, in either theme.
-The handbook dark control inspects that theme. It is not a marketing pattern.
-Do not design a dark-first marketing page.
-Do not place photography on a dark marketing hero.
+Print is always light.
+Pictures drawn on white stay as they are.
+Do not design a dark-first page.
+Do not place photography on a dark hero.
 
 ### Photography
 
@@ -703,7 +705,7 @@ Accessibility is part of the design system, not an implementation afterthought. 
 
 - Transitions should be short and functional (150ms, `cubic-bezier(0.2, 0, 0, 1)`).
 - Do not encode meaning in color alone. Links use both weight and underline; active navigation uses position, text, and state, not just color.
-- Dark theme is allowed as an opt-in layer for product UI. It must preserve the same six colour roles, flipped: paper, surface, cream/callout, ink, ink-soft, and shared signal. Marketing pages stay light.
+- Dark theme is a user choice on every page. It must preserve the same six colour roles, flipped: paper, surface, cream/callout, ink, ink-soft, and shared signal.
 
 ---
 
@@ -739,12 +741,12 @@ Key-figure tiles, image regions, and summary panels.
 
 A single CSS variable swap still flips dark theme. Pale red is not a third page substrate.
 
-### Dark `#15130f` (product UI; locked)
+### Dark `#15130f` (the user's choice; locked)
 
-Same six colours, flipped. Paper `#15130f`, surface `#404040`, callout band `#ebebeb`, ink `#ffffff`, ink-soft `#8a8378`, red unchanged.
+Same six colours, flipped. Paper `#15130f`, surface `#404040`, callout `#ebebeb` (identity tiles; the closing band takes the dark paper), ink `#ffffff`, ink-soft `#8a8378`, red unchanged.
 Buttons invert with the ink: the primary is white on off-black. No red fill.
-The footer variables do not follow the flip.
-Marketing, catalog, and spec pages stay on white paper. They do not include a theme toggle.
+The footer variables follow the flip. Print is always light.
+Marketing, catalog, and spec pages start on white paper. A theme switch is optional.
 
 ---
 
@@ -774,7 +776,7 @@ Current non-token utilities:
 | Utility | Role |
 |---|---|
 | `.paper-white` | Compatibility class. White is already the default paper. |
-| `html[data-theme="dark"]` | Product-UI dark theme. Same six colours, flipped. Paper `#15130f`, surface `#404040`, callout `#ebebeb`, ink `#ffffff`, ink-soft `#8a8378`. Buttons invert with the ink. Marketing pages do not set this. |
+| `html[data-theme="dark"]` | The dark theme, set only by the theme switch. Same six colours, flipped. Paper `#15130f`, surface `#404040`, ink `#ffffff`, ink-soft `#8a8378`. Buttons invert with the ink. The footer and the closing band follow it. |
 | `.site-frame` | Shared site-chrome frame: 1180px content measure plus 32px gutters. |
 | `.container` | The same frame geometry plus default vertical page padding. |
 | `.container--reading` | A content page: the frame keeps its left edge, and each block stops at the reading line. The side zone to the right stays free. |
@@ -782,8 +784,8 @@ Current non-token utilities:
 | `.hero-actions` | The opening's button row: one primary and one secondary `agustos-button`. |
 | `.skip-link` | Keyboard accessibility utility for persistent navigation layouts. |
 | `.site-lockup`, `.site-lockup__symbol`, `.site-lockup__name` | The brand lockup: exact symbol plus lowercase wordmark. |
-| `.site-sidebar*`, `.site-sidebar-bar`, `.site-sidebar-burger`, `.site-sidebar-layout` | The sidebar chrome, product UI only. Drawer below 1024px. |
-| `.site-header*`, `.site-footer*` | The top menu and the footer, on every website. Five items at most, the rest under `site-header__more`. Drawer below 1024px. |
+| `.site-sidebar*`, `.site-sidebar-bar`, `.site-sidebar-burger`, `.site-sidebar-layout` | The sidebar chrome, for product UI with more than about ten destinations. Drawer below 1024px, full width below 640px. |
+| `.site-header*`, `.site-footer*` | The top menu and the footer, on every website. Five items at most, the rest under `site-header__more`. Drawer below 1024px, full width below 640px. |
 | `.breadcrumb`, `.breadcrumb__link` | The trail above a page title. |
 | `.stack`, `.cluster`, `.prose`, `.grid-2`, `.grid-3`, `.grid-4`, `.grid-aside`, `.band`, `.band--cream`, `.table-scroll` | The layout layer. No page declares its own frame, band, grid, or measure. |
 
@@ -834,15 +836,16 @@ Composition rules the web template follows:
 
 The kit ships two chromes, and the screen family picks one, not the brand. Every website
 (marketing, content, catalog, and document screens) uses the top menu and the footer. Product UI
-(the app shell) uses the sidebar. Brands no longer register a chrome: v7.0.0 removed `chrome`
-from `brand/brands.json`, and the build rejects it. The checker warns (AG026) on a sidebar outside
-product UI, and (AG027) on a sixth top-menu item. Both chromes are generated from
+uses the sidebar (the app shell), or the top menu when it has about ten destinations or fewer
+(the app top menu, `app-top-menu`). Brands no longer register a chrome: v7.0.0 removed `chrome`
+from `brand/brands.json`, and the build rejects it. The checker warns (AG026) on a sidebar on a
+top-menu screen, and (AG027) on a sixth item in `site-header__nav`. Both chromes are generated from
 `tokens/web.css.tmpl` into every web stylesheet. No chrome rule exists anywhere else in this
 repository; a test enforces it. The kit uses JavaScript only when it is the logical choice:
 drawers are native popovers with a close button (`site-header__close`, `site-sidebar__close`),
-collapsible groups and More are `details`, and `ui/agustos-chrome.js`, about 30 lines, closes
-More on Escape, an outside click or focus leaving, and closes an open drawer when focus leaves
-it. Without the script More still opens and closes on click, and a drawer still closes on
+collapsible groups and More are `details`, and `ui/agustos-chrome.js`, about 100 lines, closes
+More on Escape, an outside click or focus leaving, closes an open drawer when focus leaves
+it, opens every More of an open drawer below 1024px, and runs the theme switch. Without the script More still opens and closes on click, and a drawer still closes on
 Escape, an outside click and its close button. Print drops the menus, the drawers and the footer links.
 
 The top menu (`site-header`) is a sticky one-row header inside the shared frame: the lockup,
@@ -855,21 +858,29 @@ and the page's scroll padding keeps an anchor target or a focused element below 
 adds 1px (`--anchor-snap`) because a browser scrolls to whole pixels. The row never wraps: between 1024 and
 1279px its spacing tightens, and five labels fit at 1024px up to about 65 characters together,
 More included. Below 1024px the burger opens the panel as a drawer; the page behind it holds
-still.
+still. The drawer is `min(320px, 86vw)` wide, and it covers the whole width below 640px.
 
 **Five items at most.** The top menu holds at most five links. Put every other page in one
 `site-header__more` `details` whose `summary` is a `site-header__link` reading "Daha fazla" or
 "More". Its `site-header__more-menu` holds `site-header__more-link` items. On desktop the menu
-floats under the item on a 12px radius with the system's one shadow; in the phone drawer the
-More items open inline. When the current page sits under More, the More item carries the red
-rule. Social, legal, and language links do not go in the top menu; they live
+floats under the item on a 12px radius with the system's one shadow. Below 1024px the script
+opens every More of an open drawer and marks it `data-agustos-unfold`: its summary reads as a
+small title over its links and stays open, and a screen reader still announces it as an open
+disclosure. Without the script each More folds and opens on a tap. When the current page sits
+under More, the More item carries the red rule. A More may hold up to two titled groups
+(`site-header__more-menu--groups`, each `site-header__more-group` with a sentence-case
+`site-header__more-group-title`): columns on a wide screen, stacked in the drawer. The checker
+warns on a third (AG035). An account list (`site-header__more site-header__more--end`) sits last
+in `site-header__end`, with the email in a `site-header__more-label` that ends in an ellipsis.
+It opens from the right edge, it may end with a sign-out form, and it takes the place of Sign in
+and the CTA. AG027 counts only the items in `site-header__nav`. Social, legal, and language links do not go in the top menu; they live
 in the footer.
 
-The footer (`site-footer`) is light and small: white paper under a hairline, in the same frame.
+The footer (`site-footer`) is small: the page paper under a hairline, in the same frame.
 `site-footer__brand` holds the lockup and one `type-footnote` line. One `site-footer__links`
 list holds a single row of `site-footer__link` items for social, legal, and language. No button:
-the top menu and the closing band carry the action. `--footer-paper` is white and `--footer-ink`
-off-black, and neither follows the theme flip. v7.0.0 retired `site-footer__cols`, `__col`,
+the top menu and the closing band carry the action. `--footer-paper` and `--footer-ink` follow
+the theme: white and off-black, or dark paper and white in the dark theme. Print is always light. v7.0.0 retired `site-footer__cols`, `__col`,
 `__col-heading`, `__list`, and `__cta`.
 
 **Site map (optional, v7.1.0).** Above the bottom row, `site-footer__map` holds
@@ -885,12 +896,12 @@ page discovery; the search-engine work belongs to `sitemap.xml`, which every sit
 registers in Google Search Console (Astro `@astrojs/sitemap`, WordPress core `wp-sitemap.xml`,
 Rails `sitemap_generator`).
 
-The sidebar (`site-sidebar`), product UI only, is a fixed 240px column, white paper with a
+The sidebar (`site-sidebar`), for larger product UI, is a fixed 240px column, white paper with a
 hairline rule on the right: the lockup, primary links, `details` groups, one action, a utility
-slot for search, language, and the theme control, and a note. The current page carries a 2px
+slot for search, language, and the theme switch, and a note. The current page carries a 2px
 red rule on the left of its link, and a closed group that holds it carries the rule on its
 summary; a hover is a 1px gray rule. Below 1024px a sticky bar with the lockup and a burger opens
-the sidebar as a drawer.
+the sidebar as a drawer, full width below 640px.
 
 The lockup (`site-lockup`) is the exact symbol inline plus the lowercase wordmark in the
 registered identity ink. Hover swaps the ink: Ağustos red to black, every other brand black to
@@ -910,7 +921,7 @@ Rails monoliths should use `adapters/rails/` as the starting point. The adapter 
 - `app/helpers/agustos_theme_helper.rb`
 - `app/views/layouts/agustos.html.erb`
 - shared ERB partials for the exact lockup, header, footer, and Turbo search results
-- focused Stimulus controllers for drawer, theme, and search panel behavior
+- a Stimulus controller for the search panel; the kit script runs the drawer and the theme switch
 
 The Rails adapter is plain ERB first. If an app uses ViewComponent, components can wrap the same semantic pieces later without changing the design grammar.
 
@@ -957,8 +968,8 @@ Run this checklist before calling a system change complete:
 3. Test Turkish uppercase with `lang="tr"` on H4/table-header-style text: `başlık`, `i`, and `ışık` must uppercase correctly.
 4. Check cream, white, light gray, and dark substrates.
 5. Check red Ağustos and black house-brand lockups separately; verify shared-red link, focus, and marker behavior under every brand class.
-6. Test keyboard navigation: skip link, header nav, the More menu, search results, language controls, and the hero buttons. On product UI, also test the theme control.
-7. Verify the More menu (floating on desktop, inline in the drawer, closing on Escape and an outside click), responsive search row, drawer close button, backdrop and Escape, 44px controls, and 16px responsive input.
+6. Test keyboard navigation: skip link, header nav, the More menu, search results, language controls, and the hero buttons. Where a theme switch exists, test it in the bar and in the drawer.
+7. Verify the More menu (floating on desktop, open with its group titles in the drawer, closing on Escape and an outside click), the account list at the right edge, responsive search row, drawer close button, backdrop and Escape, 44px controls, and 16px responsive input.
 8. Verify mobile and desktop widths; text must not overlap, clip, or force horizontal scrolling except inside code blocks and wide tables.
 The factory checks (generators, Office exports and a `ui/` release) are in `ARCHITECTURE.md`, section "Testing", in the source repository.
 
@@ -966,7 +977,7 @@ The factory checks (generators, Office exports and a `ui/` release) are in `ARCH
 
 ## Versioning
 
-This is **v7.6.2**. The release makes one type contract for every medium: every size, line height and tracking is a variable, `recipes.typeRoles` is the one type table that UI-KIT.md, the guidelines, the datasheet and the LinkedIn templates read, a heading takes a fixed gap below it (32px under a title, 20px under an H2, 12px under an H3, 8px under an H4), spec values take the mono face (`type-spec`), and `designDirection.invariants` lists the rules that hold in every medium. v7.5.1: The patch fixes four defects from the 2026-10-01 kit audit: the `hidden` attribute hides an element that a kit class displays; a card without a link no longer answers the pointer, and a marked card keeps its ink rule on hover; a hovered skip link keeps its white text on the ink box; code blocks and the primary button print as outlines, because a printer drops backgrounds. v7.5.0: The release makes the stack keep the vertical rhythm: a heading or a hero part inside a `.stack` keeps its break, through `--stack-space`. Before, the stack cleared every margin and set a flat 16px, so the memregunes.com hero lost its 24 and 32px breaks. The hero gains two layouts with an image beside the text (`.hero-split`, `.hero-split--media-start`), next to text only and an image below. The checker warns on a homepage with no highlighter (AG032). v7.4.2: The patch gives the contents list 24px above its folded line, hides its visible title from screen readers (the `nav` label names it), and stops AG031 from warning after an unclosed `<p>`. v7.4.1: The patch makes the checker's screen rules read markup only. Astro inlines a small processed script, so a site that imports `agustos-chrome.js` carried its `.site-sidebar[popover]` selector on every page, and `--screens-only` warned AG026 on each one. Comments, inline scripts and inline styles no longer count, and each warning gives the line of its own match. v7.4.0: The release adds the "On this page" list, `agustos-contents`: a no-script disclosure of a long legal page's main sections, folded below 1280px and open and in view in the side zone at 1280px and wider, and checker warning AG031. v7.3.5: The patch gives headings two fixed breaks: 40px above an H2 and 32px above an H3 or an H4, on every page. Before, each heading took 2.5 times its own size, so an H3 took 53px, more than the 40px of a reading-page H2. A heading that opens a `<section>` inside a section keeps its break. v7.3.4: The patch gives a reading page one break above each H2 and each section: 40px (`--space-3xl`), a margin that collapses with the last margin above it. Before, a section on a reading page kept the band padding of a marketing page (121 to 144px at 1440px), and a bare H2 took 2.5 times its own size (108px). v7.3.3: The patch fixes three defects and five small rules from the 2026-09-30 design review. An open drawer closes when keyboard focus leaves it, so focus never lands on the page behind it (`ui/agustos-chrome.js`, now on every screen). A disabled link drops its `href`, because `aria-disabled` alone does not stop a click; the checker warns on one that keeps it (AG030). A search result excerpt takes the ink on its hover fill (2.76:1 in the dark theme before). Table captions align to the start, `color-scheme` follows the theme, a footer link hover is the 1px gray rule, and reduced motion sets `--dur` to 0s for every transition. v7.3.2: The patch fixes three defects. A parent menu item on a nested route carries `aria-current="true"`, not `"page"`, and the chrome draws the red rule for both; the checker warns on a parent marked `"page"` in built pages (AG029). The adoption snippet says that only product UI uses the sidebar. Every anchor offset adds 1px (`--anchor-snap`), because a browser scrolls to whole pixels and a fractional target stopped under the sticky chrome. v7.3.1: The patch moves the reading column of a content page back to the frame's left edge and gives every region one reading line: `--measure-body` becomes 41rem (656px, about 75 characters), the text of a content page and the footer contact block end on it, and the footer groups fill the side zone to its right. Below 1280px the footer groups move under the contact block. v7.3.0: The kit owns the header search and the language link: one recipe replaces the copies in the Astro and Rails adapters, its text clears 4.5:1, its input is 16px, and below 1024px the anchor offset adds the 61px search row. v7.2.0 gave every content page one reading column: `.container--reading` puts the title, the text and the headings at the 65ch body measure in the center of the frame, so a wide screen no longer shows text on the left half and nothing on the right. The screens table gains a derived Column (reading for the content family, frame for the rest), and the checker warns on a full-width `container` on a content screen (AG028). v7.1.0 fixed the chrome against WCAG 2.2 and common navigation practice, measured in a browser: a focused element no longer hides under the sticky top menu, the top menu keeps one row at 1024px, the More menu closes on Escape and an outside click (`ui/agustos-chrome.js`, the kit's first script), each drawer gains a close button and holds the page still, a More or a sidebar group shows the current page inside it, print drops the chrome, language links carry `lang`, and the checker warns on a sixth top-menu item (AG027). A menu hover becomes a 1px gray rule, so the 2px red rule marks the current page alone, and the footer gains an optional site map. v7.0.2 kept an in-page anchor below the sticky top menu at every width (`--site-header-height`), and the Astro and Rails adapters keep the focus ring on a search result. v7.0.1 fixed interactive states in both themes, measured in a browser: form field borders clear 3:1 and placeholders 4.5:1, the dark theme dims a hover instead of turning text red, the footer and the closing band stay light islands in the dark theme, the dark More menu and logo hovers work, and buttons gain pressed and disabled states. The registry's `states` table lists every pair, and the brand guidelines gain Colour in use and Emphasis pages. v7.0.0 reset the website layer to convention and kept identity and the engine. Chrome follows the screen family, not the brand: every website uses the top menu (five items at most, the rest under More) and a light footer; product UI uses the sidebar, and `chrome` left `brand/brands.json`. Type sits on one golden scale (13 to 89px) with four weights; radii are 6 and 12px; sections share one spacing and no dividing rule. Red is identity and signal, never action: buttons are black everywhere, the dark-theme red primary is gone, house-brand logos turn red on hover, and one highlighter stroke per page joins the kit. The hero opens with two `agustos-button`s; `hero-links`, `hero-link*`, `hero-action*` and the footer columns and button are retired. The checker guards identity with errors and taste with warnings: AG022 (primary CTA count), AG023 (quotes), the screens-table fields `primaryCtaMax` and `quotes`, and brand `screenOverrides` are removed; AG025 (highlighter) and AG026 (sidebar on a website) join. Each brand's favicon is a white tile with its own sun: red for Ağustos, black for every other brand. History: v6.6.1 kept an in-page anchor below the sticky sidebar bar on phones (the product sidebar in v7). v6.6.0 styled bare `h1` to `h4` and `p` with their `.type-*` rules, so Markdown and CMS output matches the kit without classes. v6.5.0 gave the type scale its middle step (an upright H3) and set the hero trust line in the 15.5px `bodyCompact` size. v6.4.0 made cards and breadcrumbs 44px targets: a card's heading link stretches over the card, and the checker warns (AG013) when it cannot. v6.3.0 tightened the rhythm: a heading that opens a card, a section or a band lost its section-break margin, and content text moved from `--ink-faint` to `--ink-soft` to pass contrast. v6.2 added brand `screenOverrides`, removed in v7.0.0. v6.1.0 made the checker enforce the screens table on every page (`data-screen` on `<body>`; primary CTA limit, quotes, and theme per row; v7.0.0 kept only the theme rule, as a warning), added the `content-index` screen, and gave both reference adapters the `screen` switch. v6.0.0 recorded the chrome contract: consumers replace their local chrome with the kit's and adopt one name. v5.0.0 recorded the design philosophy change. Subsequent changes follow semantic versioning:
+This is **v7.7.0**. Every page may offer the dark theme, and the user chooses it, never the device: every page starts light, an optional theme switch in the top menu flips it, `agustos-chrome.js` keeps the choice under `agustos:theme`, and a one-line head script applies it before the first paint. The footer and the closing band turn dark with the page, and print is always light. The top menu gains titled groups in a More list, a phone drawer that shows every More open, and an account list at the right edge. Product UI with about ten destinations or fewer may use the top menu (the `app-top-menu` screen). The checker warns on a page that starts dark (AG024) and on `prefers-color-scheme` (AG033), and AG027 counts only the items in `site-header__nav`. v7.6.2: The release makes one type contract for every medium: every size, line height and tracking is a variable, `recipes.typeRoles` is the one type table that UI-KIT.md, the guidelines, the datasheet and the LinkedIn templates read, a heading takes a fixed gap below it (32px under a title, 20px under an H2, 12px under an H3, 8px under an H4), spec values take the mono face (`type-spec`), and `designDirection.invariants` lists the rules that hold in every medium. v7.5.1: The patch fixes four defects from the 2026-10-01 kit audit: the `hidden` attribute hides an element that a kit class displays; a card without a link no longer answers the pointer, and a marked card keeps its ink rule on hover; a hovered skip link keeps its white text on the ink box; code blocks and the primary button print as outlines, because a printer drops backgrounds. v7.5.0: The release makes the stack keep the vertical rhythm: a heading or a hero part inside a `.stack` keeps its break, through `--stack-space`. Before, the stack cleared every margin and set a flat 16px, so the memregunes.com hero lost its 24 and 32px breaks. The hero gains two layouts with an image beside the text (`.hero-split`, `.hero-split--media-start`), next to text only and an image below. The checker warns on a homepage with no highlighter (AG032). v7.4.2: The patch gives the contents list 24px above its folded line, hides its visible title from screen readers (the `nav` label names it), and stops AG031 from warning after an unclosed `<p>`. v7.4.1: The patch makes the checker's screen rules read markup only. Astro inlines a small processed script, so a site that imports `agustos-chrome.js` carried its `.site-sidebar[popover]` selector on every page, and `--screens-only` warned AG026 on each one. Comments, inline scripts and inline styles no longer count, and each warning gives the line of its own match. v7.4.0: The release adds the "On this page" list, `agustos-contents`: a no-script disclosure of a long legal page's main sections, folded below 1280px and open and in view in the side zone at 1280px and wider, and checker warning AG031. v7.3.5: The patch gives headings two fixed breaks: 40px above an H2 and 32px above an H3 or an H4, on every page. Before, each heading took 2.5 times its own size, so an H3 took 53px, more than the 40px of a reading-page H2. A heading that opens a `<section>` inside a section keeps its break. v7.3.4: The patch gives a reading page one break above each H2 and each section: 40px (`--space-3xl`), a margin that collapses with the last margin above it. Before, a section on a reading page kept the band padding of a marketing page (121 to 144px at 1440px), and a bare H2 took 2.5 times its own size (108px). v7.3.3: The patch fixes three defects and five small rules from the 2026-09-30 design review. An open drawer closes when keyboard focus leaves it, so focus never lands on the page behind it (`ui/agustos-chrome.js`, now on every screen). A disabled link drops its `href`, because `aria-disabled` alone does not stop a click; the checker warns on one that keeps it (AG030). A search result excerpt takes the ink on its hover fill (2.76:1 in the dark theme before). Table captions align to the start, `color-scheme` follows the theme, a footer link hover is the 1px gray rule, and reduced motion sets `--dur` to 0s for every transition. v7.3.2: The patch fixes three defects. A parent menu item on a nested route carries `aria-current="true"`, not `"page"`, and the chrome draws the red rule for both; the checker warns on a parent marked `"page"` in built pages (AG029). The adoption snippet says that only product UI uses the sidebar. Every anchor offset adds 1px (`--anchor-snap`), because a browser scrolls to whole pixels and a fractional target stopped under the sticky chrome. v7.3.1: The patch moves the reading column of a content page back to the frame's left edge and gives every region one reading line: `--measure-body` becomes 41rem (656px, about 75 characters), the text of a content page and the footer contact block end on it, and the footer groups fill the side zone to its right. Below 1280px the footer groups move under the contact block. v7.3.0: The kit owns the header search and the language link: one recipe replaces the copies in the Astro and Rails adapters, its text clears 4.5:1, its input is 16px, and below 1024px the anchor offset adds the 61px search row. v7.2.0 gave every content page one reading column: `.container--reading` puts the title, the text and the headings at the 65ch body measure in the center of the frame, so a wide screen no longer shows text on the left half and nothing on the right. The screens table gains a derived Column (reading for the content family, frame for the rest), and the checker warns on a full-width `container` on a content screen (AG028). v7.1.0 fixed the chrome against WCAG 2.2 and common navigation practice, measured in a browser: a focused element no longer hides under the sticky top menu, the top menu keeps one row at 1024px, the More menu closes on Escape and an outside click (`ui/agustos-chrome.js`, the kit's first script), each drawer gains a close button and holds the page still, a More or a sidebar group shows the current page inside it, print drops the chrome, language links carry `lang`, and the checker warns on a sixth top-menu item (AG027). A menu hover becomes a 1px gray rule, so the 2px red rule marks the current page alone, and the footer gains an optional site map. v7.0.2 kept an in-page anchor below the sticky top menu at every width (`--site-header-height`), and the Astro and Rails adapters keep the focus ring on a search result. v7.0.1 fixed interactive states in both themes, measured in a browser: form field borders clear 3:1 and placeholders 4.5:1, the dark theme dims a hover instead of turning text red, the footer and the closing band stay light islands in the dark theme, the dark More menu and logo hovers work, and buttons gain pressed and disabled states. The registry's `states` table lists every pair, and the brand guidelines gain Colour in use and Emphasis pages. v7.0.0 reset the website layer to convention and kept identity and the engine. Chrome follows the screen family, not the brand: every website uses the top menu (five items at most, the rest under More) and a light footer; product UI uses the sidebar, and `chrome` left `brand/brands.json`. Type sits on one golden scale (13 to 89px) with four weights; radii are 6 and 12px; sections share one spacing and no dividing rule. Red is identity and signal, never action: buttons are black everywhere, the dark-theme red primary is gone, house-brand logos turn red on hover, and one highlighter stroke per page joins the kit. The hero opens with two `agustos-button`s; `hero-links`, `hero-link*`, `hero-action*` and the footer columns and button are retired. The checker guards identity with errors and taste with warnings: AG022 (primary CTA count), AG023 (quotes), the screens-table fields `primaryCtaMax` and `quotes`, and brand `screenOverrides` are removed; AG025 (highlighter) and AG026 (sidebar on a website) join. Each brand's favicon is a white tile with its own sun: red for Ağustos, black for every other brand. History: v6.6.1 kept an in-page anchor below the sticky sidebar bar on phones (the product sidebar in v7). v6.6.0 styled bare `h1` to `h4` and `p` with their `.type-*` rules, so Markdown and CMS output matches the kit without classes. v6.5.0 gave the type scale its middle step (an upright H3) and set the hero trust line in the 15.5px `bodyCompact` size. v6.4.0 made cards and breadcrumbs 44px targets: a card's heading link stretches over the card, and the checker warns (AG013) when it cannot. v6.3.0 tightened the rhythm: a heading that opens a card, a section or a band lost its section-break margin, and content text moved from `--ink-faint` to `--ink-soft` to pass contrast. v6.2 added brand `screenOverrides`, removed in v7.0.0. v6.1.0 made the checker enforce the screens table on every page (`data-screen` on `<body>`; primary CTA limit, quotes, and theme per row; v7.0.0 kept only the theme rule, as a warning), added the `content-index` screen, and gave both reference adapters the `screen` switch. v6.0.0 recorded the chrome contract: consumers replace their local chrome with the kit's and adopt one name. v5.0.0 recorded the design philosophy change. Subsequent changes follow semantic versioning:
 
 - **Major.** Breaking changes to token names, structural removal, philosophy shifts
 - **Minor.** New tokens, new brand additions, additive-only changes

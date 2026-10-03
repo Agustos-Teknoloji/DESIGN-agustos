@@ -295,16 +295,105 @@ class InteractionStateTest(unittest.TestCase):
         self.assertIn(':where(html[data-theme="dark"]) a:hover,', self.CSS)
         self.assertIn(':where(html[data-theme="dark"]) .agustos-button--quiet:hover { color: var(--ink-soft); }', self.CSS)
 
-    def test_footer_and_band_stay_light_islands_in_dark(self):
-        start = self.CSS.index('html[data-theme="dark"] .site-footer,')
-        block = self.CSS[start:self.CSS.index("}", start)]
-        self.assertIn('html[data-theme="dark"] .band--cream {', block)
-        for role in ("--paper:", "--ink:", "--ink-soft:", "--ink-faint:", "--rule:"):
+    def test_footer_and_band_follow_the_dark_theme(self):
+        """v7.7.0: the footer and the closing band turn dark with the page (Emre,
+        2026-10-03: "Footer should change too"). The light islands are gone."""
+        # The print block holds an indented copy; the top-level line stays unique.
+        self.assertEqual(self.CSS.count('\nhtml[data-theme="dark"] {\n'), 1)
+        dark = self.CSS[self.CSS.index('html[data-theme="dark"] {'):]
+        dark = dark[:dark.index("}")]
+        self.assertIn("--footer-paper:", dark)
+        self.assertIn("--footer-ink:", dark)
+        self.assertIn("--footer-cta-hover:", dark)
+        self.assertNotIn('html[data-theme="dark"] .site-footer,', self.CSS)
+        band = self.CSS[self.CSS.index('html[data-theme="dark"] .band--cream {'):]
+        band = band[:band.index("}")]
+        # Decision 1 (B2): the dark paper between two hairline rules, so every
+        # pair inside the band is a page pair and red keeps 3.35:1.
+        self.assertIn("background: var(--paper);", band)
+        self.assertIn("border-block-start:", band)
+        self.assertNotIn("border-block:", band)
+        self.assertNotIn("color-scheme: light", band)
+        # The footer draws its own top hairline, so a band that is the last
+        # child of main draws no bottom rule: one line, never two.
+        last = self.CSS[self.CSS.index('html[data-theme="dark"] .band--cream:not(:last-child) {'):]
+        self.assertIn("border-block-end:", last[:last.index("}")])
+
+    def test_print_is_light_in_the_dark_theme(self):
+        """A printer drops backgrounds, so dark-theme ink would print white on white."""
+        start = self.CSS.index("@media print {")
+        block = self.CSS[start:self.CSS.index("\n}\n", start)]
+        reset = block[block.index('html[data-theme="dark"] {'):]
+        reset = reset[:reset.index("}")]
+        # Every custom property that the dark theme sets, print sets back.
+        dark = self.CSS[self.CSS.index('\nhtml[data-theme="dark"] {\n'):]
+        dark = dark[:dark.index("}")]
+        roles = re.findall(r"^\s*(--[\w-]+):", dark, re.MULTILINE)
+        self.assertIn("--footer-cta-hover", roles)
+        for role in roles:
             with self.subTest(role=role):
-                self.assertIn(role, block)
+                self.assertRegex(reset, rf"(?m)^\s*{re.escape(role)}:")
+        self.assertIn("color-scheme: light;", reset)
+
+    def test_states_cover_the_dark_footer_and_band(self):
+        rows = {(row["element"], row["state"]): row for row in TOKENS["states"]["rows"]}
+        self.assertEqual(rows[("Footer link", "rest")]["dark"], ["inkSoftDark", "paperDark"])
+        self.assertEqual(rows[("Closing band text", "rest")]["dark"], ["inkDark", "paperDark"])
+        self.assertEqual(rows[("Closing band secondary text", "rest")]["dark"], ["inkSoftDark", "paperDark"])
+        self.assertEqual(rows[("Keyboard focus ring in the closing band", "focus")]["dark"], ["signalRed", "paperDark"])
+        self.assertNotIn("stays light", " ".join(row["element"] for row in TOKENS["states"]["rows"]))
 
     def test_more_menu_hover_uses_the_functional_gray(self):
         self.assertIn('.site-header__more-link:is([aria-current="page"], [aria-current="true"]) { background: var(--surface);', self.CSS)
+
+    def test_more_list_holds_titled_groups_as_columns(self):
+        """v7.7.0: a More may hold titled groups, in columns on a wide screen and
+        stacked in the drawer (IESDesk Tools: one file, many files)."""
+        groups = self.CSS[self.CSS.index(".site-header__more-menu--groups {"):]
+        self.assertIn("flex-direction: row;", groups[:groups.index("}")])
+        title = self.CSS[self.CSS.index(".site-header__more-group-title {"):]
+        title = title[:title.index("}")]
+        self.assertIn("font-size: var(--size-footnote);", title)
+        self.assertIn("color: var(--ink-soft);", title)
+        self.assertNotIn("text-transform", title)
+        drawer = self.CSS[self.CSS.index("@media (max-width: 1023px) {", self.CSS.index(".site-header__panel {")):]
+        drawer = drawer[:drawer.index("\n}\n")]  # the drawer block only
+        self.assertIn(".site-header__more-menu--groups { flex-direction: column;", drawer)
+        self.assertIn("a More may hold up to two titled groups", self.CSS)
+        for name in ("site-header__more-menu--groups", "site-header__more-group", "site-header__more-group-title"):
+            with self.subTest(name=name):
+                self.assertIn(name, TOKENS["compatibility"]["cssClasses"])
+
+    def test_account_list_sits_at_the_end_and_truncates(self):
+        """v7.7.0: the account list is a More in site-header__end. It opens from
+        the right edge, its email label ends with an ellipsis, and a sign-out
+        form button reads like the links around it (IESDesk)."""
+        end = self.CSS[self.CSS.index(".site-header__more--end .site-header__more-menu {"):]
+        end = end[:end.index("}")]
+        self.assertIn("inset-inline-start: auto;", end)
+        self.assertIn("inset-inline-end:", end)
+        label = self.CSS[self.CSS.index(".site-header__more-label {"):]
+        label = label[:label.index("}")]
+        for rule in ("text-overflow: ellipsis;", "overflow: hidden;", "white-space: nowrap;", "max-inline-size:"):
+            with self.subTest(rule=rule):
+                self.assertIn(rule, label)
+        button = self.CSS[self.CSS.index("button.site-header__more-link {"):]
+        button = button[:button.index("}")]
+        for rule in ("border: 0;", "background: transparent;", "width: 100%;", "text-align: start;", "cursor: pointer;"):
+            with self.subTest(rule=rule):
+                self.assertIn(rule, button)
+        self.assertIn(".site-header__more-menu > form { display: contents; }", self.CSS)
+        drawer = self.CSS[self.CSS.index("@media (max-width: 1023px) {", self.CSS.index(".site-header__panel {")):]
+        drawer = drawer[:drawer.index("\n}\n")]  # the drawer block only
+        self.assertIn(".site-header__more--end .site-header__more-menu { inset-inline-end: auto; }", drawer)
+        # In the drawer the email stops at the drawer edge with its ellipsis; it never scrolls the page sideways.
+        self.assertIn(".site-header__more-label { max-inline-size: 100%; }", drawer)
+        self.assertNotIn("max-inline-size: none", drawer)
+        # The summary is inline-flex and grows to its text, so it needs the same bound.
+        self.assertIn(".site-header__more--end > summary { max-inline-size: 100%; }", drawer)
+        for name in ("site-header__more--end", "site-header__more-label"):
+            with self.subTest(name=name):
+                self.assertIn(name, TOKENS["compatibility"]["cssClasses"])
 
     def test_form_fields_clear_the_non_text_floor(self):
         self.assertIn("solid var(--ink-faint);", self.CSS)
@@ -326,12 +415,11 @@ class InteractionStateTest(unittest.TestCase):
         self.assertNotIn("--signal", footer)
         # Browsers center a caption; the spec-sheet group labels sat centered.
         self.assertIn(".type-table caption, table caption { padding-inline: 0.75em; text-align: start; }", self.CSS)
-        # Native parts follow the theme, and the light islands stay light.
+        # Native parts follow the theme. The footer and the band follow it too (v7.7.0).
         self.assertIn(":root { color-scheme: light; }", self.CSS)
         dark = self.CSS[self.CSS.index('html[data-theme="dark"] {'):]
         self.assertIn("color-scheme: dark;", dark[:dark.index("}")])
-        islands = self.CSS[self.CSS.index('html[data-theme="dark"] .band--cream {'):]
-        self.assertIn("color-scheme: light;", islands[:islands.index("}")])
+        self.assertNotIn("light islands", self.CSS.lower())
         # One duration token stops every transition, so none can be missed.
         motion = self.CSS[self.CSS.index("@media (prefers-reduced-motion: reduce) {"):]
         self.assertIn(":root { --dur: 0s; }", motion[:motion.index("\n}\n")])
@@ -468,6 +556,19 @@ class DistributionKitTest(unittest.TestCase):
         # 220 since v7.6.0: the type table (one row per role) joined the file.
         self.assertLessEqual(len(lines), 220, "UI-KIT.md is the one file an agent reads in full")
 
+    def test_entry_point_states_the_v7_7_rules(self):
+        text = (self.KIT / "UI-KIT.md").read_text(encoding="utf-8")
+        for phrase in ("every page starts light", "never the device", "AG033", "data-agustos-unfold",
+                       "site-header__more--end", "app-top-menu", "Print is always light",
+                       "covers the whole width below 640px"):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, text)
+        for gone in ("product UI only; same six colours", "The footer and the closing band stay light",
+                     "The footer is light:", "`data-theme` outside product UI",
+                     "Theme, chrome and column follow the family"):
+            with self.subTest(gone=gone):
+                self.assertNotIn(gone, text)
+
     def test_entry_point_documents_every_published_class(self):
         text = (self.KIT / "UI-KIT.md").read_text(encoding="utf-8")
         for name in TOKENS["compatibility"]["cssClasses"]:
@@ -501,15 +602,15 @@ class DistributionKitTest(unittest.TestCase):
 
     def test_kit_json_publishes_the_screens_table(self):
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
-        self.assertEqual(len(kit["screens"]), 9)
+        self.assertEqual(len(kit["screens"]), 10)
         product = kit["screens"]["product"]
         self.assertEqual(product["file"], "product.html")
         self.assertEqual(product["family"], "catalog")
         self.assertEqual(product["chrome"], "topbar")
-        self.assertEqual(product["theme"], "light")
+        self.assertEqual(product["theme"], "light-first")
         self.assertNotIn("primaryCtaMax", product)
         self.assertNotIn("quotes", product)
-        self.assertEqual(kit["screens"]["app-shell"]["theme"], "dark-allowed")
+        self.assertEqual(kit["screens"]["app-shell"]["theme"], "light-first")
         self.assertEqual(kit["screens"]["app-shell"]["chrome"], "sidebar")
         self.assertEqual(kit["screens"]["home"]["chrome"], "topbar")
 
@@ -620,9 +721,10 @@ class CheckerTest(unittest.TestCase):
     def test_checker_enforces_the_screen_rules(self):
         """Per-screen rules come from the screens table, keyed on data-screen.
         Errors guard integrity: a page names its screen, and the name exists.
-        Taste rules only warn: data-theme outside product UI (AG024), more than
-        one highlighter (AG025), a sidebar on a website (AG026), more than five
-        top-menu items (AG027, the More toggle counts, its items do not), a
+        Taste rules only warn: a page that starts dark (AG024), more than
+        one highlighter (AG025), a sidebar on a top-menu screen (AG026), more than five
+        items in site-header__nav (AG027, the More toggle counts, its items and an
+        account list in site-header__end do not; v7.7.0), a
         full-width container on a content screen (AG028, v7.2.0), an
         `agustos-contents` that is not a direct child of `container--reading`
         (AG031, v7.4.0), a homepage with no highlighter (AG032, v7.5.0). Button counts
@@ -638,6 +740,12 @@ class CheckerTest(unittest.TestCase):
                 '<div class="site-header__more-menu">'
                 + ''.join(f'<a class="site-header__more-link" href="/m{n}">M{n}</a>' for n in range(4))
                 + '</div></details>')
+        nav = '<nav class="site-header__nav">{0}</nav>'
+        erb_nav = '<nav aria-label="<%= t(:menu) %>" <%= "hidden" if bare? %> class="site-header__nav">{0}</nav>'
+        account = ('<div class="site-header__end"><details class="site-header__more site-header__more--end">'
+                   '<summary class="site-header__link"><span class="site-header__more-label">a@b.com</span></summary>'
+                   '<div class="site-header__more-menu"><form action="/s" method="post">'
+                   '<button type="submit" class="site-header__more-link">Sign out</button></form></div></details></div>')
         pages = {
             "no-screen.html": (self._screen_page(None, main=primary), {"AG020": "error"}),
             "unknown.html": (self._screen_page("landing", main=primary), {"AG021": "error"}),
@@ -646,9 +754,14 @@ class CheckerTest(unittest.TestCase):
             "two-marks.html": (self._screen_page("home", main=f"<h1>{mark}</h1><p>{mark}</p>"), {"AG025": "warn"}),
             "one-mark.html": (self._screen_page("home", main=f"<h1>{mark}</h1>"), {}),
             "sidebar-site.html": (self._screen_page("home", main=head, chrome=sidebar), {"AG026": "warn"}),
-            "six-items.html": (self._screen_page("home", main=head, chrome="".join(item.format(n) for n in range(6))), {"AG027": "warn"}),
-            "four-and-more.html": (self._screen_page("home", main=head, chrome="".join(item.format(n) for n in range(4)) + more), {}),
-            "app.html": (self._screen_page("app-shell", main=primary, chrome=sidebar, html_attrs=' data-theme="dark"'), {}),
+            "six-items.html": (self._screen_page("home", main=head, chrome=nav.format("".join(item.format(n) for n in range(6)))), {"AG027": "warn"}),
+            "four-and-more.html": (self._screen_page("home", main=head, chrome=nav.format("".join(item.format(n) for n in range(4)) + more)), {}),
+            "five-and-account.html": (self._screen_page("home", main=head, chrome=nav.format("".join(item.format(n) for n in range(5))) + account), {}),
+            "six-no-nav.html": (self._screen_page("home", main=head, chrome="".join(item.format(n) for n in range(6))), {"AG027": "warn"}),
+            "app.html": (self._screen_page("app-shell", main=primary, chrome=sidebar, html_attrs=' data-theme="dark"'), {"AG024": "warn"}),
+            "light-attr.html": (self._screen_page("home", main=head, html_attrs=' data-theme="light"'), {}),
+            "switch-script.html": (self._screen_page("home", main=head + '<script>try{if(localStorage.getItem("agustos:theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>'), {}),
+            "templated.html": (self._screen_page("home", main=head, html_attrs=' data-theme="<%= theme %>"'), {}),
             "wide-policy.html": (self._screen_page("static", main='<div class="container"><h1>Gizlilik</h1></div>'), {"AG028": "warn"}),
             "reading-policy.html": (self._screen_page("static", main="<article class='container container--reading'><h1>Gizlilik</h1></article>"), {}),
             "wide-home.html": (self._screen_page("home", main=f'<section class="container">{head}</section>'), {}),
@@ -657,6 +770,14 @@ class CheckerTest(unittest.TestCase):
             "contents-nested.html": (self._screen_page("static", main='<div class="container container--reading"><div><details class="agustos-contents"></details></div></div>'), {"AG031": "warn"}),
             "contents-direct.html": (self._screen_page("static", main='<div class="container container--reading"><details class="agustos-contents"></details></div>'), {}),
             "contents-after-open-p.html": (self._screen_page("static", main='<div class="container container--reading"><p>Intro<details class="agustos-contents"></details></div>'), {}),
+            "sidebar-top-app.html": (self._screen_page("app-top-menu", main="", chrome=sidebar), {"AG026": "warn"}),
+            "top-app.html": (self._screen_page("app-top-menu", main=""), {}),
+            # ERB in an earlier attribute: the scan steps over quoted values and template tags.
+            "erb-dark.html.erb": (self._screen_page("home", main=head, html_attrs=' dir="<%= dir %>"<% if dark? %> data-theme="dark"<% end %>'), {"AG024": "warn"}),
+            "dark-blue.html": (self._screen_page("home", main=head, html_attrs=' data-theme="dark-blue"'), {}),
+            "erb-nav.html.erb": (self._screen_page("home", main=head, chrome=erb_nav.format("".join(item.format(n) for n in range(4)) + more) + account), {}),
+            "erb-nav-six.html.erb": (self._screen_page("home", main=head, chrome=erb_nav.format("".join(item.format(n) for n in range(6)))), {"AG027": "warn"}),
+            "nav-suffix.html": (self._screen_page("home", main=head, chrome=nav.format("".join(item.format(n) for n in range(5))) + '<nav class="site-header__nav-extra">' + item.format(8) + "</nav>"), {}),
         }
         with tempfile.TemporaryDirectory() as tmp:
             project = Path(tmp)
@@ -672,6 +793,182 @@ class CheckerTest(unittest.TestCase):
             for name, (_, expected) in pages.items():
                 with self.subTest(page=name):
                     self.assertEqual(by_file[name], expected)
+
+    def test_checker_warns_when_the_device_picks_the_theme(self):
+        """v7.7.0: the user chooses the theme, never the device (Emre, 2026-10-03)."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp)
+            (project / "site.css").write_text("@media (prefers-color-scheme: dark) { body { color: var(--ink); } }\n", encoding="utf-8")
+            (project / "theme.js").write_text("const dark = matchMedia('(prefers-color-scheme: dark)').matches;\n", encoding="utf-8")
+            (project / "notes.md").write_text("Never read prefers-color-scheme.\n", encoding="utf-8")
+            result = self._run(project, "--json")
+            findings = [f for f in json.loads(result.stdout)["findings"] if f["rule"] == "AG033"]
+            self.assertEqual(sorted(f["file"] for f in findings), ["site.css", "theme.js"])
+            self.assertTrue(all(f["level"] == "warn" for f in findings))
+
+    def test_checker_warns_on_a_switch_without_the_head_script(self):
+        """v7.7.0: the switch keeps a dark choice, and only the head script applies
+        it before the first paint. Without the script, or with the script after a
+        stylesheet, each new page shows light first (AG034)."""
+        import tempfile
+        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+        script = f"<script>{kit['themeScript']}</script>"
+        switch = ('<button type="button" class="site-header__icon-btn agustos-theme-switch" data-agustos-theme>'
+                  '<span class="agustos-theme-switch__to-dark"><span class="agustos-theme-switch__label">Dark theme</span></span>'
+                  '<span class="agustos-theme-switch__to-light"><span class="agustos-theme-switch__label">Light theme</span></span></button>')
+        links = ('<link rel="stylesheet" href="/vendor/agustos-ui/agustos-fonts.css">\n'
+                 '<link rel="stylesheet" href="/vendor/agustos-ui/agustos.css">\n')
+
+        def page(head, body=switch):
+            return ('<!doctype html><html lang="en"><head>\n<meta charset="utf-8">\n'
+                    f'{head}</head><body class="brand-agustos" data-screen="static">\n'
+                    f'<header class="site-header">{body}</header>\n<main id="main"></main>\n</body></html>\n')
+
+        nonce = kit["themeScript"].join(('<script nonce="<%= content_security_policy_nonce %>">', "</script>\n"))
+        rails_css = '<%= stylesheet_link_tag "agustos" %>\n'
+        pages = {
+            "script-first.html": (page(script + "\n" + links), []),
+            "no-script.html": (page(links), ["AG034"]),
+            "script-after-css.html": (page(links + script + "\n"), ["AG034"]),
+            "script-in-comment.html": (page("<!-- " + script + " -->\n" + links), ["AG034"]),
+            "no-switch.html": (page(links, body=""), []),
+            "layout.html.erb": (page(nonce + '<%= stylesheet_link_tag "agustos" %>\n'), []),
+            "helper-first.html.erb": (page('<%= stylesheet_link_tag "agustos" %>\n' + nonce), ["AG034"]),
+            "_header.html.erb": (switch + "\n", []),
+            # A Rails javascript_tag counts when it carries the script or the storage key.
+            "javascript-tag.html.erb": (page('<%= javascript_tag AgustosThemeHelper::THEME_SCRIPT, nonce: true %>\n' + rails_css), []),
+            "javascript-tag-key.html.erb": (page(f"<%= javascript_tag '{kit['themeScript']}', nonce: true %>\n" + rails_css), []),
+            "javascript-tag-block.html.erb": (page(f"<%= javascript_tag nonce: true do %>\n{kit['themeScript']}\n<% end %>\n" + rails_css), []),
+            "javascript-tag-late.html.erb": (page(rails_css + '<%= javascript_tag AgustosThemeHelper::THEME_SCRIPT, nonce: true %>\n'), ["AG034"]),
+            "javascript-tag-other.html.erb": (page('<%= javascript_tag "window.ready = true", nonce: true %>\n' + rails_css), ["AG034"]),
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp)
+            for name, (text, _) in pages.items():
+                (project / name).write_text(text, encoding="utf-8")
+            result = self._run(project, "--json")
+            findings = [f for f in json.loads(result.stdout)["findings"] if f["rule"] == "AG034"]
+            self.assertTrue(all(f["level"] == "warn" for f in findings))
+            for name, (_, expected) in pages.items():
+                with self.subTest(page=name):
+                    self.assertEqual([f["rule"] for f in findings if f["file"] == name], expected)
+            # Built output is a page too.
+            result = self._run(project, "--json", "--screens-only")
+            found = sorted(f["file"] for f in json.loads(result.stdout)["findings"] if f["rule"] == "AG034")
+            self.assertEqual(found, ["no-script.html", "script-after-css.html", "script-in-comment.html"])
+        # AG034 reads full pages only. A partial is never checked through its layout.
+        self.assertIn("AG034 reads a full page; a site that renders the switch from a partial needs its own page test.",
+                      (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8"))
+        self.assertNotIn("its layout is checked instead", self.CHECKER.read_text(encoding="utf-8"))
+
+    def test_checker_warns_on_a_switch_without_the_chrome_script(self):
+        """v7.7.0: only agustos-chrome.js flips the theme. A full page with a
+        theme switch that does not load the script gets a switch that does
+        nothing (AG036). A class name such as agustos-chrome-link is not the
+        script. Built output bundles the script under a hashed name, so the
+        rule reads the source only."""
+        import tempfile
+        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+        switch = ('<button type="button" class="site-header__icon-btn agustos-theme-switch" data-agustos-theme>'
+                  '<span class="agustos-theme-switch__to-dark"><span class="agustos-theme-switch__label">Dark theme</span></span>'
+                  '<span class="agustos-theme-switch__to-light"><span class="agustos-theme-switch__label">Light theme</span></span></button>')
+
+        def page(scripts, body=switch):
+            return ('<!doctype html><html lang="en"><head>\n<meta charset="utf-8">\n'
+                    f'<script>{kit["themeScript"]}</script>\n'
+                    '<link rel="stylesheet" href="/vendor/agustos-ui/agustos.css">\n'
+                    f'{scripts}</head><body class="brand-agustos" data-screen="static">\n'
+                    f'<header class="site-header">{body}</header>\n<main id="main"></main>\n</body></html>\n')
+
+        pages = {
+            "with-chrome.html": (page('<script src="/vendor/agustos-ui/agustos-chrome.js" defer></script>\n'), []),
+            "no-chrome.html": (page(""), ["AG036"]),
+            "chrome-link-class.html": (page("", body=switch + '<a class="agustos-chrome-link" href="/en">EN</a>'), ["AG036"]),
+            "commented.html": (page('<!-- <script src="/agustos-chrome.js" defer></script> -->\n'), ["AG036"]),
+            "erb-commented.html.erb": (page('<%# javascript_include_tag "agustos/chrome" %>\n'), ["AG036"]),
+            "include-tag.html.erb": (page('<%= javascript_include_tag "agustos/chrome", defer: true %>\n'), []),
+            "include-tag-dash.html.erb": (page('<%= javascript_include_tag "agustos-chrome", defer: true %>\n'), []),
+            "inline-chrome.html": (page("", body=switch + "<script>(()=>{if(document.agustosChrome)return;document.agustosChrome=true})()</script>"), []),
+            "no-switch.html": (page("", body=""), []),
+            "_header.html.erb": (switch + "\n", []),
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp)
+            for name, (text, _) in pages.items():
+                (project / name).write_text(text, encoding="utf-8")
+            result = self._run(project, "--json")
+            findings = [f for f in json.loads(result.stdout)["findings"] if f["rule"] == "AG036"]
+            self.assertTrue(all(f["level"] == "warn" for f in findings))
+            for name, (_, expected) in pages.items():
+                with self.subTest(page=name):
+                    self.assertEqual([f["rule"] for f in findings if f["file"] == name], expected)
+            no_chrome = next(f for f in findings if f["file"] == "no-chrome.html")
+            self.assertEqual(no_chrome["line"], 6)  # the line of the switch
+            result = self._run(project, "--json", "--screens-only")
+            self.assertEqual([f for f in json.loads(result.stdout)["findings"] if f["rule"] == "AG036"], [])
+        # A layout that loads the import map passes when a project script imports the chrome.
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp)
+            (project / "application.html.erb").write_text(page("<%= javascript_importmap_tags %>\n"), encoding="utf-8")
+            result = self._run(project, "--json")
+            self.assertEqual([f["file"] for f in json.loads(result.stdout)["findings"] if f["rule"] == "AG036"],
+                             ["application.html.erb"])
+            (project / "application.js").write_text('import "agustos/chrome"\n', encoding="utf-8")
+            result = self._run(project, "--json")
+            self.assertEqual([f for f in json.loads(result.stdout)["findings"] if f["rule"] == "AG036"], [])
+        self.assertIn("a theme switch on a page that does not load `agustos-chrome.js` (AG036)",
+                      (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8"))
+
+    def test_checker_warns_on_a_more_with_three_groups(self):
+        """v7.7.0: a grouped More holds at most two groups. A third group pushes
+        the menu past the right edge of the page at 1024px and 1280px (AG035).
+        The rule reads partials too, because a header is often one."""
+        import tempfile
+
+        def more(count):
+            groups = "".join(
+                f'<div class="site-header__more-group" role="group" aria-labelledby="g{n}">'
+                f'<p class="site-header__more-group-title" id="g{n}">Group {n}</p>'
+                f'<a class="site-header__more-link" href="/g{n}">Link {n}</a></div>\n'
+                for n in range(count))
+            return ('<details class="site-header__more"><summary class="site-header__link">Tools</summary>\n'
+                    f'<div class="site-header__more-menu site-header__more-menu--groups">\n{groups}</div></details>\n')
+
+        # The account list (v7.7.0) is a More with no groups: AG035 never counts it.
+        account = ('<div class="site-header__end"><details class="site-header__more site-header__more--end">\n'
+                   '<summary class="site-header__link"><span class="site-header__more-label">a@b.com</span></summary>\n'
+                   '<div class="site-header__more-menu"><a class="site-header__more-link" href="/account">Account</a>\n'
+                   '<form action="/s" method="post"><button type="submit" class="site-header__more-link">Sign out</button></form>\n'
+                   '</div></details></div>\n')
+        pages = {
+            "two-groups.html": (self._screen_page("home", main="<h1><mark class=\"type-highlight\">Clear</mark></h1>", chrome=more(2)), []),
+            "three-groups.html": (self._screen_page("home", main="<h1><mark class=\"type-highlight\">Clear</mark></h1>", chrome=more(3)), ["AG035"]),
+            "_header.html.erb": (more(3), ["AG035"]),
+            "_two.html.erb": (more(2), []),
+            "commented.html.erb": ("<!-- " + more(3) + " -->\n", []),
+            "_account.html.erb": (account, []),
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp)
+            for name, (text, _) in pages.items():
+                (project / name).write_text(text, encoding="utf-8")
+            result = self._run(project, "--json")
+            findings = [f for f in json.loads(result.stdout)["findings"] if f["rule"] == "AG035"]
+            self.assertTrue(all(f["level"] == "warn" for f in findings))
+            for name, (_, expected) in pages.items():
+                with self.subTest(page=name):
+                    self.assertEqual([f["rule"] for f in findings if f["file"] == name], expected)
+            third = next(f for f in findings if f["file"] == "_header.html.erb")
+            self.assertEqual(third["line"], 5)  # lines 1-2 open the More; groups start on line 3
+            result = self._run(project, "--json", "--screens-only")
+            found = sorted(f["file"] for f in json.loads(result.stdout)["findings"] if f["rule"] == "AG035")
+            self.assertEqual(found, ["three-groups.html"])
+
+    def test_kit_never_reads_the_device_theme(self):
+        for name in ("agustos.css", "agustos-chrome.js", "starter.html"):
+            with self.subTest(file=name):
+                self.assertNotIn("prefers-color-scheme", (ROOT / "ui" / name).read_text(encoding="utf-8"))
 
     def test_retired_screen_rules_stay_retired(self):
         """AG022 (button count) and AG023 (quotes) policed copy on our own sites."""
@@ -1123,6 +1420,155 @@ class ChromeTest(unittest.TestCase):
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
         self.assertIn("agustos-chrome.js", kit["files"])
 
+    def test_drawer_opens_every_more_by_script(self):
+        """v7.7.0: below 1024px the drawer shows every More open (model: turso.tech
+        phone menu). CSS cannot open a closed details, so the script does it when
+        the drawer opens, and the close rules skip those menus."""
+        script = (ROOT / "ui" / "agustos-chrome.js").read_text(encoding="utf-8")
+        self.assertIn("matchMedia('(max-width: 1023px)')", script)
+        self.assertIn("details.site-header__more[open]:not([data-agustos-unfold])", script)
+        self.assertIn("addEventListener('toggle'", script)
+        self.assertIn("}, true);", script)  # toggle does not bubble: listen in the capture phase
+        self.assertIn("dataset.agustosUnfold", script)
+        self.assertIn("setAttribute('tabindex', '-1')", script)
+
+    def test_chrome_script_clears_stale_unfold_marks(self):
+        """A Turbo snapshot or a page from the back-forward cache can bring back a
+        More that the drawer marked. On a wide screen no close rule closes it and
+        the keyboard cannot reach its summary. The script clears the marks before
+        Turbo caches the page, and on start, on pageshow and on a toggle when the
+        screen is 1024px or wider (IESDesk uses Turbo)."""
+        script = (ROOT / "ui" / "agustos-chrome.js").read_text(encoding="utf-8")
+        self.assertIn("document.addEventListener('turbo:before-cache', () => unfold(false));", script)
+        self.assertIn("window.addEventListener('pageshow', heal);", script)
+        heal = script[script.index("function heal()"):]
+        self.assertIn("if (!DRAWER_MODE.matches) unfold(false);", heal[:heal.index("\n")])
+        import shutil
+        import subprocess
+        node = shutil.which("node")
+        if not node:
+            self.skipTest("node is not installed: the behaviour half of this test needs it")
+        harness = r"""
+const source = require('fs').readFileSync(process.argv[1], 'utf8');
+function run(wide, premarked) {
+  const listeners = {}, winListeners = {}, media = { matches: !wide, addEventListener() {} };
+  const summary = () => { const attrs = {}; return { attrs, setAttribute(k, v) { attrs[k] = v; }, removeAttribute(k) { delete attrs[k]; }, focus() {} }; };
+  const menus = [0, 1].map(() => ({ dataset: {}, open: false, summary: summary(), querySelector() { return this.summary; },
+    matches(selector) { return selector === 'details[data-agustos-unfold]' ? 'agustosUnfold' in this.dataset : false; } }));
+  if (premarked) menus.forEach((menu) => { menu.dataset.agustosUnfold = ''; menu.open = true; menu.summary.attrs.tabindex = '-1'; });
+  const panel = { matches(selector) { return selector === '.site-header__panel[popover]' || selector === ':popover-open'; } };
+  const document = { documentElement: {}, addEventListener(name, fn) { (listeners[name] ||= []).push(fn); },
+    querySelectorAll(selector) { return selector === '.site-header__panel details.site-header__more' ? menus : []; } };
+  const window = { matchMedia: () => media, addEventListener(name, fn) { (winListeners[name] ||= []).push(fn); } };
+  new Function('document', 'window', 'localStorage', source)(document, window, {});
+  const fire = (bag, name, event = {}) => (bag[name] || []).forEach((fn) => fn(event));
+  const marked = () => menus.filter((menu) => 'agustosUnfold' in menu.dataset || menu.open || menu.summary.attrs.tabindex).length;
+  return { media, menus, panel, marked, doc: (n, e) => fire(listeners, n, e), win: (n, e) => fire(winListeners, n, e) };
+}
+const out = {};
+let page = run(true, true);
+out.start = page.marked();
+page = run(false, false);
+page.doc('toggle', { target: page.panel });
+out.drawer = page.marked();
+page.doc('turbo:before-cache');
+out.beforeCache = page.marked();
+page.doc('toggle', { target: page.panel });
+page.media.matches = false;
+page.win('pageshow', { persisted: true });
+out.pageshow = page.marked();
+page.media.matches = true;
+page.doc('toggle', { target: page.panel });
+page.media.matches = false;
+page.menus[0].open = false;
+page.doc('toggle', { target: page.menus[0] });
+out.toggle = page.marked();
+console.log(JSON.stringify(out));
+"""
+        result = subprocess.run([node, "-e", harness, str(ROOT / "ui" / "agustos-chrome.js")],
+                                capture_output=True, text=True, timeout=30)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(json.loads(result.stdout),
+                         {"start": 0, "drawer": 2, "beforeCache": 0, "pageshow": 0, "toggle": 0})
+
+    def test_unfold_css_needs_the_script(self):
+        """Without the script each More folds and opens on a tap, as before."""
+        drawer = self.CSS[self.CSS.index("@media (max-width: 1023px) {", self.CSS.index(".site-header__panel {")):]
+        drawer = drawer[:drawer.index("\n}\n")]
+        self.assertIn(".site-header__more[data-agustos-unfold] > summary {", drawer)
+        self.assertIn(".site-header__more[data-agustos-unfold] > summary::after { display: none; }", drawer)
+        self.assertNotIn(".site-header__more > summary { display: none", drawer)
+
+    def test_drawer_fills_a_phone_screen(self):
+        """v7.7.0 (Emre, 2026-10-03): below 640px the drawer covers the whole
+        screen width, like the turso.tech phone menu."""
+        start = self.CSS.index("@media (max-width: 639px) {")
+        block = self.CSS[start:self.CSS.index("\n}\n", start)]
+        self.assertIn(".site-header__panel", block)
+        self.assertIn("width: 100%", block)
+
+    def test_sidebar_drawer_fills_a_phone_screen_too(self):
+        """One drawer rule for every site: the sidebar drawer of the product UI
+        gets the same full width below 640px as the top-menu panel."""
+        start = self.CSS.index("@media (max-width: 639px) {")
+        block = self.CSS[start:self.CSS.index("\n}\n", start)]
+        self.assertIn(".site-sidebar", block)
+        self.assertIn("width: 100%; max-width: none;", block)
+        # From 640px to 1023px both drawers keep the narrow width.
+        drawer = self.CSS[self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor"):]
+        drawer = drawer[:drawer.index("\n}\n")]
+        self.assertIn(".site-sidebar { width: min(320px, 86vw); }", drawer)
+        self.assertIn("width: min(320px, 86vw);", drawer[drawer.index(".site-header__panel {"):])
+        # The phone rule comes after the drawer block, so it wins at equal weight.
+        self.assertLess(self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor"), start)
+
+    THEME_SCRIPT = 'try{if(localStorage.getItem("agustos:theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}'
+
+    def test_theme_script_is_published_once_and_used_everywhere(self):
+        """The no-flash head script has one source: the builder. It only sets dark;
+        a page with no stored choice stays light (v7.7.0)."""
+        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+        self.assertEqual(kit["themeScript"], self.THEME_SCRIPT)
+        self.assertEqual(kit["themeStorageKey"], "agustos:theme")
+        self.assertIn(self.THEME_SCRIPT, (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8"))
+        starter = (ROOT / "ui" / "starter.html").read_text(encoding="utf-8")
+        self.assertEqual(starter.count(self.THEME_SCRIPT), 1)
+        self.assertLess(starter.index(f"<script>{self.THEME_SCRIPT}</script>"), starter.index('href="./agustos-fonts.css"'))
+        # One switch behaviour: no demo button sets data-theme on its own.
+        self.assertNotIn("dataset.theme", starter)
+        # The demo account list is open, and the chrome script closes it on an outside click.
+        self.assertIn("The list below is shown open; a click outside closes it.", starter)
+        self.assertNotIn("data-agustos-unfold", starter)
+
+    def test_chrome_script_flips_and_keeps_the_theme(self):
+        script = (ROOT / "ui" / "agustos-chrome.js").read_text(encoding="utf-8")
+        self.assertIn("'[data-agustos-theme]'", script)
+        self.assertIn("'agustos:theme'", script)
+        self.assertIn("removeAttribute('data-theme')", script)
+        self.assertIn("setAttribute('data-theme', 'dark')", script)
+        # Blocked storage must never break the switch.
+        flip = script[script.index("function flipTheme"):]
+        flip = flip[:flip.index("\n  }\n")]
+        self.assertIn("try {", flip)
+        self.assertNotIn("prefers-color-scheme", script)
+
+    def test_theme_switch_label_is_css_driven(self):
+        """Both labels are in the markup; CSS shows the one the button switches to,
+        so a swapped page body needs no repaint and the name never lags."""
+        self.assertIn(".agustos-theme-switch__to-light,\nhtml[data-theme=\"dark\"] .agustos-theme-switch__to-dark { display: none; }", self.CSS)
+        self.assertIn('html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; }', self.CSS)
+        # In the bar the label is hidden but stays the accessible name; the drawer shows it.
+        bar = self.CSS[self.CSS.index(".site-header__icon-btn .agustos-theme-switch__label {"):]
+        self.assertIn("clip-path: inset(50%);", bar[:bar.index("}")])
+        self.assertNotIn("display: none", bar[:bar.index("}")])
+        drawer = self.CSS[self.CSS.index("@media (max-width: 1023px) {", self.CSS.index(".site-header__panel {")):]
+        self.assertIn(".site-header__panel .site-header__icon-btn .agustos-theme-switch__label", drawer)
+        # The drawer switch starts on the same line as the drawer links, which have no inline padding.
+        self.assertIn(".site-header__panel .site-header__icon-btn.agustos-theme-switch { width: auto; justify-content: flex-start; padding-inline: 0; }", drawer)
+        for name in ("agustos-theme-switch", "agustos-theme-switch__to-dark", "agustos-theme-switch__to-light", "agustos-theme-switch__label"):
+            with self.subTest(name=name):
+                self.assertIn(name, TOKENS["compatibility"]["cssClasses"])
+
     def test_house_brand_lockups_turn_white_on_dark_and_agustos_stays_red(self):
         # `:where` keeps these below the hover rules, so the hover swap works in dark too (v7.0.1).
         self.assertIn('html[data-theme="dark"] :where(.site-lockup) { color: var(--ink); }', self.CSS)
@@ -1226,10 +1672,10 @@ class ChromeTest(unittest.TestCase):
 
     def test_entry_point_carries_the_screens_table_and_brand_chrome(self):
         text = (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8")
-        self.assertIn("| `product` | catalog | topbar | frame | light |", text)
-        self.assertIn("| `home` | marketing | topbar | frame | light |", text)
-        self.assertIn("| `static` | content | topbar | reading | light |", text)
-        self.assertIn("| `app-shell` | product UI | sidebar | frame | dark allowed |", text)
+        self.assertIn("| `product` | catalog | topbar | frame | light first, dark by choice |", text)
+        self.assertIn("| `home` | marketing | topbar | frame | light first, dark by choice |", text)
+        self.assertIn("| `static` | content | topbar | reading | light first, dark by choice |", text)
+        self.assertIn("| `app-shell` | product UI | sidebar | frame | light first, dark by choice |", text)
         self.assertIn("| ağustos | `brand-agustos` | red | black |", text)
         self.assertIn("| pataraz | `brand-pataraz` | black | red |", text)
         self.assertNotIn("at most 2", text)

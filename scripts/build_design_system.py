@@ -66,8 +66,19 @@ PLACEHOLDER = re.compile(r"\{\{\s*([a-zA-Z0-9_.-]+)\s*\}\}")
 ALIAS = re.compile(r"^\{([a-zA-Z0-9_.-]+)\}$")
 
 CHROMES = ("sidebar", "topbar")
+# The theme the user chose lives under one key on every site (v7.7.0). The head
+# script applies a stored dark choice before the first paint, and only that:
+# a page with no stored choice stays light. The device setting is never read.
+THEME_STORAGE_KEY = "agustos:theme"
+THEME_SCRIPT = (
+    'try{if(localStorage.getItem("' + THEME_STORAGE_KEY + '")==="dark")'
+    'document.documentElement.setAttribute("data-theme","dark")}catch(e){}'
+)
 SCREEN_FAMILIES = ("marketing", "content", "catalog", "document", "product-ui")
 SCREEN_FIELDS = ("file", "family", "brand", "purpose", "photo")
+# Product UI uses the sidebar, or the top menu when it has about ten
+# destinations or fewer (v7.7.0). Only a product screen may name its chrome.
+SCREEN_OPTIONAL = ("chrome",)
 SCREEN_FILE = re.compile(r"^[a-z0-9-]+\.html$")
 
 
@@ -86,9 +97,11 @@ def validate_brands(brands: dict[str, Any]) -> None:
                 )
 
 
-def chrome_for(family: str) -> str:
-    """Product UI uses the sidebar. Every website family uses the top menu and the footer."""
-    return "sidebar" if family == "product-ui" else "topbar"
+def chrome_for(entry: dict[str, Any]) -> str:
+    """Every website family uses the top menu and the footer. Product UI uses the sidebar unless its row names the top menu."""
+    if entry["family"] == "product-ui":
+        return entry.get("chrome", "sidebar")
+    return "topbar"
 
 
 def column_for(family: str) -> str:
@@ -108,6 +121,11 @@ def validate_screens(tokens: dict[str, Any], brands: dict[str, Any]) -> None:
             raise TokenError(f"screen {name!r} is missing {', '.join(missing)}")
         if entry["family"] not in SCREEN_FAMILIES:
             raise TokenError(f"screen {name!r}: family must be one of {', '.join(SCREEN_FAMILIES)}")
+        if "chrome" in entry:
+            if entry["family"] != "product-ui":
+                raise TokenError(f"screen {name!r}: only a product-ui screen may name its chrome; websites use the top menu")
+            if entry["chrome"] not in CHROMES:
+                raise TokenError(f"screen {name!r}: chrome must be one of {', '.join(CHROMES)}")
         if entry["brand"] not in brands["brands"]:
             raise TokenError(f"screen {name!r}: unknown brand {entry['brand']!r}")
         if not SCREEN_FILE.match(entry["file"]):
@@ -234,16 +252,24 @@ def type_table_markdown(rows: list[dict[str, Any]]) -> str:
     return "\n".join(lines)
 
 
+THEME_LABELS = {"light-first": "light first, dark by choice"}
+
+
+def theme_label(value: str) -> str:
+    """Every screen starts light; the user may switch it to dark (v7.7.0)."""
+    return THEME_LABELS[value]
+
+
 def screen_rows(tokens: dict[str, Any], brands: dict[str, Any]) -> list[dict[str, Any]]:
-    """The table plus the four derived columns. Theme, chrome, column and highlighter all follow family."""
+    """The table plus the four derived columns. Column and highlighter follow family; chrome follows family unless a product row names it; every screen starts light."""
     rows: list[dict[str, Any]] = []
     for name, entry in screen_entries(tokens).items():
         rows.append({
             "name": name,
             **{field: entry[field] for field in SCREEN_FIELDS},
-            "chrome": chrome_for(entry["family"]),
+            "chrome": chrome_for(entry),
             "column": column_for(entry["family"]),
-            "theme": "dark-allowed" if entry["family"] == "product-ui" else "light",
+            "theme": "light-first",
             # The homepage carries the one highlighter stroke; other pages may.
             "highlight": "one" if entry["family"] == "marketing" else "at-most-one",
         })
@@ -256,7 +282,7 @@ def screens_index_html(rows: list[dict[str, Any]]) -> str:
     for row in rows:
         title = row["name"].replace("-", " ").capitalize()
         family = "product UI" if row["family"] == "product-ui" else row["family"]
-        theme = "dark allowed" if row["theme"] == "dark-allowed" else row["theme"]
+        theme = theme_label(row["theme"])
         sections.append(
             f'  <section class="screen" id="screen-{row["name"]}">\n'
             f'    <h2 class="type-h2">{html.escape(title)}</h2>\n'
@@ -593,8 +619,8 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
                 "Align primary content to one 1180px frame on the web; preserve the same alignment logic in other media.",
                 "Use calm typographic openings, quiet chrome, sentence case, and purposeful spacing. Do not use uppercase labels or eyebrow headings.",
                 "Set type on one golden scale (16.5px body, ratio 1.272): 13, 16.5, 21, 27, 34, 43, 55, 70, 89px, with thin headings.",
-                "Websites use the top menu with at most five items and a More menu for the rest; product UI uses the sidebar.",
-                "Ship websites on white paper. Reserve dark theme for product UI.",
+                "Websites use the top menu with at most five items and a More menu for the rest; product UI uses the sidebar, or the top menu when it has about ten destinations or fewer.",
+                "Start every page on white paper. The dark theme is the user's choice through a theme switch, never the device setting.",
             ],
             "forbidden": [
                 "Inventing a new logo expression or approximate sun symbol",
@@ -603,7 +629,7 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
                 "Giving a non-Ağustos house brand its own chromatic identity color without an explicit governance change",
                 "Using signal red as a button, a statistic, a fill, or an element's own colour, beyond the logo and the one highlighter stroke",
                 "A primary button in every section, card, or list",
-                "A theme toggle on a website",
+                "A theme that follows the device setting (prefers-color-scheme), or a page that starts dark",
                 "More than one highlighter stroke on a page",
                 "Hard-coding values that already exist in foundations, semantic roles, or recipes",
             ],
@@ -688,6 +714,8 @@ def kit_context(tokens: dict[str, Any], brands: dict[str, Any]) -> dict[str, str
             ]
         ),
         "brandClasses": repr(tuple(f"brand-{slug}" for slug in brands["brands"])),
+        "themeScript": THEME_SCRIPT,
+        "themeStorageKey": THEME_STORAGE_KEY,
         "screensTable": "\n".join(
             ["| Screen | Family | Chrome | Column | Theme | Photography |", "|---|---|---|---|---|---|"]
             + [
@@ -696,7 +724,7 @@ def kit_context(tokens: dict[str, Any], brands: dict[str, Any]) -> dict[str, str
                     family="product UI" if row["family"] == "product-ui" else row["family"],
                     chrome=row["chrome"],
                     column=row["column"],
-                    theme="dark allowed" if row["theme"] == "dark-allowed" else row["theme"],
+                    theme=theme_label(row["theme"]),
                     photo=row["photo"],
                 )
                 for row in screen_rows(tokens, brands)
@@ -921,6 +949,8 @@ def ui_kit_json(
         "typeRoles": type_rows(tokens),
         "substrates": ["paper", "paper-white", "cream"],
         "darkTheme": 'html[data-theme="dark"]',
+        "themeScript": THEME_SCRIPT,
+        "themeStorageKey": THEME_STORAGE_KEY,
         "cssClasses": tokens["compatibility"]["cssClasses"],
         "files": files,
         # The only place @latest is permitted: this is data, never a stylesheet

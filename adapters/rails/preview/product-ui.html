@@ -1,15 +1,17 @@
 <!doctype html>
 <!-- Static preview of the Rails adapter's product UI output (shell: :product, screen: app-shell).
      Rendered by hand from app/views/layouts/agustos.html.erb, _sidebar and examples/product.html.erb.
-     Product UI alone uses the sidebar; it ships light with an opt-in dark control. -->
+     This preview uses the product sidebar. Every page starts light; the opt-in theme switch sets dark. -->
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script>try{if(localStorage.getItem("agustos:theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
   <title>Validation run — IESDesk</title>
   <link rel="stylesheet" href="../../../ui/agustos-fonts.css">
   <link rel="stylesheet" href="../app/assets/stylesheets/agustos/tokens.css">
   <link rel="stylesheet" href="../app/assets/stylesheets/agustos/components.css">
+  <script src="../app/javascript/agustos/chrome.js" defer></script>
 </head>
 <body data-screen="app-shell" class="brand-iesdesk paper-white site-sidebar-layout">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -43,7 +45,7 @@
       <a class="site-sidebar__link" href="#formats">Formats</a>
     </nav>
     <div class="site-sidebar__utility">
-      <button type="button" class="agustos-button agustos-button--quiet" id="theme" aria-pressed="false">Dark theme</button>
+      <button type="button" class="agustos-button agustos-button--quiet agustos-theme-switch" data-agustos-theme><span class="agustos-theme-switch__to-dark"><span class="agustos-theme-switch__label">Dark theme</span></span><span class="agustos-theme-switch__to-light"><span class="agustos-theme-switch__label">Light theme</span></span></button>
     </div>
     <p class="site-sidebar__note">Local cache 1.8 / 4 GB. Files never leave this machine.</p>
   </aside>
@@ -105,12 +107,5 @@
       </section>
     </div>
   </main>
-  <script>
-    document.getElementById("theme").addEventListener("click", function () {
-      var root = document.documentElement, dark = root.getAttribute("data-theme") !== "dark";
-      if (dark) root.setAttribute("data-theme", "dark"); else root.removeAttribute("data-theme");
-      this.setAttribute("aria-pressed", String(dark));
-    });
-  </script>
 </body>
 </html>

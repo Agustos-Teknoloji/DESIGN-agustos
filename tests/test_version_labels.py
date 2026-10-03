@@ -36,5 +36,37 @@ class VersionLabelTest(unittest.TestCase):
                         self.assertEqual(found, VERSION)
 
 
+    def test_handoff_names_the_current_version_and_archive(self):
+        text = (ROOT / "HANDOFF.md").read_text(encoding="utf-8")
+        self.assertEqual(
+            re.findall(r"^Design system version: (\S+)$", text, re.MULTILINE), [VERSION]
+        )
+        for found in re.findall(r"agustos-ui-handoff-v(\d+\.\d+\.\d+)", text):
+            with self.subTest(label="handoff archive"):
+                self.assertEqual(found, VERSION)
+        self.assertIn(f"dist/agustos-ui-handoff-v{VERSION}.zip", text)
+
+    def test_adapter_readmes_and_showcase_name_the_current_version(self):
+        files = sorted((ROOT / "adapters").glob("*/README.md")) + [
+            ROOT / "adapters" / "README.md",
+            ROOT / "adapters" / "astro" / "src" / "pages" / "typography.astro",
+        ]
+        patterns = (r"kit v(\d+\.\d+\.\d+)", r"Design System v(\d+\.\d+\.\d+)")
+        for path in files:
+            text = path.read_text(encoding="utf-8")
+            found = [v for pattern in patterns for v in re.findall(pattern, text)]
+            with self.subTest(file=str(path.relative_to(ROOT))):
+                self.assertTrue(found, "names no kit version")
+                self.assertEqual(set(found), {VERSION})
+
+    def test_wordpress_enqueue_names_the_current_version(self):
+        """WordPress adds the version as ?ver= to each file URL. A stale version
+        keeps the browser on a cached copy of the old kit."""
+        text = (ROOT / "adapters" / "wordpress" / "functions.php.example").read_text(encoding="utf-8")
+        found = re.findall(r"'(\d+\.\d+\.\d+)'", text)
+        self.assertEqual(len(found), 2, "the stylesheet and the chrome script each name a version")
+        self.assertEqual(set(found), {VERSION})
+
+
 if __name__ == "__main__":
     unittest.main()

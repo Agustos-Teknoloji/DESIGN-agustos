@@ -101,7 +101,7 @@ There is no fourth expression. Do not invent a white-on-transparent "reverse" lo
 | `iesdesk` | iesdesk | `#15130f` | iesdesk.com | red | logos only |
 | `specquick` | specquick | `#15130f` | specquick.com | red | logos only |
 
-Chrome follows the page type, not the brand: every website uses the top menu (five items at most, the rest under More) and the light footer; product UI uses the sidebar.
+Chrome follows the page type, not the brand: every website uses the top menu (five items at most, the rest under More) and the footer; product UI uses the sidebar, or the top menu when it has about ten destinations or fewer. Every page starts light; the user may switch to dark.
 
 Novara (outdoor kitchen furniture) is a brand that Ağustos **represents and distributes** (like Soraa, CoeLux), **not** a house brand. It has no assets here and needs none.
 
@@ -113,7 +113,7 @@ Novara (outdoor kitchen furniture) is a brand that Ağustos **represents and dis
 - Set the wordmark in Inter Tight, weight 650, lowercase, in the registered identity ink. Never put a tagline or subtitle on the lockup.
 - Use one symbol for all brands, and never redraw it. Use red for the Ağustos identity and black or white for every other house brand.
 - Keep signal and identity separate. Red rules and focus never make a non-Ağustos logo red.
-- Give every website the top menu and the footer, and product UI the sidebar. Brands register no chrome. Style chrome only in `tokens/web.css.tmpl`.
+- Give every website the top menu and the footer. Give product UI the sidebar, or the top menu when it is small (`app-top-menu`). Brands register no chrome. Style chrome only in `tokens/web.css.tmpl`.
 - Collect design tweaks under `## Next` in `TODO.md` and ship them as one kit release a month, after Emre approves a before/after preview. Fix real defects at once. When unsure, do the conventional thing. See [MEMORY.md](MEMORY.md), monthly-kit-release.
 - Edit `tokens/design-tokens.json` or `tokens/web.css.tmpl`, then run `python3 scripts/build_design_system.py`. Never hand-edit generated CSS, `theme.json`, `tokens/resolved.json` or anything under `brand/exports/`.
 - Run `bin/setup` once in each new clone. It activates the pre-push hook in `.githooks/`, which runs `scripts/ci.sh` before every push.

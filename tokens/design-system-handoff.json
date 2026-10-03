@@ -85,6 +85,11 @@
       "site-header__more",
       "site-header__more-menu",
       "site-header__more-link",
+      "site-header__more-menu--groups",
+      "site-header__more-group",
+      "site-header__more-group-title",
+      "site-header__more--end",
+      "site-header__more-label",
       "site-header__end",
       "site-header__cta",
       "site-header__burger",
@@ -95,6 +100,10 @@
       "site-header__icon-btn",
       "site-header__theme-sun",
       "site-header__theme-moon",
+      "agustos-theme-switch",
+      "agustos-theme-switch__to-dark",
+      "agustos-theme-switch__to-light",
+      "agustos-theme-switch__label",
       "site-header__lang-link",
       "site-header__search",
       "site-header__search--desktop",
@@ -191,7 +200,7 @@
         "Pages feel calm, warm, and complete through white paper, thin headings on one scale, and helpful language.",
         "Visitors can understand the content and identify the next action quickly.",
         "Red appears only as identity and signal: the logo, link and menu rules, focus, and at most one highlighter stroke.",
-        "Websites remain light without a theme control, and their top menu fits in five items.",
+        "Every page starts light, only the user switches it to dark, and the top menu fits in five items.",
         "Forms and technical content remain clear, readable, and easy to scan.",
         "Brand identity, keyboard focus, reduced motion, and supported themes remain intact."
       ],
@@ -202,7 +211,7 @@
         "Inflated luxury claims or forced friendliness",
         "A primary button in every section, card, or list",
         "A sidebar on a website, or more than five items in its top menu",
-        "A theme toggle on a website",
+        "A theme that follows the device setting, or a page that starts dark",
         "Lifestyle photography or a photograph behind body text"
       ],
       "definition": "Scandinavian restraint filtered through Mediterranean warmth.",
@@ -269,7 +278,7 @@
         "Use two radii, 6px for controls and 12px for cards, and one section spacing. Do not use gradients or textures. The only shadow sits under a menu that floats above the page.",
         "Red is identity and signal, never action: the logo, the 2px link and menu rule, keyboard focus, and one highlighter stroke per page. Buttons are black. The Ağustos logo is red and turns black on hover; every other house brand's logo is black and turns red on hover.",
         "Use the highlighter on one to four words of the main headline: once on the homepage, at most once on any other page. Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.",
-        "Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar. Websites ship light; dark theme is for product UI.",
+        "Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar, or the top menu when it has about ten destinations or fewer. Every page starts light. A site may add a theme switch; the user picks dark, never the device.",
         "Copy a screen; do not design a page. Open with a headline, a deck, two buttons, and a trust line. Close with one pale red band.",
         "Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not combine them, and do not use uppercase labels, eyebrow headings, or coloured text.",
         "When unsure, do the conventional thing. Collect design tweaks and release the kit once a month; fix real defects at once."
@@ -282,7 +291,7 @@
       "Giving a non-Ağustos house brand its own chromatic identity color without an explicit governance change",
       "Using signal red as a button, a statistic, a fill, or an element's own colour, beyond the logo and the one highlighter stroke",
       "A primary button in every section, card, or list",
-      "A theme toggle on a website",
+      "A theme that follows the device setting (prefers-color-scheme), or a page that starts dark",
       "More than one highlighter stroke on a page",
       "Hard-coding values that already exist in foundations, semantic roles, or recipes"
     ],
@@ -302,8 +311,8 @@
       "Align primary content to one 1180px frame on the web; preserve the same alignment logic in other media.",
       "Use calm typographic openings, quiet chrome, sentence case, and purposeful spacing. Do not use uppercase labels or eyebrow headings.",
       "Set type on one golden scale (16.5px body, ratio 1.272): 13, 16.5, 21, 27, 34, 43, 55, 70, 89px, with thin headings.",
-      "Websites use the top menu with at most five items and a More menu for the rest; product UI uses the sidebar.",
-      "Ship websites on white paper. Reserve dark theme for product UI."
+      "Websites use the top menu with at most five items and a More menu for the rest; product UI uses the sidebar, or the top menu when it has about ten destinations or fewer.",
+      "Start every page on white paper. The dark theme is the user's choice through a theme switch, never the device setting."
     ],
     "mediums": {
       "document": "Native named styles, generous opening space, exact lockup header, thin signal rule, editable tables.",
@@ -381,7 +390,7 @@
         "Pages feel calm, warm, and complete through white paper, thin headings on one scale, and helpful language.",
         "Visitors can understand the content and identify the next action quickly.",
         "Red appears only as identity and signal: the logo, link and menu rules, focus, and at most one highlighter stroke.",
-        "Websites remain light without a theme control, and their top menu fits in five items.",
+        "Every page starts light, only the user switches it to dark, and the top menu fits in five items.",
         "Forms and technical content remain clear, readable, and easy to scan.",
         "Brand identity, keyboard focus, reduced motion, and supported themes remain intact."
       ],
@@ -392,7 +401,7 @@
         "Inflated luxury claims or forced friendliness",
         "A primary button in every section, card, or list",
         "A sidebar on a website, or more than five items in its top menu",
-        "A theme toggle on a website",
+        "A theme that follows the device setting, or a page that starts dark",
         "Lifestyle photography or a photograph behind body text"
       ],
       "definition": "Scandinavian restraint filtered through Mediterranean warmth.",
@@ -459,7 +468,7 @@
         "Use two radii, 6px for controls and 12px for cards, and one section spacing. Do not use gradients or textures. The only shadow sits under a menu that floats above the page.",
         "Red is identity and signal, never action: the logo, the 2px link and menu rule, keyboard focus, and one highlighter stroke per page. Buttons are black. The Ağustos logo is red and turns black on hover; every other house brand's logo is black and turns red on hover.",
         "Use the highlighter on one to four words of the main headline: once on the homepage, at most once on any other page. Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.",
-        "Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar. Websites ship light; dark theme is for product UI.",
+        "Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar, or the top menu when it has about ten destinations or fewer. Every page starts light. A site may add a theme switch; the user picks dark, never the device.",
         "Copy a screen; do not design a page. Open with a headline, a deck, two buttons, and a trust line. Close with one pale red band.",
         "Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not combine them, and do not use uppercase labels, eyebrow headings, or coloured text.",
         "When unsure, do the conventional thing. Collect design tweaks and release the kit once a month; fix real defects at once."
@@ -817,7 +826,15 @@
         "family": "product-ui",
         "file": "app-shell.html",
         "photo": "none",
-        "purpose": "The product-UI frame: sidebar navigation with counts, a page toolbar, stats, and a data table. The theme control lives in the sidebar."
+        "purpose": "The product-UI frame: sidebar navigation with counts, a page toolbar, stats, and a data table. The theme switch lives in the sidebar."
+      },
+      "app-top-menu": {
+        "brand": "iesdesk",
+        "chrome": "topbar",
+        "family": "product-ui",
+        "file": "app-top-menu.html",
+        "photo": "none",
+        "purpose": "A small product on the top menu: grouped Tools, a list of the user's files, the theme switch and the account list at the end, and the footer. For a product with about ten destinations or fewer."
       },
       "content": {
         "brand": "agustos",
@@ -1068,6 +1085,22 @@
       {
         "dark": {
           "background": "#15130f",
+          "foreground": "#8a8378",
+          "ratio": 4.95
+        },
+        "element": "Theme switch",
+        "floor": 4.5,
+        "kind": "text",
+        "light": {
+          "background": "#ffffff",
+          "foreground": "#404040",
+          "ratio": 10.37
+        },
+        "state": "rest"
+      },
+      {
+        "dark": {
+          "background": "#15130f",
           "foreground": "#ffffff",
           "ratio": 18.55
         },
@@ -1115,6 +1148,22 @@
       },
       {
         "dark": {
+          "background": "#15130f",
+          "foreground": "#8a8378",
+          "ratio": 4.95
+        },
+        "element": "More group title",
+        "floor": 4.5,
+        "kind": "text",
+        "light": {
+          "background": "#ffffff",
+          "foreground": "#404040",
+          "ratio": 10.37
+        },
+        "state": "rest"
+      },
+      {
+        "dark": {
           "background": "#404040",
           "foreground": "#ffffff",
           "ratio": 10.37
@@ -1131,11 +1180,11 @@
       },
       {
         "dark": {
-          "background": "#ffffff",
-          "foreground": "#404040",
-          "ratio": 10.37
+          "background": "#15130f",
+          "foreground": "#8a8378",
+          "ratio": 4.95
         },
-        "element": "Footer link (the footer stays light)",
+        "element": "Footer link",
         "floor": 4.5,
         "kind": "text",
         "light": {
@@ -1147,8 +1196,8 @@
       },
       {
         "dark": {
-          "background": "#ffffff",
-          "foreground": "#15130f",
+          "background": "#15130f",
+          "foreground": "#ffffff",
           "ratio": 18.55
         },
         "element": "Footer link",
@@ -1163,9 +1212,9 @@
       },
       {
         "dark": {
-          "background": "#ffffff",
+          "background": "#15130f",
           "foreground": "#8a8378",
-          "ratio": 3.75
+          "ratio": 4.95
         },
         "element": "Footer link hover rule (1px)",
         "floor": 3.0,
@@ -1179,8 +1228,8 @@
       },
       {
         "dark": {
-          "background": "#ffffff",
-          "foreground": "#15130f",
+          "background": "#15130f",
+          "foreground": "#ffffff",
           "ratio": 18.55
         },
         "element": "Footer group title",
@@ -1195,9 +1244,9 @@
       },
       {
         "dark": {
-          "background": "#ffffff",
-          "foreground": "#404040",
-          "ratio": 10.37
+          "background": "#15130f",
+          "foreground": "#8a8378",
+          "ratio": 4.95
         },
         "element": "Footer contact block",
         "floor": 4.5,
@@ -1211,9 +1260,9 @@
       },
       {
         "dark": {
-          "background": "#ebebeb",
-          "foreground": "#15130f",
-          "ratio": 15.56
+          "background": "#15130f",
+          "foreground": "#ffffff",
+          "ratio": 18.55
         },
         "element": "Closing band text",
         "floor": 4.5,
@@ -1224,6 +1273,38 @@
           "ratio": 17.28
         },
         "state": "rest"
+      },
+      {
+        "dark": {
+          "background": "#15130f",
+          "foreground": "#8a8378",
+          "ratio": 4.95
+        },
+        "element": "Closing band secondary text",
+        "floor": 4.5,
+        "kind": "text",
+        "light": {
+          "background": "#fdf5f5",
+          "foreground": "#404040",
+          "ratio": 9.66
+        },
+        "state": "rest"
+      },
+      {
+        "dark": {
+          "background": "#15130f",
+          "foreground": "#cf142a",
+          "ratio": 3.35
+        },
+        "element": "Keyboard focus ring in the closing band",
+        "floor": 3.0,
+        "kind": "graphic",
+        "light": {
+          "background": "#fdf5f5",
+          "foreground": "#cf142a",
+          "ratio": 5.16
+        },
+        "state": "focus"
       },
       {
         "dark": {
@@ -1595,7 +1676,7 @@
         "weight": 400
       }
     ],
-    "version": "7.6.2"
+    "version": "7.7.0"
   },
-  "version": "7.6.2"
+  "version": "7.7.0"
 }

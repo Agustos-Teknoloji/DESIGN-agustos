@@ -214,7 +214,7 @@ class AdapterContractTest(unittest.TestCase):
         self.assertIn("substrate: :white", helper)
         self.assertIn("shell: :marketing", helper)
         self.assertIn("theme: false", helper)
-        self.assertIn("color_scheme: :light", helper)
+        self.assertNotIn("color_scheme", helper)
         self.assertIn('classes << "paper-white" if config[:substrate] == :white', helper)
         self.assertIn("BRAND_CLASSES.fetch(config[:brand], BRAND_CLASSES[:agustos])", helper)
         self.assertIn("BRAND_WORDMARKS.fetch(agustos_theme_config[:brand], BRAND_WORDMARKS[:agustos])", helper)
@@ -263,6 +263,51 @@ class AdapterContractTest(unittest.TestCase):
         self.assertNotIn("pq-", preview)
         self.assertNotIn("site-header", preview)
         self.assertFalse((ROOT / "adapters" / "rails" / "app" / "assets" / "stylesheets" / "agustos" / "product.css").exists())
+
+    def test_adapters_use_the_kit_theme_switch_and_one_handler(self):
+        """v7.7.0: agustos-chrome.js is the one theme handler. A second handler on the
+        same button would flip the theme twice per click."""
+        # The adapter copies must match the one published head script.
+        script = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))["themeScript"]
+        astro_utility = (ROOT / "adapters/astro/src/components/HeaderUtility.astro").read_text(encoding="utf-8")
+        astro_header = (ROOT / "adapters/astro/src/components/Header.astro").read_text(encoding="utf-8")
+        astro_layout = (ROOT / "adapters/astro/src/layouts/BaseLayout.astro").read_text(encoding="utf-8")
+        rails_utility = (ROOT / "adapters/rails/app/views/agustos/shared/_header_utility.html.erb").read_text(encoding="utf-8")
+        rails_layout = (ROOT / "adapters/rails/app/views/layouts/agustos.html.erb").read_text(encoding="utf-8")
+        rails_helper = (ROOT / "adapters/rails/app/helpers/agustos_theme_helper.rb").read_text(encoding="utf-8")
+        for name, text in (("astro utility", astro_utility), ("rails utility", rails_utility)):
+            with self.subTest(file=name):
+                self.assertIn("agustos-theme-switch", text)
+                self.assertIn("data-agustos-theme", text)
+                self.assertNotIn("data-theme-toggle", text)
+                self.assertNotIn("agustos-theme#toggle", text)
+        self.assertNotIn("data-theme-toggle", astro_header)
+        self.assertIn(script, astro_layout)
+        self.assertIn(script, rails_helper)
+        self.assertIn("javascript_tag AgustosThemeHelper::THEME_SCRIPT, nonce: true", rails_layout)
+        self.assertFalse((ROOT / "adapters/rails/app/javascript/controllers/agustos_theme_controller.js").exists())
+
+    def test_adapters_never_render_a_page_dark_on_the_server(self):
+        """v7.7.0: every page starts light. Only the theme switch sets data-theme."""
+        astro_layout = (ROOT / "adapters/astro/src/layouts/BaseLayout.astro").read_text(encoding="utf-8")
+        typography = (ROOT / "adapters/astro/src/pages/typography.astro").read_text(encoding="utf-8")
+        rails_layout = (ROOT / "adapters/rails/app/views/layouts/agustos.html.erb").read_text(encoding="utf-8")
+        rails_helper = (ROOT / "adapters/rails/app/helpers/agustos_theme_helper.rb").read_text(encoding="utf-8")
+        rails_sidebar = (ROOT / "adapters/rails/app/views/agustos/shared/_sidebar.html.erb").read_text(encoding="utf-8")
+        preview = (ROOT / "adapters/rails/preview/product-ui.html").read_text(encoding="utf-8")
+        self.assertNotIn("data-theme={", astro_layout)
+        self.assertNotIn("theme?: 'light' | 'dark'", astro_layout)
+        self.assertNotIn("theme-inspect", typography)
+        self.assertNotIn("dataset.theme", typography)
+        self.assertNotIn("data-theme", rails_layout)
+        self.assertNotIn("color_scheme", rails_helper)
+        self.assertNotIn("agustos_dark?", rails_helper + rails_layout + rails_sidebar)
+        for name, text in (("rails sidebar", rails_sidebar), ("rails preview", preview)):
+            with self.subTest(file=name):
+                self.assertIn("agustos-button agustos-button--quiet agustos-theme-switch", text)
+                self.assertIn("data-agustos-theme", text)
+        self.assertNotIn('id="theme"', preview)
+        self.assertNotIn('setAttribute("data-theme"', preview.split("</head>", 1)[1])
 
     def test_rails_lockup_contains_exact_eighteen_blades(self):
         lockup = (ROOT / "adapters" / "rails" / "app" / "views" / "agustos" / "shared" / "_brand_lockup.html.erb").read_text(encoding="utf-8")

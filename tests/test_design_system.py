@@ -72,9 +72,12 @@ class DesignSystemGenerationTest(unittest.TestCase):
                 self.builder.validate_brands(bad)
 
     def test_chrome_follows_the_family(self):
-        self.assertEqual(self.builder.chrome_for("product-ui"), "sidebar")
+        """Product UI uses the sidebar unless its row names the top menu (v7.7.0).
+        Every website family uses the top menu and the footer."""
+        self.assertEqual(self.builder.chrome_for({"family": "product-ui"}), "sidebar")
+        self.assertEqual(self.builder.chrome_for({"family": "product-ui", "chrome": "topbar"}), "topbar")
         for family in ("marketing", "content", "catalog", "document"):
-            self.assertEqual(self.builder.chrome_for(family), "topbar")
+            self.assertEqual(self.builder.chrome_for({"family": family}), "topbar")
 
     def test_screens_table_is_validated_and_derives_chrome_and_theme(self):
         brands = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))
@@ -82,13 +85,23 @@ class DesignSystemGenerationTest(unittest.TestCase):
         rows = {row["name"]: row for row in self.builder.screen_rows(self.tokens, brands)}
         self.assertEqual(
             list(rows),
-            ["home", "static", "content", "content-index", "products", "product-finder", "product", "spec-sheet", "app-shell"],
+            ["home", "static", "content", "content-index", "products", "product-finder", "product", "spec-sheet", "app-shell", "app-top-menu"],
         )
         self.assertEqual(rows["home"]["chrome"], "topbar")
         self.assertEqual(rows["product"]["chrome"], "topbar")
         self.assertEqual(rows["app-shell"]["chrome"], "sidebar")
-        self.assertEqual(rows["app-shell"]["theme"], "dark-allowed")
-        self.assertEqual(rows["home"]["theme"], "light")
+        self.assertEqual(rows["app-top-menu"]["chrome"], "topbar")
+        self.assertEqual(rows["app-top-menu"]["family"], "product-ui")
+        bad = copy.deepcopy(self.tokens)
+        bad["screens"]["home"]["chrome"] = "sidebar"
+        with self.assertRaises(self.builder.TokenError):
+            self.builder.validate_screens(bad, brands)  # only product UI may name its chrome
+        bad = copy.deepcopy(self.tokens)
+        bad["screens"]["app-top-menu"]["chrome"] = "rail"
+        with self.assertRaises(self.builder.TokenError):
+            self.builder.validate_screens(bad, brands)
+        for row in rows.values():
+            self.assertEqual(row["theme"], "light-first")
         self.assertNotIn("quotes", rows["static"])
         self.assertNotIn("primaryCtaMax", rows["spec-sheet"])
         for row in rows.values():
@@ -141,7 +154,11 @@ class DesignSystemGenerationTest(unittest.TestCase):
         self.assertIn("at most five items", text)
         self.assertIn("golden", text)
         avoid = " ".join(self.tokens["designDirection"]["avoid"])
-        self.assertIn("theme toggle on a website", avoid)
+        self.assertIn("follows the device setting", avoid)
+        self.assertNotIn("theme toggle on a website", avoid)
+        principles = " ".join(self.tokens["designDirection"]["principles"])
+        self.assertIn("Every page starts light", principles)
+        self.assertNotIn("Websites ship light", principles)
         self.assertIn("More than one highlighter stroke", avoid)
 
     def test_circular_alias_is_rejected(self):
@@ -247,10 +264,12 @@ class DesignSystemGenerationTest(unittest.TestCase):
         outputs = self.builder.expected_outputs()
         text = outputs[ROOT / "docs" / "web.html"]
         self.assertIn('<!-- GENERATED. Do not hand-edit.', text)
-        for name in ("home", "static", "content", "content-index", "products", "product-finder", "product", "spec-sheet", "app-shell"):
+        for name in ("home", "static", "content", "content-index", "products", "product-finder", "product", "spec-sheet", "app-shell", "app-top-menu"):
             self.assertIn(f'id="screen-{name}"', text)
             self.assertIn(f'src="../screens/{name}.html"', text)
         self.assertIn("websites use the top menu and the footer, product UI uses the sidebar", text)
+        self.assertIn("product UI uses the sidebar or, with about ten destinations or fewer, the top menu", text)
+        self.assertIn("Every screen starts light.", text)
         self.assertIn('href="agustos.css"', text)
         self.assertNotIn('href="../ui/agustos.css"', text)
         self.assertNotIn(".site-header {", text)

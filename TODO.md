@@ -2,16 +2,18 @@
 
 ## Now
 
-Nothing in progress. The four v7 websites run kit v7.6.2 (2026-10-01); see MEMORY.md 2026-10-01 websites-on-kit-7.6.2.
+Nothing in progress. Kit v7.7.0 shipped on 2026-10-03 (one top menu and the dark theme on every site; MEMORY.md 2026-10-03 kit-7.7-extra-release). The consuming sites adopt it under Next.
 
 ## Next
 
+- IESDesk, agustos.com, memregunes.com, pldturkiye.com and GEM-agustos-admin adopt v7.7.0 (follow-up list in the v7.7.0 plan).
+- Run the Astro and Rails adapter test suites in `scripts/ci.sh`. Today they run only by hand, so the gate does not see an adapter that breaks the kit contract.
 - pataraz2 (dev.pataraz.com) still runs kit v6.1.0. Move it to v7 in its own task: top menu, light footer, `agustos-chrome.js`, then the v7.x consumer changes. It needs a before/after preview for Emre.
 - Give a reference screen the three v7.6.2 cases (a meta line with no deck, a contents list under a breadcrumb, a meta line in a stack), so the screen sweep covers them. No screen held them, so v7.6.0 shipped all three defects.
 - Kit audit 2026-10-01 (three reviews; the v7.5.0 stack fix closed the first finding of each):
   - CSS structure: cascade layers (`reset < base < components < layout < utilities`), after an audit of each site, because every unlayered consumer rule then wins; components drop outer margins, so layout owns all spacing; container queries for cards and grids in columns; `overflow-wrap` on body, so a long Turkish word or a URL cannot overflow a 375px phone; `forced-colors` rules.
   - Checker (12 of 59 UI-KIT rules fully enforced): AG009 reads component `<style>` blocks (12 hidden overrides on agustos.com, 1 on PLD); hero and closing band per screen; red beyond backgrounds (`color`, `fill`, borders); off-scale font sizes and weights of 700 and up; move the repository-test rules (header and footer, no footer button, `lang`) into the checker; a way to run the screen rules on the Rails site, which has no static build.
-  - Docs: ship `screens/` with the kit, because a consumer agent never receives them; a "page type to screen and recipe" table (contact, pricing, FAQ, case study, 404, data table); replace "do the conventional thing" with "stop and ask for a recipe"; recipes for form states, article media and footnotes, pagination, image ratio and placeholder; fix the starter's contradictions (an eyebrow above the H1, a theme toggle on a `home` page, "paper (cream, default)").
+  - Docs: ship `screens/` with the kit, because a consumer agent never receives them; a "page type to screen and recipe" table (contact, pricing, FAQ, case study, 404, data table); replace "do the conventional thing" with "stop and ask for a recipe"; recipes for form states, article media and footnotes, pagination, image ratio and placeholder; fix the starter's contradictions (an eyebrow above the H1, "paper (cream, default)").
 - Add a theme-invariant reverse-ink token (cream or white) to the registry for negative lockups, and use it on the Astro `/typography` negative tiles. In the dark toggle the house-brand tiles are off-black on off-black paper, so their edge disappears; decide whether the tile needs a rule. See MEMORY.md, negative-tile-cream.
 - Design review 2026-09-29, open decisions for Emre:
   - Labels above headings remain on `screens/product-finder.html` (series above each card title) and `screens/static.html` (role above each name). Move them below their headings, like the date in v7.6.0 (no dateline above a title: Emre chose option D on 2026-10-01).
@@ -29,7 +31,7 @@ Nothing in progress. The four v7 websites run kit v7.6.2 (2026-10-01); see MEMOR
   - Tokens: a `--focus-ring` token for the 13 hand-typed rings; read `--measure-*` and `bodyCompact` through `var()`; one icon-button recipe; two hover idioms (a rule for links, a fill for menu rows).
   - Phone and tablet: product title before the media below 760px; finder results collapse inside `grid-aside` at 768px; year and download links reach 44px.
   - Docs: one entry point (DESIGN.md:7 vs UI-KIT.md:3); cut the Versioning paragraph to the current release; drop v3 and v5 remnants; "topbar" to "top menu"; six brands, not five; the browser baseline is 2024 (`:has()`, `popover`), not 2022.
-  - Best practice: a component status and a deprecation window for the aliases; `prefers-color-scheme` for product UI; `required` and `aria-describedby` in the starter form; per-brand favicons on the Pataraz and IESDesk screens.
+  - Best practice: a component status and a deprecation window for the aliases; `required` and `aria-describedby` in the starter form; per-brand favicons on the Pataraz and IESDesk screens.
 
 - Brand guidelines PDF, three candidate pages from the 2026-10-01 comparison with common practice. No standard sets the sections; agency guides name seven, and these three are missing. Each one needs Emre's yes before the PDFs are rebuilt (MEMORY.md, guidelines-rebuild-on-request).
   - Tone of voice: a short page from `standards/voice.md` in the SKILL-writing repo.

@@ -1,6 +1,6 @@
 # Ağustos Astro Adapter
 
-Astro 5 reference implementation for the [Ağustos Design System](../../DESIGN.md), kit v7.6.2.
+Astro 5 reference implementation for the [Ağustos Design System](../../DESIGN.md), kit v7.7.0.
 
 This adapter is useful for static sites, documentation, marketing pages, and visual QA. It is not the canonical center of the system; shared decisions live in `../../tokens/design-tokens.json` and `DESIGN.md`.
 
@@ -124,15 +124,15 @@ Set `searchable={false}` to exclude a page. Blog detail pages should pass
 `searchKind="post"`; other pages default to `"page"`. Set
 `header={{ search: false }}` to remove search from the chrome.
 
-Websites ship light and carry no theme toggle. `header={{ theme: true }}` and
-`theme="dark"` remain for inspecting product-UI dark (the typography showcase
-uses the toggle); do not use them on a website page.
+A site may add the theme switch with `header={{ theme: true }}`. The user picks
+dark; the device never does, and every page starts light. A site without the
+switch stays light.
 
 The header drawer and its backdrop are native popovers styled by the kit, with
 a close button inside the drawer. The header script imports the kit's
 `src/scripts/agustos-chrome.js` (generated; do not edit), which closes the More
-menu on Escape, an outside click or focus leaving, and handles search and the
-optional theme toggle. A language link carries `lang` from its `hreflang`.
+menu on Escape, an outside click or focus leaving, and handles the optional
+theme switch. The header script handles search. A language link carries `lang` from its `hreflang`.
 
 Regenerate the standalone HTML preview from `DESIGN.md`:
 
@@ -180,7 +180,7 @@ White is the page paper. The pale red closing band is the kit's `band band--crea
 </section>
 ```
 
-Dark theme is for product UI through `html[data-theme="dark"]`. Marketing, catalog, and spec pages stay light. They do not ship a theme toggle. The typography showcase includes a handbook inspect control; that is not a marketing pattern.
+The dark theme uses `html[data-theme="dark"]`, which only the theme switch sets. The kit script `agustos-chrome.js` keeps the choice under `agustos:theme`.
 
 ## Composition
 

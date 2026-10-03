@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Brands — Ağustos Design System</title>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.2/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.2/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.7.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.7.0/ui/agustos.css">
 <link rel="stylesheet" href="agustos-fonts.css">
 <link rel="stylesheet" href="agustos.css">
 <script>
@@ -15,7 +15,7 @@ document.addEventListener("error", function (event) {
   var relative = image.getAttribute("src") || "";
   if (image.dataset.cdn || relative.indexOf("../brand/exports/") !== 0) return;
   image.dataset.cdn = "1";
-  image.src = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.2/" + relative.slice(3);
+  image.src = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.7.0/" + relative.slice(3);
 }, true);
 </script>
 <style>
@@ -127,7 +127,7 @@ document.addEventListener("error", function (event) {
       <li>Put a <code>brand-*</code> class on <code>body</code>. That sets identity ink.</li>
       <li>On the web the logo answers hover: the Ağustos logo turns black, every other logo turns red.</li>
       <li>Links and focus stay signal red on every brand. Buttons stay black.</li>
-      <li>Chrome follows the screen, not the brand: every website uses the top menu and the footer; product UI uses the sidebar.</li>
+      <li>Chrome follows the screen, not the brand: every website uses the top menu and the footer; product UI uses the sidebar, or the top menu when small.</li>
       <li>Do not invent a fourth logo expression or a white-on-transparent reverse.</li>
       <li>Novara is a distributed brand, not a house brand. It has no assets here.</li>
     </ul>

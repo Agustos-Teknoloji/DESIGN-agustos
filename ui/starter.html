@@ -6,7 +6,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ağustos UI kit v7.6.2 — reference render</title>
+<!-- The theme the user chose, before the first paint. A site adds its CSP nonce. -->
+<script>try{if(localStorage.getItem("agustos:theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
+<title>Ağustos UI kit v7.7.0 — reference render</title>
 
 <!-- Fonts FIRST, then the system. Without the first tag the page renders in
      system sans while appearing to comply.
@@ -24,6 +26,8 @@
   .demo-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm); }
   .demo-swatch { display: flex; align-items: center; gap: var(--space-xs); }
   .demo-swatch i { inline-size: 1rem; block-size: 1rem; border-radius: var(--radius-sm); }
+  /* Room under the open account list, which floats like the More menu. */
+  .demo-account { display: flex; align-items: flex-start; min-block-size: 13rem; }
 </style>
 </head>
 
@@ -49,9 +53,15 @@
         <a class="site-header__link" href="/biz-kimiz">Biz kimiz</a>
         <details class="site-header__more">
           <summary class="site-header__link">Daha fazla</summary>
-          <div class="site-header__more-menu">
-            <a class="site-header__more-link" href="/gecmis-markalar">Geçmiş markalar</a>
-            <a class="site-header__more-link" href="/kariyer">Kariyer</a>
+          <div class="site-header__more-menu site-header__more-menu--groups">
+            <div class="site-header__more-group" role="group" aria-labelledby="more-brands">
+              <p class="site-header__more-group-title" id="more-brands">Markalar</p>
+              <a class="site-header__more-link" href="/gecmis-markalar">Geçmiş markalar</a>
+            </div>
+            <div class="site-header__more-group" role="group" aria-labelledby="more-company">
+              <p class="site-header__more-group-title" id="more-company">Şirket</p>
+              <a class="site-header__more-link" href="/kariyer">Kariyer</a>
+            </div>
           </div>
         </details>
       </nav>
@@ -67,6 +77,10 @@
           </div>
         </div>
         <div class="site-header__utility site-header__utility--drawer"><a class="site-header__lang-link" href="/en" hreflang="en" lang="en">English</a></div>
+        <button type="button" class="site-header__icon-btn agustos-theme-switch" data-agustos-theme>
+          <span class="agustos-theme-switch__to-dark"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><span class="agustos-theme-switch__label">Koyu tema</span></span>
+          <span class="agustos-theme-switch__to-light"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="4"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6l1.4 1.4M17 17l1.4 1.4M5.6 18.4 7 17M17 7l1.4-1.4"/></svg><span class="agustos-theme-switch__label">Açık tema</span></span>
+        </button>
         <a class="agustos-button agustos-button--primary site-header__cta" href="/bize-ulasin">İletişim</a>
       </div>
     </div>
@@ -101,7 +115,7 @@
     <a class="agustos-button agustos-button--secondary" href="#forms">Secondary</a>
   </div>
 
-  <p class="hero-trust">Ağustos UI kit v7.6.2. Substrate, brand, and theme are switched by class alone.</p>
+  <p class="hero-trust">Ağustos UI kit v7.7.0. Substrate, brand, and theme are switched by class alone.</p>
 
   <!-- ---------- Split hero: the image on the right; add hero-split--media-start for the left ---------- -->
   <section class="agustos-section">
@@ -295,8 +309,8 @@
   <!-- ---------- Chrome and layout ---------- -->
   <section class="agustos-section" id="chrome">
     <div class="agustos-section__head"><h2 class="type-h2">Chrome and layout</h2></div>
-    <p class="type-body">This page uses the website chrome: the top menu above, with a <code class="type-code">site-header__more</code> menu for items beyond five, and the light footer at the bottom. Product UI uses the sidebar instead; see <code class="type-code">screens/app-shell.html</code>. The chrome follows the screen family, never the brand.</p>
-    <p class="type-body">The header search: a toggle and a floating panel on desktop, a row under the bar below 1024px. A script fills the results; the panel below shows them open. The icon button and the theme icons serve product UI only.</p>
+    <p class="type-body">This page uses the website chrome: the top menu above, with a <code class="type-code">site-header__more</code> menu for items beyond five, and the footer at the bottom. Larger product UI uses the sidebar instead; see <code class="type-code">screens/app-shell.html</code>. A product with about ten destinations or fewer keeps the top menu; see <code class="type-code">screens/app-top-menu.html</code>. The chrome follows the screen family, never the brand.</p>
+    <p class="type-body">The header search: a toggle and a floating panel on desktop, a row under the bar below 1024px. A script fills the results; the panel below shows them open. The theme switch is optional; a site without it stays light. The user chooses the theme, never the device.</p>
     <div class="site-header__search-panel">
       <label class="site-header__search-field"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" value="ışık" aria-label="Sitede ara" autocomplete="off"></label>
       <div class="site-header__search-output">
@@ -312,7 +326,19 @@
         </div>
       </div>
     </div>
+    <p class="type-body">The account list: a More at the end of <code class="type-code">site-header__end</code> that opens from the right edge. A signed-in page shows it in place of Sign in and the CTA, never beside them. The list below is shown open; a click outside closes it.</p>
+    <div class="demo-account">
+      <details class="site-header__more site-header__more--end" open>
+        <summary class="site-header__link"><span class="site-header__more-label">selin.kaya@ornek-aydinlatma.com.tr</span></summary>
+        <div class="site-header__more-menu">
+          <a class="site-header__more-link" href="/hesap">Hesap</a>
+          <button type="button" class="site-header__more-link agustos-theme-switch" data-agustos-theme><span class="agustos-theme-switch__to-dark"><span class="agustos-theme-switch__label">Koyu tema</span></span><span class="agustos-theme-switch__to-light"><span class="agustos-theme-switch__label">Açık tema</span></span></button>
+          <form action="/oturum" method="post"><button type="submit" class="site-header__more-link">Çıkış yap</button></form>
+        </div>
+      </details>
+    </div>
     <div class="cluster">
+      <!-- Deprecated since v7.7.0: use agustos-theme-switch (in the header above). -->
       <button type="button" class="site-header__icon-btn" aria-label="Koyu tema" aria-pressed="false"><svg class="site-header__theme-sun" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/></svg><svg class="site-header__theme-moon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
     </div>
     <nav aria-label="Breadcrumb">
@@ -355,14 +381,11 @@
     <p class="type-footnote">
       Substrate: <code class="type-code">paper</code> (cream, default) or
       <code class="type-code">paper-white</code>. Dark theme:
-      <code class="type-code">html[data-theme="dark"]</code>.
+      <code class="type-code">html[data-theme="dark"]</code>, set only by the theme switch.
     </p>
     <div class="demo-row">
-      <button class="agustos-button agustos-button--secondary" type="button"
-              onclick="document.documentElement.dataset.theme =
-                       document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark'">
-        Tema değiştir
-      </button>
+      <!-- The theme switch as a quiet button, as in the product sidebar. -->
+      <button type="button" class="agustos-button agustos-button--quiet agustos-theme-switch" data-agustos-theme><span class="agustos-theme-switch__to-dark"><span class="agustos-theme-switch__label">Koyu tema</span></span><span class="agustos-theme-switch__to-light"><span class="agustos-theme-switch__label">Açık tema</span></span></button>
       <button class="agustos-button agustos-button--quiet" type="button"
               onclick="document.body.classList.toggle('paper-white')">
         Substrate değiştir
@@ -371,7 +394,7 @@
   </section>
 
   <p class="type-footnote">
-    Ağustos Design System v7.6.2 · Agustos-Teknoloji/DESIGN-agustos
+    Ağustos Design System v7.7.0 · Agustos-Teknoloji/DESIGN-agustos
   </p>
 </main>
 <footer class="site-footer">

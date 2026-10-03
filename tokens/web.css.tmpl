@@ -9,7 +9,7 @@
   --cream:        {{foundations.color.paperCream}};
   --surface:      {{foundations.color.paperGray}};
 
-  /* Footer is light: white paper under a hairline. It never follows the theme invert. */
+  /* Footer: the page paper under a hairline. The dark theme flips it with the page (v7.7.0). */
   --footer-paper: {{foundations.color.paperWhite}};
   --footer-ink:   {{foundations.color.ink}};
   --footer-cta-hover: {{foundations.color.inkSoft}};
@@ -155,12 +155,12 @@
 }
 
 /* The browser draws its own parts (scrollbars, checkboxes, select menus, date
-   pickers) in the scheme it is told: light here, dark in the dark theme, and
-   light again on the light islands. */
+   pickers) in the scheme it is told: light here, dark in the dark theme. */
 :root { color-scheme: light; }
 
-/* Dark theme — product UI via html[data-theme="dark"]. Same six colours, flipped.
-   Marketing pages stay light. The footer stays light. */
+/* Dark theme via html[data-theme="dark"]. Same six colours, flipped. Every
+   page starts light; only the user's theme switch sets the attribute. The
+   footer and the closing band turn dark with the page (v7.7.0). */
 html[data-theme="dark"] {
   color-scheme: dark;
   --paper:        {{foundations.color.paperDark}};
@@ -172,6 +172,9 @@ html[data-theme="dark"] {
   --ink-faint:  {{foundations.color.inkFaintDark}};
   --rule:        {{foundations.color.ruleDark}};
   --rule-white:  {{foundations.color.ruleDark}};
+  --footer-paper: {{foundations.color.paperDark}};
+  --footer-ink:   {{foundations.color.inkDark}};
+  --footer-cta-hover: {{foundations.color.inkSoftDark}};
 
   /* State colors are substrate-specific. The light values fall to 2.19-3.11
      contrast on dark paper; these lift every one back above 7. */
@@ -183,24 +186,6 @@ html[data-theme="dark"] {
 html[data-theme="dark"] code,
 html[data-theme="dark"] .type-code {
   background: rgba(255, 255, 255, 0.07);
-}
-
-/* Light islands in the dark theme: the footer never flips, and the dark
-   callout band is light gray. Scope the light roles back inside both, or
-   their text renders white on light at 1.00-1.19:1 and a primary button
-   inside turns off-black on off-black. */
-html[data-theme="dark"] .site-footer,
-html[data-theme="dark"] .band--cream {
-  --paper:       {{foundations.color.paperWhite}};
-  --paper-white: {{foundations.color.paperWhite}};
-  --surface:     {{foundations.color.paperGray}};
-  --ink:         {{foundations.color.ink}};
-  --ink-soft:    {{foundations.color.inkSoft}};
-  --ink-faint:   {{foundations.color.inkFaint}};
-  --rule:        {{foundations.color.ruleCream}};
-  --rule-white:  {{foundations.color.ruleWhite}};
-  color: var(--ink);
-  color-scheme: light;
 }
 
 /* Buttons are black, never red. In the dark theme they simply invert with the
@@ -1046,12 +1031,14 @@ nav:has(> .breadcrumb) {
 
 /* -- 5b. Site chrome ----------------------------------------- */
 
-/* Two chromes ship, and the screen family picks one: every website uses the
-   top menu and the footer; product UI uses the sidebar. JavaScript only when
-   it is the logical choice: drawers are native popovers with a close button,
-   groups and More are <details>, and ui/agustos-chrome.js only closes More on
-   Escape, an outside click or focus leaving. Search and language are slots
-   that adapters fill. */
+/* Two chromes ship, and the screen picks one: every website uses the top
+   menu and the footer; product UI uses the sidebar or, with about ten
+   destinations or fewer, the top menu. JavaScript only when it is the logical
+   choice: drawers are native popovers with a close button, groups and More are
+   <details>. ui/agustos-chrome.js closes More on Escape, an outside click or
+   focus leaving, closes an open drawer when focus leaves it, opens every More
+   of an open drawer below 1024px, and runs the theme switch. Search and
+   language are slots that adapters fill. */
 
 /* Lockup: the exact symbol plus a lowercase wordmark. currentColor carries
    the registered identity ink. Dark theme lifts house brands to white;
@@ -1079,7 +1066,7 @@ nav:has(> .breadcrumb) {
 .site-lockup:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
 /* `:where` keeps the dark rest colours below the hover rules above, so the
    hover swap works in both themes: house brands turn red, Ağustos turns to
-   the ink (white on dark paper, off-black in the light footer). */
+   the ink (white on dark paper, off-black on white paper). */
 html[data-theme="dark"] :where(.site-lockup) { color: var(--ink); }
 html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand); }
 
@@ -1265,10 +1252,12 @@ html:has(.site-header) { scroll-padding-top: calc(var(--site-header-height) + va
 .site-header__cta { margin-inline-start: var(--space-sm); }
 
 /* More: a <details> whose <summary> is a site-header__link. On desktop the menu
-   floats under the item; in the drawer it opens inline. ui/agustos-chrome.js
-   closes it on Escape, an outside click or focus leaving; without the script
-   it still opens and closes on click. When the current page sits in More, the
-   More item carries the red rule (above). */
+   floats under the item, and ui/agustos-chrome.js closes it on Escape, an
+   outside click or focus leaving. In an open drawer the script opens every More
+   and marks it data-agustos-unfold: it stays open, and its summary reads as a
+   small title (below). Without the script a More opens and closes on click in
+   both places. When the current page sits in More, the More item carries the
+   red rule (above). */
 .site-header__more { position: relative; }
 .site-header__more > summary { gap: 6px; list-style: none; cursor: pointer; }
 .site-header__more > summary::-webkit-details-marker { display: none; }
@@ -1313,6 +1302,42 @@ html:has(.site-header) { scroll-padding-top: calc(var(--site-header-height) + va
 .site-header__more-link:hover,
 .site-header__more-link:is([aria-current="page"], [aria-current="true"]) { background: var(--surface); color: var(--ink); text-decoration: none; }
 .site-header__more-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+/* Groups (v7.7.0): a More may hold up to two titled groups of links. On a
+   wide screen they sit side by side; in the drawer they stack. A third group
+   goes past the edge of the page at 1024px (AG035 warns). The title is
+   sentence case, never an uppercase label. */
+.site-header__more-menu--groups { flex-direction: row; align-items: flex-start; gap: var(--space-md); padding: var(--space-sm); }
+.site-header__more-group { display: flex; flex-direction: column; min-width: 200px; }
+.site-header__more-group-title {
+  margin: 0;
+  padding: var(--space-2xs) var(--space-sm) var(--space-xs);
+  color: var(--ink-soft);
+  font-family: var(--display);
+  font-size: var(--size-footnote);
+  font-weight: {{foundations.fontWeight.medium}};
+}
+/* The account list (v7.7.0): a More in site-header__end that opens from the
+   right edge. An email in its summary stops at the label width with an
+   ellipsis, so the row keeps one line at 1024px. A sign-out form button reads
+   like the links around it. */
+.site-header__more--end .site-header__more-menu { inset-inline-start: auto; inset-inline-end: calc(var(--space-sm) * -1); }
+.site-header__more-label {
+  display: inline-block;
+  max-inline-size: 22ch;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.site-header__more-menu > form { display: contents; }
+button.site-header__more-link {
+  width: 100%;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  line-height: inherit;
+  text-align: start;
+  cursor: pointer;
+}
 
 /* --- Header search and utility (v7.3.0). One recipe for every adapter: the
    search toggle and panel on desktop, a search row under the bar below
@@ -1344,6 +1369,26 @@ html:has(.site-header) { scroll-padding-top: calc(var(--site-header-height) + va
 .site-header__theme-moon,
 html[data-theme="dark"] .site-header__theme-sun { display: none; }
 html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
+/* The theme switch (v7.7.0). It holds both labels; CSS shows the one it
+   switches to, so the name always matches the theme. Compose it with
+   site-header__icon-btn in the bar, site-header__more-link in a list, or a
+   quiet button in the sidebar. The deprecated sun and moon icon classes above
+   stay for markup from before v7.7.0. */
+.agustos-theme-switch { position: relative; gap: var(--space-xs); }
+.agustos-theme-switch__to-dark,
+.agustos-theme-switch__to-light { display: inline-flex; align-items: center; gap: var(--space-xs); }
+.agustos-theme-switch__to-light,
+html[data-theme="dark"] .agustos-theme-switch__to-dark { display: none; }
+html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; }
+/* In the bar the switch is an icon: the label is hidden, and stays its name. */
+.site-header__icon-btn .agustos-theme-switch__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 /* The language link reads like the other chrome links: a 1px gray rule on
    hover; red stays with the current page. */
 .site-header__lang-link {
@@ -1492,10 +1537,10 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
 .site-header__noscript-search { padding-block: var(--space-xs); }
 .site-header__noscript-search form { display: flex; gap: var(--space-xs); }
 
-/* --- Footer. Light: the logo and one line on one side, one row of links on
-   the other, and an optional site map above (below). No button: the top menu
-   and the closing band carry the action. The footer variables never follow
-   the theme flip. --- */
+/* --- Footer. A quiet strip: the logo and one line on one side, one row of
+   links on the other, and an optional site map above (below). No button: the top menu
+   and the closing band carry the action. The footer variables follow the
+   theme flip (v7.7.0). --- */
 .site-footer {
   border-block-start: {{recipes.chrome.rule}} solid var(--rule);
   background: var(--footer-paper);
@@ -1687,8 +1732,37 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
   .site-header__panel::backdrop { background: color-mix(in srgb, var(--ink) 32%, transparent); }
   .site-header__nav { flex-direction: column; justify-content: flex-start; align-items: stretch; gap: 2px; }
   .site-header__more-menu { position: static; min-width: 0; padding: 0 0 0 var(--space-sm); border: 0; box-shadow: none; background: none; }
+  .site-header__more-menu--groups { flex-direction: column; gap: var(--space-md); padding: 0 0 0 var(--space-sm); }
+  .site-header__more-group { min-width: 0; }
+  .site-header__more--end .site-header__more-menu { inset-inline-end: auto; }
+  /* A long email stops at the drawer edge with an ellipsis; the drawer never scrolls sideways. */
+  .site-header__more--end > summary { max-inline-size: 100%; }
+  .site-header__more-label { max-inline-size: 100%; }
+  /* The script opens every More of the drawer and marks it. Its summary then
+     reads as a small title over its links (v7.7.0). Without the script the
+     summary stays a control, so no link is out of reach. */
+  .site-header__more[data-agustos-unfold] > summary {
+    min-height: 0;
+    padding-block: var(--space-md) var(--space-2xs);
+    border-block-end: 0;
+    color: var(--ink);
+    font-size: var(--size-footnote);
+    font-weight: {{foundations.fontWeight.semibold}};
+    pointer-events: none;
+  }
+  .site-header__more[data-agustos-unfold] > summary::after { display: none; }
   .site-header__end { flex-direction: column; align-items: stretch; gap: var(--space-md); }
   .site-header__cta { margin-inline-start: 0; justify-content: center; }
+  /* In the drawer the switch is a line with its word (NN/g: icons need words). */
+  .site-header__panel .site-header__icon-btn.agustos-theme-switch { width: auto; justify-content: flex-start; padding-inline: 0; }
+  .site-header__panel .site-header__icon-btn .agustos-theme-switch__label { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
+}
+
+/* On a phone the drawer covers the whole width (v7.7.0): the top-menu panel
+   and the sidebar drawer alike. The backdrop stays, hidden under the drawer. */
+@media (max-width: 639px) {
+  .site-header__panel { width: 100%; max-width: none; border-inline-start: 0; }
+  .site-sidebar { width: 100%; max-width: none; border-inline-end: 0; }
 }
 
 /* -- 5c. Layout layer ---------------------------------------- */
@@ -1740,6 +1814,18 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
 .band { padding-block: var(--section-space); }
 .band--cream { background: var(--cream); }
 .band .prose { color: var(--ink-soft); }
+/* The dark closing band keeps its spacing on the dark paper, between two
+   hairline rules. The six colours hold no dark tint that passes: on #404040
+   red scores 1.87:1 and --ink-soft 2.76:1. On the paper every pair is a page
+   pair: red 3.35:1, --ink-soft 4.95:1 (v7.7.0). The footer draws its own top
+   hairline, so a band that is the last child draws no bottom rule. */
+html[data-theme="dark"] .band--cream {
+  background: var(--paper);
+  border-block-start: {{recipes.chrome.rule}} solid var(--rule);
+}
+html[data-theme="dark"] .band--cream:not(:last-child) {
+  border-block-end: {{recipes.chrome.rule}} solid var(--rule);
+}
 
 /* A table wider than its column scrolls inside this wrapper, never the page. */
 .table-scroll { max-width: 100%; overflow-x: auto; margin: 0 0 1em; }
@@ -2107,4 +2193,25 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
   }
   pre,
   .type-code-block { border: {{foundations.border.hairline}} solid var(--ink-faint); }
+  /* Print is always light: a printer drops backgrounds, so dark-theme ink
+     would print white on white (v7.7.0). */
+  html[data-theme="dark"] {
+    color-scheme: light;
+    --paper:        {{foundations.color.paperWhite}};
+    --paper-white:  {{foundations.color.paperWhite}};
+    --cream:        {{foundations.color.paperCream}};
+    --surface:      {{foundations.color.paperGray}};
+    --ink:          {{foundations.color.ink}};
+    --ink-soft:     {{foundations.color.inkSoft}};
+    --ink-faint:    {{foundations.color.inkFaint}};
+    --rule:         {{foundations.color.ruleCream}};
+    --rule-white:   {{foundations.color.ruleWhite}};
+    --footer-paper: {{foundations.color.paperWhite}};
+    --footer-ink:   {{foundations.color.ink}};
+    --footer-cta-hover: {{foundations.color.inkSoft}};
+    --state-success: {{foundations.color.stateSuccess}};
+    --state-warning: {{foundations.color.stateWarning}};
+    --state-danger:  {{foundations.color.stateDanger}};
+    --state-info:    {{foundations.color.stateInfo}};
+  }
 }

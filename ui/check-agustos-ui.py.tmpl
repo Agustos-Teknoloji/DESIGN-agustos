@@ -40,7 +40,7 @@ KIT_CLASSES = {{ui.classList}}
 
 # screen name -> the rules a page under that screen should meet. Injected from the
 # screens table for the same reason as TOKEN_COLORS. A page names its screen with
-# data-screen on <body>; theme "dark-allowed" and chrome "sidebar" mark product UI;
+# data-screen on <body>; chrome "sidebar" marks the product sidebar; every screen starts light;
 # highlight "one" marks the homepage, which carries the one highlighter stroke.
 # The checker guards identity with errors. Taste rules only warn.
 SCREENS = {{ui.screensRules}}
@@ -86,14 +86,48 @@ TEMPLATED = re.compile(r"[{<$]")
 MAIN_BLOCK = re.compile(r"<main\b.*?</main>", re.S | re.I)
 HIGHLIGHT = re.compile(r"\btype-highlight\b")
 SIDEBAR = re.compile(r"\bsite-sidebar\b")
-# One top-menu item: a site-header__link, including the More toggle. Items
-# inside More are site-header__more-link and do not count.
+# One top-menu item: a site-header__link inside site-header__nav, the More
+# toggle included. Items inside More are site-header__more-link and do not
+# count; an account list in site-header__end does not count (v7.7.0).
 TOP_MENU_ITEM = re.compile(r"""class=["'][^"']*\bsite-header__link\b""")
+# The inside of a start tag: a quoted value, an ERB or PHP tag, or any other
+# character but a bracket. A template tag may hold ">" (`<%= t(:menu) %>`).
+IN_TAG = r"""(?:[^<>"']|"[^"]*"|'[^']*'|<%(?:[^%]|%(?!>))*%>|<\?(?:[^?]|\?(?!>))*\?>)"""
+TOP_MENU_NAV = re.compile(
+    r"<nav\b" + IN_TAG + r"""*?\bclass\s*=\s*["'][^"']*\bsite-header__nav(?![\w-])[^"']*["']"""
+    + IN_TAG + r"*>.*?</nav\s*>", re.S | re.I)
 TOP_MENU_LIMIT = 5
+# A grouped More holds at most two groups; a third goes past the page edge at 1024px.
+MORE_OPEN = re.compile(r"""<details\b[^>]*\bclass\s*=\s*["'][^"']*\bsite-header__more(?![\w-])""", re.I)
+DETAILS_END = re.compile(r"</details\s*>", re.I)
+MORE_GROUP_LIMIT = 2
 # A link start tag and its attributes, for the aria-current check on built pages.
 LINK_TAG = re.compile(r"<a\b[^>]*>", re.I)
 LINK_ATTRIBUTE = re.compile(r"""([\w:-]+)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+))""")
-DATA_THEME = re.compile(r"\bdata-theme\s*=")
+# A page that is served dark. Only the user's theme switch may set dark, at run time.
+HTML_DARK = re.compile(r"<html\b" + IN_TAG + r"""*?\bdata-theme\s*=\s*["']?dark(?![\w-])""", re.S | re.I)
+DEVICE_THEME = "prefers-color-scheme"
+# The theme switch keeps the user's choice under this key. The kit head script
+# reads it and applies a dark choice before the first paint, so it must sit in
+# <head> before the first stylesheet. A quoted attribute value may hold a
+# template tag, such as nonce="<%= content_security_policy_nonce %>".
+THEME_STORAGE_KEY = "{{ui.themeStorageKey}}"
+THEME_SWITCH = re.compile(r"\bdata-agustos-theme\b")
+COMMENT = re.compile(r"<!--.*?-->", re.S)
+SCRIPT_BLOCK = re.compile(r"""<script\b(?:[^>"']|"[^"]*"|'[^']*')*>(.*?)</script\s*>""", re.S | re.I)
+STYLESHEET = re.compile(r"""<link\b(?:[^>"']|"[^"]*"|'[^']*')*?\brel\s*=\s*["']?stylesheet\b|\bstylesheet_link_tag\b""", re.I)
+# A Rails javascript_tag, one line or a do ... end block. It counts as the head
+# script when it names THEME_SCRIPT or holds the storage key.
+JAVASCRIPT_TAG = re.compile(r"<%=\s*javascript_tag\b((?:[^%]|%(?!>))*)%>", re.S)
+ERB_END = re.compile(r"<%-?\s*end\s*-?%>")
+HEAD_END = re.compile(r"</head\s*>", re.I)
+# agustos-chrome.js or agustos/chrome.js, a quoted asset name such as
+# javascript_include_tag "agustos-chrome" or import "agustos/chrome", or the
+# script inlined by a build (its guard property). A class such as
+# agustos-chrome-link is not the script.
+CHROME_SCRIPT = re.compile(r"""\bagustos[-/]chrome(?:\.[\w-]+)*\.js\b|["']agustos[-/]chrome["']|\bagustosChrome\b""")
+IMPORTMAP_TAGS = re.compile(r"\bjavascript_importmap_tags\b")
+ERB_COMMENT = re.compile(r"<%#.*?%>", re.S)
 CLASS_ATTRIBUTE = re.compile(r"""\bclass\s*=\s*(?:"([^"]*)"|'([^']*)')""", re.I)
 RADIUS = re.compile(r"border-radius:\s*([0-9.]+)px")
 GRADIENT = re.compile(r"(linear|radial|conic)-gradient\(")
@@ -313,14 +347,17 @@ def check_screen(rel: str, text: str, findings: list) -> None:
     if sidebar and rules["chrome"] != "sidebar":
         findings.append(Finding(
             "AG026", "warn", rel, line_of(page, sidebar.start()),
-            f"sidebar on screen {name!r} — websites use the top menu; the sidebar is for product UI",
+            f"sidebar on screen {name!r}, whose chrome is the top menu: use site-header, "
+            f"or the app-shell screen for a product sidebar",
         ))
-    menu_items = list(TOP_MENU_ITEM.finditer(page))
+    navs = list(TOP_MENU_NAV.finditer(page))
+    scope = [(nav.start(), nav.group(0)) for nav in navs] or [(0, page)]
+    menu_items = [(offset + match.start()) for offset, block in scope for match in TOP_MENU_ITEM.finditer(block)]
     if len(menu_items) > TOP_MENU_LIMIT:
         findings.append(Finding(
-            "AG027", "warn", rel, line_of(page, menu_items[TOP_MENU_LIMIT].start()),
-            f"{len(menu_items)} top-menu items — keep at most {TOP_MENU_LIMIT}, the More toggle "
-            f"included; put the rest in one site-header__more",
+            "AG027", "warn", rel, line_of(page, menu_items[TOP_MENU_LIMIT]),
+            f"{len(menu_items)} items in site-header__nav: keep at most {TOP_MENU_LIMIT}, the More "
+            f"toggle included; put the rest in one site-header__more",
         ))
     if rules["column"] == "reading":
         for match in CLASS_ATTRIBUTE.finditer(page):
@@ -344,13 +381,99 @@ def check_screen(rel: str, text: str, findings: list) -> None:
             "agustos-contents is not a direct child of container--reading: put the list "
             "directly in the page's reading container, so it can take the side zone",
         ))
-    theme = DATA_THEME.search(page)
-    if theme and rules["theme"] != "dark-allowed":
+    dark = HTML_DARK.search(page)
+    if dark:
         findings.append(Finding(
-            "AG024", "warn", rel, line_of(page, theme.start()),
-            f"data-theme on screen {name!r} — dark theme is for product UI only; "
-            f"marketing, catalog, and document pages ship light with no theme control",
+            "AG024", "warn", rel, line_of(page, dark.start()),
+            "the page starts dark (data-theme=\"dark\" on <html>): every page starts light, "
+            "and only the user's theme switch sets dark",
         ))
+
+
+def theme_script_in(source: str, limit: int) -> bool:
+    """True when the source holds the kit head script before offset limit: in a
+    <script> block, or in a Rails javascript_tag."""
+    if any(THEME_STORAGE_KEY in match.group(1) for match in SCRIPT_BLOCK.finditer(source, 0, limit)):
+        return True
+    for tag in JAVASCRIPT_TAG.finditer(source, 0, limit):
+        arguments = tag.group(1)
+        if re.search(r"\bTHEME_SCRIPT\b", arguments) or THEME_STORAGE_KEY in arguments:
+            return True
+        if arguments.rstrip().endswith("do"):
+            end = ERB_END.search(source, tag.end(), limit)
+            if end and THEME_STORAGE_KEY in source[tag.end():end.start()]:
+                return True
+    return False
+
+
+def check_theme_script(rel: str, text: str, findings: list) -> None:
+    """A full page with a theme switch also needs the kit head script in <head>,
+    before the first stylesheet. Without it, each new page shows light before it
+    turns dark. It reads full pages only: a partial has no <body>, and its layout
+    does not show the switch, so a site that renders the switch from a partial
+    needs its own page test."""
+    page = markup(text)
+    body = BODY_TAG.search(page)
+    if not body or REDIRECT.search(page[:body.start()]):
+        return
+    switch = THEME_SWITCH.search(page)
+    if not switch:
+        return
+    head = HEAD_END.search(page, 0, body.start())
+    limit = head.start() if head else body.start()
+    stylesheet = STYLESHEET.search(page, 0, limit)
+    if stylesheet:
+        limit = stylesheet.start()
+    source = COMMENT.sub(lambda match: re.sub(r"[^\n]", " ", match.group(0)), text)
+    if theme_script_in(source, limit):
+        return
+    findings.append(Finding(
+        "AG034", "warn", rel, line_of(page, switch.start()),
+        "theme switch without the kit head script before the stylesheets: put the "
+        "themeScript of kit.json in <head>, after the viewport meta, or a dark choice "
+        "shows light first on each new page",
+    ))
+
+
+def check_chrome_script(rel: str, text: str, imports_chrome: bool, findings: list) -> None:
+    """Only agustos-chrome.js flips the theme. A full page with a theme switch
+    that does not load it shows a switch that does nothing. A layout that loads
+    the Rails import map passes when a project script imports agustos/chrome.
+    Like AG034 it reads full pages only, and the source only: built output
+    bundles the script under a hashed name."""
+    page = markup(text)
+    body = BODY_TAG.search(page)
+    if not body or REDIRECT.search(page[:body.start()]):
+        return
+    switch = THEME_SWITCH.search(page)
+    if not switch:
+        return
+    source = ERB_COMMENT.sub(" ", COMMENT.sub(" ", text))
+    if CHROME_SCRIPT.search(source) or (imports_chrome and IMPORTMAP_TAGS.search(source)):
+        return
+    findings.append(Finding(
+        "AG036", "warn", rel, line_of(page, switch.start()),
+        "theme switch on a page that does not load agustos-chrome.js: load it once "
+        "with defer, or the switch does nothing",
+    ))
+
+
+def check_more_groups(rel: str, text: str, findings: list) -> None:
+    """A grouped More holds at most two groups. Each group is at least 200px
+    wide, so a third group pushes the menu past the right edge of the page at
+    1024px and 1280px. It reads partials too, because a header is often one."""
+    page = markup(text)
+    for more in MORE_OPEN.finditer(page):
+        end = DETAILS_END.search(page, more.end())
+        stop = end.start() if end else len(page)
+        groups = [match for match in CLASS_ATTRIBUTE.finditer(page, more.end(), stop)
+                  if "site-header__more-group" in (match.group(1) or match.group(2) or "").split()]
+        if len(groups) > MORE_GROUP_LIMIT:
+            findings.append(Finding(
+                "AG035", "warn", rel, line_of(page, groups[MORE_GROUP_LIMIT].start()),
+                f"{len(groups)} groups in one site-header__more: keep at most "
+                f"{MORE_GROUP_LIMIT}. A third group goes past the edge of the page at 1024px",
+            ))
 
 
 def url_path(path: str) -> str:
@@ -406,6 +529,7 @@ def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
     findings: list = []
     scanned = 0
     corpus: list = []
+    pages: list = []  # (rel, text) of each page file, for AG036
     suffixes = RENDERED_SUFFIXES if screens_only else SCAN_SUFFIXES
 
     for path, text in scan_files(root, frozenset(SKIP_DIRS) | frozenset(skip_dirs), suffixes):
@@ -413,6 +537,8 @@ def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
         rel = str(path.relative_to(root))
         if screens_only:
             check_screen(rel, text, findings)
+            check_theme_script(rel, text, findings)
+            check_more_groups(rel, text, findings)
             check_current_links(rel, path.relative_to(root).as_posix(), text, findings)
             check_disabled_links(rel, text, findings)
             continue
@@ -471,6 +597,12 @@ def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
                     "gradients are on the forbidden list for this system",
                 ))
 
+            if not prose and DEVICE_THEME in lowered:
+                findings.append(Finding(
+                    "AG033", "warn", rel, number,
+                    "prefers-color-scheme: the user chooses the theme with a switch, never the device",
+                ))
+
             for match in (() if prose else BACKGROUND.finditer(line)):
                 value = match.group(1)
                 if SIGNAL_RED not in value.lower() and "var(--signal)" not in value:
@@ -495,7 +627,10 @@ def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
                     ))
 
         if path.suffix.lower() in PAGE_SUFFIXES:
+            pages.append((rel, text))
             check_screen(rel, text, findings)
+            check_theme_script(rel, text, findings)
+            check_more_groups(rel, text, findings)
             check_cards(rel, text, findings)
             check_disabled_links(rel, text, findings)
 
@@ -523,6 +658,9 @@ def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
         return findings, scanned
 
     blob = "\n".join(corpus)
+    imports_chrome = bool(re.search(r"""\bimport\s+["']agustos/chrome["']""", blob))
+    for rel, text in pages:
+        check_chrome_script(rel, text, imports_chrome, findings)
 
     if scanned and "agustos.css" not in blob:
         findings.append(Finding(
