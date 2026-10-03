@@ -22,6 +22,7 @@ An extra minor release under MEMORY 2026-09-29 monthly-kit-release: IESDesk move
 
 - The theme switch: `agustos-theme-switch`, `agustos-theme-switch__to-dark`, `agustos-theme-switch__to-light`, `agustos-theme-switch__label`, with `data-agustos-theme`. `agustos-chrome.js` flips the theme and keeps it under `agustos:theme`; `kit.json` publishes the head script as `themeScript`.
 - Grouped More lists: `site-header__more-menu--groups`, `site-header__more-group`, `site-header__more-group-title`. A More holds at most two groups: columns on a wide screen, stacked in the drawer.
+- The top-menu drawer starts with the lockup, top left on the row of the close button (Emre, 2026-10-03). An optional `site-header__panel-brand` holds the copy, hidden at 1024px and wider. The starter, the screens, the Astro and Rails headers and the Rails preview carry it; the Rails preview also gains its missing close button.
 - The phone drawer shows every More open, with its summary as a small title (`data-agustos-unfold`, set by `agustos-chrome.js`). Without the script each More folds as before. The script clears the marks at 1024px and wider and before Turbo caches the page, so Back never brings back a More that is stuck open.
 - The account list: `site-header__more--end` and `site-header__more-label`, and a button reset for a sign-out `button.site-header__more-link` in a `form`.
 - AG033 warns on `prefers-color-scheme` in any checked file but Markdown: CSS, a script or a page.

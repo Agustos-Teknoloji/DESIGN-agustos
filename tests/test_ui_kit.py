@@ -1522,6 +1522,59 @@ console.log(JSON.stringify(out));
         # The phone rule comes after the drawer block, so it wins at equal weight.
         self.assertLess(self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor"), start)
 
+    def test_drawer_starts_with_the_lockup(self):
+        """v7.7.0 (Emre, 2026-10-03: "Add the logo as well"): the drawer shows
+        the lockup top left, on the row of the close button, like the
+        turso.tech phone menu. On desktop the panel is display: contents, so
+        the drawer copy stays hidden there."""
+        self.assertIn("site-header__panel-brand", TOKENS["compatibility"]["cssClasses"])
+        drawers = self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor")
+        # Hidden at 1024px and up: the base rule sits before the drawer block.
+        self.assertIn(".site-header__panel-brand { display: none; }", self.CSS[:drawers])
+        block = self.CSS[drawers:self.CSS.index("\n}\n", drawers)]
+        start = block.index(".site-header__panel-brand {")
+        rule = block[start:block.index("}", start)]
+        self.assertIn("display: flex;", rule)
+        self.assertIn("position: absolute;", rule)
+        # The same row as the close button: the same top edge and the same height.
+        close = block[block.index(".site-header__close {"):]
+        close = close[:close.index("}")]
+        self.assertIn("inset-block-start: 10px;", close)
+        self.assertIn("inset-block-start: 10px;", rule)
+        self.assertIn("inset-inline-start: var(--space-xl);", rule)
+        self.assertIn("min-height: var(--control-min);", rule)
+        # The brand stops before the close button, so the two never overlap.
+        self.assertIn("max-inline-size: calc(100% - 2 * var(--space-xl) - var(--control-min) - var(--space-md));", rule)
+        self.assertNotRegex(rule, r"#[0-9a-fA-F]{3,6}\b")
+
+    def test_every_drawer_panel_holds_the_lockup_once(self):
+        """The starter, each screen with a top menu, the Astro and Rails
+        headers, and the Rails preview put the lockup first in the panel."""
+        files = [ROOT / "ui" / "starter.html", *sorted((ROOT / "screens").glob("*.html")),
+                 ROOT / "adapters" / "astro" / "src" / "components" / "Header.astro",
+                 ROOT / "adapters" / "rails" / "app" / "views" / "agustos" / "shared" / "_header.html.erb",
+                 *sorted((ROOT / "adapters" / "rails" / "preview").glob("*.html"))]
+        checked = 0
+        for path in files:
+            html = path.read_text(encoding="utf-8")
+            if 'class="site-header__panel"' not in html:
+                continue
+            checked += 1
+            with self.subTest(path=str(path.relative_to(ROOT))):
+                panel = html[html.index('class="site-header__panel"'):]
+                self.assertEqual(html.count('class="site-header__panel-brand"'), 1)
+                brand = panel.index('class="site-header__panel-brand"')
+                self.assertLess(brand, panel.index('class="site-header__close"'))
+                self.assertLess(brand, panel.index('class="site-header__nav"'))
+                inner = panel[brand:panel.index('class="site-header__close"')]
+                self.assertRegex(inner, r'class="site-lockup"|brand_lockup')
+        self.assertGreaterEqual(checked, 13)
+
+    def test_ui_kit_says_the_drawer_starts_with_the_lockup(self):
+        doc = (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8")
+        self.assertIn("`site-header__panel-brand`", doc)
+        self.assertIn("optional; recommended", doc)
+
     THEME_SCRIPT = 'try{if(localStorage.getItem("agustos:theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}'
 
     def test_theme_script_is_published_once_and_used_everywhere(self):

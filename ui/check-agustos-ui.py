@@ -112,6 +112,7 @@ KIT_CLASSES = {
     "site-header",
     "site-header__bar",
     "site-header__panel",
+    "site-header__panel-brand",
     "site-header__nav",
     "site-header__link",
     "site-header__more",
