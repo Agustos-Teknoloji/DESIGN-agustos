@@ -331,7 +331,8 @@ def check_screen(rel: str, text: str, findings: list) -> None:
     if sidebar and rules["chrome"] != "sidebar":
         findings.append(Finding(
             "AG026", "warn", rel, line_of(page, sidebar.start()),
-            f"sidebar on screen {name!r} — websites use the top menu; the sidebar is for product UI",
+            f"sidebar on screen {name!r}, whose chrome is the top menu: use site-header, "
+            f"or the app-shell screen for a product sidebar",
         ))
     navs = list(TOP_MENU_NAV.finditer(page))
     scope = [(nav.start(), nav.group(0)) for nav in navs] or [(0, page)]

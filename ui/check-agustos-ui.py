@@ -221,7 +221,7 @@ KIT_CLASSES = {
 # data-screen on <body>; chrome "sidebar" marks the product sidebar; every screen starts light;
 # highlight "one" marks the homepage, which carries the one highlighter stroke.
 # The checker guards identity with errors. Taste rules only warn.
-SCREENS = {'app-shell': {'theme': 'light-first', 'chrome': 'sidebar', 'column': 'frame', 'highlight': 'at-most-one'}, 'content': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}, 'content-index': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}, 'home': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'one'}, 'product': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'product-finder': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'products': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'spec-sheet': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'static': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}}
+SCREENS = {'app-shell': {'theme': 'light-first', 'chrome': 'sidebar', 'column': 'frame', 'highlight': 'at-most-one'}, 'app-top-menu': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'content': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}, 'content-index': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}, 'home': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'one'}, 'product': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'product-finder': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'products': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'spec-sheet': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'static': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}}
 
 # #15130f and #ffffff are legitimate as identity ink and as paper. Reported at
 # warning level rather than error: too common to fail a build over.
@@ -509,7 +509,8 @@ def check_screen(rel: str, text: str, findings: list) -> None:
     if sidebar and rules["chrome"] != "sidebar":
         findings.append(Finding(
             "AG026", "warn", rel, line_of(page, sidebar.start()),
-            f"sidebar on screen {name!r} — websites use the top menu; the sidebar is for product UI",
+            f"sidebar on screen {name!r}, whose chrome is the top menu: use site-header, "
+            f"or the app-shell screen for a product sidebar",
         ))
     navs = list(TOP_MENU_NAV.finditer(page))
     scope = [(nav.start(), nav.group(0)) for nav in navs] or [(0, page)]

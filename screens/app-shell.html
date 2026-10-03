@@ -1,12 +1,13 @@
 <!doctype html>
 <!-- Ağustos Design System · reference screen "app-shell" · sample brand iesdesk (product sidebar).
      Kit classes only. Swap the brand-* class on <body> for another house brand. Chrome follows
-     the family: websites use the top menu and the footer, product UI the sidebar. Rules for this screen: the screens table in
-     tokens/design-tokens.json, rendered in ui/UI-KIT.md. -->
+     the family: websites use the top menu and the footer; product UI the sidebar or, when small, the top menu.
+     Rules for this screen: the screens table in tokens/design-tokens.json, rendered in ui/UI-KIT.md. -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<script>try{if(localStorage.getItem("agustos:theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>
 <title>Validation run — IESDesk</title>
 <link rel="icon" type="image/svg+xml" href="../laz-gunesi-amblem/favicon/favicon.svg">
 <link rel="stylesheet" href="../ui/agustos-fonts.css">
@@ -50,7 +51,7 @@
     </details>
   </nav>
   <div class="site-sidebar__utility">
-    <button type="button" class="agustos-button agustos-button--quiet" id="theme" aria-pressed="false">Dark theme</button>
+    <button type="button" class="agustos-button agustos-button--quiet agustos-theme-switch" data-agustos-theme><span class="agustos-theme-switch__to-dark"><span class="agustos-theme-switch__label">Dark theme</span></span><span class="agustos-theme-switch__to-light"><span class="agustos-theme-switch__label">Light theme</span></span></button>
   </div>
   <p class="site-sidebar__note">Local cache 1.8 / 4 GB. Files never leave this machine.</p>
 </aside>
@@ -112,12 +113,5 @@
     </section>
   </div>
 </main>
-<script>
-document.getElementById("theme").addEventListener("click", function () {
-  var root = document.documentElement, dark = root.getAttribute("data-theme") !== "dark";
-  if (dark) root.setAttribute("data-theme", "dark"); else root.removeAttribute("data-theme");
-  this.setAttribute("aria-pressed", String(dark));
-});
-</script>
 </body>
 </html>

@@ -303,8 +303,8 @@
       "sha256": "63538bf3cd2a5ed1a23e6a04d7acd53ae75acbd04b2cc8510dd3510441b6fc02"
     },
     "UI-KIT.md": {
-      "bytes": 28246,
-      "sha256": "e385c7a9ca322be5392ece21b9b2ce5c7d6a9660e99c5e79ea0b0492e8cab844"
+      "bytes": 28429,
+      "sha256": "c35aed356d55e0b2dfae878e51205d9c90fd1d40239fa31bc66569dc8cc8a13c"
     },
     "agustos-chrome.js": {
       "bytes": 4413,
@@ -319,8 +319,8 @@
       "sha256": "08b19d53c10eb1e02d81d27a95ea2cd0ea140770f8b3eb108398ce629bfcea82"
     },
     "check-agustos-ui.py": {
-      "bytes": 36928,
-      "sha256": "e16f825e431a8114fdf72e613f6878bf03888c0983ff7c6b852dc964b566e501"
+      "bytes": 37086,
+      "sha256": "7da8906ee48ea77906e678db07d7a9cda0fdbeaf1c17486de9137101dc8af734"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -360,7 +360,18 @@
       "file": "app-shell.html",
       "highlight": "at-most-one",
       "photo": "none",
-      "purpose": "The product-UI frame: sidebar navigation with counts, a page toolbar, stats, and a data table. The theme control lives in the sidebar.",
+      "purpose": "The product-UI frame: sidebar navigation with counts, a page toolbar, stats, and a data table. The theme switch lives in the sidebar.",
+      "theme": "light-first"
+    },
+    "app-top-menu": {
+      "brand": "iesdesk",
+      "chrome": "topbar",
+      "column": "frame",
+      "family": "product-ui",
+      "file": "app-top-menu.html",
+      "highlight": "at-most-one",
+      "photo": "none",
+      "purpose": "A small product on the top menu: grouped Tools, a list of the user's files, the theme switch and the account list at the end, and the footer. For a product with about ten destinations or fewer.",
       "theme": "light-first"
     },
     "content": {

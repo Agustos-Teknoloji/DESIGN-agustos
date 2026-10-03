@@ -76,6 +76,9 @@ THEME_SCRIPT = (
 )
 SCREEN_FAMILIES = ("marketing", "content", "catalog", "document", "product-ui")
 SCREEN_FIELDS = ("file", "family", "brand", "purpose", "photo")
+# Product UI uses the sidebar, or the top menu when it has about ten
+# destinations or fewer (v7.7.0). Only a product screen may name its chrome.
+SCREEN_OPTIONAL = ("chrome",)
 SCREEN_FILE = re.compile(r"^[a-z0-9-]+\.html$")
 
 
@@ -94,9 +97,11 @@ def validate_brands(brands: dict[str, Any]) -> None:
                 )
 
 
-def chrome_for(family: str) -> str:
-    """Product UI uses the sidebar. Every website family uses the top menu and the footer."""
-    return "sidebar" if family == "product-ui" else "topbar"
+def chrome_for(entry: dict[str, Any]) -> str:
+    """Every website family uses the top menu and the footer. Product UI uses the sidebar unless its row names the top menu."""
+    if entry["family"] == "product-ui":
+        return entry.get("chrome", "sidebar")
+    return "topbar"
 
 
 def column_for(family: str) -> str:
@@ -116,6 +121,11 @@ def validate_screens(tokens: dict[str, Any], brands: dict[str, Any]) -> None:
             raise TokenError(f"screen {name!r} is missing {', '.join(missing)}")
         if entry["family"] not in SCREEN_FAMILIES:
             raise TokenError(f"screen {name!r}: family must be one of {', '.join(SCREEN_FAMILIES)}")
+        if "chrome" in entry:
+            if entry["family"] != "product-ui":
+                raise TokenError(f"screen {name!r}: only a product-ui screen may name its chrome; websites use the top menu")
+            if entry["chrome"] not in CHROMES:
+                raise TokenError(f"screen {name!r}: chrome must be one of {', '.join(CHROMES)}")
         if entry["brand"] not in brands["brands"]:
             raise TokenError(f"screen {name!r}: unknown brand {entry['brand']!r}")
         if not SCREEN_FILE.match(entry["file"]):
@@ -251,13 +261,13 @@ def theme_label(value: str) -> str:
 
 
 def screen_rows(tokens: dict[str, Any], brands: dict[str, Any]) -> list[dict[str, Any]]:
-    """The table plus the four derived columns. Chrome, column and highlighter follow family; every screen starts light."""
+    """The table plus the four derived columns. Column and highlighter follow family; chrome follows family unless a product row names it; every screen starts light."""
     rows: list[dict[str, Any]] = []
     for name, entry in screen_entries(tokens).items():
         rows.append({
             "name": name,
             **{field: entry[field] for field in SCREEN_FIELDS},
-            "chrome": chrome_for(entry["family"]),
+            "chrome": chrome_for(entry),
             "column": column_for(entry["family"]),
             "theme": "light-first",
             # The homepage carries the one highlighter stroke; other pages may.

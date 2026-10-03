@@ -585,7 +585,7 @@ class DistributionKitTest(unittest.TestCase):
 
     def test_kit_json_publishes_the_screens_table(self):
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
-        self.assertEqual(len(kit["screens"]), 9)
+        self.assertEqual(len(kit["screens"]), 10)
         product = kit["screens"]["product"]
         self.assertEqual(product["file"], "product.html")
         self.assertEqual(product["family"], "catalog")
@@ -752,6 +752,8 @@ class CheckerTest(unittest.TestCase):
             "contents-nested.html": (self._screen_page("static", main='<div class="container container--reading"><div><details class="agustos-contents"></details></div></div>'), {"AG031": "warn"}),
             "contents-direct.html": (self._screen_page("static", main='<div class="container container--reading"><details class="agustos-contents"></details></div>'), {}),
             "contents-after-open-p.html": (self._screen_page("static", main='<div class="container container--reading"><p>Intro<details class="agustos-contents"></details></div>'), {}),
+            "sidebar-top-app.html": (self._screen_page("app-top-menu", main="", chrome=sidebar), {"AG026": "warn"}),
+            "top-app.html": (self._screen_page("app-top-menu", main=""), {}),
         }
         with tempfile.TemporaryDirectory() as tmp:
             project = Path(tmp)

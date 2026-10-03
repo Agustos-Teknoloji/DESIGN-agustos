@@ -16,18 +16,19 @@ screen live in the `screens` table in `tokens/design-tokens.json`. `ui/UI-KIT.md
 | product | `product.html` | catalog | pataraz | topbar |
 | spec-sheet | `spec-sheet.html` | document | pataraz | topbar |
 | app-shell | `app-shell.html` | product UI | iesdesk | sidebar |
+| app-top-menu | `app-top-menu.html` | product UI | iesdesk | topbar |
 <!-- /generated -->
 
 ## Rules
 
-1. A complete HTML document with `lang="tr"` (`lang="en"` for the app shell).
+1. A complete HTML document with `lang="tr"` (`lang="en"` for the product UI screens).
 2. Load `../ui/agustos-fonts.css`, then `../ui/agustos.css`. Website screens also load
    `../ui/agustos-chrome.js` with `defer`. Link the canonical favicon.
 3. `body` carries `brand-<slug>`, `data-screen="<name>"`, and `site-sidebar-layout` when the
-   brand's registered chrome is the sidebar.
+   screen's chrome is the sidebar.
 4. Kit classes only. No `style` attribute. No `<style>` element. No script, except the kit's
-   `agustos-chrome.js` on website screens and one inline script of at most five lines in the
-   app shell for the theme control.
+   `agustos-chrome.js` on every screen and, on a screen with a theme switch, the one-line theme
+   script from `kit.json` (`themeScript`) in `<head>`, before the stylesheets.
 5. Images come from this repository or are gray wells. No external URL.
 6. Swap the `brand-*` class for another house brand and use that brand's chrome.
 7. `python3 ui/check-agustos-ui.py screens --skip design` exits 0. `tests/test_screens.py`

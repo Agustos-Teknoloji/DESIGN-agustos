@@ -121,6 +121,7 @@ One reference page per screen type lives in the source repository under `screens
 | `product` | catalog | topbar | frame | light first, dark by choice | product photograph or drawing, first in the rollout |
 | `spec-sheet` | document | topbar | frame | light first, dark by choice | product photograph and dimensioned drawing |
 | `app-shell` | product UI | sidebar | frame | light first, dark by choice | none |
+| `app-top-menu` | product UI | topbar | frame | light first, dark by choice | none |
 
 A website page opens with a `type-hero` headline (or a `type-h1` on listing and content pages), a `type-hero-deck`, a `hero-actions` row with one primary and one secondary `agustos-button`, and a `hero-trust` line. It closes with one `band band--cream`. **The hero has four layouts**, one per page, all aligned at the top: text only; an image below, as `figure.type-figure.hero-visual` after the text (64px below the trust line); an image on the right, as `div.hero-split` holding the text in a `stack`, then `figure.type-figure.hero-split__media`; an image on the left, with `hero-split hero-split--media-start`. A split hero takes `type-hero-md`, because `type-hero` is too large for half the frame. Its text stays first in the markup, so a phone and a screen reader get it first, and below 760px the image follows the text. Use one real photograph (a product, a place, a person), never a decorative image. `brand-memregunes` may show photographs of Emre Güneş on `home` and `static`. `starter.html` renders a split hero.
 
@@ -194,7 +195,7 @@ Measures `--measure-text` (54ch, hero deck) and `--measure-body` (41rem, the rea
 4. **Radii are 6 and 12px.** Nothing rounder. No pills, no blobs, no gradients.
 5. **44px minimum for anything clickable.** `--control-min` exists for this. Links inside running text are exempt. Put a card's main link directly in its `h2`, `h3` or `h4`: the kit stretches that link over the card, so the whole card is the target. The checker warns (AG013) when a card's links all sit outside a heading.
 6. **Never redraw the Laz Güneşi symbol.** Copy the `site-lockup` markup from `starter.html`.
-7. **Websites use the top menu; product UI uses the sidebar.** At most five top-menu items; the rest go under More. The checker warns on a sidebar outside product UI (AG026) and on a sixth top-menu item (AG027).
+7. **Websites use the top menu; product UI uses the sidebar (`app-shell`) or, with about ten destinations or fewer, the top menu (`app-top-menu`).** At most five items in `site-header__nav`; the rest go under More. The checker warns on a sidebar on a top-menu screen (AG026) and on a sixth menu item (AG027).
 
 ## Verify before you call it done
 

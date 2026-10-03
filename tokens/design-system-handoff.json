@@ -826,7 +826,15 @@
         "family": "product-ui",
         "file": "app-shell.html",
         "photo": "none",
-        "purpose": "The product-UI frame: sidebar navigation with counts, a page toolbar, stats, and a data table. The theme control lives in the sidebar."
+        "purpose": "The product-UI frame: sidebar navigation with counts, a page toolbar, stats, and a data table. The theme switch lives in the sidebar."
+      },
+      "app-top-menu": {
+        "brand": "iesdesk",
+        "chrome": "topbar",
+        "family": "product-ui",
+        "file": "app-top-menu.html",
+        "photo": "none",
+        "purpose": "A small product on the top menu: grouped Tools, a list of the user's files, the theme switch and the account list at the end, and the footer. For a product with about ten destinations or fewer."
       },
       "content": {
         "brand": "agustos",

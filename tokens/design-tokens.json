@@ -424,7 +424,7 @@
     }
   },
   "screens": {
-    "$description": "One reference composition per page type. Files live under screens/. Theme follows family: product-ui allows dark, every other family is light. Chrome follows family too: product-ui uses the sidebar, every other family uses the top menu and the footer.",
+    "$description": "One reference composition per page type. Files live under screens/. Every screen starts light; the user may switch it to dark. Chrome follows family: every website family uses the top menu and the footer; product-ui uses the sidebar, or the top menu when its row says chrome topbar (about ten destinations or fewer).",
     "home": {
       "file": "home.html",
       "family": "marketing",
@@ -485,7 +485,15 @@
       "file": "app-shell.html",
       "family": "product-ui",
       "brand": "iesdesk",
-      "purpose": "The product-UI frame: sidebar navigation with counts, a page toolbar, stats, and a data table. The theme control lives in the sidebar.",
+      "purpose": "The product-UI frame: sidebar navigation with counts, a page toolbar, stats, and a data table. The theme switch lives in the sidebar.",
+      "photo": "none"
+    },
+    "app-top-menu": {
+      "file": "app-top-menu.html",
+      "family": "product-ui",
+      "brand": "iesdesk",
+      "chrome": "topbar",
+      "purpose": "A small product on the top menu: grouped Tools, a list of the user's files, the theme switch and the account list at the end, and the footer. For a product with about ten destinations or fewer.",
       "photo": "none"
     }
   },
