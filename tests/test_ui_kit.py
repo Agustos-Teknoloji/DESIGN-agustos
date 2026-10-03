@@ -1183,6 +1183,45 @@ class ChromeTest(unittest.TestCase):
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
         self.assertIn("agustos-chrome.js", kit["files"])
 
+    THEME_SCRIPT = 'try{if(localStorage.getItem("agustos:theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}'
+
+    def test_theme_script_is_published_once_and_used_everywhere(self):
+        """The no-flash head script has one source: the builder. It only sets dark;
+        a page with no stored choice stays light (v7.7.0)."""
+        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+        self.assertEqual(kit["themeScript"], self.THEME_SCRIPT)
+        self.assertEqual(kit["themeStorageKey"], "agustos:theme")
+        self.assertIn(self.THEME_SCRIPT, (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8"))
+        starter = (ROOT / "ui" / "starter.html").read_text(encoding="utf-8")
+        self.assertLess(starter.index(f"<script>{self.THEME_SCRIPT}</script>"), starter.index('href="./agustos-fonts.css"'))
+
+    def test_chrome_script_flips_and_keeps_the_theme(self):
+        script = (ROOT / "ui" / "agustos-chrome.js").read_text(encoding="utf-8")
+        self.assertIn("'[data-agustos-theme]'", script)
+        self.assertIn("'agustos:theme'", script)
+        self.assertIn("removeAttribute('data-theme')", script)
+        self.assertIn("setAttribute('data-theme', 'dark')", script)
+        # Blocked storage must never break the switch.
+        flip = script[script.index("function flipTheme"):]
+        flip = flip[:flip.index("\n  }\n")]
+        self.assertIn("try {", flip)
+        self.assertNotIn("matchMedia('(prefers-color-scheme", script)
+
+    def test_theme_switch_label_is_css_driven(self):
+        """Both labels are in the markup; CSS shows the one the button switches to,
+        so a swapped page body needs no repaint and the name never lags."""
+        self.assertIn(".agustos-theme-switch__to-light,\nhtml[data-theme=\"dark\"] .agustos-theme-switch__to-dark { display: none; }", self.CSS)
+        self.assertIn('html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; }', self.CSS)
+        # In the bar the label is hidden but stays the accessible name; the drawer shows it.
+        bar = self.CSS[self.CSS.index(".site-header__icon-btn .agustos-theme-switch__label {"):]
+        self.assertIn("clip-path: inset(50%);", bar[:bar.index("}")])
+        self.assertNotIn("display: none", bar[:bar.index("}")])
+        drawer = self.CSS[self.CSS.index("@media (max-width: 1023px) {", self.CSS.index(".site-header__panel {")):]
+        self.assertIn(".site-header__panel .site-header__icon-btn .agustos-theme-switch__label", drawer)
+        for name in ("agustos-theme-switch", "agustos-theme-switch__to-dark", "agustos-theme-switch__to-light", "agustos-theme-switch__label"):
+            with self.subTest(name=name):
+                self.assertIn(name, TOKENS["compatibility"]["cssClasses"])
+
     def test_house_brand_lockups_turn_white_on_dark_and_agustos_stays_red(self):
         # `:where` keeps these below the hover rules, so the hover swap works in dark too (v7.0.1).
         self.assertIn('html[data-theme="dark"] :where(.site-lockup) { color: var(--ink); }', self.CSS)

@@ -747,6 +747,22 @@
     {
       "dark": {
         "background": "#15130f",
+        "foreground": "#8a8378",
+        "ratio": 4.95
+      },
+      "element": "Theme switch",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#404040",
+        "ratio": 10.37
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
         "foreground": "#ffffff",
         "ratio": 18.55
       },

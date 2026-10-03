@@ -66,6 +66,14 @@ PLACEHOLDER = re.compile(r"\{\{\s*([a-zA-Z0-9_.-]+)\s*\}\}")
 ALIAS = re.compile(r"^\{([a-zA-Z0-9_.-]+)\}$")
 
 CHROMES = ("sidebar", "topbar")
+# The theme the user chose lives under one key on every site (v7.7.0). The head
+# script applies a stored dark choice before the first paint, and only that:
+# a page with no stored choice stays light. The device setting is never read.
+THEME_STORAGE_KEY = "agustos:theme"
+THEME_SCRIPT = (
+    'try{if(localStorage.getItem("' + THEME_STORAGE_KEY + '")==="dark")'
+    'document.documentElement.setAttribute("data-theme","dark")}catch(e){}'
+)
 SCREEN_FAMILIES = ("marketing", "content", "catalog", "document", "product-ui")
 SCREEN_FIELDS = ("file", "family", "brand", "purpose", "photo")
 SCREEN_FILE = re.compile(r"^[a-z0-9-]+\.html$")
@@ -696,6 +704,8 @@ def kit_context(tokens: dict[str, Any], brands: dict[str, Any]) -> dict[str, str
             ]
         ),
         "brandClasses": repr(tuple(f"brand-{slug}" for slug in brands["brands"])),
+        "themeScript": THEME_SCRIPT,
+        "themeStorageKey": THEME_STORAGE_KEY,
         "screensTable": "\n".join(
             ["| Screen | Family | Chrome | Column | Theme | Photography |", "|---|---|---|---|---|---|"]
             + [
@@ -929,6 +939,8 @@ def ui_kit_json(
         "typeRoles": type_rows(tokens),
         "substrates": ["paper", "paper-white", "cream"],
         "darkTheme": 'html[data-theme="dark"]',
+        "themeScript": THEME_SCRIPT,
+        "themeStorageKey": THEME_STORAGE_KEY,
         "cssClasses": tokens["compatibility"]["cssClasses"],
         "files": files,
         # The only place @latest is permitted: this is data, never a stylesheet

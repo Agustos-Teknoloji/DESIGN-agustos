@@ -95,6 +95,10 @@
       "site-header__icon-btn",
       "site-header__theme-sun",
       "site-header__theme-moon",
+      "agustos-theme-switch",
+      "agustos-theme-switch__to-dark",
+      "agustos-theme-switch__to-light",
+      "agustos-theme-switch__label",
       "site-header__lang-link",
       "site-header__search",
       "site-header__search--desktop",
@@ -1056,6 +1060,22 @@
           "ratio": 4.95
         },
         "element": "Menu item, tab",
+        "floor": 4.5,
+        "kind": "text",
+        "light": {
+          "background": "#ffffff",
+          "foreground": "#404040",
+          "ratio": 10.37
+        },
+        "state": "rest"
+      },
+      {
+        "dark": {
+          "background": "#15130f",
+          "foreground": "#8a8378",
+          "ratio": 4.95
+        },
+        "element": "Theme switch",
         "floor": 4.5,
         "kind": "text",
         "light": {

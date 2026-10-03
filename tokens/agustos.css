@@ -1331,6 +1331,26 @@ html:has(.site-header) { scroll-padding-top: calc(var(--site-header-height) + va
 .site-header__theme-moon,
 html[data-theme="dark"] .site-header__theme-sun { display: none; }
 html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
+/* The theme switch (v7.7.0). It holds both labels; CSS shows the one it
+   switches to, so the name always matches the theme. Compose it with
+   site-header__icon-btn in the bar, site-header__more-link in a list, or a
+   quiet button in the sidebar. The deprecated sun and moon icon classes above
+   stay for markup from before v7.7.0. */
+.agustos-theme-switch { position: relative; gap: var(--space-xs); }
+.agustos-theme-switch__to-dark,
+.agustos-theme-switch__to-light { display: inline-flex; align-items: center; gap: var(--space-xs); }
+.agustos-theme-switch__to-light,
+html[data-theme="dark"] .agustos-theme-switch__to-dark { display: none; }
+html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; }
+/* In the bar the switch is an icon: the label is hidden, and stays its name. */
+.site-header__icon-btn .agustos-theme-switch__label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
 /* The language link reads like the other chrome links: a 1px gray rule on
    hover; red stays with the current page. */
 .site-header__lang-link {
@@ -1676,6 +1696,9 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
   .site-header__more-menu { position: static; min-width: 0; padding: 0 0 0 var(--space-sm); border: 0; box-shadow: none; background: none; }
   .site-header__end { flex-direction: column; align-items: stretch; gap: var(--space-md); }
   .site-header__cta { margin-inline-start: 0; justify-content: center; }
+  /* In the drawer the switch is a line with its word (NN/g: icons need words). */
+  .site-header__panel .site-header__icon-btn.agustos-theme-switch { width: auto; justify-content: flex-start; padding-inline: var(--space-sm); }
+  .site-header__panel .site-header__icon-btn .agustos-theme-switch__label { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
 }
 
 /* -- 5c. Layout layer ---------------------------------------- */

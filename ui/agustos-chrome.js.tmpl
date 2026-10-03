@@ -8,13 +8,29 @@
    leaves it, so focus never moves to the page behind the drawer. Without this
    file More still opens and closes on click, and a drawer still closes on
    Escape, an outside click and its close button. Load it once on every page
-   with the chrome, with defer. */
+   with the chrome, with defer. A theme switch (a button with
+   data-agustos-theme) flips data-theme on <html> and keeps the choice in
+   localStorage under {{ui.themeStorageKey}}. The inline head script in UI-KIT.md
+   applies a stored dark choice before the first paint. The device setting is
+   never read. */
 (() => {
   if (document.agustosChrome) return;
   document.agustosChrome = true;
 
   const OPEN = 'details.site-header__more[open]';
   const DRAWER = '.site-header__panel[popover], .site-sidebar[popover]';
+  const SWITCH = '[data-agustos-theme]';
+  const THEME_KEY = '{{ui.themeStorageKey}}';
+
+  // Light is the default: no attribute. Dark is the user's choice alone.
+  function flipTheme() {
+    const root = document.documentElement;
+    const dark = root.getAttribute('data-theme') !== 'dark';
+    if (dark) root.setAttribute('data-theme', 'dark');
+    else root.removeAttribute('data-theme');
+    // Blocked storage (a private window) still flips the page in view.
+    try { localStorage.setItem(THEME_KEY, dark ? 'dark' : 'light'); } catch { /* not kept */ }
+  }
 
   function close(menu, returnFocus) {
     menu.open = false;
@@ -32,6 +48,7 @@
   });
 
   document.addEventListener('click', (event) => {
+    if (event.target.closest?.(SWITCH)) flipTheme();
     document.querySelectorAll(OPEN).forEach((menu) => {
       if (!menu.contains(event.target)) close(menu, false);
     });

@@ -118,6 +118,10 @@
     "site-header__icon-btn",
     "site-header__theme-sun",
     "site-header__theme-moon",
+    "agustos-theme-switch",
+    "agustos-theme-switch__to-dark",
+    "agustos-theme-switch__to-light",
+    "agustos-theme-switch__label",
     "site-header__lang-link",
     "site-header__search",
     "site-header__search--desktop",
@@ -294,24 +298,24 @@
       "sha256": "63538bf3cd2a5ed1a23e6a04d7acd53ae75acbd04b2cc8510dd3510441b6fc02"
     },
     "UI-KIT.md": {
-      "bytes": 26100,
-      "sha256": "65e615268b3c22cfd8ba3812e1e644589da714bb9781c9da3d8234143dca1701"
+      "bytes": 27088,
+      "sha256": "5a6764213b60de750cc8906ac22ff686fd4a65f837cac30a6c00a09d6736c904"
     },
     "agustos-chrome.js": {
-      "bytes": 1986,
-      "sha256": "6003566b411526395dcbff180845122681f5ecb4fd7fd47f53c3ff3fa9173187"
+      "bytes": 2862,
+      "sha256": "3b598f8bb83073975b348e89d7ff5d97b8fb39da6faa16bf591f8b95710a28be"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
       "sha256": "23c0f48218e908d334523373cf51dfd3893fef499a5d6c2e4065b1ad4def48df"
     },
     "agustos.css": {
-      "bytes": 73818,
-      "sha256": "37add3ad2ec17a3c635a9eb73c866f167f1a40aeec68e8846f92dc9b8dd261bc"
+      "bytes": 75191,
+      "sha256": "f6b7ee611fd8b9974d5d9bd281d47f65402089ba66450fac52ee3a045dadf475"
     },
     "check-agustos-ui.py": {
-      "bytes": 32812,
-      "sha256": "dca31d5ec746467c1697a209650a148e99968b24d8b3a268238365ead726c234"
+      "bytes": 32950,
+      "sha256": "1b9244ab12ed74aa57bd7550f6540a64d088285970ab38598994bb764945558a"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -334,8 +338,8 @@
       "sha256": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
     },
     "starter.html": {
-      "bytes": 29260,
-      "sha256": "fb2b39de9d30c1bf4ec0928766d6982730e6cdb938715196e5668abd2b9bf0fc"
+      "bytes": 30583,
+      "sha256": "1fb523b50e09ee6f9b9f8bd1181cab2962319c525a5d8f0031f40430eab7951d"
     }
   },
   "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.2/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.6.2/ui/agustos.css\">",
@@ -583,6 +587,22 @@
         "ratio": 4.95
       },
       "element": "Menu item, tab",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#ffffff",
+        "foreground": "#404040",
+        "ratio": 10.37
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
+        "background": "#15130f",
+        "foreground": "#8a8378",
+        "ratio": 4.95
+      },
+      "element": "Theme switch",
       "floor": 4.5,
       "kind": "text",
       "light": {
@@ -999,6 +1019,8 @@
     "cream"
   ],
   "system": "Ağustos Design System",
+  "themeScript": "try{if(localStorage.getItem(\"agustos:theme\")===\"dark\")document.documentElement.setAttribute(\"data-theme\",\"dark\")}catch(e){}",
+  "themeStorageKey": "agustos:theme",
   "typeRoles": [
     {
       "after": "32px",
