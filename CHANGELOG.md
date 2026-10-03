@@ -16,17 +16,18 @@ An extra minor release under MEMORY 2026-09-29 monthly-kit-release: IESDesk move
 - Product UI may use the top menu when it has about ten destinations or fewer. The new screen `app-top-menu` shows it. The app shell keeps the sidebar.
 - Below 640px the drawer covers the whole width: the top-menu panel and the sidebar drawer alike. From 640 to 1023px it keeps `min(320px, 86vw)`.
 - The screens table field `theme` is `light-first` for every screen.
-- AG024 warns on a page that starts dark (`data-theme="dark"` on the served `<html>`), not on any `data-theme`. AG027 counts only the items in `site-header__nav`, so an account list in `site-header__end` does not count. AG026 warns on a sidebar on every screen whose chrome is the top menu, `app-top-menu` included.
+- AG024 warns on a page that starts dark (`data-theme="dark"` on the served `<html>`), not on any `data-theme`. AG027 counts only the items in `site-header__nav`, so an account list in `site-header__end` does not count. AG026 warns on a sidebar on every screen whose chrome is the top menu, `app-top-menu` included. AG024 and AG027 step over ERB and PHP tags inside a start tag, and AG034 accepts a Rails `javascript_tag` that carries the head script.
 
 ### Added
 
 - The theme switch: `agustos-theme-switch`, `agustos-theme-switch__to-dark`, `agustos-theme-switch__to-light`, `agustos-theme-switch__label`, with `data-agustos-theme`. `agustos-chrome.js` flips the theme and keeps it under `agustos:theme`; `kit.json` publishes the head script as `themeScript`.
 - Grouped More lists: `site-header__more-menu--groups`, `site-header__more-group`, `site-header__more-group-title`. A More holds at most two groups: columns on a wide screen, stacked in the drawer.
-- The phone drawer shows every More open, with its summary as a small title (`data-agustos-unfold`, set by `agustos-chrome.js`). Without the script each More folds as before.
+- The phone drawer shows every More open, with its summary as a small title (`data-agustos-unfold`, set by `agustos-chrome.js`). Without the script each More folds as before. The script clears the marks at 1024px and wider and before Turbo caches the page, so Back never brings back a More that is stuck open.
 - The account list: `site-header__more--end` and `site-header__more-label`, and a button reset for a sign-out `button.site-header__more-link` in a `form`.
 - AG033 warns on `prefers-color-scheme` in any checked file but Markdown: CSS, a script or a page.
 - AG034 warns on a theme switch without the kit head script before the stylesheets.
 - AG035 warns on a More with more than two groups, because a third group goes past the edge of the page at 1024px.
+- AG036 warns on a theme switch on a page that does not load `agustos-chrome.js`, because the switch then does nothing.
 - States rows: the dark footer, the band secondary text, the focus ring in the band, the theme switch, the More group title.
 
 ### Deprecated
@@ -39,8 +40,9 @@ An extra minor release under MEMORY 2026-09-29 monthly-kit-release: IESDesk move
 
 ### Migration
 
-- A site that adds no switch changes nothing and stays light; its footer and band look the same in light.
-- A site that adds the switch puts the head script (`kit.json` `themeScript`) in `<head>`, after the viewport meta and before the stylesheets, with its CSP nonce. AG034 warns when it is missing.
+- A site that adds no switch changes no markup and stays light. Its desktop header, footer and band look the same in light. Below 1024px every More in the drawer shows open with its title, and below 640px the drawer fills the screen. Check each site at 375px and 800px.
+- A site that adds the switch puts the head script (`kit.json` `themeScript`) in `<head>`, after the viewport meta and before the stylesheets, with its CSP nonce. AG034 warns when it is missing. A page with the switch also loads `agustos-chrome.js`; AG036 warns when it does not.
+- A site that sets text on `var(--cream)` outside `band--cream` changes it before it adds the switch: in the dark theme `--cream` stays light gray `#ebebeb` under white ink.
 - A site that renders `data-theme="dark"` on `<html>` from the server now gets AG024. Apply the stored choice with the head script instead.
 - A site with its own theme handler (Astro or Rails adapter copies, IESDesk `agustos_theme_controller.js`) removes it when it adopts `data-agustos-theme`, or the click flips the theme twice.
 - Rails adapter: the `color_scheme:` option and `agustos_dark?` are removed, so a caller that passes `color_scheme:` gets an `ArgumentError`. The Stimulus theme controller is deleted. A host that shows the switch imports `agustos/chrome`.
