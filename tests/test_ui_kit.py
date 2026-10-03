@@ -545,10 +545,10 @@ class DistributionKitTest(unittest.TestCase):
         self.assertEqual(product["file"], "product.html")
         self.assertEqual(product["family"], "catalog")
         self.assertEqual(product["chrome"], "topbar")
-        self.assertEqual(product["theme"], "light")
+        self.assertEqual(product["theme"], "light-first")
         self.assertNotIn("primaryCtaMax", product)
         self.assertNotIn("quotes", product)
-        self.assertEqual(kit["screens"]["app-shell"]["theme"], "dark-allowed")
+        self.assertEqual(kit["screens"]["app-shell"]["theme"], "light-first")
         self.assertEqual(kit["screens"]["app-shell"]["chrome"], "sidebar")
         self.assertEqual(kit["screens"]["home"]["chrome"], "topbar")
 
@@ -659,7 +659,7 @@ class CheckerTest(unittest.TestCase):
     def test_checker_enforces_the_screen_rules(self):
         """Per-screen rules come from the screens table, keyed on data-screen.
         Errors guard integrity: a page names its screen, and the name exists.
-        Taste rules only warn: data-theme outside product UI (AG024), more than
+        Taste rules only warn: a page that starts dark (AG024), more than
         one highlighter (AG025), a sidebar on a website (AG026), more than five
         top-menu items (AG027, the More toggle counts, its items do not), a
         full-width container on a content screen (AG028, v7.2.0), an
@@ -687,7 +687,10 @@ class CheckerTest(unittest.TestCase):
             "sidebar-site.html": (self._screen_page("home", main=head, chrome=sidebar), {"AG026": "warn"}),
             "six-items.html": (self._screen_page("home", main=head, chrome="".join(item.format(n) for n in range(6))), {"AG027": "warn"}),
             "four-and-more.html": (self._screen_page("home", main=head, chrome="".join(item.format(n) for n in range(4)) + more), {}),
-            "app.html": (self._screen_page("app-shell", main=primary, chrome=sidebar, html_attrs=' data-theme="dark"'), {}),
+            "app.html": (self._screen_page("app-shell", main=primary, chrome=sidebar, html_attrs=' data-theme="dark"'), {"AG024": "warn"}),
+            "light-attr.html": (self._screen_page("home", main=head, html_attrs=' data-theme="light"'), {}),
+            "switch-script.html": (self._screen_page("home", main=head + '<script>try{if(localStorage.getItem("agustos:theme")==="dark")document.documentElement.setAttribute("data-theme","dark")}catch(e){}</script>'), {}),
+            "templated.html": (self._screen_page("home", main=head, html_attrs=' data-theme="<%= theme %>"'), {}),
             "wide-policy.html": (self._screen_page("static", main='<div class="container"><h1>Gizlilik</h1></div>'), {"AG028": "warn"}),
             "reading-policy.html": (self._screen_page("static", main="<article class='container container--reading'><h1>Gizlilik</h1></article>"), {}),
             "wide-home.html": (self._screen_page("home", main=f'<section class="container">{head}</section>'), {}),
@@ -711,6 +714,24 @@ class CheckerTest(unittest.TestCase):
             for name, (_, expected) in pages.items():
                 with self.subTest(page=name):
                     self.assertEqual(by_file[name], expected)
+
+    def test_checker_warns_when_the_device_picks_the_theme(self):
+        """v7.7.0: the user chooses the theme, never the device (Emre, 2026-10-03)."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp)
+            (project / "site.css").write_text("@media (prefers-color-scheme: dark) { body { color: var(--ink); } }\n", encoding="utf-8")
+            (project / "theme.js").write_text("const dark = matchMedia('(prefers-color-scheme: dark)').matches;\n", encoding="utf-8")
+            (project / "notes.md").write_text("Never read prefers-color-scheme.\n", encoding="utf-8")
+            result = self._run(project, "--json")
+            findings = [f for f in json.loads(result.stdout)["findings"] if f["rule"] == "AG033"]
+            self.assertEqual(sorted(f["file"] for f in findings), ["site.css", "theme.js"])
+            self.assertTrue(all(f["level"] == "warn" for f in findings))
+
+    def test_kit_never_reads_the_device_theme(self):
+        for name in ("agustos.css", "agustos-chrome.js", "starter.html"):
+            with self.subTest(file=name):
+                self.assertNotIn("prefers-color-scheme", (ROOT / "ui" / name).read_text(encoding="utf-8"))
 
     def test_retired_screen_rules_stay_retired(self):
         """AG022 (button count) and AG023 (quotes) policed copy on our own sites."""
@@ -1265,10 +1286,10 @@ class ChromeTest(unittest.TestCase):
 
     def test_entry_point_carries_the_screens_table_and_brand_chrome(self):
         text = (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8")
-        self.assertIn("| `product` | catalog | topbar | frame | light |", text)
-        self.assertIn("| `home` | marketing | topbar | frame | light |", text)
-        self.assertIn("| `static` | content | topbar | reading | light |", text)
-        self.assertIn("| `app-shell` | product UI | sidebar | frame | dark allowed |", text)
+        self.assertIn("| `product` | catalog | topbar | frame | light first, dark by choice |", text)
+        self.assertIn("| `home` | marketing | topbar | frame | light first, dark by choice |", text)
+        self.assertIn("| `static` | content | topbar | reading | light first, dark by choice |", text)
+        self.assertIn("| `app-shell` | product UI | sidebar | frame | light first, dark by choice |", text)
         self.assertIn("| ağustos | `brand-agustos` | red | black |", text)
         self.assertIn("| pataraz | `brand-pataraz` | black | red |", text)
         self.assertNotIn("at most 2", text)

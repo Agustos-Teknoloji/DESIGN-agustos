@@ -234,8 +234,16 @@ def type_table_markdown(rows: list[dict[str, Any]]) -> str:
     return "\n".join(lines)
 
 
+THEME_LABELS = {"light-first": "light first, dark by choice"}
+
+
+def theme_label(value: str) -> str:
+    """Every screen starts light; the user may switch it to dark (v7.7.0)."""
+    return THEME_LABELS[value]
+
+
 def screen_rows(tokens: dict[str, Any], brands: dict[str, Any]) -> list[dict[str, Any]]:
-    """The table plus the four derived columns. Theme, chrome, column and highlighter all follow family."""
+    """The table plus the four derived columns. Chrome, column and highlighter follow family; every screen starts light."""
     rows: list[dict[str, Any]] = []
     for name, entry in screen_entries(tokens).items():
         rows.append({
@@ -243,7 +251,7 @@ def screen_rows(tokens: dict[str, Any], brands: dict[str, Any]) -> list[dict[str
             **{field: entry[field] for field in SCREEN_FIELDS},
             "chrome": chrome_for(entry["family"]),
             "column": column_for(entry["family"]),
-            "theme": "dark-allowed" if entry["family"] == "product-ui" else "light",
+            "theme": "light-first",
             # The homepage carries the one highlighter stroke; other pages may.
             "highlight": "one" if entry["family"] == "marketing" else "at-most-one",
         })
@@ -256,7 +264,7 @@ def screens_index_html(rows: list[dict[str, Any]]) -> str:
     for row in rows:
         title = row["name"].replace("-", " ").capitalize()
         family = "product UI" if row["family"] == "product-ui" else row["family"]
-        theme = "dark allowed" if row["theme"] == "dark-allowed" else row["theme"]
+        theme = theme_label(row["theme"])
         sections.append(
             f'  <section class="screen" id="screen-{row["name"]}">\n'
             f'    <h2 class="type-h2">{html.escape(title)}</h2>\n'
@@ -593,8 +601,8 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
                 "Align primary content to one 1180px frame on the web; preserve the same alignment logic in other media.",
                 "Use calm typographic openings, quiet chrome, sentence case, and purposeful spacing. Do not use uppercase labels or eyebrow headings.",
                 "Set type on one golden scale (16.5px body, ratio 1.272): 13, 16.5, 21, 27, 34, 43, 55, 70, 89px, with thin headings.",
-                "Websites use the top menu with at most five items and a More menu for the rest; product UI uses the sidebar.",
-                "Ship websites on white paper. Reserve dark theme for product UI.",
+                "Websites use the top menu with at most five items and a More menu for the rest; product UI uses the sidebar, or the top menu when it has about ten destinations or fewer.",
+                "Start every page on white paper. The dark theme is the user's choice through a theme switch, never the device setting.",
             ],
             "forbidden": [
                 "Inventing a new logo expression or approximate sun symbol",
@@ -603,7 +611,7 @@ def handoff_contract(resolved: dict[str, Any], tokens: dict[str, Any]) -> dict[s
                 "Giving a non-Ağustos house brand its own chromatic identity color without an explicit governance change",
                 "Using signal red as a button, a statistic, a fill, or an element's own colour, beyond the logo and the one highlighter stroke",
                 "A primary button in every section, card, or list",
-                "A theme toggle on a website",
+                "A theme that follows the device setting (prefers-color-scheme), or a page that starts dark",
                 "More than one highlighter stroke on a page",
                 "Hard-coding values that already exist in foundations, semantic roles, or recipes",
             ],
@@ -696,7 +704,7 @@ def kit_context(tokens: dict[str, Any], brands: dict[str, Any]) -> dict[str, str
                     family="product UI" if row["family"] == "product-ui" else row["family"],
                     chrome=row["chrome"],
                     column=row["column"],
-                    theme="dark allowed" if row["theme"] == "dark-allowed" else row["theme"],
+                    theme=theme_label(row["theme"]),
                     photo=row["photo"],
                 )
                 for row in screen_rows(tokens, brands)

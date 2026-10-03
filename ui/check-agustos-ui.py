@@ -209,10 +209,10 @@ KIT_CLASSES = {
 
 # screen name -> the rules a page under that screen should meet. Injected from the
 # screens table for the same reason as TOKEN_COLORS. A page names its screen with
-# data-screen on <body>; theme "dark-allowed" and chrome "sidebar" mark product UI;
+# data-screen on <body>; chrome "sidebar" marks the product sidebar; every screen starts light;
 # highlight "one" marks the homepage, which carries the one highlighter stroke.
 # The checker guards identity with errors. Taste rules only warn.
-SCREENS = {'app-shell': {'theme': 'dark-allowed', 'chrome': 'sidebar', 'column': 'frame', 'highlight': 'at-most-one'}, 'content': {'theme': 'light', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}, 'content-index': {'theme': 'light', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}, 'home': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'one'}, 'product': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'product-finder': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'products': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'spec-sheet': {'theme': 'light', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'static': {'theme': 'light', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}}
+SCREENS = {'app-shell': {'theme': 'light-first', 'chrome': 'sidebar', 'column': 'frame', 'highlight': 'at-most-one'}, 'content': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}, 'content-index': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}, 'home': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'one'}, 'product': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'product-finder': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'products': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'spec-sheet': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'static': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}}
 
 # #15130f and #ffffff are legitimate as identity ink and as paper. Reported at
 # warning level rather than error: too common to fail a build over.
@@ -262,7 +262,9 @@ TOP_MENU_LIMIT = 5
 # A link start tag and its attributes, for the aria-current check on built pages.
 LINK_TAG = re.compile(r"<a\b[^>]*>", re.I)
 LINK_ATTRIBUTE = re.compile(r"""([\w:-]+)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+))""")
-DATA_THEME = re.compile(r"\bdata-theme\s*=")
+# A page that is served dark. Only the user's theme switch may set dark, at run time.
+HTML_DARK = re.compile(r"""<html\b[^>]*\bdata-theme\s*=\s*["']?dark\b""", re.I)
+DEVICE_THEME = "prefers-color-scheme"
 CLASS_ATTRIBUTE = re.compile(r"""\bclass\s*=\s*(?:"([^"]*)"|'([^']*)')""", re.I)
 RADIUS = re.compile(r"border-radius:\s*([0-9.]+)px")
 GRADIENT = re.compile(r"(linear|radial|conic)-gradient\(")
@@ -513,12 +515,12 @@ def check_screen(rel: str, text: str, findings: list) -> None:
             "agustos-contents is not a direct child of container--reading: put the list "
             "directly in the page's reading container, so it can take the side zone",
         ))
-    theme = DATA_THEME.search(page)
-    if theme and rules["theme"] != "dark-allowed":
+    dark = HTML_DARK.search(page)
+    if dark:
         findings.append(Finding(
-            "AG024", "warn", rel, line_of(page, theme.start()),
-            f"data-theme on screen {name!r} — dark theme is for product UI only; "
-            f"marketing, catalog, and document pages ship light with no theme control",
+            "AG024", "warn", rel, line_of(page, dark.start()),
+            "the page starts dark (data-theme=\"dark\" on <html>): every page starts light, "
+            "and only the user's theme switch sets dark",
         ))
 
 
@@ -638,6 +640,12 @@ def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
                 findings.append(Finding(
                     "AG010", "warn", rel, number,
                     "gradients are on the forbidden list for this system",
+                ))
+
+            if not prose and DEVICE_THEME in lowered:
+                findings.append(Finding(
+                    "AG033", "warn", rel, number,
+                    "prefers-color-scheme: the user chooses the theme with a switch, never the device",
                 ))
 
             for match in (() if prose else BACKGROUND.finditer(line)):

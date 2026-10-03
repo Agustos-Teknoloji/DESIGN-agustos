@@ -401,7 +401,7 @@ def screen_card_members(root: Path = ROOT, version: str | None = None) -> list[t
         html = (root / "screens" / screen["file"]).read_text(encoding="utf-8")
         title = name.replace("-", " ").capitalize()
         family = "product UI" if screen["family"] == "product-ui" else screen["family"]
-        theme = "dark allowed" if screen["theme"] == "dark-allowed" else screen["theme"]
+        theme = {"light-first": "light first, dark by choice"}.get(screen["theme"], screen["theme"])
         marker = (
             f'<!-- @dsCard group="Kit · Screens" viewport="{width}x{height}" '
             f'name="{title}" subtitle="{family} · {screen["chrome"]} · {theme}" -->'

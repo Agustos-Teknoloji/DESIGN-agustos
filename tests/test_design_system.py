@@ -87,8 +87,8 @@ class DesignSystemGenerationTest(unittest.TestCase):
         self.assertEqual(rows["home"]["chrome"], "topbar")
         self.assertEqual(rows["product"]["chrome"], "topbar")
         self.assertEqual(rows["app-shell"]["chrome"], "sidebar")
-        self.assertEqual(rows["app-shell"]["theme"], "dark-allowed")
-        self.assertEqual(rows["home"]["theme"], "light")
+        for row in rows.values():
+            self.assertEqual(row["theme"], "light-first")
         self.assertNotIn("quotes", rows["static"])
         self.assertNotIn("primaryCtaMax", rows["spec-sheet"])
         for row in rows.values():
@@ -141,7 +141,11 @@ class DesignSystemGenerationTest(unittest.TestCase):
         self.assertIn("at most five items", text)
         self.assertIn("golden", text)
         avoid = " ".join(self.tokens["designDirection"]["avoid"])
-        self.assertIn("theme toggle on a website", avoid)
+        self.assertIn("follows the device setting", avoid)
+        self.assertNotIn("theme toggle on a website", avoid)
+        principles = " ".join(self.tokens["designDirection"]["principles"])
+        self.assertIn("Every page starts light", principles)
+        self.assertNotIn("Websites ship light", principles)
         self.assertIn("More than one highlighter stroke", avoid)
 
     def test_circular_alias_is_rejected(self):

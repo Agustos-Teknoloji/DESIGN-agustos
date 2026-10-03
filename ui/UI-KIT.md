@@ -16,7 +16,7 @@ Create minimal, functional, and elegant interfaces that feel warm and human.
 - Use two radii, 6px for controls and 12px for cards, and one section spacing. Do not use gradients or textures. The only shadow sits under a menu that floats above the page.
 - Red is identity and signal, never action: the logo, the 2px link and menu rule, keyboard focus, and one highlighter stroke per page. Buttons are black. The Ağustos logo is red and turns black on hover; every other house brand's logo is black and turns red on hover.
 - Use the highlighter on one to four words of the main headline: once on the homepage, at most once on any other page. Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.
-- Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar. Websites ship light; dark theme is for product UI.
+- Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar, or the top menu when it has about ten destinations or fewer. Every page starts light. A site may add a theme switch; the user picks dark, never the device.
 - Copy a screen; do not design a page. Open with a headline, a deck, two buttons, and a trust line. Close with one pale red band.
 - Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not combine them, and do not use uppercase labels, eyebrow headings, or coloured text.
 - When unsure, do the conventional thing. Collect design tweaks and release the kit once a month; fix real defects at once.
@@ -29,7 +29,7 @@ Avoid:
 - Inflated luxury claims or forced friendliness
 - A primary button in every section, card, or list
 - A sidebar on a website, or more than five items in its top menu
-- A theme toggle on a website
+- A theme that follows the device setting, or a page that starts dark
 - Lifestyle photography or a photograph behind body text
 
 ## Install
@@ -111,15 +111,15 @@ One reference page per screen type lives in the source repository under `screens
 
 | Screen | Family | Chrome | Column | Theme | Photography |
 |---|---|---|---|---|---|
-| `home` | marketing | topbar | frame | light | one installation photograph, third in the rollout |
-| `static` | content | topbar | reading | light | people and places that explain the work |
-| `content` | content | topbar | reading | light | only when it explains the content |
-| `content-index` | content | topbar | reading | light | none; titles stay type-only |
-| `products` | catalog | topbar | frame | light | product thumbnails, second in the rollout |
-| `product-finder` | catalog | topbar | frame | light | product thumbnails, second in the rollout |
-| `product` | catalog | topbar | frame | light | product photograph or drawing, first in the rollout |
-| `spec-sheet` | document | topbar | frame | light | product photograph and dimensioned drawing |
-| `app-shell` | product UI | sidebar | frame | dark allowed | none |
+| `home` | marketing | topbar | frame | light first, dark by choice | one installation photograph, third in the rollout |
+| `static` | content | topbar | reading | light first, dark by choice | people and places that explain the work |
+| `content` | content | topbar | reading | light first, dark by choice | only when it explains the content |
+| `content-index` | content | topbar | reading | light first, dark by choice | none; titles stay type-only |
+| `products` | catalog | topbar | frame | light first, dark by choice | product thumbnails, second in the rollout |
+| `product-finder` | catalog | topbar | frame | light first, dark by choice | product thumbnails, second in the rollout |
+| `product` | catalog | topbar | frame | light first, dark by choice | product photograph or drawing, first in the rollout |
+| `spec-sheet` | document | topbar | frame | light first, dark by choice | product photograph and dimensioned drawing |
+| `app-shell` | product UI | sidebar | frame | light first, dark by choice | none |
 
 A website page opens with a `type-hero` headline (or a `type-h1` on listing and content pages), a `type-hero-deck`, a `hero-actions` row with one primary and one secondary `agustos-button`, and a `hero-trust` line. It closes with one `band band--cream`. **The hero has four layouts**, one per page, all aligned at the top: text only; an image below, as `figure.type-figure.hero-visual` after the text (64px below the trust line); an image on the right, as `div.hero-split` holding the text in a `stack`, then `figure.type-figure.hero-split__media`; an image on the left, with `hero-split hero-split--media-start`. A split hero takes `type-hero-md`, because `type-hero` is too large for half the frame. Its text stays first in the markup, so a phone and a screen reader get it first, and below 760px the image follows the text. Use one real photograph (a product, a place, a person), never a decorative image. `starter.html` renders a split hero.
 

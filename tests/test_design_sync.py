@@ -156,7 +156,7 @@ class ScreenCardTest(unittest.TestCase):
         self.assertEqual(sorted(self.texts), sorted(f"cards/screen-{name}.html" for name in self.kit["screens"]))
 
     def test_line_one_is_a_screens_group_marker(self):
-        marker = re.compile(r'^<!-- @dsCard group="Kit · Screens" viewport="1280x900" name="[^"]+" subtitle="[^"]+ · (?:sidebar|topbar) · (?:light|dark allowed)" -->$')
+        marker = re.compile(r'^<!-- @dsCard group="Kit · Screens" viewport="1280x900" name="[^"]+" subtitle="[^"]+ · (?:sidebar|topbar) · (?:light|dark allowed|light first, dark by choice)" -->$')
         for name, text in self.texts.items():
             self.assertRegex(text.splitlines()[0], marker, name)
 

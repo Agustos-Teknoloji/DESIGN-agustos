@@ -203,7 +203,7 @@
       "Pages feel calm, warm, and complete through white paper, thin headings on one scale, and helpful language.",
       "Visitors can understand the content and identify the next action quickly.",
       "Red appears only as identity and signal: the logo, link and menu rules, focus, and at most one highlighter stroke.",
-      "Websites remain light without a theme control, and their top menu fits in five items.",
+      "Every page starts light, only the user switches it to dark, and the top menu fits in five items.",
       "Forms and technical content remain clear, readable, and easy to scan.",
       "Brand identity, keyboard focus, reduced motion, and supported themes remain intact."
     ],
@@ -214,7 +214,7 @@
       "Inflated luxury claims or forced friendliness",
       "A primary button in every section, card, or list",
       "A sidebar on a website, or more than five items in its top menu",
-      "A theme toggle on a website",
+      "A theme that follows the device setting, or a page that starts dark",
       "Lifestyle photography or a photograph behind body text"
     ],
     "definition": "Scandinavian restraint filtered through Mediterranean warmth.",
@@ -281,7 +281,7 @@
       "Use two radii, 6px for controls and 12px for cards, and one section spacing. Do not use gradients or textures. The only shadow sits under a menu that floats above the page.",
       "Red is identity and signal, never action: the logo, the 2px link and menu rule, keyboard focus, and one highlighter stroke per page. Buttons are black. The Ağustos logo is red and turns black on hover; every other house brand's logo is black and turns red on hover.",
       "Use the highlighter on one to four words of the main headline: once on the homepage, at most once on any other page. Never on links, buttons, numbers, body text, or product UI. The sentence must read the same without it.",
-      "Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar. Websites ship light; dark theme is for product UI.",
+      "Websites use the top menu with at most five items. Extra pages go under one More menu, and social, legal, and language links live in the footer. Product UI uses the sidebar, or the top menu when it has about ten destinations or fewer. Every page starts light. A site may add a theme switch; the user picks dark, never the device.",
       "Copy a screen; do not design a page. Open with a headline, a deck, two buttons, and a trust line. Close with one pale red band.",
       "Bold (600) marks a fact the reader scans for, at most once per paragraph. Italic marks names of publications and projects, foreign terms, and quoted phrases. Underline is for links only. Do not combine them, and do not use uppercase labels, eyebrow headings, or coloured text.",
       "When unsure, do the conventional thing. Collect design tweaks and release the kit once a month; fix real defects at once."
@@ -294,8 +294,8 @@
       "sha256": "63538bf3cd2a5ed1a23e6a04d7acd53ae75acbd04b2cc8510dd3510441b6fc02"
     },
     "UI-KIT.md": {
-      "bytes": 25764,
-      "sha256": "47fc6cb805a01f71ada8ab837c9b120aeaa1bd36584dbab351cb7ba6d47a2837"
+      "bytes": 26100,
+      "sha256": "65e615268b3c22cfd8ba3812e1e644589da714bb9781c9da3d8234143dca1701"
     },
     "agustos-chrome.js": {
       "bytes": 1986,
@@ -310,8 +310,8 @@
       "sha256": "37add3ad2ec17a3c635a9eb73c866f167f1a40aeec68e8846f92dc9b8dd261bc"
     },
     "check-agustos-ui.py": {
-      "bytes": 32387,
-      "sha256": "39108ad82bba32a9e1a65f5d4f515a0f6286b334b8f422a8797625a71a492500"
+      "bytes": 32812,
+      "sha256": "dca31d5ec746467c1697a209650a148e99968b24d8b3a268238365ead726c234"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -352,7 +352,7 @@
       "highlight": "at-most-one",
       "photo": "none",
       "purpose": "The product-UI frame: sidebar navigation with counts, a page toolbar, stats, and a data table. The theme control lives in the sidebar.",
-      "theme": "dark-allowed"
+      "theme": "light-first"
     },
     "content": {
       "brand": "agustos",
@@ -363,7 +363,7 @@
       "highlight": "at-most-one",
       "photo": "only when it explains the content",
       "purpose": "One article or post: title, deck, long-form body at the reading line with headings, lists, a quote, and a footnote.",
-      "theme": "light"
+      "theme": "light-first"
     },
     "content-index": {
       "brand": "agustos",
@@ -374,7 +374,7 @@
       "highlight": "at-most-one",
       "photo": "none; titles stay type-only",
       "purpose": "The list of posts: one section per year, body-size title links with a footnote line each, newest first. No heading per title.",
-      "theme": "light"
+      "theme": "light-first"
     },
     "home": {
       "brand": "agustos",
@@ -385,7 +385,7 @@
       "highlight": "one",
       "photo": "one installation photograph, third in the rollout",
       "purpose": "The homepage: a thin headline with one highlighter stroke, a deck, two buttons and a trust line, then the brand and software card sections, and one closing pale red band.",
-      "theme": "light"
+      "theme": "light-first"
     },
     "product": {
       "brand": "pataraz",
@@ -396,7 +396,7 @@
       "highlight": "at-most-one",
       "photo": "product photograph or drawing, first in the rollout",
       "purpose": "One luminaire: photograph and drawing, description, grouped specification tables, downloads, and related products.",
-      "theme": "light"
+      "theme": "light-first"
     },
     "product-finder": {
       "brand": "pataraz",
@@ -407,7 +407,7 @@
       "highlight": "at-most-one",
       "photo": "product thumbnails, second in the rollout",
       "purpose": "The product finder: a filter column and a result list. Form submits are task actions, not the page primary.",
-      "theme": "light"
+      "theme": "light-first"
     },
     "products": {
       "brand": "pataraz",
@@ -418,7 +418,7 @@
       "highlight": "at-most-one",
       "photo": "product thumbnails, second in the rollout",
       "purpose": "The product listing: an H1 page title, series sections with product cards, quick links, and one closing pale red band.",
-      "theme": "light"
+      "theme": "light-first"
     },
     "spec-sheet": {
       "brand": "pataraz",
@@ -429,7 +429,7 @@
       "highlight": "at-most-one",
       "photo": "product photograph and dimensioned drawing",
       "purpose": "The A4 technical datasheet (teknik föy) as a web page: header, photograph and drawing, the five specification groups, revision line.",
-      "theme": "light"
+      "theme": "light-first"
     },
     "static": {
       "brand": "agustos",
@@ -440,7 +440,7 @@
       "highlight": "at-most-one",
       "photo": "people and places that explain the work",
       "purpose": "The static page template: About, privacy, terms, and the KVKK notice. Intro, timeline, and people in the reading column on the left edge of the frame.",
-      "theme": "light"
+      "theme": "light-first"
     }
   },
   "signal": {
