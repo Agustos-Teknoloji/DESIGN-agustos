@@ -357,7 +357,9 @@ class InteractionStateTest(unittest.TestCase):
         self.assertIn("color: var(--ink-soft);", title)
         self.assertNotIn("text-transform", title)
         drawer = self.CSS[self.CSS.index("@media (max-width: 1023px) {", self.CSS.index(".site-header__panel {")):]
+        drawer = drawer[:drawer.index("\n}\n")]  # the drawer block only
         self.assertIn(".site-header__more-menu--groups { flex-direction: column;", drawer)
+        self.assertIn("a More may hold up to two titled groups", self.CSS)
         for name in ("site-header__more-menu--groups", "site-header__more-group", "site-header__more-group-title"):
             with self.subTest(name=name):
                 self.assertIn(name, TOKENS["compatibility"]["cssClasses"])
@@ -787,6 +789,44 @@ class CheckerTest(unittest.TestCase):
             result = self._run(project, "--json", "--screens-only")
             found = sorted(f["file"] for f in json.loads(result.stdout)["findings"] if f["rule"] == "AG034")
             self.assertEqual(found, ["no-script.html", "script-after-css.html", "script-in-comment.html"])
+
+    def test_checker_warns_on_a_more_with_three_groups(self):
+        """v7.7.0: a grouped More holds at most two groups. A third group pushes
+        the menu past the right edge of the page at 1024px and 1280px (AG035).
+        The rule reads partials too, because a header is often one."""
+        import tempfile
+
+        def more(count):
+            groups = "".join(
+                f'<div class="site-header__more-group" role="group" aria-labelledby="g{n}">'
+                f'<p class="site-header__more-group-title" id="g{n}">Group {n}</p>'
+                f'<a class="site-header__more-link" href="/g{n}">Link {n}</a></div>\n'
+                for n in range(count))
+            return ('<details class="site-header__more"><summary class="site-header__link">Tools</summary>\n'
+                    f'<div class="site-header__more-menu site-header__more-menu--groups">\n{groups}</div></details>\n')
+
+        pages = {
+            "two-groups.html": (self._screen_page("home", main="<h1><mark class=\"type-highlight\">Clear</mark></h1>", chrome=more(2)), []),
+            "three-groups.html": (self._screen_page("home", main="<h1><mark class=\"type-highlight\">Clear</mark></h1>", chrome=more(3)), ["AG035"]),
+            "_header.html.erb": (more(3), ["AG035"]),
+            "_two.html.erb": (more(2), []),
+            "commented.html.erb": ("<!-- " + more(3) + " -->\n", []),
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp)
+            for name, (text, _) in pages.items():
+                (project / name).write_text(text, encoding="utf-8")
+            result = self._run(project, "--json")
+            findings = [f for f in json.loads(result.stdout)["findings"] if f["rule"] == "AG035"]
+            self.assertTrue(all(f["level"] == "warn" for f in findings))
+            for name, (_, expected) in pages.items():
+                with self.subTest(page=name):
+                    self.assertEqual([f["rule"] for f in findings if f["file"] == name], expected)
+            third = next(f for f in findings if f["file"] == "_header.html.erb")
+            self.assertEqual(third["line"], 5)  # lines 1-2 open the More; groups start on line 3
+            result = self._run(project, "--json", "--screens-only")
+            found = sorted(f["file"] for f in json.loads(result.stdout)["findings"] if f["rule"] == "AG035")
+            self.assertEqual(found, ["three-groups.html"])
 
     def test_kit_never_reads_the_device_theme(self):
         for name in ("agustos.css", "agustos-chrome.js", "starter.html"):

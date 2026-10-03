@@ -266,6 +266,10 @@ SIDEBAR = re.compile(r"\bsite-sidebar\b")
 # inside More are site-header__more-link and do not count.
 TOP_MENU_ITEM = re.compile(r"""class=["'][^"']*\bsite-header__link\b""")
 TOP_MENU_LIMIT = 5
+# A grouped More holds at most two groups; a third goes past the page edge at 1024px.
+MORE_OPEN = re.compile(r"""<details\b[^>]*\bclass\s*=\s*["'][^"']*\bsite-header__more(?![\w-])""", re.I)
+DETAILS_END = re.compile(r"</details\s*>", re.I)
+MORE_GROUP_LIMIT = 2
 # A link start tag and its attributes, for the aria-current check on built pages.
 LINK_TAG = re.compile(r"<a\b[^>]*>", re.I)
 LINK_ATTRIBUTE = re.compile(r"""([\w:-]+)\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'>]+))""")
@@ -569,6 +573,24 @@ def check_theme_script(rel: str, text: str, findings: list) -> None:
     ))
 
 
+def check_more_groups(rel: str, text: str, findings: list) -> None:
+    """A grouped More holds at most two groups. Each group is at least 200px
+    wide, so a third group pushes the menu past the right edge of the page at
+    1024px and 1280px. It reads partials too, because a header is often one."""
+    page = markup(text)
+    for more in MORE_OPEN.finditer(page):
+        end = DETAILS_END.search(page, more.end())
+        stop = end.start() if end else len(page)
+        groups = [match for match in CLASS_ATTRIBUTE.finditer(page, more.end(), stop)
+                  if "site-header__more-group" in (match.group(1) or match.group(2) or "").split()]
+        if len(groups) > MORE_GROUP_LIMIT:
+            findings.append(Finding(
+                "AG035", "warn", rel, line_of(page, groups[MORE_GROUP_LIMIT].start()),
+                f"{len(groups)} groups in one site-header__more: keep at most "
+                f"{MORE_GROUP_LIMIT}. A third group goes past the edge of the page at 1024px",
+            ))
+
+
 def url_path(path: str) -> str:
     """A site path without query, fragment, index.html, .html or trailing slash."""
     path = re.sub(r"[?#].*", "", path)
@@ -630,6 +652,7 @@ def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
         if screens_only:
             check_screen(rel, text, findings)
             check_theme_script(rel, text, findings)
+            check_more_groups(rel, text, findings)
             check_current_links(rel, path.relative_to(root).as_posix(), text, findings)
             check_disabled_links(rel, text, findings)
             continue
@@ -720,6 +743,7 @@ def check(root: Path, skip_dirs=(), screens_only=False) -> tuple[list, int]:
         if path.suffix.lower() in PAGE_SUFFIXES:
             check_screen(rel, text, findings)
             check_theme_script(rel, text, findings)
+            check_more_groups(rel, text, findings)
             check_cards(rel, text, findings)
             check_disabled_links(rel, text, findings)
 

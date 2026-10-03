@@ -1300,8 +1300,9 @@ html:has(.site-header) { scroll-padding-top: calc(var(--site-header-height) + va
 .site-header__more-link:hover,
 .site-header__more-link:is([aria-current="page"], [aria-current="true"]) { background: var(--surface); color: var(--ink); text-decoration: none; }
 .site-header__more-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
-/* Groups (v7.7.0): a More may hold up to three titled groups of links. On a
-   wide screen they sit side by side; in the drawer they stack. The title is
+/* Groups (v7.7.0): a More may hold up to two titled groups of links. On a
+   wide screen they sit side by side; in the drawer they stack. A third group
+   goes past the edge of the page at 1024px (AG035 warns). The title is
    sentence case, never an uppercase label. */
 .site-header__more-menu--groups { flex-direction: row; align-items: flex-start; gap: var(--space-md); padding: var(--space-sm); }
 .site-header__more-group { display: flex; flex-direction: column; min-width: 200px; }

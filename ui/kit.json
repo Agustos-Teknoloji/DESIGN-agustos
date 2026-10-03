@@ -301,8 +301,8 @@
       "sha256": "63538bf3cd2a5ed1a23e6a04d7acd53ae75acbd04b2cc8510dd3510441b6fc02"
     },
     "UI-KIT.md": {
-      "bytes": 27669,
-      "sha256": "2fbd30bb74e2f2bd3f090e3c7bbc9e4e0f908fb545cea89f4dda6d854feb3612"
+      "bytes": 27734,
+      "sha256": "f81778c2f0af8a0093eb64f4bfdb8e58d7af82f47bba12a13fc16e631a56104b"
     },
     "agustos-chrome.js": {
       "bytes": 2862,
@@ -313,12 +313,12 @@
       "sha256": "23c0f48218e908d334523373cf51dfd3893fef499a5d6c2e4065b1ad4def48df"
     },
     "agustos.css": {
-      "bytes": 75976,
-      "sha256": "415ca8f8f3a611687f2c7382229c0fc3db9f2ab650c7604c9e9ed282c0b2c4dc"
+      "bytes": 76047,
+      "sha256": "be987d611ccaeda4383a7d033aa7eb700bf18e31bb25c9bcc551370395e75b1b"
     },
     "check-agustos-ui.py": {
-      "bytes": 35111,
-      "sha256": "c1a52e790b1d9257dc7602ed0ffa712b492f5623a2a387bfe9f157343141e845"
+      "bytes": 36488,
+      "sha256": "2a297f5ecb9a16ec1156ad283c34b08298ae4f20f72a1d3bcb979b8d27d4b9d7"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
