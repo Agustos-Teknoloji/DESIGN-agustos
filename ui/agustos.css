@@ -1479,8 +1479,8 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
 .site-header__noscript-search { padding-block: var(--space-xs); }
 .site-header__noscript-search form { display: flex; gap: var(--space-xs); }
 
-/* --- Footer. Light: the logo and one line on one side, one row of links on
-   the other, and an optional site map above (below). No button: the top menu
+/* --- Footer. A quiet strip: the logo and one line on one side, one row of
+   links on the other, and an optional site map above (below). No button: the top menu
    and the closing band carry the action. The footer variables follow the
    theme flip (v7.7.0). --- */
 .site-footer {
@@ -1730,10 +1730,14 @@ html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
 /* The dark closing band keeps its spacing on the dark paper, between two
    hairline rules. The six colours hold no dark tint that passes: on #404040
    red scores 1.87:1 and --ink-soft 2.76:1. On the paper every pair is a page
-   pair: red 3.35:1, --ink-soft 4.95:1 (v7.7.0). */
+   pair: red 3.35:1, --ink-soft 4.95:1 (v7.7.0). The footer draws its own top
+   hairline, so a band that is the last child draws no bottom rule. */
 html[data-theme="dark"] .band--cream {
   background: var(--paper);
-  border-block: 1px solid var(--rule);
+  border-block-start: 1px solid var(--rule);
+}
+html[data-theme="dark"] .band--cream:not(:last-child) {
+  border-block-end: 1px solid var(--rule);
 }
 
 /* A table wider than its column scrolls inside this wrapper, never the page. */
@@ -2117,6 +2121,7 @@ html[data-theme="dark"] .band--cream {
     --rule-white:   #e8e4da;
     --footer-paper: #ffffff;
     --footer-ink:   #15130f;
+    --footer-cta-hover: #404040;
     --state-success: #1f6b4a;
     --state-warning: #8a5a00;
     --state-danger:  #b42318;

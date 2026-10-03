@@ -306,8 +306,8 @@
       "sha256": "23c0f48218e908d334523373cf51dfd3893fef499a5d6c2e4065b1ad4def48df"
     },
     "agustos.css": {
-      "bytes": 73573,
-      "sha256": "5a3268c108dd80b69fdb6cbcb80b2cdd59d5c39d209bac4535040886206ba907"
+      "bytes": 73818,
+      "sha256": "37add3ad2ec17a3c635a9eb73c866f167f1a40aeec68e8846f92dc9b8dd261bc"
     },
     "check-agustos-ui.py": {
       "bytes": 32387,

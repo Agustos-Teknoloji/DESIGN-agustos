@@ -311,18 +311,29 @@ class InteractionStateTest(unittest.TestCase):
         # Decision 1 (B2): the dark paper between two hairline rules, so every
         # pair inside the band is a page pair and red keeps 3.35:1.
         self.assertIn("background: var(--paper);", band)
-        self.assertIn("border-block:", band)
+        self.assertIn("border-block-start:", band)
+        self.assertNotIn("border-block:", band)
         self.assertNotIn("color-scheme: light", band)
+        # The footer draws its own top hairline, so a band that is the last
+        # child of main draws no bottom rule: one line, never two.
+        last = self.CSS[self.CSS.index('html[data-theme="dark"] .band--cream:not(:last-child) {'):]
+        self.assertIn("border-block-end:", last[:last.index("}")])
 
     def test_print_is_light_in_the_dark_theme(self):
         """A printer drops backgrounds, so dark-theme ink would print white on white."""
         start = self.CSS.index("@media print {")
         block = self.CSS[start:self.CSS.index("\n}\n", start)]
-        self.assertIn('html[data-theme="dark"] {', block)
-        for role in ("--paper:", "--ink:", "--ink-soft:", "--footer-paper:", "--footer-ink:"):
+        reset = block[block.index('html[data-theme="dark"] {'):]
+        reset = reset[:reset.index("}")]
+        # Every custom property that the dark theme sets, print sets back.
+        dark = self.CSS[self.CSS.index('\nhtml[data-theme="dark"] {\n'):]
+        dark = dark[:dark.index("}")]
+        roles = re.findall(r"^\s*(--[\w-]+):", dark, re.MULTILINE)
+        self.assertIn("--footer-cta-hover", roles)
+        for role in roles:
             with self.subTest(role=role):
-                self.assertIn(role, block)
-        self.assertIn("color-scheme: light;", block)
+                self.assertRegex(reset, rf"(?m)^\s*{re.escape(role)}:")
+        self.assertIn("color-scheme: light;", reset)
 
     def test_states_cover_the_dark_footer_and_band(self):
         rows = {(row["element"], row["state"]): row for row in TOKENS["states"]["rows"]}
