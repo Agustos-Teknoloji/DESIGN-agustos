@@ -9,8 +9,9 @@
    file More still opens and closes on click, and a drawer still closes on
    Escape, an outside click and its close button. Below 1024px it opens every
    More of an open drawer, so each group shows; without this file each More
-   folds and opens on a tap. Load it once on every page
-   with the chrome, with defer. A theme switch (a button with
+   folds and opens on a tap. It undoes that at 1024px and wider, and
+   before Turbo caches the page. Load it once on every page with the chrome,
+   with defer. A theme switch (a button with
    data-agustos-theme) flips data-theme on <html> and keeps the choice in
    localStorage under {{ui.themeStorageKey}}. The inline head script in UI-KIT.md
    applies a stored dark choice before the first paint. The device setting is
@@ -64,15 +65,24 @@
     });
   }
 
+  // A Turbo snapshot or the back-forward cache can bring back a marked More
+  // after the screen grew to 1024px or wider. Clear the marks there.
+  function heal() { if (!DRAWER_MODE.matches) unfold(false); }
+
   // toggle does not bubble, so listen in the capture phase.
   document.addEventListener('toggle', (event) => {
     const target = event.target;
     if (target.matches?.('.site-header__panel[popover]') && isOpen(target)) unfold(DRAWER_MODE.matches);
+    if (!target.matches?.('details[data-agustos-unfold]')) return;
     // A screen reader can still activate the summary: keep the menu open.
-    if (target.matches?.('details[data-agustos-unfold]') && !target.open && DRAWER_MODE.matches) target.open = true;
+    if (DRAWER_MODE.matches) { if (!target.open) target.open = true; } else heal();
   }, true);
 
-  DRAWER_MODE.addEventListener('change', (event) => { if (!event.matches) unfold(false); });
+  DRAWER_MODE.addEventListener('change', heal);
+  window.addEventListener('pageshow', heal);
+  // Turbo keeps a copy of the page for Back: keep it without the marks.
+  document.addEventListener('turbo:before-cache', () => unfold(false));
+  heal();
 
   document.addEventListener('keydown', (event) => {
     if (event.key !== 'Escape') return;
