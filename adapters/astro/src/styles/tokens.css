@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.8.0 · GENERATED ASTRO ADAPTER CSS
+/* AĞUSTOS DESIGN SYSTEM v7.8.1 · GENERATED ASTRO ADAPTER CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -189,6 +189,16 @@ html[data-theme="dark"] code,
 html[data-theme="dark"] .type-code {
   background: rgba(255, 255, 255, 0.07);
 }
+/* A code block is an ink panel with rule-coloured text. The dark theme flips
+   both roles, so the panel turned white with dark text. In the dark theme it
+   is the dark surface with the dark ink, 10.4:1 (v7.8.1). */
+html[data-theme="dark"] pre,
+html[data-theme="dark"] .type-code-block {
+  background: var(--surface);
+  color: var(--ink);
+}
+html[data-theme="dark"] pre code,
+html[data-theme="dark"] .type-code-block code { background: transparent; }
 
 /* Buttons are black, never red. In the dark theme they simply invert with the
    ink: the primary becomes white on off-black. No exception rule is needed. */
@@ -2196,12 +2206,16 @@ html[data-theme="dark"] .band--cream:not(:last-child) {
      white: code at 1.2:1, a primary button invisible. Print them as outlines. */
   pre,
   .type-code-block,
+  html[data-theme="dark"] pre,
+  html[data-theme="dark"] .type-code-block,
   .agustos-button--primary {
     background: none;
     color: var(--ink);
   }
   pre,
-  .type-code-block { border: 1px solid var(--ink-faint); }
+  .type-code-block,
+  html[data-theme="dark"] pre,
+  html[data-theme="dark"] .type-code-block { border: 1px solid var(--ink-faint); }
   html[data-theme="dark"] .site-lockup__logo--dark { display: none; }
   html[data-theme="dark"] .site-lockup__logo--light { display: block; }
   /* Print is always light: a printer drops backgrounds, so dark-theme ink

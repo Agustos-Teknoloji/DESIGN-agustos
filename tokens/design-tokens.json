@@ -1,7 +1,7 @@
 {
   "$schema": "https://design-tokens.github.io/community-group/format/",
   "name": "Ağustos Design System",
-  "version": "7.8.0",
+  "version": "7.8.1",
   "description": "Canonical cross-medium design values. CSS, framework adapters, and Office templates are generated consumers.",
   "meta": {
     "referenceImplementation": "https://agustos.com",
@@ -319,6 +319,7 @@
       { "element": "Warning badge", "state": "rest", "kind": "text", "light": ["stateWarning", "paperWhite"], "dark": ["stateWarningDark", "paperDark"] },
       { "element": "Danger badge", "state": "rest", "kind": "text", "light": ["stateDanger", "paperWhite"], "dark": ["stateDangerDark", "paperDark"] },
       { "element": "Info badge", "state": "rest", "kind": "text", "light": ["stateInfo", "paperWhite"], "dark": ["stateInfoDark", "paperDark"] },
+      { "element": "Code block", "state": "rest", "kind": "text", "light": ["ruleCream", "ink"], "dark": ["inkDark", "surfaceDark"] },
       { "element": "Disabled button or field", "state": "disabled", "kind": "exempt", "light": ["inkFaint", "paperWhite"], "dark": ["inkFaintDark", "paperDark"] }
     ]
   },

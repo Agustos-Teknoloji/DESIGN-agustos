@@ -344,6 +344,33 @@ class InteractionStateTest(unittest.TestCase):
         self.assertEqual(rows[("Keyboard focus ring in the closing band", "focus")]["dark"], ["signalRed", "paperDark"])
         self.assertNotIn("stays light", " ".join(row["element"] for row in TOKENS["states"]["rows"]))
 
+    def test_dark_code_blocks_are_a_dark_panel(self):
+        """v7.8.1: a code block is an ink panel with rule-coloured text. The dark
+        theme flips both roles, so the panel turned white with dark text (the
+        IESDesk dark audit, the Learn IES anatomy example)."""
+        rule = self.CSS[self.CSS.index('html[data-theme="dark"] pre,\nhtml[data-theme="dark"] .type-code-block {'):]
+        rule = rule[:rule.index("}")]
+        self.assertIn("background: var(--surface);", rule)
+        self.assertIn("color: var(--ink);", rule)
+        # The inline-code tint of the dark theme stays off the lines of a block.
+        self.assertIn('html[data-theme="dark"] pre code,', self.CSS)
+        colors = TOKENS["foundations"]["color"]
+        self.assertGreaterEqual(
+            contrast_ratio(colors["inkDark"]["$value"], colors["surfaceDark"]["$value"]), 4.5
+        )
+        rows = {(row["element"], row["state"]): row for row in TOKENS["states"]["rows"]}
+        self.assertEqual(rows[("Code block", "rest")]["dark"], ["inkDark", "surfaceDark"])
+        # Light stays an ink panel with rule-coloured text.
+        light = self.CSS[self.CSS.index(".type-code-block, pre {"):]
+        light = light[:light.index("}")]
+        self.assertIn("background: var(--ink);", light)
+        self.assertIn("color: var(--rule);", light)
+        # Print outlines dark code blocks too: the dark rule outranks a bare `pre`.
+        start = self.CSS.index("@media print {")
+        block = self.CSS[start:self.CSS.index("\n}\n", start)]
+        self.assertIn('html[data-theme="dark"] pre,', block)
+        self.assertIn('html[data-theme="dark"] .type-code-block', block)
+
     def test_more_menu_hover_uses_the_functional_gray(self):
         self.assertIn('.site-header__more-link:is([aria-current="page"], [aria-current="true"]) { background: var(--surface);', self.CSS)
 

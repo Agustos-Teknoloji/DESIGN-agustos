@@ -1503,6 +1503,22 @@
       },
       {
         "dark": {
+          "background": "#404040",
+          "foreground": "#ffffff",
+          "ratio": 10.37
+        },
+        "element": "Code block",
+        "floor": 4.5,
+        "kind": "text",
+        "light": {
+          "background": "#15130f",
+          "foreground": "#e8e4da",
+          "ratio": 14.61
+        },
+        "state": "rest"
+      },
+      {
+        "dark": {
           "background": "#15130f",
           "foreground": "#8a8378",
           "ratio": 4.95
@@ -1679,7 +1695,7 @@
         "weight": 400
       }
     ],
-    "version": "7.8.0"
+    "version": "7.8.1"
   },
-  "version": "7.8.0"
+  "version": "7.8.1"
 }

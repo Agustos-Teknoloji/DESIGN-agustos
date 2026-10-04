@@ -41,7 +41,7 @@
       "wordmark": "specquick"
     }
   },
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.8.0/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.8.1/ui/",
   "clients": {
     "heper": {
       "action": {
@@ -335,23 +335,23 @@
   "files": {
     "AGENTS-SNIPPET.md": {
       "bytes": 2476,
-      "sha256": "1b1e2172d28f0a3b3330afd0ed02634adc3b8ae1f5c0e6188f59b4bd02c07139"
+      "sha256": "d5053a7cc7d2c9447fded5c012134b4a8990dc6f9ea62e59f29a35f82800c9b2"
     },
     "UI-KIT.md": {
       "bytes": 30549,
-      "sha256": "83be097015218d658ced465bbc63ef75369928d2e52d50a93fc11cc9a209c23b"
+      "sha256": "08520f109fa74dd2951dce1265bb6fee8d76379bb9a7ea1ce7c6748dcc740afc"
     },
     "agustos-chrome.js": {
       "bytes": 4886,
-      "sha256": "c7e622bcab443abea512e1e95f2ea7b23654833db323e9ce2774970530430c94"
+      "sha256": "5683c7f7860873fac95a379276c5e66e077d596e3c39ceca92d20e14c3f1b7f6"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
-      "sha256": "a258bb753c5077d0310bd99b314808b2672b3022ec438d37ec02ac5970b0ee5d"
+      "sha256": "df706b803e0250d304abc21df2f9da5a18b0a136bae4369ac5b5c0781794737a"
     },
     "agustos.css": {
-      "bytes": 79072,
-      "sha256": "fdbe239ac1a42f38d272c7d37a65d0be2b1a028e4eb440fb90d8211eac403fd2"
+      "bytes": 79674,
+      "sha256": "3b64e65f852f846139fb2ed147790cb9e0f9f440eae2f5e3f87b67e058623260"
     },
     "brands/heper-dark.svg": {
       "bytes": 4919,
@@ -359,7 +359,7 @@
     },
     "brands/heper.css": {
       "bytes": 482,
-      "sha256": "1b11d262ba475eaf656ca8745189987b320fedff83977a8ac7204ce139f3a5da"
+      "sha256": "e6d56a0b357e6de3df122fb732594fe879aaeeb6fa6c0a26a5eebaa3498f253d"
     },
     "brands/heper.svg": {
       "bytes": 4919,
@@ -371,7 +371,7 @@
     },
     "brands/ligman.css": {
       "bytes": 487,
-      "sha256": "49ed98969c880a0a4b03c73b2eecbdbd0449566adf525d27d41b0d53dc9079ce"
+      "sha256": "f746a8db1dc02895890f1f77e8bdf297958f1c16ed0e901fd0306e3b9f0ce412"
     },
     "brands/ligman.svg": {
       "bytes": 27253,
@@ -379,7 +379,7 @@
     },
     "check-agustos-ui.py": {
       "bytes": 40386,
-      "sha256": "cddb4270cc7014afb9c87492e82e6408ed406cb01fe9227dae5710bb48fa6e37"
+      "sha256": "5b508f5df5c5851d14d75687846585fb697bc5440a05edcf76244199ceae3461"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -403,12 +403,12 @@
     },
     "starter.html": {
       "bytes": 32585,
-      "sha256": "1f260765d1a41637c95cf1ce23a5f5b7bd22188ed53db84fba58182ec5a76630"
+      "sha256": "23b9f4d7b9e95a2db2cfbac30b7650c6e2795a6bfae50893f48bac74faba986a"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.8.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.8.0/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.8.1/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.8.1/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.8.0/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.8.1/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "screens": {
     "app-shell": {
@@ -1089,6 +1089,22 @@
     },
     {
       "dark": {
+        "background": "#404040",
+        "foreground": "#ffffff",
+        "ratio": 10.37
+      },
+      "element": "Code block",
+      "floor": 4.5,
+      "kind": "text",
+      "light": {
+        "background": "#15130f",
+        "foreground": "#e8e4da",
+        "ratio": 14.61
+      },
+      "state": "rest"
+    },
+    {
+      "dark": {
         "background": "#15130f",
         "foreground": "#8a8378",
         "ratio": 4.95
@@ -1257,5 +1273,5 @@
       "weight": 400
     }
   ],
-  "version": "7.8.0"
+  "version": "7.8.1"
 }
