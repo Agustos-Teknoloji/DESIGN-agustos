@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.7.0 · GENERATED CANONICAL PLATFORM-NEUTRAL CSS
+/* AĞUSTOS DESIGN SYSTEM v7.8.0 · GENERATED CANONICAL PLATFORM-NEUTRAL CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -400,14 +400,14 @@ a, .type-link {
 /* Visited content links settle to ink-soft. `:where` keeps the rule at element
    specificity, so class-styled chrome and menu links keep their own colour. */
 a:where(:visited), .type-link:where(:visited) { color: var(--ink-soft); }
-a:hover, .type-link:hover { color: var(--signal); }
+a:hover, .type-link:hover { color: var(--signal-text, var(--signal)); }
 /* Red text on off-black is 3.35:1, below the 4.5:1 text floor. In the dark
    theme hover dims the ink instead; the red rule stays the signal. `:where`
    keeps the weight of `a:hover`, so class-styled chrome keeps its own hover. */
 :where(html[data-theme="dark"]) a:hover,
 :where(html[data-theme="dark"]) .type-link:hover { color: var(--ink-soft); }
 a:focus-visible, .type-link:focus-visible {
-  outline: 2px solid var(--signal);
+  outline: 2px solid var(--focus, var(--signal));
   outline-offset: 2px;
 }
 
@@ -688,7 +688,7 @@ nav:has(> .breadcrumb) {
 .agustos-contents__toggle::-webkit-details-marker { display: none; }
 .agustos-contents__toggle::after { content: "+"; color: var(--ink-soft); font-weight: 400; }
 .agustos-contents[open] > .agustos-contents__toggle::after { content: "\2212"; }
-.agustos-contents__toggle:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.agustos-contents__toggle:focus-visible { outline: 2px solid var(--focus, var(--signal)); outline-offset: 2px; }
 .agustos-contents__title {
   display: none;
   margin: 0 0 var(--space-xs);
@@ -715,7 +715,7 @@ nav:has(> .breadcrumb) {
 }
 .agustos-contents__link:hover,
 .agustos-contents__link:focus-visible { color: var(--ink); }
-.agustos-contents__link:focus-visible { outline: 2px solid var(--signal); outline-offset: -2px; }
+.agustos-contents__link:focus-visible { outline: 2px solid var(--focus, var(--signal)); outline-offset: -2px; }
 @media (min-width: 1280px) {
   .agustos-contents {
     position: absolute;
@@ -788,21 +788,22 @@ nav:has(> .breadcrumb) {
 }
 
 .agustos-button:focus-visible {
-  outline: 2px solid var(--signal);
+  outline: 2px solid var(--focus, var(--signal));
   outline-offset: 2px;
 }
 
-/* Buttons are black: identity is red, action is black. */
+/* Buttons are black: identity is red, action is black. A client brand file
+   (ui/brands/<slug>.css) may set --action, --action-ink and --action-hover. */
 .agustos-button--primary {
-  border-color: var(--ink);
-  background: var(--ink);
-  color: var(--paper);
+  border-color: var(--action, var(--ink));
+  background: var(--action, var(--ink));
+  color: var(--action-ink, var(--paper));
 }
 
 .agustos-button--primary:hover {
-  border-color: var(--ink-soft);
-  background: var(--ink-soft);
-  color: var(--paper);
+  border-color: var(--action-hover, var(--ink-soft));
+  background: var(--action-hover, var(--ink-soft));
+  color: var(--action-ink, var(--paper));
 }
 
 /* A quiet outline, derived from the ink; hover firms it up. */
@@ -977,7 +978,7 @@ nav:has(> .breadcrumb) {
    Without :has() the link keeps its own ring. */
 @supports selector(:has(a)) {
   .agustos-card:has(:is(h2, h3, h4) > a:focus-visible) {
-    outline: 2px solid var(--signal);
+    outline: 2px solid var(--focus, var(--signal));
     outline-offset: 2px;
   }
   .agustos-card :is(h2, h3, h4) > a:focus-visible {
@@ -1061,11 +1062,14 @@ nav:has(> .breadcrumb) {
   text-transform: lowercase;
 }
 .site-lockup__symbol { flex: none; width: 1em; height: 1em; }
+/* A client brand shows its own logo file (ui/brands/<slug>.svg) in place of
+   the symbol and the wordmark. */
+.site-lockup__logo { display: block; flex: none; width: auto; height: 1.4em; }
 .site-lockup__name { color: inherit; }
 .site-lockup { transition: color var(--dur) var(--ease); }
 .site-lockup:hover { color: var(--signal); text-decoration: none; }
 .brand-agustos .site-lockup:hover { color: var(--ink); }
-.site-lockup:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
+.site-lockup:focus-visible { outline: 2px solid var(--focus, var(--signal)); outline-offset: 3px; }
 /* `:where` keeps the dark rest colours below the hover rules above, so the
    hover swap works in both themes: house brands turn red, Ağustos turns to
    the ink (white on dark paper, off-black on white paper). */
@@ -1097,7 +1101,7 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
 .site-sidebar-burger:focus-visible,
 .site-header__burger:focus-visible,
 .site-sidebar__close:focus-visible,
-.site-header__close:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.site-header__close:focus-visible { outline: 2px solid var(--focus, var(--signal)); outline-offset: 2px; }
 
 /* --- Sidebar family --- */
 .site-sidebar-layout { padding-inline-start: var(--sidebar-width); }
@@ -1152,7 +1156,7 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
   padding-inline-start: var(--space-sm);
   text-decoration: none;
 }
-.site-sidebar__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.site-sidebar__link:focus-visible { outline: 2px solid var(--focus, var(--signal)); outline-offset: 2px; }
 .site-sidebar__group { margin: 0; padding: 0; border: 0; }
 .site-sidebar__group > summary {
   display: flex;
@@ -1183,7 +1187,7 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
 /* A closed group that holds the current page or section carries the red rule for it. */
 .site-sidebar__group:has([aria-current="page"], [aria-current="true"]) > summary { color: var(--ink); }
 .site-sidebar__group:not([open]):has([aria-current="page"], [aria-current="true"]) > summary { border-inline-start-color: var(--signal); }
-.site-sidebar__group > summary:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.site-sidebar__group > summary:focus-visible { outline: 2px solid var(--focus, var(--signal)); outline-offset: 2px; }
 .site-sidebar__group > .site-sidebar__link {
   padding-inline-start: var(--space-xl);
   font-size: var(--size-body-compact);
@@ -1249,7 +1253,7 @@ html:has(.site-header) { scroll-padding-top: calc(var(--site-header-height) + va
   padding-block-end: 0;
   text-decoration: none;
 }
-.site-header__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.site-header__link:focus-visible { outline: 2px solid var(--focus, var(--signal)); outline-offset: 2px; }
 .site-header__end { display: flex; align-items: center; justify-content: flex-end; gap: var(--space-lg); }
 .site-header__cta { margin-inline-start: var(--space-sm); }
 
@@ -1303,7 +1307,7 @@ html:has(.site-header) { scroll-padding-top: calc(var(--site-header-height) + va
 }
 .site-header__more-link:hover,
 .site-header__more-link:is([aria-current="page"], [aria-current="true"]) { background: var(--surface); color: var(--ink); text-decoration: none; }
-.site-header__more-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.site-header__more-link:focus-visible { outline: 2px solid var(--focus, var(--signal)); outline-offset: 2px; }
 /* Groups (v7.7.0): a More may hold up to two titled groups of links. On a
    wide screen they sit side by side; in the drawer they stack. A third group
    goes past the edge of the page at 1024px (AG035 warns). The title is
@@ -1367,7 +1371,7 @@ button.site-header__more-link {
 .site-header__search-toggle:hover,
 .site-header__search-toggle[aria-expanded="true"] { background: var(--surface); color: var(--ink); }
 .site-header__icon-btn:focus-visible,
-.site-header__search-toggle:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.site-header__search-toggle:focus-visible { outline: 2px solid var(--focus, var(--signal)); outline-offset: 2px; }
 .site-header__theme-moon,
 html[data-theme="dark"] .site-header__theme-sun { display: none; }
 html[data-theme="dark"] .site-header__theme-moon { display: inline-block; }
@@ -1415,7 +1419,7 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
   border-bottom-color: var(--ink-faint);
   padding-bottom: 1px;
 }
-.site-header__lang-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.site-header__lang-link:focus-visible { outline: 2px solid var(--focus, var(--signal)); outline-offset: 2px; }
 
 .site-header__search { position: relative; }
 .site-header__search--desktop { position: static; }
@@ -1454,7 +1458,7 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
   transition: border-color var(--dur) var(--ease);
 }
 .site-header__search-field:hover { border-color: var(--ink); }
-.site-header__search-field:focus-within { border-color: var(--ink); outline: 2px solid var(--signal); outline-offset: 2px; }
+.site-header__search-field:focus-within { border-color: var(--ink); outline: 2px solid var(--focus, var(--signal)); outline-offset: 2px; }
 .site-header__search-field svg { flex: none; }
 .site-header__search-field input {
   flex: 1;
@@ -1508,7 +1512,7 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
   text-decoration: none;
 }
 .site-header__search-result a:hover { background: var(--surface); color: var(--ink); text-decoration: none; }
-.site-header__search-result a:focus-visible { background: var(--surface); color: var(--ink); outline: 2px solid var(--signal); outline-offset: -2px; }
+.site-header__search-result a:focus-visible { background: var(--surface); color: var(--ink); outline: 2px solid var(--focus, var(--signal)); outline-offset: -2px; }
 .site-header__search-result-title {
   display: block;
   font-family: var(--display);
@@ -1573,7 +1577,7 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
 /* Hover darkens the ink over a 1px gray rule, as in the top menu: the red rule
    marks the current page alone (v7.1.0), and the footer has none. */
 .site-footer__link:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--ink-faint); text-decoration-thickness: 1px; text-underline-offset: 4px; }
-.site-footer__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.site-footer__link:focus-visible { outline: 2px solid var(--focus, var(--signal)); outline-offset: 2px; }
 
 /* The optional site map above the bottom row (v7.1.0): the lockup with the
    company's contact block, then at most three short groups of links in one
@@ -1653,7 +1657,7 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
   text-decoration: none;
 }
 .breadcrumb__link:hover { color: var(--ink); text-decoration: none; }
-.breadcrumb__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
+.breadcrumb__link:focus-visible { outline: 2px solid var(--focus, var(--signal)); outline-offset: 2px; }
 .breadcrumb [aria-current="page"] { color: var(--ink); }
 
 /* Small laptops: the top menu keeps one row with tighter spacing. */
@@ -1924,7 +1928,7 @@ html[data-theme="dark"] .band--cream:not(:last-child) {
 .agustos-input:focus-visible,
 .agustos-textarea:focus-visible,
 .agustos-select:focus-visible {
-  outline: 2px solid var(--signal);
+  outline: 2px solid var(--focus, var(--signal));
   outline-offset: 2px;
   border-color: var(--ink);
 }
@@ -2018,7 +2022,7 @@ html[data-theme="dark"] .band--cream:not(:last-child) {
 .agustos-button--quiet:hover {
   border-color: transparent;
   box-shadow: none;
-  color: var(--signal);
+  color: var(--signal-text, var(--signal));
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -2027,7 +2031,7 @@ html[data-theme="dark"] .band--cream:not(:last-child) {
 /* Pressed: a 1px press on every rank, and the fill returns to full ink (the
    primary) or takes the functional gray (the secondary). No new colour. */
 .agustos-button:active:not(:disabled, [aria-disabled="true"]) { transform: translateY(1px); }
-.agustos-button--primary:active:not(:disabled, [aria-disabled="true"]) { border-color: var(--ink); background: var(--ink); }
+.agustos-button--primary:active:not(:disabled, [aria-disabled="true"]) { border-color: var(--action, var(--ink)); background: var(--action, var(--ink)); }
 .agustos-button--secondary:active:not(:disabled, [aria-disabled="true"]) { background: var(--surface); }
 
 /* Disabled: the field's disabled look, and no hover or press. Works from the
@@ -2151,7 +2155,7 @@ html[data-theme="dark"] .band--cream:not(:last-child) {
 }
 
 .agustos-tab:focus-visible {
-  outline: 2px solid var(--signal);
+  outline: 2px solid var(--focus, var(--signal));
   outline-offset: 2px;
 }
 

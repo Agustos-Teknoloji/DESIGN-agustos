@@ -65,6 +65,7 @@
       "agustos-chrome-link",
       "site-lockup",
       "site-lockup__symbol",
+      "site-lockup__logo",
       "site-lockup__name",
       "site-sidebar-layout",
       "site-sidebar",
@@ -1676,7 +1677,7 @@
         "weight": 400
       }
     ],
-    "version": "7.7.0"
+    "version": "7.8.0"
   },
-  "version": "7.7.0"
+  "version": "7.8.0"
 }

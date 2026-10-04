@@ -4,6 +4,23 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.8.0] - 2026-10-04
+
+An extra minor release under MEMORY 2026-09-29 monthly-kit-release: the HEPER dashboard admin moves to Madmin with the kit, and LIGMAN One follows. Emre asked for client brands on 2026-10-04 ("Each brand should be registred with logo, colours, fonts and that simple system should be used for admin areas or simple css approaches."; "admin areas should only be light theme"; "LIGMAN and HEPER should be inline with their own colours"). Decision record: MEMORY 2026-10-04 client-brands. The release waits for Emre's approval of the before and after preview.
+
+### Added
+
+- Client brands. `brand/brands.json` gains `clients`: each client registers its title, domain, SVG logo, colours and fonts. The house rules on the Laz Güneşi, red and black buttons do not apply to a client. Light theme only.
+- The build writes `ui/brands/<slug>.css` and `ui/brands/<slug>.svg` for each client. The CSS file sets the font faces and the kit colour variables on `.brand-<slug>`. A page loads it after `agustos.css`.
+- The first clients: `brand-heper` (HEPER: ink buttons, red signal, Montserrat) and `brand-ligman` (LIGMAN: yellow buttons with black text, dark grey focus ring, Montserrat headings and Roboto text).
+- Montserrat and Roboto join the kit fonts as variable WOFF2 files with their OFL licences, for client brands only. `agustos-fonts.css` does not load them.
+- `site-lockup__logo`: a client logo image inside the `site-lockup` link, in place of the symbol and the wordmark.
+- `kit.json` gains `clients` (stylesheet, logo, colours, fonts per client), and `brandClasses` lists the client classes. UI-KIT.md gains a Client brands section.
+
+### Changed
+
+- The primary button reads `--action`, `--action-ink` and `--action-hover`; the focus ring reads `--focus`; a link hover reads `--signal-text`. Each falls back to the current value, so a house brand page does not change.
+
 ## [7.7.0] - 2026-10-03
 
 An extra minor release under MEMORY 2026-09-29 monthly-kit-release: IESDesk moves every page to one top menu and offers the dark theme everywhere (IESDesk MEMORY 2026-10-03 one-top-bar, dark-theme-everywhere), and the kit rules blocked both. Emre approved the change on 2026-10-03 ("Let's change the UI kit rule. Footer should change too."; "user should choose light or dark, not the system to dictate"; "Everything starts with light first").

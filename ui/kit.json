@@ -5,7 +5,9 @@
     "brand-pld",
     "brand-iesdesk",
     "brand-specquick",
-    "brand-memregunes"
+    "brand-memregunes",
+    "brand-heper",
+    "brand-ligman"
   ],
   "brands": {
     "agustos": {
@@ -39,7 +41,52 @@
       "wordmark": "specquick"
     }
   },
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.7.0/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.8.0/ui/",
+  "clients": {
+    "heper": {
+      "colors": {
+        "action": "#262626",
+        "actionHover": "#5c677d",
+        "actionInk": "#ffffff",
+        "ink": "#262626",
+        "inkSoft": "#5c677d",
+        "signal": "#ed1c24",
+        "surface": "#f4f4f2"
+      },
+      "domain": "hepergroup.com",
+      "fonts": {
+        "body": "Montserrat",
+        "display": "Montserrat"
+      },
+      "logo": "brands/heper.svg",
+      "stylesheet": "brands/heper.css",
+      "theme": "light",
+      "title": "HEPER"
+    },
+    "ligman": {
+      "colors": {
+        "action": "#ffc932",
+        "actionHover": "#e6b52d",
+        "actionInk": "#141414",
+        "focus": "#54565a",
+        "ink": "#54565a",
+        "inkSoft": "#54565a",
+        "rule": "#e0e0e0",
+        "signal": "#ffc932",
+        "signalText": "#54565a",
+        "surface": "#f5f5f5"
+      },
+      "domain": "ligman.com",
+      "fonts": {
+        "body": "Roboto",
+        "display": "Montserrat"
+      },
+      "logo": "brands/ligman.svg",
+      "stylesheet": "brands/ligman.css",
+      "theme": "light",
+      "title": "LIGMAN"
+    }
+  },
   "cssClasses": [
     "type-hero",
     "type-hero-md",
@@ -88,6 +135,7 @@
     "agustos-chrome-link",
     "site-lockup",
     "site-lockup__symbol",
+    "site-lockup__logo",
     "site-lockup__name",
     "site-sidebar-layout",
     "site-sidebar",
@@ -300,27 +348,43 @@
   "files": {
     "AGENTS-SNIPPET.md": {
       "bytes": 2476,
-      "sha256": "eb805ccc0a7276cc2fdf3c0b144bb6e04b8fe5df70491688e9c069033dddf688"
+      "sha256": "1b1e2172d28f0a3b3330afd0ed02634adc3b8ae1f5c0e6188f59b4bd02c07139"
     },
     "UI-KIT.md": {
-      "bytes": 29484,
-      "sha256": "7f04c1bba77ca797d8837f91181daa907c5308d1ee7d10c4656db26a7a7f8ae0"
+      "bytes": 30238,
+      "sha256": "1ace1a66971ec66d162e3997af6a4d1de93bb569ca7e0007394d4bcf47e8b021"
     },
     "agustos-chrome.js": {
       "bytes": 4886,
-      "sha256": "eb8634c68dd2b8c3d0c32174b677b631bef74cc3527d35ff8d926c52a3fa0bcc"
+      "sha256": "c7e622bcab443abea512e1e95f2ea7b23654833db323e9ce2774970530430c94"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
-      "sha256": "32b7a721de9124b47b4281e30c7eb0dca9b077e61986c36236accd83a9600b7c"
+      "sha256": "a258bb753c5077d0310bd99b314808b2672b3022ec438d37ec02ac5970b0ee5d"
     },
     "agustos.css": {
-      "bytes": 78286,
-      "sha256": "bcaaa9cce2a52f3291005fff99890c1b16a7901182b4fe781fd2053619930fd4"
+      "bytes": 79020,
+      "sha256": "c07cc98906ace6240e8dbdfb74b9bd45ba9ad59263a8b7dd2220075f88cd245e"
+    },
+    "brands/heper.css": {
+      "bytes": 1054,
+      "sha256": "623731a48cc30bf13d39bd6cfc02e04c830ab17697600c2017052e260b3b15f2"
+    },
+    "brands/heper.svg": {
+      "bytes": 4919,
+      "sha256": "919e4d5699e36ef22033c90f156f8df41efb2d5893cbe01a2fd84a5cea0fefab"
+    },
+    "brands/ligman.css": {
+      "bytes": 1301,
+      "sha256": "1186049a00d22de1a9b2b37e538e6b4958a79fadca682065723661997e9db3d1"
+    },
+    "brands/ligman.svg": {
+      "bytes": 2521,
+      "sha256": "9220f66176c5b18f5a4c4b1b4cfff0432dafe1f0fed11d7d22fa005cbe1df6ad"
     },
     "check-agustos-ui.py": {
-      "bytes": 40267,
-      "sha256": "04aca0e28b597365a5c3d133e24d112e961105539a652b86edb9183e6306db7e"
+      "bytes": 40323,
+      "sha256": "2499e37697fc0c482b0da706bcdbcb78d4a5110b82ab36b7f335e18041c41554"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -342,14 +406,22 @@
       "bytes": 47160,
       "sha256": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
     },
+    "fonts/montserrat-variable.woff2": {
+      "bytes": 76264,
+      "sha256": "d31f058d6c73a2f2d85a0b1409b9e7d57b4111ff1fe6181e4fb8e4037a68f7d2"
+    },
+    "fonts/roboto-variable.woff2": {
+      "bytes": 80384,
+      "sha256": "7d0de88f65e92b4af9202178b84cecb19a72d92a160930e057184c9146f0d1df"
+    },
     "starter.html": {
       "bytes": 32585,
-      "sha256": "a48d2b13c991830f40fb3ed78eb053f43a734d65a18d9c6e27ca4d71a2892cb7"
+      "sha256": "1f260765d1a41637c95cf1ce23a5f5b7bd22188ed53db84fba58182ec5a76630"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.7.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.7.0/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.8.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.8.0/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.7.0/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.8.0/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "screens": {
     "app-shell": {
@@ -1198,5 +1270,5 @@
       "weight": 400
     }
   ],
-  "version": "7.7.0"
+  "version": "7.8.0"
 }

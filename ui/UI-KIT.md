@@ -1,4 +1,4 @@
-# Ağustos UI kit — v7.7.0
+# Ağustos UI kit — v7.8.0
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -45,11 +45,11 @@ Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and
 
 npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-Prototypes with no build step may link the CDN copies. **Pin to `@v7.7.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
+Prototypes with no build step may link the CDN copies. **Pin to `@v7.8.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.7.0/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.7.0/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.8.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.8.0/ui/agustos.css">
 ```
 
 ## Page skeleton
@@ -94,6 +94,15 @@ Use `lang="tr"` for Turkish content so locale-sensitive capitalization renders c
 | Chrome | nothing for websites and small products (top menu and footer); `site-sidebar-layout` on `<body>` for the product sidebar | `<body>` |
 | Theme | none: every page starts light. `data-theme="dark"` comes only from the user's theme switch (same six colours, flipped) | `<html>` |
 | Substrate | white paper by default; `paper-white` remains valid | `<body>` |
+
+### Client brands
+
+A client brand keeps its own logo, colours and fonts, mainly for admin areas and other simple pages. Load `agustos-fonts.css`, `agustos.css`, then `brands/<slug>.css`, and put `brand-<slug>` on `<body>`. Show the logo as `<img class="site-lockup__logo" src="brands/<slug>.svg" alt="<Client>">` inside the `site-lockup` link, in place of the symbol and the wordmark. Light theme only: no theme switch. The house rules on red and black buttons do not apply; the file sets the colours. Never retype its values.
+
+| Client | Class | Files | Fonts |
+|---|---|---|---|
+| HEPER | `brand-heper` | `brands/heper.css`, `brands/heper.svg` | Montserrat |
+| LIGMAN | `brand-ligman` | `brands/ligman.css`, `brands/ligman.svg` | Montserrat, Roboto |
 
 ## Chrome
 
