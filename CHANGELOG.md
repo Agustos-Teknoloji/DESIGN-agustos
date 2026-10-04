@@ -6,7 +6,7 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [7.8.0] - 2026-10-04
 
-An extra minor release under MEMORY 2026-09-29 monthly-kit-release: the HEPER dashboard admin moves to Madmin with the kit, and LIGMAN One follows. Emre asked for client brands on 2026-10-04 ("For brands like HEPER, LIGMAN etc, let's have logo and 1 Colour which will be used instead of black."; "Let's have dark theme as well."). Decision record: MEMORY 2026-10-04 client-brands. The release waits for Emre's approval of the before and after preview.
+An extra minor release under MEMORY 2026-09-29 monthly-kit-release: the HEPER dashboard admin moves to Madmin with the kit, and LIGMAN One follows. Emre asked for client brands on 2026-10-04 ("For brands like HEPER, LIGMAN etc, let's have logo and 1 Colour which will be used instead of black."; "Let's have dark theme as well."). Decision record: MEMORY 2026-10-04 client-brands. Emre approved the before and after preview on 2026-10-04 ("approved").
 
 ### Added
 
