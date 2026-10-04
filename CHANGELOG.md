@@ -4,6 +4,19 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.8.1] - 2026-10-04
+
+A defect patch under MEMORY 2026-09-29 monthly-kit-release: real defects ship at once. The IESDesk dark audit on kit v7.7.0 found it, and v7.8.0 still had it. Decision record: MEMORY 2026-10-04 dark-code-blocks. The patch number follows v7.8.0, because the tag workflow tags only a version newer than the newest tag.
+
+### Fixed
+
+- Code blocks in the dark theme. A `pre` or `type-code-block` is an ink panel with rule-coloured text, and the dark theme flips both roles, so the block turned into a white panel with dark text (for example the IES anatomy example on the IESDesk Learn page). In the dark theme a code block now takes `var(--surface)` with `var(--ink)`: white on dark gray, 10.4:1. Light is unchanged. The inline-code tint of the dark theme stays off the lines inside a block.
+- Print outlines a dark-theme code block as it does a light one: the dark rule outranked the print reset of a bare `pre`.
+
+### Added
+
+- States row "Code block": light rule on ink (14.61:1), dark ink on surface (10.37:1).
+
 ## [7.8.0] - 2026-10-04
 
 An extra minor release under MEMORY 2026-09-29 monthly-kit-release: the HEPER dashboard admin moves to Madmin with the kit, and LIGMAN One follows. Emre asked for client brands on 2026-10-04 ("For brands like HEPER, LIGMAN etc, let's have logo and 1 Colour which will be used instead of black."; "Let's have dark theme as well."). Decision record: MEMORY 2026-10-04 client-brands. Emre approved the before and after preview on 2026-10-04 ("approved").
