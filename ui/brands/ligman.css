@@ -1,0 +1,14 @@
+/* AĞUSTOS DESIGN SYSTEM v7.8.0 · CLIENT BRAND LIGMAN · GENERATED
+   Source: brand/brands.json (clients). Do not hand-edit this file.
+   Run: python3 scripts/build_design_system.py
+
+   Load after agustos.css and put brand-ligman on <body>. The brand colour
+   takes the place of black on the primary button. Logos: ./ligman.svg (light)
+   and ./ligman-dark.svg (dark). */
+
+.brand-ligman {
+  --brand: #fcaf17;
+  --action: #fcaf17;
+  --action-ink: #15130f;
+  --action-hover: #d69514;
+}

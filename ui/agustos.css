@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.7.0 · GENERATED DISTRIBUTION KIT CSS
+/* AĞUSTOS DESIGN SYSTEM v7.8.0 · GENERATED DISTRIBUTION KIT CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -792,17 +792,18 @@ nav:has(> .breadcrumb) {
   outline-offset: 2px;
 }
 
-/* Buttons are black: identity is red, action is black. */
+/* Buttons are black: identity is red, action is black. A client brand file
+   (ui/brands/<slug>.css) may set --action, --action-ink and --action-hover. */
 .agustos-button--primary {
-  border-color: var(--ink);
-  background: var(--ink);
-  color: var(--paper);
+  border-color: var(--action, var(--ink));
+  background: var(--action, var(--ink));
+  color: var(--action-ink, var(--paper));
 }
 
 .agustos-button--primary:hover {
-  border-color: var(--ink-soft);
-  background: var(--ink-soft);
-  color: var(--paper);
+  border-color: var(--action-hover, var(--ink-soft));
+  background: var(--action-hover, var(--ink-soft));
+  color: var(--action-ink, var(--paper));
 }
 
 /* A quiet outline, derived from the ink; hover firms it up. */
@@ -1061,6 +1062,12 @@ nav:has(> .breadcrumb) {
   text-transform: lowercase;
 }
 .site-lockup__symbol { flex: none; width: 1em; height: 1em; }
+/* A client brand shows its own logo in place of the symbol and the wordmark:
+   ui/brands/<slug>.svg in the light theme, ui/brands/<slug>-dark.svg in the dark. */
+.site-lockup__logo { display: block; flex: none; width: auto; height: 1.4em; }
+.site-lockup__logo--dark,
+html[data-theme="dark"] .site-lockup__logo--light { display: none; }
+html[data-theme="dark"] .site-lockup__logo--dark { display: block; }
 .site-lockup__name { color: inherit; }
 .site-lockup { transition: color var(--dur) var(--ease); }
 .site-lockup:hover { color: var(--signal); text-decoration: none; }
@@ -2027,7 +2034,7 @@ html[data-theme="dark"] .band--cream:not(:last-child) {
 /* Pressed: a 1px press on every rank, and the fill returns to full ink (the
    primary) or takes the functional gray (the secondary). No new colour. */
 .agustos-button:active:not(:disabled, [aria-disabled="true"]) { transform: translateY(1px); }
-.agustos-button--primary:active:not(:disabled, [aria-disabled="true"]) { border-color: var(--ink); background: var(--ink); }
+.agustos-button--primary:active:not(:disabled, [aria-disabled="true"]) { border-color: var(--action, var(--ink)); background: var(--action, var(--ink)); }
 .agustos-button--secondary:active:not(:disabled, [aria-disabled="true"]) { background: var(--surface); }
 
 /* Disabled: the field's disabled look, and no hover or press. Works from the
@@ -2195,6 +2202,8 @@ html[data-theme="dark"] .band--cream:not(:last-child) {
   }
   pre,
   .type-code-block { border: 1px solid var(--ink-faint); }
+  html[data-theme="dark"] .site-lockup__logo--dark { display: none; }
+  html[data-theme="dark"] .site-lockup__logo--light { display: block; }
   /* Print is always light: a printer drops backgrounds, so dark-theme ink
      would print white on white (v7.7.0). */
   html[data-theme="dark"] {

@@ -73,6 +73,12 @@ Use `lang="tr"` for Turkish content so locale-sensitive capitalization renders c
 | Theme | none: every page starts light. `data-theme="dark"` comes only from the user's theme switch (same six colours, flipped) | `<html>` |
 | Substrate | white paper by default; `paper-white` remains valid | `<body>` |
 
+### Client brands
+
+A client brand (HEPER, LIGMAN) has a logo and one colour, mainly for admin areas and other simple pages. The colour takes the place of black on the primary button; the fonts, greys and red signal stay. Load `agustos-fonts.css`, `agustos.css`, then `brands/<slug>.css`, and put `brand-<slug>` on `<body>`. Inside the `site-lockup` link, in place of the symbol and the wordmark, show both logo files: `<img class="site-lockup__logo site-lockup__logo--light" src="brands/<slug>.svg" alt="<Client>">` and `<img class="site-lockup__logo site-lockup__logo--dark" src="brands/<slug>-dark.svg" alt="<Client>">`. The kit shows the one that suits the theme. Light and dark theme work as on every page. Never retype the colour.
+
+{{ui.clientTable}}
+
 ## Chrome
 
 Chrome follows the screen family, not the brand: every website uses the top menu and the footer; product UI uses the sidebar (`app-shell`) or, with about ten destinations or fewer, the top menu (`app-top-menu`). JavaScript only when it is the logical choice: drawers are native popovers with a `site-header__close` or `site-sidebar__close` button, groups and More are `details`, and `agustos-chrome.js` (load once with `defer` on every page with the chrome) closes More on Escape, an outside click, or focus leaving, and closes an open drawer when focus leaves it, so focus never lands on the page behind. Below 1024px the script opens every More of an open drawer and marks it `data-agustos-unfold`, so its summary reads as a small title and stays open; a screen reader still announces it as an open disclosure. Without the script each More folds. Print drops the chrome. Copy the markup from `starter.html`.

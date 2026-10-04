@@ -97,6 +97,84 @@ def validate_brands(brands: dict[str, Any]) -> None:
                 )
 
 
+CLIENT_DIR = UI_DIR / "brands"
+CLIENT_SLUG = re.compile(r"^[a-z0-9-]+$")
+CLIENT_HEX = re.compile(r"^#[0-9a-f]{6}$")
+CLIENT_FIELDS = ("title", "domain", "logo", "color")
+CLIENT_FILL = re.compile(r'(fill(?:="|:\s*))(#[0-9a-fA-F]{6})')
+CLIENT_HOVER_SHADE = 0.85
+
+
+def clients_of(brands: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    return brands.get("clients", {})
+
+
+def validate_clients(brands: dict[str, Any]) -> None:
+    """A client brand registers a logo and one colour. The colour takes the place of black on the primary button."""
+    for slug, client in clients_of(brands).items():
+        if not CLIENT_SLUG.match(slug):
+            raise TokenError(f"client {slug!r}: a slug is lower-case letters, digits and hyphens")
+        if slug in brands["brands"]:
+            raise TokenError(f"client {slug!r} is also a house brand")
+        missing = [field for field in CLIENT_FIELDS if field not in client]
+        if missing:
+            raise TokenError(f"client {slug!r} is missing {', '.join(missing)}")
+        logo = ROOT / client["logo"]
+        if logo.suffix != ".svg" or not logo.exists() or not logo.read_text(encoding="utf-8").lstrip().startswith("<svg"):
+            raise TokenError(f"client {slug!r}: logo must be an existing SVG file, got {client['logo']!r}")
+        if not CLIENT_HEX.match(client["color"]):
+            raise TokenError(f"client {slug!r}: color must be a lower-case #rrggbb value, got {client['color']!r}")
+
+
+def client_action(client: dict[str, Any], tokens: dict[str, Any]) -> dict[str, Any]:
+    """The button fill, its text (white or the kit ink, whichever reads better) and a darker hover fill."""
+    color = client["color"]
+    white = resolve_token(tokens, "foundations.color.paperWhite")
+    ink = resolve_token(tokens, "foundations.color.ink")
+    text = max((white, ink), key=lambda candidate: contrast_ratio(candidate, color))
+    hover = "#" + "".join(f"{round(int(color[i:i + 2], 16) * CLIENT_HOVER_SHADE):02x}" for i in (1, 3, 5))
+    return {
+        "color": color,
+        "text": text,
+        "hover": hover,
+        "contrast": round(contrast_ratio(text, color), 2),
+        "hoverContrast": round(contrast_ratio(text, hover), 2),
+    }
+
+
+def client_dark_logo(svg: str, tokens: dict[str, Any]) -> str:
+    """The logo for the dark theme: a near-black fill becomes the dark-theme ink. Every other colour stays."""
+    ink_dark = resolve_token(tokens, "foundations.color.inkDark")
+
+    def swap(match: re.Match[str]) -> str:
+        if contrast_ratio(match.group(2), "#000000") < 1.5:
+            return match.group(1) + ink_dark
+        return match.group(0)
+
+    return CLIENT_FILL.sub(swap, svg)
+
+
+def client_css(slug: str, client: dict[str, Any], tokens: dict[str, Any]) -> str:
+    """ui/brands/<slug>.css: the client colour on the primary button, in both themes."""
+    action = client_action(client, tokens)
+    return "\n".join([
+        f"/* AĞUSTOS DESIGN SYSTEM v{tokens['version']} · CLIENT BRAND {client['title']} · GENERATED",
+        "   Source: brand/brands.json (clients). Do not hand-edit this file.",
+        "   Run: python3 scripts/build_design_system.py",
+        "",
+        "   Load after agustos.css and put brand-" + slug + " on <body>. The brand colour",
+        "   takes the place of black on the primary button. Logos: ./" + slug + ".svg (light)",
+        "   and ./" + slug + "-dark.svg (dark). */",
+        "",
+        f".brand-{slug} {{",
+        f"  --brand: {action['color']};",
+        f"  --action: {action['color']};",
+        f"  --action-ink: {action['text']};",
+        f"  --action-hover: {action['hover']};",
+        "}",
+    ]) + "\n"
+
+
 def chrome_for(entry: dict[str, Any]) -> str:
     """Every website family uses the top menu and the footer. Product UI uses the sidebar unless its row names the top menu."""
     if entry["family"] == "product-ui":
@@ -713,7 +791,16 @@ def kit_context(tokens: dict[str, Any], brands: dict[str, Any]) -> dict[str, str
                 for slug, brand in brands["brands"].items()
             ]
         ),
-        "brandClasses": repr(tuple(f"brand-{slug}" for slug in brands["brands"])),
+        "brandClasses": repr(tuple(f"brand-{slug}" for slug in (*brands["brands"], *clients_of(brands)))),
+        "clientTable": "\n".join(
+            ["| Client | Class | Colour | Button text | Files |", "|---|---|---|---|---|"]
+            + [
+                f"| {client['title']} | `brand-{slug}` | `{client['color']}` "
+                f"| `{client_action(client, tokens)['text']}` ({client_action(client, tokens)['contrast']}:1) "
+                f"| `brands/{slug}.css`, `brands/{slug}.svg`, `brands/{slug}-dark.svg` |"
+                for slug, client in clients_of(brands).items()
+            ]
+        ),
         "themeScript": THEME_SCRIPT,
         "themeStorageKey": THEME_STORAGE_KEY,
         "screensTable": "\n".join(
@@ -914,7 +1001,7 @@ def ui_kit_json(
         if UI_DIR not in path.parents:
             continue
         encoded = content.encode("utf-8")
-        files[path.name] = {"bytes": len(encoded), "sha256": hashlib.sha256(encoded).hexdigest()}
+        files[str(path.relative_to(UI_DIR))] = {"bytes": len(encoded), "sha256": hashlib.sha256(encoded).hexdigest()}
     for path in sorted(UI_FONT_DIR.glob("*.woff2")):
         payload = path.read_bytes()
         files[f"fonts/{path.name}"] = {"bytes": len(payload), "sha256": hashlib.sha256(payload).hexdigest()}
@@ -932,7 +1019,7 @@ def ui_kit_json(
             f'<link rel="stylesheet" href="{context["cdnBase"]}agustos.css">'
         ),
         "signal": brands["signal"],
-        "brandClasses": [f"brand-{slug}" for slug in brands["brands"]],
+        "brandClasses": [f"brand-{slug}" for slug in (*brands["brands"], *clients_of(brands))],
         "brands": {
             slug: {
                 "wordmark": brand["wordmark"],
@@ -940,6 +1027,17 @@ def ui_kit_json(
                 "domain": brand["domain"],
             }
             for slug, brand in brands["brands"].items()
+        },
+        "clients": {
+            slug: {
+                "title": client["title"],
+                "domain": client["domain"],
+                "stylesheet": f"brands/{slug}.css",
+                "logo": f"brands/{slug}.svg",
+                "logoDark": f"brands/{slug}-dark.svg",
+                "action": client_action(client, tokens),
+            }
+            for slug, client in clients_of(brands).items()
         },
         "screens": {
             row["name"]: {key: value for key, value in row.items() if key != "name"}
@@ -976,10 +1074,16 @@ def expected_outputs() -> dict[Path, str]:
     tokens = load_json(TOKEN_SOURCE)
     brands = load_json(BRAND_SOURCE)
     validate_brands(brands)
+    validate_clients(brands)
     validate_screens(tokens, brands)
     outputs: dict[Path, str] = {}
     for path, label in CSS_OUTPUTS.items():
         set_output(outputs, path, render_web_css(tokens, brands, label))
+    for slug, client in clients_of(brands).items():
+        logo = (ROOT / client["logo"]).read_text(encoding="utf-8")
+        set_output(outputs, CLIENT_DIR / f"{slug}.css", client_css(slug, client, tokens))
+        set_output(outputs, CLIENT_DIR / f"{slug}.svg", logo)
+        set_output(outputs, CLIENT_DIR / f"{slug}-dark.svg", client_dark_logo(logo, tokens))
 
     resolved = {
         "name": tokens["name"],
@@ -1041,6 +1145,7 @@ def expected_outputs() -> dict[Path, str]:
         + SYMBOL_SOURCE.read_bytes()
         + VERSION_FILE.read_bytes()
         + b"".join(template.read_bytes() for template, _ in (*UI_TEMPLATES, *DOC_TEMPLATES))
+        + b"".join((ROOT / client["logo"]).read_bytes() for client in clients_of(brands).values())
     ).hexdigest()
     manifest = {
         "system": tokens["name"],

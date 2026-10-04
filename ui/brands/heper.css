@@ -1,0 +1,14 @@
+/* AĞUSTOS DESIGN SYSTEM v7.8.0 · CLIENT BRAND HEPER · GENERATED
+   Source: brand/brands.json (clients). Do not hand-edit this file.
+   Run: python3 scripts/build_design_system.py
+
+   Load after agustos.css and put brand-heper on <body>. The brand colour
+   takes the place of black on the primary button. Logos: ./heper.svg (light)
+   and ./heper-dark.svg (dark). */
+
+.brand-heper {
+  --brand: #ed1c24;
+  --action: #ed1c24;
+  --action-ink: #ffffff;
+  --action-hover: #c9181f;
+}

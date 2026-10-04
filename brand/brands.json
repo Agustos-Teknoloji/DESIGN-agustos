@@ -75,5 +75,22 @@
       "tagline_en": "",
       "tagline_tr": ""
     }
+  },
+  "$clients_policy": "Client brands are brands Ağustos builds for. Each registers a logo and one colour. The colour takes the place of black on the primary button; the kit keeps its fonts, greys and red signal. The build writes ui/brands/<slug>.css, ui/brands/<slug>.svg and ui/brands/<slug>-dark.svg. A page loads agustos-fonts.css, agustos.css, then ui/brands/<slug>.css, and puts brand-<slug> on <body>. Light and dark theme, as on every kit page.",
+  "clients": {
+    "heper": {
+      "title": "HEPER",
+      "domain": "hepergroup.com",
+      "logo": "brand/clients/heper/logo.svg",
+      "color": "#ed1c24",
+      "$source": "Logo: IESDesk public/heper/heper-logo.svg, the same drawing as logo-source.png from HEPER. Colour: HEPER red, from Emre on 2026-10-04."
+    },
+    "ligman": {
+      "title": "LIGMAN",
+      "domain": "ligman.com",
+      "logo": "brand/clients/ligman/logo.svg",
+      "color": "#fcaf17",
+      "$source": "Logo: traced from logo-source.png, the LIGMAN file from Emre on 2026-10-04. Colour: LIGMAN yellow, from Emre on 2026-10-04."
+    }
   }
 }
