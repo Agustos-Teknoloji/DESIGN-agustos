@@ -90,7 +90,8 @@ class PrimitiveTest(unittest.TestCase):
         self.assertIsNone(re.search(r"\.hero-link", css))
         start = css.index(".agustos-button--primary {")
         block = css[start:css.index("}", start)]
-        self.assertIn("background: var(--ink);", block)
+        # v7.8.0: a client brand file may set --action; a house brand never does, so the fill stays ink.
+        self.assertIn("background: var(--action, var(--ink));", block)
         self.assertNotIn("--signal", block)
 
     def test_controls_meet_the_minimum_target_size(self):
@@ -520,7 +521,8 @@ class DistributionKitTest(unittest.TestCase):
     def test_font_licenses_travel_with_the_binaries(self):
         """The OFL requires it."""
         licenses = list((self.KIT / "fonts").glob("OFL-*.txt"))
-        self.assertEqual(len(licenses), 3, "one OFL per font family")
+        # Three house families, plus Montserrat and Roboto for the client brands (v7.8.0).
+        self.assertEqual(len(licenses), 5, "one OFL per font family")
 
     def test_font_face_families_match_the_heads_of_the_css_stacks(self):
         css = (ROOT / "tokens" / "agustos.css").read_text(encoding="utf-8")
@@ -554,7 +556,8 @@ class DistributionKitTest(unittest.TestCase):
     def test_entry_point_stays_short_enough_to_be_read_whole(self):
         lines = (self.KIT / "UI-KIT.md").read_text(encoding="utf-8").splitlines()
         # 220 since v7.6.0: the type table (one row per role) joined the file.
-        self.assertLessEqual(len(lines), 220, "UI-KIT.md is the one file an agent reads in full")
+        # 230 since v7.8.0: the client brand section and its table joined the file.
+        self.assertLessEqual(len(lines), 230, "UI-KIT.md is the one file an agent reads in full")
 
     def test_entry_point_states_the_v7_7_rules(self):
         text = (self.KIT / "UI-KIT.md").read_text(encoding="utf-8")
@@ -1280,7 +1283,7 @@ class ChromeTest(unittest.TestCase):
 
     def test_search_results_keep_the_focus_ring(self):
         # v7.0.2 fixed a removed ring in both adapters; v7.3.0 moves the rule into the kit once.
-        self.assertIn(".site-header__search-result a:focus-visible { background: var(--surface); color: var(--ink); outline: 2px solid var(--signal);", self.CSS)
+        self.assertIn(".site-header__search-result a:focus-visible { background: var(--surface); color: var(--ink); outline: 2px solid var(--focus, var(--signal));", self.CSS)
         self.assertNotRegex(self.CSS, r"search-result a:focus-visible\s*\{[^}]*outline:\s*(0|none)")
 
     def test_search_and_language_are_styled_in_the_kit_only(self):
@@ -1728,6 +1731,53 @@ class MemregunesBrandTest(unittest.TestCase):
         self.assertIn("BRAND_CLASSES = {{ui.brandClasses}}", template)
         checker = (ROOT / "ui" / "check-agustos-ui.py").read_text(encoding="utf-8")
         self.assertIn("'brand-memregunes'", checker)
+
+
+class ClientBrandTest(unittest.TestCase):
+    """v7.8.0: brands Ağustos builds for (HEPER, LIGMAN). Light only; own logo, colours and fonts."""
+
+    REGISTRY = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))
+    CLIENTS = REGISTRY["clients"]
+    KIT = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+
+    def _client_vars(self, slug):
+        css = (ROOT / "ui" / "brands" / f"{slug}.css").read_text(encoding="utf-8")
+        block = css[css.index(f".brand-{slug} {{"):]
+        return css, dict(re.findall(r"(--[\w-]+):\s*([^;]+);", block[:block.index("}")]))
+
+    def test_heper_and_ligman_are_registered(self):
+        self.assertEqual(set(self.CLIENTS), {"heper", "ligman"})
+        self.assertFalse(set(self.CLIENTS) & set(self.REGISTRY["brands"]), "a client is not a house brand")
+
+    def test_each_client_gets_a_stylesheet_and_a_logo(self):
+        for slug in self.CLIENTS:
+            with self.subTest(client=slug):
+                css, variables = self._client_vars(slug)
+                self.assertTrue((ROOT / "ui" / "brands" / f"{slug}.svg").read_text(encoding="utf-8").lstrip().startswith("<"))
+                self.assertIn("brand-" + slug, self.KIT["brandClasses"])
+                self.assertEqual(self.KIT["clients"][slug]["theme"], "light")
+                self.assertNotIn("data-theme", css, "client brands are light only")
+                self.assertNotIn(":root", css, "a client file sets variables on its own class only")
+                self.assertIn("--display", variables)
+                self.assertIn("--body", variables)
+                self.assertIn('font-feature-settings: "locl" on, "kern" on;', css)
+                self.assertNotIn('"ss01" on', css, "ss01 picks Montserrat's alternate letters")
+
+    def test_client_text_and_controls_meet_contrast(self):
+        for slug in self.CLIENTS:
+            with self.subTest(client=slug):
+                _, v = self._client_vars(slug)
+                action = v.get("--action", v.get("--ink"))
+                self.assertGreaterEqual(contrast_ratio(v.get("--action-ink", "#ffffff"), action), 4.5)
+                self.assertGreaterEqual(contrast_ratio(v["--ink"], "#ffffff"), 4.5)
+                self.assertGreaterEqual(contrast_ratio(v.get("--focus", v["--signal"]), "#ffffff"), 3.0)
+                self.assertGreaterEqual(contrast_ratio(v.get("--signal-text", v["--signal"]), "#ffffff"), 3.0)
+
+    def test_house_brands_keep_the_black_button_and_red_ring(self):
+        css = (ROOT / "ui" / "agustos.css").read_text(encoding="utf-8")
+        for name in ("--action", "--action-ink", "--action-hover", "--focus", "--signal-text"):
+            with self.subTest(variable=name):
+                self.assertNotRegex(css, rf"(?m)^\s*{name}:", "the kit reads it with a fallback and never sets it")
 
 
 if __name__ == "__main__":

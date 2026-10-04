@@ -97,6 +97,99 @@ def validate_brands(brands: dict[str, Any]) -> None:
                 )
 
 
+CLIENT_DIR = UI_DIR / "brands"
+CLIENT_SLUG = re.compile(r"^[a-z0-9-]+$")
+CLIENT_HEX = re.compile(r"^#[0-9a-f]{6}$")
+CLIENT_FIELDS = ("title", "domain", "logo", "colors", "fonts")
+# Registry colour key -> the kit variable it sets. Unset keys keep the kit value.
+CLIENT_COLOR_VARS = {
+    "ink": "--ink",
+    "inkSoft": "--ink-soft",
+    "surface": "--surface",
+    "rule": "--rule",
+    "signal": "--signal",
+    "signalText": "--signal-text",
+    "focus": "--focus",
+    "action": "--action",
+    "actionInk": "--action-ink",
+    "actionHover": "--action-hover",
+}
+CLIENT_FONT_ROLES = ("display", "body")
+CLIENT_FONT_FALLBACK = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
+
+
+def clients_of(brands: dict[str, Any]) -> dict[str, dict[str, Any]]:
+    return brands.get("clients", {})
+
+
+def validate_clients(brands: dict[str, Any]) -> None:
+    """A client brand registers its own logo, colours and fonts (light theme only)."""
+    fonts = brands.get("clientFonts", {})
+    for name, font in fonts.items():
+        path = UI_FONT_DIR / font["file"]
+        if not path.exists() or path.read_bytes()[:4] != b"wOF2":
+            raise TokenError(f"client font {name!r}: {path.relative_to(ROOT)} is missing or not woff2 (run scripts/build_ui_fonts.py)")
+    for slug, client in clients_of(brands).items():
+        if not CLIENT_SLUG.match(slug):
+            raise TokenError(f"client {slug!r}: a slug is lower-case letters, digits and hyphens")
+        if slug in brands["brands"]:
+            raise TokenError(f"client {slug!r} is also a house brand")
+        missing = [field for field in CLIENT_FIELDS if field not in client]
+        if missing:
+            raise TokenError(f"client {slug!r} is missing {', '.join(missing)}")
+        logo = ROOT / client["logo"]
+        if logo.suffix != ".svg" or not logo.exists() or not logo.read_text(encoding="utf-8").lstrip().startswith("<svg"):
+            raise TokenError(f"client {slug!r}: logo must be an existing SVG file, got {client['logo']!r}")
+        for key, value in client["colors"].items():
+            if key not in CLIENT_COLOR_VARS:
+                raise TokenError(f"client {slug!r}: unknown colour {key!r}; use one of {', '.join(CLIENT_COLOR_VARS)}")
+            if not CLIENT_HEX.match(value):
+                raise TokenError(f"client {slug!r}: colour {key!r} must be a lower-case #rrggbb value, got {value!r}")
+        for role in CLIENT_FONT_ROLES:
+            if client["fonts"].get(role) not in fonts:
+                raise TokenError(f"client {slug!r}: font {role!r} must name one of clientFonts ({', '.join(fonts)})")
+
+
+def client_css(slug: str, client: dict[str, Any], brands: dict[str, Any], version: str) -> str:
+    """ui/brands/<slug>.css: the client's font faces and the kit variables it changes."""
+    fonts = brands["clientFonts"]
+    lines = [
+        f"/* AĞUSTOS DESIGN SYSTEM v{version} · CLIENT BRAND {client['title']} · GENERATED",
+        "   Source: brand/brands.json (clients). Do not hand-edit this file.",
+        "   Run: python3 scripts/build_design_system.py",
+        "",
+        "   Load after agustos-fonts.css and agustos.css, and put",
+        f"   brand-{slug} on <body>. Light theme only. The logo is ./{slug}.svg. */",
+        "",
+    ]
+    for name in dict.fromkeys(client["fonts"][role] for role in CLIENT_FONT_ROLES):
+        font = fonts[name]
+        lines += [
+            "@font-face {",
+            f"  font-family: '{font['family']}';",
+            f"  src: url('../fonts/{font['file']}') format('woff2-variations');",
+            f"  font-weight: {font['weight']};",
+            "  font-style: normal;",
+            "  font-display: swap;",
+            "}",
+            "",
+        ]
+    lines.append(f".brand-{slug} {{")
+    if "signal" in client["colors"]:
+        lines.append(f"  --brand: {client['colors']['signal']};")
+    for key, variable in CLIENT_COLOR_VARS.items():
+        if key in client["colors"]:
+            lines.append(f"  {variable}: {client['colors'][key]};")
+    for role in CLIENT_FONT_ROLES:
+        lines.append(f"  --{role}: '{fonts[client['fonts'][role]]['family']}', {CLIENT_FONT_FALLBACK};")
+    lines += [
+        "  /* No ss01: it is Inter's open digits, but Montserrat's rounded alternate letters. */",
+        '  font-feature-settings: "locl" on, "kern" on;',
+        "}",
+    ]
+    return "\n".join(lines) + "\n"
+
+
 def chrome_for(entry: dict[str, Any]) -> str:
     """Every website family uses the top menu and the footer. Product UI uses the sidebar unless its row names the top menu."""
     if entry["family"] == "product-ui":
@@ -713,7 +806,15 @@ def kit_context(tokens: dict[str, Any], brands: dict[str, Any]) -> dict[str, str
                 for slug, brand in brands["brands"].items()
             ]
         ),
-        "brandClasses": repr(tuple(f"brand-{slug}" for slug in brands["brands"])),
+        "brandClasses": repr(tuple(f"brand-{slug}" for slug in (*brands["brands"], *clients_of(brands)))),
+        "clientTable": "\n".join(
+            ["| Client | Class | Files | Fonts |", "|---|---|---|---|"]
+            + [
+                f"| {client['title']} | `brand-{slug}` | `brands/{slug}.css`, `brands/{slug}.svg` "
+                f"| {', '.join(dict.fromkeys(brands['clientFonts'][client['fonts'][role]]['family'] for role in CLIENT_FONT_ROLES))} |"
+                for slug, client in clients_of(brands).items()
+            ]
+        ),
         "themeScript": THEME_SCRIPT,
         "themeStorageKey": THEME_STORAGE_KEY,
         "screensTable": "\n".join(
@@ -914,7 +1015,7 @@ def ui_kit_json(
         if UI_DIR not in path.parents:
             continue
         encoded = content.encode("utf-8")
-        files[path.name] = {"bytes": len(encoded), "sha256": hashlib.sha256(encoded).hexdigest()}
+        files[str(path.relative_to(UI_DIR))] = {"bytes": len(encoded), "sha256": hashlib.sha256(encoded).hexdigest()}
     for path in sorted(UI_FONT_DIR.glob("*.woff2")):
         payload = path.read_bytes()
         files[f"fonts/{path.name}"] = {"bytes": len(payload), "sha256": hashlib.sha256(payload).hexdigest()}
@@ -932,7 +1033,7 @@ def ui_kit_json(
             f'<link rel="stylesheet" href="{context["cdnBase"]}agustos.css">'
         ),
         "signal": brands["signal"],
-        "brandClasses": [f"brand-{slug}" for slug in brands["brands"]],
+        "brandClasses": [f"brand-{slug}" for slug in (*brands["brands"], *clients_of(brands))],
         "brands": {
             slug: {
                 "wordmark": brand["wordmark"],
@@ -940,6 +1041,18 @@ def ui_kit_json(
                 "domain": brand["domain"],
             }
             for slug, brand in brands["brands"].items()
+        },
+        "clients": {
+            slug: {
+                "title": client["title"],
+                "domain": client["domain"],
+                "stylesheet": f"brands/{slug}.css",
+                "logo": f"brands/{slug}.svg",
+                "colors": client["colors"],
+                "fonts": {role: brands["clientFonts"][client["fonts"][role]]["family"] for role in CLIENT_FONT_ROLES},
+                "theme": "light",
+            }
+            for slug, client in clients_of(brands).items()
         },
         "screens": {
             row["name"]: {key: value for key, value in row.items() if key != "name"}
@@ -976,10 +1089,14 @@ def expected_outputs() -> dict[Path, str]:
     tokens = load_json(TOKEN_SOURCE)
     brands = load_json(BRAND_SOURCE)
     validate_brands(brands)
+    validate_clients(brands)
     validate_screens(tokens, brands)
     outputs: dict[Path, str] = {}
     for path, label in CSS_OUTPUTS.items():
         set_output(outputs, path, render_web_css(tokens, brands, label))
+    for slug, client in clients_of(brands).items():
+        set_output(outputs, CLIENT_DIR / f"{slug}.css", client_css(slug, client, brands, tokens["version"]))
+        set_output(outputs, CLIENT_DIR / f"{slug}.svg", (ROOT / client["logo"]).read_text(encoding="utf-8"))
 
     resolved = {
         "name": tokens["name"],
@@ -1041,6 +1158,7 @@ def expected_outputs() -> dict[Path, str]:
         + SYMBOL_SOURCE.read_bytes()
         + VERSION_FILE.read_bytes()
         + b"".join(template.read_bytes() for template, _ in (*UI_TEMPLATES, *DOC_TEMPLATES))
+        + b"".join((ROOT / client["logo"]).read_bytes() for client in clients_of(brands).values())
     ).hexdigest()
     manifest = {
         "system": tokens["name"],
