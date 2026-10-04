@@ -76,52 +76,21 @@
       "tagline_tr": ""
     }
   },
-  "$clients_policy": "Client brands are brands Ağustos builds for. Each registers its own logo, colours and fonts, and keeps them; the house rules on the Laz Güneşi, red and black buttons do not apply. Light theme only. The build writes ui/brands/<slug>.css and ui/brands/<slug>.svg. A page loads agustos-fonts.css, agustos.css, then ui/brands/<slug>.css, and puts brand-<slug> on <body>. Unset colours keep the kit value.",
-  "clientFonts": {
-    "montserrat": {"family": "Montserrat", "file": "montserrat-variable.woff2", "weight": "100 900"},
-    "roboto": {"family": "Roboto", "file": "roboto-variable.woff2", "weight": "100 900"}
-  },
+  "$clients_policy": "Client brands are brands Ağustos builds for. Each registers a logo and one colour. The colour takes the place of black on the primary button; the kit keeps its fonts, greys and red signal. The build writes ui/brands/<slug>.css, ui/brands/<slug>.svg and ui/brands/<slug>-dark.svg. A page loads agustos-fonts.css, agustos.css, then ui/brands/<slug>.css, and puts brand-<slug> on <body>. Light and dark theme, as on every kit page.",
   "clients": {
     "heper": {
       "title": "HEPER",
       "domain": "hepergroup.com",
       "logo": "brand/clients/heper/logo.svg",
-      "$source": "Logo: IESDesk public/heper/heper-logo.svg. Colours and font: WEBSITE-heper-dashboard DESIGN.md and rails_app/public/static/styles.css. Buttons stay ink because HEPER uses red on purpose, not everywhere.",
-      "colors": {
-        "ink": "#262626",
-        "inkSoft": "#5c677d",
-        "surface": "#f4f4f2",
-        "signal": "#ed1c24",
-        "action": "#262626",
-        "actionInk": "#ffffff",
-        "actionHover": "#5c677d"
-      },
-      "fonts": {
-        "display": "montserrat",
-        "body": "montserrat"
-      }
+      "color": "#ed1c24",
+      "$source": "Logo: IESDesk public/heper/heper-logo.svg, the same drawing as logo-source.png from HEPER. Colour: HEPER red, from Emre on 2026-10-04."
     },
     "ligman": {
       "title": "LIGMAN",
       "domain": "ligman.com",
       "logo": "brand/clients/ligman/logo.svg",
-      "$source": "Logo: traced from APP-ligmanone public/logo.png; replace it with the official vector file when LIGMAN sends one. Colours and fonts: APP-ligmanone DESIGN.md. Yellow on white is 1.5:1, so focus rings and hover text take the dark grey.",
-      "colors": {
-        "ink": "#54565a",
-        "inkSoft": "#54565a",
-        "surface": "#f5f5f5",
-        "rule": "#e0e0e0",
-        "signal": "#ffc932",
-        "signalText": "#54565a",
-        "focus": "#54565a",
-        "action": "#ffc932",
-        "actionInk": "#141414",
-        "actionHover": "#e6b52d"
-      },
-      "fonts": {
-        "display": "montserrat",
-        "body": "roboto"
-      }
+      "color": "#fcaf17",
+      "$source": "Logo: traced from logo-source.png, the LIGMAN file from Emre on 2026-10-04. Colour: LIGMAN yellow, from Emre on 2026-10-04."
     }
   }
 }

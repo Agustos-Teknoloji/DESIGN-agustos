@@ -44,46 +44,31 @@
   "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.8.0/ui/",
   "clients": {
     "heper": {
-      "colors": {
-        "action": "#262626",
-        "actionHover": "#5c677d",
-        "actionInk": "#ffffff",
-        "ink": "#262626",
-        "inkSoft": "#5c677d",
-        "signal": "#ed1c24",
-        "surface": "#f4f4f2"
+      "action": {
+        "color": "#ed1c24",
+        "contrast": 4.38,
+        "hover": "#c9181f",
+        "hoverContrast": 5.78,
+        "text": "#ffffff"
       },
       "domain": "hepergroup.com",
-      "fonts": {
-        "body": "Montserrat",
-        "display": "Montserrat"
-      },
       "logo": "brands/heper.svg",
+      "logoDark": "brands/heper-dark.svg",
       "stylesheet": "brands/heper.css",
-      "theme": "light",
       "title": "HEPER"
     },
     "ligman": {
-      "colors": {
-        "action": "#ffc932",
-        "actionHover": "#e6b52d",
-        "actionInk": "#141414",
-        "focus": "#54565a",
-        "ink": "#54565a",
-        "inkSoft": "#54565a",
-        "rule": "#e0e0e0",
-        "signal": "#ffc932",
-        "signalText": "#54565a",
-        "surface": "#f5f5f5"
+      "action": {
+        "color": "#fcaf17",
+        "contrast": 9.97,
+        "hover": "#d69514",
+        "hoverContrast": 7.22,
+        "text": "#15130f"
       },
       "domain": "ligman.com",
-      "fonts": {
-        "body": "Roboto",
-        "display": "Montserrat"
-      },
       "logo": "brands/ligman.svg",
+      "logoDark": "brands/ligman-dark.svg",
       "stylesheet": "brands/ligman.css",
-      "theme": "light",
       "title": "LIGMAN"
     }
   },
@@ -136,6 +121,8 @@
     "site-lockup",
     "site-lockup__symbol",
     "site-lockup__logo",
+    "site-lockup__logo--light",
+    "site-lockup__logo--dark",
     "site-lockup__name",
     "site-sidebar-layout",
     "site-sidebar",
@@ -351,8 +338,8 @@
       "sha256": "1b1e2172d28f0a3b3330afd0ed02634adc3b8ae1f5c0e6188f59b4bd02c07139"
     },
     "UI-KIT.md": {
-      "bytes": 30238,
-      "sha256": "1ace1a66971ec66d162e3997af6a4d1de93bb569ca7e0007394d4bcf47e8b021"
+      "bytes": 30549,
+      "sha256": "83be097015218d658ced465bbc63ef75369928d2e52d50a93fc11cc9a209c23b"
     },
     "agustos-chrome.js": {
       "bytes": 4886,
@@ -363,28 +350,36 @@
       "sha256": "a258bb753c5077d0310bd99b314808b2672b3022ec438d37ec02ac5970b0ee5d"
     },
     "agustos.css": {
-      "bytes": 79020,
-      "sha256": "c07cc98906ace6240e8dbdfb74b9bd45ba9ad59263a8b7dd2220075f88cd245e"
+      "bytes": 79072,
+      "sha256": "fdbe239ac1a42f38d272c7d37a65d0be2b1a028e4eb440fb90d8211eac403fd2"
+    },
+    "brands/heper-dark.svg": {
+      "bytes": 4919,
+      "sha256": "93b252b7fece9f9730c3fb3f1fab5fdbd32bd67beb101797bfae007b2d70d5c3"
     },
     "brands/heper.css": {
-      "bytes": 1054,
-      "sha256": "623731a48cc30bf13d39bd6cfc02e04c830ab17697600c2017052e260b3b15f2"
+      "bytes": 482,
+      "sha256": "1b11d262ba475eaf656ca8745189987b320fedff83977a8ac7204ce139f3a5da"
     },
     "brands/heper.svg": {
       "bytes": 4919,
       "sha256": "919e4d5699e36ef22033c90f156f8df41efb2d5893cbe01a2fd84a5cea0fefab"
     },
+    "brands/ligman-dark.svg": {
+      "bytes": 27253,
+      "sha256": "4bc53e36f5835167086a267b64c6e8b2aec81b32314355dadddebeeeca6369f3"
+    },
     "brands/ligman.css": {
-      "bytes": 1301,
-      "sha256": "1186049a00d22de1a9b2b37e538e6b4958a79fadca682065723661997e9db3d1"
+      "bytes": 487,
+      "sha256": "49ed98969c880a0a4b03c73b2eecbdbd0449566adf525d27d41b0d53dc9079ce"
     },
     "brands/ligman.svg": {
-      "bytes": 2521,
-      "sha256": "9220f66176c5b18f5a4c4b1b4cfff0432dafe1f0fed11d7d22fa005cbe1df6ad"
+      "bytes": 27253,
+      "sha256": "4bc53e36f5835167086a267b64c6e8b2aec81b32314355dadddebeeeca6369f3"
     },
     "check-agustos-ui.py": {
-      "bytes": 40323,
-      "sha256": "2499e37697fc0c482b0da706bcdbcb78d4a5110b82ab36b7f335e18041c41554"
+      "bytes": 40386,
+      "sha256": "cddb4270cc7014afb9c87492e82e6408ed406cb01fe9227dae5710bb48fa6e37"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -405,14 +400,6 @@
     "fonts/jetbrains-mono-variable.woff2": {
       "bytes": 47160,
       "sha256": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
-    },
-    "fonts/montserrat-variable.woff2": {
-      "bytes": 76264,
-      "sha256": "d31f058d6c73a2f2d85a0b1409b9e7d57b4111ff1fe6181e4fb8e4037a68f7d2"
-    },
-    "fonts/roboto-variable.woff2": {
-      "bytes": 80384,
-      "sha256": "7d0de88f65e92b4af9202178b84cecb19a72d92a160930e057184c9146f0d1df"
     },
     "starter.html": {
       "bytes": 32585,

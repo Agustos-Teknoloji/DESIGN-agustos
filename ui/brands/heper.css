@@ -2,28 +2,13 @@
    Source: brand/brands.json (clients). Do not hand-edit this file.
    Run: python3 scripts/build_design_system.py
 
-   Load after agustos-fonts.css and agustos.css, and put
-   brand-heper on <body>. Light theme only. The logo is ./heper.svg. */
-
-@font-face {
-  font-family: 'Montserrat';
-  src: url('../fonts/montserrat-variable.woff2') format('woff2-variations');
-  font-weight: 100 900;
-  font-style: normal;
-  font-display: swap;
-}
+   Load after agustos.css and put brand-heper on <body>. The brand colour
+   takes the place of black on the primary button. Logos: ./heper.svg (light)
+   and ./heper-dark.svg (dark). */
 
 .brand-heper {
   --brand: #ed1c24;
-  --ink: #262626;
-  --ink-soft: #5c677d;
-  --surface: #f4f4f2;
-  --signal: #ed1c24;
-  --action: #262626;
+  --action: #ed1c24;
   --action-ink: #ffffff;
-  --action-hover: #5c677d;
-  --display: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  --body: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  /* No ss01: it is Inter's open digits, but Montserrat's rounded alternate letters. */
-  font-feature-settings: "locl" on, "kern" on;
+  --action-hover: #c9181f;
 }

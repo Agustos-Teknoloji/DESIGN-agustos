@@ -100,22 +100,9 @@ def validate_brands(brands: dict[str, Any]) -> None:
 CLIENT_DIR = UI_DIR / "brands"
 CLIENT_SLUG = re.compile(r"^[a-z0-9-]+$")
 CLIENT_HEX = re.compile(r"^#[0-9a-f]{6}$")
-CLIENT_FIELDS = ("title", "domain", "logo", "colors", "fonts")
-# Registry colour key -> the kit variable it sets. Unset keys keep the kit value.
-CLIENT_COLOR_VARS = {
-    "ink": "--ink",
-    "inkSoft": "--ink-soft",
-    "surface": "--surface",
-    "rule": "--rule",
-    "signal": "--signal",
-    "signalText": "--signal-text",
-    "focus": "--focus",
-    "action": "--action",
-    "actionInk": "--action-ink",
-    "actionHover": "--action-hover",
-}
-CLIENT_FONT_ROLES = ("display", "body")
-CLIENT_FONT_FALLBACK = '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif'
+CLIENT_FIELDS = ("title", "domain", "logo", "color")
+CLIENT_FILL = re.compile(r'(fill(?:="|:\s*))(#[0-9a-fA-F]{6})')
+CLIENT_HOVER_SHADE = 0.85
 
 
 def clients_of(brands: dict[str, Any]) -> dict[str, dict[str, Any]]:
@@ -123,12 +110,7 @@ def clients_of(brands: dict[str, Any]) -> dict[str, dict[str, Any]]:
 
 
 def validate_clients(brands: dict[str, Any]) -> None:
-    """A client brand registers its own logo, colours and fonts (light theme only)."""
-    fonts = brands.get("clientFonts", {})
-    for name, font in fonts.items():
-        path = UI_FONT_DIR / font["file"]
-        if not path.exists() or path.read_bytes()[:4] != b"wOF2":
-            raise TokenError(f"client font {name!r}: {path.relative_to(ROOT)} is missing or not woff2 (run scripts/build_ui_fonts.py)")
+    """A client brand registers a logo and one colour. The colour takes the place of black on the primary button."""
     for slug, client in clients_of(brands).items():
         if not CLIENT_SLUG.match(slug):
             raise TokenError(f"client {slug!r}: a slug is lower-case letters, digits and hyphens")
@@ -140,54 +122,57 @@ def validate_clients(brands: dict[str, Any]) -> None:
         logo = ROOT / client["logo"]
         if logo.suffix != ".svg" or not logo.exists() or not logo.read_text(encoding="utf-8").lstrip().startswith("<svg"):
             raise TokenError(f"client {slug!r}: logo must be an existing SVG file, got {client['logo']!r}")
-        for key, value in client["colors"].items():
-            if key not in CLIENT_COLOR_VARS:
-                raise TokenError(f"client {slug!r}: unknown colour {key!r}; use one of {', '.join(CLIENT_COLOR_VARS)}")
-            if not CLIENT_HEX.match(value):
-                raise TokenError(f"client {slug!r}: colour {key!r} must be a lower-case #rrggbb value, got {value!r}")
-        for role in CLIENT_FONT_ROLES:
-            if client["fonts"].get(role) not in fonts:
-                raise TokenError(f"client {slug!r}: font {role!r} must name one of clientFonts ({', '.join(fonts)})")
+        if not CLIENT_HEX.match(client["color"]):
+            raise TokenError(f"client {slug!r}: color must be a lower-case #rrggbb value, got {client['color']!r}")
 
 
-def client_css(slug: str, client: dict[str, Any], brands: dict[str, Any], version: str) -> str:
-    """ui/brands/<slug>.css: the client's font faces and the kit variables it changes."""
-    fonts = brands["clientFonts"]
-    lines = [
-        f"/* AĞUSTOS DESIGN SYSTEM v{version} · CLIENT BRAND {client['title']} · GENERATED",
+def client_action(client: dict[str, Any], tokens: dict[str, Any]) -> dict[str, Any]:
+    """The button fill, its text (white or the kit ink, whichever reads better) and a darker hover fill."""
+    color = client["color"]
+    white = resolve_token(tokens, "foundations.color.paperWhite")
+    ink = resolve_token(tokens, "foundations.color.ink")
+    text = max((white, ink), key=lambda candidate: contrast_ratio(candidate, color))
+    hover = "#" + "".join(f"{round(int(color[i:i + 2], 16) * CLIENT_HOVER_SHADE):02x}" for i in (1, 3, 5))
+    return {
+        "color": color,
+        "text": text,
+        "hover": hover,
+        "contrast": round(contrast_ratio(text, color), 2),
+        "hoverContrast": round(contrast_ratio(text, hover), 2),
+    }
+
+
+def client_dark_logo(svg: str, tokens: dict[str, Any]) -> str:
+    """The logo for the dark theme: a near-black fill becomes the dark-theme ink. Every other colour stays."""
+    ink_dark = resolve_token(tokens, "foundations.color.inkDark")
+
+    def swap(match: re.Match[str]) -> str:
+        if contrast_ratio(match.group(2), "#000000") < 1.5:
+            return match.group(1) + ink_dark
+        return match.group(0)
+
+    return CLIENT_FILL.sub(swap, svg)
+
+
+def client_css(slug: str, client: dict[str, Any], tokens: dict[str, Any]) -> str:
+    """ui/brands/<slug>.css: the client colour on the primary button, in both themes."""
+    action = client_action(client, tokens)
+    return "\n".join([
+        f"/* AĞUSTOS DESIGN SYSTEM v{tokens['version']} · CLIENT BRAND {client['title']} · GENERATED",
         "   Source: brand/brands.json (clients). Do not hand-edit this file.",
         "   Run: python3 scripts/build_design_system.py",
         "",
-        "   Load after agustos-fonts.css and agustos.css, and put",
-        f"   brand-{slug} on <body>. Light theme only. The logo is ./{slug}.svg. */",
+        "   Load after agustos.css and put brand-" + slug + " on <body>. The brand colour",
+        "   takes the place of black on the primary button. Logos: ./" + slug + ".svg (light)",
+        "   and ./" + slug + "-dark.svg (dark). */",
         "",
-    ]
-    for name in dict.fromkeys(client["fonts"][role] for role in CLIENT_FONT_ROLES):
-        font = fonts[name]
-        lines += [
-            "@font-face {",
-            f"  font-family: '{font['family']}';",
-            f"  src: url('../fonts/{font['file']}') format('woff2-variations');",
-            f"  font-weight: {font['weight']};",
-            "  font-style: normal;",
-            "  font-display: swap;",
-            "}",
-            "",
-        ]
-    lines.append(f".brand-{slug} {{")
-    if "signal" in client["colors"]:
-        lines.append(f"  --brand: {client['colors']['signal']};")
-    for key, variable in CLIENT_COLOR_VARS.items():
-        if key in client["colors"]:
-            lines.append(f"  {variable}: {client['colors'][key]};")
-    for role in CLIENT_FONT_ROLES:
-        lines.append(f"  --{role}: '{fonts[client['fonts'][role]]['family']}', {CLIENT_FONT_FALLBACK};")
-    lines += [
-        "  /* No ss01: it is Inter's open digits, but Montserrat's rounded alternate letters. */",
-        '  font-feature-settings: "locl" on, "kern" on;',
+        f".brand-{slug} {{",
+        f"  --brand: {action['color']};",
+        f"  --action: {action['color']};",
+        f"  --action-ink: {action['text']};",
+        f"  --action-hover: {action['hover']};",
         "}",
-    ]
-    return "\n".join(lines) + "\n"
+    ]) + "\n"
 
 
 def chrome_for(entry: dict[str, Any]) -> str:
@@ -808,10 +793,11 @@ def kit_context(tokens: dict[str, Any], brands: dict[str, Any]) -> dict[str, str
         ),
         "brandClasses": repr(tuple(f"brand-{slug}" for slug in (*brands["brands"], *clients_of(brands)))),
         "clientTable": "\n".join(
-            ["| Client | Class | Files | Fonts |", "|---|---|---|---|"]
+            ["| Client | Class | Colour | Button text | Files |", "|---|---|---|---|---|"]
             + [
-                f"| {client['title']} | `brand-{slug}` | `brands/{slug}.css`, `brands/{slug}.svg` "
-                f"| {', '.join(dict.fromkeys(brands['clientFonts'][client['fonts'][role]]['family'] for role in CLIENT_FONT_ROLES))} |"
+                f"| {client['title']} | `brand-{slug}` | `{client['color']}` "
+                f"| `{client_action(client, tokens)['text']}` ({client_action(client, tokens)['contrast']}:1) "
+                f"| `brands/{slug}.css`, `brands/{slug}.svg`, `brands/{slug}-dark.svg` |"
                 for slug, client in clients_of(brands).items()
             ]
         ),
@@ -1048,9 +1034,8 @@ def ui_kit_json(
                 "domain": client["domain"],
                 "stylesheet": f"brands/{slug}.css",
                 "logo": f"brands/{slug}.svg",
-                "colors": client["colors"],
-                "fonts": {role: brands["clientFonts"][client["fonts"][role]]["family"] for role in CLIENT_FONT_ROLES},
-                "theme": "light",
+                "logoDark": f"brands/{slug}-dark.svg",
+                "action": client_action(client, tokens),
             }
             for slug, client in clients_of(brands).items()
         },
@@ -1095,8 +1080,10 @@ def expected_outputs() -> dict[Path, str]:
     for path, label in CSS_OUTPUTS.items():
         set_output(outputs, path, render_web_css(tokens, brands, label))
     for slug, client in clients_of(brands).items():
-        set_output(outputs, CLIENT_DIR / f"{slug}.css", client_css(slug, client, brands, tokens["version"]))
-        set_output(outputs, CLIENT_DIR / f"{slug}.svg", (ROOT / client["logo"]).read_text(encoding="utf-8"))
+        logo = (ROOT / client["logo"]).read_text(encoding="utf-8")
+        set_output(outputs, CLIENT_DIR / f"{slug}.css", client_css(slug, client, tokens))
+        set_output(outputs, CLIENT_DIR / f"{slug}.svg", logo)
+        set_output(outputs, CLIENT_DIR / f"{slug}-dark.svg", client_dark_logo(logo, tokens))
 
     resolved = {
         "name": tokens["name"],

@@ -9,10 +9,6 @@ open-source under the SIL Open Font License (OFL) — see each `OFL.txt`.
 | `inter-tight/` | Inter Tight | Display — logo, headings, UI labels | Semibold (650) for the wordmark |
 | `inter/` | Inter | Body — paragraphs, captions, tables | 400 / 700 |
 | `jetbrains-mono/` | JetBrains Mono | Monospace — code, data | 400 |
-| `montserrat/` | Montserrat | Client brands only: HEPER (display and body), LIGMAN (display) | 400 to 700 |
-| `roboto/` | Roboto | Client brands only: LIGMAN (body) | 400 to 700 |
-
-The two client families load only through `ui/brands/<slug>.css`. No house brand uses them.
 
 These are **variable** fonts: one file covers every weight from 100–900. Roman and
 Italic ship separately.
@@ -34,8 +30,7 @@ business card needs the actual files — so they live here.
 
 Fetched from the official Google Fonts repository (`github.com/google/fonts`, OFL).
 To refresh, re-download `InterTight[wght].ttf`, `Inter[opsz,wght].ttf`, and
-`JetBrainsMono[wght].ttf` (plus their Italic and `OFL.txt` files), and the client masters
-`Montserrat[wght].ttf` and `Roboto[wdth,wght].ttf` with their `OFL.txt`.
+`JetBrainsMono[wght].ttf` (plus their Italic and `OFL.txt` files).
 
 ## Web derivatives
 

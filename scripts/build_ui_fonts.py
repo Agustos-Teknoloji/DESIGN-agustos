@@ -50,9 +50,6 @@ FONTS = [
     ("inter/Inter[opsz,wght].ttf",                   "inter-variable.woff2"),
     ("inter/Inter-Italic[opsz,wght].ttf",            "inter-variable-italic.woff2"),
     ("jetbrains-mono/JetBrainsMono[wght].ttf",       "jetbrains-mono-variable.woff2"),
-    # Client brands (brand/brands.json "clients"). Only ui/brands/<slug>.css loads them.
-    ("montserrat/Montserrat[wght].ttf",              "montserrat-variable.woff2"),
-    ("roboto/Roboto[wdth,wght].ttf",                 "roboto-variable.woff2"),
 ]
 
 # The OFL requires its text to travel with the fonts.
@@ -60,8 +57,6 @@ LICENSES = [
     ("inter-tight/OFL.txt",    "OFL-inter-tight.txt"),
     ("inter/OFL.txt",          "OFL-inter.txt"),
     ("jetbrains-mono/OFL.txt", "OFL-jetbrains-mono.txt"),
-    ("montserrat/OFL.txt",     "OFL-montserrat.txt"),
-    ("roboto/OFL.txt",         "OFL-roboto.txt"),
 ]
 
 

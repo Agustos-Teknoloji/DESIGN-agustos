@@ -98,6 +98,8 @@ KIT_CLASSES = {
     "site-lockup",
     "site-lockup__symbol",
     "site-lockup__logo",
+    "site-lockup__logo--light",
+    "site-lockup__logo--dark",
     "site-lockup__name",
     "site-sidebar-layout",
     "site-sidebar",

@@ -521,8 +521,7 @@ class DistributionKitTest(unittest.TestCase):
     def test_font_licenses_travel_with_the_binaries(self):
         """The OFL requires it."""
         licenses = list((self.KIT / "fonts").glob("OFL-*.txt"))
-        # Three house families, plus Montserrat and Roboto for the client brands (v7.8.0).
-        self.assertEqual(len(licenses), 5, "one OFL per font family")
+        self.assertEqual(len(licenses), 3, "one OFL per font family")
 
     def test_font_face_families_match_the_heads_of_the_css_stacks(self):
         css = (ROOT / "tokens" / "agustos.css").read_text(encoding="utf-8")
@@ -1283,7 +1282,7 @@ class ChromeTest(unittest.TestCase):
 
     def test_search_results_keep_the_focus_ring(self):
         # v7.0.2 fixed a removed ring in both adapters; v7.3.0 moves the rule into the kit once.
-        self.assertIn(".site-header__search-result a:focus-visible { background: var(--surface); color: var(--ink); outline: 2px solid var(--focus, var(--signal));", self.CSS)
+        self.assertIn(".site-header__search-result a:focus-visible { background: var(--surface); color: var(--ink); outline: 2px solid var(--signal);", self.CSS)
         self.assertNotRegex(self.CSS, r"search-result a:focus-visible\s*\{[^}]*outline:\s*(0|none)")
 
     def test_search_and_language_are_styled_in_the_kit_only(self):
@@ -1734,7 +1733,7 @@ class MemregunesBrandTest(unittest.TestCase):
 
 
 class ClientBrandTest(unittest.TestCase):
-    """v7.8.0: brands Ağustos builds for (HEPER, LIGMAN). Light only; own logo, colours and fonts."""
+    """v7.8.0: brands Ağustos builds for (HEPER, LIGMAN). A logo and one colour, in place of black on the primary button."""
 
     REGISTRY = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))
     CLIENTS = REGISTRY["clients"]
@@ -1745,39 +1744,54 @@ class ClientBrandTest(unittest.TestCase):
         block = css[css.index(f".brand-{slug} {{"):]
         return css, dict(re.findall(r"(--[\w-]+):\s*([^;]+);", block[:block.index("}")]))
 
-    def test_heper_and_ligman_are_registered(self):
-        self.assertEqual(set(self.CLIENTS), {"heper", "ligman"})
-        self.assertFalse(set(self.CLIENTS) & set(self.REGISTRY["brands"]), "a client is not a house brand")
+    def test_heper_and_ligman_are_registered_with_a_logo_and_one_colour(self):
+        self.assertEqual(self.CLIENTS["heper"]["color"], "#ed1c24")
+        self.assertEqual(self.CLIENTS["ligman"]["color"], "#fcaf17")
+        for slug, client in self.CLIENTS.items():
+            with self.subTest(client=slug):
+                self.assertNotIn(slug, self.REGISTRY["brands"], "a client is not a house brand")
+                self.assertEqual({key for key in client if not key.startswith("$")}, {"title", "domain", "logo", "color"})
 
-    def test_each_client_gets_a_stylesheet_and_a_logo(self):
-        for slug in self.CLIENTS:
+    def test_the_colour_takes_the_place_of_black_on_the_button_only(self):
+        for slug, client in self.CLIENTS.items():
             with self.subTest(client=slug):
                 css, variables = self._client_vars(slug)
-                self.assertTrue((ROOT / "ui" / "brands" / f"{slug}.svg").read_text(encoding="utf-8").lstrip().startswith("<"))
+                self.assertEqual(set(variables), {"--brand", "--action", "--action-ink", "--action-hover"})
+                self.assertEqual(variables["--action"], client["color"])
+                self.assertNotIn("data-theme", css, "the same button in both themes")
+                self.assertNotIn("@font-face", css, "the kit keeps its fonts")
                 self.assertIn("brand-" + slug, self.KIT["brandClasses"])
-                self.assertEqual(self.KIT["clients"][slug]["theme"], "light")
-                self.assertNotIn("data-theme", css, "client brands are light only")
-                self.assertNotIn(":root", css, "a client file sets variables on its own class only")
-                self.assertIn("--display", variables)
-                self.assertIn("--body", variables)
-                self.assertIn('font-feature-settings: "locl" on, "kern" on;', css)
-                self.assertNotIn('"ss01" on', css, "ss01 picks Montserrat's alternate letters")
 
-    def test_client_text_and_controls_meet_contrast(self):
-        for slug in self.CLIENTS:
+    def test_the_button_text_is_the_better_of_white_and_ink(self):
+        ink = TOKENS["foundations"]["color"]["ink"]["$value"]
+        for slug, client in self.CLIENTS.items():
             with self.subTest(client=slug):
                 _, v = self._client_vars(slug)
-                action = v.get("--action", v.get("--ink"))
-                self.assertGreaterEqual(contrast_ratio(v.get("--action-ink", "#ffffff"), action), 4.5)
-                self.assertGreaterEqual(contrast_ratio(v["--ink"], "#ffffff"), 4.5)
-                self.assertGreaterEqual(contrast_ratio(v.get("--focus", v["--signal"]), "#ffffff"), 3.0)
-                self.assertGreaterEqual(contrast_ratio(v.get("--signal-text", v["--signal"]), "#ffffff"), 3.0)
+                best = max(("#ffffff", ink), key=lambda text: contrast_ratio(text, client["color"]))
+                self.assertEqual(v["--action-ink"], best)
+                self.assertGreaterEqual(contrast_ratio(v["--action-ink"], v["--action-hover"]), 4.5)
+        # Known gap, recorded in MEMORY 2026-10-04 client-brands: white on HEPER red is 4.38:1.
+        self.assertAlmostEqual(contrast_ratio("#ffffff", "#ed1c24"), 4.38, places=2)
+        self.assertGreaterEqual(contrast_ratio(ink, "#fcaf17"), 4.5)
 
-    def test_house_brands_keep_the_black_button_and_red_ring(self):
+    def test_each_client_has_a_light_and_a_dark_logo(self):
+        for slug in self.CLIENTS:
+            with self.subTest(client=slug):
+                light = (ROOT / "ui" / "brands" / f"{slug}.svg").read_text(encoding="utf-8")
+                dark = (ROOT / "ui" / "brands" / f"{slug}-dark.svg").read_text(encoding="utf-8")
+                self.assertTrue(light.lstrip().startswith("<svg"))
+                self.assertEqual(self.KIT["clients"][slug]["logoDark"], f"brands/{slug}-dark.svg")
+                for fill in re.findall(r'fill="(#[0-9a-fA-F]{6})"', dark):
+                    self.assertGreaterEqual(contrast_ratio(fill, "#000000"), 1.5, "no near-black fill on dark paper")
+        self.assertIn('fill="#231f20"', (ROOT / "ui" / "brands" / "heper.svg").read_text(encoding="utf-8"))
+
+    def test_house_brands_keep_the_black_button(self):
         css = (ROOT / "ui" / "agustos.css").read_text(encoding="utf-8")
-        for name in ("--action", "--action-ink", "--action-hover", "--focus", "--signal-text"):
+        for name in ("--action", "--action-ink", "--action-hover"):
             with self.subTest(variable=name):
                 self.assertNotRegex(css, rf"(?m)^\s*{name}:", "the kit reads it with a fallback and never sets it")
+        self.assertNotIn("--focus", css)
+        self.assertNotIn("--signal-text", css)
 
 
 if __name__ == "__main__":

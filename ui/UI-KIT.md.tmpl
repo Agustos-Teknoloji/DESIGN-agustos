@@ -75,7 +75,7 @@ Use `lang="tr"` for Turkish content so locale-sensitive capitalization renders c
 
 ### Client brands
 
-A client brand keeps its own logo, colours and fonts, mainly for admin areas and other simple pages. Load `agustos-fonts.css`, `agustos.css`, then `brands/<slug>.css`, and put `brand-<slug>` on `<body>`. Show the logo as `<img class="site-lockup__logo" src="brands/<slug>.svg" alt="<Client>">` inside the `site-lockup` link, in place of the symbol and the wordmark. Light theme only: no theme switch. The house rules on red and black buttons do not apply; the file sets the colours. Never retype its values.
+A client brand (HEPER, LIGMAN) has a logo and one colour, mainly for admin areas and other simple pages. The colour takes the place of black on the primary button; the fonts, greys and red signal stay. Load `agustos-fonts.css`, `agustos.css`, then `brands/<slug>.css`, and put `brand-<slug>` on `<body>`. Inside the `site-lockup` link, in place of the symbol and the wordmark, show both logo files: `<img class="site-lockup__logo site-lockup__logo--light" src="brands/<slug>.svg" alt="<Client>">` and `<img class="site-lockup__logo site-lockup__logo--dark" src="brands/<slug>-dark.svg" alt="<Client>">`. The kit shows the one that suits the theme. Light and dark theme work as on every page. Never retype the colour.
 
 {{ui.clientTable}}
 

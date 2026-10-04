@@ -6,20 +6,23 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [7.8.0] - 2026-10-04
 
-An extra minor release under MEMORY 2026-09-29 monthly-kit-release: the HEPER dashboard admin moves to Madmin with the kit, and LIGMAN One follows. Emre asked for client brands on 2026-10-04 ("Each brand should be registred with logo, colours, fonts and that simple system should be used for admin areas or simple css approaches."; "admin areas should only be light theme"; "LIGMAN and HEPER should be inline with their own colours"). Decision record: MEMORY 2026-10-04 client-brands. The release waits for Emre's approval of the before and after preview.
+An extra minor release under MEMORY 2026-09-29 monthly-kit-release: the HEPER dashboard admin moves to Madmin with the kit, and LIGMAN One follows. Emre asked for client brands on 2026-10-04 ("For brands like HEPER, LIGMAN etc, let's have logo and 1 Colour which will be used instead of black."; "Let's have dark theme as well."). Decision record: MEMORY 2026-10-04 client-brands. The release waits for Emre's approval of the before and after preview.
 
 ### Added
 
-- Client brands. `brand/brands.json` gains `clients`: each client registers its title, domain, SVG logo, colours and fonts. The house rules on the Laz Güneşi, red and black buttons do not apply to a client. Light theme only.
-- The build writes `ui/brands/<slug>.css` and `ui/brands/<slug>.svg` for each client. The CSS file sets the font faces and the kit colour variables on `.brand-<slug>`. A page loads it after `agustos.css`.
-- The first clients: `brand-heper` (HEPER: ink buttons, red signal, Montserrat) and `brand-ligman` (LIGMAN: yellow buttons with black text, dark grey focus ring, Montserrat headings and Roboto text).
-- Montserrat and Roboto join the kit fonts as variable WOFF2 files with their OFL licences, for client brands only. `agustos-fonts.css` does not load them.
-- `site-lockup__logo`: a client logo image inside the `site-lockup` link, in place of the symbol and the wordmark.
-- `kit.json` gains `clients` (stylesheet, logo, colours, fonts per client), and `brandClasses` lists the client classes. UI-KIT.md gains a Client brands section.
+- Client brands. `brand/brands.json` gains `clients`: each client registers a title, a domain, an SVG logo and one colour. The colour takes the place of black on the primary button. The kit keeps its fonts, greys and red signal.
+- The build writes `ui/brands/<slug>.css`, `ui/brands/<slug>.svg` and `ui/brands/<slug>-dark.svg` for each client. The CSS file sets the button fill, its text (white or the kit ink, whichever has more contrast) and a hover fill 15% darker. The dark logo turns near-black fills into the dark-theme ink.
+- The first clients: `brand-heper` (HEPER red `#ed1c24`, white text) and `brand-ligman` (LIGMAN yellow `#fcaf17`, ink text).
+- `site-lockup__logo`, `site-lockup__logo--light` and `site-lockup__logo--dark`: the client logo images inside the `site-lockup` link, in place of the symbol and the wordmark. The kit shows the one that suits the theme, and print shows the light one.
+- `kit.json` gains `clients` (stylesheet, logos, button colours and contrast per client), and `brandClasses` lists the client classes. UI-KIT.md gains a Client brands section.
 
 ### Changed
 
-- The primary button reads `--action`, `--action-ink` and `--action-hover`; the focus ring reads `--focus`; a link hover reads `--signal-text`. Each falls back to the current value, so a house brand page does not change.
+- The primary button reads `--action`, `--action-ink` and `--action-hover`. Each falls back to the current value, so a house brand page does not change.
+
+### Known gap
+
+- White text on HEPER red is 4.38:1, below the 4.5:1 minimum for the 15.5px button text. The hover fill reaches 5.6:1.
 
 ## [7.7.0] - 2026-10-03
 
