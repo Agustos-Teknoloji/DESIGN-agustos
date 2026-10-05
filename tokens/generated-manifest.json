@@ -22,7 +22,7 @@
     "tokens/design-system-handoff.json": "859522a606b330a945f605b1dc58e77706a0690a37b6d69ebbae877d027af15c",
     "tokens/resolved.json": "3ed1fe78ced3a4d31c653880a460547e24cae0db18e4d4d55111be41a022ae5c",
     "ui/AGENTS-SNIPPET.md": "00796b22a1f0c06a9a38de0deaa13d60a71c2d10d55e40d6ef21979c2fe7c2fe",
-    "ui/UI-KIT.md": "b1e0080042ebeb4dae5812db829f8e7183810372ae73c5d1ff42067d1351408e",
+    "ui/UI-KIT.md": "12e1722e4488725f5a43f943c930af5fe10569121f25dcfbb5487dabcf8a3662",
     "ui/agustos-chrome.js": "1b4a3039a332f4c3ceb786d9e6101f09b4f08c061a21a7d9e0880d661ac4ceea",
     "ui/agustos-fonts.css": "aafe640dfc1690aaac61965596146e010df79cea016e5235f9a7dbada91cbb83",
     "ui/agustos.css": "5039f9b479f7d0485a0a0e5a2881e8b1d2c9a5c47f416f49132d79a571b8e6fc",
@@ -33,10 +33,10 @@
     "ui/brands/ligman.css": "6886a8fb73781ae78b3afdb6c3717c88545f39e09e2745531b02da832b2b8787",
     "ui/brands/ligman.svg": "4bc53e36f5835167086a267b64c6e8b2aec81b32314355dadddebeeeca6369f3",
     "ui/check-agustos-ui.py": "1f353db70dd760eb3d848edadf658168658a008b05db0c40f605015a727a1fcf",
-    "ui/kit.json": "a890a7e756899f812acd363b1d817c7889b7bca3c1a5bda3a1028cf28a6752eb",
+    "ui/kit.json": "39a056a6c813ed53a936afd39ab7463970440c6ecb089c4a34a75a87093b3b96",
     "ui/starter.html": "7836f355fdbe0fc1a31adffcef3cac2c82338f9eae39959be367a312be539b17"
   },
-  "source_sha256": "3cbde617b3fc55b468477f9654cb29daf6bd855c2e2ff3f5da58ff20d7898b80",
+  "source_sha256": "05a98b4a4e0d75f45fee2e995b4a359967eed85d09d2208e592ccc89c2f1a272",
   "system": "Ağustos Design System",
   "version": "7.9.0"
 }
