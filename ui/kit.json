@@ -6,6 +6,7 @@
     "brand-iesdesk",
     "brand-specquick",
     "brand-memregunes",
+    "brand-banuucak",
     "brand-heper",
     "brand-ligman"
   ],
@@ -14,6 +15,11 @@
       "color": "#cf142a",
       "domain": "agustos.com",
       "wordmark": "ağustos"
+    },
+    "banuucak": {
+      "color": "#15130f",
+      "domain": "banuucak.com",
+      "wordmark": "banu uçak"
     },
     "iesdesk": {
       "color": "#15130f",
@@ -41,7 +47,7 @@
       "wordmark": "specquick"
     }
   },
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.8.1/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.9.0/ui/",
   "clients": {
     "heper": {
       "action": {
@@ -105,6 +111,7 @@
     "brand-iesdesk",
     "brand-specquick",
     "brand-memregunes",
+    "brand-banuucak",
     "paper-white",
     "hero-actions",
     "hero-trust",
@@ -335,23 +342,23 @@
   "files": {
     "AGENTS-SNIPPET.md": {
       "bytes": 2476,
-      "sha256": "d5053a7cc7d2c9447fded5c012134b4a8990dc6f9ea62e59f29a35f82800c9b2"
+      "sha256": "00796b22a1f0c06a9a38de0deaa13d60a71c2d10d55e40d6ef21979c2fe7c2fe"
     },
     "UI-KIT.md": {
-      "bytes": 30549,
-      "sha256": "08520f109fa74dd2951dce1265bb6fee8d76379bb9a7ea1ce7c6748dcc740afc"
+      "bytes": 30784,
+      "sha256": "b1e0080042ebeb4dae5812db829f8e7183810372ae73c5d1ff42067d1351408e"
     },
     "agustos-chrome.js": {
       "bytes": 4886,
-      "sha256": "5683c7f7860873fac95a379276c5e66e077d596e3c39ceca92d20e14c3f1b7f6"
+      "sha256": "1b4a3039a332f4c3ceb786d9e6101f09b4f08c061a21a7d9e0880d661ac4ceea"
     },
     "agustos-fonts.css": {
       "bytes": 2425,
-      "sha256": "df706b803e0250d304abc21df2f9da5a18b0a136bae4369ac5b5c0781794737a"
+      "sha256": "aafe640dfc1690aaac61965596146e010df79cea016e5235f9a7dbada91cbb83"
     },
     "agustos.css": {
-      "bytes": 79674,
-      "sha256": "3b64e65f852f846139fb2ed147790cb9e0f9f440eae2f5e3f87b67e058623260"
+      "bytes": 79760,
+      "sha256": "5039f9b479f7d0485a0a0e5a2881e8b1d2c9a5c47f416f49132d79a571b8e6fc"
     },
     "brands/heper-dark.svg": {
       "bytes": 4919,
@@ -359,7 +366,7 @@
     },
     "brands/heper.css": {
       "bytes": 482,
-      "sha256": "e6d56a0b357e6de3df122fb732594fe879aaeeb6fa6c0a26a5eebaa3498f253d"
+      "sha256": "613122d358f58cd7fcecc07792a75e066bff566e8bcf1de12d4b4123fa3e5a26"
     },
     "brands/heper.svg": {
       "bytes": 4919,
@@ -371,15 +378,15 @@
     },
     "brands/ligman.css": {
       "bytes": 487,
-      "sha256": "f746a8db1dc02895890f1f77e8bdf297958f1c16ed0e901fd0306e3b9f0ce412"
+      "sha256": "6886a8fb73781ae78b3afdb6c3717c88545f39e09e2745531b02da832b2b8787"
     },
     "brands/ligman.svg": {
       "bytes": 27253,
       "sha256": "4bc53e36f5835167086a267b64c6e8b2aec81b32314355dadddebeeeca6369f3"
     },
     "check-agustos-ui.py": {
-      "bytes": 40386,
-      "sha256": "5b508f5df5c5851d14d75687846585fb697bc5440a05edcf76244199ceae3461"
+      "bytes": 40426,
+      "sha256": "1f353db70dd760eb3d848edadf658168658a008b05db0c40f605015a727a1fcf"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -403,12 +410,12 @@
     },
     "starter.html": {
       "bytes": 32585,
-      "sha256": "23b9f4d7b9e95a2db2cfbac30b7650c6e2795a6bfae50893f48bac74faba986a"
+      "sha256": "7836f355fdbe0fc1a31adffcef3cac2c82338f9eae39959be367a312be539b17"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.8.1/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.8.1/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.9.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.9.0/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.8.1/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.9.0/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "screens": {
     "app-shell": {
@@ -1273,5 +1280,5 @@
       "weight": 400
     }
   ],
-  "version": "7.8.1"
+  "version": "7.9.0"
 }
