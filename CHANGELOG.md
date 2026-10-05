@@ -4,6 +4,10 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- Docs: the ops baseline block in `AGENTS.md` adds the TODO.md line. Each open TODO.md item has a card in the Basecamp project CODING, and a sync job updates the card. The two rule lines become one line. No kit change, so no version bump (2026-10-05).
+
 ## [7.8.1] - 2026-10-04
 
 A defect patch under MEMORY 2026-09-29 monthly-kit-release: real defects ship at once. The IESDesk dark audit on kit v7.7.0 found it, and v7.8.0 still had it. Decision record: MEMORY 2026-10-04 dark-code-blocks. The patch number follows v7.8.0, because the tag workflow tags only a version newer than the newest tag.
