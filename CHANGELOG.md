@@ -6,6 +6,7 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ### Changed
 
+- Docs: the cap on `## Next` in `TODO.md` rises from 20 to 50 items, per the fleet rule `2026-10-05 next-cap-50` in ops. `AGENTS.md` states the new cap. No kit change, so no version bump (2026-10-05).
 - Docs: the ops baseline block in `AGENTS.md` adds the TODO.md line. Each open TODO.md item has a card in the Basecamp project CODING, and a sync job updates the card. The two rule lines become one line. No kit change, so no version bump (2026-10-05).
 
 ## [7.8.1] - 2026-10-04
