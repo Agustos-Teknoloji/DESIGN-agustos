@@ -6,8 +6,8 @@ agustos.com is the reference implementation; this repository is authoritative. U
 ## Ops baseline (generated from CONTEXT-agustos/ops/fleet.md, do not edit by hand)
 - Role: source of the house-kit tier. Apps vendor a tagged release.
 - CI: pre-push hook
-- Fleet rules: `ops/AGENTS.md` in the `CONTEXT-agustos` repo (`~/vaults/business/PROJECTS/CONTEXT-agustos` on Emre's Mac)
-- Writing: `standards/technical.md` in the `SKILL-writing` repo (Claude Code plugin `agustos-writing`)
+- Rules: fleet in `ops/AGENTS.md` of the `CONTEXT-agustos` repo (`~/vaults/business/PROJECTS/CONTEXT-agustos` on Emre's Mac); writing in `standards/technical.md` of the `SKILL-writing` repo (Claude Code plugin `agustos-writing`)
+- TODO.md: each open item also has a card in the Basecamp project CODING. Keep TODO.md current in your PR; a sync job updates the card.
 - If a local rule conflicts with ops, stop and ask Emre. Emre cannot read code: agents review and merge (Working terms in the `CONTEXT-agustos` `AGENTS.md`).
 
 ## Source priority
