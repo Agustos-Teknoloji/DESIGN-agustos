@@ -1,7 +1,7 @@
 # Design application handoff
 
 Date: 2026-10-04
-Design system version: 7.8.1
+Design system version: 7.9.0
 Status: Both chromes, the layout layer, and ten screens are in the kit. Websites and small products use the top menu and the footer; larger product UI uses the sidebar. The checker errors on identity and warns on taste. Share the five artifacts and screens/. Do not regenerate the factory.
 
 Open these five artifacts first:
@@ -36,7 +36,7 @@ From this repository:
 python3 scripts/pack_handoff.py
 ```
 
-That writes `dist/agustos-ui-handoff-v7.8.1.zip`.
+That writes `dist/agustos-ui-handoff-v7.9.0.zip`.
 The zip holds the five artifacts, the kit, the screens, and lockup SVGs.
 It does not hold generators, adapters, Office files, or decision history.
 

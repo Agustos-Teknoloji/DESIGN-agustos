@@ -4,6 +4,15 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.9.0] - 2026-10-05
+
+An extra minor release under MEMORY 2026-09-29 monthly-kit-release: banuucak.com moves from WordPress to Astro with the kit, and it needs its brand. Emre approved the brand on 2026-10-05 ("yes to all four, go ahead", to the banuucak.com spec questions). Decision record: MEMORY 2026-10-05 banuucak-brand. Consuming sites change nothing.
+
+### Added
+
+- The `banuucak` brand: the personal site of Banu Uçak at banuucak.com. Wordmark "banu uçak", neutral ink, no Office files. `brand-banuucak` joins the brand classes, the CSS and the checker.
+- `brand-banuucak` may show photographs of Banu Uçak on `home` and `static`. `home` and `content-index` may list her posts as cards with a cover photograph.
+
 ### Changed
 
 - Docs: the cap on `## Next` in `TODO.md` rises from 20 to 50 items, per the fleet rule `2026-10-05 next-cap-50` in ops. `AGENTS.md` states the new cap. No kit change, so no version bump (2026-10-05).

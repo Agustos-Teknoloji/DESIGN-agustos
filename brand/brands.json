@@ -74,6 +74,15 @@
       "office": false,
       "tagline_en": "",
       "tagline_tr": ""
+    },
+    "banuucak": {
+      "wordmark": "banu uçak",
+      "color": "#15130f",
+      "title": "Banu Uçak",
+      "domain": "banuucak.com",
+      "office": false,
+      "tagline_en": "",
+      "tagline_tr": ""
     }
   },
   "$clients_policy": "Client brands are brands Ağustos builds for. Each registers a logo and one colour. The colour takes the place of black on the primary button; the kit keeps its fonts, greys and red signal. The build writes ui/brands/<slug>.css, ui/brands/<slug>.svg and ui/brands/<slug>-dark.svg. A page loads agustos-fonts.css, agustos.css, then ui/brands/<slug>.css, and puts brand-<slug> on <body>. Light and dark theme, as on every kit page.",

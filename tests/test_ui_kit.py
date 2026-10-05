@@ -622,7 +622,7 @@ class DistributionKitTest(unittest.TestCase):
     def test_kit_json_registers_each_brand(self):
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
         self.assertEqual(
-            set(kit["brands"]), {"agustos", "pataraz", "pld", "iesdesk", "specquick", "memregunes"},
+            set(kit["brands"]), {"agustos", "pataraz", "pld", "iesdesk", "specquick", "memregunes", "banuucak"},
         )
         for entry in kit["brands"].values():
             self.assertNotIn("chrome", entry)
@@ -1757,6 +1757,32 @@ class MemregunesBrandTest(unittest.TestCase):
         self.assertIn("BRAND_CLASSES = {{ui.brandClasses}}", template)
         checker = (ROOT / "ui" / "check-agustos-ui.py").read_text(encoding="utf-8")
         self.assertIn("'brand-memregunes'", checker)
+
+
+class BanuucakBrandTest(unittest.TestCase):
+    """The personal brand of Banu Uçak for banuucak.com."""
+
+    def test_registry_entry(self):
+        brands = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))["brands"]
+        entry = brands["banuucak"]
+        self.assertEqual(entry["wordmark"], "banu uçak")
+        self.assertEqual(entry["color"], "#15130f")
+        self.assertEqual(entry["domain"], "banuucak.com")
+        self.assertFalse(entry["office"])
+
+    def test_generated_outputs_carry_the_brand(self):
+        css = (ROOT / "ui" / "agustos.css").read_text(encoding="utf-8")
+        self.assertIn(".brand-banuucak", css)
+        self.assertIn("--brand-banuucak:", css)
+        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+        self.assertIn("brand-banuucak", kit["brandClasses"])
+        self.assertEqual(kit["brands"]["banuucak"]["domain"], "banuucak.com")
+        checker = (ROOT / "ui" / "check-agustos-ui.py").read_text(encoding="utf-8")
+        self.assertIn("'brand-banuucak'", checker)
+
+    def test_ui_kit_states_the_photograph_exception(self):
+        text = (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8")
+        self.assertIn("`brand-banuucak` may show photographs of Banu Uçak", text)
 
 
 class ClientBrandTest(unittest.TestCase):

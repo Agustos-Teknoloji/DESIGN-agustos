@@ -9,6 +9,15 @@
       "title": "Ağustos Teknoloji",
       "wordmark": "ağustos"
     },
+    "banuucak": {
+      "color": "#15130f",
+      "domain": "banuucak.com",
+      "office": false,
+      "tagline_en": "",
+      "tagline_tr": "",
+      "title": "Banu Uçak",
+      "wordmark": "banu uçak"
+    },
     "iesdesk": {
       "color": "#15130f",
       "domain": "iesdesk.com",
@@ -1362,5 +1371,5 @@
       "weight": 400
     }
   ],
-  "version": "7.8.1"
+  "version": "7.9.0"
 }
