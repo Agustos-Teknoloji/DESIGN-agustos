@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.10.0 · GENERATED WORDPRESS ADAPTER CSS
+/* AĞUSTOS DESIGN SYSTEM v7.11.0 · GENERATED WORDPRESS ADAPTER CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -908,6 +908,48 @@ nav:has(> .breadcrumb) {
   margin: 0 0 var(--space-3xl);
   color: var(--ink-soft);
 }
+
+/* A part with a picture beside its text (v7.11.0). The text keeps the reading
+   line, and the picture fills the side zone to its right: the same split as
+   the footer site map. The picture never takes the left side, so the text
+   keeps one left edge. Below 1024px the side zone is too narrow, so the two
+   blocks stack in markup order, and the picture takes half the reading line
+   at most. The split owns its edges: the last block of the text drops its
+   margin, so the gap below the part is the gap of the page. */
+.reading-split {
+  display: grid;
+  gap: var(--space-2xl) var(--space-xl);
+  align-items: start;
+}
+.reading-split > :not(.reading-split__media) > :last-child {
+  margin-block-end: 0;
+}
+.reading-split__media {
+  max-width: calc(var(--measure-body) / 2);
+  margin: 0;
+}
+@media (min-width: 1024px) {
+  .reading-split {
+    grid-template-columns: minmax(0, var(--measure-body)) minmax(0, 1fr);
+    grid-template-areas: "text media";
+  }
+  .reading-split > :not(.reading-split__media) { grid-area: text; }
+  .reading-split__media { grid-area: media; max-width: none; }
+  /* On a reading page the split and a wide part open past the reading line.
+     The text of a wide part still stops at the line through `prose`. */
+  .container--reading > :is(.reading-split, .reading-wide) { max-width: none; }
+}
+
+/* A landing page (v7.11.0): one argument per section, in a row. On a reading
+   page the sections sit one section gap apart, not the 40px H2 break of an
+   article, so the gap between two arguments is the largest space on the page.
+   The text and the picture of a part share one middle line, and every picture
+   takes one width: half the reading line at most. */
+.container--reading.container--landing > .agustos-section {
+  margin-top: var(--section-space);
+}
+.container--landing .reading-split { align-items: center; }
+.container--landing .reading-split__media { max-width: calc(var(--measure-body) / 2); }
 
 .agustos-card-grid {
   display: flex;

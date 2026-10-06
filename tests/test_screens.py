@@ -114,6 +114,27 @@ class ScreenFileTest(unittest.TestCase):
         self.assertIn('<button type="submit" class="site-header__more-link">Sign out</button>', text)
         self.assertNotIn("site-sidebar", text)
 
+    def test_landing_screen_shows_the_landing_rules(self):
+        """v7.11.0: one argument per section, each picture right of its text,
+        one part across the frame, and one closing band (MEMORY 2026-10-06 landing-page)."""
+        text = self.pages["landing"]
+        self.assertIn('<div class="container container--reading container--landing">', text)
+        self.assertGreaterEqual(text.count('class="agustos-section reading-split"'), 3)
+        self.assertIn('class="agustos-section reading-wide"', text)
+        self.assertIn('<div class="grid-3">', text)
+        self.assertIn('<ol class="type-list-ol"', text)
+        self.assertEqual(text.count('class="band band--cream"'), 1)
+        self.assertNotIn("type-divider", text)
+        # The text comes first in each split, so a phone shows heading, text, then picture.
+        for part in re.findall(r'<section class="agustos-section reading-split"[^>]*>(.*?)</section>', text, re.S):
+            self.assertLess(part.index("type-h2"), part.index("reading-split__media"))
+        # A drawing series: one label size and one line weight.
+        drawings = re.findall(r"<svg width=\"328\".*?</svg>", text, re.S)
+        self.assertGreaterEqual(len(drawings), 2)
+        for svg in drawings:
+            self.assertEqual(set(re.findall(r'font-size="(\d+)"', svg)), {"13"})
+            self.assertEqual(len(re.findall(r"<(?:rect|path)\b", svg)), svg.count('vector-effect="non-scaling-stroke"'))
+
     def test_checker_scores_the_folder_clean(self):
         """The checker owns the per-screen rules (primary CTA limit, quotes, theme,
         keyed on data-screen); this run is what enforces them on the screens."""

@@ -1,4 +1,4 @@
-# Ağustos Rails Adapter (kit v7.10.0)
+# Ağustos Rails Adapter (kit v7.11.0)
 
 Plain-ERB, Hotwire-compatible implementation of the Ağustos Design System. The
 adapter matches the Astro top menu and footer grammar without depending on Astro
@@ -132,7 +132,7 @@ stays light. With `theme: true` the layout puts the kit head script
 
 A site whose top menu does not fit at 1024px passes `fold_wide: true`. The
 header then carries `site-header--fold-wide`, and the menu folds into the
-burger and the drawer below 1280px, not below 1024px (kit v7.10.0).
+burger and the drawer below 1280px, not below 1024px (v7.10.0).
 
 Product UI uses the app shell
 (`shell: :product`): the layout renders `agustos/shared/sidebar`

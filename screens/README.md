@@ -11,6 +11,7 @@ screen live in the `screens` table in `tokens/design-tokens.json`. `ui/UI-KIT.md
 | static | `static.html` | content | agustos | topbar |
 | content | `content.html` | content | agustos | topbar |
 | content-index | `content-index.html` | content | agustos | topbar |
+| landing | `landing.html` | content | agustos | topbar |
 | products | `products.html` | catalog | pataraz | topbar |
 | product-finder | `product-finder.html` | catalog | pataraz | topbar |
 | product | `product.html` | catalog | pataraz | topbar |

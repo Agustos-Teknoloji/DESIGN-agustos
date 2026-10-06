@@ -31,7 +31,7 @@ A measured live site beats any doc on what ships. Flag the drift, and fix the do
 | **Build a UI in another repository** (Astro, WordPress, Rails, plain HTML) | **[ui/UI-KIT.md](ui/UI-KIT.md)**, then the matching `screens/<name>.html` | [docs/web.html](docs/web.html) for every screen with its rules, then [DESIGN.md](DESIGN.md) |
 | Check that websites, datasheets and LinkedIn read as one brand | [docs/family.html](docs/family.html) | "One brand in every medium" in [DESIGN.md](DESIGN.md), `recipes.typeRoles` and `designDirection.invariants` in `tokens/design-tokens.json` |
 | Change tokens or web recipes | `tokens/design-tokens.json` and `tokens/web.css.tmpl` | [docs/what-generates.html](docs/what-generates.html) for what a change regenerates |
-| Add or change a screen (home, static, content, content-index, products, product-finder, product, spec-sheet, app-shell) | `screens/<name>.html` and the `screens` table in `tokens/design-tokens.json` | [screens/README.md](screens/README.md), then the build and `/design-push` |
+| Add or change a screen (home, static, content, content-index, landing, products, product-finder, product, spec-sheet, app-shell, app-top-menu) | `screens/<name>.html` and the `screens` table in `tokens/design-tokens.json` | [screens/README.md](screens/README.md), then the build and `/design-push` |
 | Change or add a brand | [brand/README.md](brand/README.md) and `brand/brands.json` | The build. Run the full `brand/build.py` only if asked. |
 | Find a logo, favicon, social image, document or other finished asset | [ASSETS.md](ASSETS.md) | `brand/exports/<brand>/`, and the "I need" table below |
 | Build a Pataraz website or datasheet | [PATARAZ.md](PATARAZ.md) | [DESIGN.md](DESIGN.md), then the export or generator README |
