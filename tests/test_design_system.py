@@ -242,6 +242,27 @@ class DesignSystemGenerationTest(unittest.TestCase):
             "1180px",
         )
 
+    def test_fold_wide_block_is_written_twice_from_one_source(self):
+        """v7.10.0: the drawer rules between the fold-wide marks apply to every
+        top menu below 1024px, and again, scoped, at the fold-wide slot."""
+        template = (
+            "@media (max-width: 1023px) {\n"
+            "  /* fold-wide { */\n"
+            "  {{fold}}.site-header__burger { display: inline-flex; }\n"
+            "  /* } fold-wide */\n"
+            "}\n"
+            "@media (min-width: 1024px) and (max-width: 1279px) {\n"
+            "{{css.foldWideDrawer}}\n"
+            "}\n"
+        )
+        out = self.builder.expand_fold_wide(template)
+        self.assertIn("{\n  .site-header__burger { display: inline-flex; }\n}", out)
+        self.assertIn("{\n  :where(.site-header--fold-wide) .site-header__burger { display: inline-flex; }\n}", out)
+        self.assertNotIn("fold-wide {", out)
+        self.assertNotIn("{{", out)
+        with self.assertRaisesRegex(self.builder.TokenError, "one fold-wide block"):
+            self.builder.expand_fold_wide(template.replace("{{css.foldWideDrawer}}", ""))
+
     def test_expected_outputs_cover_all_web_adapters(self):
         relative = {str(path.relative_to(ROOT)) for path in self.builder.expected_outputs()}
         self.assertIn("tokens/agustos.css", relative)

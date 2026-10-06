@@ -1673,7 +1673,9 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
 .breadcrumb__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 .breadcrumb [aria-current="page"] { color: var(--ink); }
 
-/* Small laptops: the top menu keeps one row with tighter spacing. */
+/* Small laptops: the top menu keeps one row with tighter spacing. A top menu
+   with site-header--fold-wide is a drawer here (below), and the drawer rules
+   come later at the same weight, so they win. */
 @media (min-width: 1024px) and (max-width: 1279px) {
   .site-header__bar { gap: var(--space-lg); }
   .site-header__nav { gap: var(--space-lg); }
@@ -1686,14 +1688,7 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
 @media (max-width: 1023px) {
   /* An in-page anchor lands below the sticky bar, not under it. */
   html:has(.site-sidebar-bar) { scroll-padding-top: calc(var(--sidebar-bar-height) + var(--anchor-snap)); }
-  /* The top menu grows by the search row here, so the anchor offset does too. */
-  html:has(.site-header__search-row) { scroll-padding-top: calc(var(--site-header-height) + var(--site-header-search-height) + var(--anchor-snap)); }
-  .site-header__search--desktop { display: none; }
-  .site-header__search-row { display: block; }
-  .site-header__utility--bar { display: flex; justify-self: end; }
-  .site-header__utility--drawer { display: none; }
   /* The page behind an open drawer does not scroll. */
-  html:has(.site-header__panel:popover-open),
   html:has(.site-sidebar:popover-open) { overflow: hidden; }
   .site-sidebar-layout { padding-inline-start: 0; }
   .site-sidebar-bar {
@@ -1720,9 +1715,22 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
   .site-sidebar:not(:popover-open) { display: none; }
   .site-sidebar::backdrop { background: color-mix(in srgb, var(--ink) 32%, transparent); }
 
-  .site-header__bar { gap: var(--space-sm); }
-  .site-header__burger { display: inline-flex; justify-self: end; grid-column: 3; }
-  .site-header__panel {
+  /* The top-menu drawer. The build writes the rules between the fold-wide
+     marks twice: here for every top menu, and in the fold-wide block below,
+     each selector scoped to :where(.site-header--fold-wide). Start each
+     selector between the marks with the fold placeholder. */
+  /* fold-wide { */
+  /* The top menu grows by the search row here, so the anchor offset does too. */
+  html:has({{fold}}.site-header__search-row) { scroll-padding-top: calc(var(--site-header-height) + var(--site-header-search-height) + var(--anchor-snap)); }
+  {{fold}}.site-header__search--desktop { display: none; }
+  {{fold}}.site-header__search-row { display: block; }
+  {{fold}}.site-header__utility--bar { display: flex; justify-self: end; }
+  {{fold}}.site-header__utility--drawer { display: none; }
+  /* The page behind an open drawer does not scroll. */
+  html:has({{fold}}.site-header__panel:popover-open) { overflow: hidden; }
+  {{fold}}.site-header__bar { gap: var(--space-sm); }
+  {{fold}}.site-header__burger { display: inline-flex; justify-self: end; grid-column: 3; }
+  {{fold}}.site-header__panel {
     position: fixed;
     inset: 0 0 0 auto;
     z-index: 20;
@@ -1741,26 +1749,26 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
     background: var(--paper);
     color: var(--ink);
   }
-  .site-header__panel:popover-open { display: flex; }
-  .site-header__close {
+  {{fold}}.site-header__panel:popover-open { display: flex; }
+  {{fold}}.site-header__close {
     display: inline-flex;
     position: absolute;
     inset-block-start: {{recipes.chrome.paddingBlock}};
     inset-inline-end: var(--space-xl);
   }
-  .site-header__panel::backdrop { background: color-mix(in srgb, var(--ink) 32%, transparent); }
-  .site-header__nav { flex-direction: column; justify-content: flex-start; align-items: stretch; gap: 2px; }
-  .site-header__more-menu { position: static; min-width: 0; padding: 0 0 0 var(--space-sm); border: 0; box-shadow: none; background: none; }
-  .site-header__more-menu--groups { flex-direction: column; gap: var(--space-md); padding: 0 0 0 var(--space-sm); }
-  .site-header__more-group { min-width: 0; }
-  .site-header__more--end .site-header__more-menu { inset-inline-end: auto; }
+  {{fold}}.site-header__panel::backdrop { background: color-mix(in srgb, var(--ink) 32%, transparent); }
+  {{fold}}.site-header__nav { flex-direction: column; justify-content: flex-start; align-items: stretch; gap: 2px; }
+  {{fold}}.site-header__more-menu { position: static; min-width: 0; padding: 0 0 0 var(--space-sm); border: 0; box-shadow: none; background: none; }
+  {{fold}}.site-header__more-menu--groups { flex-direction: column; gap: var(--space-md); padding: 0 0 0 var(--space-sm); }
+  {{fold}}.site-header__more-group { min-width: 0; }
+  {{fold}}.site-header__more--end .site-header__more-menu { inset-inline-end: auto; }
   /* A long email stops at the drawer edge with an ellipsis; the drawer never scrolls sideways. */
-  .site-header__more--end > summary { max-inline-size: 100%; }
-  .site-header__more-label { max-inline-size: 100%; }
+  {{fold}}.site-header__more--end > summary { max-inline-size: 100%; }
+  {{fold}}.site-header__more-label { max-inline-size: 100%; }
   /* The script opens every More of the drawer and marks it. Its summary then
      reads as a small title over its links (v7.7.0). Without the script the
      summary stays a control, so no link is out of reach. */
-  .site-header__more[data-agustos-unfold] > summary {
+  {{fold}}.site-header__more[data-agustos-unfold] > summary {
     min-height: 0;
     padding-block: var(--space-md) var(--space-2xs);
     border-block-end: 0;
@@ -1769,12 +1777,22 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
     font-weight: {{foundations.fontWeight.semibold}};
     pointer-events: none;
   }
-  .site-header__more[data-agustos-unfold] > summary::after { display: none; }
-  .site-header__end { flex-direction: column; align-items: stretch; gap: var(--space-md); }
-  .site-header__cta { margin-inline-start: 0; justify-content: center; }
+  {{fold}}.site-header__more[data-agustos-unfold] > summary::after { display: none; }
+  {{fold}}.site-header__end { flex-direction: column; align-items: stretch; gap: var(--space-md); }
+  {{fold}}.site-header__cta { margin-inline-start: 0; justify-content: center; }
   /* In the drawer the switch is a line with its word (NN/g: icons need words). */
-  .site-header__panel .site-header__icon-btn.agustos-theme-switch { width: auto; justify-content: flex-start; padding-inline: 0; }
-  .site-header__panel .site-header__icon-btn .agustos-theme-switch__label { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
+  {{fold}}.site-header__panel .site-header__icon-btn.agustos-theme-switch { width: auto; justify-content: flex-start; padding-inline: 0; }
+  {{fold}}.site-header__panel .site-header__icon-btn .agustos-theme-switch__label { position: static; width: auto; height: auto; overflow: visible; clip-path: none; }
+  /* } fold-wide */
+}
+
+/* --- The fold-wide top menu (v7.10.0). A top menu with site-header--fold-wide
+   folds into the drawer below 1280px, not below 1024px: for a row that does
+   not fit at 1024px (long labels, or a site exception with more items). The
+   build writes the drawer rules above here again. :where() keeps their
+   weight, so they win over the tighter spacing above by order alone. --- */
+@media (min-width: 1024px) and (max-width: 1279px) {
+{{css.foldWideDrawer}}
 }
 
 /* On a phone the drawer covers the whole width (v7.7.0): the top-menu panel

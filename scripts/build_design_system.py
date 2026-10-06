@@ -535,8 +535,31 @@ def css_frame_measure(tokens: dict[str, Any]) -> str:
     return f"calc({content} + {gutter} + {gutter})"
 
 
+FOLD_WIDE_BLOCK = re.compile(r"^[ \t]*/\* fold-wide \{ \*/\n(.*?)^[ \t]*/\* \} fold-wide \*/\n", re.S | re.M)
+FOLD_WIDE_SCOPE = ":where(.site-header--fold-wide) "
+
+
+def expand_fold_wide(template: str) -> str:
+    """Write the top-menu drawer rules twice (v7.10.0).
+
+    The rules between the fold-wide marks of web.css.tmpl apply to every top
+    menu below 1024px. The build writes them again into the 1024px to 1279px
+    block at `{{css.foldWideDrawer}}`, each selector scoped to
+    `:where(.site-header--fold-wide)`, so one source serves both widths.
+    """
+    blocks = FOLD_WIDE_BLOCK.findall(template)
+    slots = template.count("{{css.foldWideDrawer}}")
+    if not blocks and not slots:
+        return template
+    if len(blocks) != 1 or slots != 1:
+        raise TokenError("web.css.tmpl needs one fold-wide block and one {{css.foldWideDrawer}}")
+    block = blocks[0]
+    template = FOLD_WIDE_BLOCK.sub(lambda _: block.replace("{{fold}}", ""), template)
+    return template.replace("{{css.foldWideDrawer}}", block.replace("{{fold}}", FOLD_WIDE_SCOPE).rstrip("\n"))
+
+
 def render_web_css(tokens: dict[str, Any], brands: dict[str, Any], label: str) -> str:
-    template = WEB_TEMPLATE.read_text(encoding="utf-8")
+    template = expand_fold_wide(WEB_TEMPLATE.read_text(encoding="utf-8"))
     version = tokens["version"]
     header = (
         f"AĞUSTOS DESIGN SYSTEM v{version} · GENERATED {label.upper()}\n"

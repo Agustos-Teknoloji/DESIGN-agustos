@@ -39,7 +39,7 @@ const cta = config.cta === undefined
 
 const idSuffix = locale;
 ---
-<header class="site-header">
+<header class:list={['site-header', { 'site-header--fold-wide': config.foldWide === true }]}>
   <div class="site-header__bar site-frame">
     <a class="site-lockup" href={homeHref} aria-label={brandname}>
       <LazGunesi class="site-lockup__symbol" />

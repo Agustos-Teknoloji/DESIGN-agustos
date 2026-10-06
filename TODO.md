@@ -6,6 +6,7 @@ Nothing in progress. Kit v7.7.0 shipped on 2026-10-03 (one top menu and the dark
 
 ## Next
 
+- DESIGN.md, "Personal brand exception": the memregunes paragraph says its seven menu labels become four plus More. memregunes.com now keeps seven, a site exception, with `site-header--fold-wide` (MEMORY 2026-10-06 header-fold-wide). Correct the sentence when the site ships the seven-item menu.
 - Ask Emre whether to rebuild the brand guidelines PDFs now that `banuucak` joined the family (AGENTS.md: a brand that joins needs his yes). Rebuild only on his yes.
 - banuucak exports when Emre asks: `brand/build.py` for the banuucak favicon kit and lockups, then ASSETS.md. Until then banuucak.com uses the generic black-sun favicon, which every non-Ağustos brand shares.
 - agustos.com, memregunes.com and pldturkiye.com adopt v7.7.0 (follow-up list in the v7.7.0 plan).

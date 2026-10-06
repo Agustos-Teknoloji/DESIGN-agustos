@@ -1,4 +1,4 @@
-# Ağustos Rails Adapter (kit v7.9.0)
+# Ağustos Rails Adapter (kit v7.10.0)
 
 Plain-ERB, Hotwire-compatible implementation of the Ağustos Design System. The
 adapter matches the Astro top menu and footer grammar without depending on Astro
@@ -129,6 +129,10 @@ A site may add the theme switch with `theme: true`. The user picks dark; the
 device never does, and every page starts light. A site without the switch
 stays light. With `theme: true` the layout puts the kit head script
 (`AgustosThemeHelper::THEME_SCRIPT`, with the CSP nonce) before the stylesheets.
+
+A site whose top menu does not fit at 1024px passes `fold_wide: true`. The
+header then carries `site-header--fold-wide`, and the menu folds into the
+burger and the drawer below 1280px, not below 1024px (kit v7.10.0).
 
 Product UI uses the app shell
 (`shell: :product`): the layout renders `agustos/shared/sidebar`

@@ -47,7 +47,7 @@
       "wordmark": "specquick"
     }
   },
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.9.0/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.10.0/ui/",
   "clients": {
     "heper": {
       "action": {
@@ -143,6 +143,7 @@
     "site-sidebar-burger",
     "site-sidebar__close",
     "site-header",
+    "site-header--fold-wide",
     "site-header__bar",
     "site-header__panel",
     "site-header__nav",
@@ -341,32 +342,32 @@
   "entryPoint": "UI-KIT.md",
   "files": {
     "AGENTS-SNIPPET.md": {
-      "bytes": 2476,
-      "sha256": "00796b22a1f0c06a9a38de0deaa13d60a71c2d10d55e40d6ef21979c2fe7c2fe"
+      "bytes": 2481,
+      "sha256": "24a3682afeb687e21b484617102d86c64730a26f9ac9e923a29de3a68364df4c"
     },
     "UI-KIT.md": {
-      "bytes": 30831,
-      "sha256": "12e1722e4488725f5a43f943c930af5fe10569121f25dcfbb5487dabcf8a3662"
+      "bytes": 31116,
+      "sha256": "645f6efed0b8f16d2ef71db2c025284b40d951a72aef3549e449cb8806690b44"
     },
     "agustos-chrome.js": {
-      "bytes": 4886,
-      "sha256": "1b4a3039a332f4c3ceb786d9e6101f09b4f08c061a21a7d9e0880d661ac4ceea"
+      "bytes": 5400,
+      "sha256": "14d379e441d8475a0af31744c72268162f1d620f69283600a8303fad49bab50a"
     },
     "agustos-fonts.css": {
-      "bytes": 2425,
-      "sha256": "aafe640dfc1690aaac61965596146e010df79cea016e5235f9a7dbada91cbb83"
+      "bytes": 2426,
+      "sha256": "4dabadfd3f40e2327679a964185509c104beb35f7ebdd9e7b3f171f0ce0569eb"
     },
     "agustos.css": {
-      "bytes": 79760,
-      "sha256": "5039f9b479f7d0485a0a0e5a2881e8b1d2c9a5c47f416f49132d79a571b8e6fc"
+      "bytes": 84778,
+      "sha256": "e6c5c5409d815969aa818adf392e881acfcaa701a39b2b87577dc4e15855e17d"
     },
     "brands/heper-dark.svg": {
       "bytes": 4919,
       "sha256": "93b252b7fece9f9730c3fb3f1fab5fdbd32bd67beb101797bfae007b2d70d5c3"
     },
     "brands/heper.css": {
-      "bytes": 482,
-      "sha256": "613122d358f58cd7fcecc07792a75e066bff566e8bcf1de12d4b4123fa3e5a26"
+      "bytes": 483,
+      "sha256": "8bf2a714bea8bbdadbf9ebe1456e942d60430cb572f6d5e6cde260f1d98fc02e"
     },
     "brands/heper.svg": {
       "bytes": 4919,
@@ -377,16 +378,16 @@
       "sha256": "4bc53e36f5835167086a267b64c6e8b2aec81b32314355dadddebeeeca6369f3"
     },
     "brands/ligman.css": {
-      "bytes": 487,
-      "sha256": "6886a8fb73781ae78b3afdb6c3717c88545f39e09e2745531b02da832b2b8787"
+      "bytes": 488,
+      "sha256": "1e83b16db236ef4d93a9b4e8b27f206ad35c879638372ece9d6cd176deba6451"
     },
     "brands/ligman.svg": {
       "bytes": 27253,
       "sha256": "4bc53e36f5835167086a267b64c6e8b2aec81b32314355dadddebeeeca6369f3"
     },
     "check-agustos-ui.py": {
-      "bytes": 40426,
-      "sha256": "1f353db70dd760eb3d848edadf658168658a008b05db0c40f605015a727a1fcf"
+      "bytes": 40458,
+      "sha256": "dca1e39afd1022f32ea1751f58cf36a1db90c9782e857bc23330602259aadd9e"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -409,13 +410,13 @@
       "sha256": "052fcdcd3f2d438e4027d7ccaadb88b1e7a8416c1630471f8fa39cfdf0fc1cd8"
     },
     "starter.html": {
-      "bytes": 32585,
-      "sha256": "7836f355fdbe0fc1a31adffcef3cac2c82338f9eae39959be367a312be539b17"
+      "bytes": 32588,
+      "sha256": "4fdcdf892bd605c0f5661c9f4ef02b2be5b577c39ab7ba411e9971295ecb31df"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.9.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.9.0/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.10.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.10.0/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.9.0/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.10.0/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "screens": {
     "app-shell": {
@@ -1280,5 +1281,5 @@
       "weight": 400
     }
   ],
-  "version": "7.9.0"
+  "version": "7.10.0"
 }
