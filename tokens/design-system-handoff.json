@@ -82,6 +82,7 @@
       "site-sidebar-burger",
       "site-sidebar__close",
       "site-header",
+      "site-header--fold-wide",
       "site-header__bar",
       "site-header__panel",
       "site-header__nav",
@@ -1705,7 +1706,7 @@
         "weight": 400
       }
     ],
-    "version": "7.9.0"
+    "version": "7.10.0"
   },
-  "version": "7.9.0"
+  "version": "7.10.0"
 }

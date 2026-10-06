@@ -4,6 +4,20 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.10.0] - 2026-10-06
+
+An extra minor release under MEMORY 2026-09-29 monthly-kit-release: memregunes.com shows its seven pages in the top menu, a site exception to the five-item rule, and its Turkish row overlaps itself between 1024 and about 1150px. Emre approved the fix on 2026-10-06 ("yes to all three, go ahead"): the burger menu on narrower screens instead of a crowded row. He saw a mockup of the folded and the full menu. Decision record: MEMORY 2026-10-06 header-fold-wide. A site that does not add the modifier changes nothing.
+
+### Added
+
+- `site-header--fold-wide`, an opt-in modifier on `<header class="site-header">`. With it the top menu folds into the burger and the drawer below 1280px, not below 1024px. Use it when the row does not fit at 1024px: long labels, or a site exception with more items. 1280px is the kit's small-laptop breakpoint, so no new breakpoint enters the kit.
+- `agustos-chrome.js` treats 1280px as the drawer width for a top menu with the modifier: it opens every More of the open drawer below 1280px, and it clears the marks at 1280px and wider.
+- The Astro adapter takes `header={{ foldWide: true }}`, and the Rails adapter takes `agustos_theme(fold_wide: true)`. Both add the modifier.
+
+### Changed
+
+- The build writes the top-menu drawer rules twice from one source in `tokens/web.css.tmpl`: below 1024px for every top menu, and from 1024 to 1279px scoped to `:where(.site-header--fold-wide)`. `:where()` keeps the weight of each rule, so the drawer wins over the tighter small-laptop spacing by order alone.
+
 ## [7.9.0] - 2026-10-05
 
 An extra minor release under MEMORY 2026-09-29 monthly-kit-release: banuucak.com moves from WordPress to Astro with the kit, and it needs its brand. Emre approved the brand on 2026-10-05 ("yes to all four, go ahead", to the banuucak.com spec questions). Decision record: MEMORY 2026-10-05 banuucak-brand. Consuming sites change nothing.

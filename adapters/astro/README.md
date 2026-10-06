@@ -1,6 +1,6 @@
 # Ağustos Astro Adapter
 
-Astro 5 reference implementation for the [Ağustos Design System](../../DESIGN.md), kit v7.9.0.
+Astro 5 reference implementation for the [Ağustos Design System](../../DESIGN.md), kit v7.10.0.
 
 This adapter is useful for static sites, documentation, marketing pages, and visual QA. It is not the canonical center of the system; shared decisions live in `../../tokens/design-tokens.json` and `DESIGN.md`.
 
@@ -127,6 +127,10 @@ Set `searchable={false}` to exclude a page. Blog detail pages should pass
 A site may add the theme switch with `header={{ theme: true }}`. The user picks
 dark; the device never does, and every page starts light. A site without the
 switch stays light.
+
+A site whose top menu does not fit at 1024px sets `header={{ foldWide: true }}`.
+The header then carries `site-header--fold-wide`, and the menu folds into the
+burger and the drawer below 1280px, not below 1024px (kit v7.10.0).
 
 The header drawer and its backdrop are native popovers styled by the kit, with
 a close button inside the drawer. The header script imports the kit's

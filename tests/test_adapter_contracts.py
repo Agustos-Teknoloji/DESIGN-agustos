@@ -61,7 +61,8 @@ class AdapterContractTest(unittest.TestCase):
 
     def test_astro_uses_shared_frame_header_and_active_navigation(self):
         header = (ROOT / "adapters" / "astro" / "src" / "components" / "Header.astro").read_text(encoding="utf-8")
-        self.assertIn('<header class="site-header">', header)
+        # v7.10.0: header={{ foldWide: true }} adds the fold-wide modifier.
+        self.assertIn("<header class:list={['site-header', { 'site-header--fold-wide': config.foldWide === true }]}>", header)
         self.assertIn("aria-current={currentState(item.href, pathname)}", header)
         self.assertIn('class="site-header__bar site-frame"', header)
         self.assertIn("config.theme === true", header)
@@ -234,7 +235,9 @@ class AdapterContractTest(unittest.TestCase):
         self.assertNotIn("agustos-nav", helper)
         self.assertIn("agustos_theme_toggle?", layout)
         self.assertRegex(layout, r'<body\s+data-screen="<%= agustos_screen %>"')
-        self.assertIn('<header class="site-header">', header)
+        # v7.10.0: agustos_theme(fold_wide: true) adds the fold-wide modifier.
+        self.assertIn('<header class="<%= agustos_header_class %>">', header)
+        self.assertIn('"site-header site-header--fold-wide" : "site-header"', helper)
         self.assertIn("agustos-button agustos-button--primary site-header__cta", header)
         self.assertIn('popovertarget="site-header-panel"', header)
         self.assertNotIn("agustos-header", header)

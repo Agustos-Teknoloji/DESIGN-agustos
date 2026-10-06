@@ -1294,7 +1294,7 @@ class ChromeTest(unittest.TestCase):
         self.assertIn("--sidebar-bar-height: calc(var(--control-min) + 2 * var(--space-xs) + 1px);", self.CSS)
         self.assertIn("min-height: var(--sidebar-bar-height);", self.CSS)
         rule = "html:has(.site-sidebar-bar) { scroll-padding-top: calc(var(--sidebar-bar-height) + var(--anchor-snap)); }"
-        self.assertEqual(self.CSS.count("scroll-padding-top"), 4, "the sidebar bar, the top menu, its phone search row and the print reset")
+        self.assertEqual(self.CSS.count("scroll-padding-top"), 5, "the sidebar bar, the top menu, its search row below 1024px and with fold-wide, and the print reset")
         # Only below 1024px, where the bar is sticky. Desktop has no bar.
         drawers = self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor")
         self.assertIn(rule, self.CSS[drawers:self.CSS.index("\n}\n", drawers)])
@@ -1362,7 +1362,7 @@ class ChromeTest(unittest.TestCase):
         import re
         self.assertIn("--anchor-snap: 1px;", self.CSS)
         offsets = re.findall(r"scroll-padding-top: ([^;]+);", self.CSS)
-        self.assertEqual(len(offsets), 4)
+        self.assertEqual(len(offsets), 5)
         for value in offsets:
             with self.subTest(value=value):
                 self.assertTrue(value == "0" or value.endswith("+ var(--anchor-snap))"), value)
@@ -1424,7 +1424,8 @@ class ChromeTest(unittest.TestCase):
     def test_drawers_close_from_inside_and_hold_the_page_still(self):
         drawers = self.CSS.index("@media (max-width: 1023px) {\n  /* An in-page anchor")
         block = self.CSS[drawers:self.CSS.index("\n}\n", drawers)]
-        self.assertIn("html:has(.site-header__panel:popover-open),\n  html:has(.site-sidebar:popover-open) { overflow: hidden; }", block)
+        self.assertIn("html:has(.site-sidebar:popover-open) { overflow: hidden; }", block)
+        self.assertIn("html:has(.site-header__panel:popover-open) { overflow: hidden; }", block)
         self.assertIn(".site-header__close {\n    display: inline-flex;", block)
         self.assertIn(".site-sidebar__close {\n    display: inline-flex;", block)
         # Hidden on desktop: they share the burger rule, which starts at display: none.
@@ -1471,7 +1472,7 @@ class ChromeTest(unittest.TestCase):
         self.assertIn("document.addEventListener('turbo:before-cache', () => unfold(false));", script)
         self.assertIn("window.addEventListener('pageshow', heal);", script)
         heal = script[script.index("function heal()"):]
-        self.assertIn("if (!DRAWER_MODE.matches) unfold(false);", heal[:heal.index("\n")])
+        self.assertIn("unfold(false, inDrawer);", heal[:heal.index("\n")])
         import shutil
         import subprocess
         node = shutil.which("node")
@@ -1730,6 +1731,95 @@ console.log(JSON.stringify(out));
         # v7.4.2: the nav label names the list; the visible title is hidden from screen readers.
         self.assertIn('<p class="agustos-contents__title" aria-hidden="true">On this page</p>', text)
         self.assertIn('<div class="container container--reading">\n      <p class="type-body">A long legal page', text)
+
+
+class FoldWideTest(unittest.TestCase):
+    """v7.10.0: site-header--fold-wide folds the top menu into the drawer below
+    1280px, not below 1024px. memregunes.com shows seven Turkish labels, and its
+    row overlapped itself between 1024 and about 1150px (MEMORY 2026-10-06
+    header-fold-wide). Without the modifier nothing changes."""
+
+    CSS = (ROOT / "ui" / "agustos.css").read_text(encoding="utf-8")
+    SCOPE = ":where(.site-header--fold-wide) "
+
+    def _block(self, head: str, after: str) -> str:
+        start = self.CSS.index(head, self.CSS.index(after))
+        return self.CSS[start:self.CSS.index("\n}\n", start)]
+
+    def _rules(self, block: str) -> list[str]:
+        """The selector of each rule in a media block, comments removed."""
+        block = re.sub(r"/\*.*?\*/", "", block, flags=re.S)
+        body = block[block.index("{") + 1:]
+        return [" ".join(sel.split()) for sel in re.findall(r"([^{}]+)\{[^{}]*\}", body)]
+
+    def test_the_modifier_is_published(self):
+        self.assertIn("site-header--fold-wide", TOKENS["compatibility"]["cssClasses"])
+        text = (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8")
+        self.assertIn("add `site-header--fold-wide` to the `header`", text)
+
+    def test_fold_wide_repeats_every_header_drawer_rule_scoped(self):
+        narrow = self._block("@media (max-width: 1023px) {\n  /* An in-page anchor", ".site-header__panel {")
+        wide = self._block("@media (min-width: 1024px) and (max-width: 1279px) {", "/* --- The fold-wide top menu")
+        header_rules = [sel for sel in self._rules(narrow) if "site-header" in sel]
+        wide_rules = self._rules(wide)
+        self.assertGreater(len(header_rules), 20)
+        expected = [sel.replace("html:has(.", "html:has(" + self.SCOPE + ".") if sel.startswith("html:has(")
+                    else self.SCOPE + sel for sel in header_rules]
+        self.assertEqual(wide_rules, expected)
+        # The burger shows and the panel is a popover drawer in the fold-wide range.
+        self.assertIn(self.SCOPE + ".site-header__burger { display: inline-flex;", wide)
+        self.assertIn(self.SCOPE + ".site-header__panel:popover-open { display: flex; }", wide)
+
+    def test_fold_wide_wins_over_the_small_laptop_spacing_by_order(self):
+        tight = self.CSS.index("@media (min-width: 1024px) and (max-width: 1279px) {\n  .site-header__bar { gap: var(--space-lg); }")
+        wide = self.CSS.index("/* --- The fold-wide top menu")
+        phone = self.CSS.index("@media (max-width: 639px) {")
+        self.assertLess(tight, wide)
+        self.assertLess(wide, phone)
+        # :where() adds no weight, so a scoped rule ties with the tight rule and wins by order.
+        block = self._block("@media (min-width: 1024px) and (max-width: 1279px) {", "/* --- The fold-wide top menu")
+        self.assertNotRegex(block, r"(?m)^  \.site-header--fold-wide")
+
+    def test_chrome_script_folds_at_1280px_for_the_modifier(self):
+        script = (ROOT / "ui" / "agustos-chrome.js").read_text(encoding="utf-8")
+        self.assertIn("window.matchMedia('(max-width: 1279px)')", script)
+        self.assertIn("closest?.('.site-header--fold-wide')", script)
+        self.assertIn("WIDE_DRAWER_MODE.addEventListener('change', heal);", script)
+        import shutil
+        import subprocess
+        node = shutil.which("node")
+        if not node:
+            self.skipTest("node is not installed: the behaviour half of this test needs it")
+        harness = r"""
+const source = require('fs').readFileSync(process.argv[1], 'utf8');
+function run(width, foldWide) {
+  const listeners = {}, winListeners = {};
+  const query = (max) => ({ get matches() { return state.width <= max; }, addEventListener() {} });
+  const state = { width };
+  const header = foldWide ? {} : null;
+  const summary = { attrs: {}, setAttribute(k, v) { this.attrs[k] = v; }, removeAttribute(k) { delete this.attrs[k]; }, focus() {} };
+  const menu = { dataset: {}, open: false, summary, querySelector() { return summary; },
+    closest(selector) { return selector === '.site-header--fold-wide' ? header : null; },
+    matches(selector) { return selector === 'details[data-agustos-unfold]' ? 'agustosUnfold' in this.dataset : false; } };
+  const panel = { closest: menu.closest, matches(selector) { return selector === '.site-header__panel[popover]' || selector === ':popover-open'; } };
+  const document = { documentElement: {}, addEventListener(name, fn) { (listeners[name] ||= []).push(fn); },
+    querySelectorAll(selector) { return selector === '.site-header__panel details.site-header__more' ? [menu] : []; } };
+  const window = { matchMedia: (q) => query(Number(q.match(/\d+/)[0])), addEventListener(name, fn) { (winListeners[name] ||= []).push(fn); } };
+  new Function('document', 'window', 'localStorage', source)(document, window, {});
+  listeners.toggle.forEach((fn) => fn({ target: panel }));
+  const opened = 'agustosUnfold' in menu.dataset;
+  state.width = 1300;
+  winListeners.pageshow.forEach((fn) => fn({}));
+  return [opened, 'agustosUnfold' in menu.dataset];
+}
+console.log(JSON.stringify({ foldWide1100: run(1100, true), plain1100: run(1100, false), plain900: run(900, false) }));
+"""
+        result = subprocess.run([node, "-e", harness, str(ROOT / "ui" / "agustos-chrome.js")],
+                                capture_output=True, text=True, timeout=30)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        # [marked when the drawer opens, still marked after the screen grew to 1300px]
+        self.assertEqual(json.loads(result.stdout),
+                         {"foldWide1100": [True, False], "plain1100": [False, False], "plain900": [True, False]})
 
 
 class MemregunesBrandTest(unittest.TestCase):

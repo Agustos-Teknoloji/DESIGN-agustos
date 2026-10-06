@@ -61,6 +61,7 @@ module AgustosThemeHelper
     cta: UNSET,
     language_switch: nil,
     theme: false,
+    fold_wide: false,
     shell: :marketing,
     screen: nil,
     search: nil,
@@ -78,6 +79,7 @@ module AgustosThemeHelper
       more_label: more_label,
       language_switch: language_switch,
       theme: theme,
+      fold_wide: fold_wide,
       shell: shell&.to_sym,
       screen: screen&.to_s&.tr("_", "-"),
       search: search,
@@ -100,6 +102,7 @@ module AgustosThemeHelper
       cta: { label: "Start a project", href: "/about" },
       language_switch: nil,
       theme: false,
+      fold_wide: false,
       shell: :marketing,
       screen: nil,
       search: nil,
@@ -142,6 +145,8 @@ module AgustosThemeHelper
   def agustos_theme_toggle? = agustos_theme_config[:theme] == true
   def agustos_product_shell? = agustos_theme_config[:shell] == :product
   def agustos_header_utility? = agustos_language_switch || agustos_theme_toggle?
+  # fold_wide: true folds the top menu into the drawer below 1280px, not 1024px.
+  def agustos_header_class = agustos_theme_config[:fold_wide] ? "site-header site-header--fold-wide" : "site-header"
 
   # The Stimulus controllers on <body>: none. The kit script agustos/chrome.js
   # handles the theme switch, so the adapter ships no theme controller.

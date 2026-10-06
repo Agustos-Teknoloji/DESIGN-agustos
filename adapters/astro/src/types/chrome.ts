@@ -36,6 +36,11 @@ export interface HeaderConfig {
   languageSwitch?: LanguageSwitch | null;
   /** Adds the theme switch. The user picks dark; a page starts light. */
   theme?: boolean;
+  /**
+   * Adds site-header--fold-wide: the menu folds into the drawer below 1280px,
+   * not below 1024px. Use it when the row does not fit at 1024px.
+   */
+  foldWide?: boolean;
   search?: boolean | { labels?: Partial<SearchLabels> };
 }
 

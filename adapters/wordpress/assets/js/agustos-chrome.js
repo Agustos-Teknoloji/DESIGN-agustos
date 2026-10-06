@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.9.0 · CHROME BEHAVIOUR
+/* AĞUSTOS DESIGN SYSTEM v7.10.0 · CHROME BEHAVIOUR
    GENERATED. Do not hand-edit. Run: python3 scripts/build_design_system.py
 
    It adds what native HTML does not give the chrome. The More menu of the top
@@ -10,8 +10,9 @@
    Escape, an outside click and its close button. Below 1024px it opens every
    More of an open drawer, so each group shows; without this file each More
    folds and opens on a tap. It undoes that at 1024px and wider, and
-   before Turbo caches the page. Load it once on every page with the chrome,
-   with defer. A theme switch (a button with
+   before Turbo caches the page. A top menu with site-header--fold-wide is a
+   drawer below 1280px, so for it these widths are 1280px. Load it once on
+   every page with the chrome, with defer. A theme switch (a button with
    data-agustos-theme) flips data-theme on <html> and keeps the choice in
    localStorage under agustos:theme. The inline head script in UI-KIT.md
    applies a stored dark choice before the first paint. The device setting is
@@ -23,6 +24,9 @@
   // An unfolded More (inside an open drawer) never closes on Escape, a click or focus.
   const OPEN = 'details.site-header__more[open]:not([data-agustos-unfold])';
   const DRAWER_MODE = window.matchMedia('(max-width: 1023px)');
+  // A top menu with site-header--fold-wide folds into the drawer below 1280px (v7.10.0).
+  const WIDE_DRAWER_MODE = window.matchMedia('(max-width: 1279px)');
+  const inDrawer = (node) => (node.closest?.('.site-header--fold-wide') ? WIDE_DRAWER_MODE : DRAWER_MODE).matches;
   const PANEL_MORE = '.site-header__panel details.site-header__more';
   const DRAWER = '.site-header__panel[popover], .site-sidebar[popover]';
   const SWITCH = '[data-agustos-theme]';
@@ -50,14 +54,15 @@
 
   // Below 1024px the drawer shows every More open, its summary as a small title
   // (v7.7.0). It runs on each drawer open, so a swapped page body is covered.
-  function unfold(on) {
+  // keep(menu) says which marked menus stay marked when on is false.
+  function unfold(on, keep = () => false) {
     document.querySelectorAll(PANEL_MORE).forEach((menu) => {
       const summary = menu.querySelector('summary');
       if (on) {
         menu.dataset.agustosUnfold = '';
         menu.open = true;
         summary?.setAttribute('tabindex', '-1');
-      } else if ('agustosUnfold' in menu.dataset) {
+      } else if ('agustosUnfold' in menu.dataset && !keep(menu)) {
         delete menu.dataset.agustosUnfold;
         menu.open = false;
         summary?.removeAttribute('tabindex');
@@ -67,18 +72,19 @@
 
   // A Turbo snapshot or the back-forward cache can bring back a marked More
   // after the screen grew to 1024px or wider. Clear the marks there.
-  function heal() { if (!DRAWER_MODE.matches) unfold(false); }
+  function heal() { unfold(false, inDrawer); }
 
   // toggle does not bubble, so listen in the capture phase.
   document.addEventListener('toggle', (event) => {
     const target = event.target;
-    if (target.matches?.('.site-header__panel[popover]') && isOpen(target)) unfold(DRAWER_MODE.matches);
+    if (target.matches?.('.site-header__panel[popover]') && isOpen(target)) unfold(inDrawer(target));
     if (!target.matches?.('details[data-agustos-unfold]')) return;
     // A screen reader can still activate the summary: keep the menu open.
-    if (DRAWER_MODE.matches) { if (!target.open) target.open = true; } else heal();
+    if (inDrawer(target)) { if (!target.open) target.open = true; } else heal();
   }, true);
 
   DRAWER_MODE.addEventListener('change', heal);
+  WIDE_DRAWER_MODE.addEventListener('change', heal);
   window.addEventListener('pageshow', heal);
   // Turbo keeps a copy of the page for Back: keep it without the marks.
   document.addEventListener('turbo:before-cache', () => unfold(false));
