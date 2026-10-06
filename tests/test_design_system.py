@@ -85,7 +85,7 @@ class DesignSystemGenerationTest(unittest.TestCase):
         rows = {row["name"]: row for row in self.builder.screen_rows(self.tokens, brands)}
         self.assertEqual(
             list(rows),
-            ["home", "static", "content", "content-index", "products", "product-finder", "product", "spec-sheet", "app-shell", "app-top-menu"],
+            ["home", "static", "content", "content-index", "landing", "products", "product-finder", "product", "spec-sheet", "app-shell", "app-top-menu"],
         )
         self.assertEqual(rows["home"]["chrome"], "topbar")
         self.assertEqual(rows["product"]["chrome"], "topbar")
@@ -107,7 +107,7 @@ class DesignSystemGenerationTest(unittest.TestCase):
         for row in rows.values():
             self.assertEqual(row["file"], f"{row['name']}.html")
         bad = copy.deepcopy(self.tokens)
-        bad["screens"]["home"]["family"] = "landing"
+        bad["screens"]["home"]["family"] = "pricing"
         with self.assertRaises(self.builder.TokenError):
             self.builder.validate_screens(bad, brands)
         bad = copy.deepcopy(self.tokens)
@@ -285,7 +285,7 @@ class DesignSystemGenerationTest(unittest.TestCase):
         outputs = self.builder.expected_outputs()
         text = outputs[ROOT / "docs" / "web.html"]
         self.assertIn('<!-- GENERATED. Do not hand-edit.', text)
-        for name in ("home", "static", "content", "content-index", "products", "product-finder", "product", "spec-sheet", "app-shell", "app-top-menu"):
+        for name in ("home", "static", "content", "content-index", "landing", "products", "product-finder", "product", "spec-sheet", "app-shell", "app-top-menu"):
             self.assertIn(f'id="screen-{name}"', text)
             self.assertIn(f'src="../screens/{name}.html"', text)
         self.assertIn("websites use the top menu and the footer, product UI uses the sidebar", text)

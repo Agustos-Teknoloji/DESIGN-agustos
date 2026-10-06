@@ -4,6 +4,23 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.11.0] - 2026-10-06
+
+A minor release: the kit gains the landing page, a page that makes several arguments in a row. Emre approved the rules on 2026-10-06, after he rejected alternating sides on memregunes.com/consulting. memregunes.com built them first with its own classes (WEBSITE-memregunes PR 91). Decision record: MEMORY 2026-10-06 landing-page. A site that does not add the new classes changes nothing.
+
+### Added
+
+- The landing page rules in `UI-KIT.md` and `DESIGN.md`: one argument per section, in a fixed order; three levels of space; the text on one left edge and each picture in the side zone to its right; a picture adds information; one size for a series of drawings; a change of pattern at least once; no rule and no band between parts; text first on a phone. Sources: NN/g on zigzag layouts, proximity and the illusion of completeness, and Refactoring UI on spacing.
+- `container--landing` on the page column. On a reading page the sections sit `--section-space` (72 to 104px) apart, not 40px. Each picture is centered on the text of its part, and every picture takes half the reading line at most.
+- `reading-split` and `reading-split__media`: a part with a picture beside its text. From 1024px the text keeps the reading line and the picture fills the side zone, aligned at the top; below 1024px they stack in markup order. The picture never takes the left side, whatever the markup order.
+- `reading-wide`: a part of a reading page that runs across the frame from 1024px, for example a `grid-3`.
+- The `landing` reference screen (`screens/landing.html`, content family, reading column): a sample Ağustos consulting page with two drawings in one series.
+
+### Changed
+
+- The checker tests use `pricing` as the example of an unknown screen name, because `landing` is now a screen.
+- The `UI-KIT.md` length limit rises from 230 to 235 lines, for the new screen row and the landing page rules.
+
 ## [7.10.0] - 2026-10-06
 
 An extra minor release under MEMORY 2026-09-29 monthly-kit-release: memregunes.com shows its seven pages in the top menu, a site exception to the five-item rule, and its Turkish row overlaps itself between 1024 and about 1150px. Emre approved the fix on 2026-10-06 ("yes to all three, go ahead"): the burger menu on narrower screens instead of a crowded row. He saw a mockup of the folded and the full menu. Decision record: MEMORY 2026-10-06 header-fold-wide. A site that does not add the modifier changes nothing.

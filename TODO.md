@@ -2,7 +2,10 @@
 
 ## Now
 
-Nothing in progress. Kit v7.7.0 shipped on 2026-10-03 (one top menu and the dark theme on every site; MEMORY.md 2026-10-03 kit-7.7-extra-release). The consuming sites adopt it under Next.
+- [x] Kit v7.11.0: the landing page rules, `container--landing`, `reading-split`, `reading-split__media`, `reading-wide` and the `landing` screen (MEMORY.md 2026-10-06 landing-page). The PR is open.
+- [ ] Emre approves the before/after preview, and chooses the monthly release or an extra one (MEMORY.md 2026-09-29 monthly-kit-release).
+- [ ] After the merge on `main`: `/design-push`.
+- [ ] memregunes.com moves Consulting and About to the kit classes and deletes `src/styles/split.css` (WEBSITE-memregunes MEMORY 2026-10-06 consulting-rhythm, "reopen if").
 
 ## Next
 

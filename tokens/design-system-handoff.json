@@ -43,6 +43,7 @@
       "site-frame",
       "container",
       "container--reading",
+      "container--landing",
       "skip-link",
       "brand-agustos",
       "brand-pataraz",
@@ -58,6 +59,9 @@
       "hero-split",
       "hero-split--media-start",
       "hero-split__media",
+      "reading-split",
+      "reading-split__media",
+      "reading-wide",
       "agustos-section",
       "agustos-section__head",
       "agustos-card-grid",
@@ -870,6 +874,13 @@
         "file": "home.html",
         "photo": "one installation photograph, third in the rollout",
         "purpose": "The homepage: a thin headline with one highlighter stroke, a deck, two buttons and a trust line, then the brand and software card sections, and one closing pale red band."
+      },
+      "landing": {
+        "brand": "agustos",
+        "family": "content",
+        "file": "landing.html",
+        "photo": "a photograph or a drawing that adds information; one width for every picture",
+        "purpose": "A page that makes several arguments in a row, such as a service page: one argument per section (who it is for, problem, method, role, cost, proof), a section gap between them, each picture in the side zone to the right of the text, and one closing pale red band."
       },
       "product": {
         "brand": "pataraz",
@@ -1706,7 +1717,7 @@
         "weight": 400
       }
     ],
-    "version": "7.10.0"
+    "version": "7.11.0"
   },
-  "version": "7.10.0"
+  "version": "7.11.0"
 }

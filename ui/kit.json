@@ -47,7 +47,7 @@
       "wordmark": "specquick"
     }
   },
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.10.0/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.11.0/ui/",
   "clients": {
     "heper": {
       "action": {
@@ -104,6 +104,7 @@
     "site-frame",
     "container",
     "container--reading",
+    "container--landing",
     "skip-link",
     "brand-agustos",
     "brand-pataraz",
@@ -119,6 +120,9 @@
     "hero-split",
     "hero-split--media-start",
     "hero-split__media",
+    "reading-split",
+    "reading-split__media",
+    "reading-wide",
     "agustos-section",
     "agustos-section__head",
     "agustos-card-grid",
@@ -343,23 +347,23 @@
   "files": {
     "AGENTS-SNIPPET.md": {
       "bytes": 2481,
-      "sha256": "24a3682afeb687e21b484617102d86c64730a26f9ac9e923a29de3a68364df4c"
+      "sha256": "0018e01b313c5fa78e50d6fa7ef5f4204cc159a75b3db73d3f52bef949ab1b2b"
     },
     "UI-KIT.md": {
-      "bytes": 31116,
-      "sha256": "645f6efed0b8f16d2ef71db2c025284b40d951a72aef3549e449cb8806690b44"
+      "bytes": 33581,
+      "sha256": "021d0806d2c0e0c2008f5c23b131226461bbc45925f80fa7a7586160559e680e"
     },
     "agustos-chrome.js": {
       "bytes": 5400,
-      "sha256": "da3c51279f8c87626efbc86d987accd5132d19ab41ea03dd442da5e788f366a4"
+      "sha256": "e369686befb13272c969688ea0a61cc6fd869af6916a6f82b09cdbbf61495e79"
     },
     "agustos-fonts.css": {
       "bytes": 2426,
-      "sha256": "4dabadfd3f40e2327679a964185509c104beb35f7ebdd9e7b3f171f0ce0569eb"
+      "sha256": "35f60d05a067e32da276db77d43df7eedc8da07f3efd553aeebf90d65f078eb5"
     },
     "agustos.css": {
-      "bytes": 84778,
-      "sha256": "e6c5c5409d815969aa818adf392e881acfcaa701a39b2b87577dc4e15855e17d"
+      "bytes": 86712,
+      "sha256": "897d8ed6ced183472e051aec948bfee2e56a06f14bf750ceee3c4bdb217d362c"
     },
     "brands/heper-dark.svg": {
       "bytes": 4919,
@@ -367,7 +371,7 @@
     },
     "brands/heper.css": {
       "bytes": 483,
-      "sha256": "8bf2a714bea8bbdadbf9ebe1456e942d60430cb572f6d5e6cde260f1d98fc02e"
+      "sha256": "0ebae1f211f50f7cc21528166419ecd7ac41611d538f009ab30837587f86d7bf"
     },
     "brands/heper.svg": {
       "bytes": 4919,
@@ -379,15 +383,15 @@
     },
     "brands/ligman.css": {
       "bytes": 488,
-      "sha256": "1e83b16db236ef4d93a9b4e8b27f206ad35c879638372ece9d6cd176deba6451"
+      "sha256": "2dc8327aaab1b47342c837e651249b59f2e9bee5ded81381a291cfb47ab51aff"
     },
     "brands/ligman.svg": {
       "bytes": 27253,
       "sha256": "4bc53e36f5835167086a267b64c6e8b2aec81b32314355dadddebeeeca6369f3"
     },
     "check-agustos-ui.py": {
-      "bytes": 40458,
-      "sha256": "dca1e39afd1022f32ea1751f58cf36a1db90c9782e857bc23330602259aadd9e"
+      "bytes": 40659,
+      "sha256": "50100054abdd8706691924ec8f5b23fefa48334b06aa24505700de8a95cb9913"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -411,12 +415,12 @@
     },
     "starter.html": {
       "bytes": 32588,
-      "sha256": "4fdcdf892bd605c0f5661c9f4ef02b2be5b577c39ab7ba411e9971295ecb31df"
+      "sha256": "7a6ed72bed7e7b979e0cf5b2c8d94cdcd5461805e35db62a57785904d7cc2bf3"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.10.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.10.0/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.11.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.11.0/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.10.0/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.11.0/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "screens": {
     "app-shell": {
@@ -472,6 +476,17 @@
       "highlight": "one",
       "photo": "one installation photograph, third in the rollout",
       "purpose": "The homepage: a thin headline with one highlighter stroke, a deck, two buttons and a trust line, then the brand and software card sections, and one closing pale red band.",
+      "theme": "light-first"
+    },
+    "landing": {
+      "brand": "agustos",
+      "chrome": "topbar",
+      "column": "reading",
+      "family": "content",
+      "file": "landing.html",
+      "highlight": "at-most-one",
+      "photo": "a photograph or a drawing that adds information; one width for every picture",
+      "purpose": "A page that makes several arguments in a row, such as a service page: one argument per section (who it is for, problem, method, role, cost, proof), a section gap between them, each picture in the side zone to the right of the text, and one closing pale red band.",
       "theme": "light-first"
     },
     "product": {
@@ -1281,5 +1296,5 @@
       "weight": 400
     }
   ],
-  "version": "7.10.0"
+  "version": "7.11.0"
 }

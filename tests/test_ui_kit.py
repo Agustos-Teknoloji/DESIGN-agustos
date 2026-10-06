@@ -583,7 +583,8 @@ class DistributionKitTest(unittest.TestCase):
         lines = (self.KIT / "UI-KIT.md").read_text(encoding="utf-8").splitlines()
         # 220 since v7.6.0: the type table (one row per role) joined the file.
         # 230 since v7.8.0: the client brand section and its table joined the file.
-        self.assertLessEqual(len(lines), 230, "UI-KIT.md is the one file an agent reads in full")
+        # 235 since v7.11.0: the landing screen row and the landing page rules joined the file.
+        self.assertLessEqual(len(lines), 235, "UI-KIT.md is the one file an agent reads in full")
 
     def test_entry_point_states_the_v7_7_rules(self):
         text = (self.KIT / "UI-KIT.md").read_text(encoding="utf-8")
@@ -631,7 +632,7 @@ class DistributionKitTest(unittest.TestCase):
 
     def test_kit_json_publishes_the_screens_table(self):
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
-        self.assertEqual(len(kit["screens"]), 10)
+        self.assertEqual(len(kit["screens"]), 11)
         product = kit["screens"]["product"]
         self.assertEqual(product["file"], "product.html")
         self.assertEqual(product["family"], "catalog")
@@ -777,7 +778,7 @@ class CheckerTest(unittest.TestCase):
                    '<button type="submit" class="site-header__more-link">Sign out</button></form></div></details></div>')
         pages = {
             "no-screen.html": (self._screen_page(None, main=primary), {"AG020": "error"}),
-            "unknown.html": (self._screen_page("landing", main=primary), {"AG021": "error"}),
+            "unknown.html": (self._screen_page("pricing", main=primary), {"AG021": "error"}),
             "many-and-quoted.html": (self._screen_page("products", main=primary * 4 + quote), {}),
             "dark.html": (self._screen_page("home", main=head + primary, html_attrs=' data-theme="dark"'), {"AG024": "warn"}),
             "two-marks.html": (self._screen_page("home", main=f"<h1>{mark}</h1><p>{mark}</p>"), {"AG025": "warn"}),
@@ -1015,7 +1016,7 @@ class CheckerTest(unittest.TestCase):
             (project / "node_modules").mkdir(parents=True)
             (project / "index.html").write_text(page, encoding="utf-8")
             (project / "node_modules" / "bad.html").write_text(
-                self._screen_page("landing"), encoding="utf-8")
+                self._screen_page("pricing"), encoding="utf-8")
             result = self._run(project, "--json")
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertEqual(json.loads(result.stdout)["filesScanned"], 1)
@@ -1048,7 +1049,7 @@ class CheckerTest(unittest.TestCase):
                 rendered.format(screen="home", main='<h1><mark class="type-highlight">Light</mark></h1>' + primary),
                 encoding="utf-8")
             (build / "tr" / "index.html").write_text(
-                rendered.format(screen="landing", main=primary), encoding="utf-8")
+                rendered.format(screen="pricing", main=primary), encoding="utf-8")
             (build / "old-about.html").write_text(redirect, encoding="utf-8")
 
             result = self._run(build, "--screens-only", "--json")
@@ -1935,6 +1936,54 @@ class ClientBrandTest(unittest.TestCase):
                 self.assertNotRegex(css, rf"(?m)^\s*{name}:", "the kit reads it with a fallback and never sets it")
         self.assertNotIn("--focus", css)
         self.assertNotIn("--signal-text", css)
+
+
+class LandingPageTest(unittest.TestCase):
+    """v7.11.0: a landing page makes several arguments in a row. Emre approved
+    the rules on 2026-10-06, after he rejected alternating sides on
+    memregunes.com/consulting (MEMORY 2026-10-06 landing-page)."""
+
+    CSS = (ROOT / "ui" / "agustos.css").read_text(encoding="utf-8")
+    KIT_TEXT = (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8")
+
+    def test_the_classes_are_published(self):
+        declared = TOKENS["compatibility"]["cssClasses"]
+        for name in ("container--landing", "reading-split", "reading-split__media", "reading-wide"):
+            with self.subTest(name=name):
+                self.assertIn(name, declared)
+                self.assertIn(f"`{name}`", self.KIT_TEXT)
+
+    def test_the_text_keeps_the_reading_line_and_the_picture_takes_the_side_zone(self):
+        # The same split as the footer site map: the reading line, the --space-xl gap, the side zone.
+        self.assertIn(".reading-split {\n  display: grid;\n  gap: var(--space-2xl) var(--space-xl);\n  align-items: start;\n}", self.CSS)
+        self.assertIn("    grid-template-columns: minmax(0, var(--measure-body)) minmax(0, 1fr);\n    grid-template-areas: \"text media\";", self.CSS)
+        # The picture takes the right side whatever the markup order: never the left.
+        self.assertIn(".reading-split__media { grid-area: media; max-width: none; }", self.CSS)
+        self.assertNotIn("reading-split--media-start", self.CSS)
+        # Below 1024px the picture takes half the reading line at most.
+        self.assertIn(".reading-split__media {\n  max-width: calc(var(--measure-body) / 2);\n  margin: 0;\n}", self.CSS)
+        self.assertIn(".container--reading > :is(.reading-split, .reading-wide) { max-width: none; }", self.CSS)
+
+    def test_the_parts_of_a_landing_page_sit_one_section_gap_apart(self):
+        # A reading page takes the 40px H2 break; a landing page takes --section-space.
+        self.assertIn(".container--reading.container--landing > .agustos-section {\n  margin-top: var(--section-space);\n}", self.CSS)
+        self.assertLess(self.CSS.index(".container--reading .agustos-section {"),
+                        self.CSS.index(".container--reading.container--landing > .agustos-section {"))
+        # Each picture is centered on the text of its part, and all share one width.
+        self.assertIn(".container--landing .reading-split { align-items: center; }", self.CSS)
+        self.assertIn(".container--landing .reading-split__media { max-width: calc(var(--measure-body) / 2); }", self.CSS)
+
+    def test_the_entry_point_states_the_approved_rules(self):
+        for phrase in ("who it is for, problem, method, role, cost, proof, call to action",
+                       "at least twice the largest gap inside a part",
+                       "never on the left", "A picture adds information",
+                       "non-scaling-stroke", "Change the pattern at least once",
+                       "no band but the closing band", "heading, text, then picture",
+                       "Zigzag Image–Text Layouts Make Scanning Less Efficient",
+                       "The Illusion of Completeness"):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, self.KIT_TEXT)
+        self.assertNotIn("\u2014", self.KIT_TEXT[self.KIT_TEXT.index("**A picture beside the text.**"):self.KIT_TEXT.index("**Highlighter and copy.**")])
 
 
 if __name__ == "__main__":

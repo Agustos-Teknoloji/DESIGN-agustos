@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Ağustos UI kit compliance checker — v7.10.0
+"""Ağustos UI kit compliance checker — v7.11.0
 
 GENERATED. Do not hand-edit. Regenerate with:
     python3 scripts/build_design_system.py
@@ -28,7 +28,7 @@ import sys
 from html.parser import HTMLParser
 from pathlib import Path
 
-KIT_VERSION = "7.10.0"
+KIT_VERSION = "7.11.0"
 REPOSITORY = "Agustos-Teknoloji/DESIGN-agustos"
 LATEST_KIT_URL = "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json"
 
@@ -75,6 +75,7 @@ KIT_CLASSES = {
     "site-frame",
     "container",
     "container--reading",
+    "container--landing",
     "skip-link",
     "brand-agustos",
     "brand-pataraz",
@@ -90,6 +91,9 @@ KIT_CLASSES = {
     "hero-split",
     "hero-split--media-start",
     "hero-split__media",
+    "reading-split",
+    "reading-split__media",
+    "reading-wide",
     "agustos-section",
     "agustos-section__head",
     "agustos-card-grid",
@@ -226,7 +230,7 @@ KIT_CLASSES = {
 # data-screen on <body>; chrome "sidebar" marks the product sidebar; every screen starts light;
 # highlight "one" marks the homepage, which carries the one highlighter stroke.
 # The checker guards identity with errors. Taste rules only warn.
-SCREENS = {'app-shell': {'theme': 'light-first', 'chrome': 'sidebar', 'column': 'frame', 'highlight': 'at-most-one'}, 'app-top-menu': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'content': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}, 'content-index': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}, 'home': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'one'}, 'product': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'product-finder': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'products': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'spec-sheet': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'static': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}}
+SCREENS = {'app-shell': {'theme': 'light-first', 'chrome': 'sidebar', 'column': 'frame', 'highlight': 'at-most-one'}, 'app-top-menu': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'content': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}, 'content-index': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}, 'home': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'one'}, 'landing': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}, 'product': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'product-finder': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'products': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'spec-sheet': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'frame', 'highlight': 'at-most-one'}, 'static': {'theme': 'light-first', 'chrome': 'topbar', 'column': 'reading', 'highlight': 'at-most-one'}}
 
 # #15130f and #ffffff are legitimate as identity ink and as paper. Reported at
 # warning level rather than error: too common to fail a build over.
