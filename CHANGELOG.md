@@ -6,7 +6,7 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [7.11.0] - 2026-10-06
 
-A minor release: the kit gains the landing page, a page that makes several arguments in a row. Emre approved the rules on 2026-10-06, after he rejected alternating sides on memregunes.com/consulting. memregunes.com built them first with its own classes (WEBSITE-memregunes PR 91). Decision record: MEMORY 2026-10-06 landing-page. A site that does not add the new classes changes nothing.
+A minor release: the kit gains the landing page, a page that makes several arguments in a row. Emre approved the rules on 2026-10-06, after he rejected alternating sides on memregunes.com/consulting. memregunes.com built them first with its own classes (WEBSITE-memregunes PR 91). Decision record: MEMORY 2026-10-06 landing-page. Other sites do not change. memregunes.com already uses `reading-split` and `reading-split__media`, so it gets the kit spacing when it vendors v7.11.0: 32px, not about 48px, between the text and the picture of a stacked part on About and Consulting, and Consulting pictures move up about 8px from 1024px. Its kit-update PR needs a before/after for Emre.
 
 ### Added
 

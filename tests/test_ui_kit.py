@@ -1978,6 +1978,8 @@ class LandingPageTest(unittest.TestCase):
                        "at least twice the largest gap inside a part from 1024px",
                        "at least 1.5 times below 1024px (72px against 40px at most)",
                        "never on the left", "A picture adds information",
+                       "Wrap the text of a part in one element",
+                       "Labels show at 13px", "to no less than 11px",
                        "non-scaling-stroke", "Change the pattern at least once",
                        "no band but the closing band", "heading, text, then picture",
                        "Zigzag Image–Text Layouts Make Scanning Less Efficient",
