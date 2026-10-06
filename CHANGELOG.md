@@ -4,6 +4,15 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.11.1] - 2026-10-06
+
+A patch release: on a landing page the first part sits 40px below the page opening, not one section gap. The first part continues the opening (the title and the deck); the section gap stays between two arguments. Emre decided it on memregunes.com/consulting on 2026-10-06, where he saw 104px under the intro as too big, and asked for this kit patch and its release the same day ("do the kit patch for the first part now"). Decision record: MEMORY 2026-10-06 landing-first-part. Only a page with `container--landing` changes. memregunes.com already sets the 40px with a site rule (`#audience`), so it sees no change, and it can delete that rule when it vendors v7.11.1.
+
+### Changed
+
+- The first `agustos-section` in `.container--reading.container--landing` takes `--space-before-h2` (40px), the H2 break of a reading page. Every later section keeps `--section-space` (72 to 104px).
+- `UI-KIT.md` and `DESIGN.md` (Landing page, rule 2) say that the first part continues the page opening and sits one heading break (40px) below it, and that the section gap sits between two arguments.
+
 ## [7.11.0] - 2026-10-06
 
 A minor release: the kit gains the landing page, a page that makes several arguments in a row. Emre approved the rules on 2026-10-06, after he rejected alternating sides on memregunes.com/consulting. memregunes.com built them first with its own classes (WEBSITE-memregunes PR 91). Decision record: MEMORY 2026-10-06 landing-page. Other sites do not change. memregunes.com already uses `reading-split` and `reading-split__media`, so it gets the kit spacing when it vendors v7.11.0: 32px, not about 48px, between the text and the picture of a stacked part on About and Consulting, and Consulting pictures move up about 8px from 1024px. Its kit-update PR needs a before/after for Emre.

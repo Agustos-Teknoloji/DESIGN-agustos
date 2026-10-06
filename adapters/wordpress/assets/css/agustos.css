@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.11.0 · GENERATED WORDPRESS ADAPTER CSS
+/* AĞUSTOS DESIGN SYSTEM v7.11.1 · GENERATED WORDPRESS ADAPTER CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -947,6 +947,13 @@ nav:has(> .breadcrumb) {
    takes one width: half the reading line at most. */
 .container--reading.container--landing > .agustos-section {
   margin-top: var(--section-space);
+}
+/* The first part continues the page opening (the title and the deck), so it
+   takes the 40px H2 break of a reading page (v7.11.1). The section gap stays
+   between two arguments. `:nth-child(1 of ...)` finds the first section
+   whatever its tag and whatever comes before it. */
+.container--reading.container--landing > .agustos-section:nth-child(1 of .agustos-section) {
+  margin-top: var(--space-before-h2);
 }
 .container--landing .reading-split { align-items: center; }
 .container--landing .reading-split__media { max-width: calc(var(--measure-body) / 2); }
