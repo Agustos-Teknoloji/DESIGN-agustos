@@ -1975,7 +1975,8 @@ class LandingPageTest(unittest.TestCase):
 
     def test_the_entry_point_states_the_approved_rules(self):
         for phrase in ("who it is for, problem, method, role, cost, proof, call to action",
-                       "at least twice the largest gap inside a part",
+                       "at least twice the largest gap inside a part from 1024px",
+                       "at least 1.5 times below 1024px (72px against 40px at most)",
                        "never on the left", "A picture adds information",
                        "non-scaling-stroke", "Change the pattern at least once",
                        "no band but the closing band", "heading, text, then picture",

@@ -150,7 +150,7 @@ A landing page makes several arguments in a row, such as a service page (the `la
 Put `container--landing` on the page column. Emre approved these rules on 2026-10-06 (MEMORY.md, landing-page).
 
 1. One argument per section, in this order: who it is for, problem, method, role, cost, proof, call to action.
-2. Three levels of space: the paragraph space (1em) inside a block, 32 to 40px between blocks in one part, and `--section-space` (72 to 104px) between parts. The gap between parts is at least twice the largest gap inside a part. A reading page has the 40px H2 break by default, so `container--landing` sets the section gap.
+2. Three levels of space: the paragraph space (1em) inside a block, 32 to 40px between blocks in one part, and `--section-space` (72 to 104px) between parts. The gap between parts is always the largest space on the page: at least twice the largest gap inside a part from 1024px, and at least 1.5 times below 1024px (72px against 40px at most). A reading page has the 40px H2 break by default, so `container--landing` sets the section gap.
 3. The text keeps one left edge and ends on the reading line. Each picture sits in the side zone to its right (`reading-split`), never on the left, and centered on the text of its part. Every picture on the page takes one width, half the reading line at most.
 4. A picture adds information. If it repeats the text, cut one of them.
 5. A series of drawings shares one label size (13px, the footnote size, at the rendered width), one line weight (`vector-effect: non-scaling-stroke`) and one rendered width.
