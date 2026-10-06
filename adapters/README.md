@@ -1,6 +1,6 @@
 # Ağustos Adapters
 
-Framework-specific implementations of the Ağustos Design System, kit v7.11.0.
+Framework-specific implementations of the Ağustos Design System, kit v7.11.1.
 
 The design system itself is platform-neutral. Adapters translate the same tokens, layouts, and brand rules into the conventions of a framework.
 

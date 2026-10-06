@@ -1973,6 +1973,23 @@ class LandingPageTest(unittest.TestCase):
         self.assertIn(".container--landing .reading-split { align-items: center; }", self.CSS)
         self.assertIn(".container--landing .reading-split__media { max-width: calc(var(--measure-body) / 2); }", self.CSS)
 
+    def test_the_first_part_continues_the_page_opening(self):
+        """v7.11.1: the first part sits one H2 break (40px) below the title and
+        the deck, not one section gap. Emre decided it on memregunes.com on
+        2026-10-06 (MEMORY 2026-10-06 landing-first-part)."""
+        general = ".container--reading.container--landing > .agustos-section {\n  margin-top: var(--section-space);\n}"
+        first = (".container--reading.container--landing > .agustos-section:nth-child(1 of .agustos-section) {\n"
+                 "  margin-top: var(--space-before-h2);\n}")
+        self.assertIn(first, self.CSS)
+        # Same prefix plus one pseudo-class: the first-part rule outranks the
+        # general rule, and it comes after it as well.
+        self.assertLess(self.CSS.index(general), self.CSS.index(first))
+        # It touches no other screen: only a landing column carries it.
+        self.assertEqual(self.CSS.count("nth-child(1 of .agustos-section)"), 1)
+        self.assertIn("--space-before-h2: 40px;", self.CSS)
+        self.assertIn("The first part continues the page opening (the title and the deck), "
+                      "so it sits one heading break (40px, `--space-before-h2`) below it", self.KIT_TEXT)
+
     def test_the_entry_point_states_the_approved_rules(self):
         for phrase in ("who it is for, problem, method, role, cost, proof, call to action",
                        "at least twice the largest gap inside a part from 1024px",

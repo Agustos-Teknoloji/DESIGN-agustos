@@ -2,10 +2,9 @@
 
 ## Now
 
-- [x] Kit v7.11.0: the landing page rules, `container--landing`, `reading-split`, `reading-split__media`, `reading-wide` and the `landing` screen (MEMORY.md 2026-10-06 landing-page). The PR is open.
-- [ ] Emre approves the before/after preview, and chooses the monthly release or an extra one (MEMORY.md 2026-09-29 monthly-kit-release).
+- [x] Kit v7.11.1: the first part of a landing page sits 40px below the page opening (MEMORY.md 2026-10-06 landing-first-part). The PR is open.
 - [ ] After the merge on `main`: `/design-push`.
-- [ ] memregunes.com moves Consulting and About to the kit classes and deletes `src/styles/split.css` (WEBSITE-memregunes MEMORY 2026-10-06 consulting-rhythm, "reopen if").
+- [ ] memregunes.com vendors v7.11.1 and deletes its `#audience` rule in `src/styles/home.css` (WEBSITE-memregunes MEMORY 2026-10-06 consulting-first-part, "reopen if").
 
 ## Next
 
