@@ -65,6 +65,7 @@
       "agustos-section",
       "agustos-section__head",
       "agustos-card-grid",
+      "agustos-card-grid--list",
       "agustos-card",
       "agustos-card--marked",
       "agustos-chrome-link",
@@ -1717,7 +1718,7 @@
         "weight": 400
       }
     ],
-    "version": "7.11.2"
+    "version": "7.12.0"
   },
-  "version": "7.11.2"
+  "version": "7.12.0"
 }

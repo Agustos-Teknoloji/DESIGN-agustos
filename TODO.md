@@ -2,6 +2,7 @@
 
 ## Now
 
+- [ ] agustos.com vendors v7.12.0 and moves its card widths to `--card-min`: `wk-brand-grid` (250px) and `wk-brand-sample` (300px) set `flex-basis` on the cards, which a grid ignores (CHANGELOG 7.12.0, Migration).
 - [ ] memregunes.com vendors v7.11.2 and deletes its `#audience` rule in `src/styles/home.css` (WEBSITE-memregunes MEMORY 2026-10-06 consulting-first-part, "reopen if").
 
 ## Next
