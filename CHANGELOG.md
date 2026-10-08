@@ -4,6 +4,21 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.11.2] - 2026-10-08
+
+A patch release: the kit behaves on touch screens. Emre approved it on 2026-10-08, after the comparison of the kit with the good-css list (MEMORY 2026-10-08 good-css-skill). Decision record: MEMORY 2026-10-08 touch-fixes. Hover with a mouse or a trackpad does not change. A long word now breaks on every screen.
+
+### Fixed
+
+- Hover styles apply only where a mouse or trackpad hovers. Every `:hover` rule in the kit sits in `@media (hover: hover) and (pointer: fine)`. On a phone a tap left `:hover` on until the next tap elsewhere, so a tapped link stayed red and a tapped menu button stayed gray. Buttons keep their pressed state on every device.
+- A word too long for its line, such as a URL or a product code, breaks (`overflow-wrap: break-word` on `html, body`). Before, it pushed a phone page wider than the screen, and the page scrolled sideways.
+
+### Changed
+
+- Four rules that joined hover with a state every device needs are split: keyboard focus on the contents link and the search results, the current item in the More menu, and the open search toggle stay outside the hover query.
+- `UI-KIT.md` and `DESIGN.md` (Motion and state) state both rules. `UI-KIT.md` recommends the same query for a site's own `:hover` rules.
+- Two tests guard the rules: every `:hover` rule in each generated stylesheet sits in the hover query, and `html, body` breaks long words.
+
 ## [7.11.1] - 2026-10-06
 
 A patch release: on a landing page the first part sits 40px below the page opening, not one section gap. The first part continues the opening (the title and the deck); the section gap stays between two arguments. Emre decided it on memregunes.com/consulting on 2026-10-06, where he saw 104px under the intro as too big, and asked for this kit patch and its release the same day ("do the kit patch for the first part now"). Decision record: MEMORY 2026-10-06 landing-first-part. Only a page with `container--landing` changes. memregunes.com already sets the 40px with a site rule (`#audience`), so it sees no change, and it can delete that rule when it vendors v7.11.1.

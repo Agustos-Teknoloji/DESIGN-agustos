@@ -124,6 +124,38 @@ class PrimitiveTest(unittest.TestCase):
             with self.subTest(path=path.relative_to(ROOT)):
                 self.assertIn("@media (prefers-reduced-motion: reduce)", css)
 
+    def test_hover_applies_only_where_a_pointer_hovers(self):
+        """v7.11.2: on a touch screen a tap left :hover on, so a tapped link stayed red.
+
+        Every :hover rule sits in the hover query. The disabled button rules are
+        the exception: they repeat the disabled look, so a stuck hover changes nothing.
+        """
+        query = "@media (hover: hover) and (pointer: fine)"
+        for path in CSS_OUTPUTS:
+            css = re.sub(r"/\*.*?\*/", "", path.read_text(encoding="utf-8"), flags=re.S)
+            # Walk the blocks. `stack` holds, for each open block, whether it is
+            # the hover query or sits inside it.
+            stack, prelude = [], ""
+            for token in re.findall(r"[{}]|[^{}]+", css):
+                if token == "{":
+                    in_query = bool(stack and stack[-1]) or prelude.strip() == query
+                    if ":hover" in prelude:
+                        # Split the selector list at commas outside brackets.
+                        selectors = [s for s in re.split(r",(?![^(]*\))", prelude) if ":hover" in s]
+                        with self.subTest(path=path.relative_to(ROOT), selector=selectors[0].strip()):
+                            self.assertTrue(in_query or all(":disabled" in s for s in selectors))
+                    stack.append(in_query)
+                elif token == "}":
+                    stack.pop()
+                else:
+                    prelude = token.rsplit(";", 1)[-1]
+
+    def test_long_words_break_instead_of_widening_the_page(self):
+        """v7.11.2: a URL or a product code breaks, so a phone never scrolls sideways."""
+        css = (ROOT / "tokens" / "agustos.css").read_text(encoding="utf-8")
+        start = css.index("html, body {")
+        self.assertIn("overflow-wrap: break-word;", css[start:css.index("}", start)])
+
     def test_no_radius_exceeds_the_system_maximum(self):
         css = (ROOT / "tokens" / "agustos.css").read_text(encoding="utf-8")
         for raw in re.findall(r"border-radius:\s*([0-9.]+)px", css):
@@ -435,7 +467,9 @@ class InteractionStateTest(unittest.TestCase):
     def test_design_review_fixes_hold(self):
         """Design review 2026-09-30 (v7.3.3), each measured in a browser first."""
         # A dark search excerpt on the hover fill was #8a8378 on #404040, 2.76:1.
-        self.assertIn(".site-header__search-result a:is(:hover, :focus-visible) .site-header__search-result-excerpt { color: var(--ink); }", self.CSS)
+        # v7.11.2 splits the rule: hover in the hover query, focus on every device.
+        self.assertIn(".site-header__search-result a:hover .site-header__search-result-excerpt { color: var(--ink); }", self.CSS)
+        self.assertIn(".site-header__search-result a:focus-visible .site-header__search-result-excerpt { color: var(--ink); }", self.CSS)
         # The footer has no current page, so its hover never draws the red rule.
         footer = self.CSS[self.CSS.index(".site-footer__link:hover {"):]
         footer = footer[:footer.index("}")]
@@ -1646,7 +1680,7 @@ console.log(JSON.stringify(out));
         # A card without a link does not answer the pointer; a marked card keeps its rule.
         self.assertNotIn(".agustos-card:hover {", self.CSS)
         self.assertIn(".agustos-card:has(:is(h2, h3, h4) > a):hover {", self.CSS)
-        self.assertIn(".agustos-card--marked:has(:is(h2, h3, h4) > a):hover {\n  border-left-color: var(--ink);\n}", self.CSS)
+        self.assertIn(".agustos-card--marked:has(:is(h2, h3, h4) > a):hover {\n    border-left-color: var(--ink);\n  }", self.CSS)
         # a:hover turned the skip link red on its ink box (3.35:1).
         self.assertIn(".skip-link:hover { color: var(--paper); }", self.CSS)
         # A printer drops backgrounds: code and the primary button print as outlines.
