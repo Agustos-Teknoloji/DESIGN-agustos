@@ -4,6 +4,24 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.12.0] - 2026-10-08
+
+A minor release: a short last row of cards keeps the card width. Emre approved it on 2026-10-08, after banuucak.com showed one post card across the whole frame. Decision record: MEMORY 2026-10-08 card-grid-last-row. A full row does not change: it holds as many cards as before. A grid with fewer cards than one row still fills the row.
+
+### Fixed
+
+- `agustos-card-grid` is a CSS grid (`repeat(auto-fit, minmax(min(var(--card-min, 220px), 100%), 1fr))`), not a wrapping flex row. Before, each card on a short last row grew to fill the row: at 1024px, 10 cards fell as 4, 4 and 2, and the last two were twice as wide. memregunes.com moved its Home cards to `grid-4` for this reason.
+
+### Added
+
+- `agustos-card-grid--list`, for a list of any length, such as posts or products. Its cards keep the column width also when the list holds fewer cards than one row. Before, one post filled the frame on its own.
+- `--card-min` (default 220px): the narrowest card. Set it on the grid or a parent to change the column width.
+
+### Migration
+
+- A site rule that set `flex-basis` on the cards of a card grid has no effect now. Set `--card-min` on the grid instead. agustos.com sets `flex-basis: 250px` (`wk-brand-grid`) and `300px` (`wk-brand-sample`): change both to `--card-min` when it vendors this release.
+- A list of posts or products adds `agustos-card-grid--list`. banuucak.com does it in the same change that vendors this release.
+
 ## [7.11.2] - 2026-10-08
 
 A patch release: the kit behaves on touch screens. Emre approved it on 2026-10-08, after the comparison of the kit with the good-css list (MEMORY 2026-10-08 good-css-skill). Decision record: MEMORY 2026-10-08 touch-fixes. Hover with a mouse or a trackpad does not change. A long word now breaks on every screen.

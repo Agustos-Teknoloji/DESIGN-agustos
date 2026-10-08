@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.11.2 · GENERATED CANONICAL PLATFORM-NEUTRAL CSS
+/* AĞUSTOS DESIGN SYSTEM v7.12.0 · GENERATED CANONICAL PLATFORM-NEUTRAL CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -975,13 +975,20 @@ nav:has(> .breadcrumb) {
 .container--landing .reading-split { align-items: center; }
 .container--landing .reading-split__media { max-width: calc(var(--measure-body) / 2); }
 
+/* The card grid (v7.12.0): as many columns of at least --card-min (220px by
+   default, set on the grid or a parent) as fit.
+   A short last row keeps the column width. A grid with fewer cards than one
+   row fills the row (auto-fit drops the empty tracks). The list modifier
+   keeps the empty tracks, so a list of any length keeps the column width. */
 .agustos-card-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--card-min, 220px), 100%), 1fr));
   gap: 20px;
 }
+.agustos-card-grid--list {
+  grid-template-columns: repeat(auto-fill, minmax(min(var(--card-min, 220px), 100%), 1fr));
+}
 .agustos-card-grid > * {
-  flex: 1 1 220px;
   min-width: 0;
 }
 

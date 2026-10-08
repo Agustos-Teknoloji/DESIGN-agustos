@@ -156,6 +156,22 @@ class PrimitiveTest(unittest.TestCase):
         start = css.index("html, body {")
         self.assertIn("overflow-wrap: break-word;", css[start:css.index("}", start)])
 
+    def test_a_short_last_row_of_cards_keeps_the_card_width(self):
+        """v7.12.0: a flex row let each card on a short last row grow to fill it.
+
+        The grid uses auto-fit, so a single row with fewer cards still fills the
+        frame. The list modifier uses auto-fill, so one post keeps the column width.
+        """
+        css = (ROOT / "tokens" / "agustos.css").read_text(encoding="utf-8")
+
+        def rule(selector):
+            start = css.index(selector + " {")
+            return css[start:css.index("}", start)]
+
+        self.assertIn("repeat(auto-fit, minmax(min(var(--card-min, 220px), 100%), 1fr))", rule(".agustos-card-grid"))
+        self.assertIn("repeat(auto-fill, minmax(min(var(--card-min, 220px), 100%), 1fr))", rule(".agustos-card-grid--list"))
+        self.assertNotIn("flex", rule(".agustos-card-grid > *"))
+
     def test_no_radius_exceeds_the_system_maximum(self):
         css = (ROOT / "tokens" / "agustos.css").read_text(encoding="utf-8")
         for raw in re.findall(r"border-radius:\s*([0-9.]+)px", css):

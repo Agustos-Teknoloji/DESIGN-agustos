@@ -1,6 +1,6 @@
 # Ağustos WordPress Adapter
 
-This adapter translates the Ağustos Design System (kit v7.11.2) into WordPress Global Styles. It is an adapter, not a complete theme.
+This adapter translates the Ağustos Design System (kit v7.12.0) into WordPress Global Styles. It is an adapter, not a complete theme.
 
 Copy `theme.json` to a block theme root and `assets/css/agustos.css` to the theme assets directory. Merge `functions.php.example` into the theme bootstrap to enqueue the generated behavior and recipe layer.
 
