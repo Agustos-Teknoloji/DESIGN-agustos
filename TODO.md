@@ -2,9 +2,9 @@
 
 ## Now
 
-- [x] Kit v7.11.1: the first part of a landing page sits 40px below the page opening (MEMORY.md 2026-10-06 landing-first-part). The PR is open.
-- [ ] After the merge on `main`: `/design-push`.
-- [ ] memregunes.com vendors v7.11.1 and deletes its `#audience` rule in `src/styles/home.css` (WEBSITE-memregunes MEMORY 2026-10-06 consulting-first-part, "reopen if").
+- [x] Kit v7.11.2: hover only where a mouse hovers, and long words break (MEMORY.md 2026-10-08 touch-fixes).
+- [ ] Before/after phone screenshots to Emre, then merge. After the merge on `main`: `/design-push`.
+- [ ] memregunes.com vendors v7.11.2 and deletes its `#audience` rule in `src/styles/home.css` (WEBSITE-memregunes MEMORY 2026-10-06 consulting-first-part, "reopen if").
 
 ## Next
 
@@ -44,10 +44,10 @@
   - Accessibility: one line on "Colour in use", "Text on any background keeps 4.5:1 contrast (WCAG 2.2 AA)", so partners who make their own material follow the kit's floors.
 - Register printer-matched CMYK and Pantone values for the six colours and the identity inks in `brand/brands.json`, then show them on the colour page of `brand/build_guidelines.py`. Ask the printer for a proof first; do not convert the screen values.
 - Rebuild `adapters/astro/src/pages/blog/index.astro` on `type-dl` and `type-footnote`, like `screens/content-index.html`. Remove its scoped `<style>` block and the H2 for each post title, which break the list-page rule.
-- Kit against the good-css list, 2026-10-08 (MEMORY.md, good-css-skill). Candidates for the monthly release; each needs a before/after preview:
-  - Touch: put the 42 `:hover` rules inside `@media (hover: hover) and (pointer: fine)`, so a tapped link on a phone does not stay red. Give every button, link and menu row an `:active` state (3 today), then remove the grey tap flash.
-  - Reset: `text-wrap: pretty` on body text (headings already balance), `overflow-wrap: break-word` for long URLs and product codes on phones, `font-synthesis: none`, `scrollbar-gutter: stable`, `100svh` in place of `100vh` on `body`. Decide whether `text-rendering: optimizeLegibility` stays; good-css removes it.
-  - Type scale: write the `clamp()` bounds in rem and the middle value as rem + vw (`--size-hero`, `--size-h1`, `--size-h2`, `--section-space`, the page opening). Today the px bounds ignore the reader's browser font size.
-  - Overflow: `overflow: clip` in place of `hidden` where no script scrolls the element (6 rules).
-  - Phones with a notch: `env(safe-area-inset-*)` on the sticky top menu, the drawer and the footer (0 today).
-  - Forms: `field-sizing: content` on `.agustos-textarea`, and `:user-invalid` for error states.
+- Kit against the good-css list, 2026-10-08 (MEMORY.md, good-css-skill and touch-fixes). v7.11.2 shipped the touch hover and the long-word break. For the monthly release, with a before/after preview:
+  - An `:active` state on every link and menu row (buttons have one; 3 rules today), then remove the grey tap flash. Touch users then get press feedback everywhere.
+  - `text-wrap: pretty` on body text, so a paragraph does not end on one short word. Headings already balance.
+  - `100svh` in place of `100vh` on `body`, so a short page fits the phone screen under the browser bar.
+  - Remove `text-rendering: optimizeLegibility` from `html, body`. `font-feature-settings` already turns kerning on.
+  - The type scale in rem, together with the six off-scale sizes (Design review 2026-09-30, Type scale). Then every size follows the reader's browser font size; at the default 16px nothing moves.
+  - Skipped on 2026-10-08: safe-area insets (no site uses `viewport-fit=cover`), `overflow: clip` (three of the six rules lock the page behind the open menu), `font-synthesis: none` (a site without the italic files loses its italics), `scrollbar-gutter: stable`, `field-sizing` and `:user-invalid` (no form needs them yet).

@@ -1,4 +1,4 @@
-# Ağustos UI kit — v7.11.1
+# Ağustos UI kit — v7.11.2
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -45,11 +45,11 @@ Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and
 
 npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-Prototypes with no build step may link the CDN copies. **Pin to `@v7.11.1`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
+Prototypes with no build step may link the CDN copies. **Pin to `@v7.11.2`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.11.1/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.11.1/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.11.2/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.11.2/ui/agustos.css">
 ```
 
 ## Page skeleton
@@ -142,7 +142,7 @@ A website page opens with a `type-hero` headline (or a `type-h1` on listing and 
 
 **Highlighter and copy.** The checker warns on a second highlighter stroke (AG025) and on a homepage without one (AG032). **Copy carries markup:** a headline or a paragraph must be able to hold `<mark>`, `<strong>`, `<em>` and links. A template that prints copy as an escaped plain string cannot, so the page loses its highlighter and its bold. Keep copy as HTML or Markdown, or as text runs that name their mark, and render the marks.
 
-**States.** The kit styles every state; compose from it rather than restyle. Hover: light paper turns a content link red; the dark theme dims the ink instead (red text on off-black is 3.35:1) and keeps the red rule. Pressed: buttons move 1px down. Disabled: a `button` takes the `disabled` attribute; a link drops its `href` and takes `role="link"` and `aria-disabled="true"`, because `aria-disabled` alone does not stop a click (AG030). Both turn gray and inert. In the dark theme the footer and the closing band turn dark with the page: the band keeps its spacing on the dark paper between two hairline rules. Never put text on `var(--cream)` outside `band--cream`: in the dark theme it stays light gray #ebebeb under white ink. Print is always light. Text clears 4.5:1 and borders, logos and focus 3:1 in both themes; `kit.json` (`states`) and `docs/web.html` carry every pair with its ratio.
+**States.** The kit styles every state; compose from it rather than restyle. Hover: light paper turns a content link red; the dark theme dims the ink instead (red text on off-black is 3.35:1) and keeps the red rule. Hover applies only where a mouse or trackpad hovers: every kit `:hover` rule (except the disabled-button rules, which repeat the disabled look) sits in `@media (hover: hover) and (pointer: fine)`, so a tap on a phone does not leave a link red. We recommend the same query for a site's own `:hover` rules. Pressed: buttons move 1px down. Disabled: a `button` takes the `disabled` attribute; a link drops its `href` and takes `role="link"` and `aria-disabled="true"`, because `aria-disabled` alone does not stop a click (AG030). Both turn gray and inert. In the dark theme the footer and the closing band turn dark with the page: the band keeps its spacing on the dark paper between two hairline rules. Never put text on `var(--cream)` outside `band--cream`: in the dark theme it stays light gray #ebebeb under white ink. Print is always light. Text clears 4.5:1 and borders, logos and focus 3:1 in both themes; `kit.json` (`states`) and `docs/web.html` carry every pair with its ratio.
 
 ## Classes
 

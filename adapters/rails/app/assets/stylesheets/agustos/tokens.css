@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.11.1 · GENERATED RAILS ADAPTER CSS
+/* AĞUSTOS DESIGN SYSTEM v7.11.2 · GENERATED RAILS ADAPTER CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -222,6 +222,10 @@ html, body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  /* A word too long for its line (a URL, a product code) breaks, so it never
+     pushes the page wider than a phone screen (v7.11.2). Not `anywhere`: that
+     also shrinks boxes sized by their content to one letter per line. */
+  overflow-wrap: break-word;
 }
 
 body {
@@ -412,12 +416,18 @@ a, .type-link {
 /* Visited content links settle to ink-soft. `:where` keeps the rule at element
    specificity, so class-styled chrome and menu links keep their own colour. */
 a:where(:visited), .type-link:where(:visited) { color: var(--ink-soft); }
-a:hover, .type-link:hover { color: var(--signal); }
-/* Red text on off-black is 3.35:1, below the 4.5:1 text floor. In the dark
-   theme hover dims the ink instead; the red rule stays the signal. `:where`
-   keeps the weight of `a:hover`, so class-styled chrome keeps its own hover. */
-:where(html[data-theme="dark"]) a:hover,
-:where(html[data-theme="dark"]) .type-link:hover { color: var(--ink-soft); }
+/* Hover only where a mouse or trackpad hovers. On a touch screen a tap
+   leaves :hover on until the next tap elsewhere, so a tapped link stayed
+   red. Every :hover rule in the kit sits in this query (v7.11.2), except the
+   disabled-button rules, which only repeat the disabled look. */
+@media (hover: hover) and (pointer: fine) {
+  a:hover, .type-link:hover { color: var(--signal); }
+  /* Red text on off-black is 3.35:1, below the 4.5:1 text floor. In the dark
+     theme hover dims the ink instead; the red rule stays the signal. `:where`
+     keeps the weight of `a:hover`, so class-styled chrome keeps its own hover. */
+  :where(html[data-theme="dark"]) a:hover,
+  :where(html[data-theme="dark"]) .type-link:hover { color: var(--ink-soft); }
+}
 a:focus-visible, .type-link:focus-visible {
   outline: 2px solid var(--signal);
   outline-offset: 2px;
@@ -725,9 +735,10 @@ nav:has(> .breadcrumb) {
   font-weight: 400;
   text-decoration: none;
 }
-.agustos-contents__link:hover,
-.agustos-contents__link:focus-visible { color: var(--ink); }
-.agustos-contents__link:focus-visible { outline: 2px solid var(--signal); outline-offset: -2px; }
+@media (hover: hover) and (pointer: fine) {
+  .agustos-contents__link:hover { color: var(--ink); }
+}
+.agustos-contents__link:focus-visible { color: var(--ink); outline: 2px solid var(--signal); outline-offset: -2px; }
 @media (min-width: 1280px) {
   .agustos-contents {
     position: absolute;
@@ -795,8 +806,10 @@ nav:has(> .breadcrumb) {
     color var(--dur) var(--ease);
 }
 
-.agustos-button:hover {
-  text-decoration: none;
+@media (hover: hover) and (pointer: fine) {
+  .agustos-button:hover {
+    text-decoration: none;
+  }
 }
 
 .agustos-button:focus-visible {
@@ -812,10 +825,12 @@ nav:has(> .breadcrumb) {
   color: var(--action-ink, var(--paper));
 }
 
-.agustos-button--primary:hover {
-  border-color: var(--action-hover, var(--ink-soft));
-  background: var(--action-hover, var(--ink-soft));
-  color: var(--action-ink, var(--paper));
+@media (hover: hover) and (pointer: fine) {
+  .agustos-button--primary:hover {
+    border-color: var(--action-hover, var(--ink-soft));
+    background: var(--action-hover, var(--ink-soft));
+    color: var(--action-ink, var(--paper));
+  }
 }
 
 /* A quiet outline, derived from the ink; hover firms it up. */
@@ -825,10 +840,12 @@ nav:has(> .breadcrumb) {
   color: var(--ink);
 }
 
-.agustos-button--secondary:hover {
-  border-color: var(--ink);
-  background: transparent;
-  color: var(--ink);
+@media (hover: hover) and (pointer: fine) {
+  .agustos-button--secondary:hover {
+    border-color: var(--ink);
+    background: transparent;
+    color: var(--ink);
+  }
 }
 
 /* --ink-soft (7.3-8.9 contrast), not --ink-faint (3.4). Trust signals state
@@ -982,8 +999,10 @@ nav:has(> .breadcrumb) {
 }
 /* Hover only on a card that is a link (its heading holds one). A card
    without a link does nothing on click, so it does not answer the pointer. */
-.agustos-card:has(:is(h2, h3, h4) > a):hover {
-  border-color: color-mix(in srgb, var(--ink) 30%, var(--paper));
+@media (hover: hover) and (pointer: fine) {
+  .agustos-card:has(:is(h2, h3, h4) > a):hover {
+    border-color: color-mix(in srgb, var(--ink) 30%, var(--paper));
+  }
 }
 /* The card gap spaces its children; their own margins would double it. */
 .agustos-card > * {
@@ -1003,8 +1022,10 @@ nav:has(> .breadcrumb) {
   border-left: 2px solid var(--ink);
 }
 /* The hover above sets all four sides; the marked rule stays ink. */
-.agustos-card--marked:has(:is(h2, h3, h4) > a):hover {
-  border-left-color: var(--ink);
+@media (hover: hover) and (pointer: fine) {
+  .agustos-card--marked:has(:is(h2, h3, h4) > a):hover {
+    border-left-color: var(--ink);
+  }
 }
 
 /* Flex items and padded boxes never collapse margins. A heading's
@@ -1064,12 +1085,14 @@ nav:has(> .breadcrumb) {
 /* Hover darkens the ink over a 1px gray rule; the 2px red rule marks the
    current page, or the section that holds it (aria-current "page" or "true").
    The 1px border plus 1px padding keeps the box size. */
-.agustos-chrome-link:hover {
-  color: var(--ink);
-  text-decoration: none;
-  border-bottom-width: 1px;
-  border-bottom-color: var(--ink-faint);
-  padding-bottom: calc(2px + 1px);
+@media (hover: hover) and (pointer: fine) {
+  .agustos-chrome-link:hover {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--ink-faint);
+    padding-bottom: calc(2px + 1px);
+  }
 }
 .agustos-chrome-link:is([aria-current="page"], [aria-current="true"]) {
   color: var(--ink);
@@ -1091,7 +1114,9 @@ nav:has(> .breadcrumb) {
 }
 .skip-link:focus { left: 1rem; }
 /* `a:hover` turns a link red: 3.35:1 on the ink box, below 4.5:1. */
-.skip-link:hover { color: var(--paper); }
+@media (hover: hover) and (pointer: fine) {
+  .skip-link:hover { color: var(--paper); }
+}
 
 /* -- 5b. Site chrome ----------------------------------------- */
 
@@ -1131,8 +1156,10 @@ html[data-theme="dark"] .site-lockup__logo--light { display: none; }
 html[data-theme="dark"] .site-lockup__logo--dark { display: block; }
 .site-lockup__name { color: inherit; }
 .site-lockup { transition: color var(--dur) var(--ease); }
-.site-lockup:hover { color: var(--signal); text-decoration: none; }
-.brand-agustos .site-lockup:hover { color: var(--ink); }
+@media (hover: hover) and (pointer: fine) {
+  .site-lockup:hover { color: var(--signal); text-decoration: none; }
+  .brand-agustos .site-lockup:hover { color: var(--ink); }
+}
 .site-lockup:focus-visible { outline: 2px solid var(--signal); outline-offset: 3px; }
 /* `:where` keeps the dark rest colours below the hover rules above, so the
    hover swap works in both themes: house brands turn red, Ağustos turns to
@@ -1158,10 +1185,12 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
   color: var(--ink);
   cursor: pointer;
 }
-.site-sidebar-burger:hover,
-.site-header__burger:hover,
-.site-sidebar__close:hover,
-.site-header__close:hover { background: var(--rule); }
+@media (hover: hover) and (pointer: fine) {
+  .site-sidebar-burger:hover,
+  .site-header__burger:hover,
+  .site-sidebar__close:hover,
+  .site-header__close:hover { background: var(--rule); }
+}
 .site-sidebar-burger:focus-visible,
 .site-header__burger:focus-visible,
 .site-sidebar__close:focus-visible,
@@ -1206,12 +1235,14 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
 /* Hover darkens the ink over a 1px gray rule; the 2px red rule marks the
    current page, or the section that holds it (aria-current "page" or "true").
    The 1px border plus 1px padding keeps the text still. */
-.site-sidebar__link:hover {
-  color: var(--ink);
-  border-inline-start-width: 1px;
-  border-inline-start-color: var(--ink-faint);
-  padding-inline-start: calc(var(--space-sm) + 1px);
-  text-decoration: none;
+@media (hover: hover) and (pointer: fine) {
+  .site-sidebar__link:hover {
+    color: var(--ink);
+    border-inline-start-width: 1px;
+    border-inline-start-color: var(--ink-faint);
+    padding-inline-start: calc(var(--space-sm) + 1px);
+    text-decoration: none;
+  }
 }
 .site-sidebar__link:is([aria-current="page"], [aria-current="true"]) {
   color: var(--ink);
@@ -1247,7 +1278,9 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
   transition: transform var(--dur) var(--ease);
 }
 .site-sidebar__group[open] > summary::after { transform: translateY(0.1em) rotate(-135deg); }
-.site-sidebar__group > summary:hover { color: var(--ink); }
+@media (hover: hover) and (pointer: fine) {
+  .site-sidebar__group > summary:hover { color: var(--ink); }
+}
 /* A closed group that holds the current page or section carries the red rule for it. */
 .site-sidebar__group:has([aria-current="page"], [aria-current="true"]) > summary { color: var(--ink); }
 .site-sidebar__group:not([open]):has([aria-current="page"], [aria-current="true"]) > summary { border-inline-start-color: var(--signal); }
@@ -1256,8 +1289,10 @@ html[data-theme="dark"] :where(.brand-agustos .site-lockup) { color: var(--brand
   padding-inline-start: var(--space-xl);
   font-size: var(--size-body-compact);
 }
-.site-sidebar__group > .site-sidebar__link:hover:not([aria-current="page"], [aria-current="true"]) {
-  padding-inline-start: calc(var(--space-xl) + 1px);
+@media (hover: hover) and (pointer: fine) {
+  .site-sidebar__group > .site-sidebar__link:hover:not([aria-current="page"], [aria-current="true"]) {
+    padding-inline-start: calc(var(--space-xl) + 1px);
+  }
 }
 .site-sidebar__cta { align-self: flex-start; }
 .site-sidebar__utility { display: flex; flex-wrap: wrap; gap: var(--space-md); margin-block-start: auto; }
@@ -1302,12 +1337,14 @@ html:has(.site-header) { scroll-padding-top: calc(var(--site-header-height) + va
 /* Hover darkens the ink over a 1px gray rule; the 2px red rule marks the
    current page, or the section that holds it (aria-current "page" or "true").
    The 1px border plus 1px padding keeps the text still. */
-.site-header__link:hover {
-  color: var(--ink);
-  border-block-end-width: 1px;
-  border-block-end-color: var(--ink-faint);
-  padding-block-end: 1px;
-  text-decoration: none;
+@media (hover: hover) and (pointer: fine) {
+  .site-header__link:hover {
+    color: var(--ink);
+    border-block-end-width: 1px;
+    border-block-end-color: var(--ink-faint);
+    padding-block-end: 1px;
+    text-decoration: none;
+  }
 }
 .site-header__link:is([aria-current="page"], [aria-current="true"]),
 .site-header__more:has([aria-current="page"], [aria-current="true"]) > summary {
@@ -1369,7 +1406,9 @@ html:has(.site-header) { scroll-padding-top: calc(var(--site-header-height) + va
   font-weight: 500;
   text-decoration: none;
 }
-.site-header__more-link:hover,
+@media (hover: hover) and (pointer: fine) {
+  .site-header__more-link:hover { background: var(--surface); color: var(--ink); text-decoration: none; }
+}
 .site-header__more-link:is([aria-current="page"], [aria-current="true"]) { background: var(--surface); color: var(--ink); text-decoration: none; }
 .site-header__more-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 /* Groups (v7.7.0): a More may hold up to two titled groups of links. On a
@@ -1431,8 +1470,10 @@ button.site-header__more-link {
   cursor: pointer;
   transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
 }
-.site-header__icon-btn:hover,
-.site-header__search-toggle:hover,
+@media (hover: hover) and (pointer: fine) {
+  .site-header__icon-btn:hover,
+  .site-header__search-toggle:hover { background: var(--surface); color: var(--ink); }
+}
 .site-header__search-toggle[aria-expanded="true"] { background: var(--surface); color: var(--ink); }
 .site-header__icon-btn:focus-visible,
 .site-header__search-toggle:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
@@ -1476,12 +1517,14 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
   text-decoration: none;
   transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
-.site-header__lang-link:hover {
-  color: var(--ink);
-  text-decoration: none;
-  border-bottom-width: 1px;
-  border-bottom-color: var(--ink-faint);
-  padding-bottom: 1px;
+@media (hover: hover) and (pointer: fine) {
+  .site-header__lang-link:hover {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom-width: 1px;
+    border-bottom-color: var(--ink-faint);
+    padding-bottom: 1px;
+  }
 }
 .site-header__lang-link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 
@@ -1521,7 +1564,9 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
   color: var(--ink-soft);
   transition: border-color var(--dur) var(--ease);
 }
-.site-header__search-field:hover { border-color: var(--ink); }
+@media (hover: hover) and (pointer: fine) {
+  .site-header__search-field:hover { border-color: var(--ink); }
+}
 .site-header__search-field:focus-within { border-color: var(--ink); outline: 2px solid var(--signal); outline-offset: 2px; }
 .site-header__search-field svg { flex: none; }
 .site-header__search-field input {
@@ -1575,7 +1620,9 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
   font-weight: 400;
   text-decoration: none;
 }
-.site-header__search-result a:hover { background: var(--surface); color: var(--ink); text-decoration: none; }
+@media (hover: hover) and (pointer: fine) {
+  .site-header__search-result a:hover { background: var(--surface); color: var(--ink); text-decoration: none; }
+}
 .site-header__search-result a:focus-visible { background: var(--surface); color: var(--ink); outline: 2px solid var(--signal); outline-offset: -2px; }
 .site-header__search-result-title {
   display: block;
@@ -1597,8 +1644,12 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
 /* The row fills with --surface on hover and focus. --ink-soft on the dark
    surface is 2.76:1, so the excerpt takes the ink there, and the match mark
    moves to the paper so it stays visible on the fill. */
-.site-header__search-result a:is(:hover, :focus-visible) .site-header__search-result-excerpt { color: var(--ink); }
-.site-header__search-result a:is(:hover, :focus-visible) .site-header__search-result-excerpt mark { background: var(--paper); }
+@media (hover: hover) and (pointer: fine) {
+  .site-header__search-result a:hover .site-header__search-result-excerpt { color: var(--ink); }
+  .site-header__search-result a:hover .site-header__search-result-excerpt mark { background: var(--paper); }
+}
+.site-header__search-result a:focus-visible .site-header__search-result-excerpt { color: var(--ink); }
+.site-header__search-result a:focus-visible .site-header__search-result-excerpt mark { background: var(--paper); }
 /* Below 1024px the search moves to a row under the bar: a 44px field, 8px
    above and below, and the rule. --site-header-search-height names it, so the
    anchor offset can add it. */
@@ -1640,7 +1691,9 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
 }
 /* Hover darkens the ink over a 1px gray rule, as in the top menu: the red rule
    marks the current page alone (v7.1.0), and the footer has none. */
-.site-footer__link:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--ink-faint); text-decoration-thickness: 1px; text-underline-offset: 4px; }
+@media (hover: hover) and (pointer: fine) {
+  .site-footer__link:hover { color: var(--ink); text-decoration: underline; text-decoration-color: var(--ink-faint); text-decoration-thickness: 1px; text-underline-offset: 4px; }
+}
 .site-footer__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 
 /* The optional site map above the bottom row (v7.1.0): the lockup with the
@@ -1720,7 +1773,9 @@ html[data-theme="dark"] .agustos-theme-switch__to-light { display: inline-flex; 
   color: var(--ink-soft);
   text-decoration: none;
 }
-.breadcrumb__link:hover { color: var(--ink); text-decoration: none; }
+@media (hover: hover) and (pointer: fine) {
+  .breadcrumb__link:hover { color: var(--ink); text-decoration: none; }
+}
 .breadcrumb__link:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 .breadcrumb [aria-current="page"] { color: var(--ink); }
 
@@ -2061,10 +2116,12 @@ html[data-theme="dark"] .band--cream:not(:last-child) {
   opacity: 1;
 }
 
-.agustos-input:hover,
-.agustos-textarea:hover,
-.agustos-select:hover {
-  border-color: var(--ink);
+@media (hover: hover) and (pointer: fine) {
+  .agustos-input:hover,
+  .agustos-textarea:hover,
+  .agustos-select:hover {
+    border-color: var(--ink);
+  }
 }
 
 .agustos-input:focus-visible,
@@ -2161,14 +2218,16 @@ html[data-theme="dark"] .band--cream:not(:last-child) {
   text-underline-offset: 3px;
 }
 
-.agustos-button--quiet:hover {
-  border-color: transparent;
-  box-shadow: none;
-  color: var(--signal);
-  text-decoration: underline;
-  text-underline-offset: 3px;
+@media (hover: hover) and (pointer: fine) {
+  .agustos-button--quiet:hover {
+    border-color: transparent;
+    box-shadow: none;
+    color: var(--signal);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  :where(html[data-theme="dark"]) .agustos-button--quiet:hover { color: var(--ink-soft); }
 }
-:where(html[data-theme="dark"]) .agustos-button--quiet:hover { color: var(--ink-soft); }
 
 /* Pressed: a 1px press on every rank, and the fill returns to full ink (the
    primary) or takes the functional gray (the secondary). No new colour. */
@@ -2291,9 +2350,11 @@ html[data-theme="dark"] .band--cream:not(:last-child) {
   transition: color var(--dur) var(--ease), border-color var(--dur) var(--ease);
 }
 
-.agustos-tab:hover {
-  color: var(--ink);
-  text-decoration: none;
+@media (hover: hover) and (pointer: fine) {
+  .agustos-tab:hover {
+    color: var(--ink);
+    text-decoration: none;
+  }
 }
 
 .agustos-tab:focus-visible {
