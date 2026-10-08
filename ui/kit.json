@@ -352,7 +352,7 @@
     },
     "UI-KIT.md": {
       "bytes": 35144,
-      "sha256": "f33e221994c55e8b4c981ee30fd5cbdbfca51600d7241df3426e4dd801d6661f"
+      "sha256": "d59420dc4fdafbf3f1e1d35d9d2bfcf49ef5ec45b8074cadf5398cd486b29dc2"
     },
     "agustos-chrome.js": {
       "bytes": 5400,
@@ -363,8 +363,8 @@
       "sha256": "920cfe8c462e080bcbc0a4b6ae2383a5ba41f3b095abeb9424f04561f0f6d2fd"
     },
     "agustos.css": {
-      "bytes": 89818,
-      "sha256": "44fd24bae4368e90cce06160b0690cf1e1ffab59e7ceb0979a4f0d47b38a8706"
+      "bytes": 89862,
+      "sha256": "bbee4a519ebfd27a634dcb729068e3f31a13c2c7c4ba7c9cb3bcf0369afa9ca7"
     },
     "brands/heper-dark.svg": {
       "bytes": 4919,

@@ -168,8 +168,8 @@ class PrimitiveTest(unittest.TestCase):
             start = css.index(selector + " {")
             return css[start:css.index("}", start)]
 
-        self.assertIn("repeat(auto-fit, minmax(min(var(--card-min), 100%), 1fr))", rule(".agustos-card-grid"))
-        self.assertIn("repeat(auto-fill, minmax(min(var(--card-min), 100%), 1fr))", rule(".agustos-card-grid--list"))
+        self.assertIn("repeat(auto-fit, minmax(min(var(--card-min, 220px), 100%), 1fr))", rule(".agustos-card-grid"))
+        self.assertIn("repeat(auto-fill, minmax(min(var(--card-min, 220px), 100%), 1fr))", rule(".agustos-card-grid--list"))
         self.assertNotIn("flex", rule(".agustos-card-grid > *"))
 
     def test_no_radius_exceeds_the_system_maximum(self):

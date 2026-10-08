@@ -10,12 +10,12 @@ A minor release: a short last row of cards keeps the card width. Emre approved i
 
 ### Fixed
 
-- `agustos-card-grid` is a CSS grid (`repeat(auto-fit, minmax(min(var(--card-min), 100%), 1fr))`), not a wrapping flex row. Before, each card on a short last row grew to fill the row: at 1024px, 10 cards fell as 4, 4 and 2, and the last two were twice as wide. memregunes.com moved its Home cards to `grid-4` for this reason.
+- `agustos-card-grid` is a CSS grid (`repeat(auto-fit, minmax(min(var(--card-min, 220px), 100%), 1fr))`), not a wrapping flex row. Before, each card on a short last row grew to fill the row: at 1024px, 10 cards fell as 4, 4 and 2, and the last two were twice as wide. memregunes.com moved its Home cards to `grid-4` for this reason.
 
 ### Added
 
 - `agustos-card-grid--list`, for a list of any length, such as posts or products. Its cards keep the column width also when the list holds fewer cards than one row. Before, one post filled the frame on its own.
-- `--card-min` on `agustos-card-grid` (default 220px): the narrowest card. Set it on the grid to change the column width.
+- `--card-min` (default 220px): the narrowest card. Set it on the grid or a parent to change the column width.
 
 ### Migration
 
