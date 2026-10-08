@@ -1,4 +1,4 @@
-# Ağustos UI kit — v7.12.0
+# Ağustos UI kit — v7.13.0
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -45,11 +45,11 @@ Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and
 
 npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-Prototypes with no build step may link the CDN copies. **Pin to `@v7.12.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
+Prototypes with no build step may link the CDN copies. **Pin to `@v7.13.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.12.0/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.12.0/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.13.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.13.0/ui/agustos.css">
 ```
 
 ## Page skeleton
@@ -118,7 +118,7 @@ Chrome follows the screen family, not the brand: every website uses the top menu
 
 ## Screens
 
-One reference page per screen type lives in the source repository under `screens/`, hand-written on these classes. Build any page from the matching screen. Chrome and column follow its row; every screen starts light. **Column:** a content page (About, privacy, terms, an article, a list of posts) uses `<div class="container container--reading">`: its title, deck, headings and text start on the frame's left edge and stop at the reading line (`--measure-body`, 41rem, about 75 characters). The side zone to the right stays free for a side column, and the footer site map splits on the same line. Every other page uses the full frame and caps a text block with `prose`. Cap the column, not each paragraph; the checker warns on a full-width `container` on a content screen (AG028). A long legal page adds the "On this page" list, `details.agustos-contents`, as a direct child of the reading container after its opening: a folded line below 1280px, open and in view in the side zone at 1280px and wider, with no script (AG031). Its title takes `aria-hidden="true"`, because the `nav` label already names the list. AG031 reads full pages only, so a site that draws the list from a partial needs its own page test.
+One reference page per screen type lives in the source repository under `screens/`, hand-written on these classes. Build any page from the matching screen. Chrome and column follow its row; every screen starts light. **Column:** a content page (About, privacy, terms, an article, a list of posts) uses `<div class="container container--reading">`: its title, deck, headings and text start on the frame's left edge and stop at the reading line (`--measure-body`, 41rem, about 75 characters). The side zone to the right stays free for a side column, and the footer site map splits on the same line. Every other page uses the full frame and caps a text block with `prose`. Cap the column, not each paragraph; the checker warns on a full-width `container` on a content screen (AG028). **"On this page"** (`details.agustos-contents`) shows on an article (screen `content`) or a legal page (screen `static`) whose reading container holds **3 or more main sections and 600 or more words**. On every other page it never shows, also on an About or a service page on `static`. A main section is an H2. The words are the text of the reading container: the title, the deck, the headings, the body text, lists, tables, quotes, captions and footnotes. The site header, the footer, navigation (`nav`, such as the breadcrumb), the contents list itself, scripts, styles and SVG drawings do not count. A word is a run of characters between spaces that holds a letter or a digit. Generate the list, never type it: at build time, give each H2 of the body an `id`, count the H2s and the words, and render the list only when both meet the rule, with one `agustos-contents__link` per H2 in page order. Put the list as a direct child of the reading container after its opening: a folded line below 1280px, open and in view in the side zone at 1280px and wider, with no script (AG031). Its title takes `aria-hidden="true"`, because the `nav` label already names the list. The checker warns when an article meets the rule and has no list (AG037), and on a list on any page that does not meet the rule (AG038). It cannot tell a legal page from an About page on `static`, so it never asks for the list there: add it to each legal page that meets the rule. AG031, AG037 and AG038 read full pages only. AG037 and AG038 count rendered HTML only, never a template, so a site that draws the list or the text from a layout runs the checker with `--screens-only` on its built pages.
 
 | Screen | Family | Chrome | Column | Theme | Photography |
 |---|---|---|---|---|---|
@@ -219,7 +219,7 @@ python3 vendor/agustos-ui/check-agustos-ui.py .
 ```
 
 Fix reported token values, font loading, CDN pins, brand classes, radii, and class overrides.
-Every page must carry `data-screen="<name>"` on `<body>`. Errors guard identity: token values, the brand red, font loading, CDN pins, brand classes, and screen names. Taste rules only warn: a page that starts dark (AG024), `prefers-color-scheme` in any file but Markdown (AG033), more than one highlighter (AG025), a sidebar on a top-menu screen (AG026), more than five items in `site-header__nav` (AG027), a theme switch without the head script before the stylesheets (AG034), a theme switch on a page that does not load `agustos-chrome.js` (AG036), more than two groups in one More (AG035), and, on built pages (`--screens-only`), `aria-current="page"` on a parent section (AG029), a disabled link that keeps its `href` (AG030), radii, gradients, and class overrides.
+Every page must carry `data-screen="<name>"` on `<body>`. Errors guard identity: token values, the brand red, font loading, CDN pins, brand classes, and screen names. Taste rules only warn: a page that starts dark (AG024), `prefers-color-scheme` in any file but Markdown (AG033), more than one highlighter (AG025), a sidebar on a top-menu screen (AG026), more than five items in `site-header__nav` (AG027), a theme switch without the head script before the stylesheets (AG034), a theme switch on a page that does not load `agustos-chrome.js` (AG036), more than two groups in one More (AG035), an "On this page" list that is missing on a long article (AG037) or shows on any other page (AG038), and, on built pages (`--screens-only`), `aria-current="page"` on a parent section (AG029), a disabled link that keeps its `href` (AG030), radii, gradients, and class overrides.
 If a layout fills `data-screen` at render time (Astro, ERB), the source scan skips those rules. Build the site, then run `python3 vendor/agustos-ui/check-agustos-ui.py dist --screens-only` on the output folder. The screen rules read markup only: a class name in a comment, an inline `<script>` or a `<style>` does not count.
 Use `--strict` to fail on warnings; use `--json` for structured output. Exit 0 confirms automated checks passed.
 Use `--skip <dir>` (repeatable) for frozen or generated folders the project must not edit. Do not hand-edit the checker; it is regenerated with the kit.

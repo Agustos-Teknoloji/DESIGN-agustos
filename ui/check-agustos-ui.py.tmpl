@@ -256,35 +256,96 @@ P_CLOSERS = {
 }
 
 
+# "On this page" (v7.13.0, Emre 2026-10-08): an article or a legal page gets
+# the list when its reading container holds 3 or more H2 (main sections) and
+# 600 or more words. Otherwise it never shows the list. Articles use the
+# content screen, legal pages the static screen. The static screen also holds
+# About and service pages, and the checker cannot tell them from a legal page,
+# so it asks for the list on the content screen only.
+CONTENTS_SCREENS = ("content", "static")
+CONTENTS_ASKED = ("content",)
+CONTENTS_MIN_SECTIONS = 3
+CONTENTS_MIN_WORDS = 600
+# Text in these elements is not page content: navigation (the breadcrumb),
+# code and drawings. The contents list itself is skipped by its class.
+NOT_CONTENT = {"nav", "script", "style", "template", "svg"}
+# Tags that sit inside a word, so "Işık<strong>lar</strong>" stays one word.
+# Every other tag ends a word, as a block does on screen.
+INLINE_TAGS = {
+    "a", "abbr", "b", "bdi", "bdo", "cite", "code", "data", "dfn", "em", "i",
+    "kbd", "mark", "q", "s", "samp", "small", "span", "strong", "sub", "sup",
+    "time", "u", "var", "wbr",
+}
+WORD = re.compile(r"\S*[^\W_]\S*")
+
+
 class ContentsScan(HTMLParser):
-    """Finds each .agustos-contents whose parent is not .container--reading. The
-    list takes the side zone from that parent, so anywhere else it lands wrong.
-    It reads full pages only: a partial or a component has no parent to check,
-    so a site that draws the list from one needs its own page test."""
+    """Reads the reading container and the contents list of a full page.
+
+    It finds each .agustos-contents whose parent is not .container--reading
+    (AG031): the list takes the side zone from that parent, so anywhere else it
+    lands wrong. It also counts the main sections (H2) and the words inside
+    .container--reading, for AG037 and AG038. A word is a run of characters
+    between spaces that holds a letter or a digit. Navigation, scripts, styles,
+    SVG drawings and the contents list do not count; the site header and the
+    footer sit outside the reading container. It reads full pages only: a
+    partial or a component has no parent to check, so a site that draws the
+    list from one checks its built pages with --screens-only."""
 
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
         self.stack: list = []      # open tags as (name, classes)
         self.misplaced: list = []  # start lines of misplaced lists
+        self.lists: list = []      # start lines of every list
+        self.reading_line = 0      # start line of the first reading container
+        self.sections = 0          # H2 inside the reading container
+        self.text: list = []       # text of the reading container
+
+    def _counts(self) -> bool:
+        """True when text at this point is page content."""
+        reading = False
+        for name, classes in self.stack:
+            if name in NOT_CONTENT or "agustos-contents" in classes:
+                return False
+            reading = reading or "container--reading" in classes
+        return reading
 
     def handle_starttag(self, tag, attrs):
         if tag in P_CLOSERS and self.stack and self.stack[-1][0] == "p":
             self.stack.pop()
+        if tag not in INLINE_TAGS:
+            self.text.append(" ")
         if tag in VOID_TAGS:
             return
         classes = (dict(attrs).get("class") or "").split()
-        if "agustos-contents" in classes and not (self.stack and "container--reading" in self.stack[-1][1]):
-            self.misplaced.append(self.getpos()[0])
+        if "agustos-contents" in classes:
+            self.lists.append(self.getpos()[0])
+            if not (self.stack and "container--reading" in self.stack[-1][1]):
+                self.misplaced.append(self.getpos()[0])
+        if "container--reading" in classes and not self.reading_line:
+            self.reading_line = self.getpos()[0]
+        if tag == "h2" and self._counts():
+            self.sections += 1
         self.stack.append((tag, classes))
 
     def handle_startendtag(self, tag, attrs):
-        pass  # a self-closing tag holds nothing
+        if tag not in INLINE_TAGS:
+            self.text.append(" ")  # a self-closing tag holds nothing
 
     def handle_endtag(self, tag):
+        if tag not in INLINE_TAGS:
+            self.text.append(" ")
         for index in range(len(self.stack) - 1, -1, -1):
             if self.stack[index][0] == tag:
                 del self.stack[index:]
                 return
+
+    def handle_data(self, data):
+        if self._counts():
+            self.text.append(data)
+
+    def words(self) -> int:
+        return len(WORD.findall("".join(self.text)))
 
 
 def check_cards(rel: str, text: str, findings: list) -> None:
@@ -299,6 +360,45 @@ def check_cards(rel: str, text: str, findings: list) -> None:
             "AG013", "warn", rel, number,
             "card has links but none sits in its heading — put the card's main link "
             "directly in an h2, h3 or h4 so the whole card becomes the 44px target",
+        ))
+
+
+def check_contents(rel: str, screen: str, text: str, body_line: int, findings: list) -> None:
+    """The place of the contents list (AG031), and when a page shows it: a
+    content page with 3 or more H2 and 600 or more words shows it (AG037, on
+    the content screen only), and no other page does (AG038). AG037 and AG038 count rendered HTML only: in a
+    template (.astro, .erb, .php) the text and the list come from code that
+    the scan cannot run, so the count would be wrong."""
+    contents = ContentsScan()
+    try:
+        contents.feed(text)
+        contents.close()
+    except Exception:
+        return  # a template the parser cannot read; the other rules still run
+    for number in contents.misplaced:
+        findings.append(Finding(
+            "AG031", "warn", rel, number,
+            "agustos-contents is not a direct child of container--reading: put the list "
+            "directly in the page's reading container, so it can take the side zone",
+        ))
+    if Path(rel).suffix.lower() not in RENDERED_SUFFIXES:
+        return
+    sections, words = contents.sections, contents.words()
+    long_page = sections >= CONTENTS_MIN_SECTIONS and words >= CONTENTS_MIN_WORDS
+    rule = (f"the list shows on an article or a legal page (screen {' or '.join(CONTENTS_SCREENS)}) "
+            f"with {CONTENTS_MIN_SECTIONS} or more H2 and {CONTENTS_MIN_WORDS} or more words")
+    if screen in CONTENTS_ASKED and long_page and not contents.lists:
+        findings.append(Finding(
+            "AG037", "warn", rel, contents.reading_line or body_line,
+            f"no \"On this page\" list on a page with {sections} H2 and {words} words: add "
+            f"agustos-contents with one link per H2; " + rule,
+        ))
+    if contents.lists and not (screen in CONTENTS_SCREENS and long_page):
+        where = (f"a page with {sections} H2 and {words} words" if screen in CONTENTS_SCREENS
+                 else f"screen {screen!r}")
+        findings.append(Finding(
+            "AG038", "warn", rel, contents.lists[0],
+            f"\"On this page\" list on {where}: remove it; " + rule,
         ))
 
 
@@ -369,18 +469,7 @@ def check_screen(rel: str, text: str, findings: list) -> None:
                     f"text at the reading line: add container--reading",
                 ))
                 break
-    contents = ContentsScan()
-    try:
-        contents.feed(text)
-        contents.close()
-    except Exception:
-        contents.misplaced = []  # a template the parser cannot read; the other rules still run
-    for number in contents.misplaced:
-        findings.append(Finding(
-            "AG031", "warn", rel, number,
-            "agustos-contents is not a direct child of container--reading: put the list "
-            "directly in the page's reading container, so it can take the side zone",
-        ))
+    check_contents(rel, name, text, body_line, findings)
     dark = HTML_DARK.search(page)
     if dark:
         findings.append(Finding(

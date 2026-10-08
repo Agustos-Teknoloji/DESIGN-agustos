@@ -4,6 +4,28 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.13.0] - 2026-10-08
+
+A minor release: a rule for when "On this page" (`agustos-contents`) shows, and two checker warnings that hold it. Emre approved the rule on 2026-10-08. Decision record: MEMORY 2026-10-08 contents-rule. The look and the markup of the list do not change.
+
+### Added
+
+- The rule: the list shows on an article (screen `content`) or a legal page (screen `static`) whose reading container holds 3 or more main sections (H2) and 600 or more words. On every other page it never shows, also on an About or a service page on `static`. DESIGN.md (`.agustos-contents`) and UI-KIT.md define what counts: the text of `container--reading`, without the site header, the footer, navigation, the contents list itself, scripts, styles and SVG drawings.
+- Checker warning AG037: an article (screen `content`) that meets the rule and has no `agustos-contents`. The checker does not ask for the list on `static`, because it cannot tell a legal page from an About page there.
+- Checker warning AG038: an `agustos-contents` on a page that does not meet the rule, or on a screen other than `content` and `static`.
+- UI-KIT.md tells a site to generate the list from the H2s of the body at build time, never to type it.
+- Tests for both warnings at the edges: 2 and 3 H2, 599 and 600 words, H2s in the footer, a word over an inline tag, a long `static` page, a template, and both checker modes.
+
+### Changed
+
+- AG031 now shares one scan with AG037 and AG038. Its result does not change.
+- The starter specimen names the rule in place of "a long legal page".
+
+### Migration
+
+- A consuming site vendors v7.13.0, then generates the list at build time on each article and each legal page that meets the rule. On agustos.com and memregunes.com, 13 articles get the list. The legal pages that have it keep it.
+- Run the checker with `--screens-only` on the built site. AG037 and AG038 count rendered HTML only. In a template (`.astro`, `.erb`, `.php`) the text comes from code, so the source scan skips the count there.
+
 ## [7.12.0] - 2026-10-08
 
 A minor release: a short last row of cards keeps the card width. Emre approved it on 2026-10-08, after banuucak.com showed one post card across the whole frame. Decision record: MEMORY 2026-10-08 card-grid-last-row. A full row does not change: it holds as many cards as before. A grid with fewer cards than one row still fills the row.
