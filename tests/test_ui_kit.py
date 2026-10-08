@@ -874,6 +874,92 @@ class CheckerTest(unittest.TestCase):
                 with self.subTest(page=name):
                     self.assertEqual(by_file[name], expected)
 
+    def _article(self, sections: int, words: int, contents: bool = False, split_word: bool = False) -> str:
+        """A reading container with an H1, the given number of H2 and exactly
+        `words` words of content. Each heading holds one word. The body
+        paragraphs hold the rest, one word per <p>, so a scan that joins two
+        blocks into one word counts too few. split_word puts one word over an
+        inline tag (`Işık<strong>lar</strong>`), so a scan that splits it counts
+        too many. Navigation and the contents list add words that must not count."""
+        body = words - 1 - sections
+        paragraphs = [f"<p>kelime{n}</p>" for n in range(body)]
+        if split_word:
+            paragraphs[0] = "<p>Işık<strong>lar</strong></p>"
+        per = -(-len(paragraphs) // max(sections, 1))
+        parts = []
+        for index in range(max(sections, 1)):
+            heading = f'<h2 id="b{index}">Bölüm</h2>' if index < sections else ""
+            parts.append(f"<section>{heading}{''.join(paragraphs[index * per:(index + 1) * per])}</section>")
+        listing = ""
+        if contents:
+            links = "".join(f'<li><a class="agustos-contents__link" href="#b{n}">Bölüm bir iki</a></li>' for n in range(sections))
+            listing = ('<details class="agustos-contents"><summary class="agustos-contents__toggle">Bu sayfada</summary>'
+                       '<nav aria-label="Bu sayfada"><p class="agustos-contents__title" aria-hidden="true">Bu sayfada</p>'
+                       f'<ol class="agustos-contents__list">{links}</ol></nav></details>')
+        return ('<article class="container container--reading">'
+                '<nav aria-label="Breadcrumb"><ol class="breadcrumb"><li><a href="/">Ana sayfa</a></li><li>Yazılar ve notlar</li></ol></nav>'
+                f'<h1>Başlık</h1>{listing}{"".join(parts)}'
+                '<script>const words = "these words are code and never count"</script>'
+                '</article>')
+
+    def test_checker_ties_the_contents_list_to_long_content_pages(self):
+        """v7.13.0 (Emre, 2026-10-08): "On this page" shows on an article or a
+        legal page (screen content or static) with 3 or more H2 and 600 or more
+        words in its reading container, and on no other page. AG037 warns when
+        an article (content) meets the rule and has no list; static also holds
+        About pages, so it never asks there. AG038 warns on a list anywhere else. The edges: 2 or 3
+        H2, 599 or 600 words. Both modes, source and --screens-only, agree. A
+        template (.erb) is not counted: its text comes from code."""
+        import tempfile
+        footer = ('<footer class="site-footer">' + "<h2>Aydınlatma</h2><h2>Ağustos</h2>"
+                  + "<p>" + "footer " * 700 + "</p></footer>")
+        pages = {
+            "long-article.html": (self._screen_page("content", main=self._article(3, 600)), {"AG037"}),
+            "long-article-listed.html": (self._screen_page("content", main=self._article(3, 600, contents=True)), set()),
+            "short-article.html": (self._screen_page("content", main=self._article(3, 599, split_word=True)), set()),
+            "short-article-listed.html": (self._screen_page("content", main=self._article(3, 599, contents=True)), {"AG038"}),
+            "two-sections.html": (self._screen_page("content", main=self._article(2, 900)), set()),
+            "two-sections-listed.html": (self._screen_page("content", main=self._article(2, 900, contents=True)), {"AG038"}),
+            # static also holds About pages, so the checker never asks for a list there.
+            "long-policy.html": (self._screen_page("static", main=self._article(9, 2150)), set()),
+            "short-policy-listed.html": (self._screen_page("static", main=self._article(3, 599, contents=True)), {"AG038"}),
+            "long-policy-listed.html": (self._screen_page("static", main=self._article(9, 2150, contents=True)), set()),
+            # H2s and words in the footer, outside the reading container, do not count.
+            "footer-headings.html": (self._screen_page("content", main=self._article(2, 599) + footer), set()),
+            "landing-listed.html": (self._screen_page("landing", main=self._article(6, 900, contents=True)), {"AG038"}),
+            "long-index.html": (self._screen_page("content-index", main=self._article(4, 900)), set()),
+            # A template draws its text from code, so the count stays off there.
+            "layout.html.erb": (self._screen_page("content", main=self._article(3, 10, contents=True) + "<%= yield %>"), set()),
+        }
+        with tempfile.TemporaryDirectory() as tmp:
+            project = Path(tmp)
+            for name, (text, _) in pages.items():
+                (project / name).write_text(text, encoding="utf-8")
+            for flags in ((), ("--screens-only",)):
+                result = self._run(project, "--json", *flags)
+                findings = json.loads(result.stdout)["findings"]
+                by_file: dict[str, set] = {name: set() for name in pages}
+                by_file.setdefault("layout.html.erb", set())
+                for finding in findings:
+                    if finding["rule"] in ("AG037", "AG038"):
+                        self.assertEqual(finding["level"], "warn")
+                        by_file[finding["file"]].add(finding["rule"])
+                for name, (_, expected) in pages.items():
+                    with self.subTest(page=name, flags=flags):
+                        self.assertEqual(by_file[name], expected)
+            message = next(f["message"] for f in findings if f["file"] == "long-article.html" and f["rule"] == "AG037")
+            self.assertIn("3 H2 and 600 words", message)
+
+    def test_checker_contents_screens_exist(self):
+        """The contents rule names real screens, so a renamed screen cannot
+        switch the rule off without a test failure."""
+        namespace: dict = {"__name__": "agustos_checker"}
+        exec(compile(self.CHECKER.read_text(encoding="utf-8"), str(self.CHECKER), "exec"), namespace)
+        self.assertEqual(namespace["CONTENTS_SCREENS"], ("content", "static"))
+        self.assertEqual(namespace["CONTENTS_ASKED"], ("content",))
+        self.assertTrue(set(namespace["CONTENTS_SCREENS"]) <= set(namespace["SCREENS"]))
+        self.assertEqual((namespace["CONTENTS_MIN_SECTIONS"], namespace["CONTENTS_MIN_WORDS"]), (3, 600))
+
     def test_checker_warns_when_the_device_picks_the_theme(self):
         """v7.7.0: the user chooses the theme, never the device (Emre, 2026-10-03)."""
         import tempfile
@@ -1781,7 +1867,7 @@ console.log(JSON.stringify(out));
         self.assertIn('<a class="agustos-contents__link" href="#contents-demo-data">', text)
         # v7.4.2: the nav label names the list; the visible title is hidden from screen readers.
         self.assertIn('<p class="agustos-contents__title" aria-hidden="true">On this page</p>', text)
-        self.assertIn('<div class="container container--reading">\n      <p class="type-body">A long legal page', text)
+        self.assertIn('<div class="container container--reading">\n      <p class="type-body">A content page with 3 or more H2', text)
 
 
 class FoldWideTest(unittest.TestCase):
