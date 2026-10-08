@@ -44,3 +44,10 @@
   - Accessibility: one line on "Colour in use", "Text on any background keeps 4.5:1 contrast (WCAG 2.2 AA)", so partners who make their own material follow the kit's floors.
 - Register printer-matched CMYK and Pantone values for the six colours and the identity inks in `brand/brands.json`, then show them on the colour page of `brand/build_guidelines.py`. Ask the printer for a proof first; do not convert the screen values.
 - Rebuild `adapters/astro/src/pages/blog/index.astro` on `type-dl` and `type-footnote`, like `screens/content-index.html`. Remove its scoped `<style>` block and the H2 for each post title, which break the list-page rule.
+- Kit against the good-css list, 2026-10-08 (MEMORY.md, good-css-skill). Candidates for the monthly release; each needs a before/after preview:
+  - Touch: put the 42 `:hover` rules inside `@media (hover: hover) and (pointer: fine)`, so a tapped link on a phone does not stay red. Give every button, link and menu row an `:active` state (3 today), then remove the grey tap flash.
+  - Reset: `text-wrap: pretty` on body text (headings already balance), `overflow-wrap: break-word` for long URLs and product codes on phones, `font-synthesis: none`, `scrollbar-gutter: stable`, `100svh` in place of `100vh` on `body`. Decide whether `text-rendering: optimizeLegibility` stays; good-css removes it.
+  - Type scale: write the `clamp()` bounds in rem and the middle value as rem + vw (`--size-hero`, `--size-h1`, `--size-h2`, `--section-space`, the page opening). Today the px bounds ignore the reader's browser font size.
+  - Overflow: `overflow: clip` in place of `hidden` where no script scrolls the element (6 rules).
+  - Phones with a notch: `env(safe-area-inset-*)` on the sticky top menu, the drawer and the footer (0 today).
+  - Forms: `field-sizing: content` on `.agustos-textarea`, and `:user-invalid` for error states.
