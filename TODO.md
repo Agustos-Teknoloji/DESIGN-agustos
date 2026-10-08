@@ -2,8 +2,6 @@
 
 ## Now
 
-- [x] Kit v7.11.2: hover only where a mouse hovers, and long words break (MEMORY.md 2026-10-08 touch-fixes).
-- [ ] Before/after phone screenshots to Emre, then merge. After the merge on `main`: `/design-push`.
 - [ ] memregunes.com vendors v7.11.2 and deletes its `#audience` rule in `src/styles/home.css` (WEBSITE-memregunes MEMORY 2026-10-06 consulting-first-part, "reopen if").
 
 ## Next
