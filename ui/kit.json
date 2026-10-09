@@ -53,7 +53,7 @@
       "wordmark": "specquick"
     }
   },
-  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.14.0/ui/",
+  "cdnBase": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.15.0/ui/",
   "clients": {
     "heper": {
       "action": {
@@ -355,23 +355,23 @@
   "files": {
     "AGENTS-SNIPPET.md": {
       "bytes": 2481,
-      "sha256": "d1e86e0ec0576bb7b64242726bc764a8b6e0815bf442f438aeac8dc1fbb389d9"
+      "sha256": "e61c65bea3edf9646b8c1253584c67aaa00038693dd3d84e1f75f6e8490bf26d"
     },
     "UI-KIT.md": {
-      "bytes": 36535,
-      "sha256": "d4222f0741c66bc3ef90a4a4b9be8ce2f8dba51cab79f89c527e23cd0b8a4bb6"
+      "bytes": 36616,
+      "sha256": "56f1d0f4bc36ea6dd09403c819785fdd01f4757a2729294e62ecbc5db81680fd"
     },
     "agustos-chrome.js": {
       "bytes": 5400,
-      "sha256": "04e43daaee1786aeeedacf24f42ae5ffd76fe6b16454182991ea70bc31aa58c3"
+      "sha256": "bd818bfebb2817995cb61d5079a0702ebbbc95d529feee11289b5b6ea3b08ff9"
     },
     "agustos-fonts.css": {
       "bytes": 2426,
-      "sha256": "e190652d3a5c3d1f31a7a11ddb94d983be3a067735f90f2a0061f70a6b7976ca"
+      "sha256": "11a07024fd765b6cb4868087c3a08793d0e1ad213ed7d9a76d2a5ca3986c5510"
     },
     "agustos.css": {
       "bytes": 89950,
-      "sha256": "6f551af2c3458e4ed5a87f5622dab146e52ba4377aa9cece845049b50e0aa8f4"
+      "sha256": "63cfff472993a2f458f68eb6cdff21c94087a4b190052deef4b20f8f8f203e2b"
     },
     "brands/heper-dark.svg": {
       "bytes": 4919,
@@ -379,7 +379,7 @@
     },
     "brands/heper.css": {
       "bytes": 483,
-      "sha256": "90540969a9011b560e5824948a7c8fbd7baef0acde45cead6a041a2095d61d3f"
+      "sha256": "659eee230a9e8c6fcb83b5260439754c6601a03c18218f4fa884e369ba0b380d"
     },
     "brands/heper.svg": {
       "bytes": 4919,
@@ -391,7 +391,7 @@
     },
     "brands/ligman.css": {
       "bytes": 488,
-      "sha256": "1b4d331802e4151eececc375ff3be218c9c84b12abb6da7182ef6a6559c40ece"
+      "sha256": "57d2301837195e89ba213f67fa3f39efbd13ce852c0212d031302869bb79c0a3"
     },
     "brands/ligman.svg": {
       "bytes": 27253,
@@ -399,7 +399,7 @@
     },
     "check-agustos-ui.py": {
       "bytes": 45230,
-      "sha256": "440ae0030f05f55376ecea6ac447268e8a241090ae397c67686edd9e11ff2ab5"
+      "sha256": "92afe5aab71c86304129939accac081dc159b68ef0e2f2924673dba9dd72e428"
     },
     "fonts/inter-tight-variable-italic.woff2": {
       "bytes": 110596,
@@ -423,12 +423,12 @@
     },
     "starter.html": {
       "bytes": 32625,
-      "sha256": "45bd92a1dbc24f1daaa8b2a82b0d3fa14b5b232052871482211ac55cc794f19f"
+      "sha256": "84bad03b310b663ce6f37f5e4723293746dca7832bf85ebc7c8a948ec32b222a"
     }
   },
-  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.14.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.14.0/ui/agustos.css\">",
+  "headSnippet": "<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.15.0/ui/agustos-fonts.css\">\n<link rel=\"stylesheet\" href=\"https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.15.0/ui/agustos.css\">",
   "latestKitUrl": "https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@latest/ui/kit.json",
-  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.14.0/ui/",
+  "rawBase": "https://raw.githubusercontent.com/Agustos-Teknoloji/DESIGN-agustos/v7.15.0/ui/",
   "repository": "Agustos-Teknoloji/DESIGN-agustos",
   "screens": {
     "app-shell": {
@@ -1304,5 +1304,5 @@
       "weight": 400
     }
   ],
-  "version": "7.14.0"
+  "version": "7.15.0"
 }

@@ -1,4 +1,4 @@
-# Ağustos UI kit — v7.14.0
+# Ağustos UI kit — v7.15.0
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -45,11 +45,11 @@ Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and
 
 npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-Prototypes with no build step may link the CDN copies. **Pin to `@v7.14.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
+Prototypes with no build step may link the CDN copies. **Pin to `@v7.15.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.14.0/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.14.0/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.15.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.15.0/ui/agustos.css">
 ```
 
 ## Page skeleton
@@ -135,7 +135,7 @@ One reference page per screen type lives in the source repository under `screens
 | `app-shell` | product UI | sidebar | frame | light first, dark by choice | none |
 | `app-top-menu` | product UI | topbar | frame | light first, dark by choice | none |
 
-A website page opens with a `type-hero` headline (or a `type-h1` on listing and content pages), a `type-hero-deck`, a `hero-actions` row with one primary and one secondary `agustos-button`, and a `hero-trust` line. It closes with one `band band--cream`. **The hero has four layouts**, one per page, all aligned at the top: text only; an image below, as `figure.type-figure.hero-visual` after the text (64px below the trust line); an image on the right, as `div.hero-split` holding the text in a `stack`, then `figure.type-figure.hero-split__media`; an image on the left, with `hero-split hero-split--media-start`. A split hero takes `type-hero-md`, because `type-hero` is too large for half the frame. Its text stays first in the markup, so a phone and a screen reader get it first, and below 760px the image follows the text. Use one real photograph (a product, a place, a person), never a decorative image. `brand-memregunes` may show photographs of Emre Güneş on `home` and `static`. `brand-banuucak` may show photographs of Banu Uçak on `home` and `static`. Her posts are about buildings, so `home` and `content-index` may list them as `agustos-card` items in an `agustos-card-grid agustos-card-grid--list`, each with its cover photograph. `starter.html` renders a split hero.
+A website page opens with a `type-hero` headline (or a `type-h1` on listing and content pages), a `type-hero-deck`, a `hero-actions` row with one primary and one secondary `agustos-button`, and a `hero-trust` line. It closes with one `band band--cream`. **The hero has four layouts**, one per page, all aligned at the top: text only; an image below, as `figure.type-figure.hero-visual` after the text (64px below the trust line); an image on the right, as `div.hero-split` holding the text in a `stack`, then `figure.type-figure.hero-split__media`; an image on the left, with `hero-split hero-split--media-start`. A split hero takes `type-hero-md`, because `type-hero` is too large for half the frame. Its text stays first in the markup, so a phone and a screen reader get it first, and below 760px the image follows the text. Use one real photograph (a product, a place, a person), never a decorative image. `brand-memregunes` may show photographs of Emre Güneş on `home` and `static`. `brand-banuucak` may show photographs of Banu Uçak on `home` and `static`. Her posts are about buildings, so `home` and `content-index` may list them as `agustos-card` items in an `agustos-card-grid agustos-card-grid--list`, each with its cover photograph. `brand-selimgunes` may show photographs of Selim Güneş on `home` and `static`. `starter.html` renders a split hero.
 
 **A picture beside the text.** `reading-split` holds two blocks: the text, then a `reading-split__media` picture. Wrap the text of a part in one element; every block that is not the picture goes in the text column. From 1024px the text keeps the reading line and the picture fills the side zone to its right, aligned at the top; below 1024px they stack in markup order, and the picture takes half the reading line at most. On a reading page, `reading-wide` lets a part run across the frame, for example a `grid-3`; its text keeps `prose`. A page with a split has no contents list, because both use the side zone.
 
