@@ -10,14 +10,14 @@ function agustos_design_system_assets(): void {
         'agustos-design-system',
         get_theme_file_uri('/assets/css/agustos.css'),
         array(),
-        '7.14.0'
+        '7.15.0'
     );
     // The More menu closes on Escape, an outside click or focus leaving.
     wp_enqueue_script(
         'agustos-chrome',
         get_theme_file_uri('/assets/js/agustos-chrome.js'),
         array(),
-        '7.14.0',
+        '7.15.0',
         array('strategy' => 'defer')
     );
 }

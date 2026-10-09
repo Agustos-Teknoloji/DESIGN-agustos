@@ -2041,6 +2041,10 @@ class SelimgunesBrandTest(unittest.TestCase):
         favicon = ROOT / "brand" / "exports" / "selimgunes" / "favicon" / "favicon.svg"
         self.assertIn("#15130f", favicon.read_text(encoding="utf-8"))
 
+    def test_ui_kit_states_the_photograph_exception(self):
+        text = (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8")
+        self.assertIn("`brand-selimgunes` may show photographs of Selim Güneş", text)
+
 
 class ClientBrandTest(unittest.TestCase):
     """v7.8.0: brands Ağustos builds for (HEPER, LIGMAN). A logo and one colour, in place of black on the primary button."""

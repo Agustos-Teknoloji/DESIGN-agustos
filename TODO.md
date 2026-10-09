@@ -8,7 +8,6 @@
 
 ## Next
 
-- Ask Emre whether to rebuild the brand guidelines PDFs now that `banuucak` and `selimgunes` joined the family (AGENTS.md: a brand that joins needs his yes). Rebuild only on his yes.
 - banuucak exports when Emre asks: `brand/build.py` for the banuucak favicon kit and lockups, then ASSETS.md. Until then banuucak.com uses the generic black-sun favicon, which every non-Ağustos brand shares.
 - agustos.com, memregunes.com and pldturkiye.com adopt v7.7.0 (follow-up list in the v7.7.0 plan).
 - Run the Astro and Rails adapter test suites in `scripts/ci.sh`. Today they run only by hand, so the gate does not see an adapter that breaks the kit contract.

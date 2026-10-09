@@ -1,4 +1,4 @@
-# Ağustos Rails Adapter (kit v7.14.0)
+# Ağustos Rails Adapter (kit v7.15.0)
 
 Plain-ERB, Hotwire-compatible implementation of the Ağustos Design System. The
 adapter matches the Astro top menu and footer grammar without depending on Astro

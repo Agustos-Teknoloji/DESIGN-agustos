@@ -4,6 +4,18 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.15.0] - 2026-10-09
+
+A minor release: selimgunes.com may show photographs of Selim Güneş. Emre asked for it on 2026-10-09. Decision record: MEMORY 2026-10-09 selimgunes-photographs. Consuming sites change nothing.
+
+### Added
+
+- `brand-selimgunes` may show photographs of Selim Güneş on `home` and `static`, as `brand-memregunes` and `brand-banuucak` do.
+
+### Changed
+
+- The brand guidelines PDFs (agustos, pataraz, pld) are rebuilt. The family page now lists Banu Uçak and Selim Güneş. Emre said yes on 2026-10-09.
+
 ## [7.14.0] - 2026-10-09
 
 A minor release under MEMORY 2026-09-29 monthly-kit-release: selimgunes.com needs its brand. Emre asked for the logo on 2026-10-09. Decision record: MEMORY 2026-10-09 selimgunes-brand. Consuming sites change nothing.
