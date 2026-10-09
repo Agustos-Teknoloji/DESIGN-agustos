@@ -54,7 +54,7 @@ brand's identity ink**: red `#cf142a` for Ağustos, black `#15130f` for every ot
 | Asset | Path | Use |
 |---|---|---|
 | **Favicon kit (Ağustos, canonical)** | [`laz-gunesi-amblem/favicon/`](laz-gunesi-amblem/favicon/) | `favicon.svg` (red sun on white tile), `favicon.ico`, `favicon-16/32.png`, `apple-touch-icon.png`, `icon-192/512.png`, `site.webmanifest`. |
-| **Favicon kit (per brand)** | `brand/exports/<brand>/favicon/` | Same tile; black sun for every brand except `agustos`. `favicon.svg`, `favicon.ico`, `favicon-16…512.png`, `apple-touch-icon.png`, `site.webmanifest`. Also generated for `memregunes`. |
+| **Favicon kit (per brand)** | `brand/exports/<brand>/favicon/` | Same tile; black sun for every brand except `agustos`. `favicon.svg`, `favicon.ico`, `favicon-16…512.png`, `apple-touch-icon.png`, `site.webmanifest`. Also generated for `memregunes` and `selimgunes`. |
 | `<head>` snippet + guide | [`laz-gunesi-amblem/favicon/README.md`](laz-gunesi-amblem/favicon/README.md) | Copy-paste link tags; regeneration steps. |
 | In-page symbol | [`laz-gunesi-amblem/favicon/favicon-mono.svg`](laz-gunesi-amblem/favicon/favicon-mono.svg) | The bare symbol (= `master.svg`, no tile), for UI next to text. Not a tab icon. |
 
@@ -116,7 +116,7 @@ scripts; never hand-edit `exports/`.
 Each `exports/<brand>/` holds: `lockup/` (positive/negative/mono × svg·pdf·png), `favicon/`,
 `social/`, `swatches/` (.ase/.clr), `email/` (signature), `office/` (editable PPTX, letterhead DOCX, styled document DOCX),
 `guidelines/` (14-page PDF), and `datasheet/` (A4 lighting product sheets, html + pdf). Full
-kits: `agustos`, `pataraz`, `pld`; `iesdesk` and `specquick` have logos only. The `datasheet/` folder holds
+kits: `agustos`, `pataraz`, `pld`; `iesdesk`, `specquick` and `selimgunes` have logos only. The `datasheet/` folder holds
 one sheet per product — real Pataraz luminaires (`pataraz-pl22`, `pataraz-px22`, and the
 PY series `pataraz-py300600` / `pataraz-py600600` / `pataraz-py6001200`) and an `agustos`
 sample (`agustos-pro-spot-28`); add a product by editing the `PRODUCTS` dict in

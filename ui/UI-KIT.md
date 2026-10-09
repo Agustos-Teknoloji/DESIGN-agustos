@@ -1,4 +1,4 @@
-# Ağustos UI kit — v7.13.0
+# Ağustos UI kit — v7.14.0
 
 Read this complete interface contract before building for an Ağustos-family brand. You do not need to open `DESIGN.md`.
 
@@ -45,11 +45,11 @@ Production: copy `agustos.css`, `agustos-fonts.css`, `fonts/` (5 woff2 files and
 
 npm projects may skip `agustos-fonts.css` and run `npm i @fontsource-variable/inter-tight @fontsource-variable/inter @fontsource-variable/jetbrains-mono` instead.
 
-Prototypes with no build step may link the CDN copies. **Pin to `@v7.13.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
+Prototypes with no build step may link the CDN copies. **Pin to `@v7.14.0`.** Never `@main` or `@latest`; an unpinned link restyles a live page the moment a token changes.
 
 ```html
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.13.0/ui/agustos-fonts.css">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.13.0/ui/agustos.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.14.0/ui/agustos-fonts.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/Agustos-Teknoloji/DESIGN-agustos@v7.14.0/ui/agustos.css">
 ```
 
 ## Page skeleton
@@ -88,6 +88,7 @@ Use `lang="tr"` for Turkish content so locale-sensitive capitalization renders c
 | specquick | `brand-specquick` | black | red |
 | emre güneş | `brand-memregunes` | black | red |
 | banu uçak | `brand-banuucak` | black | red |
+| selim güneş | `brand-selimgunes` | black | red |
 
 | Switch | Values | Where |
 |---|---|---|

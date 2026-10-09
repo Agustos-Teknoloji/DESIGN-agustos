@@ -1,9 +1,9 @@
 {
   "name": "agustos-astro",
-  "version": "7.13.0",
+  "version": "7.14.0",
   "private": true,
   "type": "module",
-  "description": "Astro reference adapter for the Ağustos Design System v7.13.0",
+  "description": "Astro reference adapter for the Ağustos Design System v7.14.0",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",

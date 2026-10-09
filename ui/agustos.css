@@ -1,4 +1,4 @@
-/* AĞUSTOS DESIGN SYSTEM v7.13.0 · GENERATED DISTRIBUTION KIT CSS
+/* AĞUSTOS DESIGN SYSTEM v7.14.0 · GENERATED DISTRIBUTION KIT CSS
    Sources: tokens/design-tokens.json + brand/brands.json + tokens/web.css.tmpl
    Do not hand-edit this file. Run: python3 scripts/build_design_system.py */
 
@@ -126,6 +126,7 @@
   --brand-specquick:   #15130f;
   --brand-memregunes:  #15130f;
   --brand-banuucak:    #15130f;
+  --brand-selimgunes:  #15130f;
 
   /* Default brand fallback (resolves before any .brand-* applies) */
   --brand: var(--brand-agustos);
@@ -151,6 +152,7 @@
 .brand-specquick { --brand: var(--brand-specquick); }
 .brand-memregunes { --brand: var(--brand-memregunes); }
 .brand-banuucak   { --brand: var(--brand-banuucak); }
+.brand-selimgunes { --brand: var(--brand-selimgunes); }
 
 /* Substrate override — kept for compatibility. White is already the default paper. */
 .paper-white {
