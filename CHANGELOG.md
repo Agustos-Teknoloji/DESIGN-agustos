@@ -4,6 +4,15 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+## [7.14.0] - 2026-10-09
+
+A minor release under MEMORY 2026-09-29 monthly-kit-release: selimgunes.com needs its brand. Emre asked for the logo on 2026-10-09. Decision record: MEMORY 2026-10-09 selimgunes-brand. Consuming sites change nothing.
+
+### Added
+
+- The `selimgunes` brand: the personal site of Selim Güneş at selimgunes.com. Wordmark "selim güneş", neutral ink, no Office files. `brand-selimgunes` joins the brand classes, the CSS and the checker.
+- The selimgunes logo kit in `brand/exports/selimgunes/`: lockups (positive, negative, mono as SVG, PDF and PNG), the favicon kit with the black sun, the social avatar and the OG image.
+
 ## [7.13.0] - 2026-10-08
 
 A minor release: a rule for when "On this page" (`agustos-contents`) shows, and two checker warnings that hold it. Emre approved the rule on 2026-10-08. Decision record: MEMORY 2026-10-08 contents-rule. The look and the markup of the list do not change.

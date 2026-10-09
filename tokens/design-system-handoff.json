@@ -52,6 +52,7 @@
       "brand-specquick",
       "brand-memregunes",
       "brand-banuucak",
+      "brand-selimgunes",
       "paper-white",
       "hero-actions",
       "hero-trust",
@@ -393,6 +394,15 @@
         "tagline_tr": "",
         "title": "PLD Türkiye",
         "wordmark": "pld türkiye"
+      },
+      "selimgunes": {
+        "color": "#15130f",
+        "domain": "selimgunes.com",
+        "office": false,
+        "tagline_en": "",
+        "tagline_tr": "",
+        "title": "Selim Güneş",
+        "wordmark": "selim güneş"
       },
       "specquick": {
         "color": "#15130f",
@@ -1718,7 +1728,7 @@
         "weight": 400
       }
     ],
-    "version": "7.13.0"
+    "version": "7.14.0"
   },
-  "version": "7.13.0"
+  "version": "7.14.0"
 }

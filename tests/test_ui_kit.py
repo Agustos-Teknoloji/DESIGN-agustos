@@ -634,7 +634,8 @@ class DistributionKitTest(unittest.TestCase):
         # 220 since v7.6.0: the type table (one row per role) joined the file.
         # 230 since v7.8.0: the client brand section and its table joined the file.
         # 235 since v7.11.0: the landing screen row and the landing page rules joined the file.
-        self.assertLessEqual(len(lines), 235, "UI-KIT.md is the one file an agent reads in full")
+        # 236 since v7.14.0: the selimgunes row joined the brand table.
+        self.assertLessEqual(len(lines), 236, "UI-KIT.md is the one file an agent reads in full")
 
     def test_entry_point_states_the_v7_7_rules(self):
         text = (self.KIT / "UI-KIT.md").read_text(encoding="utf-8")
@@ -673,7 +674,7 @@ class DistributionKitTest(unittest.TestCase):
     def test_kit_json_registers_each_brand(self):
         kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
         self.assertEqual(
-            set(kit["brands"]), {"agustos", "pataraz", "pld", "iesdesk", "specquick", "memregunes", "banuucak"},
+            set(kit["brands"]), {"agustos", "pataraz", "pld", "iesdesk", "specquick", "memregunes", "banuucak", "selimgunes"},
         )
         for entry in kit["brands"].values():
             self.assertNotIn("chrome", entry)
@@ -2010,6 +2011,35 @@ class BanuucakBrandTest(unittest.TestCase):
     def test_ui_kit_states_the_photograph_exception(self):
         text = (ROOT / "ui" / "UI-KIT.md").read_text(encoding="utf-8")
         self.assertIn("`brand-banuucak` may show photographs of Banu Uçak", text)
+
+
+class SelimgunesBrandTest(unittest.TestCase):
+    """The personal brand of Selim Güneş for selimgunes.com."""
+
+    def test_registry_entry(self):
+        brands = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))["brands"]
+        entry = brands["selimgunes"]
+        self.assertEqual(entry["wordmark"], "selim güneş")
+        self.assertEqual(entry["color"], "#15130f")
+        self.assertEqual(entry["domain"], "selimgunes.com")
+        self.assertFalse(entry["office"])
+
+    def test_generated_outputs_carry_the_brand(self):
+        css = (ROOT / "ui" / "agustos.css").read_text(encoding="utf-8")
+        self.assertIn(".brand-selimgunes", css)
+        self.assertIn("--brand-selimgunes:", css)
+        kit = json.loads((ROOT / "ui" / "kit.json").read_text(encoding="utf-8"))
+        self.assertIn("brand-selimgunes", kit["brandClasses"])
+        self.assertEqual(kit["brands"]["selimgunes"]["domain"], "selimgunes.com")
+        checker = (ROOT / "ui" / "check-agustos-ui.py").read_text(encoding="utf-8")
+        self.assertIn("'brand-selimgunes'", checker)
+
+    def test_logo_kit_exists(self):
+        lockup = ROOT / "brand" / "exports" / "selimgunes" / "lockup"
+        for expression in ("positive", "negative", "mono"):
+            self.assertTrue((lockup / f"selimgunes-lockup__{expression}.svg").is_file())
+        favicon = ROOT / "brand" / "exports" / "selimgunes" / "favicon" / "favicon.svg"
+        self.assertIn("#15130f", favicon.read_text(encoding="utf-8"))
 
 
 class ClientBrandTest(unittest.TestCase):
