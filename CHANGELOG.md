@@ -774,18 +774,15 @@ A conventional reset of the website layer. Identity (symbol, wordmarks, six colo
 
 - `--measure-body` is 65ch (was 72ch). 72ch in Inter ran to about 95 characters per line. 65ch is about 42rem at 16.5px, the content column agustos.com already uses, and reads at about 80 characters. `--measure-text` (54ch) stays the hero deck measure; the docs now say which measure is for what.
 - The heading scale stays at four roles. A review asked for a list-title size between H2 and H3; lists of titles use body-size links with a footnote line instead, the article-list idiom. Recorded in DESIGN.md.
-
-### Migration
-
-- Vendor `ui/` at v5.1.0. Replace raw `max-width: 42rem` on prose columns with `var(--measure-body)`.
-
-### Changed
-
 - Align the Astro adapter with v5.0.1 composition rules.
 - Marketing chrome omits the theme toggle.
 - Header and footer use kit buttons and footer colour tokens.
 - Recreate the Astro homepage from the marketing site kit: editorial opening, selected-work cards, one cream band, and footer chrome. Hold locked rules: no arrows, no quotes, no marketing theme toggle.
 - Align the Rails adapter with v5.0.1 composition: no marketing theme toggle, kit header and footer buttons, a homepage trust line, one closing cream CTA band, and the IESDesk validation-run product UI from the kit (sidebar app shell, white paper, opt-in dark).
+
+### Migration
+
+- Vendor `ui/` at v5.1.0. Replace raw `max-width: 42rem` on prose columns with `var(--measure-body)`.
 
 ## [5.0.1] - 2026-09-08
 
