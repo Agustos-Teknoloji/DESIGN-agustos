@@ -148,6 +148,17 @@ Generated. What another repository consumes to build an interface. Never hand-ed
 | Checker | `ui/check-agustos-ui.py` | Consumers run it to prove compliance. |
 | Adoption snippet | `ui/AGENTS-SNIPPET.md` | Paste into a consuming repo's `AGENTS.md`. |
 
+## Main theme (sound)
+
+One piece of music for every Ağustos video, with or without speech. The rules are "Sound" in [DESIGN.md](DESIGN.md).
+
+| Asset | File |
+|---|---|
+| How to make and use the theme | [`brand/audio/README.md`](brand/audio/README.md) |
+| Fit the theme to the length of a video | [`brand/audio/fit_theme.py`](brand/audio/fit_theme.py) |
+| The three parts, in two mixes | `brand/audio/main-theme/{full,voice}/{intro,middle,outro}.wav` (not made yet) |
+| The proof of the commercial right | `brand/audio/main-theme/LICENCE.md` (not made yet) |
+
 ## Known gaps / follow-ups
 
 - **Print PDFs still at `#D11D2B`.** `laz-gunesi-amblem/pdf/laz-gunesi__red*.pdf` predate the

@@ -4,6 +4,10 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- 2026-10-13: The Ağustos main theme, one piece of music for every video (DESIGN.md "Sound", `brand/audio/README.md`, MEMORY 2026-10-13 main-theme). It has a sunrise melody at the start, a middle part on four chords that repeats, and a sunset at the end. `brand/audio/fit_theme.py` fits it to the length of a video. The Suno recording is not chosen yet. Consuming sites change nothing.
+
 ### Changed
 
 - 2026-10-13: `AGENTS.md` names the drive folder of this repo for files outside git. Rule 56 of `ops/decisions/project-docs.md` in CONTEXT-agustos asks for it (CONTEXT-agustos PR 164). Consuming sites change nothing.
