@@ -12,7 +12,7 @@ agustos.com is the reference implementation; this repository is authoritative. U
 
 ## Cloud agents
 
-These rules apply when you run on a vendor machine (an Amp orb, Claude Code on the web, Codex cloud or a Cursor background agent), not on the Mac of Emre.
+These rules apply when you run on a vendor machine, not on the Mac of Emre. Examples: an Amp orb, Claude Code on the web, Codex cloud or a Cursor background agent.
 
 1. Push only to your own branch. Never push to `main` or `production`. Open a pull request, then stop.
 2. Never deploy, release, upload media, run Kamal or connect to a server. A session on the Mac does these steps.
