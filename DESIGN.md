@@ -672,7 +672,7 @@ The `selimgunes` brand is the personal site of Selim Güneş. It follows the sam
 
 ## Sound
 
-Every Ağustos video, of every brand, uses one piece of music: the Ağustos main theme. A video with speech uses it too, in its quiet mix. A new video never needs a new piece of music. `brand/audio/README.md` tells how to make the theme and how to fit it to a video.
+Every Ağustos video, of every brand, uses one piece of music: the Ağustos main theme. A video with speech uses it too, in its quiet mix. A launch video uses the launch version of the theme. A new video never needs a new piece of music. `brand/audio/README.md` tells how to make the theme and how to fit it to a video.
 
 ### The brief line
 
@@ -710,6 +710,10 @@ The shortest video for the theme is 6.2 s. `brand/audio/main-theme/` holds the p
 
 - **Full:** for a video with music and text only. The middle part sits at -16 LUFS.
 - **Voice:** for a video with speech. It is 12 dB quieter.
+
+### The launch version
+
+A launch video uses the launch version, and every product launch uses the same one. It keeps the cellos and double basses of the theme and adds two quiet layers: a soft electric piano pulse and light percussion. It starts with the strings alone and ends with the strings fading out. It is not made yet; `brand/audio/README.md` holds its brief.
 
 ### Rights
 

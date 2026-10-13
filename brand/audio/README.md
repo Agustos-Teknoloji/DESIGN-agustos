@@ -62,3 +62,43 @@ Keep the loop that you forget is playing when you talk over it. Download it as W
 
 7. Write `theme.json`: `"middle_bars": 6` gives six cut points in the middle part, and `"joint_seconds": 1.5` gives soft joints. Ambient music needs long joints; music with a beat needs the 10 ms default.
 8. Fit the theme to 30 s and to 180 s, and listen at each joint.
+
+## Make the launch version
+
+A launch video uses the launch version (DESIGN.md, "Sound"). Make it once, with a paid Suno plan, in the Songs tab: Custom mode, Instrumental on, the title `Ağustos launch theme`.
+
+Style field:
+
+```
+Instrumental launch music for Ağustos, the lifted version of its brand theme. Calm, smart and warm, with a gentle forward pulse. 100 BPM, 4/4, D major. Only three elements: cellos and double basses holding long, warm chords, the same low strings as the brand theme; a soft electric piano playing a steady, quiet eighth-note pulse; very light percussion, a soft kick and a brushed shaker. Four-chord loop D, A, Bm, G, two bars each, repeating with smooth changes. No lead melody. The same calm energy from start to end, with one small lift halfway: the percussion enters. Clean, minimal, human production that sits under on-screen text.
+```
+
+Exclude styles field:
+
+```
+vocals, choir, lead melody, synth lead, synth pad, atmosphere, drop, riser, build-up, EDM, cinematic, epic, orchestra, violin solo, piano solo, ukulele, whistling, hand claps, heavy drums
+```
+
+Lyrics field, for the order of the layers:
+
+```
+[Intro]
+[Instrumental: cellos and double basses alone, soft]
+
+[Verse]
+[Instrumental: electric piano pulse enters]
+
+[Verse]
+[Instrumental: light percussion enters, same calm energy]
+
+[Verse]
+[Instrumental: same loop, steady]
+
+[Outro]
+[Instrumental: percussion stops, strings hold a long D major chord and fade]
+
+[End]
+```
+
+Keep the song that sounds like the theme with a gentle heartbeat added. Cut it into an intro, a middle part and an outro as for the theme, in `brand/audio/launch-theme/`, and fit it with `fit_theme.py --parts brand/audio/launch-theme`. A middle part with a beat needs short joints: leave `joint_seconds` out of its `theme.json`.
+
