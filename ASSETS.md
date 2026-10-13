@@ -161,6 +161,8 @@ One piece of music for every Ağustos video, with or without speech. The rules a
 | The loop as it came from Suno | `brand/audio/main-theme/source.wav` |
 | The proof of the commercial right | `brand/audio/main-theme/LICENCE.md` |
 | The launch version, for launch videos only | `brand/audio/launch-theme/`, the same files |
+| A second take of the launch version | `brand/audio/launch-theme-2/`, the same files |
+| Spare takes that no video uses | `brand/audio/takes/` |
 
 ## Known gaps / follow-ups
 

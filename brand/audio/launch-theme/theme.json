@@ -1,6 +1,6 @@
 {
-  "bpm": 99.96,
-  "middle_bars": 16,
-  "joint_seconds": 0.05,
-  "source": "source.wav: the Suno song 'Warm Forward Motion' that Emre chose on 2026-10-13 for launch videos (53.6 s, D major). The first downbeat is at 0.1325 s and one bar is 2.401 s. The harmony repeats every 16 bars. intro.wav is 0 to 7.3355 s, middle.wav is the 16 bars from 7.3355 to 45.7515 s, and outro.wav is 45.7515 s to the end."
+  "bpm": 100.0,
+  "middle_bars": 4,
+  "joint_seconds": 0.1,
+  "source": "source.wav: the Suno loop 'Ağustos-gentle' that Emre chose on 2026-10-13 for launch videos (19.20 s). It starts on a downbeat, and one bar is 2.4000 s. intro.wav is bar 1, middle.wav is bars 2 to 5, outro.wav is the rest."
 }
