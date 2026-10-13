@@ -57,6 +57,7 @@ A measured live site beats any doc on what ships. Flag the drift, and fix the do
 | See what is next | [TODO.md](TODO.md) | |
 | Record a release | [CHANGELOG.md](CHANGELOG.md), `VERSION` | |
 | Read an old plan or spec | `docs/superpowers/` (dated history, not rules) | |
+| Keep an export, a report, a rendered image or another file outside git | The shared drive "Ağustos - CODING", folder `DESIGN-agustos` (create it on first use). Link: https://drive.google.com/drive/folders/0AIjQTGgKM2T9Uk9PVA. On the Mac: Google Drive for desktop, `~/Library/CloudStorage/`, `Shared drives/Ağustos - CODING/DESIGN-agustos/`. | Secrets, customer files, licensed documents, caches and the data of a hosted app stay out. Rules 53 to 56 of `ops/decisions/project-docs.md` in CONTEXT-agustos. |
 
 ## 30-second model
 
