@@ -16,7 +16,7 @@ fit_theme = importlib.util.module_from_spec(SPEC)
 sys.modules[SPEC.name] = fit_theme
 SPEC.loader.exec_module(fit_theme)
 
-INTRO, MIDDLE, OUTRO, LAST = 1000, 2000, 3000, 3333
+INTRO, MIDDLE, OUTRO, LAST = 1000, 2000, 3000, -7777  # Mixing positive values never makes LAST.
 
 
 def write_part(path: Path, frames: int, value: int, rate: int, channels: int, last: int | None = None) -> None:
@@ -30,9 +30,12 @@ def write_part(path: Path, frames: int, value: int, rate: int, channels: int, la
         wav.writeframes(samples.tobytes())
 
 
-def make_parts(folder: Path, rate: int, channels: int, intro: int, middle: int, outro: int, bars: int) -> None:
+def make_parts(folder: Path, rate: int, channels: int, intro: int, middle: int, outro: int, bars: int, joint: float | None = None) -> None:
     (folder / "full").mkdir(parents=True, exist_ok=True)
-    (folder / "theme.json").write_text(json.dumps({"bpm": 100, "middle_bars": bars}), encoding="utf-8")
+    theme = {"bpm": 100, "middle_bars": bars}
+    if joint is not None:
+        theme["joint_seconds"] = joint
+    (folder / "theme.json").write_text(json.dumps(theme), encoding="utf-8")
     write_part(folder / "full" / "intro.wav", intro, INTRO, rate, channels)
     write_part(folder / "full" / "middle.wav", middle, MIDDLE, rate, channels)
     write_part(folder / "full" / "outro.wav", outro, OUTRO, rate, channels, last=LAST)
@@ -78,12 +81,12 @@ class FitTest(unittest.TestCase):
     def tearDown(self):
         self.tmp.cleanup()
 
-    def check(self, seconds, rate, channels, intro, middle, outro, bars):
-        make_parts(self.parts, rate, channels, intro, middle, outro, bars)
+    def check(self, seconds, rate, channels, intro, middle, outro, bars, joint=None):
+        make_parts(self.parts, rate, channels, intro, middle, outro, bars, joint)
         params, samples = fit_theme.fit(seconds, self.parts, "full")
         frames = [samples[i] for i in range(0, len(samples), channels)]
         target = round(seconds * rate)
-        overlap = round(fit_theme.JOIN_SECONDS * rate)
+        overlap = max(1, round((joint or fit_theme.JOIN_SECONDS) * rate))
         context = dict(seconds=seconds, rate=rate, channels=channels, intro=intro, middle=middle, outro=outro, bars=bars)
 
         self.assertEqual(len(samples), target * channels, context)
@@ -121,6 +124,32 @@ class FitTest(unittest.TestCase):
             seconds = (intro + outro) / rate + rng.uniform(0, 10)
             with self.subTest(rate=rate, bars=bars, seconds=seconds):
                 self.check(seconds, rate, rng.choice((1, 2, 3)), intro, middle, outro, bars)
+
+    def test_long_ambient_joints(self):
+        # A 1.5 s joint, as the ambient theme uses, at random lengths.
+        rng = random.Random(1500)
+        for _ in range(12):
+            rate = 8000
+            intro, outro = rng.randint(2 * rate, 4 * rate), rng.randint(2 * rate, 5 * rate)
+            middle, bars = rng.randint(9 * rate, 12 * rate), 6
+            seconds = (intro + outro) / rate + rng.uniform(0, 40)
+            with self.subTest(seconds=seconds):
+                self.check(seconds, rate, 2, intro, middle, outro, bars, joint=1.5)
+
+    def test_an_equal_power_joint_holds_the_level_of_two_unlike_parts(self):
+        out = array.array("h", [10000] * 1000)
+        fit_theme.join(out, array.array("h", [10000] * 1000), 1000, 1)
+        self.assertGreater(min(out), 10000)  # Equal power lifts identical signals; it never dips.
+
+    def test_a_bad_joint_or_bars_too_short_for_it_are_refused(self):
+        for joint in (0, -1, 6, "1", True):
+            with self.subTest(joint=joint):
+                make_parts(self.parts, 8000, 2, 38400, 153600, 57600, 8, joint)
+                with self.assertRaisesRegex(fit_theme.ThemeError, "joint_seconds"):
+                    fit_theme.fit(30.0, self.parts, "full")
+        make_parts(self.parts, 8000, 2, 38400, 153600, 57600, 8, 3.0)  # 2.4 s bars, 3 s joint
+        with self.assertRaisesRegex(fit_theme.ThemeError, "shorter joint"):
+            fit_theme.fit(30.0, self.parts, "full")
 
     def test_the_command_writes_a_wav_of_the_video_length(self):
         make_parts(self.parts, 8000, 2, 38400, 153600, 57600, 8)

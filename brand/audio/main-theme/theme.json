@@ -1,0 +1,6 @@
+{
+  "bpm": 100,
+  "middle_bars": 6,
+  "joint_seconds": 1.5,
+  "source": "source.wav: the Suno Sounds loop that Emre chose on 2026-10-13 (19.2 s). intro.wav is 0 to 4.0 s, middle.wav is 4.0 to 15.5 s, outro.wav is 15.5 to 19.2 s. The full parts are 0.5 dB quieter than the source, so the middle part sits at -16 LUFS. The voice parts are 12 dB quieter again."
+}

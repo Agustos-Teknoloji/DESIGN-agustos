@@ -13,7 +13,8 @@ Usage:
 
 The parts are 16-bit PCM WAV files with the same rate and channels:
 <parts>/<mix>/intro.wav, middle.wav and outro.wav. <parts>/theme.json
-gives the number of bars in the middle part. README.md in this folder
+gives the number of bars in the middle part, and may give joint_seconds,
+the overlap of each joint (10 ms if it is absent). README.md in this folder
 tells how to make them. The script uses the Python standard library only.
 """
 
@@ -22,6 +23,7 @@ from __future__ import annotations
 import argparse
 import array
 import json
+import math
 import sys
 import wave
 from dataclasses import dataclass
@@ -29,7 +31,7 @@ from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
 DEFAULT_PARTS = HERE / "main-theme"
-JOIN_SECONDS = 0.01  # Each joint overlaps the two parts for 10 ms, so no joint clicks.
+JOIN_SECONDS = 0.01  # The default joint: 10 ms of overlap, so no joint clicks. theme.json may set joint_seconds.
 
 
 class ThemeError(Exception):
@@ -72,7 +74,7 @@ def plan(target: int, intro: int, edges: list[int], outro: int, overlap: int) ->
     if edges[0] != 0:
         raise ThemeError("The first bar line of the middle part must be at frame 0.")
     if min(edges[i + 1] - edges[i] for i in range(bars)) <= overlap:
-        raise ThemeError("Each bar of the middle part must be longer than a joint (10 ms).")
+        raise ThemeError("Each bar of the middle part must be longer than a joint. Use fewer bars or a shorter joint.")
     used = length(intro, [], outro, overlap)
     if used > target:
         raise ThemeError(
@@ -113,17 +115,19 @@ def read_part(path: Path) -> Part:
 
 
 def join(out: array.array, piece: array.array, overlap: int, channels: int) -> None:
-    """Append `piece` to `out`, with a linear crossfade over `overlap` frames.
+    """Append `piece` to `out`, with an equal-power crossfade over `overlap` frames.
 
+    Equal power keeps the level even across a long joint of ambient music.
     Every channel of one frame gets the same gain, so the balance holds.
     """
     frames = min(overlap, len(out) // channels, len(piece) // channels)
     start = len(out) - frames * channels
     for frame in range(frames):
-        fade = (frame + 1) / (frames + 1)
+        angle = (frame + 1) / (frames + 1) * math.pi / 2
+        old, new = math.cos(angle), math.sin(angle)
         for channel in range(channels):
             i = frame * channels + channel
-            mixed = round(out[start + i] * (1 - fade) + piece[i] * fade)
+            mixed = round(out[start + i] * old + piece[i] * new)
             out[start + i] = max(-32768, min(32767, mixed))
     out.extend(piece[frames * channels:])
 
@@ -133,13 +137,16 @@ def fit(target: float, parts_dir: Path, mix: str) -> tuple[wave._wave_params, ar
     bars = theme.get("middle_bars")
     if not isinstance(bars, int) or isinstance(bars, bool) or bars < 1:
         raise ThemeError("theme.json must give middle_bars as a whole number of 1 or more.")
+    joint = theme.get("joint_seconds", JOIN_SECONDS)
+    if not isinstance(joint, (int, float)) or isinstance(joint, bool) or not 0 < joint <= 5:
+        raise ThemeError("theme.json must give joint_seconds as a number above 0 and up to 5.")
     intro, middle, outro = (read_part(parts_dir / mix / f"{name}.wav") for name in ("intro", "middle", "outro"))
     for part in (middle, outro):
         if (part.params.nchannels, part.params.framerate) != (intro.params.nchannels, intro.params.framerate):
             raise ThemeError("The three parts must have the same rate and channels.")
 
     channels, rate = intro.params.nchannels, intro.params.framerate
-    overlap = round(JOIN_SECONDS * rate)
+    overlap = max(1, round(joint * rate))
     edges = [round(i * middle.frames / bars) for i in range(bars + 1)]
     result = plan(round(target * rate), intro.frames, edges, outro.frames, overlap)
 

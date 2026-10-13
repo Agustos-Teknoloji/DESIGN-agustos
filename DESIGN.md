@@ -672,7 +672,7 @@ The `selimgunes` brand is the personal site of Selim Güneş. It follows the sam
 
 ## Sound
 
-Every Ağustos video, of every brand, uses one piece of music: the Ağustos main theme. A video with speech uses it too, in its quiet mix. A new video never needs a new piece of music. `brand/audio/README.md` tells how to make the theme and how to fit it to a video.
+Every Ağustos video, of every brand, uses one piece of music: the Ağustos main theme. A video with speech uses it too, in its quiet mix. A launch video uses the launch version of the theme. A new video never needs a new piece of music. `brand/audio/README.md` tells how to make the theme and how to fit it to a video.
 
 ### The brief line
 
@@ -684,34 +684,40 @@ Write this line in the brief of each video:
 
 ### The character
 
-Calm, smart, warm and lightly moving. It feels like technology, but it does not sound like a software advertisement. It is not a big statement, and it is not a background with no personality.
+Ambient: music that stays in the background, and that a viewer hears only when they choose to listen. It is universal, grounded and warm.
 
-- Soft electronic tones, a warm electric piano and a felt piano.
-- A light, soft beat and a warm, round bass.
-- About 100 beats a minute, 4/4, D major.
-- The middle part loops the four chords of pop music, D, A, B minor and G (I, V, vi, IV), for two bars each. The loop leaves home, adds a touch of feeling and comes back home, so each repeat joins without a seam. The outro closes G to D.
-- Even dynamics: no drop, no riser, no hit, no vocals.
+- Low strings only: cellos hold long, quiet chords, and double basses double them an octave lower.
+- The chords D, A, B minor and G, in D major, at 100 beats a minute.
+- No melody, no beat, no rhythm. The notes swell and fade slowly, like breathing.
+- The same calm level from start to end: no build-up, no surprise.
+- Low strings stay below the range where speech is clear, so the theme sits under a voice.
 
-### The signature
+### The start and the end
 
-Ağustos means August, and Güneş means sun. The signature tells the day of the sun, in the warm tone of a lighting company. A short rising melody opens each video, as a sunrise. The same melody falls back home at the end, as a sunset. It plays only at the start and the end. The melody of the chosen theme recording is the signature. A new mix may change the sound around it, never the notes.
+The theme has no melody signature. It swells in at the start of a video and fades out at the end. The sound of the low strings is the mark of Ağustos.
 
 ### The three parts
 
 | Part | Length | What it does |
 |---|---|---|
-| Intro | about 5 s | The sunrise. |
-| Middle part | 8 bars, about 19 s | The four chords. Repeats without a seam for as long as the video needs. |
-| Outro | about 6 to 8 s | The sunset, then a held D chord that fades out. |
+| Intro | 4.0 s | The strings swell in. |
+| Middle part | 11.5 s | Repeats for as long as the video needs. Each repeat joins the next with a soft 1.5 s crossfade. |
+| Outro | 3.7 s | The strings fade out. |
+
+The shortest video for the theme is 6.2 s. `brand/audio/main-theme/` holds the parts, and `theme.json` gives their settings.
 
 ### The two mixes
 
-- **Full:** for a video with music and text only.
-- **Voice:** for a video with speech. It is 12 dB quieter, with a dip where speech sits.
+- **Full:** for a video with music and text only. The middle part sits at -16 LUFS.
+- **Voice:** for a video with speech. It is 12 dB quieter.
+
+### The launch version
+
+A launch video uses the launch version, and every product launch uses the same one. It is strings only, like the theme: cellos, double basses and violas. A soft, steady bowed pulse gives it a gentle forward motion, with no piano and no percussion. It swells in at the start and fades out at the end. `brand/audio/launch-theme/` holds its parts: intro 7.3 s, a middle part of 16 bars (38.4 s) that repeats, and outro 7.9 s. The shortest video for it is 15.1 s.
 
 ### Rights
 
-The theme comes from a tool whose output Ağustos may use in commercial work, and `brand/audio/main-theme/LICENCE.md` keeps the proof. Never use a track from a free plan that gives no commercial right.
+The theme comes from a Suno plan that gives Ağustos the commercial right. `brand/audio/main-theme/LICENCE.md` keeps the proof. Never use a track from a free plan that gives no commercial right.
 
 ## Turkish locale handling
 
