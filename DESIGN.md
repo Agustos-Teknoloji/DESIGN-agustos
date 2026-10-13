@@ -720,7 +720,7 @@ A launch video uses the launch version, and every product launch uses the same o
 | Launch theme | `brand/audio/launch-theme/` | 1 bar, 2.4 s | 4 bars, 9.6 s | 3 bars, 7.2 s | 9.5 s |
 | Second take | `brand/audio/launch-theme-2/` | 1 bar, 2.32 s | 4 bars, 9.28 s | 1 bar, 2.32 s | 4.6 s |
 
-Each middle part repeats on a bar line, so the pulse never stumbles. `brand/audio/takes/` keeps two spare sounds that no video uses.
+Each middle part repeats on a bar line, so the pulse never stumbles. Use the launch theme for a launch video of 9.5 s or longer. Use the second take for a shorter one. `brand/audio/takes/` keeps two spare sounds that no video uses.
 
 ### Rights
 
