@@ -670,6 +670,49 @@ The `selimgunes` brand is the personal site of Selim Güneş. It follows the sam
 
 ---
 
+## Sound
+
+Every Ağustos video, of every brand, uses one piece of music: the Ağustos main theme. A video with speech uses it too, in its quiet mix. A new video never needs a new piece of music. `brand/audio/README.md` tells how to make the theme and how to fit it to a video.
+
+### The brief line
+
+Write this line in the brief of each video:
+
+> Use the Ağustos main theme. Repeat the middle part as long as the video needs, and end with the outro.
+
+`brand/audio/fit_theme.py` makes the music file for the exact length of the video.
+
+### The character
+
+Calm, smart, warm and lightly moving. It feels like technology, but it does not sound like a software advertisement. It is not a big statement, and it is not a background with no personality.
+
+- Soft electronic tones, a warm electric piano and a felt piano.
+- A light, soft beat and a warm, round bass.
+- About 100 beats a minute, 4/4, D major.
+- The middle part loops the four chords of pop music, D, A, B minor and G (I, V, vi, IV), for two bars each. The loop leaves home, adds a touch of feeling and comes back home, so each repeat joins without a seam. The outro closes G to D.
+- Even dynamics: no drop, no riser, no hit, no vocals.
+
+### The signature
+
+Ağustos means August, and Güneş means sun. The signature tells the day of the sun, in the warm tone of a lighting company. A short rising melody opens each video, as a sunrise. The same melody falls back home at the end, as a sunset. It plays only at the start and the end. The melody of the chosen theme recording is the signature. A new mix may change the sound around it, never the notes.
+
+### The three parts
+
+| Part | Length | What it does |
+|---|---|---|
+| Intro | about 5 s | The sunrise. |
+| Middle part | 8 bars, about 19 s | The four chords. Repeats without a seam for as long as the video needs. |
+| Outro | about 6 to 8 s | The sunset, then a held D chord that fades out. |
+
+### The two mixes
+
+- **Full:** for a video with music and text only.
+- **Voice:** for a video with speech. It is 12 dB quieter, with a dip where speech sits.
+
+### Rights
+
+The theme comes from a tool whose output Ağustos may use in commercial work, and `brand/audio/main-theme/LICENCE.md` keeps the proof. Never use a track from a free plan that gives no commercial right.
+
 ## Turkish locale handling
 
 Mandatory for Turkish content. Three places to apply:

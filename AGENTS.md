@@ -47,6 +47,7 @@ A measured live site beats any doc on what ships. Flag the drift, and fix the do
 | Add or change a screen (home, static, content, content-index, landing, products, product-finder, product, spec-sheet, app-shell, app-top-menu) | `screens/<name>.html` and the `screens` table in `tokens/design-tokens.json` | [screens/README.md](screens/README.md), then the build and `/design-push` |
 | Change or add a brand | [brand/README.md](brand/README.md) and `brand/brands.json` | The build. Run the full `brand/build.py` only if asked. |
 | Find a logo, favicon, social image, document or other finished asset | [ASSETS.md](ASSETS.md) | `brand/exports/<brand>/`, and the "I need" table below |
+| Put music under a video, or make the main theme | [brand/audio/README.md](brand/audio/README.md) | "Sound" in [DESIGN.md](DESIGN.md) |
 | Build a Pataraz website or datasheet | [PATARAZ.md](PATARAZ.md) | [DESIGN.md](DESIGN.md), then the export or generator README |
 | **Share this system as a zip** | **[docs/handoff-setup.html](docs/handoff-setup.html)**, then `python3 scripts/pack_handoff.py` | [HANDOFF.md](HANDOFF.md). Do not zip the whole repository. |
 | **Push the kit, chrome and screens to Claude Design** (after a token, kit, favicon, logo or screen change) | **[docs/claude-design-sync.html](docs/claude-design-sync.html)**, then `/design-push` in Claude Code | [.claude/skills/design-push/SKILL.md](.claude/skills/design-push/SKILL.md) |
@@ -73,6 +74,7 @@ First pick the **brand** (`agustos`, `pataraz`, `pld`, `iesdesk`, `specquick`), 
 
 | I need | File |
 |---|---|
+| **Music** under a video, of any brand | `python3 brand/audio/fit_theme.py <seconds> music.wav` (the Ağustos main theme, `brand/audio/README.md`) |
 | The logo for a **website or app** (vector) | `brand/exports/<brand>/lockup/<brand>-lockup__positive.svg` |
 | The logo on a **dark, brand-color or photo** background | `…/lockup/<brand>-lockup__negative.svg` |
 | The logo in a **single ink color** (print, engraving) | `…/lockup/<brand>-lockup__mono.svg` |
