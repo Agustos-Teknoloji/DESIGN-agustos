@@ -713,7 +713,14 @@ The shortest video for the theme is 6.2 s. `brand/audio/main-theme/` holds the p
 
 ### The launch version
 
-A launch video uses the launch version, and every product launch uses the same one. It is strings only, like the theme: cellos, double basses and violas. A soft, steady bowed pulse gives it a gentle forward motion, with no piano and no percussion. It swells in at the start and fades out at the end. `brand/audio/launch-theme/` holds its parts: intro 7.3 s, a middle part of 16 bars (38.4 s) that repeats, and outro 7.9 s. The shortest video for it is 15.1 s.
+A launch video uses the launch version, and every product launch uses the same one. It is strings only: cellos and double basses hold warm chords, violas play a soft, connected pulse, and violins hold a soft, high chord. It has no piano and no percussion, in D major. The launch theme plays at 100 beats a minute, and the second take at 103.45.
+
+| Version | Folder | Intro | Middle part | Outro | Shortest video |
+|---|---|---|---|---|---|
+| Launch theme | `brand/audio/launch-theme/` | 1 bar, 2.4 s | 4 bars, 9.6 s | 3 bars, 7.2 s | 9.5 s |
+| Second take | `brand/audio/launch-theme-2/` | 1 bar, 2.32 s | 4 bars, 9.28 s | 1 bar, 2.32 s | 4.6 s |
+
+Each middle part repeats on a bar line, so the pulse never stumbles. Use the launch theme for a launch video of 9.5 s or longer. Use the second take for a shorter one. `brand/audio/takes/` keeps two spare sounds that no video uses.
 
 ### Rights
 

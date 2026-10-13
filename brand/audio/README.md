@@ -60,50 +60,22 @@ Keep the loop that you forget is playing when you talk over it. Download it as W
    ffmpeg -i full/middle.wav -af "volume=-12dB" -c:a pcm_s16le voice/middle.wav
    ```
 
-7. Write `theme.json`: `"middle_bars": 6` gives six cut points in the middle part, and `"joint_seconds": 1.5` gives soft joints. Ambient music needs long joints; music with a beat needs the 10 ms default.
+7. Write `theme.json`: `"middle_bars": 6` gives six cut points in the middle part, and `"joint_seconds": 1.5` gives soft joints. Ambient music needs long joints; music with a pulse needs a short joint on a bar line, such as the 0.1 s of the launch version.
 8. Fit the theme to 30 s and to 180 s, and listen at each joint.
 
 ## Make the launch version again
 
-The launch version exists in `brand/audio/launch-theme/`. Fit it with `python3 brand/audio/fit_theme.py SECONDS music.wav --parts brand/audio/launch-theme`. Make it again only if Ağustos decides to change it. The steps of 2026-10-13:
+The launch version exists in `brand/audio/launch-theme/` and `brand/audio/launch-theme-2/`. Fit it with `python3 brand/audio/fit_theme.py SECONDS music.wav --parts brand/audio/launch-theme`. Make it again only if Ağustos decides to change it. The steps of 2026-10-13:
 
-1. Use a paid Suno plan. Open the Songs tab: Custom mode, Instrumental on, the title `Ağustos launch theme`.
-2. Style field:
-
-   ```
-   Instrumental launch version of the Ağustos ambient brand theme. Strings only: cellos, double basses and violas. Warm, grounded and calm, with a gentle forward motion. 100 BPM, 4/4, D major. Cellos and double basses hold long, warm chords, as in the brand theme. Violas and cellos add a soft, steady bowed pulse in quiet eighth notes, so the music moves without drums. Four-chord loop D, A, Bm, G, two bars each, with smooth changes. No melody. The same calm energy from start to end, with one small lift halfway: the violas enter. Natural, intimate recording that sits under on-screen text.
-   ```
-
-3. Exclude styles field:
+1. Use a paid Suno plan. Open the Sounds tab, set the type to Loop, BPM to 100 and the key to D major.
+2. Description:
 
    ```
-   piano, electric piano, percussion, drums, kick, shaker, synth, pad, vocals, choir, violin solo, lead melody, pizzicato, drop, riser, build-up, cinematic, epic, full orchestra, brass
+   Seamless loop, gently moving launch music. Strings only: violins, violas, cellos and double basses. Cellos and basses hold long, warm chords. Violas play a soft, light pulse in quiet eighth notes, smooth and connected, never sharp. Violins hold a soft, high chord on top for warmth and light. Chords D, A, Bm, G, two bars each. Calm, optimistic, gently forward. Steady level throughout: no fade-in, no fade-out, the end flows into the start. No piano, no percussion, no synths, no vocals.
    ```
 
-4. Lyrics field, for the order of the layers:
-
-   ```
-   [Intro]
-   [Instrumental: cellos and double basses alone, long soft chords]
-
-   [Verse]
-   [Instrumental: a soft bowed pulse enters in the cellos]
-
-   [Verse]
-   [Instrumental: violas enter, same calm energy]
-
-   [Verse]
-   [Instrumental: same loop, steady]
-
-   [Outro]
-   [Instrumental: the pulse stops, strings hold a long D major chord and fade]
-
-   [End]
-   ```
-
-5. Keep the song that sounds like the theme, only gently walking forward. Download it as WAV.
-6. Find the tempo and the first downbeat. The song of 2026-10-13 is 99.96 bpm, with the first downbeat at 0.13 s.
-7. Find how many bars the harmony takes to repeat. Compare each bar with the bar 8 and 16 bars later; the song of 2026-10-13 repeats every 16 bars.
-8. Choose the middle part as one full repeat, where the bar after it sounds most like its first bar. The song of 2026-10-13 uses bars 4 to 19, with the first downbeat as bar 1.
-9. Cut the intro, the middle part and the outro, as for the theme. Set the middle part to -16 LUFS, and make the voice mix 12 dB quieter.
-10. Write `theme.json` with `"middle_bars"` set to the repeat length and `"joint_seconds": 0.05`. A part with a pulse needs a short joint at a bar line.
+3. Keep a loop that sounds like the theme, gently walking forward. Download it as WAV.
+4. Find the bar length. A Suno loop starts on a downbeat and holds a whole number of bars, so divide its length by the bar count. "Ağustos-gentle" is 8 bars of 2.4 s.
+5. Compare each bar with the bars after it, and choose the middle part where the bar after it sounds most like its first bar. "Ağustos-gentle" uses bars 2 to 5.
+6. Cut the intro, the middle part and the outro on bar lines. Set the middle part to -16 LUFS, and make the voice mix 12 dB quieter.
+7. Write `theme.json` with `"middle_bars"` set to the bars of the middle part and `"joint_seconds": 0.1`. A part with a pulse needs a short joint on a bar line.

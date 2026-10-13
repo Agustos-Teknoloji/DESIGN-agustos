@@ -6,6 +6,7 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ### Added
 
+- 2026-10-13: The launch version is now "Ağustos-gentle", strings with a soft, connected pulse, in `brand/audio/launch-theme/`, with a second take in `brand/audio/launch-theme-2/` (MEMORY 2026-10-13 launch-gentle). `brand/audio/takes/` keeps two spare sounds. Consuming sites change nothing.
 - 2026-10-13: The Ağustos main theme, one piece of music for every video (DESIGN.md "Sound", `brand/audio/README.md`, MEMORY 2026-10-13 main-theme). Low strings, ambient: the strings swell in, the middle part repeats with soft 1.5 s joints, and the strings fade out (MEMORY 2026-10-13 main-theme-ambient). `brand/audio/main-theme/` holds the parts in a full and a voice mix, with the licence. `brand/audio/fit_theme.py` fits them to the length of a video and reads the joint length from `theme.json`. `brand/audio/launch-theme/` holds the launch version that every launch video uses: the same strings with a soft bowed pulse. Consuming sites change nothing.
 
 ### Changed
