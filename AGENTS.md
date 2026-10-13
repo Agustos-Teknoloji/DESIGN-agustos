@@ -7,7 +7,7 @@ agustos.com is the reference implementation; this repository is authoritative. U
 - Role: source of the house-kit tier. Apps vendor a tagged release.
 - CI: pre-push hook
 - Rules: fleet in `ops/AGENTS.md` of the `CONTEXT-agustos` repo (`~/vaults/business/PROJECTS/CONTEXT-agustos` on Emre's Mac); writing in `standards/technical.md` of the `SKILL-writing` repo (Claude Code plugin `agustos-writing`)
-- TODO.md: each open item also has a card in the Basecamp project CODING. Keep TODO.md current in your PR; a sync job updates the card.
+- TODO.md: each open item also has a card in the Basecamp project CODING. Keep TODO.md current in your PR; a sync job updates the card. Files outside git: `Ağustos - CODING/DESIGN-agustos/` on the shared drive (create it on first use). Secrets, caches, licensed docs and hosted-app data stay out ([rules 53-56](https://github.com/Agustos-Teknoloji/CONTEXT-agustos/blob/main/ops/decisions/project-docs.md#files-outside-git)).
 - If a local rule conflicts with ops, stop and ask Emre. Emre cannot read code: agents review and merge (Working terms in the `CONTEXT-agustos` `AGENTS.md`).
 
 ## Cloud agents
