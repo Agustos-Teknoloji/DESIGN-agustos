@@ -4,6 +4,10 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- 2026-10-13: `AGENTS.md` has the `## Cloud agents` section. It holds the rules for an agent on a vendor machine, word for word from CONTEXT-agustos `ops/snippets/cloud-agents.md`. Consuming sites change nothing.
+
 ## [7.15.0] - 2026-10-09
 
 A minor release: selimgunes.com may show photographs of Selim Güneş. Emre asked for it on 2026-10-09. Decision record: MEMORY 2026-10-09 selimgunes-photographs. Consuming sites change nothing.

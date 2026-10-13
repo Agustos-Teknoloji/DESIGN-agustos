@@ -10,6 +10,19 @@ agustos.com is the reference implementation; this repository is authoritative. U
 - TODO.md: each open item also has a card in the Basecamp project CODING. Keep TODO.md current in your PR; a sync job updates the card.
 - If a local rule conflicts with ops, stop and ask Emre. Emre cannot read code: agents review and merge (Working terms in the `CONTEXT-agustos` `AGENTS.md`).
 
+## Cloud agents
+
+These rules apply when you run on a vendor machine (an Amp orb, Claude Code on the web, Codex cloud or a Cursor background agent), not on the Mac of Emre.
+
+1. Push only to your own branch. Never push to `main` or `production`. Open a pull request, then stop.
+2. Never deploy, release, upload media, run Kamal or connect to a server. A session on the Mac does these steps.
+3. Never ask for a secret in chat. Never write a secret in a file, a commit or the settings of a vendor.
+4. Read a secret only with `op run --environment <id> -- <command>`, and only when `OP_SERVICE_ACCOUNT_TOKEN` is set. If it is not set, stop and hand the step to Emre.
+5. Run only the tests that need no secret. The full gate (`bin/ci` with signoff, or the pre-push hook) and the merge run on the Mac.
+6. The working terms and the fleet rules live in the CONTEXT-agustos repository (`AGENTS.md` and `ops/`). Read them when that repository is attached. If it is not attached, stop at each gate of the working terms and ask Emre.
+
+Canonical copy: CONTEXT-agustos `ops/snippets/cloud-agents.md`.
+
 ## Source priority
 
 When two files disagree, the first file in this list wins:
