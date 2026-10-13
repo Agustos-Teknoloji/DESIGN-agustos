@@ -6,6 +6,7 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ### Changed
 
+- 2026-10-13: Rule 5 of the `## Cloud agents` section in `AGENTS.md` follows the canonical copy (CONTEXT-agustos PR 163): a pre-push hook that needs no secret runs on every push, also on a vendor machine. Consuming sites change nothing.
 - 2026-10-13: `AGENTS.md` has the `## Cloud agents` section. It holds the rules for an agent on a vendor machine, word for word from CONTEXT-agustos `ops/snippets/cloud-agents.md`. Consuming sites change nothing.
 
 ## [7.15.0] - 2026-10-09
