@@ -18,7 +18,7 @@ These rules apply when you run on a vendor machine, not on the Mac of Emre. Exam
 2. Never deploy, release, upload media, run Kamal or connect to a server. A session on the Mac does these steps.
 3. Never ask for a secret in chat. Never write a secret in a file, a commit or the settings of a vendor.
 4. Read a secret only with `op run --environment <id> -- <command>`, and only when `OP_SERVICE_ACCOUNT_TOKEN` is set. If it is not set, stop and hand the step to Emre.
-5. Run only the tests that need no secret. The full gate (`bin/ci` with signoff, or the pre-push hook) and the merge run on the Mac.
+5. Run only the tests that need no secret. A pre-push hook that needs no secret runs on every push; never skip it. The full gate (`bin/ci` with signoff) and the merge run on the Mac.
 6. The working terms and the fleet rules live in the CONTEXT-agustos repository (`AGENTS.md` and `ops/`). Read them when that repository is attached. If it is not attached, stop at each gate of the working terms and ask Emre.
 
 Canonical copy: CONTEXT-agustos `ops/snippets/cloud-agents.md`.
