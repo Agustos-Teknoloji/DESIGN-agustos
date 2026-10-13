@@ -160,6 +160,7 @@ One piece of music for every Ağustos video, with or without speech. The rules a
 | Their settings | `brand/audio/main-theme/theme.json` |
 | The loop as it came from Suno | `brand/audio/main-theme/source.wav` |
 | The proof of the commercial right | `brand/audio/main-theme/LICENCE.md` |
+| The launch version, for launch videos only | `brand/audio/launch-theme/`, the same files |
 
 ## Known gaps / follow-ups
 

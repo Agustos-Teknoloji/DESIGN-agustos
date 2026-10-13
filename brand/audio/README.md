@@ -63,42 +63,47 @@ Keep the loop that you forget is playing when you talk over it. Download it as W
 7. Write `theme.json`: `"middle_bars": 6` gives six cut points in the middle part, and `"joint_seconds": 1.5` gives soft joints. Ambient music needs long joints; music with a beat needs the 10 ms default.
 8. Fit the theme to 30 s and to 180 s, and listen at each joint.
 
-## Make the launch version
+## Make the launch version again
 
-A launch video uses the launch version (DESIGN.md, "Sound"). Make it once, with a paid Suno plan, in the Songs tab: Custom mode, Instrumental on, the title `Ağustos launch theme`.
+The launch version exists in `brand/audio/launch-theme/`. Fit it with `python3 brand/audio/fit_theme.py SECONDS music.wav --parts brand/audio/launch-theme`. Make it again only if Ağustos decides to change it. The steps of 2026-10-13:
 
-Style field:
+1. Use a paid Suno plan. Open the Songs tab: Custom mode, Instrumental on, the title `Ağustos launch theme`.
+2. Style field:
 
-```
-Instrumental launch music for Ağustos, the lifted version of its brand theme. Calm, smart and warm, with a gentle forward pulse. 100 BPM, 4/4, D major. Only three elements: cellos and double basses holding long, warm chords, the same low strings as the brand theme; a soft electric piano playing a steady, quiet eighth-note pulse; very light percussion, a soft kick and a brushed shaker. Four-chord loop D, A, Bm, G, two bars each, repeating with smooth changes. No lead melody. The same calm energy from start to end, with one small lift halfway: the percussion enters. Clean, minimal, human production that sits under on-screen text.
-```
+   ```
+   Instrumental launch version of the Ağustos ambient brand theme. Strings only: cellos, double basses and violas. Warm, grounded and calm, with a gentle forward motion. 100 BPM, 4/4, D major. Cellos and double basses hold long, warm chords, as in the brand theme. Violas and cellos add a soft, steady bowed pulse in quiet eighth notes, so the music moves without drums. Four-chord loop D, A, Bm, G, two bars each, with smooth changes. No melody. The same calm energy from start to end, with one small lift halfway: the violas enter. Natural, intimate recording that sits under on-screen text.
+   ```
 
-Exclude styles field:
+3. Exclude styles field:
 
-```
-vocals, choir, lead melody, synth lead, synth pad, atmosphere, drop, riser, build-up, EDM, cinematic, epic, orchestra, violin solo, piano solo, ukulele, whistling, hand claps, heavy drums
-```
+   ```
+   piano, electric piano, percussion, drums, kick, shaker, synth, pad, vocals, choir, violin solo, lead melody, pizzicato, drop, riser, build-up, cinematic, epic, full orchestra, brass
+   ```
 
-Lyrics field, for the order of the layers:
+4. Lyrics field, for the order of the layers:
 
-```
-[Intro]
-[Instrumental: cellos and double basses alone, soft]
+   ```
+   [Intro]
+   [Instrumental: cellos and double basses alone, long soft chords]
 
-[Verse]
-[Instrumental: electric piano pulse enters]
+   [Verse]
+   [Instrumental: a soft bowed pulse enters in the cellos]
 
-[Verse]
-[Instrumental: light percussion enters, same calm energy]
+   [Verse]
+   [Instrumental: violas enter, same calm energy]
 
-[Verse]
-[Instrumental: same loop, steady]
+   [Verse]
+   [Instrumental: same loop, steady]
 
-[Outro]
-[Instrumental: percussion stops, strings hold a long D major chord and fade]
+   [Outro]
+   [Instrumental: the pulse stops, strings hold a long D major chord and fade]
 
-[End]
-```
+   [End]
+   ```
 
-Keep the song that sounds like the theme with a gentle heartbeat added. Cut it into an intro, a middle part and an outro as for the theme, in `brand/audio/launch-theme/`, and fit it with `fit_theme.py --parts brand/audio/launch-theme`. A middle part with a beat needs short joints: leave `joint_seconds` out of its `theme.json`.
-
+5. Keep the song that sounds like the theme, only gently walking forward. Download it as WAV.
+6. Find the tempo and the first downbeat. The song of 2026-10-13 is 99.96 bpm, with the first downbeat at 0.13 s.
+7. Find how many bars the harmony takes to repeat. Compare each bar with the bar 8 and 16 bars later; the song of 2026-10-13 repeats every 16 bars.
+8. Choose the middle part as one full repeat, where the bar after it sounds most like its first bar. The song of 2026-10-13 uses bars 4 to 19, with the first downbeat as bar 1.
+9. Cut the intro, the middle part and the outro, as for the theme. Set the middle part to -16 LUFS, and make the voice mix 12 dB quieter.
+10. Write `theme.json` with `"middle_bars"` set to the repeat length and `"joint_seconds": 0.05`. A part with a pulse needs a short joint at a bar line.

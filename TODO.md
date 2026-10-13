@@ -2,7 +2,7 @@
 
 ## Now
 
-- [ ] The launch version of the theme (MEMORY 2026-10-13 main-theme-ambient): Emre makes it with the brief in `brand/audio/README.md`; then cut it into `brand/audio/launch-theme/` and put it under the IESDesk launch video (APP-iesdesk `tools/launch-video`).
+- [ ] Put the launch version under the IESDesk launch video (APP-iesdesk `tools/launch-video`, MEMORY 2026-10-13 main-theme-ambient), after Emre hears the repeat at 0:46 of the fitted cut.
 
 - [ ] agustos.com and memregunes.com vendor v7.13.0 and generate "On this page" at build time on each article and legal page with 3 or more H2 and 600 or more words (13 articles; the legal pages keep theirs). Then `--screens-only` shows no AG037 or AG038 (CHANGELOG 7.13.0, Migration).
 - [ ] agustos.com vendors v7.12.0 and moves its card widths to `--card-min`: `wk-brand-grid` (250px) and `wk-brand-sample` (300px) set `flex-basis` on the cards, which a grid ignores (CHANGELOG 7.12.0, Migration).
