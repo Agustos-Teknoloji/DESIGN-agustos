@@ -156,8 +156,10 @@ One piece of music for every Ağustos video, with or without speech. The rules a
 |---|---|
 | How to make and use the theme | [`brand/audio/README.md`](brand/audio/README.md) |
 | Fit the theme to the length of a video | [`brand/audio/fit_theme.py`](brand/audio/fit_theme.py) |
-| The three parts, in two mixes | `brand/audio/main-theme/{full,voice}/{intro,middle,outro}.wav` (not made yet) |
-| The proof of the commercial right | `brand/audio/main-theme/LICENCE.md` (not made yet) |
+| The three parts, in two mixes | `brand/audio/main-theme/{full,voice}/{intro,middle,outro}.wav` |
+| Their settings | `brand/audio/main-theme/theme.json` |
+| The loop as it came from Suno | `brand/audio/main-theme/source.wav` |
+| The proof of the commercial right | `brand/audio/main-theme/LICENCE.md` |
 
 ## Known gaps / follow-ups
 

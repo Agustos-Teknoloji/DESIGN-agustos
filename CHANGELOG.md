@@ -6,7 +6,7 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ### Added
 
-- 2026-10-13: The Ağustos main theme, one piece of music for every video (DESIGN.md "Sound", `brand/audio/README.md`, MEMORY 2026-10-13 main-theme). It has a sunrise melody at the start, a middle part on four chords that repeats, and a sunset at the end. `brand/audio/fit_theme.py` fits it to the length of a video. The Suno recording is not chosen yet. Consuming sites change nothing.
+- 2026-10-13: The Ağustos main theme, one piece of music for every video (DESIGN.md "Sound", `brand/audio/README.md`, MEMORY 2026-10-13 main-theme). Low strings, ambient: the strings swell in, the middle part repeats with soft 1.5 s joints, and the strings fade out (MEMORY 2026-10-13 main-theme-ambient). `brand/audio/main-theme/` holds the parts in a full and a voice mix, with the licence. `brand/audio/fit_theme.py` fits them to the length of a video and reads the joint length from `theme.json`. Consuming sites change nothing.
 
 ### Changed
 
