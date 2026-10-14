@@ -8,7 +8,8 @@ Reads the keystone registry (brands.json) and the shared symbol
   exports/<brand>/lockup/   symbol + wordmark, 3 expressions x {svg, pdf, png}
   exports/<brand>/favicon/  white-tile favicon (symbol in the brand's identity ink) + rasters + site.webmanifest
   laz-gunesi-amblem/favicon/  canonical kit = the Ağustos favicon (red symbol on a white tile)
-  exports/<brand>/social/   square avatar (400/1000) + 1200x630 og image
+  exports/<brand>/social/   square avatar (400/1000), a positive avatar for every
+                            non-Ağustos brand, and a 1200x630 og image
 
 Design choices (see DESIGN.md):
   - The wordmark is baked to vector OUTLINES via fontTools, so every asset is
@@ -20,13 +21,16 @@ Design choices (see DESIGN.md):
     optical (not geometric) vertical centering for lowercase wordmarks.
   - Favicons (MEMORY.md 2026-09-29 per-brand-favicons): a white tile carrying the
     master.svg paths verbatim, recoloured to the brand's identity ink: red for
-    Ağustos, #15130f for every other house brand. Social avatars stay per-brand
-    negative monograms.
+    Ağustos, #15130f for every other house brand. The social avatar is a
+    per-brand negative monogram (a white sun on the identity tile). Every
+    non-Ağustos brand also gets a positive avatar: the same monogram, with the
+    identity ink on a white tile, the same ink rule as the favicon.
 
 Usage:
-  ../.venv/bin/python build.py                  # every brand in the registry
-  ../.venv/bin/python build.py --brand agustos  # a single brand
-  ../.venv/bin/python build.py --favicons       # favicon kits only; no other export changes
+  ../.venv/bin/python build.py                     # every brand in the registry
+  ../.venv/bin/python build.py --brand agustos     # a single brand
+  ../.venv/bin/python build.py --favicons          # favicon kits only; no other export changes
+  ../.venv/bin/python build.py --positive-avatars  # positive avatars only; no other export changes
 """
 
 from __future__ import annotations
@@ -191,6 +195,24 @@ def build_monogram(mark_color, tile_color, size=512.0, radius_ratio=0.0, symbol_
     sym = symbol_group(mark_color, size / 2, size / 2, size * symbol_ratio)
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {size} {size}" '
             f'width="{size}" height="{size}" role="img">{bg}{sym}</svg>')
+
+
+def positive_avatar_jobs(slug, brand, reg):
+    """White tile, identity-ink sun, at the same scale as the dark avatar.
+
+    The ink rule matches the house-brand favicon: black for every brand except
+    Ağustos. Ağustos keeps the negative avatar only. Its red sun on a white
+    tile is the favicon, not a second profile image. Writes the SVG and
+    returns the PNG jobs. An empty list means this brand has no positive avatar.
+    """
+    if slug == "agustos":
+        return []
+    so = BRAND_DIR / "exports" / slug / "social"
+    svg_path = write_svg(
+        so / f"{slug}-avatar-positive.svg",
+        build_monogram(brand["color"], reg["substrate"]["paper_white"]),
+    )
+    return [(svg_path, so / f"{slug}-avatar-positive-{s}.png", s) for s in AVATAR_SIZES]
 
 
 def build_favicon_svg(mark_color, tile_color, tile_ratio=FAVICON_TILE_RATIO):
@@ -369,10 +391,11 @@ def build_brand(slug, brand, reg):
         if name == "positive":
             positive_inner, positive_wh = inner, (W, H)
 
-    # --- Social: avatar (negative monogram) + OG image ---
+    # --- Social: negative avatar, positive avatar (not Ağustos), OG image ---
     av_svg = write_svg(so / f"{slug}-avatar.svg", build_monogram(paper, color))
     for s in AVATAR_SIZES:
         png_jobs.append((av_svg, so / f"{slug}-avatar-{s}.png", s))
+    png_jobs.extend(positive_avatar_jobs(slug, brand, reg))
     og_svg = write_svg(so / f"{slug}-og.svg",
                        build_og(positive_inner, *positive_wh, paper))
     png_jobs.append((og_svg, so / f"{slug}-og.png", OG_W))
@@ -394,24 +417,42 @@ def main():
     ap.add_argument("--favicons", action="store_true",
                     help="regenerate only the favicon kits (exports/<brand>/favicon/ and "
                          "laz-gunesi-amblem/favicon/); no other export changes")
+    ap.add_argument("--positive-avatars", action="store_true",
+                    help="write only the positive social avatar (white tile, identity ink) "
+                         "for each non-Ağustos brand that already has a social avatar; "
+                         "no other export changes")
     args = ap.parse_args()
 
     brands = reg["brands"]
     targets = {args.brand: brands[args.brand]} if args.brand else brands
     if args.brand and args.brand not in brands:
         raise SystemExit(f"unknown brand '{args.brand}'. known: {', '.join(brands)}")
+    if args.positive_avatars and args.favicons:
+        raise SystemExit("pass only one of --positive-avatars and --favicons")
 
-    if args.favicons:
+    if args.positive_avatars:
+        print(f"Building positive avatars for {len(targets)} brand(s)...")
+        for slug, brand in targets.items():
+            avatar = BRAND_DIR / "exports" / slug / "social" / f"{slug}-avatar.svg"
+            if slug == "agustos" or not avatar.is_file():
+                why = "Ağustos keeps the negative avatar" if slug == "agustos" else "no social avatar yet"
+                print(f"  – {slug}: skipped ({why})")
+                continue
+            render_pngs(positive_avatar_jobs(slug, brand, reg))
+            print(f"  ✓ {slug}: positive avatar -> brand/exports/{slug}/social")
+    elif args.favicons:
         print(f"Building favicons for {len(targets)} brand(s)...")
         for slug, brand in targets.items():
             build_favicons(slug, brand, reg)
             print(f"  ✓ {slug}: favicon -> brand/exports/{slug}/favicon")
+        if "agustos" in targets:
+            build_canonical_favicon(reg)
     else:
         print(f"Building {len(targets)} brand(s)...")
         for slug, brand in targets.items():
             build_brand(slug, brand, reg)
-    if "agustos" in targets:
-        build_canonical_favicon(reg)
+        if "agustos" in targets:
+            build_canonical_favicon(reg)
     print("Done.")
 
 

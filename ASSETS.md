@@ -67,6 +67,19 @@ Any other `favicon.svg` in the repo (e.g. an adapter's `public/`) is a **mirror*
 canonical changes, update the mirrors in the same change. Adapter mirror today:
 [`adapters/astro/public/favicon.svg`](adapters/astro/public/favicon.svg).
 
+## Social avatars
+
+Square profile tiles from `brand/build.py`. The default file is the negative monogram: a white sun on the brand's identity tile.
+
+Every non-Ağustos brand that already has that file also has a positive avatar. It is the black `#15130f` Laz Güneşi on a white tile, the same ink rule as the house-brand favicon. The sun uses the same scale as the dark-tile avatar. Ağustos has no positive avatar: its white-tile red sun is the favicon.
+
+| Asset | Path | Use |
+|---|---|---|
+| Dark-tile avatar | `brand/exports/<brand>/social/<brand>-avatar.svg` | White sun on the identity tile. PNGs: `<brand>-avatar-400.png`, `<brand>-avatar-1000.png`. |
+| Positive avatar | `brand/exports/<brand>/social/<brand>-avatar-positive.svg` | Black sun on a white tile. PNGs: `<brand>-avatar-positive-400.png`, `<brand>-avatar-positive-1000.png`. |
+
+The positive file exists for `pataraz`, `pld`, `iesdesk`, `specquick` and `selimgunes`. `memregunes` and `banuucak` have no social avatar yet, so they have no positive file. `brand/build.py --positive-avatars` writes these files and no other export.
+
 ## Typography
 
 Three families, self-hosted via fontsource. Full spec in DESIGN.md §"The type stack".

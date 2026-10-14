@@ -2,6 +2,7 @@
 
 ## Now
 
+- [x] Positive social avatar for every non-Ağustos brand that already has a social avatar: black `#15130f` sun on a white tile, from `brand/build.py` (MEMORY 2026-10-14 positive-avatar).
 - [x] The IESDesk launch video uses the launch theme (MEMORY 2026-10-13 launch-gentle).
 
 - [ ] agustos.com and memregunes.com vendor v7.13.0 and generate "On this page" at build time on each article and legal page with 3 or more H2 and 600 or more words (13 articles; the legal pages keep theirs). Then `--screens-only` shows no AG037 or AG038 (CHANGELOG 7.13.0, Migration).
