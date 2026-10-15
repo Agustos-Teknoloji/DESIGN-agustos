@@ -58,11 +58,11 @@ class BundleTest(unittest.TestCase):
         for name in ("favicon.svg", "favicon.ico", "apple-touch-icon.png", "icon-192.png", "icon-512.png", "site.webmanifest"):
             self.assertIn(f"favicon/{name}", self.names, name)
 
-    def test_favicon_svg_is_the_red_symbol_on_a_white_tile(self):
-        """The bundled favicon is the Ağustos one: master.svg paths, verbatim, red on white."""
+    def test_favicon_svg_is_the_red_symbol_on_a_transparent_background(self):
+        """The bundled favicon is the Ağustos tab icon: master.svg paths, verbatim, red, no tile."""
         payload = dict(self.members)["favicon/favicon.svg"].decode("utf-8")
         master = (ROOT / "laz-gunesi-amblem" / "svg" / "master.svg").read_text(encoding="utf-8")
-        self.assertRegex(payload, r'<rect [^>]*fill="#ffffff"')
+        self.assertNotIn("<rect", payload)
         self.assertIn('<g fill="#cf142a"', payload)
         for d in re.findall(r'<path[^>]*\bd="([^"]+)"', master):
             self.assertIn(f'd="{d}"', payload)

@@ -47,31 +47,32 @@ Full kit guide: [`laz-gunesi-amblem/README.md`](laz-gunesi-amblem/README.md).
 
 ## Favicon & app icons
 
-Web-ready browser/OS icons. **Every favicon is a white tile carrying the Laz Güneşi in the
-brand's identity ink**: red `#cf142a` for Ağustos, black `#15130f` for every other house brand
-(MEMORY.md 2026-09-29 per-brand-favicons). The symbol paths are `master.svg`, verbatim.
+Web-ready browser and OS icons. **A tab icon is the Laz Güneşi on a transparent background**,
+in the brand's identity ink: red `#cf142a` for Ağustos, black `#15130f` for every other house brand
+(MEMORY.md 2026-10-15 transparent-tab-favicons). The symbol paths are `master.svg`, verbatim.
+`apple-touch-icon.png` (180) and the PWA icons (192 and 512) keep a solid white background.
+iOS and Android fill a transparent area with black, and a black sun would vanish. Emre can overrule that exception.
 
 | Asset | Path | Use |
 |---|---|---|
-| **Favicon kit (Ağustos, canonical)** | [`laz-gunesi-amblem/favicon/`](laz-gunesi-amblem/favicon/) | `favicon.svg` (red sun on white tile), `favicon.ico`, `favicon-16/32.png`, `apple-touch-icon.png`, `icon-192/512.png`, `site.webmanifest`. |
-| **Favicon kit (per brand)** | `brand/exports/<brand>/favicon/` | Same tile; black sun for every brand except `agustos`. `favicon.svg`, `favicon.ico`, `favicon-16…512.png`, `apple-touch-icon.png`, `site.webmanifest`. Also generated for `memregunes` and `selimgunes`. |
+| **Favicon kit (Ağustos, canonical)** | [`laz-gunesi-amblem/favicon/`](laz-gunesi-amblem/favicon/) | `favicon.svg` (red sun, transparent), `favicon.ico` (16/32/48, transparent), `favicon-16/32.png`, `apple-touch-icon.png` (white), `icon-192/512.png` (white), `site.webmanifest`. |
+| **Favicon kit (per brand)** | `brand/exports/<brand>/favicon/` | Same files. Black sun for every brand except `agustos`. Also generated for `memregunes`, `selimgunes` and `banuucak`. |
 | `<head>` snippet + guide | [`laz-gunesi-amblem/favicon/README.md`](laz-gunesi-amblem/favicon/README.md) | Copy-paste link tags; regeneration steps. |
-| In-page symbol | [`laz-gunesi-amblem/favicon/favicon-mono.svg`](laz-gunesi-amblem/favicon/favicon-mono.svg) | The bare symbol (= `master.svg`, no tile), for UI next to text. Not a tab icon. |
+| In-page symbol | [`laz-gunesi-amblem/favicon/favicon-mono.svg`](laz-gunesi-amblem/favicon/favicon-mono.svg) | The bare symbol (= `master.svg`, no crop), for UI next to text. Not a tab icon. |
 
-**Canonical favicon = `laz-gunesi-amblem/favicon/favicon.svg`**, the Ağustos favicon. It is
+**Canonical favicon = `laz-gunesi-amblem/favicon/favicon.svg`**, the Ağustos tab icon. It is
 byte-identical to `brand/exports/agustos/favicon/favicon.svg`. A site for any other brand uses
 its own `brand/exports/<brand>/favicon/`. Each brand's `site.webmanifest` sets `theme_color` to
 the brand's identity ink and `background_color` to white. All of it comes from
-`brand/build.py --favicons`, which writes no other export.
-Any other `favicon.svg` in the repo (e.g. an adapter's `public/`) is a **mirror** — when the
-canonical changes, update the mirrors in the same change. Adapter mirror today:
-[`adapters/astro/public/favicon.svg`](adapters/astro/public/favicon.svg).
+`brand/build.py --favicons`, which writes no lockup, social image, swatch, email or Office file.
+[`adapters/astro/public/favicon.svg`](adapters/astro/public/favicon.svg) is the **black** transparent
+tab icon (`#15130f`), not a copy of the red canonical kit. The same command writes it.
 
 ## Social avatars
 
 Square profile tiles from `brand/build.py`. The default file is the negative monogram: a white sun on the brand's identity tile.
 
-Every non-Ağustos brand that already has that file also has a positive avatar. It is the black `#15130f` Laz Güneşi on a white tile, the same ink rule as the house-brand favicon. The sun uses the same scale as the dark-tile avatar. Ağustos has no positive avatar: its white-tile red sun is the favicon.
+Every non-Ağustos brand that already has that file also has a positive avatar. It is the black `#15130f` Laz Güneşi on a white tile. The ink matches the house-brand tab icon. The sun uses the same scale as the dark-tile avatar. Ağustos has no positive avatar. Its red sun is the transparent tab icon (2026-10-15).
 
 | Asset | Path | Use |
 |---|---|---|
@@ -187,7 +188,7 @@ One piece of music for every Ağustos video, with or without speech. The rules a
 ## Sync rules (don't let assets drift)
 
 1. **Tokens** are generated into adapter copies — run `python3 scripts/build_design_system.py`; `--check` rejects drift.
-2. **Favicon** canonical (Ağustos) lives in `laz-gunesi-amblem/favicon/`, per-brand kits in `brand/exports/<brand>/favicon/`; adapter `public/` copies are mirrors.
+2. **Favicon** canonical (Ağustos, red, transparent) lives in `laz-gunesi-amblem/favicon/`. Per-brand kits live in `brand/exports/<brand>/favicon/`. `adapters/astro/public/favicon.svg` is the black transparent tab icon, not a copy of the red kit. `brand/build.py --favicons` writes all three.
 3. **This index** must be updated whenever a brand asset is added, moved, or recolored.
 4. **`ui/` is generated** — edit the `.tmpl` sources, never the outputs. `ui/fonts/` regenerates
    separately via `scripts/build_ui_fonts.py`, and only when the masters in `brand/fonts/` change.

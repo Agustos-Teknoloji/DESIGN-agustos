@@ -219,7 +219,7 @@ CARDS: tuple[Card, ...] = (
   <img src="../favicon/favicon.svg" alt="Laz Güneşi favicon" style="width: 64px; height: 64px">
   <img src="../favicon/favicon.svg" alt="" style="width: 32px; height: 32px">
   <img src="../favicon/favicon.svg" alt="" style="width: 16px; height: 16px">
-  <p class="type-body">The Ağustos favicon: <code class="type-code">laz-gunesi-amblem/favicon/favicon.svg</code>. Every other brand uses the same white tile with the black sun, from <code class="type-code">brand/exports/&lt;brand&gt;/favicon/</code>.</p>
+  <p class="type-body">The Ağustos tab icon: <code class="type-code">laz-gunesi-amblem/favicon/favicon.svg</code>. Red sun, transparent background. Every other brand uses the black sun, from <code class="type-code">brand/exports/&lt;brand&gt;/favicon/</code>. Apple touch and PWA icons keep a white square (2026-10-15).</p>
 </div>
 """,
     ),

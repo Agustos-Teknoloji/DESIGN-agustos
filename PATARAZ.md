@@ -103,8 +103,9 @@ tokens" — do not re-list pixel values here; they have drifted from the live sp
 - **positive** (black marks on light) — default, ~90% of uses.
 - **negative** (cream/white marks on a black tile) — identity tiles and social avatars.
 - **mono** (single ink) — single-color print, engraving.
-- The **favicon** is a white tile with the black Laz Güneşi (`DESIGN.md` §"Favicon & app icons").
+- The **tab icon** is the black Laz Güneşi on a transparent background (`DESIGN.md` §"Favicon & app icons").
   Pataraz's export folder ships it, and its manifest `theme_color` is the identity ink `#15130f`.
+  The Apple touch icon and the PWA icons keep a white square (2026-10-15).
 
 Verify every negative composition for contrast and small-size legibility before shipping.
 
@@ -120,7 +121,7 @@ For the two shipped products, the real files are:
 |---|---|
 | Logo (positive, black on light) | `brand/exports/pataraz/lockup/pataraz-lockup__positive.svg` |
 | Logo (negative, on black tile) | `brand/exports/pataraz/lockup/pataraz-lockup__negative.svg` |
-| Favicon (black Laz Güneşi on a white tile) | `brand/exports/pataraz/favicon/favicon.svg` (full set in that dir + `site.webmanifest`) |
+| Favicon (black Laz Güneşi, transparent tab icon) | `brand/exports/pataraz/favicon/favicon.svg` (full set in that dir + `site.webmanifest`) |
 | OG / link preview | `brand/exports/pataraz/social/pataraz-og.png` |
 | PL22 product photo / drawing | `brand/datasheet-assets/pataraz/pl22-urun.jpg` / `pl22-drawing.png` |
 | PX22 product photo / drawing | `brand/datasheet-assets/pataraz/px22-urun.jpg` / `px22-drawing.png` |
@@ -200,8 +201,8 @@ Component notes:
 - **Catalog.** Filter sidebar (series, mount type, CCT range) applies instantly via Turbo Frame —
   no full reload, filters reflect in the URL, and it works without JS. Product grid uses calm
   cards: photo, name + code (mono), series, 2–3 key specs.
-- **Typography & lockup** per `DESIGN.md`; favicon is the black sun on a white tile in
-  `brand/exports/pataraz/favicon/` (with `site.webmanifest`).
+- **Typography & lockup** per `DESIGN.md`; the tab icon is the black sun on a transparent background in
+  `brand/exports/pataraz/favicon/` (with `site.webmanifest`). Apple touch and PWA icons keep a white square.
 - **Accessibility & Turkish locale** are non-negotiable — follow `DESIGN.md`
   §"Accessibility requirements" and §"Turkish locale handling".
 

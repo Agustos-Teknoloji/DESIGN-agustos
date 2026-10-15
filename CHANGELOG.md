@@ -12,6 +12,7 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ### Changed
 
+- 2026-10-15: Tab icons are the Laz Güneşi on a transparent background. Ağustos stays red `#cf142a`. Every other brand, including banuucak, is black `#15130f`. `apple-touch-icon.png` and the PWA icons (192 and 512) keep a solid white background, because iOS and Android fill a transparent area with black. `adapters/astro/public/favicon.svg` is the black tab icon. Consuming sites copy the new files from `brand/exports/<brand>/favicon/` or `laz-gunesi-amblem/favicon/`.
 - 2026-10-13: `AGENTS.md` names the drive folder of this repo for files outside git. Rule 56 of `ops/decisions/project-docs.md` in CONTEXT-agustos asks for it (CONTEXT-agustos PR 164). Consuming sites change nothing.
 - 2026-10-13: Rule 5 of the `## Cloud agents` section in `AGENTS.md` follows the canonical copy (CONTEXT-agustos PR 163). A pre-push hook that needs no secret runs on every push, also on a vendor machine. Consuming sites change nothing.
 - 2026-10-13: `AGENTS.md` has the `## Cloud agents` section. It holds the rules for an agent on a vendor machine, word for word from CONTEXT-agustos `ops/snippets/cloud-agents.md`. Consuming sites change nothing.
