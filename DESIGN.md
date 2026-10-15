@@ -627,11 +627,11 @@ No fourth expression exists.
 
 ### Favicon & app icons
 
-Each brand has its own favicon: a white tile carrying the Laz Güneşi in the brand's identity ink. The Ağustos favicon carries the red sun. Every other house brand carries the black sun. The white tile keeps the mark readable on any tab colour. The symbol paths are `laz-gunesi-amblem/svg/master.svg`, verbatim.
+Each brand has its own tab icon: the Laz Güneşi on a transparent background, in the brand's identity ink. The Ağustos tab icon is the red sun (`#cf142a`). Every other house brand uses the black sun (`#15130f`). The symbol paths are `laz-gunesi-amblem/svg/master.svg`, verbatim. Decision: 2026-10-15 transparent-tab-favicons.
 
-Canonical kit: `laz-gunesi-amblem/favicon/`, the Ağustos favicon: `favicon.svg` (red sun on the white tile), `favicon.ico`, `apple-touch-icon.png`, `icon-192.png` / `icon-512.png` + `site.webmanifest`, and `favicon-mono.svg` (the bare symbol, for in-page use, not a tab icon). Copy-paste `<head>` tags and regeneration steps live in that folder's `README.md`.
+Canonical kit: `laz-gunesi-amblem/favicon/`, the Ağustos favicon. `favicon.svg`, `favicon.ico` (16/32/48) and `favicon-16.png` / `favicon-32.png` are transparent. `apple-touch-icon.png` and `icon-192.png` / `icon-512.png` keep a solid white background, because iOS and Android fill a transparent area with black. `favicon-mono.svg` is the bare symbol, for in-page use, not a tab icon. Copy-paste `<head>` tags and regeneration steps live in that folder's `README.md`.
 
-`brand/exports/<brand>/favicon/` holds each brand's kit; the Ağustos copy is byte-identical to the canonical. A site for any other brand uses its own folder. Each brand's manifest sets `theme_color` to its identity ink and `background_color` to white. Adapter `public/favicon.svg` files are **mirrors** of the canonical; update them in the same change. The full asset map and sync rules are in the repo-root `ASSETS.md`.
+`brand/exports/<brand>/favicon/` holds each brand's kit. The Ağustos copy is byte-identical to the canonical. A site for any other brand uses its own folder. Each brand's manifest sets `theme_color` to its identity ink and `background_color` to white. `adapters/astro/public/favicon.svg` is the black transparent tab icon, not a copy of the red kit. The full asset map is in the repo-root `ASSETS.md`.
 
 ### Logotype: Inter Tight 650
 

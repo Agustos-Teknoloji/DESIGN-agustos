@@ -6,8 +6,8 @@ Reads the keystone registry (brands.json) and the shared symbol
 (laz-gunesi-amblem/svg/master.svg) and emits per-brand, ready-to-hand-off assets:
 
   exports/<brand>/lockup/   symbol + wordmark, 3 expressions x {svg, pdf, png}
-  exports/<brand>/favicon/  white-tile favicon (symbol in the brand's identity ink) + rasters + site.webmanifest
-  laz-gunesi-amblem/favicon/  canonical kit = the Ağustos favicon (red symbol on a white tile)
+  exports/<brand>/favicon/  transparent tab icon (symbol in the brand's identity ink) + rasters + site.webmanifest
+  laz-gunesi-amblem/favicon/  canonical kit = the Ağustos tab icon (red symbol, transparent background)
   exports/<brand>/social/   square avatar (400/1000), a positive avatar for every
                             non-Ağustos brand, and a 1200x630 og image
 
@@ -19,12 +19,13 @@ Design choices (see DESIGN.md):
   - Lockup geometry follows the spec: symbol height = 1.4x wordmark cap height,
     symbol-to-wordmark gap = 0.4x wordmark size, Inter Tight Light, lowercase,
     optical (not geometric) vertical centering for lowercase wordmarks.
-  - Favicons (MEMORY.md 2026-09-29 per-brand-favicons): a white tile carrying the
-    master.svg paths verbatim, recoloured to the brand's identity ink: red for
-    Ağustos, #15130f for every other house brand. The social avatar is a
-    per-brand negative monogram (a white sun on the identity tile). Every
-    non-Ağustos brand also gets a positive avatar: the same monogram, with the
-    identity ink on a white tile, the same ink rule as the favicon.
+  - Favicons (MEMORY.md 2026-10-15 transparent-tab-favicons): master.svg paths
+    verbatim, in the brand's identity ink, on a transparent background. Red for
+    Ağustos, #15130f for every other house brand. Apple-touch and PWA icons keep
+    a solid white square, because those platforms fill a transparent area with
+    black. The social avatar is a per-brand negative monogram (a white sun on
+    the identity tile). Every non-Ağustos brand also gets a positive avatar:
+    the same monogram, with the identity ink on a white tile.
 
 Usage:
   ../.venv/bin/python build.py                     # every brand in the registry
@@ -69,7 +70,12 @@ FAVICON_TILE_RATIO = 0.9
 # itself is never redrawn or scaled; only the tile around it shrinks.
 FAVICON_TAB_TILE_RATIO = 1.05
 FAVICON_TAB_SIZES = [16, 32, 48, 64]
+FAVICON_ICO_SIZES = (16, 32, 48)
 CANONICAL_FAVICON_DIR = ROOT / "laz-gunesi-amblem" / "favicon"
+ASTRO_FAVICON = ROOT / "adapters" / "astro" / "public" / "favicon.svg"
+# The Astro adapter is a generic starter, not the Ağustos site. Its default tab
+# icon is the black sun (MEMORY.md 2026-10-15 transparent-tab-favicons).
+ASTRO_FAVICON_INK = "#15130f"
 AVATAR_SIZES = [1000, 400]
 OG_W, OG_H = 1200, 630
 
@@ -200,10 +206,10 @@ def build_monogram(mark_color, tile_color, size=512.0, radius_ratio=0.0, symbol_
 def positive_avatar_jobs(slug, brand, reg):
     """White tile, identity-ink sun, at the same scale as the dark avatar.
 
-    The ink rule matches the house-brand favicon: black for every brand except
-    Ağustos. Ağustos keeps the negative avatar only. Its red sun on a white
-    tile is the favicon, not a second profile image. Writes the SVG and
-    returns the PNG jobs. An empty list means this brand has no positive avatar.
+    The ink is black for every brand except Ağustos. Ağustos keeps the negative
+    avatar only. Its red sun is the tab icon, not a second profile image.
+    Writes the SVG and returns the PNG jobs. An empty list means this brand
+    has no positive avatar.
     """
     if slug == "agustos":
         return []
@@ -215,20 +221,29 @@ def positive_avatar_jobs(slug, brand, reg):
     return [(svg_path, so / f"{slug}-avatar-positive-{s}.png", s) for s in AVATAR_SIZES]
 
 
-def build_favicon_svg(mark_color, tile_color, tile_ratio=FAVICON_TILE_RATIO):
-    """The favicon: a `tile_color` square with the master.svg paths, verbatim and
-    unscaled, filled in `mark_color`. The tile is the master viewBox resized around its
-    centre by `tile_ratio`, so the symbol geometry is never redrawn or transformed."""
+def build_favicon_svg(mark_color, tile_color=None, tile_ratio=FAVICON_TILE_RATIO):
+    """The favicon: master.svg paths, verbatim and unscaled, filled in `mark_color`.
+
+    The viewBox is the master viewBox resized around its centre by `tile_ratio`, so the
+    symbol geometry is never redrawn or transformed. `tile_color` paints a square behind
+    the symbol. None leaves the background transparent (a browser tab icon).
+    """
     minx, miny, w, h = SYMBOL_VB
     side = w / tile_ratio
     x0 = minx + w / 2 - side / 2
     y0 = miny + h / 2 - side / 2
     body = "\n    ".join(f'<path d="{d}"/>' for d in SYMBOL_PATHS)
+    rect = ""
+    if tile_color:
+        rect = (
+            f'  <rect x="{x0:.4f}" y="{y0:.4f}" width="{side:.4f}" height="{side:.4f}" '
+            f'fill="{tile_color}"/>\n'
+        )
     return (
         '<?xml version="1.0" encoding="UTF-8"?>\n'
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="{x0:.4f} {y0:.4f} {side:.4f} {side:.4f}" '
         'width="512" height="512" role="img" aria-label="Laz Güneşi favicon">\n'
-        f'  <rect x="{x0:.4f}" y="{y0:.4f}" width="{side:.4f}" height="{side:.4f}" fill="{tile_color}"/>\n'
+        f'{rect}'
         f'  <g fill="{mark_color}" fill-rule="evenodd" stroke="none">\n    {body}\n  </g>\n'
         '</svg>\n'
     )
@@ -272,7 +287,7 @@ def render_pngs(jobs):
     subprocess.run(["node", str(RENDER_JS), jobs_file], check=True, cwd=str(BRAND_DIR))
 
 
-def write_ico(src_png: Path, ico_path: Path, sizes=(16, 32, 48, 64)):
+def write_ico(src_png: Path, ico_path: Path, sizes=FAVICON_ICO_SIZES):
     img = Image.open(src_png).convert("RGBA")
     img.save(ico_path, format="ICO", sizes=[(s, s) for s in sizes])
 
@@ -282,12 +297,28 @@ def write_json(path: Path, data: dict):
 
 
 # ----------------------------------------------------------------------------
-# Favicons (white tile, identity-ink symbol)
+# Favicons (transparent tab icon, identity-ink symbol; white home-screen tile)
 # ----------------------------------------------------------------------------
 
-def favicon_svg_for(brand, reg, tile_ratio=FAVICON_TAB_TILE_RATIO):
-    """The tab crop by default: favicon.svg is what a browser tab shows."""
-    return build_favicon_svg(brand["color"], reg["substrate"]["paper_white"], tile_ratio)
+def favicon_svg_for(brand, reg, tile_ratio=FAVICON_TAB_TILE_RATIO, *, tile=False):
+    """The tab crop by default: favicon.svg is what a browser tab shows.
+
+    tile=True paints the white square used by the Apple touch icon and the PWA icons.
+    """
+    tile_color = reg["substrate"]["paper_white"] if tile else None
+    return build_favicon_svg(brand["color"], tile_color, tile_ratio)
+
+
+def write_astro_default_favicon():
+    """adapters/astro/public/favicon.svg: the black transparent tab icon.
+
+    It is not a copy of the Ağustos kit. A site of Ağustos copies the red kit.
+    """
+    write_svg(
+        ASTRO_FAVICON,
+        build_favicon_svg(ASTRO_FAVICON_INK, None, FAVICON_TAB_TILE_RATIO),
+    )
+    print(f"  ✓ astro default favicon -> {ASTRO_FAVICON.relative_to(ROOT)}")
 
 
 def build_favicons(slug, brand, reg):
@@ -298,14 +329,14 @@ def build_favicons(slug, brand, reg):
     fav_svg = write_svg(fv / "favicon.svg", favicon_svg_for(brand, reg))
     with tempfile.TemporaryDirectory() as tmp:
         large_svg = write_svg(Path(tmp) / "favicon-large.svg",
-                              favicon_svg_for(brand, reg, FAVICON_TILE_RATIO))
+                              favicon_svg_for(brand, reg, FAVICON_TILE_RATIO, tile=True))
         ico_src = Path(tmp) / "favicon-ico-256.png"
         render_pngs(
             [(fav_svg if s in FAVICON_TAB_SIZES else large_svg, fv / f"favicon-{s}.png", s)
              for s in FAVICON_SIZES]
             + [(fav_svg, ico_src, 256)]
         )
-        write_ico(ico_src, fv / "favicon.ico")
+        write_ico(ico_src, fv / "favicon.ico", sizes=FAVICON_ICO_SIZES)
     Image.open(fv / "favicon-180.png").save(fv / "apple-touch-icon.png")
     write_json(fv / "site.webmanifest", {
         "name": brand.get("title", slug),
@@ -321,8 +352,10 @@ def build_favicons(slug, brand, reg):
 
 
 def build_canonical_favicon(reg):
-    """laz-gunesi-amblem/favicon/: the Ağustos favicon, the default for any house page
-    that has no brand of its own. favicon-mono.svg stays the bare master (in-page use)."""
+    """laz-gunesi-amblem/favicon/: the Ağustos favicon. favicon-mono.svg stays the bare master.
+
+    The Astro adapter default is the black tab icon, written by write_astro_default_favicon.
+    """
     brand = reg["brands"]["agustos"]
     out = CANONICAL_FAVICON_DIR
     fav_svg = write_svg(out / "favicon.svg", favicon_svg_for(brand, reg))
@@ -330,7 +363,7 @@ def build_canonical_favicon(reg):
         (ROOT / "laz-gunesi-amblem" / "svg" / "master.svg").read_bytes())
     with tempfile.TemporaryDirectory() as tmp:
         large_svg = write_svg(Path(tmp) / "favicon-large.svg",
-                              favicon_svg_for(brand, reg, FAVICON_TILE_RATIO))
+                              favicon_svg_for(brand, reg, FAVICON_TILE_RATIO, tile=True))
         ico_src = Path(tmp) / "favicon-256.png"
         render_pngs([
             (fav_svg, out / "favicon-16.png", 16),
@@ -403,7 +436,7 @@ def build_brand(slug, brand, reg):
     # Rasterize everything in one node call.
     render_pngs(png_jobs)
 
-    # --- Favicons + app icons (white tile, identity-ink symbol) ---
+    # --- Favicons + app icons (transparent tab icon, white home-screen tile) ---
     build_favicons(slug, brand, reg)
 
     n_files = sum(1 for _ in base.rglob("*") if _.is_file())
@@ -447,12 +480,14 @@ def main():
             print(f"  ✓ {slug}: favicon -> brand/exports/{slug}/favicon")
         if "agustos" in targets:
             build_canonical_favicon(reg)
+        write_astro_default_favicon()
     else:
         print(f"Building {len(targets)} brand(s)...")
         for slug, brand in targets.items():
             build_brand(slug, brand, reg)
         if "agustos" in targets:
             build_canonical_favicon(reg)
+        write_astro_default_favicon()
     print("Done.")
 
 

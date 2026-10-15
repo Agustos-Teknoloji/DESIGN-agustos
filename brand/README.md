@@ -48,7 +48,7 @@ Per brand, under `exports/<brand>/`:
 
 ```
 lockup/      symbol + wordmark — positive / negative / mono, each as svg + pdf + png (2400 & 800px)
-favicon/     shared Laz Güneşi favicon (master.svg) + rasters + site.webmanifest
+favicon/     Laz Güneşi tab icon (transparent; red for ağustos, black for every other brand) + rasters + site.webmanifest
 social/      square avatar (400 & 1000px), positive avatar for every non-Ağustos brand, + 1200x630 og image (svg + png)
              + LinkedIn posts <post-key>-portrait / -square (html + png, 1080x1350 & 1200x1200)
 swatches/    <brand>.ase (Adobe) + <brand>.clr (Apple)
@@ -106,11 +106,13 @@ Build one with `--product <key>`, a whole brand with `--brand <slug>`, or all wi
   gstack `browse` tool; A4 page size is set in the HTML's `@page` rule.
 
 - **positive** — registered identity ink on transparent: red for Ağustos, black for every other house brand. Primary, ~90% of uses.
-- **negative** — cream marks on the identity field: red for Ağustos, black for every other house brand. Banners, identity tiles, social avatars. Every non-Ağustos brand also ships `<brand>-avatar-positive`: the black sun on a white tile, the same ink rule as the favicon. `build.py --positive-avatars` writes that file alone.
+- **negative** — cream marks on the identity field: red for Ağustos, black for every other house brand. Banners, identity tiles, social avatars. Every non-Ağustos brand also ships `<brand>-avatar-positive`: the black sun on a white tile. `build.py --positive-avatars` writes that file alone.
 - **mono** — single ink color on transparent. Print, stamps, engraving.
 
-Favicons are shared: every brand's `favicon/` ships the bare red Laz Güneşi from
-`laz-gunesi-amblem/svg/master.svg`, and every manifest's `theme_color` is the same brand red.
+A tab icon is the Laz Güneşi on a transparent background. Ağustos is red `#cf142a`.
+Every other brand is black `#15130f`. The paths come from `laz-gunesi-amblem/svg/master.svg`, verbatim.
+`apple-touch-icon.png` and the PWA icons keep a white square (2026-10-15).
+Each manifest `theme_color` is that brand's identity ink.
 
 The wordmark is baked to vector **outlines**, so every file renders identically with
 no font installed.

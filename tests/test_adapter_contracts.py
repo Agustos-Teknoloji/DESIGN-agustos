@@ -387,8 +387,8 @@ class AdapterContractTest(unittest.TestCase):
                     for old_color in retired:
                         self.assertNotIn(old_color, svg)
 
-    def test_brand_favicons_are_a_white_tile_with_the_identity_ink_symbol(self):
-        """MEMORY.md 2026-09-29 per-brand-favicons: red sun for Ağustos, #15130f for the rest."""
+    def test_brand_favicons_are_a_transparent_tab_icon_in_the_identity_ink(self):
+        """MEMORY.md 2026-10-15 transparent-tab-favicons: red sun for Ağustos, #15130f for the rest."""
         registry = json.loads((ROOT / "brand" / "brands.json").read_text(encoding="utf-8"))
         white = registry["substrate"]["paper_white"].lower()
         master = (ROOT / "laz-gunesi-amblem" / "svg" / "master.svg").read_text(encoding="utf-8")
@@ -396,21 +396,20 @@ class AdapterContractTest(unittest.TestCase):
         self.assertEqual(len(paths), 18)
         for slug, brand in registry["brands"].items():
             folder = ROOT / "brand" / "exports" / slug / "favicon"
-            if not folder.is_dir():
-                continue
+            self.assertTrue(folder.is_dir(), slug)
             ink = brand["color"].lower()
             svg = (folder / "favicon.svg").read_text(encoding="utf-8").lower()
             manifest = json.loads((folder / "site.webmanifest").read_text(encoding="utf-8"))
             with self.subTest(slug=slug):
                 self.assertEqual(ink, "#cf142a" if slug == "agustos" else "#15130f")
-                self.assertRegex(svg, rf'<rect [^>]*fill="{white}"')
+                self.assertNotIn("<rect", svg)
                 self.assertIn(f'<g fill="{ink}"', svg)
-                self.assertEqual(set(re.findall(r'fill="(#[0-9a-f]{6})"', svg)), {white, ink})
+                self.assertEqual(set(re.findall(r'fill="(#[0-9a-f]{6})"', svg)), {ink})
                 for d in paths:
                     self.assertIn(f'd="{d.lower()}"', svg)
                 self.assertEqual(manifest["theme_color"].lower(), ink)
                 self.assertEqual(manifest["background_color"].lower(), white)
-                for name in ("favicon.ico", "apple-touch-icon.png", "favicon-16.png", "favicon-192.png", "favicon-512.png"):
+                for name in ("favicon.ico", "apple-touch-icon.png", "favicon-16.png", "favicon-32.png", "favicon-192.png", "favicon-512.png"):
                     self.assertTrue((folder / name).is_file(), name)
         canonical = ROOT / "laz-gunesi-amblem" / "favicon" / "favicon.svg"
         self.assertEqual(

@@ -2,7 +2,7 @@
 
 brand/build.py writes it for every non-Ağustos brand that already has a dark-tile
 avatar. The paths match that avatar. Only the inks change. Ağustos has no
-positive file: its white-tile red sun is the favicon.
+positive file. Its red sun is the transparent tab icon.
 """
 
 from __future__ import annotations

@@ -81,7 +81,7 @@ First pick the **brand** (`agustos`, `pataraz`, `pld`, `iesdesk`, `specquick`), 
 | The logo in a **single ink color** (print, engraving) | `…/lockup/<brand>-lockup__mono.svg` |
 | The logo for **print or business cards** | `…/lockup/<brand>-lockup__positive.pdf` (or `__negative`, `__mono`) |
 | The logo for a **slide or social post** (raster) | `…/lockup/<brand>-lockup__positive.png` (2400px) or `…@800.png` |
-| A **favicon, browser tab or app icon** | `brand/exports/<brand>/favicon/` (a white tile with the brand's Laz Güneşi: red for Ağustos, black for every other brand). `laz-gunesi-amblem/favicon/` holds the canonical Ağustos kit. See MEMORY.md, per-brand-favicons. |
+| A **favicon, browser tab or app icon** | `brand/exports/<brand>/favicon/` (Laz Güneşi, transparent background: red `#cf142a` for Ağustos, black `#15130f` for every other brand). `apple-touch-icon.png` and the PWA icons (192 and 512) keep a solid white background. `laz-gunesi-amblem/favicon/` holds the canonical Ağustos kit. See MEMORY.md, 2026-10-15 transparent-tab-favicons. |
 | A **square profile avatar** | `brand/exports/<brand>/social/<brand>-avatar-1000.png` (or `-400`). Dark tile: a white sun. |
 | A **square profile avatar on white** | `brand/exports/<brand>/social/<brand>-avatar-positive-1000.png` (or `-400`; SVG `<brand>-avatar-positive.svg`). Black sun on a white tile. Every brand that has a social avatar, except ağustos. |
 | A **link-preview or OG image** (1200×630) | `brand/exports/<brand>/social/<brand>-og.png` |
@@ -103,7 +103,7 @@ First pick the **brand** (`agustos`, `pataraz`, `pld`, `iesdesk`, `specquick`), 
 ## The three logo expressions: pick by background
 
 1. **positive**: registered identity marks on a light or cream background, red for Ağustos and black for every other house brand. This is the default, about 90% of uses.
-2. **negative**: cream or white marks on the identity tile, red for Ağustos and black for every other house brand. Social avatars and identity banners. (Favicons are a white tile with the red or black sun instead. Non-Ağustos brands also ship `<brand>-avatar-positive`: the black sun on a white tile.)
+2. **negative**: cream or white marks on the identity tile, red for Ağustos and black for every other house brand. Social avatars and identity banners. (A tab icon is the Laz Güneşi on a transparent background: red for Ağustos, black for every other brand. Apple touch and PWA icons keep a white background. Non-Ağustos brands also ship `<brand>-avatar-positive`: the black sun on a white tile.)
 3. **mono**: one ink color. Single-color print, stamps, engraving.
 
 There is no fourth expression. Do not invent a white-on-transparent "reverse" logo; `positive` already works on dark.
