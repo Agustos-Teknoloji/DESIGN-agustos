@@ -13,7 +13,6 @@
 ## Next
 
 - banuucak lockups when Emre asks: `brand/build.py --brand banuucak` for the lockups and social images, then ASSETS.md. The favicon kit is already in `brand/exports/banuucak/favicon/` (2026-10-15).
-- Rebuild the brand guidelines PDFs (`python3 brand/build_guidelines.py --pdf`) after Emre says yes. The HTML already states the 2026-10-15 transparent tab icon. The PDFs still show the old white tile. See MEMORY.md, guidelines-rebuild-on-request.
 - agustos.com, memregunes.com and pldturkiye.com adopt v7.7.0 (follow-up list in the v7.7.0 plan).
 - Run the Astro and Rails adapter test suites in `scripts/ci.sh`. Today they run only by hand, so the gate does not see an adapter that breaks the kit contract.
 - pataraz2 (dev.pataraz.com) still runs kit v6.1.0. Move it to v7 in its own task: top menu, light footer, `agustos-chrome.js`, then the v7.x consumer changes. It needs a before/after preview for Emre.
