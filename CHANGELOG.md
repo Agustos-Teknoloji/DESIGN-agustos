@@ -13,6 +13,7 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ### Changed
 
+- 2026-10-15 orb-setup: Setup appends mise's PATH to the first existing Bash login profile, preserving `.profile` initialization and avoiding duplicate lines on repeated runs.
 - 2026-10-15 orb-approved-merge: Cloud rules 1 and 5 allow an Amp Orb to check, sign off and merge only after Emre approves that specific PR, with all checks passing on its head commit and no bypasses or force-pushes.
 - 2026-10-13: `AGENTS.md` names the drive folder of this repo for files outside git. Rule 56 of `ops/decisions/project-docs.md` in CONTEXT-agustos asks for it (CONTEXT-agustos PR 164). Consuming sites change nothing.
 - 2026-10-13: Rule 5 of the `## Cloud agents` section in `AGENTS.md` follows the canonical copy (CONTEXT-agustos PR 163). A pre-push hook that needs no secret runs on every push, also on a vendor machine. Consuming sites change nothing.

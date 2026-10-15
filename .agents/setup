@@ -10,9 +10,17 @@ if ! command -v mise >/dev/null 2>&1; then
   echo "==> Install mise"
   curl -fsSL https://mise.run | sh
 fi
+# Match Bash's login-file order without hiding an existing profile.
+profile="$HOME/.profile"
+for candidate in .bash_profile .bash_login .profile; do
+  if [ -f "$HOME/$candidate" ]; then
+    profile="$HOME/$candidate"
+    break
+  fi
+done
 profile_line='export PATH="$HOME/.local/bin:$PATH"'
-if ! grep -Fqx "$profile_line" "$HOME/.bash_profile" 2>/dev/null; then
-  printf '\n%s\n' "$profile_line" >> "$HOME/.bash_profile"
+if ! grep -Fqx "$profile_line" "$profile" 2>/dev/null; then
+  printf '\n%s\n' "$profile_line" >> "$profile"
 fi
 
 # The gate finds this install with mise where python@3.12.
