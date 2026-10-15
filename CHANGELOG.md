@@ -6,12 +6,14 @@ All notable changes to the Ağustos Design System are documented in this file.
 
 ### Added
 
+- 2026-10-15 orb-setup: `.agents/setup` installs mise and Python 3.12 for the local gate and activates the pre-push hook.
 - 2026-10-14: A positive social avatar for every non-Ağustos brand that already has a social avatar. The file is the black `#15130f` Laz Güneşi on a white tile, the same ink rule as the house-brand favicon. `brand/build.py` writes `<brand>-avatar-positive.svg` plus the 400px and 1000px PNGs beside the dark-tile avatar. Brands: pataraz, pld, iesdesk, specquick, selimgunes. Ağustos keeps its dark-tile avatar. Consuming sites change nothing.
 - 2026-10-13: The launch version is now "Ağustos-gentle", strings with a soft, connected pulse, in `brand/audio/launch-theme/`, with a second take in `brand/audio/launch-theme-2/` (MEMORY 2026-10-13 launch-gentle). `brand/audio/takes/` keeps two spare sounds. Consuming sites change nothing.
 - 2026-10-13: The Ağustos main theme, one piece of music for every video (DESIGN.md "Sound", `brand/audio/README.md`, MEMORY 2026-10-13 main-theme). Low strings, ambient: the strings swell in, the middle part repeats with soft 1.5 s joints, and the strings fade out (MEMORY 2026-10-13 main-theme-ambient). `brand/audio/main-theme/` holds the parts in a full and a voice mix, with the licence. `brand/audio/fit_theme.py` fits them to the length of a video and reads the joint length from `theme.json`. `brand/audio/launch-theme/` holds the launch version that every launch video uses: the same strings with a soft bowed pulse. Consuming sites change nothing.
 
 ### Changed
 
+- 2026-10-15 orb-approved-merge: Cloud rules 1 and 5 allow an Amp Orb to check, sign off and merge only after Emre approves that specific PR, with all checks passing on its head commit and no bypasses or force-pushes.
 - 2026-10-13: `AGENTS.md` names the drive folder of this repo for files outside git. Rule 56 of `ops/decisions/project-docs.md` in CONTEXT-agustos asks for it (CONTEXT-agustos PR 164). Consuming sites change nothing.
 - 2026-10-13: Rule 5 of the `## Cloud agents` section in `AGENTS.md` follows the canonical copy (CONTEXT-agustos PR 163). A pre-push hook that needs no secret runs on every push, also on a vendor machine. Consuming sites change nothing.
 - 2026-10-13: `AGENTS.md` has the `## Cloud agents` section. It holds the rules for an agent on a vendor machine, word for word from CONTEXT-agustos `ops/snippets/cloud-agents.md`. Consuming sites change nothing.

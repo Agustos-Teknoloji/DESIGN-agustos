@@ -14,11 +14,11 @@ agustos.com is the reference implementation; this repository is authoritative. U
 
 These rules apply when you run on a vendor machine, not on the Mac of Emre. Examples: an Amp orb, Claude Code on the web, Codex cloud or a Cursor background agent.
 
-1. Push only to your own branch. Never push to `main` or `production`. Open a pull request, then stop.
+1. Push only to your own branch. Never push to `main` or `production`. Open a pull request, then stop unless Emre explicitly approved that specific PR for an Amp Orb to check, sign off and merge. Never force-push.
 2. Never deploy, release, upload media, run Kamal or connect to a server. A session on the Mac does these steps.
 3. Never ask for a secret in chat. Never write a secret in a file, a commit or the settings of a vendor.
 4. Read a secret only with `op run --environment <id> -- <command>`, and only when `OP_SERVICE_ACCOUNT_TOKEN` is set. If it is not set, stop and hand the step to Emre.
-5. Run only the tests that need no secret. A pre-push hook that needs no secret runs on every push; never skip it. The full gate (`bin/ci` with signoff) and the merge run on the Mac.
+5. A pre-push hook that needs no secret runs on every push; never skip it. After Emre explicitly approves that specific PR, an Amp Orb may run the full gate, sign off and merge. All checks must pass on the PR head commit. Never bypass hooks or checks. Secret access still follows rule 4. If a required tool or check cannot run in the Orb, stop and report the blocker. Other cloud agents hand the full gate and merge to the Mac.
 6. The working terms and the fleet rules live in the CONTEXT-agustos repository (`AGENTS.md` and `ops/`). Read them when that repository is attached. If it is not attached, stop at each gate of the working terms and ask Emre.
 
 Canonical copy: CONTEXT-agustos `ops/snippets/cloud-agents.md`.
@@ -134,6 +134,7 @@ Novara (outdoor kitchen furniture) is a brand that Ağustos **represents and dis
 - Collect design tweaks under `## Next` in `TODO.md` and ship them as one kit release a month, after Emre approves a before/after preview. Fix real defects at once. When unsure, do the conventional thing. See [MEMORY.md](MEMORY.md), monthly-kit-release.
 - Edit `tokens/design-tokens.json` or `tokens/web.css.tmpl`, then run `python3 scripts/build_design_system.py`. Never hand-edit generated CSS, `theme.json`, `tokens/resolved.json` or anything under `brand/exports/`.
 - Run `bin/setup` once in each new clone. It activates the pre-push hook in `.githooks/`, which runs `scripts/ci.sh` before every push.
+- In an Amp Orb, run `.agents/setup` to install mise and Python 3.12 and activate the pre-push hook.
 - After an everyday source change, run the build, then `scripts/ci.sh`: the `--check` steps and the unit tests. Run `--check` before every handoff.
 - Run `brand/build.py`, `brand/build_templates.py`, `brand/build_guidelines.py`, `scripts/build_ui_fonts.py`, `brand/build_datasheet.py` or `brand/build_social_posts.py` only when the user asks for a full rebuild. Then update `ASSETS.md`.
 - Rebuild the Office files (letterhead, document template, PowerPoint) only when Emre asks, and only after the Ağustos brand approach changed: identity ink, wordmark, logo, or the document or presentation recipe. A website-only token edit never needs one. Never rebuild them as a reflex to a drift warning from the local gate. See [MEMORY.md](MEMORY.md), office-rebuild-on-request.

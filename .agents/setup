@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Install the toolchain for the local gate in an Amp Orb.
+set -euo pipefail
+
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+# Keep mise available to later login shells and Git hooks.
+export PATH="$HOME/.local/bin:$PATH"
+if ! command -v mise >/dev/null 2>&1; then
+  echo "==> Install mise"
+  curl -fsSL https://mise.run | sh
+fi
+profile_line='export PATH="$HOME/.local/bin:$PATH"'
+if ! grep -Fqx "$profile_line" "$HOME/.bash_profile" 2>/dev/null; then
+  printf '\n%s\n' "$profile_line" >> "$HOME/.bash_profile"
+fi
+
+# The gate finds this install with mise where python@3.12.
+echo "==> Install Python 3.12"
+mise install python@3.12
+mise exec python@3.12 -- python3 --version
+
+echo "==> Activate the pre-push hook"
+bin/setup
