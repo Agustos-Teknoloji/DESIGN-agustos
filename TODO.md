@@ -2,6 +2,8 @@
 
 ## Now
 
+- [x] Fix PR 129's login-profile finding and verify two setup runs in the Orb and each of four home layouts, including `.profile` without `.bash_profile`. The full gate passes; merge still needs Emre's approval.
+- [x] Add and verify `.agents/setup` twice, apply the approved cloud rules, and run the gate and hook. The setup PR needs Emre's approval before merge (MEMORY 2026-10-15 orb-setup, orb-approved-merge).
 - [x] Positive social avatar for every non-Ağustos brand that already has a social avatar: black `#15130f` sun on a white tile, from `brand/build.py` (MEMORY 2026-10-14 positive-avatar).
 - [x] The IESDesk launch video uses the launch theme (MEMORY 2026-10-13 launch-gentle).
 

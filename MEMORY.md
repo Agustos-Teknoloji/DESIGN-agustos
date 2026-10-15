@@ -2,6 +2,14 @@
 
 Decision log. One record per decision: what, why, what was rejected, and "reopen only if". IDs are date-slugs, as ops `decisions/project-docs.md` requires under "Decision log". Records before 2026-09-24 live in [archive/MEMORY.md](archive/MEMORY.md): "Turning point 1" to "Turning point 24" (May to June 2026), then titled entries such as "Vanilla CSS, no Tailwind (2026-09-15)" through 2026-09-16. Cite an archive record by its heading; "Turning point N" resolves to the archive heading with that number. The archive is frozen. New decisions go here, newest first. Each record below names its archive heading, and a record that ops also logs uses the ops slug.
 
+## 2026-10-15 orb-setup
+
+Use executable `.agents/setup` to install mise and Python 3.12 and activate the existing hook, because stock Orbs have Python 3.11; rejected lowering the gate's version or bypassing mise; reopen only if the required toolchain changes. Emre approved the setup PR in Basecamp comment 10407009048, not its merge.
+
+## 2026-10-15 orb-approved-merge
+
+Cloud rules 1 and 5 permit an Amp Orb to check, sign off and merge only after Emre approves that specific PR, with all checks passing on its head commit; rejected blanket merge permission and bypassing hooks, checks or secret rules; reopen only if the shared cloud rules change. Emre approved this rule change in Basecamp comment 10406987710.
+
 ## 2026-10-14 positive-avatar
 
 Every non-Ağustos brand that has a social avatar also has a positive avatar: the black `#15130f` Laz Güneşi on a white tile. `brand/build.py` writes `<brand>-avatar-positive.svg` and the 400px and 1000px PNGs. The dark-tile avatar stays. The sun keeps the monogram scale of that dark tile, so the two files are one mark. Ağustos has no positive avatar. Its identity ink is red, and the white-tile red sun is the favicon. Why: a light profile tile had only the favicon crop, and the house-brand favicon rule already sets black on white (2026-09-29 per-brand-favicons). Rejected: a hand-drawn SVG; a positive avatar for Ağustos, which would copy the favicon; a full `brand/build.py` run, which would rewrite lockups this change does not touch. Reopen only if: Ağustos needs a white-tile avatar beside its favicon, or a house brand's identity ink is no longer `#15130f`.
